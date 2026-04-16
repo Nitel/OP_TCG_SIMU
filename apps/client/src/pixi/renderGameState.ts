@@ -8,20 +8,37 @@ const CANVAS_H = 720;
 const CARD_W   = 60;
 const CARD_H   = 84;
 const GAP      = 6;
+const ROW_GAP  = 2;
 const LEFT     = 16;
 const SEP_Y    = CANVAS_H / 2; // 360
 
-// P2 (top)
-const P2_ZONE_Y  = 14;
-const P2_BOARD_Y = P2_ZONE_Y  + CARD_H + 22;
-const P2_HAND_Y  = P2_BOARD_Y + CARD_H + 22;
+// ── Horizontal columns (same for both players) ───────────────────────────────
+// Mid row:  LIFE | LEADER | STAGE | DECK
+const COL_LIFE    = LEFT;                             // 16
+const COL_LEADER  = COL_LIFE   + CARD_W + GAP;       // 82
+const COL_STAGE   = COL_LEADER + CARD_W + GAP;       // 148
+const COL_DECK    = COL_STAGE  + CARD_W + GAP;       // 214
+// DON row: DON DECK | COST AREA | TRASH
+const COL_DON_DECK = LEFT;                            // 16
+const COL_DON_AREA = COL_LEADER;                      // 82  (aligns with LEADER)
+const COL_TRASH    = CANVAS_W - LEFT - CARD_W;        // 1124
+// Board / Hand
+const COL_BOARD    = LEFT;                            // 16
+const COL_HAND     = LEFT;                            // 16
 
-// P1 (bottom)
-const P1_HAND_Y  = SEP_Y + 14;
-const P1_BOARD_Y = P1_HAND_Y  + CARD_H + 22;
-const P1_ZONE_Y  = P1_BOARD_Y + CARD_H + 22;
+// ── P2 (top): hand at top, board nearest the center line ─────────────────────
+const P2_HAND_Y    = 14;                                      //  14
+const P2_DON_ROW_Y = P2_HAND_Y    + CARD_H + ROW_GAP;        // 100
+const P2_MID_ROW_Y = P2_DON_ROW_Y + CARD_H + ROW_GAP;        // 186
+const P2_BOARD_Y   = P2_MID_ROW_Y + CARD_H + ROW_GAP;        // 272
 
-// ─── Palette (string colors — required by PixiJS 8 TextStyle) ────────────────
+// ── P1 (bottom): board nearest the center line, hand at bottom ───────────────
+const P1_BOARD_Y   = SEP_Y + 16;                              // 376
+const P1_MID_ROW_Y = P1_BOARD_Y   + CARD_H + ROW_GAP;        // 462
+const P1_DON_ROW_Y = P1_MID_ROW_Y + CARD_H + ROW_GAP;        // 548
+const P1_HAND_Y    = P1_DON_ROW_Y + CARD_H + ROW_GAP;        // 634
+
+// ─── Palette ──────────────────────────────────────────────────────────────────
 
 const C = {
   bg:      '#0d0d1a',
@@ -40,9 +57,9 @@ const C = {
   purple:  '#cc88ff',
   red:     '#ff6666',
   muted:   '#333344',
+  stage:   '#2a3a2a',
 };
 
-// Hex equivalents for Graphics.fill() (pixi accepts both, but be explicit)
 const H = {
   bg:      0x0d0d1a,
   sep:     0x2a2a4a,
@@ -54,6 +71,7 @@ const H = {
   hand:    0x1a4a7a,
   back:    0x1c2b3a,
   empty:   0x151525,
+  stage:   0x1a2a1a,
 };
 
 // ─── Primitives ───────────────────────────────────────────────────────────────
@@ -105,39 +123,35 @@ function drawCard(scene: Container, card: Card, x: number, y: number, faceDown =
     return;
   }
 
-  // Card name
   const name = card.name.length > 7 ? `${card.name.slice(0, 6)}…` : card.name;
   addText(scene, name, x + 3, y + 3, C.white, 8);
 
-  // Cost (not for Leader/DON)
   if (card.type !== 'Leader' && card.type !== 'DON') {
     addText(scene, `${card.cost}`, x + 3, y + CARD_H - 16, C.yellow, 11);
   }
 
-  // Tapped overlay
   if (card.tapped) {
     addRect(scene, x, y, CARD_W, CARD_H, 0x000000, 0.5);
     addText(scene, 'REST', x + 6, y + CARD_H / 2 - 5, C.red, 9);
   }
 
-  // Attached DON marker
   if (card.attachedTo !== null) {
     addText(scene, '+DON', x + 2, y + CARD_H - 28, C.purple, 8);
   }
 }
 
-// ─── Zone rendering ───────────────────────────────────────────────────────────
+// ─── Zone helpers ─────────────────────────────────────────────────────────────
 
-/** Stack zone: deck, life, donDeck, trash — shows count in a single block */
+/** Stack zone (deck / life / donDeck / trash) — single block with count */
 function drawStack(
   scene: Container,
-  zoneName: string,
+  label: string,
   count: number,
   x: number, y: number,
   color: number,
 ): void {
-  addText(scene, zoneName, x, y - 13, C.label);
-  addRect(scene, x, y, CARD_W, CARD_H, count > 0 ? color : H.empty, count > 0 ? 1 : 0.5);
+  addText(scene, label, x, y - 13, C.label);
+  addRect(scene, x, y, CARD_W, CARD_H, count > 0 ? color : H.empty, count > 0 ? 1 : 0.4);
   const txt   = count > 0 ? `${count}` : '—';
   const tFill = count > 0 ? C.white : C.muted;
   const tSize = count > 0 ? 18 : 14;
@@ -145,19 +159,19 @@ function drawStack(
   addText(scene, txt, tX, y + CARD_H / 2 - 10, tFill, tSize);
 }
 
-/** Spread zone: hand, board, donArea — shows individual card rects */
+/** Spread zone (hand / board / donArea) — individual card rects */
 function drawSpread(
   scene: Container,
-  zoneName: string,
+  label: string,
   ids: readonly CardId[],
   allCards: Readonly<Record<CardId, Card>>,
   x: number, y: number,
   faceDown = false,
 ): void {
-  addText(scene, `${zoneName} (${ids.length})`, x, y - 13, C.label);
+  addText(scene, `${label} (${ids.length})`, x, y - 13, C.label);
 
   if (ids.length === 0) {
-    addRect(scene, x, y, CARD_W, CARD_H, H.empty, 0.5);
+    addRect(scene, x, y, CARD_W, CARD_H, H.empty, 0.3);
     return;
   }
 
@@ -177,35 +191,42 @@ function renderPlayer(
   pos: 'top' | 'bottom',
 ): void {
   const isTop  = pos === 'top';
-  const zoneY  = isTop ? P2_ZONE_Y  : P1_ZONE_Y;
-  const boardY = isTop ? P2_BOARD_Y : P1_BOARD_Y;
-  const handY  = isTop ? P2_HAND_Y  : P1_HAND_Y;
+  const handY  = isTop ? P2_HAND_Y    : P1_HAND_Y;
+  const donY   = isTop ? P2_DON_ROW_Y : P1_DON_ROW_Y;
+  const midY   = isTop ? P2_MID_ROW_Y : P1_MID_ROW_Y;
+  const boardY = isTop ? P2_BOARD_Y   : P1_BOARD_Y;
 
-  // Zone row
-  let zx = LEFT;
+  // ── HAND (opponent = face-down) ─────────────────────────────────────────────
+  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, isTop);
 
+  // ── DON row: DON DECK | COST AREA | TRASH ──────────────────────────────────
+  drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
+  drawSpread(scene, 'COST', player.donArea, allCards, COL_DON_AREA, donY);
+  drawStack(scene, 'TRASH', player.trash.length, COL_TRASH, donY, 0x4a4a5a);
+
+  // ── Middle row: LIFE | LEADER | STAGE | DECK ───────────────────────────────
+  drawStack(scene, 'LIFE', player.life.length, COL_LIFE, midY, H.life);
+
+  // Leader
+  addText(scene, 'LEADER', COL_LEADER, midY - 13, C.label);
   if (player.leader !== null) {
-    addText(scene, 'LEADER', zx, zoneY - 13, C.label);
     const lc = allCards[player.leader];
-    if (lc !== undefined) drawCard(scene, lc, zx, zoneY);
-    zx += CARD_W + GAP * 4;
+    if (lc !== undefined) drawCard(scene, lc, COL_LEADER, midY);
+  } else {
+    addRect(scene, COL_LEADER, midY, CARD_W, CARD_H, H.empty, 0.4);
   }
 
-  drawStack(scene, 'LIFE',     player.life.length,    zx, zoneY, H.life);
-  zx += CARD_W + GAP * 3;
-  drawStack(scene, 'DON DECK', player.donDeck.length,  zx, zoneY, H.donDeck);
-  zx += CARD_W + GAP * 3;
-  drawSpread(scene, 'DON',     player.donArea, allCards, zx, zoneY);
-  zx += Math.max(1, player.donArea.length) * (CARD_W + GAP) + GAP * 3;
-  drawStack(scene, 'TRASH',    player.trash.length,    zx, zoneY, 0x4a4a5a);
+  // Stage (placeholder — not yet implemented in engine)
+  addText(scene, 'STAGE', COL_STAGE, midY - 13, C.label);
+  addRect(scene, COL_STAGE, midY, CARD_W, CARD_H, H.stage, 0.6);
 
-  // Board
-  drawSpread(scene, 'BOARD', player.board, allCards, LEFT, boardY);
+  // Deck
+  drawStack(scene, 'DECK', player.deck.length, COL_DECK, midY, H.back);
 
-  // Hand (opponent = face down)
-  drawSpread(scene, 'HAND', player.hand, allCards, LEFT, handY, isTop);
+  // ── CHARACTER AREA (board) ──────────────────────────────────────────────────
+  drawSpread(scene, 'BOARD', player.board, allCards, COL_BOARD, boardY);
 
-  // Player badge
+  // ── Player badge ────────────────────────────────────────────────────────────
   const badge = `${isTop ? '▲' : '▼'} ${player.id}`;
   addText(scene, badge, CANVAS_W - 140, isTop ? handY + CARD_H + 4 : handY - 18, '#6688aa', 12);
 }
