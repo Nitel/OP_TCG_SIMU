@@ -17,9 +17,11 @@ export type {
   PlayCharacterFromHandAction,
   AssignDonAction,
   EndPhaseAction,
+  MulliganAction,
   DeclareAttackAction,
   DeclareBlockAction,
   ResolveCombatAction,
+  PlayCounterAction,
   GameError,
   ActionResult,
 } from './types/index.js';

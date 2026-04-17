@@ -1,5 +1,6 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import type { Card, CardId, GameState, PlayerId, PlayerState } from 'game-engine';
+// combatViewDefenderId: when set, show that player's hand and hide the attacker's hand
 import type { UIState } from '../ui/uiState';
 import { flashLife, koFade, scaleIn } from './animations';
 
@@ -129,6 +130,7 @@ function drawCard(
   onClick?: () => void,
   isNew = false,
   attachedDonCount = 0,
+  isCounter = false,
 ): void {
   const fillColor = faceDown ? H.back : cardBodyColor(card);
 
@@ -187,6 +189,16 @@ function drawCard(
       donTxt.x = 4; donTxt.y = CARD_H / 2 - 5;
       cardContainer.addChild(donTxt);
     }
+
+    // Counter value — shown on hand cards
+    if ((card.counter ?? 0) > 0) {
+      const ctrTxt = new Text({
+        text: `+${card.counter}`,
+        style: { fontSize: 9, fill: '#44ffcc', fontFamily: 'monospace', fontWeight: 'bold' },
+      });
+      ctrTxt.x = CARD_W - 30; ctrTxt.y = 3;
+      cardContainer.addChild(ctrTxt);
+    }
   } else {
     const qTxt = new Text({ text: '?', style: { fontSize: 18, fill: C.muted, fontFamily: 'monospace' } });
     qTxt.x = CARD_W / 2 - 4; qTxt.y = CARD_H / 2 - 10;
@@ -203,6 +215,11 @@ function drawCard(
     const border = new Graphics();
     border.rect(-2, -2, CARD_W + 4, CARD_H + 4);
     border.stroke({ color: H.validTarget, width: 3 });
+    cardContainer.addChild(border);
+  } else if (isCounter) {
+    const border = new Graphics();
+    border.rect(-2, -2, CARD_W + 4, CARD_H + 4);
+    border.stroke({ color: 0x44ffcc, width: 2 });
     cardContainer.addChild(border);
   }
 
@@ -247,6 +264,7 @@ function drawSpread(
   activePlayerId: PlayerId,
   onCardClick: (id: CardId) => void,
   newCardIds: ReadonlySet<CardId> = new Set(),
+  counterDefenderId: PlayerId | null = null,
 ): void {
   addText(scene, `${label} (${ids.length})`, x, y - 13, C.label);
 
@@ -260,6 +278,12 @@ function drawSpread(
     if (card === undefined) return;
     const isSelected = uiState.selectedCardId === id;
     const isTarget = isValidTarget(id, card, uiState, activePlayerId, allCards);
+    // Highlight hand cards that can be played as counter by the defending player
+    const isCounter = !faceDown
+      && counterDefenderId !== null
+      && card.ownerId === counterDefenderId
+      && card.zone === 'hand'
+      && (card.counter ?? 0) > 0;
     drawCard(
       scene, card,
       x + i * (CARD_W + GAP), y,
@@ -268,6 +292,8 @@ function drawSpread(
       isTarget,
       faceDown ? undefined : () => onCardClick(id),
       newCardIds.has(id),
+      0,
+      isCounter,
     );
   });
 }
@@ -305,6 +331,9 @@ function renderPlayer(
   onCardClick: (id: CardId) => void,
   newCardIds: ReadonlySet<CardId>,
   activePlayerId: PlayerId,
+  counterDefenderId: PlayerId | null,
+  hideCards: boolean,
+  combatViewDefenderId: PlayerId | null,
 ): void {
   const isTop    = pos === 'top';
   const isActive = player.id === activePlayerId;
@@ -313,8 +342,13 @@ function renderPlayer(
   const midY     = isTop ? P2_MID_ROW_Y : P1_MID_ROW_Y;
   const boardY   = isTop ? P2_BOARD_Y   : P1_BOARD_Y;
 
-  // HAND (opponent = face-down, not clickable)
-  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, !isActive, uiState, activePlayerId, onCardClick, newCardIds);
+  // HAND visibility:
+  // - hideCards: privacy mode (turn/combat handoff) → all hands face-down
+  // - combatViewDefenderId set: defender's hand face-up, everyone else face-down
+  // - normal: only active player's hand face-up
+  const handFaceDown = hideCards
+    || (combatViewDefenderId !== null ? player.id !== combatViewDefenderId : !isActive);
+  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId);
 
   // DON row
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
@@ -428,6 +462,8 @@ export function renderGameState(
   state: GameState,
   uiState: UIState,
   onCardClick: (id: CardId) => void,
+  hideCards = false,
+  combatViewDefenderId: PlayerId | null = null,
 ): void {
   // Detect new board cards for scale-in animation
   const newBoardIds = new Set<CardId>();
@@ -456,6 +492,11 @@ export function renderGameState(
   const p2 = state.players[p2Id];
   if (p1 === undefined || p2 === undefined) return;
 
-  renderPlayer(scene, p2, state.cards, 'top', uiState, onCardClick, newBoardIds, state.activePlayerId);
-  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId);
+  // Defender ID (non-active player) — used to highlight counter-playable hand cards
+  const counterDefenderId = state.activeCombat !== null
+    ? (state.activePlayerId === p1Id ? p2Id : p1Id)
+    : null;
+
+  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId);
+  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId);
 }

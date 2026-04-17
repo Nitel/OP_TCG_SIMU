@@ -48,6 +48,8 @@ export interface Card {
   readonly attachedTo: CardId | null;
   /** Keywords: 'Blocker', 'Rush', 'Banish', etc. */
   readonly keywords?: readonly string[];
+  /** Counter value: power boost this card provides when played from hand during combat */
+  readonly counter?: number;
 }
 
 // ─── Player state ─────────────────────────────────────────────────────────────
@@ -74,6 +76,8 @@ export interface CombatState {
   readonly targetId: CardId;
   /** Blocker assigned by the defending player, or null if unblocked */
   readonly blockerId: CardId | null;
+  /** Total counter power played by the defending player from hand */
+  readonly counterPower: number;
 }
 
 // ─── Game state ───────────────────────────────────────────────────────────────
@@ -187,6 +191,17 @@ export interface ResolveCombatAction {
   readonly playerId: PlayerId;
 }
 
+/**
+ * Defending player plays a card from hand as counter during combat.
+ * The card's counter value is added to the defender's power for this combat.
+ * The card goes to trash.
+ */
+export interface PlayCounterAction {
+  readonly type: 'PlayCounter';
+  readonly playerId: PlayerId;
+  readonly cardId: CardId;
+}
+
 export type GameAction =
   | MulliganAction
   | DrawCardAction
@@ -197,7 +212,8 @@ export type GameAction =
   | EndPhaseAction
   | DeclareAttackAction
   | DeclareBlockAction
-  | ResolveCombatAction;
+  | ResolveCombatAction
+  | PlayCounterAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 

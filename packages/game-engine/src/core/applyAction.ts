@@ -167,7 +167,8 @@ function applyMulligan(
     // Both players decided — place life cards and start the game
     next = placeLifeCards(next, p1);
     next = placeLifeCards(next, p2);
-    next = { ...next, phase: 'Refresh', activePlayerId: state.firstPlayerId };
+    // turnNumber 0 = Mulligan; real game starts at turn 1
+    next = { ...next, phase: 'Refresh', activePlayerId: state.firstPlayerId, turnNumber: 1 };
     return applyRefresh(next, state.firstPlayerId);
   } else {
     // Pass decision to the other player
@@ -294,7 +295,7 @@ function applyStartGame(
     playerOrder: [player1.id, player2.id],
     activePlayerId: firstPlayerId,
     phase: 'Mulligan',
-    turnNumber: 1,
+    turnNumber: 0,  // Mulligan is turn 0; turnNumber becomes 1 when the game actually starts
     activeCombat: null,
     winner: null,
     firstPlayerId,
@@ -518,6 +519,9 @@ function applyDeclareAttack(
   if (state.activeCombat !== null) {
     return makeGameError('COMBAT_ALREADY_ACTIVE', 'Another combat is already pending resolution');
   }
+  if (state.turnNumber <= 2) {
+    return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed on the first turn');
+  }
   if (state.winner !== null) {
     return makeGameError('GAME_OVER', 'The game has already ended');
   }
@@ -569,9 +573,10 @@ function applyDeclareAttack(
       [action.attackerId]: { ...attacker, tapped: true },
     },
     activeCombat: {
-      attackerId: action.attackerId,
-      targetId:   action.targetId,
-      blockerId:  null,
+      attackerId:   action.attackerId,
+      targetId:     action.targetId,
+      blockerId:    null,
+      counterPower: 0,
     },
   };
 }
@@ -625,6 +630,60 @@ function applyDeclareBlock(
   };
 }
 
+// ─── PlayCounter ──────────────────────────────────────────────────────────────
+
+function applyPlayCounter(
+  state: GameState,
+  action: Extract<GameAction, { type: 'PlayCounter' }>
+): ActionResult {
+  if (state.activeCombat === null) {
+    return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+  }
+  if (state.phase !== 'Main') {
+    return makeGameError('WRONG_PHASE', `PlayCounter requires Main phase, current: ${state.phase}`);
+  }
+  if (action.playerId === state.activePlayerId) {
+    return makeGameError('ACTIVE_PLAYER_CANNOT_COUNTER', 'Only the defending player can play counters');
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+  if (!player.hand.includes(action.cardId)) {
+    return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in ${action.playerId}'s hand`);
+  }
+
+  const card = state.cards[action.cardId];
+  if (card === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+  }
+  if ((card.counter ?? 0) === 0) {
+    return makeGameError('NO_COUNTER_VALUE', `Card ${action.cardId} has no counter value`);
+  }
+
+  const counterValue = card.counter!;
+  const updatedCards: Record<string, Card> = {
+    ...state.cards,
+    [action.cardId]: { ...card, zone: 'trash' as const },
+  };
+  const updatedPlayer = {
+    ...player,
+    hand:  player.hand.filter((id) => id !== action.cardId),
+    trash: [...player.trash, action.cardId],
+  };
+
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: { ...state.players, [action.playerId]: updatedPlayer },
+    activeCombat: {
+      ...state.activeCombat,
+      counterPower: state.activeCombat.counterPower + counterValue,
+    },
+  };
+}
+
 // ─── ResolveCombat ────────────────────────────────────────────────────────────
 
 function applyResolveCombat(
@@ -668,6 +727,8 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyDeclareBlock(state, action);
     case 'ResolveCombat':
       return applyResolveCombat(state, action);
+    case 'PlayCounter':
+      return applyPlayCounter(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

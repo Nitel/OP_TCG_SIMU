@@ -15,7 +15,7 @@ import { IDLE_UI } from './uiState';
 
 // ─── Bootstrap helpers ────────────────────────────────────────────────────────
 
-function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0): Card {
+function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0, counter?: number): Card {
   return {
     id: makeCardId(id),
     name: id,
@@ -27,6 +27,7 @@ function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0): Ca
     ownerId: makePlayerId(ownerId),
     tapped: false,
     attachedTo: null,
+    ...(counter !== undefined ? { counter } : {}),
   };
 }
 
@@ -35,7 +36,7 @@ function buildSetup(idStr: string): PlayerSetup {
     id: makePlayerId(idStr),
     leaderCard: stubCard(`${idStr}-leader`, idStr, 'Leader'),
     deckCards: Array.from({ length: 20 }, (_, i) =>
-      stubCard(`${idStr}-d${i}`, idStr, 'Character', (i % 5) + 1)
+      stubCard(`${idStr}-d${i}`, idStr, 'Character', (i % 5) + 1, i % 3 === 0 ? 2000 : i % 3 === 1 ? 1000 : undefined)
     ),
     donCards: Array.from({ length: 10 }, (_, i) =>
       stubCard(`${idStr}-don${i}`, idStr, 'DON')
@@ -62,7 +63,8 @@ function createInitialState(): GameState {
 export function App() {
   const [gameState, setGameState] = useState<GameState>(createInitialState);
   const [uiState, setUiState]     = useState<UIState>(IDLE_UI);
-  const [needsHandoff, setNeedsHandoff] = useState(false);
+  const [needsHandoff, setNeedsHandoff] = useState(true);
+  const [needsCombatHandoff, setNeedsCombatHandoff] = useState(false);
   const prevActivePlayerRef = useRef(gameState.activePlayerId);
 
   // ── Dispatch: apply action, handle errors ──────────────────────────────────
@@ -72,6 +74,14 @@ export function App() {
       if (isGameError(result)) {
         setUiState(u => ({ ...u, errorMessage: result.message }));
         return prev;
+      }
+      // Detect combat start → trigger combat handoff (show defender's view)
+      if (prev.activeCombat === null && result.activeCombat !== null) {
+        setNeedsCombatHandoff(true);
+      }
+      // Detect combat end → clear combat handoff flag
+      if (prev.activeCombat !== null && result.activeCombat === null) {
+        setNeedsCombatHandoff(false);
       }
       // Detect turn switch → trigger hotseat handoff
       if (result.activePlayerId !== prev.activePlayerId) {
@@ -151,7 +161,9 @@ export function App() {
       }
 
       // Own board card or leader in Main phase (untapped) → select to attack
-      if ((card.zone === 'board' || card.type === 'Leader') && card.ownerId === activeId && phase === 'Main' && !card.tapped) {
+      // No attacks allowed during the first two turns (turns 1 & 2 = each player's first turn)
+      if ((card.zone === 'board' || card.type === 'Leader') && card.ownerId === activeId && phase === 'Main' && !card.tapped
+          && gameState.turnNumber > 2) {
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'attack' };
       }
 
@@ -159,6 +171,17 @@ export function App() {
       if (card.type === 'DON' && card.zone === 'donArea' && card.ownerId === activeId &&
           (phase === 'DON' || phase === 'Main') && !card.tapped) {
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'assignDon' };
+      }
+
+      // Defender clicking a hand card with counter value during combat → play counter immediately
+      if (activeCombat !== null && card.ownerId === defenderId &&
+          card.zone === 'hand' && (card.counter ?? 0) > 0) {
+        setTimeout(() => dispatch({
+          type: 'PlayCounter',
+          playerId: defenderId,
+          cardId,
+        }), 0);
+        return IDLE_UI;
       }
 
       // Defender selecting a blocker during combat
@@ -171,6 +194,16 @@ export function App() {
     });
   }, [gameState, dispatch]);
 
+  // ── Derive defender ID for combat view ────────────────────────────────────
+  const [p1Id, p2Id] = gameState.playerOrder;
+  const defenderId = gameState.activePlayerId === p1Id ? p2Id : p1Id;
+  // After combat handoff confirmed, show the defender's hand until combat resolves
+  const combatViewDefenderId = gameState.activeCombat !== null && !needsCombatHandoff
+    ? defenderId
+    : null;
+  // Hide all cards during any handoff (turn or combat)
+  const hideCards = needsHandoff || needsCombatHandoff;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, padding: 16, paddingBottom: 0 }}>
       <h1 style={{ color: '#cccccc', fontSize: 16, letterSpacing: 2, marginBottom: 12 }}>
@@ -181,6 +214,8 @@ export function App() {
           gameState={gameState}
           uiState={uiState}
           onCardClick={handleCardClick}
+          hideCards={hideCards}
+          combatViewDefenderId={combatViewDefenderId}
         />
         <GameUI gameState={gameState} uiState={uiState} />
       </div>
@@ -190,6 +225,8 @@ export function App() {
         onAction={dispatch}
         needsHandoff={needsHandoff}
         onHandoffConfirmed={() => setNeedsHandoff(false)}
+        needsCombatHandoff={needsCombatHandoff}
+        onCombatHandoffConfirmed={() => setNeedsCombatHandoff(false)}
       />
     </div>
   );

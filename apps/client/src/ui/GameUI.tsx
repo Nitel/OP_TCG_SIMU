@@ -58,7 +58,7 @@ export function GameUI({ gameState, uiState }: Props) {
         borderRadius: 4,
         border: '1px solid #2a2a4a',
       }}>
-        <span style={{ color: '#8899bb' }}>Turn {turnNumber}</span>
+        <span style={{ color: '#8899bb' }}>{phase === 'Mulligan' ? 'Mulligan' : `Turn ${turnNumber}`}</span>
         <span style={{ color: '#ffdd66', fontWeight: 'bold' }}>{phase}</span>
         <span style={{ color: '#66ffaa' }}>Active: {activePlayerId}</span>
         <span style={{ color: '#cc88ff' }}>DON avail: {donAvailable}</span>

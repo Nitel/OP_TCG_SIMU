@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
-import type { CardId, GameState } from 'game-engine';
+import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
 import { renderGameState } from './renderGameState';
 
@@ -11,11 +11,13 @@ interface Props {
   gameState: GameState;
   uiState: UIState;
   onCardClick: (id: CardId) => void;
+  hideCards?: boolean;
+  combatViewDefenderId?: PlayerId | null;
 }
 
 type Status = 'idle' | 'ready' | 'error';
 
-export function GameCanvas({ gameState, uiState, onCardClick }: Props) {
+export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false, combatViewDefenderId = null }: Props) {
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const sceneRef   = useRef<Container | null>(null);
   const animRef    = useRef<Container | null>(null);
@@ -76,11 +78,11 @@ export function GameCanvas({ gameState, uiState, onCardClick }: Props) {
     const animLayer = animRef.current;
     if (status !== 'ready' || scene === null || animLayer === null) return;
     try {
-      renderGameState(scene, animLayer, gameState, uiState, onCardClick);
+      renderGameState(scene, animLayer, gameState, uiState, onCardClick, hideCards, combatViewDefenderId);
     } catch (err) {
       console.error('[GameCanvas] renderGameState threw:', err);
     }
-  }, [status, gameState, uiState, onCardClick]);
+  }, [status, gameState, uiState, onCardClick, hideCards, combatViewDefenderId]);
 
   if (status === 'error') {
     return (

@@ -107,13 +107,14 @@ export function resolveCombat(state: GameState): GameState {
   const combat = state.activeCombat;
   if (combat === null) return state;
 
-  const { attackerId, targetId, blockerId } = combat;
+  const { attackerId, targetId, blockerId, counterPower } = combat;
   let next: GameState = { ...state, activeCombat: null };
 
+  const attackerPower = calculatePower(attackerId, state);
+
   if (blockerId !== null) {
-    // ── Blocked combat: compare attacker vs blocker ──────────────────────────
-    const attackerPower = calculatePower(attackerId, state);
-    const blockerPower  = calculatePower(blockerId, state);
+    // ── Blocked combat: counter was played on original target, not blocker ───
+    const blockerPower = calculatePower(blockerId, state);
 
     if (attackerPower >= blockerPower) {
       next = sendToTrash(next, blockerId);   // blocker KO'd
@@ -125,20 +126,20 @@ export function resolveCombat(state: GameState): GameState {
     const target = state.cards[targetId];
     if (target === undefined) return next;
 
-    if (target.type === 'Leader') {
-      const attacker = state.cards[attackerId];
-      if (attacker !== undefined) {
-        next = applyLeaderDamage(next, attacker.ownerId);
+    const defenderPower = calculatePower(targetId, state) + counterPower;
+
+    if (attackerPower >= defenderPower) {
+      if (target.type === 'Leader') {
+        const attacker = state.cards[attackerId];
+        if (attacker !== undefined) {
+          next = applyLeaderDamage(next, attacker.ownerId);
+        }
+      } else {
+        // Character vs Character (unblocked): attacker wins ties
+        next = sendToTrash(next, targetId);
       }
-    } else {
-      // Character vs Character (unblocked)
-      const attackerPower = calculatePower(attackerId, state);
-      const targetPower   = calculatePower(targetId, state);
-      if (attackerPower > targetPower) {
-        next = sendToTrash(next, targetId);  // defender KO'd
-      }
-      // attacker power ≤ target power → nothing happens
     }
+    // attacker power < defender power + counter → attack blocked, nothing happens
   }
 
   return next;

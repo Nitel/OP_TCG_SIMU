@@ -8,6 +8,8 @@ interface Props {
   onAction: (action: GameAction) => void;
   needsHandoff: boolean;
   onHandoffConfirmed: () => void;
+  needsCombatHandoff: boolean;
+  onCombatHandoffConfirmed: () => void;
 }
 
 const btnStyle: CSSProperties = {
@@ -42,7 +44,7 @@ const bigBtn: CSSProperties = {
   fontWeight: 'bold',
 };
 
-export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHandoffConfirmed }: Props) {
+export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHandoffConfirmed, needsCombatHandoff, onCombatHandoffConfirmed }: Props) {
   const { phase, activePlayerId, activeCombat, playerOrder, winner } = gameState;
   const defenderId = activePlayerId === playerOrder[0] ? playerOrder[1] : playerOrder[0];
 
@@ -65,6 +67,20 @@ export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHand
         </span>
         <button style={bigBtn} onClick={onHandoffConfirmed}>
           C'est parti, {activePlayerId} !
+        </button>
+      </div>
+    );
+  }
+
+  // ── Combat handoff screen — show defender's hand ───────────────────────────
+  if (needsCombatHandoff) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '12px 16px', background: '#1a0a0a', borderTop: '2px solid #aa4444', width: 1200, boxSizing: 'border-box' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 13, color: '#ffaaaa' }}>
+          Attaque ! <strong style={{ color: '#ffffff' }}>{defenderId}</strong>, passez le clavier — vous pouvez contrer ou bloquer
+        </span>
+        <button style={{ ...bigBtn, background: '#3a1a1a', border: '1px solid #aa4444', color: '#ffcccc' }} onClick={onCombatHandoffConfirmed}>
+          Je suis pret, {defenderId} !
         </button>
       </div>
     );
@@ -160,18 +176,19 @@ export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHand
 
         {/* ── Combat ───────────────────────────────────────────────────── */}
 
-        {/* Attacker resolves */}
-        {activeCombat !== null && (
-          <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
-            Résoudre le combat
-          </button>
-        )}
-
-        {/* Defender blocks or passes */}
+        {/* Counter power accumulator + defender actions */}
         {activeCombat !== null && (
           <>
+            {activeCombat.counterPower > 0 && (
+              <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#44ffcc', fontWeight: 'bold' }}>
+                CONTRE +{activeCombat.counterPower}
+              </span>
+            )}
             <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ffee44' }}>
               {defenderId} :
+            </span>
+            <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#888899' }}>
+              Cliquez une carte main (cyan) pour contrer —
             </span>
             {uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null && (
               <button style={dangerBtn} onClick={() => onAction({
@@ -183,9 +200,16 @@ export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHand
               </button>
             )}
             <button style={btnStyle} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
-              Ne pas bloquer
+              Ne pas bloquer →
             </button>
           </>
+        )}
+
+        {/* Attacker resolves */}
+        {activeCombat !== null && (
+          <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
+            Résoudre le combat ⚔
+          </button>
         )}
 
         {/* ── Selection hints ───────────────────────────────────────────── */}

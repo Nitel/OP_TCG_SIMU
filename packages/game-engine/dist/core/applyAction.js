@@ -447,6 +447,7 @@ function applyDeclareAttack(state, action) {
             attackerId: action.attackerId,
             targetId: action.targetId,
             blockerId: null,
+            counterPower: 0,
         },
     };
 }
@@ -491,6 +492,51 @@ function applyDeclareBlock(state, action) {
         activeCombat: { ...state.activeCombat, blockerId: action.blockerId },
     };
 }
+// ─── PlayCounter ──────────────────────────────────────────────────────────────
+function applyPlayCounter(state, action) {
+    if (state.activeCombat === null) {
+        return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+    }
+    if (state.phase !== 'Main') {
+        return makeGameError('WRONG_PHASE', `PlayCounter requires Main phase, current: ${state.phase}`);
+    }
+    if (action.playerId === state.activePlayerId) {
+        return makeGameError('ACTIVE_PLAYER_CANNOT_COUNTER', 'Only the defending player can play counters');
+    }
+    const player = state.players[action.playerId];
+    if (player === undefined) {
+        return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+    }
+    if (!player.hand.includes(action.cardId)) {
+        return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in ${action.playerId}'s hand`);
+    }
+    const card = state.cards[action.cardId];
+    if (card === undefined) {
+        return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+    }
+    if ((card.counter ?? 0) === 0) {
+        return makeGameError('NO_COUNTER_VALUE', `Card ${action.cardId} has no counter value`);
+    }
+    const counterValue = card.counter;
+    const updatedCards = {
+        ...state.cards,
+        [action.cardId]: { ...card, zone: 'trash' },
+    };
+    const updatedPlayer = {
+        ...player,
+        hand: player.hand.filter((id) => id !== action.cardId),
+        trash: [...player.trash, action.cardId],
+    };
+    return {
+        ...state,
+        cards: updatedCards,
+        players: { ...state.players, [action.playerId]: updatedPlayer },
+        activeCombat: {
+            ...state.activeCombat,
+            counterPower: state.activeCombat.counterPower + counterValue,
+        },
+    };
+}
 // ─── ResolveCombat ────────────────────────────────────────────────────────────
 function applyResolveCombat(state, action) {
     if (action.playerId !== state.activePlayerId) {
@@ -527,6 +573,8 @@ export function applyAction(state, action) {
             return applyDeclareBlock(state, action);
         case 'ResolveCombat':
             return applyResolveCombat(state, action);
+        case 'PlayCounter':
+            return applyPlayCounter(state, action);
         default: {
             const _exhaustive = action;
             return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);
