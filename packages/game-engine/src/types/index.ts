@@ -30,7 +30,7 @@ export type CardColor = 'Red' | 'Blue' | 'Green' | 'Purple' | 'Black' | 'Yellow'
 
 export type CardType = 'Leader' | 'Character' | 'Event' | 'Stage' | 'DON';
 
-export type GamePhase = 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
+export type GamePhase = 'Mulligan' | 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
@@ -46,6 +46,10 @@ export interface Card {
   readonly tapped: boolean;
   /** DON cards only: ID of the character card this DON is attached to, or null */
   readonly attachedTo: CardId | null;
+  /** Keywords: 'Blocker', 'Rush', 'Banish', etc. */
+  readonly keywords?: readonly string[];
+  /** Counter value: power boost this card provides when played from hand during combat */
+  readonly counter?: number;
 }
 
 // ─── Player state ─────────────────────────────────────────────────────────────
@@ -63,6 +67,19 @@ export interface PlayerState {
   readonly trash: readonly CardId[];
 }
 
+// ─── Combat state ─────────────────────────────────────────────────────────────
+
+export interface CombatState {
+  /** The attacking card (already tapped) */
+  readonly attackerId: CardId;
+  /** The original declared target (character or leader) */
+  readonly targetId: CardId;
+  /** Blocker assigned by the defending player, or null if unblocked */
+  readonly blockerId: CardId | null;
+  /** Total counter power played by the defending player from hand */
+  readonly counterPower: number;
+}
+
 // ─── Game state ───────────────────────────────────────────────────────────────
 
 export interface GameState {
@@ -72,6 +89,14 @@ export interface GameState {
   readonly activePlayerId: PlayerId;
   readonly phase: GamePhase;
   readonly turnNumber: number;
+  /** Pending combat waiting for block decision / resolution, or null */
+  readonly activeCombat: CombatState | null;
+  /** Set to the winning player's ID when the game ends, null otherwise */
+  readonly winner: PlayerId | null;
+  /** ID of the player who goes first (used for first-turn restrictions) */
+  readonly firstPlayerId: PlayerId;
+  /** Players who have already made their mulligan decision */
+  readonly mulliganDecided: readonly PlayerId[];
 }
 
 // ─── Player setup (used in StartGame) ────────────────────────────────────────
@@ -87,6 +112,13 @@ export interface PlayerSetup {
 }
 
 // ─── Actions ──────────────────────────────────────────────────────────────────
+
+/** Active player decides to keep or reshuffle their starting hand (Mulligan phase) */
+export interface MulliganAction {
+  readonly type: 'Mulligan';
+  readonly playerId: PlayerId;
+  readonly keep: boolean;
+}
 
 /** Legacy low-level draw — usable outside phase restrictions */
 export interface DrawCardAction {
@@ -129,13 +161,59 @@ export interface EndPhaseAction {
   readonly playerId: PlayerId;
 }
 
+/**
+ * Active player taps an attacker and declares a target (character or leader).
+ * Must be in Main phase. Sets activeCombat.
+ */
+export interface DeclareAttackAction {
+  readonly type: 'DeclareAttack';
+  readonly playerId: PlayerId;
+  readonly attackerId: CardId;
+  readonly targetId: CardId;
+}
+
+/**
+ * Defending player assigns a Blocker card to redirect the attack.
+ * Only valid while activeCombat is pending and no blocker is set yet.
+ */
+export interface DeclareBlockAction {
+  readonly type: 'DeclareBlock';
+  readonly playerId: PlayerId;
+  readonly blockerId: CardId;
+}
+
+/**
+ * Active player resolves the pending combat (after blocker decision).
+ * Compares powers, applies KO / leader damage, clears activeCombat.
+ */
+export interface ResolveCombatAction {
+  readonly type: 'ResolveCombat';
+  readonly playerId: PlayerId;
+}
+
+/**
+ * Defending player plays a card from hand as counter during combat.
+ * The card's counter value is added to the defender's power for this combat.
+ * The card goes to trash.
+ */
+export interface PlayCounterAction {
+  readonly type: 'PlayCounter';
+  readonly playerId: PlayerId;
+  readonly cardId: CardId;
+}
+
 export type GameAction =
+  | MulliganAction
   | DrawCardAction
   | StartGameAction
   | DrawPhaseAction
   | PlayCharacterFromHandAction
   | AssignDonAction
-  | EndPhaseAction;
+  | EndPhaseAction
+  | DeclareAttackAction
+  | DeclareBlockAction
+  | ResolveCombatAction
+  | PlayCounterAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 
@@ -181,5 +259,9 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     activePlayerId: p1,
     phase: 'Refresh',
     turnNumber: 0,
+    activeCombat: null,
+    winner: null,
+    firstPlayerId: p1,
+    mulliganDecided: [],
   };
 }

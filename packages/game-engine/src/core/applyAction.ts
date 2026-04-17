@@ -3,12 +3,179 @@ import type {
   GameAction,
   ActionResult,
   CardId,
+  PlayerId,
   PlayerState,
   Card,
   PlayerSetup,
   GamePhase,
 } from '../types/index.js';
 import { makeGameError } from '../types/index.js';
+import { resolveCombat } from '../rules/combat.js';
+
+// ─── Phase helpers ────────────────────────────────────────────────────────────
+
+// ─── Mulligan helpers ─────────────────────────────────────────────────────────
+
+function shuffle<T>(arr: readonly T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j]!, a[i]!];
+  }
+  return a;
+}
+
+function placeLifeCards(state: GameState, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+  const lifeIds = player.deck.slice(0, 5);
+  const remainingDeck = player.deck.slice(5);
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const id of lifeIds) {
+    updatedCards[id] = { ...updatedCards[id]!, zone: 'life' };
+  }
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: {
+      ...state.players,
+      [playerId]: { ...player, life: lifeIds, deck: remainingDeck },
+    },
+  };
+}
+
+// ─── Phase helpers ────────────────────────────────────────────────────────────
+
+/** Draw up to 2 DON!! from donDeck → donArea for the active player. */
+function applyDonDraw(state: GameState, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+
+  const isFirstTurnFirstPlayer = state.turnNumber === 1 && playerId === state.firstPlayerId;
+  const count = Math.min(isFirstTurnFirstPlayer ? 1 : 2, player.donDeck.length);
+  if (count === 0) return state;
+
+  const drawn    = player.donDeck.slice(0, count);
+  const remaining = player.donDeck.slice(count);
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const id of drawn) {
+    updatedCards[id] = { ...updatedCards[id]!, zone: 'donArea' as const };
+  }
+
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: {
+      ...state.players,
+      [playerId]: {
+        ...player,
+        donDeck: remaining,
+        donArea: [...player.donArea, ...drawn],
+      },
+    },
+  };
+}
+
+/** Untap leader, all board cards, and all DON in donArea for a player. */
+function applyRefresh(state: GameState, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+
+  if (player.leader !== null) {
+    updatedCards[player.leader] = { ...updatedCards[player.leader]!, tapped: false };
+  }
+  for (const id of player.board) {
+    updatedCards[id] = { ...updatedCards[id]!, tapped: false };
+  }
+  for (const id of player.donArea) {
+    updatedCards[id] = { ...updatedCards[id]!, tapped: false };
+  }
+
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+  };
+}
+
+/** Return all assigned DON to donArea (detach + untap) at end of turn. */
+function applyReturnDon(state: GameState, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const id of player.donArea) {
+    updatedCards[id] = { ...updatedCards[id]!, attachedTo: null, tapped: false };
+  }
+
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+  };
+}
+
+// ─── Mulligan ─────────────────────────────────────────────────────────────────
+
+function applyMulligan(
+  state: GameState,
+  action: Extract<GameAction, { type: 'Mulligan' }>
+): ActionResult {
+  if (state.phase !== 'Mulligan') {
+    return makeGameError('WRONG_PHASE', `Mulligan requires Mulligan phase, current: ${state.phase}`);
+  }
+  if (action.playerId !== state.activePlayerId) {
+    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+  }
+  if (state.mulliganDecided.includes(action.playerId)) {
+    return makeGameError('ALREADY_MULLIGANED', `Player ${action.playerId} has already made their mulligan decision`);
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  let updatedPlayer = player;
+
+  if (!action.keep) {
+    // Return hand to deck, shuffle, draw 5 new cards
+    for (const id of player.hand) {
+      updatedCards[id] = { ...updatedCards[id]!, zone: 'deck' };
+    }
+    const shuffled = shuffle([...player.deck, ...player.hand]);
+    const newHand = shuffled.slice(0, 5);
+    const newDeck = shuffled.slice(5);
+    for (const id of newHand) {
+      updatedCards[id] = { ...updatedCards[id]!, zone: 'hand' };
+    }
+    updatedPlayer = { ...player, hand: newHand, deck: newDeck };
+  }
+
+  const newDecided = [...state.mulliganDecided, action.playerId];
+  let next: GameState = {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: { ...state.players, [action.playerId]: updatedPlayer },
+    mulliganDecided: newDecided,
+  };
+
+  const [p1, p2] = state.playerOrder;
+  if (newDecided.includes(p1) && newDecided.includes(p2)) {
+    // Both players decided — place life cards and start the game
+    next = placeLifeCards(next, p1);
+    next = placeLifeCards(next, p2);
+    // turnNumber 0 = Mulligan; real game starts at turn 1
+    next = { ...next, phase: 'Refresh', activePlayerId: state.firstPlayerId, turnNumber: 1 };
+    return applyRefresh(next, state.firstPlayerId);
+  } else {
+    // Pass decision to the other player
+    const nextPlayerId = action.playerId === p1 ? p2 : p1;
+    return { ...next, activePlayerId: nextPlayerId };
+  }
+}
 
 // ─── DrawCard (legacy) ────────────────────────────────────────────────────────
 
@@ -71,25 +238,19 @@ function buildPlayerState(
     allCards[c.id] = c;
   }
 
-  // Top 5 → life (face-down)
-  const lifeIds = deckOrdered.slice(0, 5).map((c) => c.id);
-  for (const id of lifeIds) {
-    allCards[id] = { ...allCards[id]!, zone: 'life' };
-  }
-
-  // Next 5 → starting hand
-  const handIds = deckOrdered.slice(5, 10).map((c) => c.id);
+  // Top 5 → starting hand
+  const handIds = deckOrdered.slice(0, 5).map((c) => c.id);
   for (const id of handIds) {
     allCards[id] = { ...allCards[id]!, zone: 'hand' };
   }
 
-  // Rest stays in deck
-  const remainingDeckIds = deckOrdered.slice(10).map((c) => c.id);
+  // Rest stays in deck (life will be placed after mulligan decisions)
+  const remainingDeckIds = deckOrdered.slice(5).map((c) => c.id);
 
   return {
     id: setup.id,
     leader: leader.id,
-    life: lifeIds,
+    life: [],
     deck: remainingDeckIds,
     hand: handIds,
     board: [],
@@ -133,8 +294,12 @@ function applyStartGame(
     },
     playerOrder: [player1.id, player2.id],
     activePlayerId: firstPlayerId,
-    phase: 'Refresh',
-    turnNumber: 1,
+    phase: 'Mulligan',
+    turnNumber: 0,  // Mulligan is turn 0; turnNumber becomes 1 when the game actually starts
+    activeCombat: null,
+    winner: null,
+    firstPlayerId,
+    mulliganDecided: [],
   };
 }
 
@@ -149,6 +314,11 @@ function applyDrawPhase(
   }
   if (state.phase !== 'Draw') {
     return makeGameError('WRONG_PHASE', `DrawPhase requires Draw phase, current: ${state.phase}`);
+  }
+
+  // First player's first turn: skip draw, go directly to DON phase
+  if (state.turnNumber === 1 && state.firstPlayerId === action.playerId) {
+    return applyDonDraw({ ...state, phase: 'DON' }, action.playerId);
   }
 
   const player = state.players[action.playerId];
@@ -168,12 +338,13 @@ function applyDrawPhase(
     hand: [...player.hand, drawnCardId],
   };
 
-  return {
+  const afterDraw: GameState = {
     ...state,
     phase: 'DON',
     cards: { ...state.cards, [drawnCardId]: updatedCard },
     players: { ...state.players, [action.playerId]: updatedPlayer },
   };
+  return applyDonDraw(afterDraw, action.playerId);
 }
 
 // ─── PlayCharacterFromHand ────────────────────────────────────────────────────
@@ -302,29 +473,242 @@ function applyEndPhase(
   }
 
   if (state.phase === 'End') {
-    // Turn ends: switch active player, reset to Refresh, increment turn counter
-    const currentIndex = state.playerOrder.indexOf(state.activePlayerId);
-    const nextIndex = currentIndex === 0 ? 1 : 0;
-    const nextPlayerId = state.playerOrder[nextIndex]!;
+    // Return all assigned DON for the current player
+    let next = applyReturnDon(state, state.activePlayerId);
 
-    return {
-      ...state,
+    // Switch active player, reset to Refresh, increment turn counter
+    const currentIndex = next.playerOrder.indexOf(next.activePlayerId);
+    const nextIndex = currentIndex === 0 ? 1 : 0;
+    const nextPlayerId = next.playerOrder[nextIndex]!;
+
+    next = {
+      ...next,
       activePlayerId: nextPlayerId,
       phase: 'Refresh',
-      turnNumber: state.turnNumber + 1,
+      turnNumber: next.turnNumber + 1,
     };
+
+    // Untap the new active player's cards
+    return applyRefresh(next, nextPlayerId);
   }
 
   const currentIndex = PHASE_SEQUENCE.indexOf(state.phase);
   const nextPhase = PHASE_SEQUENCE[currentIndex + 1]!;
+  let next: GameState = { ...state, phase: nextPhase };
 
-  return { ...state, phase: nextPhase };
+  // Entering DON phase via EndPhase (player skipped DrawPhase)
+  if (nextPhase === 'DON') {
+    next = applyDonDraw(next, state.activePlayerId);
+  }
+
+  return next;
+}
+
+// ─── DeclareAttack ────────────────────────────────────────────────────────────
+
+function applyDeclareAttack(
+  state: GameState,
+  action: Extract<GameAction, { type: 'DeclareAttack' }>
+): ActionResult {
+  if (action.playerId !== state.activePlayerId) {
+    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+  }
+  if (state.phase !== 'Main') {
+    return makeGameError('WRONG_PHASE', `DeclareAttack requires Main phase, current: ${state.phase}`);
+  }
+  if (state.activeCombat !== null) {
+    return makeGameError('COMBAT_ALREADY_ACTIVE', 'Another combat is already pending resolution');
+  }
+  if (state.turnNumber <= 2) {
+    return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed on the first turn');
+  }
+  if (state.winner !== null) {
+    return makeGameError('GAME_OVER', 'The game has already ended');
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+
+  const attacker = state.cards[action.attackerId];
+  if (attacker === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Attacker ${action.attackerId} not found`);
+  }
+  if (attacker.tapped) {
+    return makeGameError('ATTACKER_TAPPED', `Card ${action.attackerId} is rested and cannot attack`);
+  }
+
+  // Attacker must be on the active player's board or be their leader
+  const onBoard  = player.board.includes(action.attackerId);
+  const isLeader = player.leader === action.attackerId;
+  if (!onBoard && !isLeader) {
+    return makeGameError('INVALID_ATTACKER', `Card ${action.attackerId} is not on ${action.playerId}'s board or leader zone`);
+  }
+
+  // Target must be on the opponent's board or be their leader
+  const [p1, p2] = state.playerOrder;
+  const opponentId = action.playerId === p1 ? p2 : p1;
+  const opponent = state.players[opponentId];
+  if (opponent === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Opponent not found`);
+  }
+
+  const target = state.cards[action.targetId];
+  if (target === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Target ${action.targetId} not found`);
+  }
+
+  const targetOnBoard  = opponent.board.includes(action.targetId);
+  const targetIsLeader = opponent.leader === action.targetId;
+  if (!targetOnBoard && !targetIsLeader) {
+    return makeGameError('INVALID_TARGET', `Card ${action.targetId} is not a valid target on opponent's side`);
+  }
+
+  // Tap (rest) the attacker
+  return {
+    ...state,
+    cards: {
+      ...state.cards,
+      [action.attackerId]: { ...attacker, tapped: true },
+    },
+    activeCombat: {
+      attackerId:   action.attackerId,
+      targetId:     action.targetId,
+      blockerId:    null,
+      counterPower: 0,
+    },
+  };
+}
+
+// ─── DeclareBlock ─────────────────────────────────────────────────────────────
+
+function applyDeclareBlock(
+  state: GameState,
+  action: Extract<GameAction, { type: 'DeclareBlock' }>
+): ActionResult {
+  if (state.activeCombat === null) {
+    return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+  }
+  if (state.activeCombat.blockerId !== null) {
+    return makeGameError('BLOCKER_ALREADY_SET', 'A blocker has already been assigned');
+  }
+  if (action.playerId === state.activePlayerId) {
+    return makeGameError('ACTIVE_PLAYER_CANNOT_BLOCK', 'Only the defending player can assign a blocker');
+  }
+  if (state.winner !== null) {
+    return makeGameError('GAME_OVER', 'The game has already ended');
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+
+  const blocker = state.cards[action.blockerId];
+  if (blocker === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Blocker ${action.blockerId} not found`);
+  }
+  if (!player.board.includes(action.blockerId)) {
+    return makeGameError('INVALID_BLOCKER', `Card ${action.blockerId} is not on ${action.playerId}'s board`);
+  }
+  if (blocker.tapped) {
+    return makeGameError('BLOCKER_TAPPED', `Card ${action.blockerId} is rested and cannot block`);
+  }
+  if (!(blocker.keywords ?? []).includes('Blocker')) {
+    return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
+  }
+
+  // Tap the blocker
+  return {
+    ...state,
+    cards: {
+      ...state.cards,
+      [action.blockerId]: { ...blocker, tapped: true },
+    },
+    activeCombat: { ...state.activeCombat, blockerId: action.blockerId },
+  };
+}
+
+// ─── PlayCounter ──────────────────────────────────────────────────────────────
+
+function applyPlayCounter(
+  state: GameState,
+  action: Extract<GameAction, { type: 'PlayCounter' }>
+): ActionResult {
+  if (state.activeCombat === null) {
+    return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+  }
+  if (state.phase !== 'Main') {
+    return makeGameError('WRONG_PHASE', `PlayCounter requires Main phase, current: ${state.phase}`);
+  }
+  if (action.playerId === state.activePlayerId) {
+    return makeGameError('ACTIVE_PLAYER_CANNOT_COUNTER', 'Only the defending player can play counters');
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+  if (!player.hand.includes(action.cardId)) {
+    return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in ${action.playerId}'s hand`);
+  }
+
+  const card = state.cards[action.cardId];
+  if (card === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+  }
+  if ((card.counter ?? 0) === 0) {
+    return makeGameError('NO_COUNTER_VALUE', `Card ${action.cardId} has no counter value`);
+  }
+
+  const counterValue = card.counter!;
+  const updatedCards: Record<string, Card> = {
+    ...state.cards,
+    [action.cardId]: { ...card, zone: 'trash' as const },
+  };
+  const updatedPlayer = {
+    ...player,
+    hand:  player.hand.filter((id) => id !== action.cardId),
+    trash: [...player.trash, action.cardId],
+  };
+
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: { ...state.players, [action.playerId]: updatedPlayer },
+    activeCombat: {
+      ...state.activeCombat,
+      counterPower: state.activeCombat.counterPower + counterValue,
+    },
+  };
+}
+
+// ─── ResolveCombat ────────────────────────────────────────────────────────────
+
+function applyResolveCombat(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveCombat' }>
+): ActionResult {
+  if (action.playerId !== state.activePlayerId) {
+    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+  }
+  if (state.activeCombat === null) {
+    return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+  }
+  if (state.winner !== null) {
+    return makeGameError('GAME_OVER', 'The game has already ended');
+  }
+
+  return resolveCombat(state);
 }
 
 // ─── applyAction (dispatcher) ─────────────────────────────────────────────────
 
 export function applyAction(state: GameState, action: GameAction): ActionResult {
   switch (action.type) {
+    case 'Mulligan':
+      return applyMulligan(state, action);
     case 'DrawCard':
       return applyDrawCard(state, action);
     case 'StartGame':
@@ -337,6 +721,14 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyAssignDon(state, action);
     case 'EndPhase':
       return applyEndPhase(state, action);
+    case 'DeclareAttack':
+      return applyDeclareAttack(state, action);
+    case 'DeclareBlock':
+      return applyDeclareBlock(state, action);
+    case 'ResolveCombat':
+      return applyResolveCombat(state, action);
+    case 'PlayCounter':
+      return applyPlayCounter(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

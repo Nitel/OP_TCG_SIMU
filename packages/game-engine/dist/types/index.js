@@ -35,6 +35,10 @@ export function makeEmptyState(p1, p2) {
         activePlayerId: p1,
         phase: 'Refresh',
         turnNumber: 0,
+        activeCombat: null,
+        winner: null,
+        firstPlayerId: p1,
+        mulliganDecided: [],
     };
 }
 //# sourceMappingURL=index.js.map

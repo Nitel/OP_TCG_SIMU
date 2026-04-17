@@ -11,7 +11,7 @@ export declare function makePlayerId(id: string): PlayerId;
 export type Zone = 'deck' | 'hand' | 'board' | 'leader' | 'life' | 'donDeck' | 'donArea' | 'trash';
 export type CardColor = 'Red' | 'Blue' | 'Green' | 'Purple' | 'Black' | 'Yellow';
 export type CardType = 'Leader' | 'Character' | 'Event' | 'Stage' | 'DON';
-export type GamePhase = 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
+export type GamePhase = 'Mulligan' | 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
 export interface Card {
     readonly id: CardId;
     readonly name: string;
@@ -24,6 +24,10 @@ export interface Card {
     readonly tapped: boolean;
     /** DON cards only: ID of the character card this DON is attached to, or null */
     readonly attachedTo: CardId | null;
+    /** Keywords: 'Blocker', 'Rush', 'Banish', etc. */
+    readonly keywords?: readonly string[];
+    /** Counter value: power boost this card provides when played from hand during combat */
+    readonly counter?: number;
 }
 export interface PlayerState {
     readonly id: PlayerId;
@@ -37,6 +41,16 @@ export interface PlayerState {
     readonly donArea: readonly CardId[];
     readonly trash: readonly CardId[];
 }
+export interface CombatState {
+    /** The attacking card (already tapped) */
+    readonly attackerId: CardId;
+    /** The original declared target (character or leader) */
+    readonly targetId: CardId;
+    /** Blocker assigned by the defending player, or null if unblocked */
+    readonly blockerId: CardId | null;
+    /** Total counter power played by the defending player from hand */
+    readonly counterPower: number;
+}
 export interface GameState {
     readonly cards: Readonly<Record<CardId, Card>>;
     readonly players: Readonly<Record<PlayerId, PlayerState>>;
@@ -44,6 +58,14 @@ export interface GameState {
     readonly activePlayerId: PlayerId;
     readonly phase: GamePhase;
     readonly turnNumber: number;
+    /** Pending combat waiting for block decision / resolution, or null */
+    readonly activeCombat: CombatState | null;
+    /** Set to the winning player's ID when the game ends, null otherwise */
+    readonly winner: PlayerId | null;
+    /** ID of the player who goes first (used for first-turn restrictions) */
+    readonly firstPlayerId: PlayerId;
+    /** Players who have already made their mulligan decision */
+    readonly mulliganDecided: readonly PlayerId[];
 }
 export interface PlayerSetup {
     readonly id: PlayerId;
@@ -53,6 +75,12 @@ export interface PlayerSetup {
     readonly deckCards: readonly Card[];
     /** The 10 DON!! cards */
     readonly donCards: readonly Card[];
+}
+/** Active player decides to keep or reshuffle their starting hand (Mulligan phase) */
+export interface MulliganAction {
+    readonly type: 'Mulligan';
+    readonly playerId: PlayerId;
+    readonly keep: boolean;
 }
 /** Legacy low-level draw — usable outside phase restrictions */
 export interface DrawCardAction {
@@ -89,7 +117,44 @@ export interface EndPhaseAction {
     readonly type: 'EndPhase';
     readonly playerId: PlayerId;
 }
-export type GameAction = DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction;
+/**
+ * Active player taps an attacker and declares a target (character or leader).
+ * Must be in Main phase. Sets activeCombat.
+ */
+export interface DeclareAttackAction {
+    readonly type: 'DeclareAttack';
+    readonly playerId: PlayerId;
+    readonly attackerId: CardId;
+    readonly targetId: CardId;
+}
+/**
+ * Defending player assigns a Blocker card to redirect the attack.
+ * Only valid while activeCombat is pending and no blocker is set yet.
+ */
+export interface DeclareBlockAction {
+    readonly type: 'DeclareBlock';
+    readonly playerId: PlayerId;
+    readonly blockerId: CardId;
+}
+/**
+ * Active player resolves the pending combat (after blocker decision).
+ * Compares powers, applies KO / leader damage, clears activeCombat.
+ */
+export interface ResolveCombatAction {
+    readonly type: 'ResolveCombat';
+    readonly playerId: PlayerId;
+}
+/**
+ * Defending player plays a card from hand as counter during combat.
+ * The card's counter value is added to the defender's power for this combat.
+ * The card goes to trash.
+ */
+export interface PlayCounterAction {
+    readonly type: 'PlayCounter';
+    readonly playerId: PlayerId;
+    readonly cardId: CardId;
+}
+export type GameAction = MulliganAction | DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction | DeclareAttackAction | DeclareBlockAction | ResolveCombatAction | PlayCounterAction;
 export interface GameError {
     readonly kind: 'GameError';
     readonly code: string;
