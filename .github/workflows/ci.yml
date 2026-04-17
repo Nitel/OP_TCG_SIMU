@@ -1,0 +1,41 @@
+name: CI - Build & Test
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupérer le code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Installer pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      # 3. Installer Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      # 4. Installer les dépendances
+      - name: Install dependencies
+        run: pnpm install
+
+      # 5. Builder l'app
+      - name: Build app
+        run: pnpm build
+
+      # 6. Lancer les tests (à ajouter après)
+      - name: Run tests
+        run: pnpm test
