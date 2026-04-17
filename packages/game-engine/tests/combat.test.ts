@@ -59,16 +59,23 @@ function makePlayerSetup(idStr: string): PlayerSetup {
   };
 }
 
-/** Bootstrap a full game in Main phase */
+/** Bootstrap a full game in Main phase (mulligans resolved so life cards are placed) */
 function bootstrapGame(): GameState {
   const seed = makeEmptyState(P1, P2);
-  const result = applyAction(seed, {
+  let result = applyAction(seed, {
     type: 'StartGame',
     player1: makePlayerSetup('p1'),
     player2: makePlayerSetup('p2'),
     firstPlayerId: P1,
   });
   if (isGameError(result)) throw new Error(`StartGame failed: ${result.message}`);
+
+  result = applyAction(result, { type: 'Mulligan', playerId: P1, keep: true });
+  if (isGameError(result)) throw new Error(`Mulligan P1 failed: ${result.message}`);
+
+  result = applyAction(result, { type: 'Mulligan', playerId: P2, keep: true });
+  if (isGameError(result)) throw new Error(`Mulligan P2 failed: ${result.message}`);
+
   return { ...result, phase: 'Main' };
 }
 

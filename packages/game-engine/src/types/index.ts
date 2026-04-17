@@ -30,7 +30,7 @@ export type CardColor = 'Red' | 'Blue' | 'Green' | 'Purple' | 'Black' | 'Yellow'
 
 export type CardType = 'Leader' | 'Character' | 'Event' | 'Stage' | 'DON';
 
-export type GamePhase = 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
+export type GamePhase = 'Mulligan' | 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
@@ -89,6 +89,10 @@ export interface GameState {
   readonly activeCombat: CombatState | null;
   /** Set to the winning player's ID when the game ends, null otherwise */
   readonly winner: PlayerId | null;
+  /** ID of the player who goes first (used for first-turn restrictions) */
+  readonly firstPlayerId: PlayerId;
+  /** Players who have already made their mulligan decision */
+  readonly mulliganDecided: readonly PlayerId[];
 }
 
 // ─── Player setup (used in StartGame) ────────────────────────────────────────
@@ -104,6 +108,13 @@ export interface PlayerSetup {
 }
 
 // ─── Actions ──────────────────────────────────────────────────────────────────
+
+/** Active player decides to keep or reshuffle their starting hand (Mulligan phase) */
+export interface MulliganAction {
+  readonly type: 'Mulligan';
+  readonly playerId: PlayerId;
+  readonly keep: boolean;
+}
 
 /** Legacy low-level draw — usable outside phase restrictions */
 export interface DrawCardAction {
@@ -177,6 +188,7 @@ export interface ResolveCombatAction {
 }
 
 export type GameAction =
+  | MulliganAction
   | DrawCardAction
   | StartGameAction
   | DrawPhaseAction
@@ -233,5 +245,7 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     turnNumber: 0,
     activeCombat: null,
     winner: null,
+    firstPlayerId: p1,
+    mulliganDecided: [],
   };
 }

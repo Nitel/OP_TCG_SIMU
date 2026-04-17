@@ -51,7 +51,7 @@ function createInitialState(): GameState {
     type: 'StartGame',
     player1: buildSetup('p1'),
     player2: buildSetup('p2'),
-    firstPlayerId: p1,
+    firstPlayerId: Math.random() < 0.5 ? p1 : p2,
   });
   if (isGameError(result)) throw new Error(`StartGame failed: ${result.message}`);
   return result;

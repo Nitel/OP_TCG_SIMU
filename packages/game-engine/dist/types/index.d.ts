@@ -11,7 +11,7 @@ export declare function makePlayerId(id: string): PlayerId;
 export type Zone = 'deck' | 'hand' | 'board' | 'leader' | 'life' | 'donDeck' | 'donArea' | 'trash';
 export type CardColor = 'Red' | 'Blue' | 'Green' | 'Purple' | 'Black' | 'Yellow';
 export type CardType = 'Leader' | 'Character' | 'Event' | 'Stage' | 'DON';
-export type GamePhase = 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
+export type GamePhase = 'Mulligan' | 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
 export interface Card {
     readonly id: CardId;
     readonly name: string;
@@ -58,6 +58,10 @@ export interface GameState {
     readonly activeCombat: CombatState | null;
     /** Set to the winning player's ID when the game ends, null otherwise */
     readonly winner: PlayerId | null;
+    /** ID of the player who goes first (used for first-turn restrictions) */
+    readonly firstPlayerId: PlayerId;
+    /** Players who have already made their mulligan decision */
+    readonly mulliganDecided: readonly PlayerId[];
 }
 export interface PlayerSetup {
     readonly id: PlayerId;
@@ -67,6 +71,12 @@ export interface PlayerSetup {
     readonly deckCards: readonly Card[];
     /** The 10 DON!! cards */
     readonly donCards: readonly Card[];
+}
+/** Active player decides to keep or reshuffle their starting hand (Mulligan phase) */
+export interface MulliganAction {
+    readonly type: 'Mulligan';
+    readonly playerId: PlayerId;
+    readonly keep: boolean;
 }
 /** Legacy low-level draw — usable outside phase restrictions */
 export interface DrawCardAction {
@@ -130,7 +140,7 @@ export interface ResolveCombatAction {
     readonly type: 'ResolveCombat';
     readonly playerId: PlayerId;
 }
-export type GameAction = DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction | DeclareAttackAction | DeclareBlockAction | ResolveCombatAction;
+export type GameAction = MulliganAction | DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction | DeclareAttackAction | DeclareBlockAction | ResolveCombatAction;
 export interface GameError {
     readonly kind: 'GameError';
     readonly code: string;

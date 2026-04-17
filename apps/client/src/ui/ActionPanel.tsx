@@ -89,6 +89,23 @@ export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHand
 
         {/* ── Active player actions ─────────────────────────────────────── */}
 
+        {/* Mulligan phase: keep or reshuffle */}
+        {phase === 'Mulligan' && (
+          <>
+            <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#88ccff' }}>
+              Voulez-vous garder cette main ?
+            </span>
+            <button style={primaryBtn}
+              onClick={() => onAction({ type: 'Mulligan', playerId: activePlayerId, keep: true })}>
+              Garder la main
+            </button>
+            <button style={dangerBtn}
+              onClick={() => onAction({ type: 'Mulligan', playerId: activePlayerId, keep: false })}>
+              Relancer (Mulligan)
+            </button>
+          </>
+        )}
+
         {/* Refresh: just advance */}
         {phase === 'Refresh' && activeCombat === null && (
           <button style={primaryBtn} onClick={() => onAction({ type: 'EndPhase', playerId: activePlayerId })}>

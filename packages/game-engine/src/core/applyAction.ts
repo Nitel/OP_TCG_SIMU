@@ -14,12 +14,45 @@ import { resolveCombat } from '../rules/combat.js';
 
 // ─── Phase helpers ────────────────────────────────────────────────────────────
 
+// ─── Mulligan helpers ─────────────────────────────────────────────────────────
+
+function shuffle<T>(arr: readonly T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j]!, a[i]!];
+  }
+  return a;
+}
+
+function placeLifeCards(state: GameState, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+  const lifeIds = player.deck.slice(0, 5);
+  const remainingDeck = player.deck.slice(5);
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const id of lifeIds) {
+    updatedCards[id] = { ...updatedCards[id]!, zone: 'life' };
+  }
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: {
+      ...state.players,
+      [playerId]: { ...player, life: lifeIds, deck: remainingDeck },
+    },
+  };
+}
+
+// ─── Phase helpers ────────────────────────────────────────────────────────────
+
 /** Draw up to 2 DON!! from donDeck → donArea for the active player. */
 function applyDonDraw(state: GameState, playerId: PlayerId): GameState {
   const player = state.players[playerId];
   if (player === undefined) return state;
 
-  const count = Math.min(2, player.donDeck.length);
+  const isFirstTurnFirstPlayer = state.turnNumber === 1 && playerId === state.firstPlayerId;
+  const count = Math.min(isFirstTurnFirstPlayer ? 1 : 2, player.donDeck.length);
   if (count === 0) return state;
 
   const drawn    = player.donDeck.slice(0, count);
@@ -83,6 +116,66 @@ function applyReturnDon(state: GameState, playerId: PlayerId): GameState {
   };
 }
 
+// ─── Mulligan ─────────────────────────────────────────────────────────────────
+
+function applyMulligan(
+  state: GameState,
+  action: Extract<GameAction, { type: 'Mulligan' }>
+): ActionResult {
+  if (state.phase !== 'Mulligan') {
+    return makeGameError('WRONG_PHASE', `Mulligan requires Mulligan phase, current: ${state.phase}`);
+  }
+  if (action.playerId !== state.activePlayerId) {
+    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+  }
+  if (state.mulliganDecided.includes(action.playerId)) {
+    return makeGameError('ALREADY_MULLIGANED', `Player ${action.playerId} has already made their mulligan decision`);
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  let updatedPlayer = player;
+
+  if (!action.keep) {
+    // Return hand to deck, shuffle, draw 5 new cards
+    for (const id of player.hand) {
+      updatedCards[id] = { ...updatedCards[id]!, zone: 'deck' };
+    }
+    const shuffled = shuffle([...player.deck, ...player.hand]);
+    const newHand = shuffled.slice(0, 5);
+    const newDeck = shuffled.slice(5);
+    for (const id of newHand) {
+      updatedCards[id] = { ...updatedCards[id]!, zone: 'hand' };
+    }
+    updatedPlayer = { ...player, hand: newHand, deck: newDeck };
+  }
+
+  const newDecided = [...state.mulliganDecided, action.playerId];
+  let next: GameState = {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: { ...state.players, [action.playerId]: updatedPlayer },
+    mulliganDecided: newDecided,
+  };
+
+  const [p1, p2] = state.playerOrder;
+  if (newDecided.includes(p1) && newDecided.includes(p2)) {
+    // Both players decided — place life cards and start the game
+    next = placeLifeCards(next, p1);
+    next = placeLifeCards(next, p2);
+    next = { ...next, phase: 'Refresh', activePlayerId: state.firstPlayerId };
+    return applyRefresh(next, state.firstPlayerId);
+  } else {
+    // Pass decision to the other player
+    const nextPlayerId = action.playerId === p1 ? p2 : p1;
+    return { ...next, activePlayerId: nextPlayerId };
+  }
+}
+
 // ─── DrawCard (legacy) ────────────────────────────────────────────────────────
 
 function applyDrawCard(
@@ -144,25 +237,19 @@ function buildPlayerState(
     allCards[c.id] = c;
   }
 
-  // Top 5 → life (face-down)
-  const lifeIds = deckOrdered.slice(0, 5).map((c) => c.id);
-  for (const id of lifeIds) {
-    allCards[id] = { ...allCards[id]!, zone: 'life' };
-  }
-
-  // Next 5 → starting hand
-  const handIds = deckOrdered.slice(5, 10).map((c) => c.id);
+  // Top 5 → starting hand
+  const handIds = deckOrdered.slice(0, 5).map((c) => c.id);
   for (const id of handIds) {
     allCards[id] = { ...allCards[id]!, zone: 'hand' };
   }
 
-  // Rest stays in deck
-  const remainingDeckIds = deckOrdered.slice(10).map((c) => c.id);
+  // Rest stays in deck (life will be placed after mulligan decisions)
+  const remainingDeckIds = deckOrdered.slice(5).map((c) => c.id);
 
   return {
     id: setup.id,
     leader: leader.id,
-    life: lifeIds,
+    life: [],
     deck: remainingDeckIds,
     hand: handIds,
     board: [],
@@ -206,10 +293,12 @@ function applyStartGame(
     },
     playerOrder: [player1.id, player2.id],
     activePlayerId: firstPlayerId,
-    phase: 'Refresh',
+    phase: 'Mulligan',
     turnNumber: 1,
     activeCombat: null,
     winner: null,
+    firstPlayerId,
+    mulliganDecided: [],
   };
 }
 
@@ -224,6 +313,11 @@ function applyDrawPhase(
   }
   if (state.phase !== 'Draw') {
     return makeGameError('WRONG_PHASE', `DrawPhase requires Draw phase, current: ${state.phase}`);
+  }
+
+  // First player's first turn: skip draw, go directly to DON phase
+  if (state.turnNumber === 1 && state.firstPlayerId === action.playerId) {
+    return applyDonDraw({ ...state, phase: 'DON' }, action.playerId);
   }
 
   const player = state.players[action.playerId];
@@ -554,6 +648,8 @@ function applyResolveCombat(
 
 export function applyAction(state: GameState, action: GameAction): ActionResult {
   switch (action.type) {
+    case 'Mulligan':
+      return applyMulligan(state, action);
     case 'DrawCard':
       return applyDrawCard(state, action);
     case 'StartGame':

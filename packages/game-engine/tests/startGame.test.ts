@@ -86,18 +86,26 @@ describe('StartGame', () => {
     }
   });
 
-  it('chaque joueur a 5 cartes de vie', () => {
+  it('chaque joueur a 5 cartes de vie (après mulligan)', () => {
     const p1 = makePlayerId('p1');
     const p2 = makePlayerId('p2');
     const seed = makeEmptyState(p1, p2);
 
-    const result = applyAction(seed, {
+    let result = applyAction(seed, {
       type: 'StartGame',
       player1: makePlayerSetup('p1'),
       player2: makePlayerSetup('p2'),
       firstPlayerId: p1,
     });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
 
+    // Life cards are placed after both mulligan decisions
+    result = applyAction(result, { type: 'Mulligan', playerId: p1, keep: true });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    result = applyAction(result, { type: 'Mulligan', playerId: p2, keep: true });
     expect(isGameError(result)).toBe(false);
     if (!isGameError(result)) {
       expect(result.players[p1]!.life.length).toBe(5);
@@ -109,18 +117,25 @@ describe('StartGame', () => {
     }
   });
 
-  it('les cartes en main et en vie sont distinctes', () => {
+  it('les cartes en main et en vie sont distinctes (après mulligan)', () => {
     const p1 = makePlayerId('p1');
     const p2 = makePlayerId('p2');
     const seed = makeEmptyState(p1, p2);
 
-    const result = applyAction(seed, {
+    let result = applyAction(seed, {
       type: 'StartGame',
       player1: makePlayerSetup('p1'),
       player2: makePlayerSetup('p2'),
       firstPlayerId: p1,
     });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
 
+    result = applyAction(result, { type: 'Mulligan', playerId: p1, keep: true });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    result = applyAction(result, { type: 'Mulligan', playerId: p2, keep: true });
     expect(isGameError(result)).toBe(false);
     if (!isGameError(result)) {
       const p1Hand = new Set(result.players[p1]!.hand);

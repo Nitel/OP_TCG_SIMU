@@ -38,20 +38,25 @@ function makePlayerSetup(idStr: string, deckSize = 20): PlayerSetup {
   };
 }
 
-/** Bootstrap a full game state via StartGame, then override phase if needed */
+/** Bootstrap a full game state via StartGame + both mulligans, then override phase if needed */
 function bootstrapGame(phase: GameState['phase'] = 'Main'): GameState {
   const p1 = makePlayerId('p1');
   const p2 = makePlayerId('p2');
   const seed = makeEmptyState(p1, p2);
 
-  const result = applyAction(seed, {
+  let result = applyAction(seed, {
     type: 'StartGame',
     player1: makePlayerSetup('p1'),
     player2: makePlayerSetup('p2'),
     firstPlayerId: p1,
   });
-
   if (isGameError(result)) throw new Error(`StartGame failed: ${result.message}`);
+
+  result = applyAction(result, { type: 'Mulligan', playerId: p1, keep: true });
+  if (isGameError(result)) throw new Error(`Mulligan p1 failed: ${result.message}`);
+
+  result = applyAction(result, { type: 'Mulligan', playerId: p2, keep: true });
+  if (isGameError(result)) throw new Error(`Mulligan p2 failed: ${result.message}`);
 
   return { ...result, phase };
 }
@@ -60,7 +65,8 @@ function bootstrapGame(phase: GameState['phase'] = 'Main'): GameState {
 
 describe('DrawPhase', () => {
   it('le joueur actif pioche 1 carte', () => {
-    const state = bootstrapGame('Draw');
+    // Use turnNumber 2 — first player skips draw on their very first turn (turn 1)
+    const state = { ...bootstrapGame('Draw'), turnNumber: 2 };
     const p1 = makePlayerId('p1');
     const deckBefore = state.players[p1]!.deck.length;
     const handBefore = state.players[p1]!.hand.length;
