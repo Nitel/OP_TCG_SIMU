@@ -24,6 +24,8 @@ export interface Card {
     readonly tapped: boolean;
     /** DON cards only: ID of the character card this DON is attached to, or null */
     readonly attachedTo: CardId | null;
+    /** Keywords: 'Blocker', 'Rush', 'Banish', etc. */
+    readonly keywords?: readonly string[];
 }
 export interface PlayerState {
     readonly id: PlayerId;
@@ -37,6 +39,14 @@ export interface PlayerState {
     readonly donArea: readonly CardId[];
     readonly trash: readonly CardId[];
 }
+export interface CombatState {
+    /** The attacking card (already tapped) */
+    readonly attackerId: CardId;
+    /** The original declared target (character or leader) */
+    readonly targetId: CardId;
+    /** Blocker assigned by the defending player, or null if unblocked */
+    readonly blockerId: CardId | null;
+}
 export interface GameState {
     readonly cards: Readonly<Record<CardId, Card>>;
     readonly players: Readonly<Record<PlayerId, PlayerState>>;
@@ -44,6 +54,10 @@ export interface GameState {
     readonly activePlayerId: PlayerId;
     readonly phase: GamePhase;
     readonly turnNumber: number;
+    /** Pending combat waiting for block decision / resolution, or null */
+    readonly activeCombat: CombatState | null;
+    /** Set to the winning player's ID when the game ends, null otherwise */
+    readonly winner: PlayerId | null;
 }
 export interface PlayerSetup {
     readonly id: PlayerId;
@@ -89,7 +103,34 @@ export interface EndPhaseAction {
     readonly type: 'EndPhase';
     readonly playerId: PlayerId;
 }
-export type GameAction = DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction;
+/**
+ * Active player taps an attacker and declares a target (character or leader).
+ * Must be in Main phase. Sets activeCombat.
+ */
+export interface DeclareAttackAction {
+    readonly type: 'DeclareAttack';
+    readonly playerId: PlayerId;
+    readonly attackerId: CardId;
+    readonly targetId: CardId;
+}
+/**
+ * Defending player assigns a Blocker card to redirect the attack.
+ * Only valid while activeCombat is pending and no blocker is set yet.
+ */
+export interface DeclareBlockAction {
+    readonly type: 'DeclareBlock';
+    readonly playerId: PlayerId;
+    readonly blockerId: CardId;
+}
+/**
+ * Active player resolves the pending combat (after blocker decision).
+ * Compares powers, applies KO / leader damage, clears activeCombat.
+ */
+export interface ResolveCombatAction {
+    readonly type: 'ResolveCombat';
+    readonly playerId: PlayerId;
+}
+export type GameAction = DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction | DeclareAttackAction | DeclareBlockAction | ResolveCombatAction;
 export interface GameError {
     readonly kind: 'GameError';
     readonly code: string;

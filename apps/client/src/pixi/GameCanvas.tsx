@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
-import type { GameState } from 'game-engine';
+import type { CardId, GameState } from 'game-engine';
+import type { UIState } from '../ui/uiState';
 import { renderGameState } from './renderGameState';
 
 const CANVAS_W = 1200;
@@ -8,15 +9,18 @@ const CANVAS_H = 720;
 
 interface Props {
   gameState: GameState;
+  uiState: UIState;
+  onCardClick: (id: CardId) => void;
 }
 
 type Status = 'idle' | 'ready' | 'error';
 
-export function GameCanvas({ gameState }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sceneRef  = useRef<Container | null>(null);
-  const appRef    = useRef<Application | null>(null);
-  const [status, setStatus]     = useState<Status>('idle');
+export function GameCanvas({ gameState, uiState, onCardClick }: Props) {
+  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const sceneRef   = useRef<Container | null>(null);
+  const animRef    = useRef<Container | null>(null);
+  const appRef     = useRef<Application | null>(null);
+  const [status, setStatus]       = useState<Status>('idle');
   const [initError, setInitError] = useState<string>('');
 
   // ── Initialize PixiJS once on mount ─────────────────────────────────────
@@ -25,7 +29,7 @@ export function GameCanvas({ gameState }: Props) {
     if (canvas === null) return;
 
     let alive = true;
-    const app  = new Application();
+    const app = new Application();
 
     app
       .init({
@@ -37,14 +41,14 @@ export function GameCanvas({ gameState }: Props) {
         preference: 'webgl',
       })
       .then(() => {
-        if (!alive) {
-          app.destroy(false);
-          return;
-        }
+        if (!alive) { app.destroy(false); return; }
         const scene = new Container();
+        const animLayer = new Container();
         app.stage.addChild(scene);
-        appRef.current  = app;
+        app.stage.addChild(animLayer); // animLayer on top
+        appRef.current   = app;
         sceneRef.current = scene;
+        animRef.current  = animLayer;
         setStatus('ready');
       })
       .catch((err: unknown) => {
@@ -58,23 +62,25 @@ export function GameCanvas({ gameState }: Props) {
       const a = appRef.current;
       if (a !== null) {
         a.destroy(false);
-        appRef.current  = null;
+        appRef.current   = null;
         sceneRef.current = null;
+        animRef.current  = null;
         setStatus('idle');
       }
     };
   }, []);
 
-  // ── Re-render on every gameState change ──────────────────────────────────
+  // ── Re-render on every gameState / uiState change ────────────────────────
   useEffect(() => {
     const scene = sceneRef.current;
-    if (status !== 'ready' || scene === null) return;
+    const animLayer = animRef.current;
+    if (status !== 'ready' || scene === null || animLayer === null) return;
     try {
-      renderGameState(scene, gameState);
+      renderGameState(scene, animLayer, gameState, uiState, onCardClick);
     } catch (err) {
       console.error('[GameCanvas] renderGameState threw:', err);
     }
-  }, [status, gameState]);
+  }, [status, gameState, uiState, onCardClick]);
 
   if (status === 'error') {
     return (
