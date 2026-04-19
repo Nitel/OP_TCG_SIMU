@@ -131,6 +131,7 @@ function drawCard(
   isNew = false,
   attachedDonCount = 0,
   isCounter = false,
+  isDoubleAttacker = false,
 ): void {
   const fillColor = faceDown ? H.back : cardBodyColor(card);
 
@@ -157,16 +158,34 @@ function drawCard(
     }
 
     // Total power (base + DON boost) — bottom right for Leader and Character
+    // DoubleAttack attacker: show x2 effective power
     if (card.type === 'Leader' || card.type === 'Character') {
-      const totalPower = card.power + attachedDonCount * 1000;
-      const boosted = attachedDonCount > 0;
-      const powerFill = boosted ? C.yellow : C.purple;
+      const basePower  = card.power + attachedDonCount * 1000;
+      const totalPower = isDoubleAttacker ? basePower * 2 : basePower;
+      const boosted    = attachedDonCount > 0 || isDoubleAttacker;
+      const powerFill  = isDoubleAttacker ? C.red : boosted ? C.yellow : C.purple;
+      const powerLabel = isDoubleAttacker ? `${totalPower}(x2)` : `${totalPower}`;
       const powerTxt = new Text({
-        text: `${totalPower}`,
-        style: { fontSize: 10, fill: powerFill, fontFamily: 'monospace', fontWeight: boosted ? 'bold' : 'normal' },
+        text: powerLabel,
+        style: { fontSize: 9, fill: powerFill, fontFamily: 'monospace', fontWeight: boosted ? 'bold' : 'normal' },
       });
-      powerTxt.x = CARD_W - 32; powerTxt.y = CARD_H - 16;
+      powerTxt.x = CARD_W - 38; powerTxt.y = CARD_H - 16;
       cardContainer.addChild(powerTxt);
+    }
+
+    // Keywords (Rush, Blocker, etc.) — shown as small badges
+    if ((card.keywords ?? []).length > 0) {
+      const kw = (card.keywords ?? []).map((k: string) => {
+        if (k === 'DoubleAttack') return 'D.ATK';
+        if (k === 'Unblockable') return 'UNBK';
+        return k.toUpperCase().slice(0, 5);
+      }).join(' ');
+      const kwTxt = new Text({
+        text: kw,
+        style: { fontSize: 7, fill: C.yellow, fontFamily: 'monospace', fontWeight: 'bold' },
+      });
+      kwTxt.x = 3; kwTxt.y = CARD_H / 2 - 4;
+      cardContainer.addChild(kwTxt);
     }
 
     if (card.tapped) {
@@ -265,6 +284,7 @@ function drawSpread(
   onCardClick: (id: CardId) => void,
   newCardIds: ReadonlySet<CardId> = new Set(),
   counterDefenderId: PlayerId | null = null,
+  blockerLocked = false, // true when a blocker is already selected/declared (counter disabled)
 ): void {
   addText(scene, `${label} (${ids.length})`, x, y - 13, C.label);
 
@@ -279,7 +299,9 @@ function drawSpread(
     const isSelected = uiState.selectedCardId === id;
     const isTarget = isValidTarget(id, card, uiState, activePlayerId, allCards);
     // Highlight hand cards that can be played as counter by the defending player
+    // Disabled if a blocker is already selected or declared (mutual exclusion)
     const isCounter = !faceDown
+      && !blockerLocked
       && counterDefenderId !== null
       && card.ownerId === counterDefenderId
       && card.zone === 'hand'
@@ -334,6 +356,7 @@ function renderPlayer(
   counterDefenderId: PlayerId | null,
   hideCards: boolean,
   combatViewDefenderId: PlayerId | null,
+  doubleAttackerId: CardId | null,
 ): void {
   const isTop    = pos === 'top';
   const isActive = player.id === activePlayerId;
@@ -348,7 +371,9 @@ function renderPlayer(
   // - normal: only active player's hand face-up
   const handFaceDown = hideCards
     || (combatViewDefenderId !== null ? player.id !== combatViewDefenderId : !isActive);
-  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId);
+  // Counter cards are greyed out (no cyan highlight) if a blocker is selected or already declared
+  const blockerLocked = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
+  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId, blockerLocked);
 
   // DON row
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
@@ -399,6 +424,8 @@ function renderPlayer(
       const donCount = Object.values(allCards).filter(
         c => c.type === 'DON' && c.attachedTo === id
       ).length;
+      // DoubleAttack: show x2 power only when this card is the active attacker
+      const isDA = id === doubleAttackerId && (card.keywords ?? []).includes('DoubleAttack');
       drawCard(
         scene, card,
         COL_BOARD + i * (CARD_W + GAP), boardY,
@@ -406,6 +433,8 @@ function renderPlayer(
         () => onCardClick(id),
         newCardIds.has(id),
         donCount,
+        false, // isCounter — board cards are never counters
+        isDA,
       );
     });
   }
@@ -497,6 +526,14 @@ export function renderGameState(
     ? (state.activePlayerId === p1Id ? p2Id : p1Id)
     : null;
 
-  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId);
-  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId);
+  // DoubleAttack attacker: the attacker card id if it has DoubleAttack keyword
+  const doubleAttackerId = (() => {
+    if (state.activeCombat === null) return null;
+    const { attackerId } = state.activeCombat;
+    const attacker = state.cards[attackerId];
+    return (attacker?.keywords ?? []).includes('DoubleAttack') ? attackerId : null;
+  })();
+
+  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId);
+  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId);
 }

@@ -32,6 +32,77 @@ export type CardType = 'Leader' | 'Character' | 'Event' | 'Stage' | 'DON';
 
 export type GamePhase = 'Mulligan' | 'Refresh' | 'Draw' | 'DON' | 'Main' | 'End';
 
+// ─── DSL — Keywords ───────────────────────────────────────────────────────────
+
+export type CardKeyword =
+  | 'Rush'          // Can attack the turn it is played
+  | 'Blocker'       // Can intercept attacks targeting other cards (tap to redirect)
+  | 'Banish'        // KO'd cards are removed from game instead of trash
+  | 'DoubleAttack'  // Unblocked attacks on the leader deal 2 damage instead of 1
+  | 'Unblockable';  // Cannot be blocked
+
+// ─── DSL — Target selectors ───────────────────────────────────────────────────
+
+export type TargetSelector =
+  | { readonly scope: 'Self' }
+  | { readonly scope: 'Attacker' }
+  | { readonly scope: 'OriginalTarget' }
+  | { readonly scope: 'AllOpponentCharacters' }
+  | { readonly scope: 'AllOwnCharacters' }
+  | { readonly scope: 'OpponentLeader' }
+  | { readonly scope: 'OwnLeader' }
+  | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number }
+  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number };
+
+// ─── DSL — Duration ───────────────────────────────────────────────────────────
+
+export type EffectDuration = 'EndOfTurn' | 'EndOfBattle' | 'Permanent';
+
+// ─── DSL — Deck filter ────────────────────────────────────────────────────────
+
+export type DeckFilter =
+  | { readonly kind: 'Any' }
+  | { readonly kind: 'ByType'; readonly cardType: 'Character' | 'Event' | 'Stage' }
+  | { readonly kind: 'ByCost'; readonly maxCost: number }
+  | { readonly kind: 'ByName'; readonly name: string };
+
+// ─── DSL — Effect actions ─────────────────────────────────────────────────────
+
+export type EffectAction =
+  | { readonly type: 'Draw'; readonly count: number }
+  | { readonly type: 'KO'; readonly target: TargetSelector }
+  | { readonly type: 'ReturnToHand'; readonly target: TargetSelector }
+  | { readonly type: 'PowerBoost'; readonly amount: number; readonly target: TargetSelector; readonly duration: EffectDuration }
+  | { readonly type: 'TrashCard'; readonly count: number; readonly from: 'OpponentHand' | 'OwnHand' }
+  | { readonly type: 'AddLife'; readonly count: number }
+  | { readonly type: 'GiveDon'; readonly count: number }
+  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' };
+
+// ─── DSL — Triggers ───────────────────────────────────────────────────────────
+
+export type EffectTrigger =
+  | 'OnPlay'      // When this card is played from hand to the board
+  | 'OnAttack'    // When this card declares an attack
+  | 'OnKO'        // When this card is KO'd
+  | 'OnBlock'     // When this card becomes a blocker
+  | 'Trigger'     // When this card is revealed from the Life zone
+  | 'Activated';  // Activated ability during Main phase (future)
+
+// ─── DSL — Condition ──────────────────────────────────────────────────────────
+
+export type EffectCondition =
+  | { readonly type: 'Always' }
+  | { readonly type: 'TurnCount'; readonly min?: number; readonly max?: number }
+  | { readonly type: 'HasRestingDon'; readonly count: number };
+
+// ─── DSL — CardEffect ─────────────────────────────────────────────────────────
+
+export interface CardEffect {
+  readonly trigger: EffectTrigger;
+  readonly condition?: EffectCondition;
+  readonly actions: readonly EffectAction[];
+}
+
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
 export interface Card {
@@ -46,10 +117,17 @@ export interface Card {
   readonly tapped: boolean;
   /** DON cards only: ID of the character card this DON is attached to, or null */
   readonly attachedTo: CardId | null;
-  /** Keywords: 'Blocker', 'Rush', 'Banish', etc. */
-  readonly keywords?: readonly string[];
+  /** Keywords: 'Blocker', 'Rush', 'DoubleAttack', 'Unblockable', 'Banish' */
+  readonly keywords?: readonly CardKeyword[];
   /** Counter value: power boost this card provides when played from hand during combat */
   readonly counter?: number;
+  /** DSL-encoded card effects (OnPlay, OnAttack, OnKO, Trigger, …) */
+  readonly effects?: readonly CardEffect[];
+  /**
+   * Temporary power modifier (e.g. OnAttack PowerBoost).
+   * Added to calculatePower; cleared at end of battle (EndOfBattle) or end of turn (EndOfTurn).
+   */
+  readonly powerModifier?: number;
 }
 
 // ─── Player state ─────────────────────────────────────────────────────────────

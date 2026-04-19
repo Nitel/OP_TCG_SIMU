@@ -28,8 +28,8 @@ apps/client/            React 18 + PixiJS 8 + Vite 5
 - ✅ Step 3 — Refresh / DON!! / End phases + turn manager
 - ✅ Step 4 — Combat system (attack, block, KO, damage, victory)
 - ✅ Step 5 — Client: Vite + React + PixiJS plateau (rendering only)
-- ⏳ **Step 6** — Interactive hotseat loop (click handlers, GSAP animations, full game to victory)
-- 🔲 Step 7 — Card effects DSL + LLM pipeline
+- ✅ Step 6 — Interactive hotseat loop (click handlers, hotseat/combat handoff, full game to victory)
+- ⏳ **Step 7** — Card effects DSL + LLM pipeline
 - 🔲 Step 8 — Node.js + Socket.IO multiplayer server
 - 🔲 Step 9 — Network synchronization
 

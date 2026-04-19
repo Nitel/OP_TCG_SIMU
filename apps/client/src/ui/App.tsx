@@ -6,7 +6,7 @@ import {
   makeCardId,
   isGameError,
 } from 'game-engine';
-import type { Card, CardId, GameAction, GameState, PlayerSetup } from 'game-engine';
+import type { Card, CardId, CardKeyword, GameAction, GameState, PlayerSetup } from 'game-engine';
 import { GameCanvas } from '../pixi/GameCanvas';
 import { GameUI } from './GameUI';
 import { ActionPanel } from './ActionPanel';
@@ -15,7 +15,7 @@ import { IDLE_UI } from './uiState';
 
 // ─── Bootstrap helpers ────────────────────────────────────────────────────────
 
-function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0, counter?: number): Card {
+function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0, counter?: number, keywords?: readonly CardKeyword[]): Card {
   return {
     id: makeCardId(id),
     name: id,
@@ -28,6 +28,7 @@ function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0, cou
     tapped: false,
     attachedTo: null,
     ...(counter !== undefined ? { counter } : {}),
+    ...(keywords !== undefined && keywords.length > 0 ? { keywords } : {}),
   };
 }
 
@@ -35,9 +36,16 @@ function buildSetup(idStr: string): PlayerSetup {
   return {
     id: makePlayerId(idStr),
     leaderCard: stubCard(`${idStr}-leader`, idStr, 'Leader'),
-    deckCards: Array.from({ length: 20 }, (_, i) =>
-      stubCard(`${idStr}-d${i}`, idStr, 'Character', (i % 5) + 1, i % 3 === 0 ? 2000 : i % 3 === 1 ? 1000 : undefined)
-    ),
+    deckCards: Array.from({ length: 20 }, (_, i) => {
+      const kwMap: (readonly CardKeyword[] | undefined)[] = [
+        ['Rush'], ['Blocker'], ['DoubleAttack'], ['Unblockable'], undefined,
+      ];
+      return stubCard(
+        `${idStr}-d${i}`, idStr, 'Character', (i % 5) + 1,
+        i % 3 === 0 ? 2000 : i % 3 === 1 ? 1000 : undefined,
+        kwMap[i % 5],
+      );
+    }),
     donCards: Array.from({ length: 10 }, (_, i) =>
       stubCard(`${idStr}-don${i}`, idStr, 'DON')
     ),
@@ -173,20 +181,24 @@ export function App() {
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'assignDon' };
       }
 
-      // Defender clicking a hand card with counter value during combat → play counter immediately
+      // Defender clicking a hand card with counter value during combat
+      // → stage the counter (requires confirmation); blocked if a blocker is already selected
       if (activeCombat !== null && card.ownerId === defenderId &&
           card.zone === 'hand' && (card.counter ?? 0) > 0) {
-        setTimeout(() => dispatch({
-          type: 'PlayCounter',
-          playerId: defenderId,
-          cardId,
-        }), 0);
-        return IDLE_UI;
+        // Cannot counter if a blocker is already declared (blocker.blockerId set)
+        if (activeCombat.blockerId !== null) {
+          return { ...IDLE_UI, errorMessage: 'Impossible : un bloqueur est déjà engagé dans ce combat.' };
+        }
+        return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'playCounter' };
       }
 
       // Defender selecting a blocker during combat
+      // → blocked if a counter has already been played or staged
       if (activeCombat !== null && card.ownerId === defenderId &&
           card.zone === 'board' && !card.tapped) {
+        if (activeCombat.counterPower > 0) {
+          return { ...IDLE_UI, errorMessage: 'Impossible : un contre a déjà été joué dans ce combat.' };
+        }
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'declareBlock' };
       }
 
