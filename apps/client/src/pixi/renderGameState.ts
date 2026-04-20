@@ -121,7 +121,8 @@ function showCardPreview(card: Card): void {
   layer.addChild(backdrop);
 
   // Card artwork (or coloured placeholder)
-  const cachedTex = textureCache.get(card.id);
+  const previewTemplateId = card.id.match(/OP\d{2}-\d{3}/)?.[0] ?? card.id;
+  const cachedTex = textureCache.get(previewTemplateId);
   if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
     const sprite = new Sprite(cachedTex);
     sprite.x = px; sprite.y = py;
@@ -202,17 +203,33 @@ function loadCardTexture(cardId: string): void {
     textureCache.set(cardId, Texture.EMPTY); // DON!! cards
     return;
   }
+  if (textureCache.has(templateId)) return; // already loaded or loading
+  textureCache.set(templateId, Texture.EMPTY); // mark as loading
   const url1 = `/card-images/${templateId}_p1.png`;
   const url2 = `/card-images/${templateId}.png`;
   (Assets.load(url1) as Promise<Texture>)
     .catch(() => Assets.load(url2) as Promise<Texture>)
     .then((tex: Texture) => {
-      textureCache.set(cardId, tex);
+      textureCache.set(templateId, tex);
       rerenderCallback?.();
     })
     .catch(() => {
-      textureCache.set(cardId, Texture.EMPTY);
+      textureCache.set(templateId, Texture.EMPTY);
     });
+}
+
+export function preloadAllTextures(templateIds: string[]): void {
+  for (const templateId of templateIds) {
+    if (textureCache.has(templateId)) continue;
+    textureCache.set(templateId, Texture.EMPTY); // mark as loading
+    const url = `/card-images/${templateId}_p1.png`;
+    (Assets.load(url) as Promise<Texture>)
+      .then((tex: Texture) => {
+        textureCache.set(templateId, tex);
+        rerenderCallback?.();
+      })
+      .catch(() => { /* keep EMPTY */ });
+  }
 }
 
 // ─── Primitives ───────────────────────────────────────────────────────────────
@@ -289,7 +306,8 @@ function drawCard(
 
   // Card artwork sprite (lazy-loaded, replaces bg when available)
   if (!faceDown) {
-    const cachedTex = textureCache.get(card.id);
+    const cardTemplateId = card.id.match(/OP\d{2}-\d{3}/)?.[0] ?? card.id;
+    const cachedTex = textureCache.get(cardTemplateId);
     if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
       const sprite = new Sprite(cachedTex);
       sprite.width = CARD_W;

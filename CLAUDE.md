@@ -22,7 +22,7 @@ apps/client/            React 18 + PixiJS 8 + Vite 5
 | Dev client | `cd apps/client && pnpm dev` |
 | Watch tests | `cd packages/game-engine && pnpm test:watch` |
 
-## 9-Step Roadmap
+## 10-Step Roadmap
 - ✅ Step 1 — Monorepo + game-engine skeleton
 - ✅ Step 2 — Zone modeling + phase actions
 - ✅ Step 3 — Refresh / DON!! / End phases + turn manager
@@ -32,6 +32,7 @@ apps/client/            React 18 + PixiJS 8 + Vite 5
 - ⏳ **Step 7** — Card effects DSL + LLM pipeline
 - 🔲 Step 8 — Node.js + Socket.IO multiplayer server
 - 🔲 Step 9 — Network synchronization
+- 🔲 Step 10 — UI redesign (Claude Artifacts mockups → responsive 1920×1080)
 
 Full spec: `resources/onepiece-tcg-claude-code-prompt.md`
 

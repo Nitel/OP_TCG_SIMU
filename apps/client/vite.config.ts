@@ -8,14 +8,4 @@ export default defineConfig({
     // are resolved correctly during dev (avoids 404 + null shader source)
     include: ['pixi.js'],
   },
-  server: {
-    proxy: {
-      // Proxy card image requests through the dev server to bypass CORS
-      '/card-images': {
-        target: 'https://en.onepiece-cardgame.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/card-images/, '/images/cardlist/card'),
-      },
-    },
-  },
 });

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
 import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
-import { renderGameState, setRerenderCallback, setPreviewLayer } from './renderGameState';
+import { renderGameState, setRerenderCallback, setPreviewLayer, preloadAllTextures } from './renderGameState';
 
 const CANVAS_W = 1600;
 const CANVAS_H = 960;
@@ -98,6 +98,13 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
     const scene = sceneRef.current;
     const animLayer = animRef.current;
     if (status !== 'ready' || scene === null || animLayer === null) return;
+    // Preload only the cards present in this game state (server will filter in online mode)
+    const templateIds = [...new Set(
+      Object.values(gameState.cards)
+        .map(c => c.id.match(/OP\d{2}-\d{3}/)?.[0])
+        .filter((id): id is string => id !== undefined),
+    )];
+    preloadAllTextures(templateIds);
     try {
       renderGameState(scene, animLayer, gameState, uiState, onCardClick, hideCards, combatViewDefenderId);
     } catch (err) {

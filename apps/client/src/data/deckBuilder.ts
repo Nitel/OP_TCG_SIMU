@@ -122,3 +122,8 @@ export function buildRandomDeck(playerId: PlayerId): PlayerSetup {
 
   return { id: playerId, leaderCard, deckCards, donCards };
 }
+
+/** All unique OP01 template IDs — used to preload card images at startup. */
+export const OP01_TEMPLATE_IDS: string[] = [
+  ...new Set((op01Raw as unknown as RawCard[]).map((c) => c.id)),
+];
