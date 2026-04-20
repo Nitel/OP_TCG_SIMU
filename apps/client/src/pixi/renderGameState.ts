@@ -1,4 +1,4 @@
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics, Text, Sprite, Texture, Assets } from 'pixi.js';
 import type { Card, CardId, GameState, PlayerId, PlayerState } from 'game-engine';
 // combatViewDefenderId: when set, show that player's hand and hide the attacker's hand
 import type { UIState } from '../ui/uiState';
@@ -73,6 +73,29 @@ const H = {
   validTarget: 0x44ff88,
 };
 
+// ─── Card texture cache ───────────────────────────────────────────────────────
+
+const textureCache = new Map<string, Texture>();
+let rerenderCallback: (() => void) | null = null;
+
+export function setRerenderCallback(cb: () => void): void {
+  rerenderCallback = cb;
+}
+
+function getCardImageUrl(cardId: string): string {
+  return `/card-images/${cardId}_p1.png`;
+}
+
+function loadCardTexture(cardId: string): void {
+  const url = getCardImageUrl(cardId);
+  (Assets.load(url) as Promise<Texture>).then((tex: Texture) => {
+    textureCache.set(cardId, tex);
+    rerenderCallback?.();
+  }).catch(() => {
+    textureCache.set(cardId, Texture.EMPTY);
+  });
+}
+
 // ─── Primitives ───────────────────────────────────────────────────────────────
 
 function addRect(
@@ -144,6 +167,20 @@ function drawCard(
   bg.rect(0, 0, CARD_W, CARD_H);
   bg.fill({ color: fillColor });
   cardContainer.addChild(bg);
+
+  // Card artwork sprite (lazy-loaded, replaces bg when available)
+  if (!faceDown) {
+    const cachedTex = textureCache.get(card.id);
+    if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
+      const sprite = new Sprite(cachedTex);
+      sprite.width = CARD_W;
+      sprite.height = CARD_H;
+      cardContainer.addChild(sprite);
+    } else if (cachedTex === undefined) {
+      loadCardTexture(card.id);
+      // bg stays visible as placeholder
+    }
+  }
 
   if (!faceDown) {
     const name = card.name.length > 7 ? `${card.name.slice(0, 6)}…` : card.name;

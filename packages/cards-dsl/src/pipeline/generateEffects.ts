@@ -1,7 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+// Load .env from repo root automatically (dev convenience — no extra dependency)
+{
+  const envFile = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../.env');
+  if (existsSync(envFile)) {
+    readFileSync(envFile, 'utf8').split('\n').forEach((line: string) => {
+      const m = line.match(/^([A-Z_][A-Z0-9_]*)=(.+)$/);
+      if (m !== null) process.env[m[1]] ??= m[2]!.replace(/^['"]|['"]$/g, '');
+    });
+  }
+}
 import { parseCardDefinition } from '../parser/effectParser.js';
 import { SYSTEM_PROMPT, buildUserMessage } from './prompts.js';
 import type { RawCard } from './fetchCards.js';

@@ -1,4 +1,14 @@
-import type { Card, CardId, GameState, PlayerState, PlayerId } from '../types/index.js';
+import type { Card, CardId, CardKeyword, GameState, PlayerState, PlayerId } from '../types/index.js';
+
+// ─── hasKeyword ───────────────────────────────────────────────────────────────
+
+/**
+ * Returns true if `card` has `kw` as a permanent or temporary keyword.
+ */
+export function hasKeyword(card: Card, kw: CardKeyword): boolean {
+  return (card.keywords ?? []).includes(kw) ||
+         (card.temporaryKeywords ?? []).includes(kw);
+}
 
 // ─── calculatePower ───────────────────────────────────────────────────────────
 
@@ -28,6 +38,26 @@ export function clearPowerModifiers(state: GameState, cardIds: readonly CardId[]
     if (updatedCards[id]?.powerModifier !== undefined) {
       const { powerModifier: _pm, ...rest } = updatedCards[id]!;
       void _pm;
+      updatedCards[id] = rest;
+      changed = true;
+    }
+  }
+  if (!changed) return state;
+  return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+}
+
+// ─── clearTemporaryKeywords ───────────────────────────────────────────────────
+
+/**
+ * Remove all `temporaryKeywords` from every card in state (called at end of turn).
+ */
+export function clearTemporaryKeywords(state: GameState): GameState {
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  let changed = false;
+  for (const [id, card] of Object.entries(state.cards)) {
+    if (card.temporaryKeywords !== undefined && card.temporaryKeywords.length > 0) {
+      const { temporaryKeywords: _tk, ...rest } = card;
+      void _tk;
       updatedCards[id] = rest;
       changed = true;
     }

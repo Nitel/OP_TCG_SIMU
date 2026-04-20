@@ -47,10 +47,22 @@ export type EffectAction =
   | { readonly type: 'TrashCard'; readonly count: number; readonly from: 'OpponentHand' | 'OwnHand' }
   /** Add count life cards from top of deck to life zone */
   | { readonly type: 'AddLife'; readonly count: number }
+  /** Remove count life cards from a player's life zone (trash them) */
+  | { readonly type: 'RemoveLife'; readonly count: number }
   /** Give count DON!! cards to the opponent (from their donDeck) */
   | { readonly type: 'GiveDon'; readonly count: number }
   /** Search the deck for a card matching filter and put it in destination */
-  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' };
+  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' }
+  /** Rest (tap) a target character — it cannot attack next turn */
+  | { readonly type: 'Rest'; readonly target: TargetSelector }
+  /** Play this card onto the board for free (used in Trigger effects) */
+  | { readonly type: 'PlaySelf' }
+  /** Take count life cards from own life zone and put them into hand (life zone shrinks, hand grows) */
+  | { readonly type: 'TakeLifeToHand'; readonly count: number }
+  /** Attach count DON!! cards to target character, boosting its power (+1000 per DON) */
+  | { readonly type: 'AttachDon'; readonly count: number; readonly target: TargetSelector }
+  /** Target character gains the given keyword for the specified duration */
+  | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration };
 
 // ─── Trigger ──────────────────────────────────────────────────────────────────
 

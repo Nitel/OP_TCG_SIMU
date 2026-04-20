@@ -76,7 +76,13 @@ export type EffectAction =
   | { readonly type: 'TrashCard'; readonly count: number; readonly from: 'OpponentHand' | 'OwnHand' }
   | { readonly type: 'AddLife'; readonly count: number }
   | { readonly type: 'GiveDon'; readonly count: number }
-  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' };
+  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' }
+  | { readonly type: 'TakeLifeToHand'; readonly count: number }
+  | { readonly type: 'AttachDon'; readonly count: number; readonly target: TargetSelector }
+  | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration }
+  | { readonly type: 'Rest'; readonly target: TargetSelector }
+  | { readonly type: 'RemoveLife'; readonly count: number }
+  | { readonly type: 'PlaySelf' };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
@@ -128,6 +134,8 @@ export interface Card {
    * Added to calculatePower; cleared at end of battle (EndOfBattle) or end of turn (EndOfTurn).
    */
   readonly powerModifier?: number;
+  /** Temporary keywords granted by GainKeyword effects — cleared at end of turn */
+  readonly temporaryKeywords?: readonly CardKeyword[];
 }
 
 // ─── Player state ─────────────────────────────────────────────────────────────

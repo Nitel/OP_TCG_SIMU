@@ -1,0 +1,31 @@
+{
+  "id": "OP01-014",
+  "name": "Jinbe (014)",
+  "cost": 4,
+  "power": 5000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 2
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "counter": 0
+}

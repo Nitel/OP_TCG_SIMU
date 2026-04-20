@@ -213,6 +213,129 @@ function resolveAction(
       };
     }
 
+    // ── TakeLifeToHand ────────────────────────────────────────────────────────
+    case 'TakeLifeToHand': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined || player.life.length === 0) return state;
+      const count = Math.min(action.count, player.life.length);
+      // Top of life zone = last element in the array
+      const taken = player.life.slice(-count);
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of taken) {
+        updatedCards[id] = { ...updatedCards[id]!, zone: 'hand' as const };
+      }
+      const updatedPlayer: PlayerState = {
+        ...player,
+        life: player.life.slice(0, player.life.length - count),
+        hand: [...player.hand, ...taken],
+      };
+      return {
+        ...state,
+        cards: updatedCards as Readonly<Record<CardId, Card>>,
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+    }
+
+    // ── AttachDon ─────────────────────────────────────────────────────────────
+    case 'AttachDon': {
+      const targets = selectTargets(action.target, context, state);
+      if (targets.length === 0) return state;
+      const targetId = targets[0]!;
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      // Find untapped, unattached DON cards in the player's donArea
+      const freeDon = player.donArea.filter((id) => {
+        const d = state.cards[id];
+        return d !== undefined && !d.tapped && d.attachedTo === null;
+      });
+      const count = Math.min(action.count, freeDon.length);
+      if (count === 0) return state;
+      const toAttach = freeDon.slice(0, count);
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of toAttach) {
+        updatedCards[id] = { ...updatedCards[id]!, tapped: true, attachedTo: targetId as CardId };
+      }
+      return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+    }
+
+    // ── GainKeyword ───────────────────────────────────────────────────────────
+    case 'GainKeyword': {
+      const targets = selectTargets(action.target, context, state);
+      if (targets.length === 0) return state;
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of targets) {
+        const card = state.cards[id];
+        if (card !== undefined) {
+          const existing = card.temporaryKeywords ?? [];
+          updatedCards[id] = {
+            ...card,
+            temporaryKeywords: existing.includes(action.keyword)
+              ? existing
+              : [...existing, action.keyword],
+          };
+        }
+      }
+      return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+    }
+
+    // ── Rest ──────────────────────────────────────────────────────────────────
+    case 'Rest': {
+      const targets = selectTargets(action.target, context, state);
+      if (targets.length === 0) return state;
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of targets) {
+        const card = state.cards[id];
+        if (card !== undefined) {
+          updatedCards[id] = { ...card, tapped: true };
+        }
+      }
+      return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+    }
+
+    // ── RemoveLife ────────────────────────────────────────────────────────────
+    case 'RemoveLife': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined || player.life.length === 0) return state;
+      const count = Math.min(action.count, player.life.length);
+      const toTrash = player.life.slice(-count);
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of toTrash) {
+        updatedCards[id] = { ...updatedCards[id]!, zone: 'trash' as const };
+      }
+      const updatedPlayer: PlayerState = {
+        ...player,
+        life: player.life.slice(0, player.life.length - count),
+        trash: [...player.trash, ...toTrash],
+      };
+      return {
+        ...state,
+        cards: updatedCards as Readonly<Record<CardId, Card>>,
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+    }
+
+    // ── PlaySelf ──────────────────────────────────────────────────────────────
+    case 'PlaySelf': {
+      // Put the source card onto the board for free (Trigger effect)
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      const card = state.cards[context.sourceCardId];
+      if (card === undefined) return state;
+      const updatedPlayer: PlayerState = {
+        ...player,
+        hand: player.hand.filter((id) => id !== context.sourceCardId),
+        board: [...player.board, context.sourceCardId],
+      };
+      return {
+        ...state,
+        cards: {
+          ...state.cards,
+          [context.sourceCardId]: { ...card, zone: 'board' as const },
+        },
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+    }
+
     // ── SearchDeck ────────────────────────────────────────────────────────────
     case 'SearchDeck': {
       // Find the first card in deck matching the filter

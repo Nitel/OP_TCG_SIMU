@@ -73,6 +73,11 @@ function validateAction(action: unknown, path: string): ParseError[] {
         errors.push({ path: `${path}.count`, message: 'AddLife.count must be a positive number' });
       }
       break;
+    case 'RemoveLife':
+      if (typeof a['count'] !== 'number' || a['count'] < 1) {
+        errors.push({ path: `${path}.count`, message: 'RemoveLife.count must be a positive number' });
+      }
+      break;
     case 'GiveDon':
       if (typeof a['count'] !== 'number' || a['count'] < 1) {
         errors.push({ path: `${path}.count`, message: 'GiveDon.count must be a positive number' });
@@ -81,6 +86,32 @@ function validateAction(action: unknown, path: string): ParseError[] {
     case 'SearchDeck':
       if (!['hand', 'board'].includes(a['destination'] as string)) {
         errors.push({ path: `${path}.destination`, message: 'SearchDeck.destination must be hand or board' });
+      }
+      break;
+    case 'Rest':
+      errors.push(...validateTarget(a['target'], `${path}.target`));
+      break;
+    case 'PlaySelf':
+      // No fields to validate
+      break;
+    case 'TakeLifeToHand':
+      if (typeof a['count'] !== 'number' || a['count'] < 1) {
+        errors.push({ path: `${path}.count`, message: 'TakeLifeToHand.count must be a positive number' });
+      }
+      break;
+    case 'AttachDon':
+      if (typeof a['count'] !== 'number' || a['count'] < 1) {
+        errors.push({ path: `${path}.count`, message: 'AttachDon.count must be a positive number' });
+      }
+      errors.push(...validateTarget(a['target'], `${path}.target`));
+      break;
+    case 'GainKeyword':
+      if (!VALID_KEYWORDS.includes(a['keyword'] as CardKeyword)) {
+        errors.push({ path: `${path}.keyword`, message: `GainKeyword.keyword is invalid: ${String(a['keyword'])}` });
+      }
+      errors.push(...validateTarget(a['target'], `${path}.target`));
+      if (!['EndOfTurn', 'EndOfBattle', 'Permanent'].includes(a['duration'] as string)) {
+        errors.push({ path: `${path}.duration`, message: 'GainKeyword.duration is invalid' });
       }
       break;
     default:

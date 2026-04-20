@@ -1,0 +1,25 @@
+{
+  "id": "OP01-005",
+  "name": "Uta",
+  "cost": 4,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 3
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "counter": 0
+}

@@ -48,9 +48,15 @@ type EffectAction =
   | { type: "ReturnToHand"; target: TargetSelector }
   | { type: "PowerBoost"; amount: number; target: TargetSelector; duration: "EndOfTurn" | "EndOfBattle" | "Permanent" }
   | { type: "TrashCard"; count: number; from: "OpponentHand" | "OwnHand" }
-  | { type: "AddLife"; count: number }
+  | { type: "AddLife"; count: number }        // count must be >= 1
+  | { type: "RemoveLife"; count: number }     // "trash 1 life", "remove a life card" → count >= 1
   | { type: "GiveDon"; count: number }
-  | { type: "SearchDeck"; filter: DeckFilter; destination: "hand" | "board" };
+  | { type: "SearchDeck"; filter: DeckFilter; destination: "hand" | "board" }
+  | { type: "Rest"; target: TargetSelector }  // "rest" / "tap" a character
+  | { type: "PlaySelf" }                      // "[Trigger] Play this card" — put this card on the board for free
+  | { type: "TakeLifeToHand"; count: number } // "add N card(s) from your Life area to your hand" — count >= 1
+  | { type: "AttachDon"; count: number; target: TargetSelector }  // "give this Character up to N rested DON!!" — attach DON to boost power
+  | { type: "GainKeyword"; keyword: CardKeyword; target: TargetSelector; duration: "EndOfTurn" | "EndOfBattle" | "Permanent" }; // "this card gains [Rush]" for a duration
 
 type TargetSelector =
   | { scope: "Self" }
@@ -74,11 +80,19 @@ type DeckFilter =
 
 1. Return ONLY valid JSON. No markdown, no code blocks, no explanation.
 2. Use ONLY the types listed above — never invent new action types, triggers, or scopes.
-3. If the effect text cannot be mapped to the schema (e.g. very complex conditional effects), return an empty effects array: \`"effects": []\`.
-4. Keywords found in the "Attribute" field map directly: "Rush" → "Rush", "Blocker" → "Blocker", etc.
-5. Keywords also found in effect text (e.g. "This card gains [Double Attack]") should be added to the keywords array.
-6. If the card has no effect, use \`"effects": []\`.
-7. The \`counter\` field must be omitted if the card has no counter value.
+3. If an effect's actions cannot be fully mapped, **omit that entire effect object** from the array. Never include an effect with an empty \`actions: []\`.
+4. If NO effects can be mapped, use \`"effects": []\`.
+5. The \`keywords\` array contains ONLY mechanical keywords: "Rush", "Blocker", "Banish", "DoubleAttack", "Unblockable". **Never add card type attributes** (Slash, Strike, Special, Wisdom, Ranged, etc.) — these are flavor types, not mechanical keywords.
+6. Keywords found in the "Attribute" field map directly: "Rush" → "Rush", "Blocker" → "Blocker", etc. Anything else in Attribute is NOT a keyword — ignore it.
+7. Keywords also found in effect text (e.g. "This card gains [Double Attack]") should be added to the keywords array.
+8. If the card has no effect, use \`"effects": []\`.
+9. The \`counter\` field must be omitted if the card has no counter value.
+10. "Trash 1 of your life" / "remove a life card" → \`{ "type": "RemoveLife", "count": 1 }\`. Never use AddLife with a negative count.
+11. "[Trigger] Play this card" (put the card on the board for free) → \`{ "trigger": "Trigger", "actions": [{ "type": "PlaySelf" }] }\`.
+12. "Rest" / "tap" an opponent's character → \`{ "type": "Rest", "target": { "scope": "ChooseOpponentCharacter" } }\`.
+13. "Add N card(s) from your Life area to your hand" → \`{ "type": "TakeLifeToHand", "count": N }\`. Never use RemoveLife for this — RemoveLife trashes the card, TakeLifeToHand puts it in hand.
+14. "Give this Character up to N rested DON!!" / "attach N DON!! to [target]" → \`{ "type": "AttachDon", "count": N, "target": { "scope": "Self" } }\`.
+15. "This card gains [Rush] / [Blocker] / etc. during this turn" → \`{ "type": "GainKeyword", "keyword": "Rush", "target": { "scope": "Self" }, "duration": "EndOfTurn" }\`. Do NOT add to the keywords array — it is a temporary effect, not a permanent keyword.
 
 ## Examples
 

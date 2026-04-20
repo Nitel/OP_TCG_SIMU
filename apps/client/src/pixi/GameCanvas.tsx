@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
 import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
-import { renderGameState } from './renderGameState';
+import { renderGameState, setRerenderCallback } from './renderGameState';
 
 const CANVAS_W = 1200;
 const CANVAS_H = 720;
@@ -24,6 +24,10 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
   const appRef     = useRef<Application | null>(null);
   const [status, setStatus]       = useState<Status>('idle');
   const [initError, setInitError] = useState<string>('');
+
+  // Keep a ref to the latest render props for the texture-loaded callback
+  const renderPropsRef = useRef({ gameState, uiState, onCardClick, hideCards, combatViewDefenderId });
+  renderPropsRef.current = { gameState, uiState, onCardClick, hideCards, combatViewDefenderId };
 
   // ── Initialize PixiJS once on mount ─────────────────────────────────────
   useEffect(() => {
@@ -51,6 +55,17 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
         appRef.current   = app;
         sceneRef.current = scene;
         animRef.current  = animLayer;
+        setRerenderCallback(() => {
+          const s = sceneRef.current;
+          const al = animRef.current;
+          if (s === null || al === null) return;
+          const p = renderPropsRef.current;
+          try {
+            renderGameState(s, al, p.gameState, p.uiState, p.onCardClick, p.hideCards, p.combatViewDefenderId);
+          } catch (err) {
+            console.error('[GameCanvas] texture rerender threw:', err);
+          }
+        });
         setStatus('ready');
       })
       .catch((err: unknown) => {
