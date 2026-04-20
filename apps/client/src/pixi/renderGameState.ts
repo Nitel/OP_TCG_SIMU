@@ -1,4 +1,4 @@
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics, Text, Sprite, Texture, Assets } from 'pixi.js';
 import type { Card, CardId, GameState, PlayerId, PlayerState } from 'game-engine';
 // combatViewDefenderId: when set, show that player's hand and hide the attacker's hand
 import type { UIState } from '../ui/uiState';
@@ -6,14 +6,14 @@ import { flashLife, koFade, scaleIn } from './animations';
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
 
-const CANVAS_W = 1200;
-const CANVAS_H = 720;
-const CARD_W   = 60;
-const CARD_H   = 84;
-const GAP      = 6;
-const ROW_GAP  = 2;
-const LEFT     = 16;
-const SEP_Y    = CANVAS_H / 2; // 360
+const CANVAS_W = 1600;
+const CANVAS_H = 960;
+const CARD_W   = 80;
+const CARD_H   = 112;
+const GAP      = 8;
+const ROW_GAP  = 3;
+const LEFT     = 20;
+const SEP_Y    = CANVAS_H / 2; // 480
 
 const COL_LIFE    = LEFT;
 const COL_LEADER  = COL_LIFE   + CARD_W + GAP;
@@ -25,12 +25,12 @@ const COL_TRASH    = CANVAS_W - LEFT - CARD_W;
 const COL_BOARD    = LEFT;
 const COL_HAND     = LEFT;
 
-const P2_HAND_Y    = 14;
+const P2_HAND_Y    = 18;
 const P2_DON_ROW_Y = P2_HAND_Y    + CARD_H + ROW_GAP;
 const P2_MID_ROW_Y = P2_DON_ROW_Y + CARD_H + ROW_GAP;
 const P2_BOARD_Y   = P2_MID_ROW_Y + CARD_H + ROW_GAP;
 
-const P1_BOARD_Y   = SEP_Y + 16;
+const P1_BOARD_Y   = SEP_Y + 20;
 const P1_MID_ROW_Y = P1_BOARD_Y   + CARD_H + ROW_GAP;
 const P1_DON_ROW_Y = P1_MID_ROW_Y + CARD_H + ROW_GAP;
 const P1_HAND_Y    = P1_DON_ROW_Y + CARD_H + ROW_GAP;
@@ -73,6 +73,165 @@ const H = {
   validTarget: 0x44ff88,
 };
 
+// ─── Card texture cache ───────────────────────────────────────────────────────
+
+const textureCache = new Map<string, Texture>();
+let rerenderCallback: (() => void) | null = null;
+
+export function setRerenderCallback(cb: () => void): void {
+  rerenderCallback = cb;
+}
+
+// ─── Card preview (hover ≥ 3 s) ──────────────────────────────────────────────
+
+const PREVIEW_W      = 270;
+const PREVIEW_H      = 378; // keeps 5:7 ratio (same as 80×112)
+const PREVIEW_INFO_H = 140;
+const PREVIEW_X      = CANVAS_W - PREVIEW_W - 20; // right side, away from board center
+const PREVIEW_Y      = CANVAS_H / 2 - (PREVIEW_H + PREVIEW_INFO_H) / 2;
+
+let hoverTimer: ReturnType<typeof setTimeout> | null = null;
+let hoveredCardId: string | null = null;
+let previewLayerRef: Container | null = null;
+
+export function setPreviewLayer(layer: Container): void {
+  previewLayerRef = layer;
+}
+
+function clearHoverTimer(): void {
+  if (hoverTimer !== null) {
+    clearTimeout(hoverTimer);
+    hoverTimer = null;
+  }
+}
+
+function showCardPreview(card: Card): void {
+  const layer = previewLayerRef;
+  if (layer === null) return;
+  layer.removeChildren();
+
+  const px = PREVIEW_X;
+  const py = PREVIEW_Y;
+
+  // Outer backdrop + border
+  const backdrop = new Graphics();
+  backdrop.rect(px - 8, py - 8, PREVIEW_W + 16, PREVIEW_H + PREVIEW_INFO_H + 16);
+  backdrop.fill({ color: 0x000000, alpha: 0.92 });
+  backdrop.stroke({ color: 0x6666bb, width: 2 });
+  layer.addChild(backdrop);
+
+  // Card artwork (or coloured placeholder)
+  const previewTemplateId = card.id.match(/OP\d{2}-\d{3}/)?.[0] ?? card.id;
+  const cachedTex = textureCache.get(previewTemplateId);
+  if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
+    const sprite = new Sprite(cachedTex);
+    sprite.x = px; sprite.y = py;
+    sprite.width  = PREVIEW_W;
+    sprite.height = PREVIEW_H;
+    layer.addChild(sprite);
+  } else {
+    const imgBg = new Graphics();
+    imgBg.rect(px, py, PREVIEW_W, PREVIEW_H);
+    imgBg.fill({ color: cardBodyColor(card) });
+    layer.addChild(imgBg);
+    const fallbackName = new Text({
+      text: card.name,
+      style: { fontSize: 20, fill: '#ffffff', fontFamily: 'monospace',
+               wordWrap: true, wordWrapWidth: PREVIEW_W - 16 },
+    });
+    fallbackName.x = px + 8;
+    fallbackName.y = py + PREVIEW_H / 2 - 10;
+    layer.addChild(fallbackName);
+  }
+
+  // Info panel
+  const panelY = py + PREVIEW_H;
+  const panelBg = new Graphics();
+  panelBg.rect(px, panelY, PREVIEW_W, PREVIEW_INFO_H);
+  panelBg.fill({ color: 0x0d0d2a });
+  layer.addChild(panelBg);
+
+  let lineY = panelY + 9;
+
+  const nameT = new Text({
+    text: card.name,
+    style: { fontSize: 17, fill: '#ffffff', fontFamily: 'monospace', fontWeight: 'bold' },
+  });
+  nameT.x = px + 10; nameT.y = lineY;
+  layer.addChild(nameT);
+  lineY += 25;
+
+  const infoParts: string[] = [card.type];
+  if (card.type !== 'DON' && card.type !== 'Leader') infoParts.push(`Cost ${card.cost}`);
+  if (card.power > 0) infoParts.push(`Power ${card.power}`);
+  const infoT = new Text({
+    text: infoParts.join('  •  '),
+    style: { fontSize: 13, fill: '#aaaacc', fontFamily: 'monospace' },
+  });
+  infoT.x = px + 10; infoT.y = lineY;
+  layer.addChild(infoT);
+  lineY += 20;
+
+  if ((card.counter ?? 0) > 0) {
+    const ctrT = new Text({
+      text: `Counter  +${card.counter}`,
+      style: { fontSize: 13, fill: '#44ffcc', fontFamily: 'monospace' },
+    });
+    ctrT.x = px + 10; ctrT.y = lineY;
+    layer.addChild(ctrT);
+    lineY += 20;
+  }
+
+  const kws = [...(card.keywords ?? []), ...(card.temporaryKeywords ?? [])];
+  if (kws.length > 0) {
+    const kwT = new Text({
+      text: kws.join('  /  '),
+      style: { fontSize: 13, fill: '#ffee44', fontFamily: 'monospace', fontWeight: 'bold' },
+    });
+    kwT.x = px + 10; kwT.y = lineY;
+    layer.addChild(kwT);
+  }
+}
+
+function hideCardPreview(): void {
+  previewLayerRef?.removeChildren();
+}
+
+function loadCardTexture(cardId: string): void {
+  const templateId = cardId.match(/OP\d{2}-\d{3}/)?.[0];
+  if (templateId === undefined) {
+    textureCache.set(cardId, Texture.EMPTY); // DON!! cards
+    return;
+  }
+  if (textureCache.has(templateId)) return; // already loaded or loading
+  textureCache.set(templateId, Texture.EMPTY); // mark as loading
+  const url1 = `/card-images/${templateId}_p1.png`;
+  const url2 = `/card-images/${templateId}.png`;
+  (Assets.load(url1) as Promise<Texture>)
+    .catch(() => Assets.load(url2) as Promise<Texture>)
+    .then((tex: Texture) => {
+      textureCache.set(templateId, tex);
+      rerenderCallback?.();
+    })
+    .catch(() => {
+      textureCache.set(templateId, Texture.EMPTY);
+    });
+}
+
+export function preloadAllTextures(templateIds: string[]): void {
+  for (const templateId of templateIds) {
+    if (textureCache.has(templateId)) continue;
+    textureCache.set(templateId, Texture.EMPTY); // mark as loading
+    const url = `/card-images/${templateId}_p1.png`;
+    (Assets.load(url) as Promise<Texture>)
+      .then((tex: Texture) => {
+        textureCache.set(templateId, tex);
+        rerenderCallback?.();
+      })
+      .catch(() => { /* keep EMPTY */ });
+  }
+}
+
 // ─── Primitives ───────────────────────────────────────────────────────────────
 
 function addRect(
@@ -92,7 +251,7 @@ function addText(
   txt: string,
   x: number, y: number,
   fill = C.label,
-  size = 10,
+  size = 13,
 ): void {
   const t = new Text({
     text: txt,
@@ -131,6 +290,7 @@ function drawCard(
   isNew = false,
   attachedDonCount = 0,
   isCounter = false,
+  isDoubleAttacker = false,
 ): void {
   const fillColor = faceDown ? H.back : cardBodyColor(card);
 
@@ -144,29 +304,62 @@ function drawCard(
   bg.fill({ color: fillColor });
   cardContainer.addChild(bg);
 
+  // Card artwork sprite (lazy-loaded, replaces bg when available)
+  if (!faceDown) {
+    const cardTemplateId = card.id.match(/OP\d{2}-\d{3}/)?.[0] ?? card.id;
+    const cachedTex = textureCache.get(cardTemplateId);
+    if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
+      const sprite = new Sprite(cachedTex);
+      sprite.width = CARD_W;
+      sprite.height = CARD_H;
+      cardContainer.addChild(sprite);
+    } else if (cachedTex === undefined) {
+      loadCardTexture(card.id);
+      // bg stays visible as placeholder
+    }
+  }
+
   if (!faceDown) {
     const name = card.name.length > 7 ? `${card.name.slice(0, 6)}…` : card.name;
-    const nameTxt = new Text({ text: name, style: { fontSize: 8, fill: C.white, fontFamily: 'monospace' } });
-    nameTxt.x = 3; nameTxt.y = 3;
+    const nameTxt = new Text({ text: name, style: { fontSize: 11, fill: C.white, fontFamily: 'monospace' } });
+    nameTxt.x = 4; nameTxt.y = 4;
     cardContainer.addChild(nameTxt);
 
     if (card.type !== 'Leader' && card.type !== 'DON') {
-      const costTxt = new Text({ text: `${card.cost}`, style: { fontSize: 11, fill: C.yellow, fontFamily: 'monospace' } });
-      costTxt.x = 3; costTxt.y = CARD_H - 16;
+      const costTxt = new Text({ text: `${card.cost}`, style: { fontSize: 15, fill: C.yellow, fontFamily: 'monospace' } });
+      costTxt.x = 4; costTxt.y = CARD_H - 21;
       cardContainer.addChild(costTxt);
     }
 
     // Total power (base + DON boost) — bottom right for Leader and Character
+    // DoubleAttack attacker: show x2 effective power
     if (card.type === 'Leader' || card.type === 'Character') {
-      const totalPower = card.power + attachedDonCount * 1000;
-      const boosted = attachedDonCount > 0;
-      const powerFill = boosted ? C.yellow : C.purple;
+      const basePower  = card.power + attachedDonCount * 1000;
+      const totalPower = isDoubleAttacker ? basePower * 2 : basePower;
+      const boosted    = attachedDonCount > 0 || isDoubleAttacker;
+      const powerFill  = isDoubleAttacker ? C.red : boosted ? C.yellow : C.purple;
+      const powerLabel = isDoubleAttacker ? `${totalPower}(x2)` : `${totalPower}`;
       const powerTxt = new Text({
-        text: `${totalPower}`,
-        style: { fontSize: 10, fill: powerFill, fontFamily: 'monospace', fontWeight: boosted ? 'bold' : 'normal' },
+        text: powerLabel,
+        style: { fontSize: 12, fill: powerFill, fontFamily: 'monospace', fontWeight: boosted ? 'bold' : 'normal' },
       });
-      powerTxt.x = CARD_W - 32; powerTxt.y = CARD_H - 16;
+      powerTxt.x = CARD_W - 50; powerTxt.y = CARD_H - 21;
       cardContainer.addChild(powerTxt);
+    }
+
+    // Keywords (Rush, Blocker, etc.) — shown as small badges
+    if ((card.keywords ?? []).length > 0) {
+      const kw = (card.keywords ?? []).map((k: string) => {
+        if (k === 'DoubleAttack') return 'D.ATK';
+        if (k === 'Unblockable') return 'UNBK';
+        return k.toUpperCase().slice(0, 5);
+      }).join(' ');
+      const kwTxt = new Text({
+        text: kw,
+        style: { fontSize: 9, fill: C.yellow, fontFamily: 'monospace', fontWeight: 'bold' },
+      });
+      kwTxt.x = 4; kwTxt.y = CARD_H / 2 - 5;
+      cardContainer.addChild(kwTxt);
     }
 
     if (card.tapped) {
@@ -174,8 +367,8 @@ function drawCard(
       overlay.rect(0, 0, CARD_W, CARD_H);
       overlay.fill({ color: 0x000000, alpha: 0.5 });
       cardContainer.addChild(overlay);
-      const restTxt = new Text({ text: 'REST', style: { fontSize: 9, fill: C.red, fontFamily: 'monospace' } });
-      restTxt.x = 6; restTxt.y = CARD_H / 2 - 5;
+      const restTxt = new Text({ text: 'REST', style: { fontSize: 12, fill: C.red, fontFamily: 'monospace' } });
+      restTxt.x = 8; restTxt.y = CARD_H / 2 - 7;
       cardContainer.addChild(restTxt);
     }
 
@@ -185,8 +378,8 @@ function drawCard(
       dimOverlay.rect(0, 0, CARD_W, CARD_H);
       dimOverlay.fill({ color: 0x000000, alpha: 0.45 });
       cardContainer.addChild(dimOverlay);
-      const donTxt = new Text({ text: '↗GIVEN', style: { fontSize: 8, fill: C.white, fontFamily: 'monospace' } });
-      donTxt.x = 4; donTxt.y = CARD_H / 2 - 5;
+      const donTxt = new Text({ text: '↗GIVEN', style: { fontSize: 11, fill: C.white, fontFamily: 'monospace' } });
+      donTxt.x = 5; donTxt.y = CARD_H / 2 - 7;
       cardContainer.addChild(donTxt);
     }
 
@@ -194,14 +387,14 @@ function drawCard(
     if ((card.counter ?? 0) > 0) {
       const ctrTxt = new Text({
         text: `+${card.counter}`,
-        style: { fontSize: 9, fill: '#44ffcc', fontFamily: 'monospace', fontWeight: 'bold' },
+        style: { fontSize: 12, fill: '#44ffcc', fontFamily: 'monospace', fontWeight: 'bold' },
       });
-      ctrTxt.x = CARD_W - 30; ctrTxt.y = 3;
+      ctrTxt.x = CARD_W - 40; ctrTxt.y = 4;
       cardContainer.addChild(ctrTxt);
     }
   } else {
-    const qTxt = new Text({ text: '?', style: { fontSize: 18, fill: C.muted, fontFamily: 'monospace' } });
-    qTxt.x = CARD_W / 2 - 4; qTxt.y = CARD_H / 2 - 10;
+    const qTxt = new Text({ text: '?', style: { fontSize: 24, fill: C.muted, fontFamily: 'monospace' } });
+    qTxt.x = CARD_W / 2 - 6; qTxt.y = CARD_H / 2 - 13;
     cardContainer.addChild(qTxt);
   }
 
@@ -230,6 +423,25 @@ function drawCard(
     cardContainer.on('pointertap', onClick);
   }
 
+  // Hover preview: 3-second delay, face-up cards only
+  if (!faceDown) {
+    cardContainer.interactive = true;
+    cardContainer.on('pointerover', () => {
+      clearHoverTimer();
+      hoveredCardId = card.id;
+      hoverTimer = setTimeout(() => {
+        if (hoveredCardId === card.id) showCardPreview(card);
+      }, 1000);
+    });
+    cardContainer.on('pointerout', () => {
+      if (hoveredCardId === card.id) {
+        clearHoverTimer();
+        hoveredCardId = null;
+        hideCardPreview();
+      }
+    });
+  }
+
   scene.addChild(cardContainer);
 
   if (isNew) scaleIn(cardContainer);
@@ -244,13 +456,13 @@ function drawStack(
   x: number, y: number,
   color: number,
 ): void {
-  addText(scene, label, x, y - 13, C.label);
+  addText(scene, label, x, y - 17, C.label);
   addRect(scene, x, y, CARD_W, CARD_H, count > 0 ? color : H.empty, count > 0 ? 1 : 0.4);
   const txt   = count > 0 ? `${count}` : '—';
   const tFill = count > 0 ? C.white : C.muted;
-  const tSize = count > 0 ? 18 : 14;
-  const tX    = x + CARD_W / 2 - (count > 9 ? 10 : 6);
-  addText(scene, txt, tX, y + CARD_H / 2 - 10, tFill, tSize);
+  const tSize = count > 0 ? 24 : 18;
+  const tX    = x + CARD_W / 2 - (count > 9 ? 13 : 8);
+  addText(scene, txt, tX, y + CARD_H / 2 - 13, tFill, tSize);
 }
 
 function drawSpread(
@@ -265,8 +477,9 @@ function drawSpread(
   onCardClick: (id: CardId) => void,
   newCardIds: ReadonlySet<CardId> = new Set(),
   counterDefenderId: PlayerId | null = null,
+  blockerLocked = false, // true when a blocker is already selected/declared (counter disabled)
 ): void {
-  addText(scene, `${label} (${ids.length})`, x, y - 13, C.label);
+  addText(scene, `${label} (${ids.length})`, x, y - 17, C.label);
 
   if (ids.length === 0) {
     addRect(scene, x, y, CARD_W, CARD_H, H.empty, 0.3);
@@ -279,7 +492,9 @@ function drawSpread(
     const isSelected = uiState.selectedCardId === id;
     const isTarget = isValidTarget(id, card, uiState, activePlayerId, allCards);
     // Highlight hand cards that can be played as counter by the defending player
+    // Disabled if a blocker is already selected or declared (mutual exclusion)
     const isCounter = !faceDown
+      && !blockerLocked
       && counterDefenderId !== null
       && card.ownerId === counterDefenderId
       && card.zone === 'hand'
@@ -334,6 +549,7 @@ function renderPlayer(
   counterDefenderId: PlayerId | null,
   hideCards: boolean,
   combatViewDefenderId: PlayerId | null,
+  doubleAttackerId: CardId | null,
 ): void {
   const isTop    = pos === 'top';
   const isActive = player.id === activePlayerId;
@@ -348,7 +564,9 @@ function renderPlayer(
   // - normal: only active player's hand face-up
   const handFaceDown = hideCards
     || (combatViewDefenderId !== null ? player.id !== combatViewDefenderId : !isActive);
-  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId);
+  // Counter cards are greyed out (no cyan highlight) if a blocker is selected or already declared
+  const blockerLocked = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
+  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId, blockerLocked);
 
   // DON row
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
@@ -359,7 +577,7 @@ function renderPlayer(
   drawStack(scene, 'LIFE', player.life.length, COL_LIFE, midY, H.life);
 
   // Leader (clickable as attack / DON-assign target)
-  addText(scene, 'LEADER', COL_LEADER, midY - 13, C.label);
+  addText(scene, 'LEADER', COL_LEADER, midY - 17, C.label);
   if (player.leader !== null) {
     const lc = allCards[player.leader];
     if (lc !== undefined) {
@@ -379,7 +597,7 @@ function renderPlayer(
   }
 
   // Stage (placeholder)
-  addText(scene, 'STAGE', COL_STAGE, midY - 13, C.label);
+  addText(scene, 'STAGE', COL_STAGE, midY - 17, C.label);
   addRect(scene, COL_STAGE, midY, CARD_W, CARD_H, H.stage, 0.6);
 
   // Deck
@@ -387,7 +605,7 @@ function renderPlayer(
 
   // Board — compute DON count per card
   const boardIds = player.board;
-  addText(scene, `BOARD (${boardIds.length})`, COL_BOARD, boardY - 13, C.label);
+  addText(scene, `BOARD (${boardIds.length})`, COL_BOARD, boardY - 17, C.label);
   if (boardIds.length === 0) {
     addRect(scene, COL_BOARD, boardY, CARD_W, CARD_H, H.empty, 0.3);
   } else {
@@ -399,6 +617,8 @@ function renderPlayer(
       const donCount = Object.values(allCards).filter(
         c => c.type === 'DON' && c.attachedTo === id
       ).length;
+      // DoubleAttack: show x2 power only when this card is the active attacker
+      const isDA = id === doubleAttackerId && (card.keywords ?? []).includes('DoubleAttack');
       drawCard(
         scene, card,
         COL_BOARD + i * (CARD_W + GAP), boardY,
@@ -406,13 +626,15 @@ function renderPlayer(
         () => onCardClick(id),
         newCardIds.has(id),
         donCount,
+        false, // isCounter — board cards are never counters
+        isDA,
       );
     });
   }
 
   // Player badge
   const badge = `${isTop ? '▲' : '▼'} ${player.id}`;
-  addText(scene, badge, CANVAS_W - 140, isTop ? handY + CARD_H + 4 : handY - 18, '#6688aa', 12);
+  addText(scene, badge, CANVAS_W - 185, isTop ? handY + CARD_H + 4 : handY - 24, '#6688aa', 16);
 }
 
 // ─── Animation detection ──────────────────────────────────────────────────────
@@ -497,6 +719,14 @@ export function renderGameState(
     ? (state.activePlayerId === p1Id ? p2Id : p1Id)
     : null;
 
-  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId);
-  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId);
+  // DoubleAttack attacker: the attacker card id if it has DoubleAttack keyword
+  const doubleAttackerId = (() => {
+    if (state.activeCombat === null) return null;
+    const { attackerId } = state.activeCombat;
+    const attacker = state.cards[attackerId];
+    return (attacker?.keywords ?? []).includes('DoubleAttack') ? attackerId : null;
+  })();
+
+  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId);
+  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId);
 }

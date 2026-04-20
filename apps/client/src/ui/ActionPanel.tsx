@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { GameAction, GameState } from 'game-engine';
+import { calculatePower } from 'game-engine';
 import type { UIState } from './uiState';
 
 interface Props {
@@ -176,34 +177,101 @@ export function ActionPanel({ gameState, uiState, onAction, needsHandoff, onHand
 
         {/* ── Combat ───────────────────────────────────────────────────── */}
 
-        {/* Counter power accumulator + defender actions */}
-        {activeCombat !== null && (
-          <>
-            {activeCombat.counterPower > 0 && (
-              <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#44ffcc', fontWeight: 'bold' }}>
-                CONTRE +{activeCombat.counterPower}
+        {/* Combat power summary */}
+        {activeCombat !== null && (() => {
+          const attacker     = gameState.cards[activeCombat.attackerId];
+          const target       = gameState.cards[activeCombat.targetId];
+          const isDoubleAtk  = (attacker?.keywords ?? []).includes('DoubleAttack');
+          const atkPower     = calculatePower(activeCombat.attackerId, gameState) * (isDoubleAtk ? 2 : 1);
+          const defPower     = calculatePower(activeCombat.targetId,  gameState);
+          const totalDef     = defPower + activeCombat.counterPower;
+          const atkWins      = atkPower >= totalDef;
+          return (
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '4px 10px', background: '#0d1a0d', border: '1px solid #2a4a2a', borderRadius: 4, fontFamily: 'monospace', fontSize: 12 }}>
+              <span style={{ color: '#ff8844', fontWeight: 'bold' }}>
+                ⚔ ATK [{attacker?.name ?? '?'}] {atkPower}{isDoubleAtk ? ' ×2' : ''}
               </span>
-            )}
-            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ffee44' }}>
-              {defenderId} :
-            </span>
-            <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#888899' }}>
-              Cliquez une carte main (cyan) pour contrer —
-            </span>
-            {uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null && (
-              <button style={dangerBtn} onClick={() => onAction({
-                type: 'DeclareBlock',
-                playerId: defenderId,
-                blockerId: uiState.selectedCardId!,
-              })}>
-                Bloquer avec cette carte
+              <span style={{ color: '#666688' }}>vs</span>
+              <span style={{ color: '#44aaff' }}>
+                DEF [{target?.name ?? '?'}] {defPower}
+                {activeCombat.counterPower > 0 && (
+                  <span style={{ color: '#44ffcc' }}> + CONTRE {activeCombat.counterPower} = {totalDef}</span>
+                )}
+              </span>
+              <span style={{ color: atkWins ? '#ff4444' : '#44ff88', fontWeight: 'bold' }}>
+                → {atkWins ? 'ATK PASSE' : 'REPOUSSÉE'}
+              </span>
+            </div>
+          );
+        })()}
+
+        {/* Combat: defender actions */}
+        {activeCombat !== null && (() => {
+          const blockerSelected = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
+          const counterStaged   = uiState.selectionMode === 'playCounter'  && uiState.selectedCardId !== null;
+          const counterPlayed   = activeCombat.counterPower > 0;
+          const blockerDeclared = activeCombat.blockerId !== null;
+
+          return (
+            <>
+              {/* Status indicators */}
+              {counterPlayed && (
+                <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#44ffcc', fontWeight: 'bold' }}>
+                  CONTRE +{activeCombat.counterPower}
+                </span>
+              )}
+              {blockerDeclared && (
+                <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ff8844', fontWeight: 'bold' }}>
+                  BLOQUEUR ENGAGÉ
+                </span>
+              )}
+
+              <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ffee44' }}>
+                {defenderId} :
+              </span>
+
+              {/* Counter confirm button */}
+              {counterStaged && (
+                <button style={primaryBtn} onClick={() => onAction({
+                  type: 'PlayCounter',
+                  playerId: defenderId,
+                  cardId: uiState.selectedCardId!,
+                })}>
+                  Confirmer le contre
+                </button>
+              )}
+
+              {/* Counter hint — hidden if blocker already declared or counter already played */}
+              {!counterPlayed && !blockerDeclared && !counterStaged && !blockerSelected && (
+                <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#888899' }}>
+                  Cliquez une carte main (cyan) pour contrer —
+                </span>
+              )}
+
+              {/* Blocker confirm button — hidden if counter played or staged */}
+              {blockerSelected && !counterPlayed && (
+                <button style={dangerBtn} onClick={() => onAction({
+                  type: 'DeclareBlock',
+                  playerId: defenderId,
+                  blockerId: uiState.selectedCardId!,
+                })}>
+                  Confirmer le bloqueur
+                </button>
+              )}
+
+              {/* Mutual exclusion notice */}
+              {blockerSelected && counterPlayed && (
+                <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#ff6666' }}>
+                  Impossible de bloquer : un contre a déjà été joué
+                </span>
+              )}
+
+              <button style={btnStyle} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
+                {blockerDeclared || counterPlayed ? 'Résoudre →' : 'Ne pas bloquer →'}
               </button>
-            )}
-            <button style={btnStyle} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
-              Ne pas bloquer →
-            </button>
-          </>
-        )}
+            </>
+          );
+        })()}
 
         {/* Attacker resolves */}
         {activeCombat !== null && (

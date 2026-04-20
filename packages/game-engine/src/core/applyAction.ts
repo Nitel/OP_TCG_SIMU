@@ -11,6 +11,8 @@ import type {
 } from '../types/index.js';
 import { makeGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
+import { clearPowerModifiers, clearTemporaryKeywords, hasKeyword } from '../rules/cardUtils.js';
+import { resolveEffects } from '../effects/effectResolver.js';
 
 // ─── Phase helpers ────────────────────────────────────────────────────────────
 
@@ -110,10 +112,20 @@ function applyReturnDon(state: GameState, playerId: PlayerId): GameState {
     updatedCards[id] = { ...updatedCards[id]!, attachedTo: null, tapped: false };
   }
 
-  return {
+  let next: GameState = {
     ...state,
     cards: updatedCards as Readonly<Record<CardId, Card>>,
   };
+
+  // Clear EndOfTurn power modifiers on all board cards + leader
+  const boardAndLeader: CardId[] = [...player.board];
+  if (player.leader !== null) boardAndLeader.push(player.leader);
+  next = clearPowerModifiers(next, boardAndLeader);
+
+  // Clear temporary keywords granted this turn
+  next = clearTemporaryKeywords(next);
+
+  return next;
 }
 
 // ─── Mulligan ─────────────────────────────────────────────────────────────────
@@ -405,11 +417,22 @@ function applyPlayCharacterFromHand(
     board: [...player.board, action.cardId],
   };
 
-  return {
+  const afterPlay: GameState = {
     ...state,
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: { ...state.players, [action.playerId]: updatedPlayer },
   };
+
+  // Trigger OnPlay effects
+  if (card.effects?.length) {
+    return resolveEffects(
+      card.effects,
+      'OnPlay',
+      { sourceCardId: action.cardId, sourcePlayerId: action.playerId },
+      afterPlay,
+    );
+  }
+  return afterPlay;
 }
 
 // ─── AssignDon ────────────────────────────────────────────────────────────────
@@ -566,7 +589,7 @@ function applyDeclareAttack(
   }
 
   // Tap (rest) the attacker
-  return {
+  const afterAttack: GameState = {
     ...state,
     cards: {
       ...state.cards,
@@ -579,6 +602,17 @@ function applyDeclareAttack(
       counterPower: 0,
     },
   };
+
+  // Trigger OnAttack effects
+  if (attacker.effects?.length) {
+    return resolveEffects(
+      attacker.effects,
+      'OnAttack',
+      { sourceCardId: action.attackerId, sourcePlayerId: action.playerId },
+      afterAttack,
+    );
+  }
+  return afterAttack;
 }
 
 // ─── DeclareBlock ─────────────────────────────────────────────────────────────
@@ -615,7 +649,14 @@ function applyDeclareBlock(
   if (blocker.tapped) {
     return makeGameError('BLOCKER_TAPPED', `Card ${action.blockerId} is rested and cannot block`);
   }
-  if (!(blocker.keywords ?? []).includes('Blocker')) {
+
+  // Unblockable check: reject block if the attacker has Unblockable keyword
+  const attackerCard = state.cards[state.activeCombat.attackerId];
+  if (attackerCard !== undefined && hasKeyword(attackerCard, 'Unblockable')) {
+    return makeGameError('UNBLOCKABLE', 'The attacker has the Unblockable keyword and cannot be blocked');
+  }
+
+  if (!hasKeyword(blocker, 'Blocker')) {
     return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
   }
 

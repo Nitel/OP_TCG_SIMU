@@ -1,5 +1,7 @@
 import { makeGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
+import { clearPowerModifiers, clearTemporaryKeywords, hasKeyword } from '../rules/cardUtils.js';
+import { resolveEffects } from '../effects/effectResolver.js';
 // ─── Phase helpers ────────────────────────────────────────────────────────────
 // ─── Mulligan helpers ─────────────────────────────────────────────────────────
 function shuffle(arr) {
@@ -87,10 +89,18 @@ function applyReturnDon(state, playerId) {
     for (const id of player.donArea) {
         updatedCards[id] = { ...updatedCards[id], attachedTo: null, tapped: false };
     }
-    return {
+    let next = {
         ...state,
         cards: updatedCards,
     };
+    // Clear EndOfTurn power modifiers on all board cards + leader
+    const boardAndLeader = [...player.board];
+    if (player.leader !== null)
+        boardAndLeader.push(player.leader);
+    next = clearPowerModifiers(next, boardAndLeader);
+    // Clear temporary keywords granted this turn
+    next = clearTemporaryKeywords(next);
+    return next;
 }
 // ─── Mulligan ─────────────────────────────────────────────────────────────────
 function applyMulligan(state, action) {
@@ -134,7 +144,8 @@ function applyMulligan(state, action) {
         // Both players decided — place life cards and start the game
         next = placeLifeCards(next, p1);
         next = placeLifeCards(next, p2);
-        next = { ...next, phase: 'Refresh', activePlayerId: state.firstPlayerId };
+        // turnNumber 0 = Mulligan; real game starts at turn 1
+        next = { ...next, phase: 'Refresh', activePlayerId: state.firstPlayerId, turnNumber: 1 };
         return applyRefresh(next, state.firstPlayerId);
     }
     else {
@@ -233,7 +244,7 @@ function applyStartGame(_state, action) {
         playerOrder: [player1.id, player2.id],
         activePlayerId: firstPlayerId,
         phase: 'Mulligan',
-        turnNumber: 1,
+        turnNumber: 0, // Mulligan is turn 0; turnNumber becomes 1 when the game actually starts
         activeCombat: null,
         winner: null,
         firstPlayerId,
@@ -316,11 +327,16 @@ function applyPlayCharacterFromHand(state, action) {
         hand: player.hand.filter((id) => id !== action.cardId),
         board: [...player.board, action.cardId],
     };
-    return {
+    const afterPlay = {
         ...state,
         cards: updatedCards,
         players: { ...state.players, [action.playerId]: updatedPlayer },
     };
+    // Trigger OnPlay effects
+    if (card.effects?.length) {
+        return resolveEffects(card.effects, 'OnPlay', { sourceCardId: action.cardId, sourcePlayerId: action.playerId }, afterPlay);
+    }
+    return afterPlay;
 }
 // ─── AssignDon ────────────────────────────────────────────────────────────────
 function applyAssignDon(state, action) {
@@ -400,6 +416,9 @@ function applyDeclareAttack(state, action) {
     if (state.activeCombat !== null) {
         return makeGameError('COMBAT_ALREADY_ACTIVE', 'Another combat is already pending resolution');
     }
+    if (state.turnNumber <= 2) {
+        return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed on the first turn');
+    }
     if (state.winner !== null) {
         return makeGameError('GAME_OVER', 'The game has already ended');
     }
@@ -437,7 +456,7 @@ function applyDeclareAttack(state, action) {
         return makeGameError('INVALID_TARGET', `Card ${action.targetId} is not a valid target on opponent's side`);
     }
     // Tap (rest) the attacker
-    return {
+    const afterAttack = {
         ...state,
         cards: {
             ...state.cards,
@@ -450,6 +469,11 @@ function applyDeclareAttack(state, action) {
             counterPower: 0,
         },
     };
+    // Trigger OnAttack effects
+    if (attacker.effects?.length) {
+        return resolveEffects(attacker.effects, 'OnAttack', { sourceCardId: action.attackerId, sourcePlayerId: action.playerId }, afterAttack);
+    }
+    return afterAttack;
 }
 // ─── DeclareBlock ─────────────────────────────────────────────────────────────
 function applyDeclareBlock(state, action) {
@@ -479,7 +503,12 @@ function applyDeclareBlock(state, action) {
     if (blocker.tapped) {
         return makeGameError('BLOCKER_TAPPED', `Card ${action.blockerId} is rested and cannot block`);
     }
-    if (!(blocker.keywords ?? []).includes('Blocker')) {
+    // Unblockable check: reject block if the attacker has Unblockable keyword
+    const attackerCard = state.cards[state.activeCombat.attackerId];
+    if (attackerCard !== undefined && hasKeyword(attackerCard, 'Unblockable')) {
+        return makeGameError('UNBLOCKABLE', 'The attacker has the Unblockable keyword and cannot be blocked');
+    }
+    if (!hasKeyword(blocker, 'Blocker')) {
         return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
     }
     // Tap the blocker

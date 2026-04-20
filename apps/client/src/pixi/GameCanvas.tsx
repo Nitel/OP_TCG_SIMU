@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
 import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
-import { renderGameState } from './renderGameState';
+import { renderGameState, setRerenderCallback, setPreviewLayer, preloadAllTextures } from './renderGameState';
 
-const CANVAS_W = 1200;
-const CANVAS_H = 720;
+const CANVAS_W = 1600;
+const CANVAS_H = 960;
 
 interface Props {
   gameState: GameState;
@@ -18,12 +18,17 @@ interface Props {
 type Status = 'idle' | 'ready' | 'error';
 
 export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false, combatViewDefenderId = null }: Props) {
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const sceneRef   = useRef<Container | null>(null);
-  const animRef    = useRef<Container | null>(null);
-  const appRef     = useRef<Application | null>(null);
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const sceneRef    = useRef<Container | null>(null);
+  const animRef     = useRef<Container | null>(null);
+  const previewRef  = useRef<Container | null>(null);
+  const appRef      = useRef<Application | null>(null);
   const [status, setStatus]       = useState<Status>('idle');
   const [initError, setInitError] = useState<string>('');
+
+  // Keep a ref to the latest render props for the texture-loaded callback
+  const renderPropsRef = useRef({ gameState, uiState, onCardClick, hideCards, combatViewDefenderId });
+  renderPropsRef.current = { gameState, uiState, onCardClick, hideCards, combatViewDefenderId };
 
   // ── Initialize PixiJS once on mount ─────────────────────────────────────
   useEffect(() => {
@@ -46,11 +51,26 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
         if (!alive) { app.destroy(false); return; }
         const scene = new Container();
         const animLayer = new Container();
+        const previewLayer = new Container();
         app.stage.addChild(scene);
-        app.stage.addChild(animLayer); // animLayer on top
-        appRef.current   = app;
-        sceneRef.current = scene;
-        animRef.current  = animLayer;
+        app.stage.addChild(animLayer);
+        app.stage.addChild(previewLayer); // previewLayer always on top
+        appRef.current    = app;
+        sceneRef.current  = scene;
+        animRef.current   = animLayer;
+        previewRef.current = previewLayer;
+        setPreviewLayer(previewLayer);
+        setRerenderCallback(() => {
+          const s = sceneRef.current;
+          const al = animRef.current;
+          if (s === null || al === null) return;
+          const p = renderPropsRef.current;
+          try {
+            renderGameState(s, al, p.gameState, p.uiState, p.onCardClick, p.hideCards, p.combatViewDefenderId);
+          } catch (err) {
+            console.error('[GameCanvas] texture rerender threw:', err);
+          }
+        });
         setStatus('ready');
       })
       .catch((err: unknown) => {
@@ -64,9 +84,10 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
       const a = appRef.current;
       if (a !== null) {
         a.destroy(false);
-        appRef.current   = null;
-        sceneRef.current = null;
-        animRef.current  = null;
+        appRef.current    = null;
+        sceneRef.current  = null;
+        animRef.current   = null;
+        previewRef.current = null;
         setStatus('idle');
       }
     };
@@ -77,6 +98,13 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
     const scene = sceneRef.current;
     const animLayer = animRef.current;
     if (status !== 'ready' || scene === null || animLayer === null) return;
+    // Preload only the cards present in this game state (server will filter in online mode)
+    const templateIds = [...new Set(
+      Object.values(gameState.cards)
+        .map(c => c.id.match(/OP\d{2}-\d{3}/)?.[0])
+        .filter((id): id is string => id !== undefined),
+    )];
+    preloadAllTextures(templateIds);
     try {
       renderGameState(scene, animLayer, gameState, uiState, onCardClick, hideCards, combatViewDefenderId);
     } catch (err) {

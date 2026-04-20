@@ -1,0 +1,28 @@
+{
+  "id": "OP01-060",
+  "name": "Donquixote Doflamingo (060) (Parallel)",
+  "cost": 0,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 4
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

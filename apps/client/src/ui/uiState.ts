@@ -1,6 +1,6 @@
 import type { CardId } from 'game-engine';
 
-export type SelectionMode = 'play' | 'attack' | 'assignDon' | 'declareBlock';
+export type SelectionMode = 'play' | 'attack' | 'assignDon' | 'declareBlock' | 'playCounter';
 
 export interface UIState {
   selectedCardId: CardId | null;
