@@ -1,3 +1,11 @@
+// ─── hasKeyword ───────────────────────────────────────────────────────────────
+/**
+ * Returns true if `card` has `kw` as a permanent or temporary keyword.
+ */
+export function hasKeyword(card, kw) {
+    return (card.keywords ?? []).includes(kw) ||
+        (card.temporaryKeywords ?? []).includes(kw);
+}
 // ─── calculatePower ───────────────────────────────────────────────────────────
 /**
  * Total power of a card = base power + 1 000 per DON!! attached + powerModifier.
@@ -20,6 +28,25 @@ export function clearPowerModifiers(state, cardIds) {
         if (updatedCards[id]?.powerModifier !== undefined) {
             const { powerModifier: _pm, ...rest } = updatedCards[id];
             void _pm;
+            updatedCards[id] = rest;
+            changed = true;
+        }
+    }
+    if (!changed)
+        return state;
+    return { ...state, cards: updatedCards };
+}
+// ─── clearTemporaryKeywords ───────────────────────────────────────────────────
+/**
+ * Remove all `temporaryKeywords` from every card in state (called at end of turn).
+ */
+export function clearTemporaryKeywords(state) {
+    const updatedCards = { ...state.cards };
+    let changed = false;
+    for (const [id, card] of Object.entries(state.cards)) {
+        if (card.temporaryKeywords !== undefined && card.temporaryKeywords.length > 0) {
+            const { temporaryKeywords: _tk, ...rest } = card;
+            void _tk;
             updatedCards[id] = rest;
             changed = true;
         }

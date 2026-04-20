@@ -3,54 +3,17 @@ import {
   applyAction,
   makeEmptyState,
   makePlayerId,
-  makeCardId,
   isGameError,
 } from 'game-engine';
-import type { Card, CardId, CardKeyword, GameAction, GameState, PlayerSetup } from 'game-engine';
+import type { CardId, GameAction, GameState } from 'game-engine';
 import { GameCanvas } from '../pixi/GameCanvas';
 import { GameUI } from './GameUI';
 import { ActionPanel } from './ActionPanel';
 import type { UIState } from './uiState';
 import { IDLE_UI } from './uiState';
+import { buildRandomDeck } from '../data/deckBuilder';
 
-// ─── Bootstrap helpers ────────────────────────────────────────────────────────
-
-function stubCard(id: string, ownerId: string, type: Card['type'], cost = 0, counter?: number, keywords?: readonly CardKeyword[]): Card {
-  return {
-    id: makeCardId(id),
-    name: id,
-    cost,
-    power: 2000,
-    color: 'Red',
-    type,
-    zone: 'deck',
-    ownerId: makePlayerId(ownerId),
-    tapped: false,
-    attachedTo: null,
-    ...(counter !== undefined ? { counter } : {}),
-    ...(keywords !== undefined && keywords.length > 0 ? { keywords } : {}),
-  };
-}
-
-function buildSetup(idStr: string): PlayerSetup {
-  return {
-    id: makePlayerId(idStr),
-    leaderCard: stubCard(`${idStr}-leader`, idStr, 'Leader'),
-    deckCards: Array.from({ length: 20 }, (_, i) => {
-      const kwMap: (readonly CardKeyword[] | undefined)[] = [
-        ['Rush'], ['Blocker'], ['DoubleAttack'], ['Unblockable'], undefined,
-      ];
-      return stubCard(
-        `${idStr}-d${i}`, idStr, 'Character', (i % 5) + 1,
-        i % 3 === 0 ? 2000 : i % 3 === 1 ? 1000 : undefined,
-        kwMap[i % 5],
-      );
-    }),
-    donCards: Array.from({ length: 10 }, (_, i) =>
-      stubCard(`${idStr}-don${i}`, idStr, 'DON')
-    ),
-  };
-}
+// ─── Bootstrap ────────────────────────────────────────────────────────────────
 
 function createInitialState(): GameState {
   const p1 = makePlayerId('p1');
@@ -58,8 +21,8 @@ function createInitialState(): GameState {
   const seed = makeEmptyState(p1, p2);
   const result = applyAction(seed, {
     type: 'StartGame',
-    player1: buildSetup('p1'),
-    player2: buildSetup('p2'),
+    player1: buildRandomDeck(p1),
+    player2: buildRandomDeck(p2),
     firstPlayerId: Math.random() < 0.5 ? p1 : p2,
   });
   if (isGameError(result)) throw new Error(`StartGame failed: ${result.message}`);

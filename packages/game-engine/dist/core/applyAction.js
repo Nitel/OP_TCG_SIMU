@@ -1,6 +1,6 @@
 import { makeGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
-import { clearPowerModifiers } from '../rules/cardUtils.js';
+import { clearPowerModifiers, clearTemporaryKeywords, hasKeyword } from '../rules/cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
 // ─── Phase helpers ────────────────────────────────────────────────────────────
 // ─── Mulligan helpers ─────────────────────────────────────────────────────────
@@ -98,6 +98,8 @@ function applyReturnDon(state, playerId) {
     if (player.leader !== null)
         boardAndLeader.push(player.leader);
     next = clearPowerModifiers(next, boardAndLeader);
+    // Clear temporary keywords granted this turn
+    next = clearTemporaryKeywords(next);
     return next;
 }
 // ─── Mulligan ─────────────────────────────────────────────────────────────────
@@ -503,10 +505,10 @@ function applyDeclareBlock(state, action) {
     }
     // Unblockable check: reject block if the attacker has Unblockable keyword
     const attackerCard = state.cards[state.activeCombat.attackerId];
-    if ((attackerCard?.keywords ?? []).includes('Unblockable')) {
+    if (attackerCard !== undefined && hasKeyword(attackerCard, 'Unblockable')) {
         return makeGameError('UNBLOCKABLE', 'The attacker has the Unblockable keyword and cannot be blocked');
     }
-    if (!(blocker.keywords ?? []).includes('Blocker')) {
+    if (!hasKeyword(blocker, 'Blocker')) {
         return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
     }
     // Tap the blocker

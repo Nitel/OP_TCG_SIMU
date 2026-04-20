@@ -1,4 +1,4 @@
-import { calculatePower, sendToTrash, clearPowerModifiers } from './cardUtils.js';
+import { calculatePower, sendToTrash, clearPowerModifiers, hasKeyword } from './cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
 // Re-export for public API backwards compatibility
 export { calculatePower, sendToTrash } from './cardUtils.js';
@@ -86,7 +86,7 @@ export function resolveCombat(state) {
                 if (attacker !== undefined) {
                     next = applyLeaderDamage(next, attacker.ownerId);
                     // DoubleAttack: second leader damage if still alive
-                    if ((attacker.keywords ?? []).includes('DoubleAttack') && next.winner === null) {
+                    if (hasKeyword(attacker, 'DoubleAttack') && next.winner === null) {
                         next = applyLeaderDamage(next, attacker.ownerId);
                     }
                 }

@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
 import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
-import { renderGameState, setRerenderCallback } from './renderGameState';
+import { renderGameState, setRerenderCallback, setPreviewLayer } from './renderGameState';
 
-const CANVAS_W = 1200;
-const CANVAS_H = 720;
+const CANVAS_W = 1600;
+const CANVAS_H = 960;
 
 interface Props {
   gameState: GameState;
@@ -18,10 +18,11 @@ interface Props {
 type Status = 'idle' | 'ready' | 'error';
 
 export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false, combatViewDefenderId = null }: Props) {
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const sceneRef   = useRef<Container | null>(null);
-  const animRef    = useRef<Container | null>(null);
-  const appRef     = useRef<Application | null>(null);
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const sceneRef    = useRef<Container | null>(null);
+  const animRef     = useRef<Container | null>(null);
+  const previewRef  = useRef<Container | null>(null);
+  const appRef      = useRef<Application | null>(null);
   const [status, setStatus]       = useState<Status>('idle');
   const [initError, setInitError] = useState<string>('');
 
@@ -50,11 +51,15 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
         if (!alive) { app.destroy(false); return; }
         const scene = new Container();
         const animLayer = new Container();
+        const previewLayer = new Container();
         app.stage.addChild(scene);
-        app.stage.addChild(animLayer); // animLayer on top
-        appRef.current   = app;
-        sceneRef.current = scene;
-        animRef.current  = animLayer;
+        app.stage.addChild(animLayer);
+        app.stage.addChild(previewLayer); // previewLayer always on top
+        appRef.current    = app;
+        sceneRef.current  = scene;
+        animRef.current   = animLayer;
+        previewRef.current = previewLayer;
+        setPreviewLayer(previewLayer);
         setRerenderCallback(() => {
           const s = sceneRef.current;
           const al = animRef.current;
@@ -79,9 +84,10 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
       const a = appRef.current;
       if (a !== null) {
         a.destroy(false);
-        appRef.current   = null;
-        sceneRef.current = null;
-        animRef.current  = null;
+        appRef.current    = null;
+        sceneRef.current  = null;
+        animRef.current   = null;
+        previewRef.current = null;
         setStatus('idle');
       }
     };
