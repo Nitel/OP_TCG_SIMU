@@ -7,14 +7,16 @@ import { RoomManager } from './room.js';
 
 const PORT = process.env['PORT'] !== undefined ? Number(process.env['PORT']) : 3001;
 
+const rawOrigins = process.env['CORS_ORIGIN'];
+const allowedOrigins: string[] = rawOrigins
+  ? rawOrigins.split(',').map(s => s.trim())
+  : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
 const app = express();
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
-  cors: {
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://op-tcg-simu-client.vercel.app/'],
-    methods: ['GET', 'POST'],
-  },
+  cors: { origin: allowedOrigins, methods: ['GET', 'POST'] },
 });
 
 app.get('/health', (_req, res) => res.json({ ok: true }));
