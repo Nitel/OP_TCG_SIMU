@@ -3,8 +3,11 @@
  * Download card images for a given set.
  * Usage: node scripts/download-card-images.mjs OP01
  *
+ * Convention Bandai :
+ *   {id}.png    → art normal
+ *   {id}_p1.png → art parallèle
+ *
  * Images are saved to apps/client/public/card-images/
- * Tries {id}_p1.png first, then {id}.png as fallback.
  */
 
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
@@ -30,9 +33,29 @@ if (!existsSync(jsonPath)) {
   process.exit(1);
 }
 
-const cards   = JSON.parse(readFileSync(jsonPath, 'utf8'));
-const ids     = [...new Set(cards.map(c => c.id))].sort();
-console.log(`Set ${setCode}: ${ids.length} unique card IDs  →  ${OUT}\n`);
+const cards = JSON.parse(readFileSync(jsonPath, 'utf8'));
+
+// Détecte les arts alternatifs par doublon d'ID (robuste quel que soit le suffixe de nom)
+const seenIds = new Set();
+const altArtNames = new Set();
+for (const card of cards) {
+  if (seenIds.has(card.id)) altArtNames.add(card.name);
+  else seenIds.add(card.id);
+}
+
+// Build a list of { id, filename } — alt arts use _p1.png, normals use .png
+const targets = [];
+const seenFilenames = new Set();
+for (const card of cards) {
+  const isParallel = altArtNames.has(card.name);
+  const filename = isParallel ? `${card.id}_p1.png` : `${card.id}.png`;
+  if (!seenFilenames.has(filename)) {
+    seenFilenames.add(filename);
+    targets.push({ id: card.id, filename, isParallel });
+  }
+}
+
+console.log(`Set ${setCode}: ${targets.length} images à télécharger  →  ${OUT}\n`);
 
 mkdirSync(OUT, { recursive: true });
 
@@ -46,25 +69,30 @@ async function tryDownload(url) {
 
 let ok = 0, miss = 0, skip = 0;
 
-for (const id of ids) {
-  const dest = join(OUT, `${id}_p1.png`);
+for (const { id, filename, isParallel } of targets) {
+  const dest = join(OUT, filename);
 
   if (existsSync(dest)) {
-    console.log(`SKIP ${id}_p1.png`);
+    console.log(`SKIP ${filename}`);
     skip++;
     continue;
   }
 
-  const buf =
-    await tryDownload(`${BASE}/${id}_p1.png`) ??
-    await tryDownload(`${BASE}/${id}.png`);
+  let buf = null;
+  if (isParallel) {
+    // Parallèle : uniquement _p1.png, pas de fallback
+    buf = await tryDownload(`${BASE}/${id}_p1.png`);
+  } else {
+    // Normale : .png en priorité, fallback _p1.png pour les sets qui n'ont que ça
+    buf = await tryDownload(`${BASE}/${id}.png`) ?? await tryDownload(`${BASE}/${id}_p1.png`);
+  }
 
   if (buf) {
     writeFileSync(dest, buf);
-    console.log(`OK   ${id}_p1.png`);
+    console.log(`OK   ${filename}`);
     ok++;
   } else {
-    console.log(`MISS ${id}  (no image on Bandai server)`);
+    console.log(`MISS ${filename}  (image parallèle introuvable sur le serveur Bandai)`);
     miss++;
   }
 }

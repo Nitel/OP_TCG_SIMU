@@ -1,0 +1,36 @@
+{
+  "id": "OP02-013",
+  "name": "Portgas.D.Ace (Parallel) (Manga) (Alternate Art)",
+  "cost": 7,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "Always"
+          }
+        }
+      ]
+    }
+  ]
+}

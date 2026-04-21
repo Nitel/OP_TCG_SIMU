@@ -334,7 +334,11 @@ function applyPlayCharacterFromHand(state, action) {
     };
     // Trigger OnPlay effects
     if (card.effects?.length) {
-        return resolveEffects(card.effects, 'OnPlay', { sourceCardId: action.cardId, sourcePlayerId: action.playerId }, afterPlay);
+        return resolveEffects(card.effects, 'OnPlay', {
+            sourceCardId: action.cardId,
+            sourcePlayerId: action.playerId,
+            ...(action.chosenTargetId !== undefined ? { chosenTargetId: action.chosenTargetId } : {}),
+        }, afterPlay);
     }
     return afterPlay;
 }
@@ -512,7 +516,7 @@ function applyDeclareBlock(state, action) {
         return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
     }
     // Tap the blocker
-    return {
+    const afterBlock = {
         ...state,
         cards: {
             ...state.cards,
@@ -520,6 +524,99 @@ function applyDeclareBlock(state, action) {
         },
         activeCombat: { ...state.activeCombat, blockerId: action.blockerId },
     };
+    // Trigger OnBlock effects
+    if (blocker.effects?.length) {
+        return resolveEffects(blocker.effects, 'OnBlock', { sourceCardId: action.blockerId, sourcePlayerId: action.playerId }, afterBlock);
+    }
+    return afterBlock;
+}
+// ─── PlayEvent ────────────────────────────────────────────────────────────────
+function applyPlayEvent(state, action) {
+    if (action.playerId !== state.activePlayerId) {
+        return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+    }
+    if (state.phase !== 'Main') {
+        return makeGameError('WRONG_PHASE', `PlayEvent requires Main phase, current: ${state.phase}`);
+    }
+    const player = state.players[action.playerId];
+    if (player === undefined) {
+        return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+    }
+    const card = state.cards[action.cardId];
+    if (card === undefined) {
+        return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+    }
+    if (card.type !== 'Event') {
+        return makeGameError('INVALID_CARD_TYPE', `Card ${action.cardId} is not an Event (got ${card.type})`);
+    }
+    if (!player.hand.includes(action.cardId)) {
+        return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in ${action.playerId}'s hand`);
+    }
+    // Active DON = in donArea, not tapped, not attached
+    const activeDonIds = player.donArea.filter((donId) => {
+        const don = state.cards[donId];
+        return don !== undefined && !don.tapped && don.attachedTo === null;
+    });
+    if (activeDonIds.length < card.cost) {
+        return makeGameError('INSUFFICIENT_DON', `Card costs ${card.cost} DON but only ${activeDonIds.length} active DON available`);
+    }
+    // Auto-rest exactly card.cost DON cards
+    const donToRest = activeDonIds.slice(0, card.cost);
+    const updatedCards = { ...state.cards };
+    for (const donId of donToRest) {
+        updatedCards[donId] = { ...updatedCards[donId], tapped: true };
+    }
+    // Event goes directly to trash
+    updatedCards[action.cardId] = { ...card, zone: 'trash' };
+    const updatedPlayer = {
+        ...player,
+        hand: player.hand.filter((id) => id !== action.cardId),
+        trash: [...player.trash, action.cardId],
+    };
+    const afterPlay = {
+        ...state,
+        cards: updatedCards,
+        players: { ...state.players, [action.playerId]: updatedPlayer },
+    };
+    // Trigger OnPlay effects
+    if (card.effects?.length) {
+        return resolveEffects(card.effects, 'OnPlay', {
+            sourceCardId: action.cardId,
+            sourcePlayerId: action.playerId,
+            ...(action.chosenTargetId !== undefined ? { chosenTargetId: action.chosenTargetId } : {}),
+        }, afterPlay);
+    }
+    return afterPlay;
+}
+// ─── ActivatedAbility ─────────────────────────────────────────────────────────
+function applyActivatedAbility(state, action) {
+    if (action.playerId !== state.activePlayerId) {
+        return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+    }
+    if (state.phase !== 'Main') {
+        return makeGameError('WRONG_PHASE', `ActivatedAbility requires Main phase, current: ${state.phase}`);
+    }
+    const player = state.players[action.playerId];
+    if (player === undefined) {
+        return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+    }
+    const card = state.cards[action.cardId];
+    if (card === undefined) {
+        return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+    }
+    const isOnBoard = player.board.includes(action.cardId) || player.leader === action.cardId;
+    if (!isOnBoard) {
+        return makeGameError('CARD_NOT_ON_BOARD', `Card ${action.cardId} is not on the board or leader`);
+    }
+    const hasActivated = card.effects?.some((e) => e.trigger === 'Activated');
+    if (!hasActivated) {
+        return makeGameError('NO_ACTIVATED_EFFECT', `Card ${action.cardId} has no Activated effects`);
+    }
+    return resolveEffects(card.effects, 'Activated', {
+        sourceCardId: action.cardId,
+        sourcePlayerId: action.playerId,
+        ...(action.chosenTargetId !== undefined ? { chosenTargetId: action.chosenTargetId } : {}),
+    }, state);
 }
 // ─── PlayCounter ──────────────────────────────────────────────────────────────
 function applyPlayCounter(state, action) {
@@ -604,6 +701,10 @@ export function applyAction(state, action) {
             return applyResolveCombat(state, action);
         case 'PlayCounter':
             return applyPlayCounter(state, action);
+        case 'PlayEvent':
+            return applyPlayEvent(state, action);
+        case 'ActivatedAbility':
+            return applyActivatedAbility(state, action);
         default: {
             const _exhaustive = action;
             return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

@@ -4,7 +4,14 @@
   "private": true,
   "scripts": {
     "test": "pnpm --recursive test",
-    "build": "pnpm --recursive build"
+    "build": "pnpm --recursive build",
+    "fetch-card-data": "pnpm --filter cards-dsl run fetch-cards --",
+    "generate-effects": "pnpm --filter cards-dsl run generate-effects --",
+    "fetch-images": "node scripts/download-card-images.mjs",
+    "validate-set": "node scripts/validate-set.mjs",
+    "check-images": "node scripts/check-images.mjs",
+    "check-effects": "node scripts/check-effects.mjs",
+    "sync-sets": "node scripts/sync-sets.mjs"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

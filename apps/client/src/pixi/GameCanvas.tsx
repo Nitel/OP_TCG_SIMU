@@ -13,11 +13,12 @@ interface Props {
   onCardClick: (id: CardId) => void;
   hideCards?: boolean;
   combatViewDefenderId?: PlayerId | null;
+  myPlayerId?: PlayerId | null;
 }
 
 type Status = 'idle' | 'ready' | 'error';
 
-export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false, combatViewDefenderId = null }: Props) {
+export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false, combatViewDefenderId = null, myPlayerId = null }: Props) {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const sceneRef    = useRef<Container | null>(null);
   const animRef     = useRef<Container | null>(null);
@@ -27,8 +28,8 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
   const [initError, setInitError] = useState<string>('');
 
   // Keep a ref to the latest render props for the texture-loaded callback
-  const renderPropsRef = useRef({ gameState, uiState, onCardClick, hideCards, combatViewDefenderId });
-  renderPropsRef.current = { gameState, uiState, onCardClick, hideCards, combatViewDefenderId };
+  const renderPropsRef = useRef({ gameState, uiState, onCardClick, hideCards, combatViewDefenderId, myPlayerId });
+  renderPropsRef.current = { gameState, uiState, onCardClick, hideCards, combatViewDefenderId, myPlayerId };
 
   // ── Initialize PixiJS once on mount ─────────────────────────────────────
   useEffect(() => {
@@ -66,7 +67,7 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
           if (s === null || al === null) return;
           const p = renderPropsRef.current;
           try {
-            renderGameState(s, al, p.gameState, p.uiState, p.onCardClick, p.hideCards, p.combatViewDefenderId);
+            renderGameState(s, al, p.gameState, p.uiState, p.onCardClick, p.hideCards, p.combatViewDefenderId, p.myPlayerId);
           } catch (err) {
             console.error('[GameCanvas] texture rerender threw:', err);
           }
@@ -106,11 +107,11 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
     )];
     preloadAllTextures(templateIds);
     try {
-      renderGameState(scene, animLayer, gameState, uiState, onCardClick, hideCards, combatViewDefenderId);
+      renderGameState(scene, animLayer, gameState, uiState, onCardClick, hideCards, combatViewDefenderId, myPlayerId);
     } catch (err) {
       console.error('[GameCanvas] renderGameState threw:', err);
     }
-  }, [status, gameState, uiState, onCardClick, hideCards, combatViewDefenderId]);
+  }, [status, gameState, uiState, onCardClick, hideCards, combatViewDefenderId, myPlayerId]);
 
   if (status === 'error') {
     return (

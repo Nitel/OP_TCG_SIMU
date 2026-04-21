@@ -22,6 +22,8 @@ export type {
   DeclareBlockAction,
   ResolveCombatAction,
   PlayCounterAction,
+  PlayEventAction,
+  ActivatedAbilityAction,
   GameError,
   ActionResult,
   // DSL types

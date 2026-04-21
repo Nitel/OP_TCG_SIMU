@@ -501,3 +501,141 @@ describe('OnPlay: AddLife +1', () => {
     expect(result.players[P1]!.deck.length).toBe(p1DeckBefore - 1);
   });
 });
+
+// ── 11. PlayEvent — effet résolu + carte en trash ─────────────────────────────
+
+describe('PlayEvent', () => {
+  it('jouer un Event résout ses effets et envoie la carte en trash', () => {
+    const base = bootstrapGame();
+    const drawEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'Draw', count: 1 }],
+    };
+    const eventCard: Card = {
+      id: makeCardId('event-draw'),
+      name: 'Test Event',
+      cost: 0,
+      power: 0,
+      color: 'Red',
+      type: 'Event',
+      zone: 'hand',
+      ownerId: P1,
+      tapped: false,
+      attachedTo: null,
+      effects: [drawEffect],
+    };
+    const state = addToHand(base, eventCard);
+    const deckBefore  = state.players[P1]!.deck.length;
+    const handBefore  = state.players[P1]!.hand.length; // includes eventCard
+    const trashBefore = state.players[P1]!.trash.length;
+
+    const result = applyAction(state, {
+      type: 'PlayEvent',
+      playerId: P1,
+      cardId: eventCard.id,
+    });
+
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // Card removed from hand, sent to trash
+    expect(result.players[P1]!.trash.length).toBe(trashBefore + 1);
+    expect(result.players[P1]!.trash).toContain(eventCard.id);
+    expect(result.cards[eventCard.id]?.zone).toBe('trash');
+    // Effect resolved: drew 1 → hand: -1 (played) +1 (draw) = same size
+    expect(result.players[P1]!.hand.length).toBe(handBefore);
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 1);
+  });
+
+  it('PlayEvent rejette si la carte est un Character (pas un Event)', () => {
+    const base = bootstrapGame();
+    const charCard = makeChar('not-an-event', 'p1', 2000, { zone: 'hand', cost: 0 });
+    const state = addToHand(base, charCard);
+
+    const result = applyAction(state, {
+      type: 'PlayEvent',
+      playerId: P1,
+      cardId: charCard.id,
+    });
+
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) {
+      expect(result.code).toBe('INVALID_CARD_TYPE');
+    }
+  });
+});
+
+// ── 12. Condition HasRestingDon ───────────────────────────────────────────────
+
+describe('Condition HasRestingDon', () => {
+  it("l'effet ne se déclenche pas sans DON reposés suffisants", () => {
+    const base = bootstrapGame();
+    const condEffect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'HasRestingDon', count: 2 },
+      actions: [{ type: 'Draw', count: 2 }],
+    };
+    const playCard = makeChar('cond-card', 'p1', 2000, {
+      zone: 'hand',
+      cost: 0,
+      effects: [condEffect],
+    });
+    const state = addToHand(base, playCard);
+    // No resting DON → condition fails
+    const deckBefore = state.players[P1]!.deck.length;
+
+    const result = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: playCard.id,
+    });
+
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // No draw should have occurred
+    expect(result.players[P1]!.deck.length).toBe(deckBefore);
+  });
+
+  it("l'effet se déclenche quand 2 DON reposés sont présents", () => {
+    const base = bootstrapGame();
+    const condEffect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'HasRestingDon', count: 2 },
+      actions: [{ type: 'Draw', count: 2 }],
+    };
+    const playCard = makeChar('cond-card-2', 'p1', 2000, {
+      zone: 'hand',
+      cost: 0,
+      effects: [condEffect],
+    });
+
+    // Inject 2 tapped (resting) DON into P1's donArea
+    const don1 = makeDon('p1-resting-don-1', 'p1');
+    const don2 = makeDon('p1-resting-don-2', 'p1');
+    const tappedDon1 = { ...don1, tapped: true };
+    const tappedDon2 = { ...don2, tapped: true };
+
+    const p1 = base.players[P1]!;
+    let state: GameState = {
+      ...base,
+      cards: { ...base.cards, [tappedDon1.id]: tappedDon1, [tappedDon2.id]: tappedDon2 },
+      players: {
+        ...base.players,
+        [P1]: { ...p1, donArea: [...p1.donArea, tappedDon1.id, tappedDon2.id] },
+      },
+    };
+    state = addToHand(state, playCard);
+    const deckBefore = state.players[P1]!.deck.length;
+
+    const result = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: playCard.id,
+    });
+
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Condition met → drew 2
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 2);
+  });
+});

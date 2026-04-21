@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "cardId": "OP02-090",
+    "cardName": "Hydra",
+    "errors": [
+      {
+        "path": "effects[1].actions",
+        "message": "Effect must have at least one action"
+      }
+    ],
+    "rawResponse": "```json\n{\n  \"id\": \"OP02-090\",\n  \"name\": \"Hydra\",\n  \"cost\": 1,\n  \"power\": 0,\n  \"color\": \"Purple\",\n  \"cardType\": \"Event\",\n  \"keywords\": [],\n  \"effects\": [\n    {\n      \"trigger\": \"Activated\",\n      \"actions\": [\n        {\n          \"type\": \"PowerBoost\",\n          \"amount\": -3000,\n          \"target\": {\n            \"scope\": \"ChooseOpponentCharacter\"\n          },\n          \"duration\": \"EndOfTurn\"\n        }\n      ]\n    },\n    {\n      \"trigger\": \"Trigger\",\n      \"condition\": {\n        \"type\": \"HasRestingDon\",\n        \"count\": 6\n      },\n      \"actions\": []\n    }\n  ]\n}\n```"
+  },
+  {
+    "cardId": "OP02-085",
+    "cardName": "Magellan (085)",
+    "errors": [
+      {
+        "path": "effects[0].actions[0].count",
+        "message": "GiveDon.count must be a positive number"
+      },
+      {
+        "path": "effects[1].actions[0].count",
+        "message": "GiveDon.count must be a positive number"
+      }
+    ],
+    "rawResponse": "```json\n{\"id\":\"OP02-085\",\"name\":\"Magellan (085)\",\"cost\":5,\"power\":6000,\"color\":\"Purple\",\"cardType\":\"Character\",\"keywords\":[],\"effects\":[{\"trigger\":\"OnPlay\",\"condition\":{\"type\":\"HasRestingDon\",\"count\":1},\"actions\":[{\"type\":\"GiveDon\",\"count\":-1,\"target\":{\"scope\":\"OpponentLeader\"}}]},{\"trigger\":\"OnKO\",\"actions\":[{\"type\":\"GiveDon\",\"count\":-2,\"target\":{\"scope\":\"OpponentLeader\"}}]}],\"counter\":0}\n```"
+  }
+]

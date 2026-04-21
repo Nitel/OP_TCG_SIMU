@@ -79,8 +79,8 @@ function validateAction(action: unknown, path: string): ParseError[] {
       }
       break;
     case 'GiveDon':
-      if (typeof a['count'] !== 'number' || a['count'] < 1) {
-        errors.push({ path: `${path}.count`, message: 'GiveDon.count must be a positive number' });
+      if (typeof a['count'] !== 'number' || a['count'] === 0) {
+        errors.push({ path: `${path}.count`, message: 'GiveDon.count must be a non-zero number' });
       }
       break;
     case 'SearchDeck':
@@ -130,7 +130,9 @@ function validateEffect(effect: unknown, path: string): ParseError[] {
   if (!VALID_TRIGGERS.includes(e['trigger'] as EffectTrigger)) {
     errors.push({ path: `${path}.trigger`, message: `Unknown trigger: ${String(e['trigger'])}` });
   }
-  if (!Array.isArray(e['actions']) || e['actions'].length === 0) {
+  if (!Array.isArray(e['actions'])) {
+    errors.push({ path: `${path}.actions`, message: 'Effect.actions must be an array' });
+  } else if (e['actions'].length === 0 && !e['condition']) {
     errors.push({ path: `${path}.actions`, message: 'Effect must have at least one action' });
   } else {
     (e['actions'] as unknown[]).forEach((action, i) => {

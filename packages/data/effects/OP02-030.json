@@ -1,0 +1,40 @@
+{
+  "id": "OP02-030",
+  "name": "Kouzuki Oden (Alternate Art)",
+  "cost": 8,
+  "power": 8000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 3
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "counter": 0
+}

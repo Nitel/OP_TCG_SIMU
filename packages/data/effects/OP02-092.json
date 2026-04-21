@@ -1,0 +1,39 @@
+{
+  "id": "OP02-092",
+  "name": "Impel Down",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Impel Down"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "counter": 0
+}
