@@ -1,0 +1,32 @@
+{
+  "id": "OP02-087",
+  "name": "Minotaur",
+  "cost": 4,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "DoubleAttack"
+  ],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

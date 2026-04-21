@@ -1,0 +1,29 @@
+{
+  "id": "OP02-078",
+  "name": "Daifugo",
+  "cost": 3,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 3
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "counter": 0
+}
