@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,10 +32,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 5. Builder l'app
-      - name: Build app
-        run: pnpm build
+      # 5. Builder chaque app séparément pour éviter les conflits
+      - name: Build client
+        run: pnpm --filter ./apps/client build
 
-      # 6. Lancer les tests (à ajouter après)
+      - name: Build server
+        run: pnpm --filter ./apps/server build
+
+      # 6. Lancer les tests
       - name: Run tests
         run: pnpm test
