@@ -5,6 +5,8 @@ import type { GameAction, GameState, PlayerId, StartGameAction } from 'game-engi
 export interface NetworkCallbacks {
   onStateUpdate: (state: GameState) => void;
   onError: (msg: string) => void;
+  onConnect?: () => void;
+  onDisconnect?: () => void;
 }
 
 export class SocketClient {
@@ -25,7 +27,16 @@ export class SocketClient {
       callbacks.onError(message);
     });
 
+    this.socket.on('connect', () => {
+      callbacks.onConnect?.();
+    });
+
+    this.socket.on('disconnect', () => {
+      callbacks.onDisconnect?.();
+    });
+
     this.socket.on('connect_error', (err: Error) => {
+      callbacks.onDisconnect?.();
       callbacks.onError(`Connexion impossible : ${err.message}`);
     });
   }

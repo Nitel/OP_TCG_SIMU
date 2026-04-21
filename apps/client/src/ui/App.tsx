@@ -79,6 +79,7 @@ export function App() {
   const [needsHandoff, setNeedsHandoff]             = useState(false);
   const [needsCombatHandoff, setNeedsCombatHandoff] = useState(false);
   const [notification, setNotification] = useState<{ cardId: CardId; label: string } | null>(null);
+  const [socketStatus, setSocketStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
 
   const prevActivePlayerRef = useRef<PlayerId | undefined>(undefined);
   const socketRef           = useRef<SocketClient | null>(null);
@@ -107,11 +108,14 @@ export function App() {
   useEffect(() => {
     if (appScreen !== 'game' || !isNetwork || activeConfig === null) return;
 
+    setSocketStatus('connecting');
     const client = new SocketClient(SERVER_URL, {
       onStateUpdate: (state) => {
         setGameState(() => { setUiState(IDLE_UI); return state; });
       },
       onError: (msg) => setUiState(u => ({ ...u, errorMessage: msg })),
+      onConnect: () => setSocketStatus('connected'),
+      onDisconnect: () => setSocketStatus('disconnected'),
     });
     socketRef.current = client;
 
@@ -320,9 +324,14 @@ export function App() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', color: '#cccccc', fontFamily: 'monospace', gap: 12 }}>
         <span style={{ fontSize: 18 }}>ONE PIECE TCG — SIMULATOR</span>
-        <span style={{ fontSize: 13, color: '#6688aa' }}>
-          Connexion au serveur… ({String(myPlayerId)} / salle : {roomId})
+        <span style={{
+          fontSize: 13,
+          color: socketStatus === 'connected' ? '#44dd88' : socketStatus === 'connecting' ? '#ffcc44' : '#ff4444',
+        }}>
+          {socketStatus === 'connected' ? '● Connecté — en attente du joueur adverse…' : socketStatus === 'disconnected' ? '● Impossible de joindre le serveur' : '● Connexion au serveur…'}
+          {' '}({String(myPlayerId)} / salle : {roomId})
         </span>
+        <span style={{ fontSize: 11, color: '#445566' }}>{SERVER_URL}</span>
       </div>
     );
   }
@@ -334,8 +343,18 @@ export function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, padding: 16, paddingBottom: 0 }}>
-      <h1 style={{ color: '#cccccc', fontSize: 16, letterSpacing: 2, marginBottom: 12 }}>
+      <h1 style={{ color: '#cccccc', fontSize: 16, letterSpacing: 2, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
         ONE PIECE TCG — SIMULATOR{isNetwork ? ` [RÉSEAU · ${String(myPlayerId)}]` : ''}
+        {isNetwork && (
+          <span style={{
+            fontSize: 11,
+            fontWeight: 'normal',
+            letterSpacing: 1,
+            color: socketStatus === 'connected' ? '#44dd88' : socketStatus === 'connecting' ? '#ffcc44' : '#ff4444',
+          }}>
+            {socketStatus === 'connected' ? '● CONNECTÉ' : socketStatus === 'connecting' ? '● CONNEXION…' : '● DÉCONNECTÉ'}
+          </span>
+        )}
       </h1>
       <div style={{ position: 'relative' }}>
         <GameCanvas
