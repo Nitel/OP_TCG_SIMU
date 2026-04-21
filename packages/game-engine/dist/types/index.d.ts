@@ -215,6 +215,8 @@ export interface PlayCharacterFromHandAction {
     readonly type: 'PlayCharacterFromHand';
     readonly playerId: PlayerId;
     readonly cardId: CardId;
+    /** Pre-chosen target for Choose* effect selectors */
+    readonly chosenTargetId?: CardId;
 }
 /** Attach one DON card from donArea to a character on the board (or leader) */
 export interface AssignDonAction {
@@ -265,7 +267,23 @@ export interface PlayCounterAction {
     readonly playerId: PlayerId;
     readonly cardId: CardId;
 }
-export type GameAction = MulliganAction | DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction | DeclareAttackAction | DeclareBlockAction | ResolveCombatAction | PlayCounterAction;
+/** Play an Event card from hand, paying its DON cost. Effects resolve, card goes to trash. */
+export interface PlayEventAction {
+    readonly type: 'PlayEvent';
+    readonly playerId: PlayerId;
+    readonly cardId: CardId;
+    /** Pre-chosen target for Choose* effect selectors */
+    readonly chosenTargetId?: CardId;
+}
+/** Activate an Activated ability on a board card or leader */
+export interface ActivatedAbilityAction {
+    readonly type: 'ActivatedAbility';
+    readonly playerId: PlayerId;
+    readonly cardId: CardId;
+    /** Pre-chosen target for Choose* effect selectors */
+    readonly chosenTargetId?: CardId;
+}
+export type GameAction = MulliganAction | DrawCardAction | StartGameAction | DrawPhaseAction | PlayCharacterFromHandAction | AssignDonAction | EndPhaseAction | DeclareAttackAction | DeclareBlockAction | ResolveCombatAction | PlayCounterAction | PlayEventAction | ActivatedAbilityAction;
 export interface GameError {
     readonly kind: 'GameError';
     readonly code: string;

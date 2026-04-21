@@ -1,7 +1,10 @@
 import { makeCardId } from 'game-engine';
 import type { Card, CardEffect, CardKeyword, PlayerId, PlayerSetup } from 'game-engine';
 
+// ─── AUTO-GENERATED: raw set imports — do not edit manually, run pnpm sync-sets
 import op01Raw from '../../../../packages/data/raw/OP-01.json';
+import op02Raw from '../../../../packages/data/raw/OP-02.json';
+// ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
 // ─── Local types matching raw/effect file shapes ──────────────────────────────
 
@@ -24,7 +27,7 @@ interface EffectDef {
 // ─── Load effect files (eager = synchronous at build time) ───────────────────
 
 const effectModules = import.meta.glob(
-  '../../../../packages/data/effects/OP01-*.json',
+  '../../../../packages/data/effects/*.json',
   { eager: true },
 ) as Record<string, { readonly default: EffectDef }>;
 
@@ -79,10 +82,10 @@ function rawToCard(
  */
 export function buildRandomDeck(playerId: PlayerId): PlayerSetup {
   const pid = String(playerId);
-  const allCards = op01Raw as unknown as RawCard[];
+  const allRaw = op01Raw as unknown as RawCard[];
 
-  const leaders = allCards.filter((c) => c.cardType === 'Leader');
-  const nonLeaders = allCards.filter((c) => c.cardType !== 'Leader');
+  const leaders = allRaw.filter((c) => c.cardType === 'Leader');
+  const nonLeaders = allRaw.filter((c) => c.cardType !== 'Leader');
 
   // Random leader
   const leaderRaw = leaders[Math.floor(Math.random() * leaders.length)]!;
@@ -127,3 +130,146 @@ export function buildRandomDeck(playerId: PlayerId): PlayerSetup {
 export const OP01_TEMPLATE_IDS: string[] = [
   ...new Set((op01Raw as unknown as RawCard[]).map((c) => c.id)),
 ];
+
+// ─── Deck Builder types & API ─────────────────────────────────────────────────
+
+/** A card template as shown in the deck builder UI (no instance data). */
+export interface CardTemplate {
+  readonly id: string;
+  readonly name: string;
+  readonly type: 'Leader' | 'Character' | 'Event';
+  readonly cost: number;
+  readonly power: number;
+  readonly color: string;
+  readonly counter: number | null;
+  readonly keywords: readonly string[];
+  readonly isParallel: boolean;
+}
+
+/** A user-saved deck (serialisable to localStorage). */
+export interface SavedDeck {
+  readonly name: string;
+  readonly leaderId: string;
+  readonly cards: readonly { readonly id: string; readonly count: number }[];
+}
+
+// ─── AUTO-GENERATED: allRaw — do not edit manually, run pnpm sync-sets
+const allRaw: RawCard[] = [
+  ...(op01Raw as unknown as RawCard[]),
+  ...(op02Raw as unknown as RawCard[]),
+];
+// ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
+
+// IDs qui apparaissent plus d'une fois → les occurrences suivantes sont des arts alternatifs
+const _seenIds = new Set<string>();
+const _altArtIds = new Set<string>();
+for (const c of allRaw) {
+  if (_seenIds.has(c.id)) _altArtIds.add(c.id + '|' + c.name);
+  else _seenIds.add(c.id);
+}
+
+/** All card templates (Leaders + Characters + Events), for the deck builder grid. */
+export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = allRaw
+  .filter((c): c is RawCard & { cardType: 'Leader' | 'Character' | 'Event' } =>
+    c.cardType === 'Leader' || c.cardType === 'Character' || c.cardType === 'Event',
+  )
+  .map((c) => {
+    const eff = effectMap[c.id];
+    return {
+      id: c.id,
+      name: c.name,
+      type: c.cardType,
+      cost: c.cost,
+      power: c.power,
+      color: c.color,
+      counter: c.counter,
+      keywords: eff?.keywords ?? [],
+      isParallel: _altArtIds.has(c.id + '|' + c.name),
+    };
+  });
+
+/**
+ * Build a PlayerSetup from a user-selected SavedDeck.
+ * Cards not found in the pool are silently skipped.
+ * Deck is padded with random cards if fewer than 50 valid cards are provided.
+ */
+export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerSetup {
+  const pid = String(playerId);
+  const byId: Record<string, RawCard> = Object.fromEntries(allRaw.map((c) => [c.id, c]));
+
+  // Leader
+  const leaderRaw = byId[deck.leaderId];
+  const leaderCard = rawToCard(
+    leaderRaw ?? allRaw.find((c) => c.cardType === 'Leader')!,
+    `${pid}-${deck.leaderId}-leader`,
+    playerId,
+    'leader',
+  );
+
+  // Main deck cards
+  const deckCards: Card[] = [];
+  const copyCount: Record<string, number> = {};
+  for (const entry of deck.cards) {
+    const raw = byId[entry.id];
+    if (raw === undefined) continue;
+    const clamped = Math.min(entry.count, 4);
+    for (let i = 0; i < clamped && deckCards.length < 50; i++) {
+      const idx = copyCount[raw.id] ?? 0;
+      copyCount[raw.id] = idx + 1;
+      deckCards.push(rawToCard(raw, `${pid}-${raw.id}-${idx}`, playerId, 'deck'));
+    }
+  }
+
+  // Pad to 50 with random non-leader cards if needed
+  if (deckCards.length < 50) {
+    const nonLeaders = allRaw.filter((c) => c.cardType !== 'Leader');
+    const padPool = shuffle(nonLeaders.flatMap((c) => [c, c, c, c]));
+    for (const raw of padPool) {
+      if (deckCards.length >= 50) break;
+      const existing = copyCount[raw.id] ?? 0;
+      if (existing >= 4) continue;
+      copyCount[raw.id] = existing + 1;
+      deckCards.push(rawToCard(raw, `${pid}-${raw.id}-${existing}`, playerId, 'deck'));
+    }
+  }
+
+  // 10 DON!! cards
+  const donCards: Card[] = Array.from({ length: 10 }, (_, i): Card => ({
+    id: makeCardId(`${pid}-don-${i}`),
+    name: 'DON!!',
+    cost: 0,
+    power: 0,
+    color: 'Red',
+    type: 'DON',
+    zone: 'deck',
+    ownerId: playerId,
+    tapped: false,
+    attachedTo: null,
+  }));
+
+  return { id: playerId, leaderCard, deckCards, donCards };
+}
+
+// ─── localStorage helpers ─────────────────────────────────────────────────────
+
+const STORAGE_KEY = 'op_tcg_saved_decks';
+
+export function loadDecksFromStorage(): SavedDeck[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw === null) return [];
+    return JSON.parse(raw) as SavedDeck[];
+  } catch {
+    return [];
+  }
+}
+
+export function saveDeckToStorage(deck: SavedDeck): void {
+  const decks = loadDecksFromStorage().filter((d) => d.name !== deck.name);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...decks, deck]));
+}
+
+export function deleteDeckFromStorage(name: string): void {
+  const decks = loadDecksFromStorage().filter((d) => d.name !== name);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(decks));
+}

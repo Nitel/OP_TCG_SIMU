@@ -18,6 +18,8 @@ export interface EffectContext {
   readonly sourceCardId: CardId;
   /** The player who controls the source card */
   readonly sourcePlayerId: PlayerId;
+  /** Pre-chosen target card ID (from player interaction) — used instead of auto-select */
+  readonly chosenTargetId?: CardId;
 }
 
 // ─── Target selection ─────────────────────────────────────────────────────────
@@ -63,8 +65,18 @@ function selectTargets(
       return ownPlayer?.board ?? [];
 
     case 'ChooseOpponentCharacter': {
+      const pool = opponent?.board ?? [];
+      // If player pre-chose a target, validate it against filters
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
+        const chosen = state.cards[context.chosenTargetId];
+        if (chosen !== undefined) {
+          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
+          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
+          if (costOk && powerOk) return [context.chosenTargetId];
+        }
+      }
       // Auto-select: first opponent character satisfying optional filters
-      const candidates = (opponent?.board ?? []).filter((id) => {
+      const candidates = pool.filter((id) => {
         const card = state.cards[id];
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
@@ -75,7 +87,17 @@ function selectTargets(
     }
 
     case 'ChooseOwnCharacter': {
-      const candidates = (ownPlayer?.board ?? []).filter((id) => {
+      const pool = ownPlayer?.board ?? [];
+      // If player pre-chose a target, validate it against filters
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
+        const chosen = state.cards[context.chosenTargetId];
+        if (chosen !== undefined) {
+          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
+          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
+          if (costOk && powerOk) return [context.chosenTargetId];
+        }
+      }
+      const candidates = pool.filter((id) => {
         const card = state.cards[id];
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
@@ -191,9 +213,36 @@ function resolveAction(
 
     // ── GiveDon ───────────────────────────────────────────────────────────────
     case 'GiveDon': {
-      // Give opponent DON!! cards from their donDeck
       const opponent = state.players[opponentId];
-      if (opponent === undefined || opponent.donDeck.length === 0) return state;
+      if (opponent === undefined) return state;
+
+      if (action.count < 0) {
+        // Negative: remove |count| active (untapped, unattached) DON from opponent's donArea
+        const removeCount = Math.abs(action.count);
+        const freeDon = opponent.donArea.filter((id) => {
+          const d = state.cards[id];
+          return d !== undefined && !d.tapped && d.attachedTo === null;
+        });
+        const toRemove = freeDon.slice(0, removeCount);
+        if (toRemove.length === 0) return state;
+        const updatedCards: Record<string, Card> = { ...state.cards };
+        for (const id of toRemove) {
+          updatedCards[id] = { ...updatedCards[id]!, zone: 'donDeck' as const };
+        }
+        const updatedOpponent: PlayerState = {
+          ...opponent,
+          donArea: opponent.donArea.filter((id) => !toRemove.includes(id)),
+          donDeck: [...opponent.donDeck, ...toRemove],
+        };
+        return {
+          ...state,
+          cards: updatedCards as Readonly<Record<CardId, Card>>,
+          players: { ...state.players, [opponentId]: updatedOpponent },
+        };
+      }
+
+      // Positive: give opponent DON!! cards from their donDeck
+      if (opponent.donDeck.length === 0) return state;
       const count = Math.min(action.count, opponent.donDeck.length);
       const drawn = opponent.donDeck.slice(0, count);
       const remaining = opponent.donDeck.slice(count);

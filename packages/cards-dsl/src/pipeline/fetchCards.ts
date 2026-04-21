@@ -83,7 +83,7 @@ async function fetchSet(setId: string): Promise<ApiCard[]> {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
-  const setId = process.argv[2];
+  const setId = process.argv.slice(2).find((a: string) => a !== '--');
 
   if (setId === undefined) {
     console.log('Usage: pnpm fetch-cards <SET_ID>  (e.g. OP-01)\n');

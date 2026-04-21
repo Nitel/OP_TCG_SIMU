@@ -45,11 +45,13 @@ interface FailureEntry {
 
 async function main(): Promise<void> {
   // Resolve set file
-  const setArg = process.argv[2];
+  const setArg = process.argv.slice(2).find((a: string) => a !== '--');
   let rawPath: string;
 
   if (setArg !== undefined) {
-    rawPath = join(RAW_DIR, `${setArg}.json`);
+    // Normalise OP02 → OP-02, ST21 → ST-21, etc.
+    const normalised = setArg.replace(/^([A-Za-z]+)(\d+)$/, '$1-$2').toUpperCase();
+    rawPath = join(RAW_DIR, `${normalised}.json`);
   } else {
     // Pick first available raw file
     const files = readdirSync(RAW_DIR).filter(f => f.endsWith('.json'));

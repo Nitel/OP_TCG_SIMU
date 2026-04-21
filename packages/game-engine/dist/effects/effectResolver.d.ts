@@ -4,6 +4,8 @@ export interface EffectContext {
     readonly sourceCardId: CardId;
     /** The player who controls the source card */
     readonly sourcePlayerId: PlayerId;
+    /** Pre-chosen target card ID (from player interaction) — used instead of auto-select */
+    readonly chosenTargetId?: CardId;
 }
 /**
  * Filter and resolve all effects matching `trigger` from the given list.

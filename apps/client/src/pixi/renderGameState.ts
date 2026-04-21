@@ -205,8 +205,8 @@ function loadCardTexture(cardId: string): void {
   }
   if (textureCache.has(templateId)) return; // already loaded or loading
   textureCache.set(templateId, Texture.EMPTY); // mark as loading
-  const url1 = `/card-images/${templateId}_p1.png`;
-  const url2 = `/card-images/${templateId}.png`;
+  const url1 = `/card-images/${templateId}.png`;
+  const url2 = `/card-images/${templateId}_p1.png`;
   (Assets.load(url1) as Promise<Texture>)
     .catch(() => Assets.load(url2) as Promise<Texture>)
     .then((tex: Texture) => {
@@ -222,7 +222,7 @@ export function preloadAllTextures(templateIds: string[]): void {
   for (const templateId of templateIds) {
     if (textureCache.has(templateId)) continue;
     textureCache.set(templateId, Texture.EMPTY); // mark as loading
-    const url = `/card-images/${templateId}_p1.png`;
+    const url = `/card-images/${templateId}.png`;
     (Assets.load(url) as Promise<Texture>)
       .then((tex: Texture) => {
         textureCache.set(templateId, tex);
@@ -431,7 +431,7 @@ function drawCard(
       hoveredCardId = card.id;
       hoverTimer = setTimeout(() => {
         if (hoveredCardId === card.id) showCardPreview(card);
-      }, 1000);
+      }, 500);
     });
     cardContainer.on('pointerout', () => {
       if (hoveredCardId === card.id) {
@@ -532,6 +532,15 @@ function isValidTarget(
       && id !== uiState.selectedCardId
       && card.ownerId === activePlayerId;
   }
+  if (uiState.selectionMode === 'chooseTarget') {
+    const scope = uiState.targetScope;
+    if (scope === 'ChooseOpponentCharacter') {
+      return card.zone === 'board' && card.ownerId !== activePlayerId;
+    }
+    if (scope === 'ChooseOwnCharacter') {
+      return card.zone === 'board' && card.ownerId === activePlayerId;
+    }
+  }
   return false;
 }
 
@@ -550,6 +559,7 @@ function renderPlayer(
   hideCards: boolean,
   combatViewDefenderId: PlayerId | null,
   doubleAttackerId: CardId | null,
+  myPlayerId: PlayerId | null,
 ): void {
   const isTop    = pos === 'top';
   const isActive = player.id === activePlayerId;
@@ -559,11 +569,13 @@ function renderPlayer(
   const boardY   = isTop ? P2_BOARD_Y   : P1_BOARD_Y;
 
   // HAND visibility:
+  // - Network mode (myPlayerId set): only show the local player's own hand face-up
   // - hideCards: privacy mode (turn/combat handoff) → all hands face-down
   // - combatViewDefenderId set: defender's hand face-up, everyone else face-down
-  // - normal: only active player's hand face-up
-  const handFaceDown = hideCards
-    || (combatViewDefenderId !== null ? player.id !== combatViewDefenderId : !isActive);
+  // - normal hotseat: only active player's hand face-up
+  const handFaceDown = myPlayerId !== null
+    ? player.id !== myPlayerId
+    : hideCards || (combatViewDefenderId !== null ? player.id !== combatViewDefenderId : !isActive);
   // Counter cards are greyed out (no cyan highlight) if a blocker is selected or already declared
   const blockerLocked = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
   drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId, blockerLocked);
@@ -686,6 +698,7 @@ export function renderGameState(
   onCardClick: (id: CardId) => void,
   hideCards = false,
   combatViewDefenderId: PlayerId | null = null,
+  myPlayerId: PlayerId | null = null,
 ): void {
   // Detect new board cards for scale-in animation
   const newBoardIds = new Set<CardId>();
@@ -727,6 +740,6 @@ export function renderGameState(
     return (attacker?.keywords ?? []).includes('DoubleAttack') ? attackerId : null;
   })();
 
-  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId);
-  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId);
+  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId);
+  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId);
 }
