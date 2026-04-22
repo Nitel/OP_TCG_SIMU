@@ -4,6 +4,10 @@ import type { Card, CardEffect, CardKeyword, PlayerId, PlayerSetup } from 'game-
 // ─── AUTO-GENERATED: raw set imports — do not edit manually, run pnpm sync-sets
 import op01Raw from '../../../../packages/data/raw/OP-01.json';
 import op02Raw from '../../../../packages/data/raw/OP-02.json';
+import st21Raw from '../../../../packages/data/raw/ST-21.json';
+import st22Raw from '../../../../packages/data/raw/ST-22.json';
+import st15Raw from '../../../../packages/data/raw/ST-15.json';
+import st27Raw from '../../../../packages/data/raw/ST-27.json';
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
 // ─── Local types matching raw/effect file shapes ──────────────────────────────
@@ -11,11 +15,21 @@ import op02Raw from '../../../../packages/data/raw/OP-02.json';
 interface RawCard {
   readonly id: string;
   readonly name: string;
-  readonly cardType: 'Leader' | 'Character' | 'Event' | 'Stage';
+  readonly cardType: string;
   readonly cost: number;
   readonly power: number;
   readonly color: string;
   readonly counter: number | null;
+}
+
+function normalizeCardType(t: string): 'Leader' | 'Character' | 'Event' | 'Stage' | null {
+  switch (t.toLowerCase()) {
+    case 'leader':    return 'Leader';
+    case 'character': return 'Character';
+    case 'event':     return 'Event';
+    case 'stage':     return 'Stage';
+    default:          return null;
+  }
 }
 
 interface EffectDef {
@@ -58,7 +72,7 @@ function rawToCard(
     cost: raw.cost,
     power: raw.power,
     color: raw.color as Card['color'],
-    type: raw.cardType,
+    type: (normalizeCardType(raw.cardType) ?? 'Character') as Card['type'],
     zone,
     ownerId: playerId,
     tapped: false,
@@ -84,8 +98,8 @@ export function buildRandomDeck(playerId: PlayerId): PlayerSetup {
   const pid = String(playerId);
   const allRaw = op01Raw as unknown as RawCard[];
 
-  const leaders = allRaw.filter((c) => c.cardType === 'Leader');
-  const nonLeaders = allRaw.filter((c) => c.cardType !== 'Leader');
+  const leaders = allRaw.filter((c) => c.cardType.toLowerCase() === 'leader');
+  const nonLeaders = allRaw.filter((c) => c.cardType.toLowerCase() !== 'leader');
 
   // Random leader
   const leaderRaw = leaders[Math.floor(Math.random() * leaders.length)]!;
@@ -157,6 +171,10 @@ export interface SavedDeck {
 const allRaw: RawCard[] = [
   ...(op01Raw as unknown as RawCard[]),
   ...(op02Raw as unknown as RawCard[]),
+  ...(st21Raw as unknown as RawCard[]),
+  ...(st22Raw as unknown as RawCard[]),
+  ...(st15Raw as unknown as RawCard[]),
+  ...(st27Raw as unknown as RawCard[]),
 ];
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
@@ -170,15 +188,16 @@ for (const c of allRaw) {
 
 /** All card templates (Leaders + Characters + Events), for the deck builder grid. */
 export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = allRaw
-  .filter((c): c is RawCard & { cardType: 'Leader' | 'Character' | 'Event' } =>
-    c.cardType === 'Leader' || c.cardType === 'Character' || c.cardType === 'Event',
+  .map((c) => ({ ...c, normalizedType: normalizeCardType(c.cardType) }))
+  .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' } =>
+    c.normalizedType === 'Leader' || c.normalizedType === 'Character' || c.normalizedType === 'Event',
   )
   .map((c) => {
     const eff = effectMap[c.id];
     return {
       id: c.id,
       name: c.name,
-      type: c.cardType,
+      type: c.normalizedType,
       cost: c.cost,
       power: c.power,
       color: c.color,
@@ -200,7 +219,7 @@ export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerS
   // Leader
   const leaderRaw = byId[deck.leaderId];
   const leaderCard = rawToCard(
-    leaderRaw ?? allRaw.find((c) => c.cardType === 'Leader')!,
+    leaderRaw ?? allRaw.find((c) => c.cardType.toLowerCase() === 'leader')!,
     `${pid}-${deck.leaderId}-leader`,
     playerId,
     'leader',
@@ -222,7 +241,7 @@ export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerS
 
   // Pad to 50 with random non-leader cards if needed
   if (deckCards.length < 50) {
-    const nonLeaders = allRaw.filter((c) => c.cardType !== 'Leader');
+    const nonLeaders = allRaw.filter((c) => c.cardType.toLowerCase() !== 'leader');
     const padPool = shuffle(nonLeaders.flatMap((c) => [c, c, c, c]));
     for (const raw of padPool) {
       if (deckCards.length >= 50) break;

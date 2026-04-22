@@ -1,7 +1,7 @@
 {
-  "id": "OP02-008",
-  "name": "Jozu",
-  "cost": 4,
+  "id": "ST21-011",
+  "name": "Franky",
+  "cost": 3,
   "power": 4000,
   "color": "Red",
   "cardType": "Character",
@@ -11,19 +11,20 @@
       "trigger": "Activated",
       "condition": {
         "type": "HasRestingDon",
-        "count": 1
+        "count": 2
       },
       "actions": [
         {
-          "type": "GainKeyword",
-          "keyword": "Rush",
+          "type": "PowerBoost",
+          "amount": 1000,
           "target": {
-            "scope": "Self"
+            "scope": "AllOwnCharacters",
+            "maxPower": 4000
           },
-          "duration": "Permanent"
+          "duration": "EndOfTurn"
         }
       ]
     }
   ],
-  "counter": 2000
+  "counter": 1000
 }

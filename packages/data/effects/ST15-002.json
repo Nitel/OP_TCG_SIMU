@@ -1,0 +1,36 @@
+{
+  "id": "ST15-002",
+  "name": "Edward Newgate",
+  "cost": 7,
+  "power": 8000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 5000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 0
+}

@@ -1,0 +1,39 @@
+{
+  "id": "ST22-015",
+  "name": "I Am Whitebeard!!",
+  "cost": 8,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Edward Newgate"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}
