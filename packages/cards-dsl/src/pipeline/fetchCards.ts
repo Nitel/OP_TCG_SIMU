@@ -20,7 +20,7 @@ export interface RawCard {
   attribute: string;
 }
 
-// Raw shape returned by optcgapi.com
+// Raw shape returned by optcgapi.com /api/sets/
 interface ApiCard {
   card_set_id?: string;
   card_name?: string;
@@ -32,6 +32,26 @@ interface ApiCard {
   counter_amount?: string | number | null;
   card_text?: string | null;
   attribute?: string | null;
+}
+
+// Raw shape returned by optcgapi.com /api/decks/
+interface ApiDeckCard {
+  card_id?: string;       // legacy — not present in newer sets
+  card_set_id?: string;   // used by newer sets (ST-27+)
+  card_name?: string;
+  card_type?: string;
+  card_cost?: string | number;
+  card_power?: string | number;
+  card_color?: string;
+  counter?: string | number | null;
+  card_text?: string | null;
+  attribute?: string | null;
+  quantity?: number;
+}
+
+interface ApiDeck {
+  cards?: ApiDeckCard[];
+  deck_cards?: ApiDeckCard[];
 }
 
 interface ApiSet {
@@ -80,6 +100,44 @@ async function fetchSet(setId: string): Promise<ApiCard[]> {
   return fetchJSON<ApiCard[]>(`${BASE}/sets/${setId}/`);
 }
 
+async function fetchDeck(setId: string): Promise<RawCard[] | null> {
+  try {
+    const data = await fetchJSON<ApiDeck | ApiDeckCard[]>(`${BASE}/decks/${setId}/`);
+    // API may return an array directly or an object with a cards/deck_cards array
+    const rawCards: ApiDeckCard[] = Array.isArray(data)
+      ? data
+      : (data.cards ?? data.deck_cards ?? []);
+    if (rawCards.length === 0) return null;
+    const seen = new Set<string>();
+    const result: RawCard[] = [];
+    for (const c of rawCards) {
+      const id = c.card_set_id ?? c.card_id ?? '';
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      const cost    = parseInt(String(c.card_cost ?? '0'), 10);
+      const power   = parseInt(String(c.card_power ?? '0'), 10);
+      const counter = c.counter !== null && c.counter !== undefined
+        ? parseInt(String(c.counter), 10) : null;
+      result.push({
+        id,
+        name:       c.card_name   ?? '',
+        set:        setId,
+        cardType:   c.card_type   ?? 'Character',
+        cost:       isNaN(cost)   ? 0 : cost,
+        power:      isNaN(power)  ? 0 : power,
+        color:      c.card_color  ?? '',
+        counter:    counter !== null && isNaN(counter) ? null : counter,
+        effectText: c.card_text   ?? '',
+        attribute:  c.attribute   ?? '',
+      });
+    }
+    return result.length > 0 ? result : null;
+  } catch (err) {
+    console.warn(`  ⚠ fetchDeck error: ${err}`);
+    return null;
+  }
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
@@ -96,8 +154,22 @@ async function main(): Promise<void> {
   }
 
   console.log(`Fetching set ${setId}...`);
-  const apiCards = await fetchSet(setId);
-  const cards: RawCard[] = apiCards.map(mapCard).filter(c => c.id !== '');
+
+  // ST-* and EB-* are starter/extra decks → use /api/decks/ only
+  // OP-* and others are booster sets → use /api/sets/ only
+  const isStarterDeck = /^(ST|EB)-/i.test(setId);
+
+  let cards: RawCard[];
+  if (isStarterDeck) {
+    console.log(`  ← /api/decks/${setId}/`);
+    const result = await fetchDeck(setId);
+    if (result === null) throw new Error(`Deck endpoint vide ou absent pour ${setId}`);
+    cards = result;
+  } else {
+    console.log(`  ← /api/sets/${setId}/`);
+    const apiCards = await fetchSet(setId);
+    cards = apiCards.map(mapCard).filter(c => c.id !== '');
+  }
 
   mkdirSync(DATA_DIR, { recursive: true });
   const outPath = join(DATA_DIR, `${setId}.json`);

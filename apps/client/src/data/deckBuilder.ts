@@ -4,9 +4,9 @@ import type { Card, CardEffect, CardKeyword, PlayerId, PlayerSetup } from 'game-
 // ─── AUTO-GENERATED: raw set imports — do not edit manually, run pnpm sync-sets
 import op01Raw from '../../../../packages/data/raw/OP-01.json';
 import op02Raw from '../../../../packages/data/raw/OP-02.json';
+import st15Raw from '../../../../packages/data/raw/ST-15.json';
 import st21Raw from '../../../../packages/data/raw/ST-21.json';
 import st22Raw from '../../../../packages/data/raw/ST-22.json';
-import st15Raw from '../../../../packages/data/raw/ST-15.json';
 import st27Raw from '../../../../packages/data/raw/ST-27.json';
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
@@ -110,9 +110,14 @@ export function buildRandomDeck(playerId: PlayerId): PlayerSetup {
     'leader',
   );
 
-  // Build deck: expand to 4 copies of each card, shuffle, take 50
-  // (pool has exactly 4 of each → slice(0,50) guarantees max-4-copies rule)
-  const pool = shuffle(nonLeaders.flatMap((c) => [c, c, c, c]));
+  // Build deck: only cards color-compatible with the leader, max 4 copies, exactly 50
+  // Colors can be space-separated ("Blue Purple") or slash-separated ("Blue/Purple")
+  const splitColors = (c: string): string[] => c.split(/[\s/]+/).map((x) => x.trim()).filter(Boolean);
+  const leaderColors = new Set(splitColors(leaderRaw.color));
+  const compatible = nonLeaders.filter((c) =>
+    splitColors(c.color).some((x) => leaderColors.has(x))
+  );
+  const pool = shuffle(compatible.flatMap((c) => [c, c, c, c]));
   const deckRaw = pool.slice(0, 50);
 
   // Assign unique instance IDs per template card
@@ -171,9 +176,9 @@ export interface SavedDeck {
 const allRaw: RawCard[] = [
   ...(op01Raw as unknown as RawCard[]),
   ...(op02Raw as unknown as RawCard[]),
+  ...(st15Raw as unknown as RawCard[]),
   ...(st21Raw as unknown as RawCard[]),
   ...(st22Raw as unknown as RawCard[]),
-  ...(st15Raw as unknown as RawCard[]),
   ...(st27Raw as unknown as RawCard[]),
 ];
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────

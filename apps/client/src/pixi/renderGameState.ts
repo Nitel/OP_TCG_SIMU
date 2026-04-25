@@ -6,14 +6,14 @@ import { flashLife, koFade, scaleIn } from './animations';
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
 
-const CANVAS_W = 1600;
-const CANVAS_H = 960;
-const CARD_W   = 80;
-const CARD_H   = 112;
-const GAP      = 8;
-const ROW_GAP  = 3;
-const LEFT     = 20;
-const SEP_Y    = CANVAS_H / 2; // 480
+const CANVAS_W = 1920;
+const CANVAS_H = 1080;
+const CARD_W   = 86;
+const CARD_H   = 120;
+const GAP      = 10;
+const ROW_GAP  = 5;
+const LEFT     = 24;
+const SEP_Y    = CANVAS_H / 2; // 540
 
 const COL_LIFE    = LEFT;
 const COL_LEADER  = COL_LIFE   + CARD_W + GAP;
@@ -30,7 +30,7 @@ const P2_DON_ROW_Y = P2_HAND_Y    + CARD_H + ROW_GAP;
 const P2_MID_ROW_Y = P2_DON_ROW_Y + CARD_H + ROW_GAP;
 const P2_BOARD_Y   = P2_MID_ROW_Y + CARD_H + ROW_GAP;
 
-const P1_BOARD_Y   = SEP_Y + 20;
+const P1_BOARD_Y   = SEP_Y + 25;
 const P1_MID_ROW_Y = P1_BOARD_Y   + CARD_H + ROW_GAP;
 const P1_DON_ROW_Y = P1_MID_ROW_Y + CARD_H + ROW_GAP;
 const P1_HAND_Y    = P1_DON_ROW_Y + CARD_H + ROW_GAP;
@@ -84,8 +84,8 @@ export function setRerenderCallback(cb: () => void): void {
 
 // ─── Card preview (hover ≥ 3 s) ──────────────────────────────────────────────
 
-const PREVIEW_W      = 270;
-const PREVIEW_H      = 378; // keeps 5:7 ratio (same as 80×112)
+const PREVIEW_W      = 300;
+const PREVIEW_H      = 420; // keeps 5:7 ratio (same as 86×120)
 const PREVIEW_INFO_H = 140;
 const PREVIEW_X      = CANVAS_W - PREVIEW_W - 20; // right side, away from board center
 const PREVIEW_Y      = CANVAS_H / 2 - (PREVIEW_H + PREVIEW_INFO_H) / 2;
@@ -455,14 +455,67 @@ function drawStack(
   count: number,
   x: number, y: number,
   color: number,
+  topCard?: Card,
 ): void {
   addText(scene, label, x, y - 17, C.label);
-  addRect(scene, x, y, CARD_W, CARD_H, count > 0 ? color : H.empty, count > 0 ? 1 : 0.4);
+
+  const cardContainer = new Container();
+  cardContainer.x = x;
+  cardContainer.y = y;
+
+  // Background
+  const bg = new Graphics();
+  bg.rect(0, 0, CARD_W, CARD_H);
+  bg.fill({ color: count > 0 ? color : H.empty, alpha: count > 0 ? 1 : 0.4 });
+  cardContainer.addChild(bg);
+
+  // Show top card artwork when provided (e.g. trash pile)
+  if (topCard !== undefined && count > 0) {
+    const templateId = topCard.id.match(/OP\d{2}-\d{3}/)?.[0] ?? topCard.id;
+    const cachedTex = textureCache.get(templateId);
+    if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
+      const sprite = new Sprite(cachedTex);
+      sprite.width  = CARD_W;
+      sprite.height = CARD_H;
+      cardContainer.addChild(sprite);
+    } else if (cachedTex === undefined) {
+      loadCardTexture(topCard.id);
+    }
+  }
+
+  // Count badge
   const txt   = count > 0 ? `${count}` : '—';
   const tFill = count > 0 ? C.white : C.muted;
   const tSize = count > 0 ? 24 : 18;
-  const tX    = x + CARD_W / 2 - (count > 9 ? 13 : 8);
-  addText(scene, txt, tX, y + CARD_H / 2 - 13, tFill, tSize);
+  const countTxt = new Text({
+    text: txt,
+    style: { fontSize: tSize, fill: tFill, fontFamily: 'monospace' },
+  });
+  countTxt.x = CARD_W / 2 - (count > 9 ? 13 : 8);
+  countTxt.y = CARD_H / 2 - 13;
+  cardContainer.addChild(countTxt);
+
+  // Hover preview (same 500 ms delay as regular cards)
+  if (topCard !== undefined && count > 0) {
+    cardContainer.interactive = true;
+    cardContainer.cursor = 'help';
+    cardContainer.on('pointerover', () => {
+      clearHoverTimer();
+      hoveredCardId = topCard.id;
+      hoverTimer = setTimeout(() => {
+        if (hoveredCardId === topCard.id) showCardPreview(topCard);
+      }, 500);
+    });
+    cardContainer.on('pointerout', () => {
+      if (hoveredCardId === topCard.id) {
+        clearHoverTimer();
+        hoveredCardId = null;
+        hideCardPreview();
+      }
+    });
+  }
+
+  scene.addChild(cardContainer);
 }
 
 function drawSpread(
@@ -583,7 +636,9 @@ function renderPlayer(
   // DON row
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
   drawSpread(scene, 'COST', player.donArea, allCards, COL_DON_AREA, donY, false, uiState, activePlayerId, onCardClick, newCardIds);
-  drawStack(scene, 'TRASH', player.trash.length, COL_TRASH, donY, 0x4a4a5a);
+  const trashTopId   = player.trash[player.trash.length - 1];
+  const trashTopCard = trashTopId !== undefined ? allCards[trashTopId] : undefined;
+  drawStack(scene, 'TRASH', player.trash.length, COL_TRASH, donY, 0x4a4a5a, trashTopCard);
 
   // Middle row: LIFE | LEADER | STAGE | DECK
   drawStack(scene, 'LIFE', player.life.length, COL_LIFE, midY, H.life);
@@ -723,13 +778,19 @@ export function renderGameState(
   addRect(scene, 0, SEP_Y - 1, CANVAS_W, 2, H.sep);
 
   const [p1Id, p2Id] = state.playerOrder;
-  const p1 = state.players[p1Id];
-  const p2 = state.players[p2Id];
-  if (p1 === undefined || p2 === undefined) return;
+
+  // Local player always at bottom; opponent at top.
+  // In hotseat (myPlayerId === null), fall back to p1 at bottom.
+  const meId = (myPlayerId !== null && state.players[myPlayerId] !== undefined)
+    ? myPlayerId : p1Id;
+  const opId = meId === p1Id ? p2Id : p1Id;
+  const me = state.players[meId];
+  const op = state.players[opId];
+  if (me === undefined || op === undefined) return;
 
   // Defender ID (non-active player) — used to highlight counter-playable hand cards
   const counterDefenderId = state.activeCombat !== null
-    ? (state.activePlayerId === p1Id ? p2Id : p1Id)
+    ? (state.activePlayerId === meId ? opId : meId)
     : null;
 
   // DoubleAttack attacker: the attacker card id if it has DoubleAttack keyword
@@ -740,6 +801,6 @@ export function renderGameState(
     return (attacker?.keywords ?? []).includes('DoubleAttack') ? attackerId : null;
   })();
 
-  renderPlayer(scene, p2, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId);
-  renderPlayer(scene, p1, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId);
+  renderPlayer(scene, op, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId);
+  renderPlayer(scene, me, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId);
 }

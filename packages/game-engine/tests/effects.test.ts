@@ -54,7 +54,7 @@ function makePlayerSetup(idStr: string): PlayerSetup {
   return {
     id: makePlayerId(idStr),
     leaderCard: makeChar(`${idStr}-leader`, idStr, 5000, { type: 'Leader', zone: 'deck' }),
-    deckCards: Array.from({ length: 20 }, (_, i) =>
+    deckCards: Array.from({ length: 50 }, (_, i) =>
       makeChar(`${idStr}-deck-${i}`, idStr, 2000, { zone: 'deck' })
     ),
     donCards: Array.from({ length: 10 }, (_, i) =>
@@ -637,5 +637,119 @@ describe('Condition HasRestingDon', () => {
     if (isGameError(result)) return;
     // Condition met → drew 2
     expect(result.players[P1]!.deck.length).toBe(deckBefore - 2);
+  });
+});
+
+// ── 13. GiveDon négatif (OnKO retire des DON adverses) ───────────────────────
+
+describe('GiveDon négatif : OnKO retire 2 DON adverses', () => {
+  it("quand la carte est KO, l'adversaire perd 2 DON actifs", () => {
+    const base = bootstrapGame();
+
+    // Card on P2's board with OnKO: GiveDon -2 (removes 2 DON from opponent = P1)
+    const onKoEffect: CardEffect = {
+      trigger: 'OnKO',
+      actions: [{ type: 'GiveDon', count: -2, target: { scope: 'OpponentLeader' } }],
+    };
+    const p2Card = makeChar('p2-magellan', 'p2', 1000, { effects: [onKoEffect] });
+    const victimId = p2Card.id;
+
+    // Give P1 two active (untapped) DON cards in donArea
+    const don1 = makeDon('p1-free-don-1', 'p1');
+    const don2 = makeDon('p1-free-don-2', 'p1');
+
+    const state: GameState = {
+      ...base,
+      cards: {
+        ...base.cards,
+        [victimId]: { ...p2Card, zone: 'board' },
+        [don1.id]: don1,
+        [don2.id]: don2,
+      },
+      players: {
+        ...base.players,
+        [P2]: { ...base.players[P2]!, board: [...base.players[P2]!.board, victimId] },
+        [P1]: { ...base.players[P1]!, donArea: [...base.players[P1]!.donArea, don1.id, don2.id] },
+      },
+    };
+
+    const p1DonBefore = state.players[P1]!.donArea.length; // 2
+
+    // P1's leader (5000 power) attacks p2Card (1000 power) → p2Card is KO'd
+    let result = applyAction(state, {
+      type: 'DeclareAttack',
+      playerId: P1,
+      attackerId: state.players[P1]!.leader!,
+      targetId: victimId,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    result = applyAction(result, { type: 'ResolveCombat', playerId: P1 });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // p2Card KO'd → OnKO fires → removes 2 DON from P1's donArea
+    expect(result.cards[victimId]?.zone).toBe('trash');
+    expect(result.players[P1]!.donArea.length).toBe(p1DonBefore - 2);
+    // Removed DON go back to P1's donDeck
+    expect(result.players[P1]!.donDeck).toContain(don1.id);
+    expect(result.players[P1]!.donDeck).toContain(don2.id);
+  });
+});
+
+// ── 14. PowerBoost EndOfTurn → remis à 0 après EndPhase ──────────────────────
+
+describe('PowerBoost EndOfTurn : boost effacé après EndPhase', () => {
+  it('le boost +2000 est annulé après EndPhase', () => {
+    const base = bootstrapGame();
+
+    const boostEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PowerBoost', amount: 2000, target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+    };
+    const playCard = makeChar('boost-card', 'p1', 3000, {
+      zone: 'hand',
+      cost: 0,
+      effects: [boostEffect],
+    });
+
+    const state = {
+      ...base,
+      cards: { ...base.cards, [playCard.id]: playCard },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, hand: [...base.players[P1]!.hand, playCard.id] },
+      },
+    };
+
+    // Play the card → OnPlay fires → PowerBoost +2000 EndOfTurn
+    const afterPlay = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: playCard.id,
+    });
+
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    expect(calculatePower(playCard.id, afterPlay)).toBe(5000); // 3000 + 2000
+
+    // EndPhase clears EndOfTurn boosts only when transitioning End → Refresh
+    // (clearPowerModifiers is called inside applyReturnDon which runs on End phase)
+    // Step 1: Main → End
+    let afterEnd = applyAction(afterPlay, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(afterEnd)).toBe(false);
+    if (isGameError(afterEnd)) return;
+
+    // Boost still active during End phase
+    expect(calculatePower(playCard.id, afterEnd)).toBe(5000);
+
+    // Step 2: End → Refresh (this triggers applyReturnDon → clearPowerModifiers)
+    afterEnd = applyAction(afterEnd, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(afterEnd)).toBe(false);
+    if (isGameError(afterEnd)) return;
+
+    expect(calculatePower(playCard.id, afterEnd)).toBe(3000); // boost gone
   });
 });

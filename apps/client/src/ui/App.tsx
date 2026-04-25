@@ -51,7 +51,7 @@ function buildNetworkStartAction(config: GameConfig): StartGameAction {
   return {
     type: 'StartGame',
     player1: config.p1Deck !== null ? buildDeckFromSaved(p1, config.p1Deck) : buildRandomDeck(p1),
-    player2: config.p2Deck !== null ? buildDeckFromSaved(p2, config.p2Deck) : buildRandomDeck(p2),
+    player2: buildRandomDeck(p2),
     firstPlayerId: Math.random() < 0.5 ? p1 : p2,
   };
 }
@@ -62,14 +62,14 @@ export function App() {
   const [appScreen, setAppScreen] = useState<AppScreen>(DEEP_LINK_NETWORK ? 'game' : 'lobby');
   const [activeConfig, setActiveConfig] = useState<GameConfig | null>(
     DEEP_LINK_NETWORK
-      ? { mode: 'network', roomId: DL_ROOM_ID, myPlayerId: DL_PLAYER, p1Deck: null, p2Deck: null }
+      ? { mode: 'network', roomId: DL_ROOM_ID, myPlayerId: DL_PLAYER, isCreating: false, p1Deck: null, p2Deck: null }
       : null,
   );
   // Deck builder callback stored in a ref to avoid the useState-updater trap
   const dbCallbackRef = useRef<((deck: SavedDeck) => void) | null>(null);
 
   const isNetwork  = activeConfig !== null && activeConfig.mode === 'network';
-  const myPlayerId: PlayerId = makePlayerId(activeConfig?.myPlayerId ?? 'P1');
+  const [myPlayerId, setMyPlayerId] = useState<PlayerId>(makePlayerId('P1'));
   const roomId     = activeConfig?.roomId ?? 'default';
   const roomIdRef  = useRef(roomId);
   roomIdRef.current = roomId;
@@ -80,6 +80,8 @@ export function App() {
   const [needsCombatHandoff, setNeedsCombatHandoff] = useState(false);
   const [notification, setNotification] = useState<{ cardId: CardId; label: string } | null>(null);
   const [socketStatus, setSocketStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
+  const [opponentDisconnected, setOpponentDisconnected] = useState<{ deadline: number } | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const prevActivePlayerRef = useRef<PlayerId | undefined>(undefined);
   const socketRef           = useRef<SocketClient | null>(null);
@@ -92,7 +94,13 @@ export function App() {
     setNeedsHandoff(false);
     setNeedsCombatHandoff(false);
     setNotification(null);
+    setOpponentDisconnected(null);
     prevGameStateRef.current = null;
+
+    if (config.mode === 'local' || config.isCreating) {
+      setMyPlayerId(makePlayerId('P1'));
+    }
+    // For network JOIN: myPlayerId will be set by onRoomJoined when server responds
 
     if (config.mode === 'local') {
       const gs = initLocalGameState(config);
@@ -110,24 +118,45 @@ export function App() {
 
     setSocketStatus('connecting');
     const client = new SocketClient(SERVER_URL, {
+      onRoomJoined: (state, assignedPlayerId) => {
+        setMyPlayerId(assignedPlayerId);
+        setGameState(() => { setUiState(IDLE_UI); return state; });
+      },
       onStateUpdate: (state) => {
         setGameState(() => { setUiState(IDLE_UI); return state; });
       },
       onError: (msg) => setUiState(u => ({ ...u, errorMessage: msg })),
       onConnect: () => setSocketStatus('connected'),
       onDisconnect: () => setSocketStatus('disconnected'),
+      onPlayerDisconnected: (info) => {
+        setOpponentDisconnected({ deadline: info.reconnectDeadline });
+      },
+      onPlayerReconnected: (_info) => {
+        setOpponentDisconnected(null);
+      },
     });
     socketRef.current = client;
 
-    if (myPlayerId === makePlayerId('P1')) {
-      client.joinRoom(roomId, myPlayerId, buildNetworkStartAction(activeConfig));
+    if (activeConfig.isCreating) {
+      client.joinRoom(roomId, buildNetworkStartAction(activeConfig));
     } else {
-      client.joinRoom(roomId, myPlayerId);
+      client.joinRoom(roomId);
     }
 
     return () => { client.disconnect(); socketRef.current = null; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appScreen, isNetwork]);
+
+  // ── Opponent disconnect countdown ────────────────────────────────────────
+  useEffect(() => {
+    if (opponentDisconnected === null) return;
+    const id = setInterval(() => {
+      const remaining = Math.max(0, Math.ceil((opponentDisconnected.deadline - Date.now()) / 1000));
+      setTimeLeft(remaining);
+      if (remaining === 0) clearInterval(id);
+    }, 1000);
+    return () => clearInterval(id);
+  }, [opponentDisconnected]);
 
   // ── Dispatch ─────────────────────────────────────────────────────────────
   const dispatch = useCallback((action: GameAction) => {
@@ -293,6 +322,7 @@ export function App() {
     return (
       <LobbyScreen
         onStart={handleStart}
+        serverUrl={SERVER_URL}
         onOpenDeckBuilder={(slot, cb) => {
           void slot; // slot is informational; the callback handles the result
           dbCallbackRef.current = cb;
@@ -332,6 +362,11 @@ export function App() {
           {' '}({String(myPlayerId)} / salle : {roomId})
         </span>
         <span style={{ fontSize: 11, color: '#445566' }}>{SERVER_URL}</span>
+        {uiState.errorMessage !== null && (
+          <span style={{ fontSize: 13, color: '#ff6655', maxWidth: 400, textAlign: 'center' }}>
+            {uiState.errorMessage}
+          </span>
+        )}
       </div>
     );
   }
@@ -342,21 +377,9 @@ export function App() {
   const hideCards = needsHandoff || needsCombatHandoff;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, padding: 16, paddingBottom: 0 }}>
-      <h1 style={{ color: '#cccccc', fontSize: 16, letterSpacing: 2, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
-        ONE PIECE TCG — SIMULATOR{isNetwork ? ` [RÉSEAU · ${String(myPlayerId)}]` : ''}
-        {isNetwork && (
-          <span style={{
-            fontSize: 11,
-            fontWeight: 'normal',
-            letterSpacing: 1,
-            color: socketStatus === 'connected' ? '#44dd88' : socketStatus === 'connecting' ? '#ffcc44' : '#ff4444',
-          }}>
-            {socketStatus === 'connected' ? '● CONNECTÉ' : socketStatus === 'connecting' ? '● CONNEXION…' : '● DÉCONNECTÉ'}
-          </span>
-        )}
-      </h1>
-      <div style={{ position: 'relative' }}>
+    <div style={{ position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column', background: '#0d0d1a' }}>
+      {/* Canvas area: fills all available space above the action panel */}
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: 0 }}>
         <GameCanvas
           gameState={gameState}
           uiState={uiState}
@@ -365,6 +388,24 @@ export function App() {
           combatViewDefenderId={combatViewDefenderId}
           myPlayerId={isNetwork ? myPlayerId : null}
         />
+        {opponentDisconnected !== null && (
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(0,0,0,0.6)', zIndex: 50,
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: 12,
+            fontFamily: 'monospace',
+          }}>
+            <div style={{ fontSize: 20, color: '#ffcc44', fontWeight: 'bold' }}>
+              Adversaire déconnecté
+            </div>
+            <div style={{ fontSize: 14, color: '#aabbcc' }}>
+              {timeLeft > 0
+                ? `Reconnexion possible dans ${timeLeft}s`
+                : 'Temps écoulé — en attente du résultat…'}
+            </div>
+          </div>
+        )}
         <GameUI
           gameState={gameState}
           uiState={uiState}
@@ -373,6 +414,7 @@ export function App() {
           onDismissNotification={() => setNotification(null)}
         />
       </div>
+      {/* Action panel pinned at the bottom */}
       <ActionPanel
         gameState={gameState}
         uiState={uiState}

@@ -25,32 +25,23 @@ const rooms = new RoomManager();
 
 // ─── Socket events ────────────────────────────────────────────────────────────
 
-/**
- * JoinRoom — join an existing room (reconnect) or start a new game.
- * Payload: { roomId: string, playerId: string, startAction?: StartGameAction }
- *
- * Response:
- *   'RoomJoined'  { state: GameState }      — success
- *   'ActionError' { code, message }          — failure
- */
-
-/**
- * SendAction — send a GameAction to the server for validation and broadcast.
- * Payload: { roomId: string, action: GameAction }
- *
- * Broadcast on success: 'StateUpdated' { state: GameState }
- * Error on failure:     'ActionError'  { code, message }
- */
-
 io.on('connection', socket => {
   console.log(`[connect] ${socket.id}`);
 
-  socket.on('JoinRoom', (payload: { roomId: string; playerId: string; startAction?: StartGameAction }) => {
-    const { roomId, playerId: rawPlayerId, startAction } = payload;
-    const playerId = makePlayerId(rawPlayerId);
+  socket.on('JoinRoom', (payload: { roomId: string; startAction?: StartGameAction }) => {
+    const { roomId, startAction } = payload;
 
-    // Start a new game if startAction is provided
+    // Start a new game if startAction is provided (P1 creating room)
     if (startAction !== undefined) {
+      const playerId = makePlayerId('P1');
+      // Refuse if P1's slot is already occupied by another active connection
+      if (rooms.isSlotTaken(roomId, playerId)) {
+        socket.emit('ActionError', {
+          code: 'SLOT_TAKEN',
+          message: `Slot P1 déjà pris dans la salle "${roomId}"`,
+        });
+        return;
+      }
       const result = rooms.startGame(roomId, startAction);
       if (isGameError(result)) {
         socket.emit('ActionError', { code: result.code, message: result.message });
@@ -58,22 +49,51 @@ io.on('connection', socket => {
       }
       rooms.joinSocket(roomId, playerId, socket.id);
       void socket.join(roomId);
-      socket.emit('RoomJoined', { state: result });
+      socket.emit('RoomJoined', { state: result, assignedPlayerId: 'P1' });
       return;
     }
 
-    // Reconnect to existing room
-    const state = rooms.joinSocket(roomId, playerId, socket.id);
+    // JOIN path — auto-assign the free slot
+    const assignedSlot = rooms.getFreeSlot(roomId);
+    if (assignedSlot === null) {
+      const exists = rooms.getState(roomId) !== null;
+      socket.emit('ActionError', {
+        code: exists ? 'SLOT_TAKEN' : 'NO_ROOM',
+        message: exists ? 'Tous les slots sont pris dans cette salle' : `Salle inconnue : ${roomId}`,
+      });
+      return;
+    }
+
+    // Cancel any pending forfeit timer for this player
+    rooms.clearDisconnectTimer(roomId, assignedSlot);
+
+    const state = rooms.joinSocket(roomId, assignedSlot, socket.id);
     if (state === null) {
       socket.emit('ActionError', { code: 'NO_ROOM', message: `Salle inconnue : ${roomId}` });
       return;
     }
+
     void socket.join(roomId);
-    socket.emit('RoomJoined', { state });
+    socket.emit('RoomJoined', { state, assignedPlayerId: String(assignedSlot) });
+
+    // Notify the other player that their opponent reconnected
+    socket.to(roomId).emit('PlayerReconnected', { playerId: String(assignedSlot) });
   });
 
   socket.on('SendAction', (payload: { roomId: string; action: GameAction }) => {
     const { roomId, action } = payload;
+
+    // Validate action ownership
+    const info = rooms.getSocketPlayer(socket.id);
+    if (info === undefined || info.roomId !== roomId) {
+      socket.emit('ActionError', { code: 'UNAUTHORIZED', message: 'Non autorisé' });
+      return;
+    }
+    if ('playerId' in action && action.playerId !== info.playerId) {
+      socket.emit('ActionError', { code: 'WRONG_PLAYER', message: "Ce n'est pas ton tour" });
+      return;
+    }
+
     const result = rooms.applyAction(roomId, action);
     if (isGameError(result)) {
       socket.emit('ActionError', { code: result.code, message: result.message });
@@ -82,8 +102,43 @@ io.on('connection', socket => {
     io.to(roomId).emit('StateUpdated', { state: result });
   });
 
+  socket.on('ListRooms', () => {
+    socket.emit('RoomList', { rooms: rooms.listRooms() });
+  });
+
   socket.on('disconnect', () => {
     console.log(`[disconnect] ${socket.id}`);
+
+    const info = rooms.removeSocket(socket.id);
+    if (info === undefined) return;
+
+    const deadline = Date.now() + RoomManager.RECONNECT_TIMEOUT_MS;
+
+    // Notify the remaining player
+    socket.to(info.roomId).emit('PlayerDisconnected', {
+      playerId: String(info.playerId),
+      reconnectDeadline: deadline,
+    });
+
+    // Only start forfeit timer if a game is actually in progress
+    if (!info.gameInProgress) return;
+
+    const timer = setTimeout(() => {
+      const state = rooms.getState(info.roomId);
+      if (state === null || state.winner !== null) return;
+
+      const [p1Id, p2Id] = state.playerOrder;
+      if (p1Id === undefined || p2Id === undefined) return;
+
+      const winnerId = String(info.playerId) === String(p1Id) ? p2Id : p1Id;
+      const newState = rooms.forfeit(info.roomId, winnerId);
+      if (newState !== null) {
+        console.log(`[forfeit] ${String(info.playerId)} didn't reconnect — ${String(winnerId)} wins`);
+        io.to(info.roomId).emit('StateUpdated', { state: newState });
+      }
+    }, RoomManager.RECONNECT_TIMEOUT_MS);
+
+    rooms.setDisconnectTimer(info.roomId, info.playerId, timer);
   });
 });
 

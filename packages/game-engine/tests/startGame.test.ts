@@ -25,7 +25,7 @@ function makeCard(id: string, type: Card['type'] = 'Character'): Card {
   };
 }
 
-function makePlayerSetup(idStr: string, deckSize = 20): PlayerSetup {
+function makePlayerSetup(idStr: string, deckSize = 50): PlayerSetup {
   return {
     id: makePlayerId(idStr),
     leaderCard: makeCard(`${idStr}-leader`, 'Leader'),
@@ -182,7 +182,7 @@ describe('StartGame', () => {
     }
   });
 
-  it('retourne INVALID_DECK si le deck a moins de 10 cartes', () => {
+  it('retourne INVALID_DECK si le deck n\'a pas exactement 50 cartes', () => {
     const p1 = makePlayerId('p1');
     const p2 = makePlayerId('p2');
     const seed = makeEmptyState(p1, p2);

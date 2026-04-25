@@ -25,7 +25,7 @@ function makeCard(id: string, type: Card['type'] = 'Character'): Card {
   };
 }
 
-function makePlayerSetup(idStr: string, deckSize = 20): PlayerSetup {
+function makePlayerSetup(idStr: string, deckSize = 50): PlayerSetup {
   return {
     id: makePlayerId(idStr),
     leaderCard: makeCard(`${idStr}-leader`, 'Leader'),
@@ -280,13 +280,13 @@ describe('Mulligan — après les deux décisions', () => {
     expect(s.mulliganDecided).toContain(P2);
   });
 
-  it('le total deck+main+life reste cohérent (20 cartes initiales)', () => {
+  it('le total deck+main+life reste cohérent (50 cartes initiales)', () => {
     const s = afterBothMulligans(true, true);
     const p1Total =
       s.players[P1]!.deck.length +
       s.players[P1]!.hand.length +
       s.players[P1]!.life.length;
-    expect(p1Total).toBe(20);
+    expect(p1Total).toBe(50);
   });
 
   it('quand p2 est firstPlayerId, p2 est actif après mulligan', () => {

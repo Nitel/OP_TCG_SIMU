@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { io } from 'socket.io-client';
 import type { CSSProperties } from 'react';
 import type { SavedDeck } from '../data/deckBuilder';
 import { loadDecksFromStorage } from '../data/deckBuilder';
+import type { RoomInfo } from '../network/socketClient';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -9,6 +11,7 @@ export interface GameConfig {
   mode: 'local' | 'network';
   roomId: string;
   myPlayerId: 'P1' | 'P2';
+  isCreating: boolean;
   p1Deck: SavedDeck | null;
   p2Deck: SavedDeck | null;
 }
@@ -16,7 +19,17 @@ export interface GameConfig {
 interface Props {
   onStart: (config: GameConfig) => void;
   onOpenDeckBuilder: (slot: 'p1' | 'p2', onSave: (deck: SavedDeck) => void) => void;
+  serverUrl?: string;
 }
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/** Generates a random 6-character room code (unambiguous chars, no 0/O/1/I). */
+function generateRoomCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
+
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
@@ -73,19 +86,6 @@ const modeBtn = (active: boolean): CSSProperties => ({
   border: active ? '1px solid #44aaff' : '1px solid #2a2a4a',
   background: active ? '#0a2a4a' : '#111128',
   color: active ? '#88ccff' : '#667788',
-  fontWeight: active ? 'bold' : 'normal',
-});
-
-const playerBtn = (active: boolean): CSSProperties => ({
-  flex: 1,
-  padding: '6px 0',
-  fontFamily: 'monospace',
-  fontSize: 12,
-  borderRadius: 4,
-  cursor: 'pointer',
-  border: active ? '1px solid #44aa66' : '1px solid #2a2a4a',
-  background: active ? '#0a2a1a' : '#111128',
-  color: active ? '#88ffaa' : '#667788',
   fontWeight: active ? 'bold' : 'normal',
 });
 
@@ -203,23 +203,128 @@ function DeckSlot({
   );
 }
 
+// ─── RoomList sub-component ───────────────────────────────────────────────────
+
+function RoomList({
+  serverUrl,
+  onJoin,
+}: {
+  serverUrl: string;
+  onJoin: (roomId: string) => void;
+}) {
+  const [rooms, setRooms] = useState<RoomInfo[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [fetched, setFetched] = useState(false);
+  const socketRef = useRef<ReturnType<typeof io> | null>(null);
+
+  const refresh = () => {
+    setLoading(true);
+    if (socketRef.current !== null) {
+      socketRef.current.disconnect();
+    }
+    const s = io(serverUrl, { autoConnect: true });
+    socketRef.current = s;
+    s.once('connect', () => {
+      s.emit('ListRooms');
+    });
+    s.once('RoomList', ({ rooms: r }: { rooms: RoomInfo[] }) => {
+      setRooms(r);
+      setLoading(false);
+      setFetched(true);
+      s.disconnect();
+      socketRef.current = null;
+    });
+    s.once('connect_error', () => {
+      setLoading(false);
+      setFetched(true);
+      socketRef.current = null;
+    });
+  };
+
+  // Show all rooms with at least one free slot (both taken = can't join)
+  const joinableRooms = rooms.filter(r => !r.slots.P1 || !r.slots.P2);
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+        <div style={label}>Salles</div>
+        <button
+          style={{ ...smallBtn, fontSize: 10 }}
+          onClick={refresh}
+          disabled={loading}
+        >
+          {loading ? 'Chargement…' : 'Actualiser'}
+        </button>
+      </div>
+
+      {fetched && joinableRooms.length === 0 && (
+        <div style={{ fontSize: 11, color: '#445566', padding: '6px 0' }}>
+          Aucune salle disponible.
+        </div>
+      )}
+
+      {joinableRooms.map((r) => {
+        const isReconnect = r.inProgress;
+        const freeSlot = !r.slots.P1 ? 'P1' : 'P2';
+        const statusLabel = isReconnect
+          ? `En cours — ${freeSlot} déconnecté`
+          : 'En attente de P2';
+        const statusColor = isReconnect ? '#ffcc44' : '#44aa66';
+        return (
+          <div
+            key={r.roomId}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '6px 8px', marginBottom: 4,
+              background: '#111128', border: '1px solid #2a2a4a', borderRadius: 4,
+              fontSize: 12,
+            }}
+          >
+            <span style={{ flex: 1, color: '#ccddee', letterSpacing: 2, fontWeight: 'bold' }}>
+              {r.roomId}
+            </span>
+            <span style={{ color: statusColor, fontSize: 10 }}>{statusLabel}</span>
+            <button
+              style={{ ...smallBtn, fontSize: 10, color: isReconnect ? '#ffee88' : '#88ffaa', borderColor: isReconnect ? '#886622' : '#44aa66' }}
+              onClick={() => onJoin(r.roomId)}
+            >
+              {isReconnect ? 'Reconnecter' : 'Rejoindre'}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── LobbyScreen ─────────────────────────────────────────────────────────────
 
-export function LobbyScreen({ onStart, onOpenDeckBuilder }: Props) {
-  const [mode, setMode]         = useState<'local' | 'network'>('local');
-  const [roomId, setRoomId]     = useState('partie-1');
-  const [myPlayer, setMyPlayer] = useState<'P1' | 'P2'>('P1');
-  const [p1Deck, setP1Deck]     = useState<SavedDeck | null>(null);
-  const [p2Deck, setP2Deck]     = useState<SavedDeck | null>(null);
+export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
+  const [mode, setMode]               = useState<'local' | 'network'>('local');
+  const [networkMode, setNetworkMode] = useState<'create' | 'join'>('create');
+  const [roomId, setRoomId]           = useState(generateRoomCode);
+  const [p1Deck, setP1Deck]           = useState<SavedDeck | null>(null);
+  const [p2Deck, setP2Deck]           = useState<SavedDeck | null>(null);
 
   const handleStart = () => {
     onStart({
       mode,
       roomId,
-      myPlayerId: myPlayer,
+      myPlayerId: 'P1', // Server auto-assigns for network JOIN; local is always P1 (hotseat)
+      isCreating: mode === 'network' ? networkMode === 'create' : true,
       p1Deck,
-      p2Deck: mode === 'local' ? p2Deck : null,
+      p2Deck,
     });
+  };
+
+  const switchToCreate = () => {
+    setNetworkMode('create');
+    setRoomId(generateRoomCode());
+  };
+
+  const switchToJoin = () => {
+    setNetworkMode('join');
+    setRoomId('');
   };
 
   return (
@@ -251,40 +356,90 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder }: Props) {
         {/* Network options */}
         {mode === 'network' && (
           <>
+            {/* Create vs Join */}
             <div>
-              <div style={label}>Nom de la salle</div>
-              <input
-                style={inputStyle}
-                value={roomId}
-                onChange={e => setRoomId(e.currentTarget.value)}
-                placeholder="partie-1"
-              />
-            </div>
-            <div>
-              <div style={label}>Vous jouez en tant que</div>
+              <div style={label}>Vous souhaitez</div>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button style={playerBtn(myPlayer === 'P1')} onClick={() => setMyPlayer('P1')}>
-                  Joueur 1 (P1)
+                <button style={modeBtn(networkMode === 'create')} onClick={switchToCreate}>
+                  Créer une partie
                 </button>
-                <button style={playerBtn(myPlayer === 'P2')} onClick={() => setMyPlayer('P2')}>
-                  Joueur 2 (P2)
+                <button style={modeBtn(networkMode === 'join')} onClick={switchToJoin}>
+                  Rejoindre une partie
                 </button>
               </div>
             </div>
+
+            {/* Create: show room code */}
+            {networkMode === 'create' && (
+              <div>
+                <div style={label}>Code de la partie</div>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <div style={{
+                    flex: 1, background: '#0a1a2a', border: '1px solid #2255aa',
+                    borderRadius: 4, padding: '10px 12px',
+                    letterSpacing: 8, fontSize: 22, fontWeight: 'bold',
+                    color: '#88ccff', textAlign: 'center', fontFamily: 'monospace',
+                  }}>
+                    {roomId}
+                  </div>
+                  <button
+                    style={{ ...smallBtn, fontSize: 12 }}
+                    onClick={() => { void navigator.clipboard.writeText(roomId); }}
+                  >
+                    Copier
+                  </button>
+                  <button
+                    style={{ ...smallBtn, fontSize: 14 }}
+                    onClick={() => setRoomId(generateRoomCode())}
+                    title="Générer un nouveau code"
+                  >
+                    ↺
+                  </button>
+                </div>
+                <div style={{ fontSize: 10, color: '#445566', marginTop: 6 }}>
+                  Partagez ce code avec votre adversaire — lui doit choisir "Rejoindre"
+                </div>
+              </div>
+            )}
+
+            {/* Join: room list + code input */}
+            {networkMode === 'join' && (
+              <>
+                {serverUrl !== undefined && (
+                  <RoomList serverUrl={serverUrl} onJoin={setRoomId} />
+                )}
+                <div>
+                  <div style={label}>Code de la partie</div>
+                  <input
+                    style={{
+                      ...inputStyle,
+                      letterSpacing: 6,
+                      textTransform: 'uppercase',
+                      textAlign: 'center',
+                      fontSize: 18,
+                      padding: '10px',
+                    }}
+                    value={roomId}
+                    onChange={e => setRoomId(e.currentTarget.value.toUpperCase())}
+                    placeholder="XXXXXX"
+                    maxLength={6}
+                  />
+                </div>
+              </>
+            )}
           </>
         )}
 
-        {/* Deck P1 */}
-        <DeckSlot
-          slot={mode === 'local' ? 'Deck — Joueur 1 (P1)' : 'Votre deck'}
-          deck={mode === 'local' ? p1Deck : (myPlayer === 'P1' ? p1Deck : p2Deck)}
-          onSelect={d => mode === 'local' || myPlayer === 'P1' ? setP1Deck(d) : setP2Deck(d)}
-          onNew={() => onOpenDeckBuilder(
-            mode === 'local' || myPlayer === 'P1' ? 'p1' : 'p2',
-            mode === 'local' || myPlayer === 'P1' ? setP1Deck : setP2Deck,
-          )}
-          onClear={() => mode === 'local' || myPlayer === 'P1' ? setP1Deck(null) : setP2Deck(null)}
-        />
+        {/* Deck P1 — local and network create */}
+        {(mode === 'local' || networkMode === 'create') && (
+          <DeckSlot
+            slot={mode === 'local' ? 'Deck — Joueur 1 (P1)' : 'Votre deck'}
+            deck={p1Deck}
+            onSelect={setP1Deck}
+            onNew={() => onOpenDeckBuilder('p1', setP1Deck)}
+            onClear={() => setP1Deck(null)}
+          />
+        )}
 
         {/* Deck P2 — local only */}
         {mode === 'local' && (
@@ -299,7 +454,11 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder }: Props) {
 
         {/* CTA */}
         <button style={primaryBtn} onClick={handleStart}>
-          {mode === 'network' ? `Rejoindre la salle "${roomId}"` : 'Jouer !'}
+          {mode === 'local'
+            ? 'Jouer !'
+            : networkMode === 'create'
+              ? 'Créer la partie'
+              : roomId.length > 0 ? `Rejoindre "${roomId}"` : 'Rejoindre'}
         </button>
 
         {mode === 'local' && (

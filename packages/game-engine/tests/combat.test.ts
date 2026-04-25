@@ -50,7 +50,7 @@ function makePlayerSetup(idStr: string): PlayerSetup {
   return {
     id: makePlayerId(idStr),
     leaderCard: makeChar(`${idStr}-leader`, idStr, 5000, { type: 'Leader', zone: 'deck' }),
-    deckCards: Array.from({ length: 20 }, (_, i) =>
+    deckCards: Array.from({ length: 50 }, (_, i) =>
       makeChar(`${idStr}-deck-${i}`, idStr, 2000, { zone: 'deck' })
     ),
     donCards: Array.from({ length: 10 }, (_, i) =>

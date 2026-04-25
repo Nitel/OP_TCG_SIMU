@@ -4,8 +4,8 @@ import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
 import { renderGameState, setRerenderCallback, setPreviewLayer, preloadAllTextures } from './renderGameState';
 
-const CANVAS_W = 1600;
-const CANVAS_H = 960;
+const CANVAS_W = 1920;
+const CANVAS_H = 1080;
 
 interface Props {
   gameState: GameState;
@@ -19,6 +19,7 @@ interface Props {
 type Status = 'idle' | 'ready' | 'error';
 
 export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false, combatViewDefenderId = null, myPlayerId = null }: Props) {
+  const wrapperRef  = useRef<HTMLDivElement>(null);
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const sceneRef    = useRef<Container | null>(null);
   const animRef     = useRef<Container | null>(null);
@@ -26,6 +27,25 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
   const appRef      = useRef<Application | null>(null);
   const [status, setStatus]       = useState<Status>('idle');
   const [initError, setInitError] = useState<string>('');
+  // Initial scale based on window size to avoid overflow flash before ResizeObserver fires
+  const [scale, setScale] = useState(() =>
+    Math.min(window.innerWidth / CANVAS_W, window.innerHeight / CANVAS_H),
+  );
+
+  // ── Responsive scale via ResizeObserver on the wrapper ───────────────────
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (el === null) return;
+    const ro = new ResizeObserver(([entry]) => {
+      if (entry === undefined) return;
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        setScale(Math.min(width / CANVAS_W, height / CANVAS_H));
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Keep a ref to the latest render props for the texture-loaded callback
   const renderPropsRef = useRef({ gameState, uiState, onCardClick, hideCards, combatViewDefenderId, myPlayerId });
@@ -115,18 +135,39 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
 
   if (status === 'error') {
     return (
-      <div style={{ color: '#ff6666', fontFamily: 'monospace', padding: 16 }}>
+      <div ref={wrapperRef} style={{ color: '#ff6666', fontFamily: 'monospace', padding: 16 }}>
         PixiJS init error: {initError}
       </div>
     );
   }
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={CANVAS_W}
-      height={CANVAS_H}
-      style={{ display: 'block', border: '1px solid #222244' }}
-    />
+    <div
+      ref={wrapperRef}
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        background: '#0d0d1a',
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        width={CANVAS_W}
+        height={CANVAS_H}
+        style={{
+          display: 'block',
+          border: '1px solid #222244',
+          // CSS display size scales down; PixiJS internal resolution stays 1920×1080.
+          // PixiJS interaction manager reads getBoundingClientRect() so clicks stay accurate.
+          width:  `${CANVAS_W * scale}px`,
+          height: `${CANVAS_H * scale}px`,
+          flexShrink: 0,
+        }}
+      />
+    </div>
   );
 }

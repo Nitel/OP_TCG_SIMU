@@ -25,7 +25,7 @@ function makeCard(id: string, type: Card['type'] = 'Character', cost = 2): Card 
   };
 }
 
-function makePlayerSetup(idStr: string, deckSize = 20): PlayerSetup {
+function makePlayerSetup(idStr: string, deckSize = 50): PlayerSetup {
   return {
     id: makePlayerId(idStr),
     leaderCard: makeCard(`${idStr}-leader`, 'Leader'),
