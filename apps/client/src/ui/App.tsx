@@ -388,6 +388,76 @@ export function App() {
           combatViewDefenderId={combatViewDefenderId}
           myPlayerId={isNetwork ? myPlayerId : null}
         />
+
+        {/* ── Hotseat handoff overlay — plateau visible en dessous ────────── */}
+        {!isNetwork && needsHandoff && (
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 40,
+            background: 'rgba(0,6,20,0.82)',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: 20,
+            fontFamily: 'monospace',
+          }}>
+            <div style={{ fontSize: 13, color: '#6688aa', letterSpacing: 2, textTransform: 'uppercase' }}>
+              Passez le clavier
+            </div>
+            <div style={{ fontSize: 26, fontWeight: 'bold', color: '#ffffff', letterSpacing: 3 }}>
+              Tour de {gameState.activePlayerId}
+            </div>
+            <button
+              style={{
+                marginTop: 8,
+                padding: '12px 36px',
+                fontFamily: 'monospace', fontSize: 15, fontWeight: 'bold',
+                border: '1px solid #44aa66', borderRadius: 6,
+                cursor: 'pointer', background: '#0a3a1a', color: '#88ffaa',
+                letterSpacing: 1,
+              }}
+              onClick={() => setNeedsHandoff(false)}
+            >
+              C'est parti, {gameState.activePlayerId} !
+            </button>
+          </div>
+        )}
+
+        {/* ── Combat handoff overlay ────────────────────────────────────── */}
+        {!isNetwork && needsCombatHandoff && (() => {
+          const defenderId = gameState.activePlayerId === p1Id ? p2Id : p1Id;
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 40,
+              background: 'rgba(20,0,0,0.82)',
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center', gap: 20,
+              fontFamily: 'monospace',
+            }}>
+              <div style={{ fontSize: 13, color: '#aa6666', letterSpacing: 2, textTransform: 'uppercase' }}>
+                Attaque déclarée — passez le clavier
+              </div>
+              <div style={{ fontSize: 26, fontWeight: 'bold', color: '#ffffff', letterSpacing: 3 }}>
+                {defenderId}
+              </div>
+              <div style={{ fontSize: 13, color: '#ffaaaa' }}>
+                Vous pouvez contrer ou bloquer
+              </div>
+              <button
+                style={{
+                  marginTop: 8,
+                  padding: '12px 36px',
+                  fontFamily: 'monospace', fontSize: 15, fontWeight: 'bold',
+                  border: '1px solid #aa4444', borderRadius: 6,
+                  cursor: 'pointer', background: '#3a0a0a', color: '#ffcccc',
+                  letterSpacing: 1,
+                }}
+                onClick={() => setNeedsCombatHandoff(false)}
+              >
+                Je suis prêt, {defenderId} !
+              </button>
+            </div>
+          );
+        })()}
+
+        {/* ── Opponent disconnect overlay ──────────────────────────────── */}
         {opponentDisconnected !== null && (
           <div style={{
             position: 'absolute', inset: 0,
@@ -406,6 +476,7 @@ export function App() {
             </div>
           </div>
         )}
+
         <GameUI
           gameState={gameState}
           uiState={uiState}
@@ -414,16 +485,13 @@ export function App() {
           onDismissNotification={() => setNotification(null)}
         />
       </div>
-      {/* Action panel pinned at the bottom */}
+
+      {/* ── Action panel — sous le canvas, ne couvre jamais les cartes ───── */}
       <ActionPanel
         gameState={gameState}
         uiState={uiState}
         onAction={dispatch}
         myPlayerId={isNetwork ? myPlayerId : null}
-        needsHandoff={isNetwork ? false : needsHandoff}
-        onHandoffConfirmed={() => setNeedsHandoff(false)}
-        needsCombatHandoff={isNetwork ? false : needsCombatHandoff}
-        onCombatHandoffConfirmed={() => setNeedsCombatHandoff(false)}
       />
     </div>
   );

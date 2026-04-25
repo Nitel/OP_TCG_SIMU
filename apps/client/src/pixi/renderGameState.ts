@@ -12,18 +12,20 @@ const CARD_W   = 86;
 const CARD_H   = 120;
 const GAP      = 10;
 const ROW_GAP  = 5;
-const LEFT     = 24;
 const SEP_Y    = CANVAS_H / 2; // 540
 
-const COL_LIFE    = LEFT;
-const COL_LEADER  = COL_LIFE   + CARD_W + GAP;
-const COL_STAGE   = COL_LEADER + CARD_W + GAP;
-const COL_DECK    = COL_STAGE  + CARD_W + GAP;
-const COL_DON_DECK = LEFT;
-const COL_DON_AREA = COL_LEADER;
-const COL_TRASH    = CANVAS_W - LEFT - CARD_W;
-const COL_BOARD    = LEFT;
-const COL_HAND     = LEFT;
+// Two sidebars (left: LIFE+DON!! DECK, right: DECK+TRASH) with a wide center zone
+const LEFT_COL  = 20;                       // sidebar gauche
+const RIGHT_COL = CANVAS_W - 20 - CARD_W;  // sidebar droite = 1814
+
+const COL_LIFE     = LEFT_COL;                       // 20
+const COL_LEADER   = 140;                            // après sidebar gauche
+const COL_STAGE    = COL_LEADER + CARD_W + 12;      // 238
+const COL_DECK     = RIGHT_COL;                     // 1814 — aligné au-dessus de TRASH
+const COL_DON_DECK = LEFT_COL;                      // 20 — sidebar gauche
+const COL_DON_AREA = COL_LEADER;                    // 140 — COST AREA après DON!! DECK
+const COL_TRASH    = RIGHT_COL;                     // 1814 — aligné sous DECK
+const COL_BOARD    = COL_LEADER;                    // 140 — CHARACTER AREA après LIFE
 
 const P2_HAND_Y    = 18;
 const P2_DON_ROW_Y = P2_HAND_Y    + CARD_H + ROW_GAP;
@@ -631,11 +633,21 @@ function renderPlayer(
     : hideCards || (combatViewDefenderId !== null ? player.id !== combatViewDefenderId : !isActive);
   // Counter cards are greyed out (no cyan highlight) if a blocker is selected or already declared
   const blockerLocked = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
-  drawSpread(scene, 'HAND', player.hand, allCards, COL_HAND, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId, blockerLocked);
+  // Center the hand horizontally
+  const handCount = player.hand.length;
+  const handSpreadW = handCount > 0 ? handCount * (CARD_W + GAP) - GAP : CARD_W;
+  const handX = Math.max(LEFT_COL, Math.round((CANVAS_W - handSpreadW) / 2));
+  drawSpread(scene, 'HAND', player.hand, allCards, handX, handY, handFaceDown, uiState, activePlayerId, onCardClick, newCardIds, counterDefenderId, blockerLocked);
 
   // DON row
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
-  drawSpread(scene, 'COST', player.donArea, allCards, COL_DON_AREA, donY, false, uiState, activePlayerId, onCardClick, newCardIds);
+  // COST AREA zone background + centered spread
+  const costAreaW = COL_TRASH - COL_DON_AREA - 8;
+  addRect(scene, COL_DON_AREA - 6, donY - 2, costAreaW, CARD_H + 4, 0x0b0d26);
+  const costCount = player.donArea.length;
+  const costSpreadW = costCount > 0 ? costCount * (CARD_W + GAP) - GAP : CARD_W;
+  const costX = costCount > 0 ? Math.max(COL_DON_AREA, Math.round((CANVAS_W - costSpreadW) / 2)) : COL_DON_AREA;
+  drawSpread(scene, 'COST AREA', player.donArea, allCards, costX, donY, false, uiState, activePlayerId, onCardClick, newCardIds);
   const trashTopId   = player.trash[player.trash.length - 1];
   const trashTopCard = trashTopId !== undefined ? allCards[trashTopId] : undefined;
   drawStack(scene, 'TRASH', player.trash.length, COL_TRASH, donY, 0x4a4a5a, trashTopCard);
@@ -672,9 +684,16 @@ function renderPlayer(
 
   // Board — compute DON count per card
   const boardIds = player.board;
-  addText(scene, `BOARD (${boardIds.length})`, COL_BOARD, boardY - 17, C.label);
+  // CHARACTER AREA zone background + centered cards
+  const charAreaW = COL_DECK - COL_BOARD - 8;
+  addRect(scene, COL_BOARD - 6, boardY - 2, charAreaW, CARD_H + 4, 0x0b0d26);
+  addText(scene, `CHARACTER AREA (${boardIds.length})`, COL_BOARD, boardY - 17, C.label);
+  const boardSpreadW = boardIds.length > 0 ? boardIds.length * (CARD_W + GAP) - GAP : CARD_W;
+  const boardStartX = boardIds.length > 0
+    ? Math.max(COL_BOARD, Math.round((CANVAS_W - boardSpreadW) / 2))
+    : COL_BOARD;
   if (boardIds.length === 0) {
-    addRect(scene, COL_BOARD, boardY, CARD_W, CARD_H, H.empty, 0.3);
+    addRect(scene, boardStartX, boardY, CARD_W, CARD_H, H.empty, 0.3);
   } else {
     boardIds.forEach((id, i) => {
       const card = allCards[id];
@@ -688,7 +707,7 @@ function renderPlayer(
       const isDA = id === doubleAttackerId && (card.keywords ?? []).includes('DoubleAttack');
       drawCard(
         scene, card,
-        COL_BOARD + i * (CARD_W + GAP), boardY,
+        boardStartX + i * (CARD_W + GAP), boardY,
         false, isSelected, isTarget,
         () => onCardClick(id),
         newCardIds.has(id),

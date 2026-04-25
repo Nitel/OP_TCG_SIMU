@@ -9,42 +9,33 @@ interface Props {
   uiState: UIState;
   onAction: (action: GameAction) => void;
   myPlayerId?: PlayerId | null;
-  needsHandoff: boolean;
-  onHandoffConfirmed: () => void;
-  needsCombatHandoff: boolean;
-  onCombatHandoffConfirmed: () => void;
 }
 
 const btnStyle: CSSProperties = {
-  padding: '6px 14px',
+  padding: '5px 14px',
   fontFamily: 'monospace',
   fontSize: 12,
-  border: '1px solid #445566',
+  border: '1px solid #334455',
   borderRadius: 4,
   cursor: 'pointer',
-  background: '#1a2a3a',
-  color: '#ccddee',
+  background: '#111a26',
+  color: '#99bbcc',
+  whiteSpace: 'nowrap',
 };
 
 const primaryBtn: CSSProperties = {
   ...btnStyle,
-  background: '#1a4a2a',
-  border: '1px solid #44aa66',
-  color: '#88ffaa',
+  background: '#0d2e18',
+  border: '1px solid #2e7a46',
+  color: '#77ddaa',
+  fontWeight: 'bold',
 };
 
 const dangerBtn: CSSProperties = {
   ...btnStyle,
-  background: '#4a1a1a',
-  border: '1px solid #aa4444',
-  color: '#ffaaaa',
-};
-
-const bigBtn: CSSProperties = {
-  ...primaryBtn,
-  fontSize: 15,
-  padding: '8px 24px',
-  fontWeight: 'bold',
+  background: '#2e0d0d',
+  border: '1px solid #7a2e2e',
+  color: '#dd9999',
 };
 
 function CardThumb({ id, card }: { id: string; card: Card }) {
@@ -82,7 +73,7 @@ function CardThumb({ id, card }: { id: string; card: Card }) {
   );
 }
 
-export function ActionPanel({ gameState, uiState, onAction, myPlayerId, needsHandoff, onHandoffConfirmed, needsCombatHandoff, onCombatHandoffConfirmed }: Props) {
+export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props) {
   const { phase, activePlayerId, activeCombat, playerOrder, winner } = gameState;
   const defenderId  = activePlayerId === playerOrder[0] ? playerOrder[1] : playerOrder[0];
   const isMyTurn    = !myPlayerId || myPlayerId === activePlayerId;
@@ -131,51 +122,25 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId, needsHan
     );
   };
 
+  // Winner is handled by GameUI overlay — panel just shows a slim bar
   if (winner !== null) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 16px', background: '#0a0a1a', borderTop: '1px solid #2a2a4a', width: 1200, boxSizing: 'border-box' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 16, color: '#ffee44', fontWeight: 'bold' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '6px 20px', background: '#07071a', borderTop: '1px solid #1e1e3a', width: '100%', boxSizing: 'border-box' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 14, color: '#ffee44', fontWeight: 'bold', letterSpacing: 2 }}>
           Victoire : {winner} !
         </span>
       </div>
     );
   }
 
-  // ── Hotseat handoff screen ─────────────────────────────────────────────────
-  if (needsHandoff) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '12px 16px', background: '#0a1a2a', borderTop: '2px solid #4488bb', width: 1200, boxSizing: 'border-box' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 14, color: '#88ccff' }}>
-          Tour de <strong style={{ color: '#ffffff' }}>{activePlayerId}</strong> — passez le clavier
-        </span>
-        <button style={bigBtn} onClick={onHandoffConfirmed}>
-          C'est parti, {activePlayerId} !
-        </button>
-      </div>
-    );
-  }
-
-  // ── Combat handoff screen — show defender's hand ───────────────────────────
-  if (needsCombatHandoff) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '12px 16px', background: '#1a0a0a', borderTop: '2px solid #aa4444', width: 1200, boxSizing: 'border-box' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 13, color: '#ffaaaa' }}>
-          Attaque ! <strong style={{ color: '#ffffff' }}>{defenderId}</strong>, passez le clavier — vous pouvez contrer ou bloquer
-        </span>
-        <button style={{ ...bigBtn, background: '#3a1a1a', border: '1px solid #aa4444', color: '#ffcccc' }} onClick={onCombatHandoffConfirmed}>
-          Je suis pret, {defenderId} !
-        </button>
-      </div>
-    );
-  }
-
-  // ── Network mode: waiting screen (with trash viewer still accessible) ────────
+  // ── Network mode: waiting screen ─────────────────────────────────────────
   if (!isMyTurn && !amIDefender) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', background: '#0a0a1a', borderTop: '1px solid #2a2a4a', width: 1200, boxSizing: 'border-box' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 16px', fontFamily: 'monospace' }}>
-          <span style={{ color: '#6688aa', fontSize: 13 }}>En attente de l'adversaire…</span>
-          <span style={{ color: '#445566', fontSize: 11 }}>{phase} · Tour {gameState.turnNumber}</span>
+      <div style={{ display: 'flex', flexDirection: 'column', background: '#07071a', borderTop: '1px solid #1e1e3a', width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 20px', fontFamily: 'monospace' }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ffcc44', display: 'inline-block', flexShrink: 0 }} />
+          <span style={{ color: '#6688aa', fontSize: 12 }}>En attente de l'adversaire…</span>
+          <span style={{ color: '#2a3a4a', fontSize: 11 }}>{phase} · Tour {gameState.turnNumber}</span>
           <span style={{ marginLeft: 'auto' }}>
             <button style={btnStyle} onClick={() => setShowTrash(v => !v)}>
               Défausses{showTrash ? ' ×' : ' ↑'}
@@ -188,20 +153,16 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId, needsHan
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '8px 16px', background: '#0a0a1a', borderTop: '1px solid #2a2a4a', width: 1200, boxSizing: 'border-box' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '6px 20px', background: '#07071a', borderTop: '1px solid #1e1e3a', width: '100%', boxSizing: 'border-box' }}>
 
-      {/* Error message */}
-      {uiState.errorMessage !== null && (
-        <div style={{ background: '#3a1a1a', border: '1px solid #aa4444', borderRadius: 4, padding: '4px 12px', fontFamily: 'monospace', fontSize: 12, color: '#ffaaaa' }}>
-          {uiState.errorMessage}
-        </div>
-      )}
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
 
-      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-
-        {/* Phase label */}
-        <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#6688aa', marginRight: 4 }}>
-          [{phase}] {activePlayerId} :
+        {/* Phase + player badge */}
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#334455', background: '#0d1520', border: '1px solid #1e2e40', borderRadius: 3, padding: '2px 8px', whiteSpace: 'nowrap' }}>
+          {phase}
+        </span>
+        <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#5577aa', marginRight: 2 }}>
+          {activePlayerId} :
         </span>
 
         {/* ── Active player actions ─────────────────────────────────────── */}
