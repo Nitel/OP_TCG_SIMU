@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Application, Container } from 'pixi.js';
 import type { CardId, GameState, PlayerId } from 'game-engine';
 import type { UIState } from '../ui/uiState';
-import { renderGameState, setRerenderCallback, setPreviewLayer, preloadAllTextures } from './renderGameState';
+import { renderGameState, setRerenderCallback, setPreviewLayer, preloadAllTextures, setupBgLayer } from './renderGameState';
 
 const CANVAS_W = 1920;
 const CANVAS_H = 1080;
@@ -24,6 +24,7 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
   const sceneRef    = useRef<Container | null>(null);
   const animRef     = useRef<Container | null>(null);
   const previewRef  = useRef<Container | null>(null);
+  const bgRef       = useRef<Container | null>(null);
   const appRef      = useRef<Application | null>(null);
   const [status, setStatus]       = useState<Status>('idle');
   const [initError, setInitError] = useState<string>('');
@@ -70,17 +71,23 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
       })
       .then(() => {
         if (!alive) { app.destroy(false); return; }
+        const bgLayer = new Container();
         const scene = new Container();
         const animLayer = new Container();
         const previewLayer = new Container();
+        app.stage.addChild(bgLayer);    // z=0: background artwork
         app.stage.addChild(scene);
         app.stage.addChild(animLayer);
         app.stage.addChild(previewLayer); // previewLayer always on top
         appRef.current    = app;
+        bgRef.current     = bgLayer;
         sceneRef.current  = scene;
         animRef.current   = animLayer;
         previewRef.current = previewLayer;
         setPreviewLayer(previewLayer);
+        setupBgLayer(bgLayer).catch((err: unknown) => {
+          console.warn('[GameCanvas] background assets not loaded:', err);
+        });
         setRerenderCallback(() => {
           const s = sceneRef.current;
           const al = animRef.current;
@@ -105,9 +112,10 @@ export function GameCanvas({ gameState, uiState, onCardClick, hideCards = false,
       const a = appRef.current;
       if (a !== null) {
         a.destroy(false);
-        appRef.current    = null;
-        sceneRef.current  = null;
-        animRef.current   = null;
+        appRef.current     = null;
+        bgRef.current      = null;
+        sceneRef.current   = null;
+        animRef.current    = null;
         previewRef.current = null;
         setStatus('idle');
       }

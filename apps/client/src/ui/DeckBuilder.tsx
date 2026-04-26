@@ -24,14 +24,14 @@ const s: Record<string, CSSProperties> = {
     display: 'flex', flexDirection: 'column', overflow: 'hidden',
   },
   topBar: {
-    display: 'flex', alignItems: 'center', gap: 12,
+    display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
     padding: '10px 20px', background: '#0d0d24',
     borderBottom: '1px solid #2a2a4a', flexShrink: 0,
   },
   nameInput: {
     background: '#111128', border: '1px solid #2a2a4a', borderRadius: 4,
     color: '#ccddee', fontFamily: 'monospace', fontSize: 14,
-    padding: '5px 10px', width: 220,
+    padding: '5px 10px', width: 'clamp(120px, 30%, 220px)',
   },
   btn: {
     padding: '5px 14px', fontFamily: 'monospace', fontSize: 12,
@@ -56,14 +56,15 @@ const s: Record<string, CSSProperties> = {
   },
   filterInput: {
     background: '#111128', border: '1px solid #2a2a4a', borderRadius: 4,
-    color: '#ccddee', fontFamily: 'monospace', fontSize: 12, padding: '4px 8px', width: 160,
+    color: '#ccddee', fontFamily: 'monospace', fontSize: 12, padding: '4px 8px',
+    width: 'clamp(100px, 25%, 160px)',
   },
   cardGrid: {
     display: 'flex', flexWrap: 'wrap', gap: 6,
     padding: 12, overflowY: 'auto', flex: 1, alignContent: 'flex-start',
   },
   right: {
-    width: 280, display: 'flex', flexDirection: 'column', overflow: 'hidden',
+    width: 'clamp(200px, 22%, 280px)', display: 'flex', flexDirection: 'column', overflow: 'hidden',
     background: '#0a0a1a',
   },
   deckHeader: {
@@ -248,7 +249,7 @@ function ImportPopup({ onImport, onClose }: {
     }}>
       <div style={{
         background: '#0d0d24', border: '1px solid #2a2a5a', borderRadius: 8,
-        padding: 24, width: 480, display: 'flex', flexDirection: 'column', gap: 12,
+        padding: 24, width: '90vw', maxWidth: 480, display: 'flex', flexDirection: 'column', gap: 12,
       }}>
         <div style={{ fontSize: 13, color: '#88ccff', fontWeight: 'bold' }}>
           Importer un deck (texte)

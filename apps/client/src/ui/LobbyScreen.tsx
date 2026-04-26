@@ -35,7 +35,7 @@ function generateRoomCode(): string {
 
 const container: CSSProperties = {
   minHeight: '100vh',
-  background: '#07071a',
+  background: 'linear-gradient(180deg, #020810 0%, #030d1a 60%, #020a14 100%)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -46,8 +46,8 @@ const container: CSSProperties = {
 };
 
 const card: CSSProperties = {
-  background: '#0d0d24',
-  border: '1px solid #2a2a5a',
+  background: '#030f1e',
+  border: '1px solid #0a3a5a',
   borderRadius: 8,
   padding: '24px 32px',
   width: 560,
@@ -58,17 +58,17 @@ const card: CSSProperties = {
 
 const label: CSSProperties = {
   fontSize: 11,
-  color: '#6688aa',
+  color: '#2a7a9a',
   textTransform: 'uppercase',
   letterSpacing: 1,
   marginBottom: 6,
 };
 
 const inputStyle: CSSProperties = {
-  background: '#111128',
-  border: '1px solid #2a2a4a',
+  background: '#020c18',
+  border: '1px solid #0a2840',
   borderRadius: 4,
-  color: '#ccddee',
+  color: '#c0ddf0',
   fontFamily: 'monospace',
   fontSize: 13,
   padding: '6px 10px',
@@ -83,9 +83,9 @@ const modeBtn = (active: boolean): CSSProperties => ({
   fontSize: 13,
   borderRadius: 4,
   cursor: 'pointer',
-  border: active ? '1px solid #44aaff' : '1px solid #2a2a4a',
-  background: active ? '#0a2a4a' : '#111128',
-  color: active ? '#88ccff' : '#667788',
+  border: active ? '1px solid #0077cc' : '1px solid #0a2030',
+  background: active ? '#002244' : '#010a16',
+  color: active ? '#44ccff' : '#2a5566',
   fontWeight: active ? 'bold' : 'normal',
 });
 
@@ -93,8 +93,8 @@ const deckBox: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: 10,
-  background: '#111128',
-  border: '1px solid #2a2a4a',
+  background: '#020c18',
+  border: '1px solid #0a2030',
   borderRadius: 4,
   padding: '8px 10px',
 };
@@ -103,11 +103,11 @@ const smallBtn: CSSProperties = {
   padding: '4px 10px',
   fontFamily: 'monospace',
   fontSize: 11,
-  border: '1px solid #445566',
+  border: '1px solid #0a3050',
   borderRadius: 4,
   cursor: 'pointer',
-  background: '#1a2a3a',
-  color: '#aabbcc',
+  background: '#010e1c',
+  color: '#4a9ab8',
   whiteSpace: 'nowrap',
 };
 
@@ -116,11 +116,11 @@ const primaryBtn: CSSProperties = {
   fontFamily: 'monospace',
   fontSize: 15,
   fontWeight: 'bold',
-  border: '1px solid #44aa66',
+  border: '1px solid #0077bb',
   borderRadius: 6,
   cursor: 'pointer',
-  background: '#0a3a1a',
-  color: '#88ffaa',
+  background: '#002a44',
+  color: '#44ccff',
   letterSpacing: 1,
 };
 
@@ -331,7 +331,7 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
     <div style={container}>
       {/* Title */}
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 28, fontWeight: 'bold', color: '#ccddee', letterSpacing: 4 }}>
+        <div style={{ fontSize: 28, fontWeight: 'bold', color: '#00ccff', letterSpacing: 4, textShadow: '0 0 18px rgba(0,180,255,0.45)' }}>
           ONE PIECE TCG
         </div>
         <div style={{ fontSize: 13, color: '#445566', letterSpacing: 2, marginTop: 4 }}>
@@ -375,10 +375,11 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
                 <div style={label}>Code de la partie</div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                   <div style={{
-                    flex: 1, background: '#0a1a2a', border: '1px solid #2255aa',
+                    flex: 1, background: '#010d1a', border: '1px solid #0066cc',
                     borderRadius: 4, padding: '10px 12px',
                     letterSpacing: 8, fontSize: 22, fontWeight: 'bold',
-                    color: '#88ccff', textAlign: 'center', fontFamily: 'monospace',
+                    color: '#00ccff', textAlign: 'center', fontFamily: 'monospace',
+                    textShadow: '0 0 12px rgba(0,200,255,0.5)',
                   }}>
                     {roomId}
                   </div>

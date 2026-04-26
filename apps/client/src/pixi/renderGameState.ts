@@ -40,40 +40,100 @@ const P1_HAND_Y    = P1_DON_ROW_Y + CARD_H + ROW_GAP;
 // ─── Palette ──────────────────────────────────────────────────────────────────
 
 const C = {
-  bg:      '#0d0d1a',
-  sep:     '#2a2a4a',
+  bg:      '#030a14',
+  sep:     '#0a3050',
   leader:  '#d4a017',
   life:    '#c0392b',
-  donDeck: '#6c3483',
-  donArea: '#7d3c98',
-  board:   '#1a6b35',
-  hand:    '#1a4a7a',
-  back:    '#1c2b3a',
-  empty:   '#151525',
-  label:   '#666688',
-  white:   '#ffffff',
+  donDeck: '#4a1a6a',
+  donArea: '#3a1a5a',
+  board:   '#01150e',
+  hand:    '#01101a',
+  back:    '#020c18',
+  empty:   '#020810',
+  label:   '#0a4a6a',
+  white:   '#d0e8f8',
   yellow:  '#ffee44',
-  purple:  '#cc88ff',
-  red:     '#ff6666',
-  muted:   '#333344',
-  stage:   '#2a3a2a',
+  purple:  '#aa66ff',
+  red:     '#ff4466',
+  muted:   '#0a2a3a',
+  stage:   '#01120a',
+  cyan:    '#00ccff',
+  hudText: '#1a7aaa',
 };
 
 const H = {
-  bg:      0x0d0d1a,
-  sep:     0x2a2a4a,
-  leader:  0xd4a017,
-  life:    0xc0392b,
-  donDeck: 0x6c3483,
-  donArea: 0x7d3c98,
-  board:   0x1a6b35,
-  hand:    0x1a4a7a,
-  back:    0x1c2b3a,
-  empty:   0x151525,
-  stage:   0x1a2a1a,
-  selected: 0xffee00,
+  bg:       0x030a14,
+  sep:      0x0a3050,
+  leader:   0xd4a017,
+  life:     0xc0392b,
+  donDeck:  0x4a1a6a,
+  donArea:  0x3a1a5a,
+  board:    0x01150e,
+  hand:     0x01101a,
+  back:     0x020c18,
+  empty:    0x020810,
+  stage:    0x01120a,
+  selected: 0x00ccff,
   validTarget: 0x44ff88,
 };
+
+// ─── Background layer (ocean artwork) ────────────────────────────────────────
+
+// Cached textures set by setupBgLayer — null = file not present, no warning logged
+let bgShipTexture: Texture | null = null;
+
+// Card back (recto) texture — loaded once on first face-down render
+let rectoTexture: Texture | null = null;
+let rectoLoading = false;
+
+/**
+ * Called once after PixiJS init. Loads background PNG/JPG assets into the
+ * persistent bgLayer (z=0, under the game scene). Silently skips missing files
+ * without triggering PixiJS cache-miss warnings.
+ */
+export async function setupBgLayer(bgLayer: Container): Promise<void> {
+  if (bgLayer.children.length > 0) return; // already initialized
+
+  // Always add solid fallback bg first — ensures the guard works on next call
+  // and provides the Ocean Battle base colour when no image is available.
+  const solidBg = new Graphics();
+  solidBg.rect(0, 0, CANVAS_W, CANVAS_H);
+  solidBg.fill({ color: H.bg });
+  bgLayer.addChild(solidBg);
+
+  // Load all assets in parallel; failures are expected when files are absent
+  const [bgResult, shipResult, wavesResult, rectoResult] = await Promise.allSettled([
+    Assets.load<Texture>('/backgrounds/bg-ocean.jpg'),
+    Assets.load<Texture>('/backgrounds/ship-silhouette.jpg'),
+    Assets.load<Texture>('/backgrounds/waves-divider.jpg'),
+    Assets.load<Texture>('/card-images/recto.png'),
+  ]);
+
+  // Use results directly — never call Assets.get() to avoid cache-miss warnings
+  if (bgResult.status === 'fulfilled') {
+    const bg = new Sprite(bgResult.value);
+    bg.width = CANVAS_W; bg.height = CANVAS_H;
+    bgLayer.addChild(bg); // on top of solid fallback
+
+    // Dark overlay keeps cards readable over the background image
+    const overlay = new Graphics();
+    overlay.rect(0, 0, CANVAS_W, CANVAS_H);
+    overlay.fill({ color: 0x000000, alpha: 0.52 });
+    bgLayer.addChild(overlay);
+  }
+
+  if (wavesResult.status === 'fulfilled') {
+    const waves = new Sprite(wavesResult.value);
+    waves.width = CANVAS_W; waves.height = 80;
+    waves.y = SEP_Y - 40;
+    bgLayer.addChild(waves);
+  }
+
+  // Store textures for use during card rendering
+  bgShipTexture = shipResult.status === 'fulfilled' ? shipResult.value : null;
+  rectoTexture  = rectoResult.status === 'fulfilled' ? rectoResult.value : null;
+  rectoLoading  = true; // mark as attempted regardless of outcome
+}
 
 // ─── Card texture cache ───────────────────────────────────────────────────────
 
@@ -86,11 +146,11 @@ export function setRerenderCallback(cb: () => void): void {
 
 // ─── Card preview (hover ≥ 3 s) ──────────────────────────────────────────────
 
-const PREVIEW_W      = 300;
-const PREVIEW_H      = 420; // keeps 5:7 ratio (same as 86×120)
-const PREVIEW_INFO_H = 140;
+const PREVIEW_W      = 420;
+const PREVIEW_H      = 588; // keeps 5:7 ratio (same as 86×120)
+const PREVIEW_INFO_H = 150;
 const PREVIEW_X      = CANVAS_W - PREVIEW_W - 20; // right side, away from board center
-const PREVIEW_Y      = CANVAS_H / 2 - (PREVIEW_H + PREVIEW_INFO_H) / 2;
+const PREVIEW_Y      = Math.round((CANVAS_H - PREVIEW_H - PREVIEW_INFO_H) / 2);
 
 let hoverTimer: ReturnType<typeof setTimeout> | null = null;
 let hoveredCardId: string | null = null;
@@ -200,9 +260,28 @@ function hideCardPreview(): void {
 }
 
 function loadCardTexture(cardId: string): void {
+  // DON!! card IDs: "P1-don-0", "P2-don-3", etc.
+  if (cardId.includes('-don-')) {
+    const cached = textureCache.get('DON');
+    if (cached !== undefined) {
+      textureCache.set(cardId, cached); // reuse already-loaded texture
+      rerenderCallback?.();
+      return;
+    }
+    textureCache.set(cardId, Texture.EMPTY); // mark as loading
+    (Assets.load('/card-images/DON.png') as Promise<Texture>)
+      .then((tex: Texture) => {
+        textureCache.set('DON', tex);   // shared cache key for all DON cards
+        textureCache.set(cardId, tex);
+        rerenderCallback?.();
+      })
+      .catch(() => { textureCache.set(cardId, Texture.EMPTY); });
+    return;
+  }
+
   const templateId = cardId.match(/OP\d{2}-\d{3}/)?.[0];
   if (templateId === undefined) {
-    textureCache.set(cardId, Texture.EMPTY); // DON!! cards
+    textureCache.set(cardId, Texture.EMPTY);
     return;
   }
   if (textureCache.has(templateId)) return; // already loaded or loading
@@ -306,10 +385,24 @@ function drawCard(
   bg.fill({ color: fillColor });
   cardContainer.addChild(bg);
 
+  // Face-down: use recto.png if loaded, otherwise flat colour stays
+  if (faceDown) {
+    if (rectoTexture !== null) {
+      const recto = new Sprite(rectoTexture);
+      recto.width = CARD_W; recto.height = CARD_H;
+      cardContainer.addChild(recto);
+    } else if (!rectoLoading) {
+      rectoLoading = true;
+      (Assets.load('/card-images/recto.png') as Promise<Texture>)
+        .then((tex: Texture) => { rectoTexture = tex; rerenderCallback?.(); })
+        .catch(() => { /* keep null, flat colour stays */ });
+    }
+  }
+
   // Card artwork sprite (lazy-loaded, replaces bg when available)
   if (!faceDown) {
     const cardTemplateId = card.id.match(/OP\d{2}-\d{3}/)?.[0] ?? card.id;
-    const cachedTex = textureCache.get(cardTemplateId);
+    const cachedTex = textureCache.get(cardTemplateId) ?? textureCache.get(card.id);
     if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
       const sprite = new Sprite(cachedTex);
       sprite.width = CARD_W;
@@ -322,10 +415,12 @@ function drawCard(
   }
 
   if (!faceDown) {
-    const name = card.name.length > 7 ? `${card.name.slice(0, 6)}…` : card.name;
-    const nameTxt = new Text({ text: name, style: { fontSize: 11, fill: C.white, fontFamily: 'monospace' } });
-    nameTxt.x = 4; nameTxt.y = 4;
-    cardContainer.addChild(nameTxt);
+    if (card.type !== 'DON') {
+      const name = card.name.length > 7 ? `${card.name.slice(0, 6)}…` : card.name;
+      const nameTxt = new Text({ text: name, style: { fontSize: 11, fill: C.white, fontFamily: 'monospace' } });
+      nameTxt.x = 4; nameTxt.y = 4;
+      cardContainer.addChild(nameTxt);
+    }
 
     if (card.type !== 'Leader' && card.type !== 'DON') {
       const costTxt = new Text({ text: `${card.cost}`, style: { fontSize: 15, fill: C.yellow, fontFamily: 'monospace' } });
@@ -468,7 +563,7 @@ function drawStack(
   // Background
   const bg = new Graphics();
   bg.rect(0, 0, CARD_W, CARD_H);
-  bg.fill({ color: count > 0 ? color : H.empty, alpha: count > 0 ? 1 : 0.4 });
+  bg.fill({ color: count > 0 ? color : H.empty, alpha: count > 0 ? 1 : 0.10 });
   cardContainer.addChild(bg);
 
   // Show top card artwork when provided (e.g. trash pile)
@@ -537,7 +632,7 @@ function drawSpread(
   addText(scene, `${label} (${ids.length})`, x, y - 17, C.label);
 
   if (ids.length === 0) {
-    addRect(scene, x, y, CARD_W, CARD_H, H.empty, 0.3);
+    addRect(scene, x, y, CARD_W, CARD_H, H.empty, 0.07);
     return;
   }
 
@@ -643,7 +738,7 @@ function renderPlayer(
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
   // COST AREA zone background + centered spread
   const costAreaW = COL_TRASH - COL_DON_AREA - 8;
-  addRect(scene, COL_DON_AREA - 6, donY - 2, costAreaW, CARD_H + 4, 0x0b0d26);
+  addRect(scene, COL_DON_AREA - 6, donY - 2, costAreaW, CARD_H + 4, 0x0b0d26, 0.10);
   const costCount = player.donArea.length;
   const costSpreadW = costCount > 0 ? costCount * (CARD_W + GAP) - GAP : CARD_W;
   const costX = costCount > 0 ? Math.max(COL_DON_AREA, Math.round((CANVAS_W - costSpreadW) / 2)) : COL_DON_AREA;
@@ -672,12 +767,19 @@ function renderPlayer(
       drawCard(scene, lc, COL_LEADER, midY, false, isLeaderSelected, isTarget, () => onCardClick(player.leader!), false, donCount);
     }
   } else {
-    addRect(scene, COL_LEADER, midY, CARD_W, CARD_H, H.empty, 0.4);
+    addRect(scene, COL_LEADER, midY, CARD_W, CARD_H, H.empty, 0.07);
   }
 
-  // Stage (placeholder)
+  // Stage (placeholder + optional ship decoration when empty)
   addText(scene, 'STAGE', COL_STAGE, midY - 17, C.label);
-  addRect(scene, COL_STAGE, midY, CARD_W, CARD_H, H.stage, 0.6);
+  addRect(scene, COL_STAGE, midY, CARD_W, CARD_H, H.stage, 0.10);
+  if (bgShipTexture !== null) {
+    const ship = new Sprite(bgShipTexture);
+    ship.alpha = 0.22;
+    ship.width = CARD_W; ship.height = CARD_H;
+    ship.x = COL_STAGE; ship.y = midY;
+    scene.addChild(ship);
+  }
 
   // Deck
   drawStack(scene, 'DECK', player.deck.length, COL_DECK, midY, H.back);
@@ -686,14 +788,14 @@ function renderPlayer(
   const boardIds = player.board;
   // CHARACTER AREA zone background + centered cards
   const charAreaW = COL_DECK - COL_BOARD - 8;
-  addRect(scene, COL_BOARD - 6, boardY - 2, charAreaW, CARD_H + 4, 0x0b0d26);
+  addRect(scene, COL_BOARD - 6, boardY - 2, charAreaW, CARD_H + 4, 0x0b0d26, 0.10);
   addText(scene, `CHARACTER AREA (${boardIds.length})`, COL_BOARD, boardY - 17, C.label);
   const boardSpreadW = boardIds.length > 0 ? boardIds.length * (CARD_W + GAP) - GAP : CARD_W;
   const boardStartX = boardIds.length > 0
     ? Math.max(COL_BOARD, Math.round((CANVAS_W - boardSpreadW) / 2))
     : COL_BOARD;
   if (boardIds.length === 0) {
-    addRect(scene, boardStartX, boardY, CARD_W, CARD_H, H.empty, 0.3);
+    addRect(scene, boardStartX, boardY, CARD_W, CARD_H, H.empty, 0.07);
   } else {
     boardIds.forEach((id, i) => {
       const card = allCards[id];
@@ -720,7 +822,7 @@ function renderPlayer(
 
   // Player badge
   const badge = `${isTop ? '▲' : '▼'} ${player.id}`;
-  addText(scene, badge, CANVAS_W - 185, isTop ? handY + CARD_H + 4 : handY - 24, '#6688aa', 16);
+  addText(scene, badge, CANVAS_W - 185, isTop ? handY + CARD_H + 4 : handY - 24, C.hudText, 16);
 }
 
 // ─── Animation detection ──────────────────────────────────────────────────────
@@ -791,17 +893,26 @@ export function renderGameState(
   detectAndAnimate(animLayer, _prevState, state);
   _prevState = state;
 
-  // Redraw scene
+  // Redraw scene (bgLayer underneath handles the background colour/image)
   scene.removeChildren();
-  addRect(scene, 0, 0, CANVAS_W, CANVAS_H, H.bg);
-  addRect(scene, 0, SEP_Y - 1, CANVAS_W, 2, H.sep);
+  // Ocean Battle separator: cyan line + glow halo
+  const sep = new Graphics();
+  sep.rect(0, SEP_Y - 1, CANVAS_W, 2);
+  sep.fill({ color: 0x0055aa, alpha: 0.7 });
+  scene.addChild(sep);
+  const glow = new Graphics();
+  glow.rect(0, SEP_Y - 3, CANVAS_W, 6);
+  glow.fill({ color: 0x0088cc, alpha: 0.15 });
+  scene.addChild(glow);
 
   const [p1Id, p2Id] = state.playerOrder;
 
   // Local player always at bottom; opponent at top.
-  // In hotseat (myPlayerId === null), fall back to p1 at bottom.
+  // In network mode: use myPlayerId. In hotseat: flip board so the active player
+  // (or the defender during combat blocking) always sees themselves at the bottom.
   const meId = (myPlayerId !== null && state.players[myPlayerId] !== undefined)
-    ? myPlayerId : p1Id;
+    ? myPlayerId
+    : (combatViewDefenderId ?? state.activePlayerId);
   const opId = meId === p1Id ? p2Id : p1Id;
   const me = state.players[meId];
   const op = state.players[opId];
