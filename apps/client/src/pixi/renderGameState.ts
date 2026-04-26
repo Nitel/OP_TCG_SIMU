@@ -566,6 +566,13 @@ function drawStack(
   bg.fill({ color: count > 0 ? color : H.empty, alpha: count > 0 ? 1 : 0.10 });
   cardContainer.addChild(bg);
 
+  // Card back image on non-empty piles (deck, life, DON!! deck)
+  if (count > 0 && topCard === undefined && rectoTexture !== null) {
+    const recto = new Sprite(rectoTexture);
+    recto.width = CARD_W; recto.height = CARD_H;
+    cardContainer.addChild(recto);
+  }
+
   // Show top card artwork when provided (e.g. trash pile)
   if (topCard !== undefined && count > 0) {
     const templateId = topCard.id.match(/OP\d{2}-\d{3}/)?.[0] ?? topCard.id;
