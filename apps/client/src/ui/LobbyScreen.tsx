@@ -8,7 +8,7 @@ import type { RoomInfo } from '../network/socketClient';
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface GameConfig {
-  mode: 'local' | 'network';
+  mode: 'local' | 'network' | 'vsBot';
   roomId: string;
   myPlayerId: 'P1' | 'P2';
   isCreating: boolean;
@@ -35,93 +35,120 @@ function generateRoomCode(): string {
 
 const container: CSSProperties = {
   minHeight: '100vh',
-  background: 'linear-gradient(180deg, #020810 0%, #030d1a 60%, #020a14 100%)',
+  backgroundImage: "url('/backgrounds/bg-ocean.jpg')",
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  fontFamily: 'monospace',
-  gap: 32,
+  fontFamily: "'Cinzel', serif",
+  gap: 28,
   padding: '40px 24px',
+  position: 'relative',
+};
+
+const overlay: CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background: 'linear-gradient(180deg, rgba(2,4,16,0.78) 0%, rgba(4,10,24,0.65) 50%, rgba(2,6,18,0.80) 100%)',
+  pointerEvents: 'none',
 };
 
 const card: CSSProperties = {
-  background: '#030f1e',
-  border: '1px solid #0a3a5a',
-  borderRadius: 8,
-  padding: '24px 32px',
-  width: 560,
+  background: 'rgba(5,10,28,0.88)',
+  border: '1px solid rgba(184,134,11,0.45)',
+  borderRadius: 12,
+  padding: '28px 36px',
+  width: 580,
   display: 'flex',
   flexDirection: 'column',
   gap: 20,
+  backdropFilter: 'blur(8px)',
+  boxShadow: '0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03) inset',
+  position: 'relative',
+  zIndex: 1,
 };
 
 const label: CSSProperties = {
-  fontSize: 11,
-  color: '#2a7a9a',
+  fontSize: 10,
+  color: '#b8860b',
   textTransform: 'uppercase',
-  letterSpacing: 1,
+  letterSpacing: 2,
   marginBottom: 6,
+  fontFamily: "'Cinzel', serif",
 };
 
 const inputStyle: CSSProperties = {
-  background: '#020c18',
-  border: '1px solid #0a2840',
-  borderRadius: 4,
-  color: '#c0ddf0',
-  fontFamily: 'monospace',
-  fontSize: 13,
-  padding: '6px 10px',
+  background: 'rgba(2,6,18,0.8)',
+  border: '1px solid rgba(60,80,110,0.6)',
+  borderRadius: 6,
+  color: '#d0e8f8',
+  fontFamily: "'Cinzel', serif",
+  fontSize: 12,
+  padding: '7px 12px',
   width: '100%',
   boxSizing: 'border-box',
+  outline: 'none',
+  transition: 'border-color 0.2s',
 };
 
 const modeBtn = (active: boolean): CSSProperties => ({
   flex: 1,
-  padding: '8px 0',
-  fontFamily: 'monospace',
-  fontSize: 13,
-  borderRadius: 4,
+  padding: '9px 0',
+  fontFamily: "'Cinzel', serif",
+  fontSize: 11,
+  borderRadius: 8,
   cursor: 'pointer',
-  border: active ? '1px solid #0077cc' : '1px solid #0a2030',
-  background: active ? '#002244' : '#010a16',
-  color: active ? '#44ccff' : '#2a5566',
+  border: active ? '1px solid rgba(184,134,11,0.8)' : '1px solid rgba(40,60,80,0.6)',
+  background: active
+    ? 'linear-gradient(160deg, rgba(40,28,4,0.95) 0%, rgba(28,18,2,0.95) 100%)'
+    : 'linear-gradient(160deg, rgba(6,12,26,0.9) 0%, rgba(4,8,18,0.9) 100%)',
+  color: active ? '#ffd700' : '#3a5a70',
   fontWeight: active ? 'bold' : 'normal',
+  letterSpacing: 1,
+  transition: 'all 0.15s ease',
+  boxShadow: active ? '0 0 12px rgba(184,134,11,0.25)' : 'none',
 });
 
 const deckBox: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: 10,
-  background: '#020c18',
-  border: '1px solid #0a2030',
-  borderRadius: 4,
-  padding: '8px 10px',
+  background: 'rgba(2,6,18,0.7)',
+  border: '1px solid rgba(184,134,11,0.25)',
+  borderRadius: 8,
+  padding: '8px 12px',
 };
 
 const smallBtn: CSSProperties = {
-  padding: '4px 10px',
-  fontFamily: 'monospace',
-  fontSize: 11,
-  border: '1px solid #0a3050',
-  borderRadius: 4,
+  padding: '5px 12px',
+  fontFamily: "'Cinzel', serif",
+  fontSize: 10,
+  border: '1px solid rgba(60,90,120,0.6)',
+  borderRadius: 6,
   cursor: 'pointer',
-  background: '#010e1c',
-  color: '#4a9ab8',
+  background: 'rgba(4,12,26,0.8)',
+  color: '#5a9ab8',
   whiteSpace: 'nowrap',
+  transition: 'all 0.12s ease',
+  letterSpacing: 0.5,
 };
 
 const primaryBtn: CSSProperties = {
-  padding: '10px 0',
-  fontFamily: 'monospace',
-  fontSize: 15,
+  padding: '12px 0',
+  fontFamily: "'Cinzel', serif",
+  fontSize: 14,
   fontWeight: 'bold',
-  border: '1px solid #0077bb',
-  borderRadius: 6,
+  border: '1px solid rgba(184,134,11,0.7)',
+  borderRadius: 10,
   cursor: 'pointer',
-  background: '#002a44',
-  color: '#44ccff',
-  letterSpacing: 1,
+  background: 'linear-gradient(160deg, rgba(40,28,4,0.95) 0%, rgba(20,12,2,0.98) 100%)',
+  color: '#ffd700',
+  letterSpacing: 2,
+  boxShadow: '0 4px 20px rgba(184,134,11,0.25), inset 0 1px 0 rgba(255,255,255,0.05)',
+  transition: 'transform 0.12s ease, box-shadow 0.12s ease',
 };
 
 // ─── DeckSlot sub-component ───────────────────────────────────────────────────
@@ -170,9 +197,10 @@ function DeckSlot({
           {open && (
             <div style={{
               position: 'absolute', right: 0, bottom: '110%',
-              background: '#0d0d24', border: '1px solid #2a2a4a',
-              borderRadius: 4, minWidth: 220, zIndex: 10,
-              boxShadow: '0 4px 16px rgba(0,0,0,0.6)',
+              background: 'rgba(6,10,24,0.96)', border: '1px solid rgba(184,134,11,0.4)',
+              borderRadius: 8, minWidth: 240, zIndex: 10,
+              boxShadow: '0 8px 30px rgba(0,0,0,0.8)',
+              backdropFilter: 'blur(8px)',
             }}>
               {saved.length === 0 && (
                 <div style={{ padding: '8px 12px', fontSize: 11, color: '#445566' }}>
@@ -183,13 +211,15 @@ function DeckSlot({
                 <div
                   key={d.name}
                   style={{
-                    padding: '8px 12px', fontSize: 12, color: '#aabbcc',
-                    cursor: 'pointer', borderBottom: '1px solid #1a1a3a',
+                    padding: '9px 14px', fontSize: 11, color: '#c8b880',
+                    cursor: 'pointer', borderBottom: '1px solid rgba(184,134,11,0.15)',
+                    fontFamily: "'Cinzel', serif", letterSpacing: 0.5,
+                    transition: 'background 0.1s',
                   }}
                   onClick={() => { onSelect(d); setOpen(false); }}
                 >
                   {d.name}
-                  <span style={{ color: '#445566', marginLeft: 8 }}>{d.leaderId}</span>
+                  <span style={{ color: '#5a6a7a', marginLeft: 8, fontSize: 9 }}>{d.leaderId}</span>
                 </div>
               ))}
             </div>
@@ -275,9 +305,9 @@ function RoomList({
             key={r.roomId}
             style={{
               display: 'flex', alignItems: 'center', gap: 8,
-              padding: '6px 8px', marginBottom: 4,
-              background: '#111128', border: '1px solid #2a2a4a', borderRadius: 4,
-              fontSize: 12,
+              padding: '7px 10px', marginBottom: 4,
+              background: 'rgba(6,10,24,0.85)', border: '1px solid rgba(184,134,11,0.25)', borderRadius: 8,
+              fontSize: 11,
             }}
           >
             <span style={{ flex: 1, color: '#ccddee', letterSpacing: 2, fontWeight: 'bold' }}>
@@ -300,7 +330,7 @@ function RoomList({
 // ─── LobbyScreen ─────────────────────────────────────────────────────────────
 
 export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
-  const [mode, setMode]               = useState<'local' | 'network'>('local');
+  const [mode, setMode]               = useState<'local' | 'network' | 'vsBot'>('vsBot');
   const [networkMode, setNetworkMode] = useState<'create' | 'join'>('create');
   const [roomId, setRoomId]           = useState(generateRoomCode);
   const [p1Deck, setP1Deck]           = useState<SavedDeck | null>(null);
@@ -329,14 +359,37 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
 
   return (
     <div style={container}>
+      <div style={overlay} />
+
       {/* Title */}
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 28, fontWeight: 'bold', color: '#00ccff', letterSpacing: 4, textShadow: '0 0 18px rgba(0,180,255,0.45)' }}>
-          ONE PIECE TCG
+      <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
+        <div style={{
+          fontFamily: "'Cinzel Decorative', serif",
+          fontSize: 38,
+          fontWeight: '700',
+          color: '#ffd700',
+          letterSpacing: 5,
+          textShadow: '0 0 30px rgba(255,215,0,0.5), 0 2px 8px rgba(0,0,0,0.8)',
+          lineHeight: 1.1,
+        }}>
+          ONE PIECE
         </div>
-        <div style={{ fontSize: 13, color: '#445566', letterSpacing: 2, marginTop: 4 }}>
-          SIMULATOR
+        <div style={{
+          fontFamily: "'Cinzel', serif",
+          fontSize: 16,
+          color: '#c8a860',
+          letterSpacing: 8,
+          marginTop: 4,
+          textShadow: '0 0 12px rgba(200,168,96,0.4)',
+        }}>
+          TCG SIMULATOR
         </div>
+        <div style={{
+          width: 200,
+          height: 1,
+          background: 'linear-gradient(to right, transparent, rgba(184,134,11,0.7), transparent)',
+          margin: '10px auto 0',
+        }} />
       </div>
 
       <div style={card}>
@@ -344,8 +397,13 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
         <div>
           <div style={label}>Mode de jeu</div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button style={modeBtn(mode === 'local')} onClick={() => setMode('local')}>
-              Local (Hotseat)
+            {false && (
+              <button style={modeBtn(mode === 'local')} onClick={() => setMode('local')}>
+                Local (Hotseat)
+              </button>
+            )}
+            <button style={modeBtn(mode === 'vsBot')} onClick={() => setMode('vsBot')}>
+              vs IA (Bot)
             </button>
             <button style={modeBtn(mode === 'network')} onClick={() => setMode('network')}>
               Réseau (En ligne)
@@ -375,11 +433,12 @@ export function LobbyScreen({ onStart, onOpenDeckBuilder, serverUrl }: Props) {
                 <div style={label}>Code de la partie</div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                   <div style={{
-                    flex: 1, background: '#010d1a', border: '1px solid #0066cc',
-                    borderRadius: 4, padding: '10px 12px',
-                    letterSpacing: 8, fontSize: 22, fontWeight: 'bold',
-                    color: '#00ccff', textAlign: 'center', fontFamily: 'monospace',
-                    textShadow: '0 0 12px rgba(0,200,255,0.5)',
+                    flex: 1, background: 'rgba(2,6,18,0.85)', border: '1px solid rgba(184,134,11,0.7)',
+                    borderRadius: 8, padding: '10px 12px',
+                    letterSpacing: 10, fontSize: 24, fontWeight: 'bold',
+                    color: '#ffd700', textAlign: 'center', fontFamily: "'Cinzel', serif",
+                    textShadow: '0 0 16px rgba(255,215,0,0.6)',
+                    boxShadow: '0 2px 12px rgba(184,134,11,0.2)',
                   }}>
                     {roomId}
                   </div>

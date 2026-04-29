@@ -44,6 +44,7 @@ interface ApiDeckCard {
   card_power?: string | number;
   card_color?: string;
   counter?: string | number | null;
+  counter_amount?: string | number | null;  // same field name as /api/sets/ endpoint
   card_text?: string | null;
   attribute?: string | null;
   quantity?: number;
@@ -116,8 +117,9 @@ async function fetchDeck(setId: string): Promise<RawCard[] | null> {
       seen.add(id);
       const cost    = parseInt(String(c.card_cost ?? '0'), 10);
       const power   = parseInt(String(c.card_power ?? '0'), 10);
-      const counter = c.counter !== null && c.counter !== undefined
-        ? parseInt(String(c.counter), 10) : null;
+      const rawCounter = c.counter_amount ?? c.counter;
+      const counter = rawCounter !== null && rawCounter !== undefined
+        ? parseInt(String(rawCounter), 10) : null;
       result.push({
         id,
         name:       c.card_name   ?? '',
@@ -155,9 +157,9 @@ async function main(): Promise<void> {
 
   console.log(`Fetching set ${setId}...`);
 
-  // ST-* and EB-* are starter/extra decks → use /api/decks/ only
-  // OP-* and others are booster sets → use /api/sets/ only
-  const isStarterDeck = /^(ST|EB)-/i.test(setId);
+  // ST-* are starter decks → use /api/decks/ only
+  // OP-*, EB-* and others are booster/extra-booster sets → use /api/sets/ only
+  const isStarterDeck = /^ST-/i.test(setId);
 
   let cards: RawCard[];
   if (isStarterDeck) {
@@ -165,6 +167,21 @@ async function main(): Promise<void> {
     const result = await fetchDeck(setId);
     if (result === null) throw new Error(`Deck endpoint vide ou absent pour ${setId}`);
     cards = result;
+    // If the deck endpoint returned no counter values, overlay them from the sets endpoint
+    if (cards.every(c => c.counter === null)) {
+      console.log(`  ← /api/sets/${setId}/ (fallback pour counter_amount)`);
+      try {
+        const apiCards = await fetchSet(setId);
+        const counterMap = new Map(
+          apiCards.map(c => [c.card_set_id ?? '', mapCard(c).counter]),
+        );
+        cards = cards.map(c => ({ ...c, counter: counterMap.get(c.id) ?? c.counter }));
+        const fixed = cards.filter(c => c.counter !== null).length;
+        if (fixed > 0) console.log(`  ✓ ${fixed} cartes avec counter récupérées via /api/sets/`);
+      } catch (err) {
+        console.warn(`  ⚠ fallback /api/sets/ échoué: ${err}`);
+      }
+    }
   } else {
     console.log(`  ← /api/sets/${setId}/`);
     const apiCards = await fetchSet(setId);

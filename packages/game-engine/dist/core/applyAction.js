@@ -218,6 +218,37 @@ function buildPlayerState(setup, allCards) {
         trash: [],
     };
 }
+function validatePlayerSetup(setup, label) {
+    if (setup.leaderCard.type !== 'Leader') {
+        return makeGameError('INVALID_DECK', `${label}: leader card must be of type Leader`);
+    }
+    if (setup.deckCards.length !== 50) {
+        return makeGameError('INVALID_DECK', `${label}: deck must have exactly 50 cards (got ${setup.deckCards.length})`);
+    }
+    if (setup.donCards.length !== 10) {
+        return makeGameError('INVALID_DECK', `${label}: DON deck must have exactly 10 cards (got ${setup.donCards.length})`);
+    }
+    // Max 4 copies of any card (by name)
+    const counts = new Map();
+    for (const card of setup.deckCards) {
+        const n = (counts.get(card.name) ?? 0) + 1;
+        if (n > 4) {
+            return makeGameError('INVALID_DECK', `${label}: more than 4 copies of "${card.name}"`);
+        }
+        counts.set(card.name, n);
+    }
+    // Color compatibility: each deck card must share at least one color with the leader
+    // Colors can be space-separated ("Blue Purple") or slash-separated ("Blue/Purple")
+    const splitColors = (c) => c.split(/[\s/]+/).map((x) => x.trim()).filter(Boolean);
+    const leaderColors = new Set(splitColors(setup.leaderCard.color));
+    for (const card of setup.deckCards) {
+        const cardColors = splitColors(card.color);
+        if (!cardColors.some((c) => leaderColors.has(c))) {
+            return makeGameError('INVALID_DECK', `${label}: card "${card.name}" (${card.color}) is incompatible with leader color (${setup.leaderCard.color})`);
+        }
+    }
+    return null;
+}
 function applyStartGame(_state, action) {
     const { player1, player2, firstPlayerId } = action;
     if (player1.id === player2.id) {
@@ -226,12 +257,12 @@ function applyStartGame(_state, action) {
     if (firstPlayerId !== player1.id && firstPlayerId !== player2.id) {
         return makeGameError('UNKNOWN_PLAYER', `First player "${firstPlayerId}" is not in the game`);
     }
-    if (player1.deckCards.length < 10) {
-        return makeGameError('INVALID_DECK', 'Player 1 deck must have at least 10 cards (5 life + 5 hand)');
-    }
-    if (player2.deckCards.length < 10) {
-        return makeGameError('INVALID_DECK', 'Player 2 deck must have at least 10 cards (5 life + 5 hand)');
-    }
+    const p1Error = validatePlayerSetup(player1, 'Player 1');
+    if (p1Error !== null)
+        return p1Error;
+    const p2Error = validatePlayerSetup(player2, 'Player 2');
+    if (p2Error !== null)
+        return p2Error;
     const allCards = {};
     const p1State = buildPlayerState(player1, allCards);
     const p2State = buildPlayerState(player2, allCards);

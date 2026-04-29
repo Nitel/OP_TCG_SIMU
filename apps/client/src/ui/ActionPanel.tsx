@@ -12,35 +12,39 @@ interface Props {
 }
 
 const btnStyle: CSSProperties = {
-  padding: '5px 14px',
-  fontFamily: 'monospace',
-  fontSize: 12,
-  border: '1px solid #0a3050',
-  borderRadius: 4,
+  padding: '6px 16px',
+  fontFamily: "'Cinzel', serif",
+  fontSize: 11,
+  border: '1px solid rgba(60,90,120,0.7)',
+  borderRadius: 8,
   cursor: 'pointer',
-  background: '#010d1a',
-  color: '#4a9ab8',
+  background: 'linear-gradient(160deg, #081828 0%, #050e1a 100%)',
+  color: '#6aabcc',
   whiteSpace: 'nowrap',
+  transition: 'transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
 };
 
 const primaryBtn: CSSProperties = {
   ...btnStyle,
-  background: '#002040',
-  border: '1px solid #0066aa',
-  color: '#44ccff',
+  background: 'linear-gradient(160deg, #0a2a44 0%, #051828 100%)',
+  border: '1px solid rgba(0,120,200,0.7)',
+  color: '#55ddff',
   fontWeight: 'bold',
+  boxShadow: '0 2px 10px rgba(0,80,160,0.3)',
 };
 
 const dangerBtn: CSSProperties = {
   ...btnStyle,
-  background: '#1a0010',
-  border: '1px solid #660033',
-  color: '#ff6688',
+  background: 'linear-gradient(160deg, #2a0818 0%, #1a0410 100%)',
+  border: '1px solid rgba(160,30,60,0.7)',
+  color: '#ff7799',
+  boxShadow: '0 2px 10px rgba(160,0,50,0.3)',
 };
 
 function CardThumb({ id, card }: { id: string; card: Card }) {
   const [err, setErr] = useState(false);
-  const templateId = id.match(/OP\d{2}-\d{3}/)?.[0];
+  const templateId = id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
   const title = [
     card.name,
     card.type,
@@ -82,11 +86,11 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
 
   const renderTrashList = (trash: readonly string[], label: string) => (
     <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#6688aa', marginBottom: 6, borderBottom: '1px solid #2a2a4a', paddingBottom: 4 }}>
+      <div style={{ fontFamily: "'Cinzel', serif", fontSize: 10, color: '#b8860b', marginBottom: 6, borderBottom: '1px solid rgba(184,134,11,0.3)', paddingBottom: 4, letterSpacing: 1 }}>
         {label} — {trash.length} carte{trash.length !== 1 ? 's' : ''}
       </div>
       {trash.length === 0 ? (
-        <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#333344' }}>Vide</div>
+        <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#2a2a3a' }}>Vide</div>
       ) : (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
           {[...trash].reverse().map(id => {
@@ -109,9 +113,9 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
         gap: 16,
         maxHeight: 260,
         overflowY: 'auto',
-        background: '#010710',
-        border: '1px solid #0a2a3a',
-        borderRadius: 4,
+        background: 'rgba(4,6,18,0.96)',
+        border: '1px solid rgba(184,134,11,0.35)',
+        borderRadius: 8,
         padding: '8px 12px',
         marginTop: 4,
       }}>
@@ -122,30 +126,24 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
     );
   };
 
-  // Winner is handled by GameUI overlay — panel just shows a slim bar
   if (winner !== null) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '6px 20px', background: '#020a14', borderTop: '1px solid #0a3050', width: '100%', boxSizing: 'border-box' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 14, color: '#ffee44', fontWeight: 'bold', letterSpacing: 2 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>
+        <span style={{ fontFamily: "'Cinzel', serif", fontSize: 15, color: '#ffd700', fontWeight: 'bold', letterSpacing: 3, textShadow: '0 0 12px rgba(255,215,0,0.5)' }}>
           Victoire : {winner} !
         </span>
       </div>
     );
   }
 
-  // ── Network mode: waiting screen ─────────────────────────────────────────
+  // ── Opponent's turn: minimal bar (no action messages) ────────────────────
   if (!isMyTurn && !amIDefender) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', background: '#020a14', borderTop: '1px solid #0a3050', width: '100%', boxSizing: 'border-box' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 20px', fontFamily: 'monospace' }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#00aacc', display: 'inline-block', flexShrink: 0 }} />
-          <span style={{ color: '#6688aa', fontSize: 12 }}>En attente de l'adversaire…</span>
-          <span style={{ color: '#2a3a4a', fontSize: 11 }}>{phase} · Tour {gameState.turnNumber}</span>
-          <span style={{ marginLeft: 'auto' }}>
-            <button style={btnStyle} onClick={() => setShowTrash(v => !v)}>
-              Défausses{showTrash ? ' ×' : ' ↑'}
-            </button>
-          </span>
+      <div style={{ display: 'flex', flexDirection: 'column', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '1px solid rgba(184,134,11,0.2)', width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '6px 20px' }}>
+          <button style={btnStyle} onClick={() => setShowTrash(v => !v)}>
+            Défausses{showTrash ? ' ×' : ' ↑'}
+          </button>
         </div>
         {showTrash && renderTrashPanel()}
       </div>
@@ -153,15 +151,15 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '6px 20px', background: '#020a14', borderTop: '1px solid #0a3050', width: '100%', boxSizing: 'border-box' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
 
         {/* Phase + player badge */}
-        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#1a7aaa', background: '#001428', border: '1px solid #003a5a', borderRadius: 3, padding: '2px 8px', whiteSpace: 'nowrap' }}>
+        <span style={{ fontFamily: "'Cinzel', serif", fontSize: 10, color: '#b8860b', background: 'rgba(20,14,4,0.8)', border: '1px solid rgba(184,134,11,0.5)', borderRadius: 6, padding: '3px 10px', whiteSpace: 'nowrap', letterSpacing: 1 }}>
           {phase}
         </span>
-        <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#5577aa', marginRight: 2 }}>
+        <span style={{ fontFamily: "'Cinzel', serif", fontSize: 11, color: '#6688aa', marginRight: 2 }}>
           {activePlayerId} :
         </span>
 
@@ -277,7 +275,7 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           const totalDef     = defPower + activeCombat.counterPower;
           const atkWins      = atkPower >= totalDef;
           return (
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '4px 10px', background: '#010a14', border: '1px solid #0a3a5a', borderRadius: 4, fontFamily: 'monospace', fontSize: 12 }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '5px 12px', background: 'rgba(4,10,22,0.9)', border: '1px solid rgba(184,134,11,0.4)', borderRadius: 8, fontFamily: 'monospace', fontSize: 12, boxShadow: '0 2px 10px rgba(0,0,0,0.4)' }}>
               <span style={{ color: '#ff8844', fontWeight: 'bold' }}>
                 ⚔ ATK [{attacker?.name ?? '?'}] {atkPower}{isDoubleAtk ? ' ×2' : ''}
               </span>
@@ -295,8 +293,8 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           );
         })()}
 
-        {/* Combat: defender actions — shown to defender (or both in hotseat) */}
-        {activeCombat !== null && (isMyTurn || amIDefender) && (() => {
+        {/* Combat: defender actions — shown to defender only (or both in hotseat when myPlayerId is null) */}
+        {activeCombat !== null && (!myPlayerId || amIDefender) && (() => {
           const blockerSelected = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
           const counterStaged   = uiState.selectionMode === 'playCounter'  && uiState.selectedCardId !== null;
           const counterPlayed   = activeCombat.counterPower > 0;
@@ -363,8 +361,8 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           );
         })()}
 
-        {/* Attacker resolves — only for the active player */}
-        {activeCombat !== null && isMyTurn && (
+        {/* Attacker resolves — only in vsBot/network mode (hotseat uses the defender section above) */}
+        {activeCombat !== null && isMyTurn && !!myPlayerId && !amIDefender && (
           <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
             Résoudre le combat ⚔
           </button>

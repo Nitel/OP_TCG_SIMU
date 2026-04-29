@@ -4,6 +4,7 @@ import {
   makeEmptyState,
   makePlayerId,
   isGameError,
+  greedyBotDecide,
 } from 'game-engine';
 import type { CardId, GameAction, GameState, PlayerId, StartGameAction } from 'game-engine';
 import { GameCanvas } from '../pixi/GameCanvas';
@@ -18,6 +19,49 @@ import { SocketClient } from '../network/socketClient';
 import { LobbyScreen } from './LobbyScreen';
 import type { GameConfig } from './LobbyScreen';
 import { DeckBuilder } from './DeckBuilder';
+import type { ActivityEntry } from './ActivityLog';
+
+// ─── Action → human-readable description ─────────────────────────────────────
+
+function describeAction(
+  action: GameAction,
+  state: GameState,
+  humanId: PlayerId | null,
+  vsBot: boolean,
+): string | null {
+  const playerId = 'playerId' in action ? action.playerId : null;
+  const isHuman = humanId === null || playerId === humanId;
+  const actor   = isHuman ? 'Vous' : vsBot ? 'IA' : 'Adversaire';
+  switch (action.type) {
+    case 'PlayCharacterFromHand':
+    case 'PlayEvent': {
+      const card = state.cards[action.cardId];
+      if (card === undefined) return null;
+      const verb = action.type === 'PlayEvent' ? "joue l'évènement" : 'joue';
+      return `${actor} ${verb} ${card.name}`;
+    }
+    case 'DeclareAttack': {
+      const attacker = state.cards[action.attackerId];
+      const target   = state.cards[action.targetId];
+      if (attacker === undefined || target === undefined) return null;
+      return `${actor} attaque ${target.name} avec ${attacker.name}`;
+    }
+    case 'DeclareBlock': {
+      const card = state.cards[action.blockerId];
+      if (card === undefined) return null;
+      return `${actor} bloque avec ${card.name}`;
+    }
+    case 'PlayCounter': {
+      const card = state.cards[action.cardId];
+      if (card === undefined) return null;
+      return `${actor} contre avec ${card.name}${card.counter != null ? ` (+${card.counter})` : ''}`;
+    }
+    case 'EndPhase':
+      return state.phase === 'Main' ? `${actor} termine son tour` : null;
+    default:
+      return null;
+  }
+}
 
 // ─── Deep-link bypass (backward-compat) ──────────────────────────────────────
 
@@ -78,7 +122,9 @@ export function App() {
   const [uiState, setUiState]       = useState<UIState>(IDLE_UI);
   const [needsHandoff, setNeedsHandoff]             = useState(false);
   const [needsCombatHandoff, setNeedsCombatHandoff] = useState(false);
-  const [notification, setNotification] = useState<{ cardId: CardId; label: string } | null>(null);
+  const [notification, setNotification]   = useState<{ cardId: CardId; label: string } | null>(null);
+  const [activityLog, setActivityLog]     = useState<ActivityEntry[]>([]);
+  const activitySeqRef                    = useRef(0);
   const [socketStatus, setSocketStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
   const [opponentDisconnected, setOpponentDisconnected] = useState<{ deadline: number } | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -94,6 +140,7 @@ export function App() {
     setNeedsHandoff(false);
     setNeedsCombatHandoff(false);
     setNotification(null);
+    setActivityLog([]);
     setOpponentDisconnected(null);
     prevGameStateRef.current = null;
 
@@ -106,6 +153,10 @@ export function App() {
       const gs = initLocalGameState(config);
       setGameState(gs);
       setNeedsHandoff(true);
+    } else if (config.mode === 'vsBot') {
+      const gs = initLocalGameState(config);
+      setGameState(gs);
+      setNeedsHandoff(false); // human is always P1 — no device pass needed
     } else {
       setGameState(null);
     }
@@ -158,8 +209,14 @@ export function App() {
     return () => clearInterval(id);
   }, [opponentDisconnected]);
 
+  const isVsBot = activeConfig?.mode === 'vsBot';
+  const BOT_ID  = makePlayerId('P2');
+
   // ── Dispatch ─────────────────────────────────────────────────────────────
   const dispatch = useCallback((action: GameAction) => {
+    // Compute log description before state mutation (cards still in original zones)
+    const humanId  = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+    const logText  = gameState !== null ? describeAction(action, gameState, humanId, isVsBot) : null;
     // Intercept actions that play or activate a card and may need a player-chosen target.
     if (
       action.type === 'PlayCharacterFromHand' ||
@@ -185,10 +242,11 @@ export function App() {
       }
     }
 
-    if (isNetwork) {
-      socketRef.current?.sendAction(roomIdRef.current, action);
-      return;
-    }
+    // Pre-validate before setGameState so we know synchronously whether the action succeeds.
+    // (actionOk inside setGameState updater is unreliable in React 18 — updaters are deferred.)
+    const preCheck = gameState !== null ? applyAction(gameState, action) : null;
+    const willSucceed = preCheck !== null && !isGameError(preCheck);
+
     setGameState(prev => {
       if (prev === null) return prev;
       const result = applyAction(prev, action);
@@ -205,7 +263,14 @@ export function App() {
       setUiState(IDLE_UI);
       return result;
     });
-  }, [isNetwork]);
+    if (willSucceed && logText !== null) {
+      const id = ++activitySeqRef.current;
+      setActivityLog(prev => [...prev.slice(-19), { id, text: logText }]);
+    }
+    if (isNetwork) {
+      socketRef.current?.sendAction(roomIdRef.current, action);
+    }
+  }, [isNetwork, isVsBot, myPlayerId, gameState]);
 
   // ── Detect hand→trash transitions ────────────────────────────────────────
   useEffect(() => {
@@ -231,14 +296,50 @@ export function App() {
     }
   }, [gameState]);
 
+  // ── Greedy bot (vsBot mode) ───────────────────────────────────────────────
+
+  useEffect(() => {
+    if (!isVsBot || gameState === null || gameState.winner !== null) return;
+
+    const { activePlayerId, activeCombat } = gameState;
+    // Don't auto-resolve when bot is attacker — human must click "Ne pas bloquer" first
+    const isBotTurn     = activePlayerId === BOT_ID && activeCombat === null;
+    const isBotDefender = activeCombat !== null
+      && activePlayerId !== BOT_ID
+      && gameState.cards[activeCombat.targetId]?.ownerId === BOT_ID;
+
+    if (!isBotTurn && !isBotDefender) return;
+
+    const action = greedyBotDecide(gameState, BOT_ID);
+    if (action === null) return;
+
+    // Faster for trivial phase transitions, slower for strategic decisions
+    const trivial = action.type === 'EndPhase' || action.type === 'DrawPhase' || action.type === 'Mulligan';
+    const delay   = trivial ? 350 : 750;
+
+    const timer = setTimeout(() => dispatch(action), delay);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState, isVsBot]);
+
+  // ── Auto-advance DON!! phase for human (assign DON during Main instead) ──
+  useEffect(() => {
+    if (gameState === null || gameState.phase !== 'DON' || isNetwork) return;
+    const humanId = isVsBot ? makePlayerId('P1') : null;
+    if (humanId !== null && gameState.activePlayerId !== humanId) return;
+    dispatch({ type: 'EndPhase', playerId: gameState.activePlayerId });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState, isVsBot, isNetwork]);
+
   // ── Click state machine ───────────────────────────────────────────────────
   const handleCardClick = useCallback((cardId: CardId) => {
     if (gameState === null) return;
-    if (isNetwork) {
+    if (isNetwork || isVsBot) {
+      const humanId = isVsBot ? makePlayerId('P1') : myPlayerId;
       const [p1Id, p2Id] = gameState.playerOrder;
       const defId = gameState.activePlayerId === p1Id ? p2Id : p1Id;
-      const amIActive   = myPlayerId === gameState.activePlayerId;
-      const amIDefender = myPlayerId === defId && gameState.activeCombat !== null;
+      const amIActive   = humanId === gameState.activePlayerId;
+      const amIDefender = humanId === defId && gameState.activeCombat !== null;
       if (!amIActive && !amIDefender) return;
     }
     setUiState(prev => {
@@ -316,6 +417,24 @@ export function App() {
     });
   }, [gameState, dispatch, isNetwork, myPlayerId]);
 
+  // ── Drag & drop handler ───────────────────────────────────────────────────
+  const handleDragDrop = useCallback((draggedId: CardId, targetId: CardId | null) => {
+    if (gameState === null) return;
+    const card     = gameState.cards[draggedId];
+    if (card === undefined) return;
+    const activeId = gameState.activePlayerId;
+
+    if (card.type === 'DON' && targetId !== null) {
+      dispatch({ type: 'AssignDon', playerId: activeId, donCardId: draggedId, targetCardId: targetId });
+    } else if (card.zone === 'hand' && gameState.phase === 'Main' && card.ownerId === activeId) {
+      if (card.type === 'Event') {
+        dispatch({ type: 'PlayEvent', playerId: activeId, cardId: draggedId });
+      } else if (card.type === 'Character' || card.type === 'Stage') {
+        dispatch({ type: 'PlayCharacterFromHand', playerId: activeId, cardId: draggedId });
+      }
+    }
+  }, [gameState, dispatch]);
+
   // ── Screens ───────────────────────────────────────────────────────────────
 
   if (appScreen === 'lobby') {
@@ -384,13 +503,15 @@ export function App() {
           gameState={gameState}
           uiState={uiState}
           onCardClick={handleCardClick}
+          onDragDrop={handleDragDrop}
           hideCards={hideCards}
           combatViewDefenderId={combatViewDefenderId}
-          myPlayerId={isNetwork ? myPlayerId : null}
+          myPlayerId={isNetwork ? myPlayerId : isVsBot ? makePlayerId('P1') : null}
+          activityLog={activityLog}
         />
 
         {/* ── Hotseat handoff overlay — plateau visible en dessous ────────── */}
-        {!isNetwork && needsHandoff && (
+        {!isNetwork && !isVsBot && needsHandoff && (
           <div style={{
             position: 'absolute', inset: 0, zIndex: 40,
             background: 'rgba(0,6,20,0.82)',
@@ -421,7 +542,7 @@ export function App() {
         )}
 
         {/* ── Combat handoff overlay ────────────────────────────────────── */}
-        {!isNetwork && needsCombatHandoff && (() => {
+        {!isNetwork && !isVsBot && needsCombatHandoff && (() => {
           const defenderId = gameState.activePlayerId === p1Id ? p2Id : p1Id;
           return (
             <div style={{
@@ -480,7 +601,7 @@ export function App() {
         <GameUI
           gameState={gameState}
           uiState={uiState}
-          myPlayerId={isNetwork ? myPlayerId : null}
+          myPlayerId={isNetwork ? myPlayerId : isVsBot ? makePlayerId('P1') : null}
           notification={notification}
           onDismissNotification={() => setNotification(null)}
         />
@@ -491,7 +612,7 @@ export function App() {
         gameState={gameState}
         uiState={uiState}
         onAction={dispatch}
-        myPlayerId={isNetwork ? myPlayerId : null}
+        myPlayerId={isNetwork ? myPlayerId : isVsBot ? makePlayerId('P1') : null}
       />
     </div>
   );

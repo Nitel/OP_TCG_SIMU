@@ -2,11 +2,45 @@ import { makeCardId } from 'game-engine';
 import type { Card, CardEffect, CardKeyword, PlayerId, PlayerSetup } from 'game-engine';
 
 // ─── AUTO-GENERATED: raw set imports — do not edit manually, run pnpm sync-sets
+import eb01Raw from '../../../../packages/data/raw/EB-01.json';
+import eb02Raw from '../../../../packages/data/raw/EB-02.json';
+import eb03Raw from '../../../../packages/data/raw/EB-03.json';
 import op01Raw from '../../../../packages/data/raw/OP-01.json';
 import op02Raw from '../../../../packages/data/raw/OP-02.json';
+import op03Raw from '../../../../packages/data/raw/OP-03.json';
+import op04Raw from '../../../../packages/data/raw/OP-04.json';
+import op05Raw from '../../../../packages/data/raw/OP-05.json';
+import op06Raw from '../../../../packages/data/raw/OP-06.json';
+import op07Raw from '../../../../packages/data/raw/OP-07.json';
+import op08Raw from '../../../../packages/data/raw/OP-08.json';
+import op09Raw from '../../../../packages/data/raw/OP-09.json';
+import op10Raw from '../../../../packages/data/raw/OP-10.json';
+import st01Raw from '../../../../packages/data/raw/ST-01.json';
+import st02Raw from '../../../../packages/data/raw/ST-02.json';
+import st03Raw from '../../../../packages/data/raw/ST-03.json';
+import st04Raw from '../../../../packages/data/raw/ST-04.json';
+import st05Raw from '../../../../packages/data/raw/ST-05.json';
+import st06Raw from '../../../../packages/data/raw/ST-06.json';
+import st07Raw from '../../../../packages/data/raw/ST-07.json';
+import st08Raw from '../../../../packages/data/raw/ST-08.json';
+import st09Raw from '../../../../packages/data/raw/ST-09.json';
+import st10Raw from '../../../../packages/data/raw/ST-10.json';
+import st11Raw from '../../../../packages/data/raw/ST-11.json';
+import st12Raw from '../../../../packages/data/raw/ST-12.json';
+import st13Raw from '../../../../packages/data/raw/ST-13.json';
+import st14Raw from '../../../../packages/data/raw/ST-14.json';
 import st15Raw from '../../../../packages/data/raw/ST-15.json';
+import st16Raw from '../../../../packages/data/raw/ST-16.json';
+import st17Raw from '../../../../packages/data/raw/ST-17.json';
+import st18Raw from '../../../../packages/data/raw/ST-18.json';
+import st19Raw from '../../../../packages/data/raw/ST-19.json';
+import st20Raw from '../../../../packages/data/raw/ST-20.json';
 import st21Raw from '../../../../packages/data/raw/ST-21.json';
 import st22Raw from '../../../../packages/data/raw/ST-22.json';
+import st23Raw from '../../../../packages/data/raw/ST-23.json';
+import st24Raw from '../../../../packages/data/raw/ST-24.json';
+import st25Raw from '../../../../packages/data/raw/ST-25.json';
+import st26Raw from '../../../../packages/data/raw/ST-26.json';
 import st27Raw from '../../../../packages/data/raw/ST-27.json';
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
@@ -174,43 +208,73 @@ export interface SavedDeck {
 
 // ─── AUTO-GENERATED: allRaw — do not edit manually, run pnpm sync-sets
 const allRaw: RawCard[] = [
+  ...(eb01Raw as unknown as RawCard[]),
+  ...(eb02Raw as unknown as RawCard[]),
+  ...(eb03Raw as unknown as RawCard[]),
   ...(op01Raw as unknown as RawCard[]),
   ...(op02Raw as unknown as RawCard[]),
+  ...(op03Raw as unknown as RawCard[]),
+  ...(op04Raw as unknown as RawCard[]),
+  ...(op05Raw as unknown as RawCard[]),
+  ...(op06Raw as unknown as RawCard[]),
+  ...(op07Raw as unknown as RawCard[]),
+  ...(op08Raw as unknown as RawCard[]),
+  ...(op09Raw as unknown as RawCard[]),
+  ...(op10Raw as unknown as RawCard[]),
+  ...(st01Raw as unknown as RawCard[]),
+  ...(st02Raw as unknown as RawCard[]),
+  ...(st03Raw as unknown as RawCard[]),
+  ...(st04Raw as unknown as RawCard[]),
+  ...(st05Raw as unknown as RawCard[]),
+  ...(st06Raw as unknown as RawCard[]),
+  ...(st07Raw as unknown as RawCard[]),
+  ...(st08Raw as unknown as RawCard[]),
+  ...(st09Raw as unknown as RawCard[]),
+  ...(st10Raw as unknown as RawCard[]),
+  ...(st11Raw as unknown as RawCard[]),
+  ...(st12Raw as unknown as RawCard[]),
+  ...(st13Raw as unknown as RawCard[]),
+  ...(st14Raw as unknown as RawCard[]),
   ...(st15Raw as unknown as RawCard[]),
+  ...(st16Raw as unknown as RawCard[]),
+  ...(st17Raw as unknown as RawCard[]),
+  ...(st18Raw as unknown as RawCard[]),
+  ...(st19Raw as unknown as RawCard[]),
+  ...(st20Raw as unknown as RawCard[]),
   ...(st21Raw as unknown as RawCard[]),
   ...(st22Raw as unknown as RawCard[]),
+  ...(st23Raw as unknown as RawCard[]),
+  ...(st24Raw as unknown as RawCard[]),
+  ...(st25Raw as unknown as RawCard[]),
+  ...(st26Raw as unknown as RawCard[]),
   ...(st27Raw as unknown as RawCard[]),
 ];
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
-// IDs qui apparaissent plus d'une fois → les occurrences suivantes sont des arts alternatifs
-const _seenIds = new Set<string>();
-const _altArtIds = new Set<string>();
-for (const c of allRaw) {
-  if (_seenIds.has(c.id)) _altArtIds.add(c.id + '|' + c.name);
-  else _seenIds.add(c.id);
-}
-
 /** All card templates (Leaders + Characters + Events), for the deck builder grid. */
-export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = allRaw
-  .map((c) => ({ ...c, normalizedType: normalizeCardType(c.cardType) }))
-  .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' } =>
-    c.normalizedType === 'Leader' || c.normalizedType === 'Character' || c.normalizedType === 'Event',
-  )
-  .map((c) => {
-    const eff = effectMap[c.id];
-    return {
-      id: c.id,
-      name: c.name,
-      type: c.normalizedType,
-      cost: c.cost,
-      power: c.power,
-      color: c.color,
-      counter: c.counter,
-      keywords: eff?.keywords ?? [],
-      isParallel: _altArtIds.has(c.id + '|' + c.name),
-    };
-  });
+export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = (() => {
+  const seen = new Set<string>();
+  return allRaw
+    .map((c) => ({ ...c, normalizedType: normalizeCardType(c.cardType) }))
+    .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' } =>
+      (c.normalizedType === 'Leader' || c.normalizedType === 'Character' || c.normalizedType === 'Event')
+      && !seen.has(c.id) && (seen.add(c.id), true),
+    )
+    .map((c) => {
+      const eff = effectMap[c.id];
+      return {
+        id: c.id,
+        name: c.name,
+        type: c.normalizedType,
+        cost: c.cost,
+        power: c.power,
+        color: c.color,
+        counter: c.counter,
+        keywords: eff?.keywords ?? [],
+        isParallel: false,
+      };
+    });
+})();
 
 /**
  * Build a PlayerSetup from a user-selected SavedDeck.
@@ -272,6 +336,13 @@ export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerS
   }));
 
   return { id: playerId, leaderCard, deckCards, donCards };
+}
+
+/** Extract set ID from a card ID: "OP01-005" → "OP-01", "ST01-001" → "ST-01". */
+export function cardSetFromId(id: string): string {
+  const m = id.match(/^([A-Z]+)(\d{2})-/);
+  if (m === null) return id;
+  return `${m[1]}-${m[2]}`;
 }
 
 // ─── localStorage helpers ─────────────────────────────────────────────────────

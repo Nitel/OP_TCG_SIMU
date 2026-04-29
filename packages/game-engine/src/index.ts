@@ -55,5 +55,7 @@ export { applyLeaderDamage, resolveCombat } from './rules/combat.js';
 
 export { checkVictoryCondition } from './rules/victory.js';
 
+export { greedyBotDecide } from './ai/greedyBot.js';
+
 export { resolveEffects } from './effects/effectResolver.js';
 export type { EffectContext } from './effects/effectResolver.js';

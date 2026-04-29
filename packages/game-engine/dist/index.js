@@ -5,5 +5,6 @@ export { calculatePower, sendToTrash, drawCards, returnToHand, clearPowerModifie
 // combat — re-exports calculatePower and sendToTrash from cardUtils for backwards compat
 export { applyLeaderDamage, resolveCombat } from './rules/combat.js';
 export { checkVictoryCondition } from './rules/victory.js';
+export { greedyBotDecide } from './ai/greedyBot.js';
 export { resolveEffects } from './effects/effectResolver.js';
 //# sourceMappingURL=index.js.map

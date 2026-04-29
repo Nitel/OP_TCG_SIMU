@@ -8,12 +8,16 @@
     "fetch-card-data": "pnpm --filter cards-dsl run fetch-cards --",
     "generate-effects": "pnpm --filter cards-dsl run generate-effects --",
     "fetch-images": "node scripts/download-card-images.mjs",
+    "fetch-all-sets": "node scripts/fetch-all-sets.mjs",
+    "download-all-images": "node scripts/download-all-images.mjs",
+    "upload-to-r2": "node scripts/upload-to-r2.mjs",
     "validate-set": "node scripts/validate-set.mjs",
     "check-images": "node scripts/check-images.mjs",
     "check-effects": "node scripts/check-effects.mjs",
     "sync-sets": "node scripts/sync-sets.mjs"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.600.0",
     "typescript": "^5.4.5"
   }
 }
