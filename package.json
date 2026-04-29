@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "pnpm --recursive test",
-    "build": "pnpm --recursive build",
+    "build": "pnpm --filter game-engine build && pnpm --filter client build && pnpm --filter server build",
     "fetch-card-data": "pnpm --filter cards-dsl run fetch-cards --",
     "generate-effects": "pnpm --filter cards-dsl run generate-effects --",
     "fetch-images": "node scripts/download-card-images.mjs",
