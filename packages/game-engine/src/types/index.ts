@@ -67,6 +67,16 @@ export type DeckFilter =
   | { readonly kind: 'ByCost'; readonly maxCost: number }
   | { readonly kind: 'ByName'; readonly name: string };
 
+// ─── DSL — Hand filter (used by PlayFromHand) ─────────────────────────────────
+
+export interface HandFilter {
+  readonly color?: CardColor;
+  readonly cardType?: 'Character' | 'Event';
+  readonly maxPower?: number;
+  /** Exclude the source card itself (the card that triggered the OnKO) */
+  readonly excludeSelf?: boolean;
+}
+
 // ─── DSL — Effect actions ─────────────────────────────────────────────────────
 
 export type EffectAction =
@@ -83,7 +93,9 @@ export type EffectAction =
   | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration }
   | { readonly type: 'Rest'; readonly target: TargetSelector }
   | { readonly type: 'RemoveLife'; readonly count: number }
-  | { readonly type: 'PlaySelf' };
+  | { readonly type: 'PlaySelf' }
+  /** Play a card from the owner's hand for free, filtered by HandFilter. Requires player choice — sets pendingOnKOInteraction. */
+  | { readonly type: 'PlayFromHand'; readonly filter: HandFilter };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
@@ -202,6 +214,15 @@ export interface GameState {
   readonly newBoardIds: readonly CardId[];
   /** Cards that have used their Activated ability this turn (once-per-turn enforcement) */
   readonly activatedAbilityIds: readonly CardId[];
+  /**
+   * Set when a PlayFromHand effect fires (e.g. OnKO) and requires a player choice.
+   * Cleared when the player dispatches ResolveOnKOInteraction.
+   */
+  readonly pendingOnKOInteraction: {
+    readonly playerId: PlayerId;
+    readonly filter: HandFilter;
+    readonly sourceCardId: CardId;
+  } | null;
 }
 
 // ─── Player setup (used in StartGame) ────────────────────────────────────────
@@ -327,6 +348,13 @@ export interface ActivatedAbilityAction {
   readonly chosenTargetId?: CardId;
 }
 
+export interface ResolveOnKOInteractionAction {
+  readonly type: 'ResolveOnKOInteraction';
+  readonly playerId: PlayerId;
+  /** The hand card chosen to play for free, or null to skip (no valid cards). */
+  readonly cardId: CardId | null;
+}
+
 export type GameAction =
   | MulliganAction
   | DrawCardAction
@@ -340,7 +368,8 @@ export type GameAction =
   | ResolveCombatAction
   | PlayCounterAction
   | PlayEventAction
-  | ActivatedAbilityAction;
+  | ActivatedAbilityAction
+  | ResolveOnKOInteractionAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 
@@ -392,5 +421,6 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     mulliganDecided: [],
     newBoardIds: [],
     activatedAbilityIds: [],
+    pendingOnKOInteraction: null,
   };
 }

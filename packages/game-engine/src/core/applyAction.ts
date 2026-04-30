@@ -384,6 +384,7 @@ function applyStartGame(
     mulliganDecided: [],
     newBoardIds: [],
     activatedAbilityIds: [],
+    pendingOnKOInteraction: null,
   };
 }
 
@@ -662,6 +663,9 @@ function applyDeclareAttack(
   const isLeader = player.leader === action.attackerId;
   if (!onBoard && !isLeader) {
     return makeGameError('INVALID_ATTACKER', `Card ${action.attackerId} is not on ${action.playerId}'s board or leader zone`);
+  }
+  if (!isLeader && attacker.type !== 'Character') {
+    return makeGameError('INVALID_ATTACKER', `Card ${action.attackerId} is of type ${attacker.type} and cannot attack`);
   }
 
   // Target must be on the opponent's board or be their leader
@@ -995,6 +999,83 @@ function applyResolveCombat(
   return resolveCombat(state);
 }
 
+// ─── ResolveOnKOInteraction ───────────────────────────────────────────────────
+
+function applyResolveOnKOInteraction(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveOnKOInteraction' }>,
+): ActionResult {
+  const pending = state.pendingOnKOInteraction;
+  if (pending === null) {
+    return makeGameError('NO_PENDING_INTERACTION', 'No pending OnKO interaction to resolve');
+  }
+  if (pending.playerId !== action.playerId) {
+    return makeGameError('WRONG_PLAYER', `Player ${action.playerId} cannot resolve another player's OnKO effect`);
+  }
+
+  // Clearing the pending interaction (skip case — no valid cards or player skips)
+  if (action.cardId === null) {
+    return { ...state, pendingOnKOInteraction: null };
+  }
+
+  const card = state.cards[action.cardId];
+  if (card === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+
+  if (!player.hand.includes(action.cardId)) {
+    return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in hand`);
+  }
+
+  // Validate against filter
+  const f = pending.filter;
+  if (f.color !== undefined && card.color !== f.color) {
+    return makeGameError('INVALID_CHOICE', `Card color ${card.color} does not match required ${f.color}`);
+  }
+  if (f.cardType !== undefined && card.type !== f.cardType) {
+    return makeGameError('INVALID_CHOICE', `Card type ${card.type} does not match required ${f.cardType}`);
+  }
+  if (f.maxPower !== undefined && card.power > f.maxPower) {
+    return makeGameError('INVALID_CHOICE', `Card power ${card.power} exceeds max ${f.maxPower}`);
+  }
+  if (f.excludeSelf === true && action.cardId === pending.sourceCardId) {
+    return makeGameError('INVALID_CHOICE', 'Cannot choose the card that triggered the OnKO effect');
+  }
+
+  // Play the chosen card for free (remove from hand, add to board)
+  const updatedPlayer: PlayerState = {
+    ...player,
+    hand: player.hand.filter((id) => id !== action.cardId),
+    board: [...player.board, action.cardId],
+  };
+  let next: GameState = {
+    ...state,
+    pendingOnKOInteraction: null,
+    cards: {
+      ...state.cards,
+      [action.cardId]: { ...card, zone: 'board' as const, tapped: false },
+    },
+    players: { ...state.players, [action.playerId]: updatedPlayer },
+  };
+
+  // Trigger OnPlay effects of the played card
+  if (card.effects?.length) {
+    next = resolveEffects(
+      card.effects,
+      'OnPlay',
+      { sourceCardId: action.cardId, sourcePlayerId: action.playerId },
+      next,
+    );
+  }
+
+  return next;
+}
+
 // ─── applyAction (dispatcher) ─────────────────────────────────────────────────
 
 export function applyAction(state: GameState, action: GameAction): ActionResult {
@@ -1025,6 +1106,8 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyPlayEvent(state, action);
     case 'ActivatedAbility':
       return applyActivatedAbility(state, action);
+    case 'ResolveOnKOInteraction':
+      return applyResolveOnKOInteraction(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

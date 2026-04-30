@@ -905,3 +905,117 @@ describe('SearchDeck ByType Character → carte arrive en main', () => {
     expect(result.players[P1]!.deck.length).toBe(deckBefore - 1);
   });
 });
+
+// ── 18. Régression — OnKO+ReturnToHand scope=Self (ST27-005 Marshall D. Teach) ──
+//    Bug: returnToHand refusait les cartes hors zone 'board' → carte restait en trash.
+
+describe('OnKO: ReturnToHand scope=Self — régression ST27-005 Teach', () => {
+  it('la carte est en main après être KO en combat, pas en trash', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnKO',
+      actions: [{ type: 'ReturnToHand', target: { scope: 'Self' } }],
+    };
+    // Carte faible sur le board de P2 (sera KO par le leader P1 en 5000)
+    const victim = makeChar('teach-onko', 'p2', 1000, { effects: [eff], tapped: true });
+    const state = addToP2Board(base, victim);
+
+    const p2HandBefore  = state.players[P2]!.hand.length;
+    const p2TrashBefore = state.players[P2]!.trash.length;
+
+    let result = applyAction(state, {
+      type: 'DeclareAttack',
+      playerId: P1,
+      attackerId: state.players[P1]!.leader!,
+      targetId: victim.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    result = applyAction(result, { type: 'ResolveCombat', playerId: P1 });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // OnKO devrait ramener la carte en main — pas en trash
+    expect(result.cards[victim.id]?.zone).toBe('hand');
+    expect(result.players[P2]!.hand.length).toBe(p2HandBefore + 1);
+    expect(result.players[P2]!.trash.length).toBe(p2TrashBefore);
+    expect(result.players[P2]!.board).not.toContain(victim.id);
+  });
+});
+
+// ── 19. Régression — GainKeyword duration=Permanent vs EndOfTurn (OP02-008) ────
+//    Bug: clearTemporaryKeywords effaçait tous les keywords y compris Permanent.
+
+describe('GainKeyword: durée Permanent vs EndOfTurn', () => {
+  it('EndOfTurn — keyword Rush effacé après fin de tour', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+    };
+    const card = makeChar('temp-rusher', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
+    const state = addToHand(base, card);
+
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    // Rush accordé dans temporaryKeywords
+    expect(afterPlay.cards[card.id]?.temporaryKeywords).toContain('Rush');
+
+    // Deux EndPhases pour déclencher clearTemporaryKeywords (Main → End → Refresh)
+    let s = applyAction(afterPlay, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+    s = applyAction(s, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+
+    expect((s.cards[card.id]?.temporaryKeywords ?? [])).not.toContain('Rush');
+  });
+
+  it('Permanent — keyword Blocker conservé après fin de tour', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'GainKeyword', keyword: 'Blocker', target: { scope: 'Self' }, duration: 'Permanent' }],
+    };
+    const card = makeChar('perm-blocker', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
+    const state = addToHand(base, card);
+
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    // Blocker dans keywords (permanent), pas dans temporaryKeywords
+    expect(afterPlay.cards[card.id]?.keywords).toContain('Blocker');
+    expect(afterPlay.cards[card.id]?.temporaryKeywords ?? []).not.toContain('Blocker');
+
+    // Deux EndPhases
+    let s = applyAction(afterPlay, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+    s = applyAction(s, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+
+    // Blocker toujours présent
+    expect(s.cards[card.id]?.keywords).toContain('Blocker');
+  });
+
+  it('Permanent — keyword non présent dans temporaryKeywords (pas effacé par erreur)', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'GainKeyword', keyword: 'DoubleAttack', target: { scope: 'Self' }, duration: 'Permanent' }],
+    };
+    const card = makeChar('perm-da', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
+    const state = addToHand(base, card);
+
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    // DoubleAttack dans keywords permanents, temporaryKeywords vide ou inexistant
+    expect(afterPlay.cards[card.id]?.keywords).toContain('DoubleAttack');
+    expect(afterPlay.cards[card.id]?.temporaryKeywords ?? []).toHaveLength(0);
+  });
+});

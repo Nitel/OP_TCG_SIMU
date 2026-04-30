@@ -190,7 +190,7 @@ export const OP01_TEMPLATE_IDS: string[] = [
 export interface CardTemplate {
   readonly id: string;
   readonly name: string;
-  readonly type: 'Leader' | 'Character' | 'Event';
+  readonly type: 'Leader' | 'Character' | 'Event' | 'Stage';
   readonly cost: number;
   readonly power: number;
   readonly color: string;
@@ -256,8 +256,9 @@ export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = (() => {
   const seen = new Set<string>();
   return allRaw
     .map((c) => ({ ...c, normalizedType: normalizeCardType(c.cardType) }))
-    .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' } =>
-      (c.normalizedType === 'Leader' || c.normalizedType === 'Character' || c.normalizedType === 'Event')
+    .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' | 'Stage' } =>
+      (c.normalizedType === 'Leader' || c.normalizedType === 'Character'
+        || c.normalizedType === 'Event' || c.normalizedType === 'Stage')
       && !seen.has(c.id) && (seen.add(c.id), true),
     )
     .map((c) => {

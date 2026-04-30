@@ -35,6 +35,8 @@ export type {
   EffectDuration,
   EffectCondition,
   DeckFilter,
+  HandFilter,
+  ResolveOnKOInteractionAction,
 } from './types/index.js';
 
 export {

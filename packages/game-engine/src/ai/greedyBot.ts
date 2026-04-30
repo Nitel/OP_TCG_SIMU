@@ -82,7 +82,7 @@ function declareAttack(state: GameState, botId: PlayerId): GameAction | null {
 
   // Attackers: board cards not tapped, then leader
   const attackerCandidates: CardId[] = [
-    ...player.board.filter(id => !state.cards[id]?.tapped),
+    ...player.board.filter(id => !state.cards[id]?.tapped && state.cards[id]?.type === 'Character'),
     ...(player.leader !== null && !state.cards[player.leader]?.tapped ? [player.leader] : []),
   ];
 
@@ -168,6 +168,25 @@ function decideCombatDefense(state: GameState, botId: PlayerId): GameAction | nu
  */
 export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction | null {
   if (state.winner !== null) return null;
+
+  // Handle pending OnKO interaction — bot picks the strongest valid card or skips
+  if (state.pendingOnKOInteraction !== null && state.pendingOnKOInteraction.playerId === botId) {
+    const pending = state.pendingOnKOInteraction;
+    const player = state.players[botId];
+    const f = pending.filter;
+    const best = (player?.hand ?? [])
+      .map((id) => state.cards[id])
+      .filter((c): c is NonNullable<typeof c> => {
+        if (c === undefined) return false;
+        if (f.color !== undefined && c.color !== f.color) return false;
+        if (f.cardType !== undefined && c.type !== f.cardType) return false;
+        if (f.maxPower !== undefined && c.power > f.maxPower) return false;
+        if (f.excludeSelf === true && c.id === pending.sourceCardId) return false;
+        return true;
+      })
+      .sort((a, b) => b.power - a.power)[0];
+    return { type: 'ResolveOnKOInteraction', playerId: botId, cardId: best?.id ?? null };
+  }
 
   const { phase, activePlayerId, activeCombat } = state;
 

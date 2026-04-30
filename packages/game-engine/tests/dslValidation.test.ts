@@ -22,7 +22,7 @@ const VALID_CONDITIONS = new Set([
 const VALID_ACTIONS = new Set([
   'Draw', 'KO', 'ReturnToHand', 'PowerBoost', 'TrashCard', 'AddLife',
   'GiveDon', 'TakeLifeToHand', 'AttachDon', 'GainKeyword', 'Rest',
-  'RemoveLife', 'PlaySelf', 'SearchDeck',
+  'RemoveLife', 'PlaySelf', 'SearchDeck', 'PlayFromHand',
 ]);
 const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Trigger']);
 const VALID_SCOPES = new Set([

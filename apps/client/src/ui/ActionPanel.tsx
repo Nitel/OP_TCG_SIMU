@@ -123,6 +123,17 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
               </span>
             )}
 
+            {/* OnKO interaction — player must choose a hand card to play */}
+            {uiState.selectionMode === 'resolveOnKO' && uiState.onKOInteraction && (
+              <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ff9955' }}>
+                Effet OnKO : jouez{
+                  uiState.onKOInteraction.filter.color ? ` un personnage ${uiState.onKOInteraction.filter.color}` : ' un personnage'
+                }{
+                  uiState.onKOInteraction.filter.maxPower !== undefined ? ` ≤${uiState.onKOInteraction.filter.maxPower}` : ''
+                } depuis votre main (surligné)
+              </span>
+            )}
+
             {/* Play selected hand card */}
             {uiState.selectionMode === 'play' && uiState.selectedCardId !== null && (() => {
               const selectedCard = gameState.cards[uiState.selectedCardId];

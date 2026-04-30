@@ -99,6 +99,10 @@ let bgShipTexture: Texture | null = null;
 let rectoTexture: Texture | null = null;
 let rectoLoading = false;
 
+// Sentinel CardId used as the "play to board" drop target for hand card drags.
+// App.tsx checks targetId === PLAY_ZONE_ID to confirm the drop was intentional.
+export const PLAY_ZONE_ID = '__PLAY_ZONE__' as unknown as CardId;
+
 // ─── Drag & drop state ────────────────────────────────────────────────────────
 
 type DragState = { cardId: CardId; ghost: Container; dragType: 'hand' | 'don' };
@@ -213,7 +217,18 @@ export function setupDragLayer(
     _pendingDrag = null; // cancel any pending drag that never started (tap, not drag)
     if (_dragState === null) return;
     const ge = e as unknown as { global: { x: number; y: number } };
-    const target = findDropTarget(ge.global.x, ge.global.y);
+    let target: CardId | null;
+    if (_dragState.dragType === 'hand') {
+      // For hand cards: valid drop = anywhere in the player's board area (below separator, above hand)
+      const px = ge.global.x;
+      const py = ge.global.y;
+      const inPlayZone = py > SEP_Y + 10 && py < P1_HAND_Y - 20
+        && px > COL_LEADER - 20 && px < RIGHT_COL + 20;
+      target = inPlayZone ? PLAY_ZONE_ID : null;
+    } else {
+      // For DON!! cards: match against registered drop zones (individual leader/character cards)
+      target = findDropTarget(ge.global.x, ge.global.y);
+    }
     _onDragDrop?.(_dragState.cardId, target);
     _dragLayer?.removeChild(_dragState.ghost);
     _dragState.ghost.destroy();
@@ -240,16 +255,28 @@ function showDropHighlights(dragType: 'hand' | 'don'): void {
   _dragLayer.addChildAt(hl, 0); // under the ghost
   _highlightContainer = hl;
 
-  const color = dragType === 'don' ? 0xffd700 : 0x44ddff;
-  for (const zone of _dropZones) {
-    const isValid = dragType === 'don' ? zone.ownerId === _activePlayerId : true;
-    if (!isValid) continue;
+  if (dragType === 'hand') {
+    // Highlight the entire board area as a single drop zone
+    const zx = COL_LEADER - 20;
+    const zy = SEP_Y + 10;
+    const zw = RIGHT_COL - COL_LEADER + 40;
+    const zh = P1_HAND_Y - 20 - zy;
     const g = new Graphics();
-    g.rect(zone.x, zone.y, zone.w, zone.h);
-    g.fill({ color, alpha: 0.15 });
-    g.rect(zone.x - 2, zone.y - 2, zone.w + 4, zone.h + 4);
-    g.stroke({ color, width: 2.5, alpha: 0.85 });
+    g.rect(zx, zy, zw, zh);
+    g.fill({ color: 0x44ddff, alpha: 0.10 });
+    g.rect(zx - 2, zy - 2, zw + 4, zh + 4);
+    g.stroke({ color: 0x44ddff, width: 2.5, alpha: 0.75 });
     hl.addChild(g);
+  } else {
+    for (const zone of _dropZones) {
+      if (zone.ownerId !== _activePlayerId) continue;
+      const g = new Graphics();
+      g.rect(zone.x, zone.y, zone.w, zone.h);
+      g.fill({ color: 0xffd700, alpha: 0.15 });
+      g.rect(zone.x - 2, zone.y - 2, zone.w + 4, zone.h + 4);
+      g.stroke({ color: 0xffd700, width: 2.5, alpha: 0.85 });
+      hl.addChild(g);
+    }
   }
 }
 
@@ -780,6 +807,16 @@ function isValidTarget(
     if (scope === 'ChooseOwnCharacter') {
       return card.zone === 'board' && card.ownerId === activePlayerId;
     }
+  }
+  if (uiState.selectionMode === 'resolveOnKO') {
+    const ok = uiState.onKOInteraction;
+    if (ok === undefined || card.zone !== 'hand' || card.ownerId !== activePlayerId) return false;
+    const f = ok.filter;
+    if (f.color !== undefined && card.color !== f.color) return false;
+    if (f.cardType !== undefined && card.type !== f.cardType) return false;
+    if (f.maxPower !== undefined && card.power > f.maxPower) return false;
+    if (f.excludeSelf === true && id === ok.sourceCardId) return false;
+    return true;
   }
   return false;
 }

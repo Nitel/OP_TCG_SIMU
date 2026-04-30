@@ -8,6 +8,7 @@ import {
 } from 'game-engine';
 import type { CardId, GameAction, GameState, PlayerId, StartGameAction } from 'game-engine';
 import { GameCanvas } from '../pixi/GameCanvas';
+import { PLAY_ZONE_ID } from '../pixi/renderGameState';
 import { GameUI } from './GameUI';
 import { ActionPanel } from './ActionPanel';
 import type { UIState } from './uiState';
@@ -284,6 +285,8 @@ export function App() {
       const prevPlayer = prev.players[playerId];
       const nextPlayer = gameState.players[playerId];
       if (prevPlayer === undefined || nextPlayer === undefined) continue;
+
+      // Detect counter/event cards played from hand → trash
       for (const cardId of nextPlayer.trash) {
         if (prevPlayer.trash.includes(cardId)) continue;
         if (!prevPlayer.hand.includes(cardId)) continue;
@@ -293,8 +296,41 @@ export function App() {
         setNotification({ cardId, label: `${String(playerId)} joue [${typeLabel}]` });
         break;
       }
+
+      // Detect OnKO → PlaySelf: card moved from trash back to board
+      for (const cardId of nextPlayer.board) {
+        if (prevPlayer.board.includes(cardId)) continue; // was already on board
+        const prevCard = prev.cards[cardId];
+        if (prevCard?.zone !== 'trash') continue; // didn't come from trash
+        const card = gameState.cards[cardId];
+        if (card === undefined) continue;
+        const id = ++activitySeqRef.current;
+        setActivityLog(prevLog => [
+          ...prevLog.slice(-19),
+          { id, text: `✦ ${card.name} revient sur le board (effet OnKO)` },
+        ]);
+      }
     }
   }, [gameState]);
+
+  // ── Detect pendingOnKOInteraction — show resolveOnKO UI for human player ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingOnKOInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      setUiState({
+        selectedCardId: null,
+        selectionMode: 'resolveOnKO',
+        errorMessage: null,
+        onKOInteraction: { filter: pending.filter, sourceCardId: pending.sourceCardId },
+      });
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'resolveOnKO' ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingOnKOInteraction]);
 
   // ── Greedy bot (vsBot mode) ───────────────────────────────────────────────
 
@@ -387,6 +423,23 @@ export function App() {
       const [p1Id, p2Id] = gameState.playerOrder;
       const defenderId   = activeId === p1Id ? p2Id : p1Id;
 
+      if (selectionMode === 'resolveOnKO') {
+        const { onKOInteraction } = prev;
+        if (onKOInteraction === undefined) return IDLE_UI;
+        if (card.zone !== 'hand') return prev; // must click a hand card
+        const f = onKOInteraction.filter;
+        const valid =
+          (f.color === undefined || card.color === f.color) &&
+          (f.cardType === undefined || card.type === f.cardType) &&
+          (f.maxPower === undefined || card.power <= f.maxPower) &&
+          (f.excludeSelf !== true || cardId !== onKOInteraction.sourceCardId);
+        if (valid) {
+          const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? activeId;
+          setTimeout(() => dispatch({ type: 'ResolveOnKOInteraction', playerId: humanId, cardId }), 0);
+        }
+        return IDLE_UI;
+      }
+
       if (selectionMode === 'chooseTarget') {
         const { pendingTargetAction, targetScope } = prev;
         if (pendingTargetAction === undefined || targetScope === undefined) return IDLE_UI;
@@ -459,15 +512,16 @@ export function App() {
     if (card === undefined) return;
     const activeId = gameState.activePlayerId;
 
-    if (card.type === 'DON' && targetId !== null) {
+    if (card.type === 'DON' && targetId !== null && targetId !== PLAY_ZONE_ID) {
       dispatch({ type: 'AssignDon', playerId: activeId, donCardId: draggedId, targetCardId: targetId });
-    } else if (card.zone === 'hand' && gameState.phase === 'Main' && card.ownerId === activeId) {
+    } else if (card.zone === 'hand' && targetId === PLAY_ZONE_ID && gameState.phase === 'Main' && card.ownerId === activeId) {
       if (card.type === 'Event') {
         dispatch({ type: 'PlayEvent', playerId: activeId, cardId: draggedId });
       } else if (card.type === 'Character' || card.type === 'Stage') {
         dispatch({ type: 'PlayCharacterFromHand', playerId: activeId, cardId: draggedId });
       }
     }
+    // targetId === null → card released outside valid zone, drag cancelled
   }, [gameState, dispatch]);
 
   // ── Screens ───────────────────────────────────────────────────────────────

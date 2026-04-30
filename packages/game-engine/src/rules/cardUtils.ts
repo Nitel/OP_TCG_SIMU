@@ -211,12 +211,12 @@ export function drawCards(state: GameState, playerId: PlayerId, count: number): 
 // ─── returnToHand ─────────────────────────────────────────────────────────────
 
 /**
- * Return a board card to its owner's hand.
- * Detaches any DON attached to it.
+ * Return a card to its owner's hand from any zone (board, trash, life).
+ * Detaches any DON attached to it. Clears power modifier.
  */
 export function returnToHand(state: GameState, cardId: CardId): GameState {
   const card = state.cards[cardId];
-  if (card === undefined || card.zone !== 'board') return state;
+  if (card === undefined || card.zone === 'hand') return state;
 
   const owner = state.players[card.ownerId];
   if (owner === undefined) return state;
@@ -237,6 +237,8 @@ export function returnToHand(state: GameState, cardId: CardId): GameState {
   const updatedOwner: PlayerState = {
     ...owner,
     board: owner.board.filter((id) => id !== cardId),
+    trash: owner.trash.filter((id) => id !== cardId),
+    life:  owner.life.filter((id) => id !== cardId),
     hand: [...owner.hand, cardId],
   };
 

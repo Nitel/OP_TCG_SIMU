@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 import type { CardTemplate, SavedDeck } from '../data/deckBuilder';
 import {
@@ -132,14 +132,31 @@ function Pill({ label, active, color, onClick }: {
   );
 }
 
-// ─── Card image with automatic parallel → base fallback ──────────────────────
+// ─── Card image with lazy loading (IntersectionObserver) ─────────────────────
+// Images are only fetched once the element enters the viewport (+ 200px margin).
+// This prevents hundreds of simultaneous requests (409 rate-limit) on open.
 
 function CardImg({ id, alt, style, fallbackStyle }: {
   id: string; alt: string;
   style: CSSProperties; fallbackStyle: CSSProperties;
 }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) return <div style={fallbackStyle}>{alt}</div>;
+  const [visible, setVisible] = useState(false);
+  const [failed,  setFailed]  = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (el === null) return;
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry?.isIntersecting) { setVisible(true); io.disconnect(); } },
+      { rootMargin: '200px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  if (failed) return <div ref={wrapRef} style={fallbackStyle}>{alt}</div>;
+  if (!visible) return <div ref={wrapRef} style={{ ...fallbackStyle, color: 'transparent' }} />;
   return <img src={cdnCardUrl(id)} alt={alt} style={style} onError={() => setFailed(true)} />;
 }
 
@@ -607,7 +624,7 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
                 color={COLOR_HEX[c]} onClick={() => setFilterColor(filterColor === c ? null : c)} />
             ))}
             <span style={{ width: 1, height: 16, background: '#2a2a4a', margin: '0 2px' }} />
-            {(['Leader', 'Character', 'Event'] as const).map(t => (
+            {(['Leader', 'Character', 'Event', 'Stage'] as const).map(t => (
               <Pill key={t} label={t} active={filterType === t}
                 onClick={() => setFilterType(filterType === t ? null : t)} />
             ))}

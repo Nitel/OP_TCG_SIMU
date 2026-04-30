@@ -330,13 +330,21 @@ function resolveAction(
       for (const id of targets) {
         const card = state.cards[id];
         if (card !== undefined) {
-          const existing = card.temporaryKeywords ?? [];
-          updatedCards[id] = {
-            ...card,
-            temporaryKeywords: existing.includes(action.keyword)
-              ? existing
-              : [...existing, action.keyword],
-          };
+          if (action.duration === 'Permanent') {
+            // Permanent keyword → add to the base keywords array (survives end of turn)
+            const existing = card.keywords ?? [];
+            updatedCards[id] = {
+              ...card,
+              keywords: existing.includes(action.keyword) ? existing : [...existing, action.keyword],
+            };
+          } else {
+            // Temporary keyword → cleared at end of turn by clearTemporaryKeywords
+            const existing = card.temporaryKeywords ?? [];
+            updatedCards[id] = {
+              ...card,
+              temporaryKeywords: existing.includes(action.keyword) ? existing : [...existing, action.keyword],
+            };
+          }
         }
       }
       return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
@@ -380,23 +388,54 @@ function resolveAction(
 
     // ── PlaySelf ──────────────────────────────────────────────────────────────
     case 'PlaySelf': {
-      // Put the source card onto the board for free (Trigger effect)
+      // Put the source card onto the board for free (Trigger / OnKO effect).
+      // Card may be in hand (Trigger), trash (OnKO), or life (edge cases) — remove from all.
       const player = state.players[context.sourcePlayerId];
       if (player === undefined) return state;
       const card = state.cards[context.sourceCardId];
       if (card === undefined) return state;
+      const cid = context.sourceCardId;
+      if (player.board.includes(cid)) return state; // already on board, no-op
       const updatedPlayer: PlayerState = {
         ...player,
-        hand: player.hand.filter((id) => id !== context.sourceCardId),
-        board: [...player.board, context.sourceCardId],
+        hand:  player.hand.filter((id) => id !== cid),
+        trash: player.trash.filter((id) => id !== cid),
+        life:  player.life.filter((id) => id !== cid),
+        board: [...player.board, cid],
       };
       return {
         ...state,
         cards: {
           ...state.cards,
-          [context.sourceCardId]: { ...card, zone: 'board' as const },
+          [cid]: { ...card, zone: 'board' as const, tapped: false },
         },
         players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+    }
+
+    // ── PlayFromHand ──────────────────────────────────────────────────────────
+    case 'PlayFromHand': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      const f = action.filter;
+      const validIds = player.hand.filter((id) => {
+        const c = state.cards[id];
+        if (c === undefined) return false;
+        if (f.color !== undefined && c.color !== f.color) return false;
+        if (f.cardType !== undefined && c.type !== f.cardType) return false;
+        if (f.maxPower !== undefined && c.power > f.maxPower) return false;
+        if (f.excludeSelf === true && id === context.sourceCardId) return false;
+        return true;
+      });
+      if (validIds.length === 0) return state; // no valid cards — skip silently
+      // Store pending interaction so the player (or bot) can choose which card to play
+      return {
+        ...state,
+        pendingOnKOInteraction: {
+          playerId: context.sourcePlayerId,
+          filter: f,
+          sourceCardId: context.sourceCardId,
+        },
       };
     }
 
@@ -421,7 +460,8 @@ function resolveAction(
 
       const foundId = player.deck[foundIdx]!;
       const newDeck = player.deck.filter((_, i) => i !== foundIdx);
-      const dest = action.destination === 'hand' ? 'hand' : 'board';
+      const foundCard = state.cards[foundId];
+      const dest = (action.destination === 'board' && foundCard?.type === 'Character') ? 'board' : 'hand';
       const updatedCards: Record<string, Card> = {
         ...state.cards,
         [foundId]: { ...state.cards[foundId]!, zone: dest },

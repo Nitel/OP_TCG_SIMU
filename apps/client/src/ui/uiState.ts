@@ -1,4 +1,4 @@
-import type { CardId, GameAction } from 'game-engine';
+import type { CardId, GameAction, HandFilter } from 'game-engine';
 
 export type SelectionMode =
   | 'play'
@@ -6,7 +6,8 @@ export type SelectionMode =
   | 'assignDon'
   | 'declareBlock'
   | 'playCounter'
-  | 'chooseTarget';
+  | 'chooseTarget'
+  | 'resolveOnKO';
 
 export interface UIState {
   selectedCardId: CardId | null;
@@ -16,6 +17,8 @@ export interface UIState {
   pendingTargetAction?: GameAction;
   /** Set when selectionMode === 'chooseTarget' — which pool the player must pick from */
   targetScope?: 'ChooseOpponentCharacter' | 'ChooseOwnCharacter';
+  /** Set when selectionMode === 'resolveOnKO' — filter and source for the pending OnKO interaction */
+  onKOInteraction?: { filter: HandFilter; sourceCardId: CardId };
 }
 
 export const IDLE_UI: UIState = {
