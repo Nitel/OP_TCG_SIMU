@@ -9,10 +9,11 @@ import type {
   Card,
   PlayerSetup,
   GamePhase,
+  EffectTrigger,
 } from '../types/index.js';
 import { makeGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
-import { clearPowerModifiers, clearTemporaryKeywords, hasKeyword } from '../rules/cardUtils.js';
+import { clearPowerModifiers, clearOppTurnModifiers, clearTemporaryKeywords, hasKeyword } from '../rules/cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
 
 // ─── Phase helpers ────────────────────────────────────────────────────────────
@@ -81,6 +82,27 @@ function applyDonDraw(state: GameState, playerId: PlayerId): GameState {
 }
 
 /** Untap leader, all board cards, and all DON in donArea for a player. */
+/** Fire a phase trigger (StartOfTurn, EndOfTurn, etc.) for all board cards + leader of a player. */
+function firePhaseEffects(state: GameState, trigger: EffectTrigger, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+  let next = state;
+  if (player.leader !== null) {
+    const leaderCard = next.cards[player.leader];
+    if (leaderCard?.effects?.length) {
+      next = resolveEffects(leaderCard.effects, trigger, { sourceCardId: player.leader, sourcePlayerId: playerId }, next);
+    }
+  }
+  // Snapshot board IDs — effects may modify the board during resolution
+  for (const cardId of [...(state.players[playerId]?.board ?? [])]) {
+    const card = next.cards[cardId];
+    if (card?.effects?.length) {
+      next = resolveEffects(card.effects, trigger, { sourceCardId: cardId, sourcePlayerId: playerId }, next);
+    }
+  }
+  return next;
+}
+
 function applyRefresh(state: GameState, playerId: PlayerId): GameState {
   const player = state.players[playerId];
   if (player === undefined) return state;
@@ -97,10 +119,20 @@ function applyRefresh(state: GameState, playerId: PlayerId): GameState {
     updatedCards[id] = { ...updatedCards[id]!, tapped: false };
   }
 
-  return {
-    ...state,
-    cards: updatedCards as Readonly<Record<CardId, Card>>,
-  };
+  let next: GameState = { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+
+  // Clear EndOfOpponentTurn modifiers: the opponent's turn just ended, it's now this player's turn
+  next = clearOppTurnModifiers(next, playerId);
+
+  // Fire StartOfTurn for the new active player's cards
+  next = firePhaseEffects(next, 'StartOfTurn', playerId);
+
+  // Fire StartOfOpponentTurn for the inactive player's cards
+  const [p1, p2] = next.playerOrder;
+  const inactivePlayerId = playerId === p1 ? p2 : p1;
+  next = firePhaseEffects(next, 'StartOfOpponentTurn', inactivePlayerId);
+
+  return next;
 }
 
 /** Return all assigned DON to donArea (detach + untap) at end of turn. */
@@ -239,14 +271,14 @@ function buildPlayerState(
     donIds.push(don.id);
   }
 
-  // Main deck in draw order
-  const deckOrdered = setup.deckCards.map((c): Card => ({
+  // Main deck — shuffled so each game starts with a different hand
+  const deckOrdered = shuffle(setup.deckCards.map((c): Card => ({
     ...c,
     zone: 'deck',
     ownerId: setup.id,
     tapped: false,
     attachedTo: null,
-  }));
+  })));
   for (const c of deckOrdered) {
     allCards[c.id] = c;
   }
@@ -350,6 +382,8 @@ function applyStartGame(
     winner: null,
     firstPlayerId,
     mulliganDecided: [],
+    newBoardIds: [],
+    activatedAbilityIds: [],
   };
 }
 
@@ -459,6 +493,7 @@ function applyPlayCharacterFromHand(
     ...state,
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: { ...state.players, [action.playerId]: updatedPlayer },
+    newBoardIds: [...state.newBoardIds, action.cardId],
   };
 
   // Trigger OnPlay effects
@@ -551,9 +586,11 @@ function applyEndPhase(
       activePlayerId: nextPlayerId,
       phase: 'Refresh',
       turnNumber: next.turnNumber + 1,
+      newBoardIds: [],
+      activatedAbilityIds: [],
     };
 
-    // Untap the new active player's cards
+    // Untap the new active player's cards + fire StartOfTurn / StartOfOpponentTurn
     return applyRefresh(next, nextPlayerId);
   }
 
@@ -564,6 +601,16 @@ function applyEndPhase(
   // Entering DON phase via EndPhase (player skipped DrawPhase)
   if (nextPhase === 'DON') {
     next = applyDonDraw(next, state.activePlayerId);
+  }
+
+  // Entering End phase → fire EndOfTurn effects
+  if (nextPhase === 'End') {
+    next = firePhaseEffects(next, 'EndOfTurn', state.activePlayerId);
+  }
+
+  // Entering Main phase → fire StartOfMainPhase effects
+  if (nextPhase === 'Main') {
+    next = firePhaseEffects(next, 'StartOfMainPhase', state.activePlayerId);
   }
 
   return next;
@@ -604,6 +651,12 @@ function applyDeclareAttack(
     return makeGameError('ATTACKER_TAPPED', `Card ${action.attackerId} is rested and cannot attack`);
   }
 
+  const isNewCard = state.newBoardIds.includes(action.attackerId);
+  const hasRush   = hasKeyword(attacker, 'Rush');
+  if (isNewCard && !hasRush) {
+    return makeGameError('SUMMON_SICKNESS', `Card ${action.attackerId} was played this turn and cannot attack without Rush`);
+  }
+
   // Attacker must be on the active player's board or be their leader
   const onBoard  = player.board.includes(action.attackerId);
   const isLeader = player.leader === action.attackerId;
@@ -628,6 +681,11 @@ function applyDeclareAttack(
   const targetIsLeader = opponent.leader === action.targetId;
   if (!targetOnBoard && !targetIsLeader) {
     return makeGameError('INVALID_TARGET', `Card ${action.targetId} is not a valid target on opponent's side`);
+  }
+
+  // Characters can only be attacked when rested; the leader can always be targeted
+  if (targetOnBoard && !targetIsLeader && target.tapped === false) {
+    return makeGameError('TARGET_NOT_RESTED', `Card ${action.targetId} must be rested to be attacked`);
   }
 
   // Tap (rest) the attacker
@@ -838,7 +896,12 @@ function applyActivatedAbility(
     return makeGameError('NO_ACTIVATED_EFFECT', `Card ${action.cardId} has no Activated effects`);
   }
 
-  return resolveEffects(
+  // Once-per-turn enforcement
+  if (state.activatedAbilityIds.includes(action.cardId)) {
+    return makeGameError('ALREADY_ACTIVATED', `Card ${action.cardId} has already used its Activated ability this turn`);
+  }
+
+  const result = resolveEffects(
     card.effects!,
     'Activated',
     {
@@ -848,6 +911,15 @@ function applyActivatedAbility(
     },
     state,
   );
+
+  if (result === state) {
+    return makeGameError('CONDITION_NOT_MET', `Activation conditions not met for card ${action.cardId}`);
+  }
+
+  return {
+    ...result,
+    activatedAbilityIds: [...result.activatedAbilityIds, action.cardId],
+  };
 }
 
 // ─── PlayCounter ──────────────────────────────────────────────────────────────

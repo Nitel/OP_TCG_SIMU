@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import type { Card, CardId, GameAction, GameState, PlayerId, ActivatedAbilityAction } from 'game-engine';
+import type { GameAction, GameState, PlayerId, ActivatedAbilityAction } from 'game-engine';
 import { calculatePower } from 'game-engine';
 import type { UIState } from './uiState';
 
@@ -42,90 +41,12 @@ const dangerBtn: CSSProperties = {
   boxShadow: '0 2px 10px rgba(160,0,50,0.3)',
 };
 
-function CardThumb({ id, card }: { id: string; card: Card }) {
-  const [err, setErr] = useState(false);
-  const templateId = id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-  const title = [
-    card.name,
-    card.type,
-    card.type !== 'DON' && card.type !== 'Leader' ? `Coût ${card.cost}` : null,
-    card.power > 0 ? `${card.power}` : null,
-    (card.counter ?? 0) > 0 ? `+${card.counter}` : null,
-  ].filter(Boolean).join(' · ');
-
-  return (
-    <div style={{ width: 56, height: 78, flexShrink: 0 }} title={title}>
-      {!err && templateId !== undefined ? (
-        <img
-          src={`/card-images/${templateId}.png`}
-          alt={card.name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 2, display: 'block' }}
-          onError={() => setErr(true)}
-        />
-      ) : (
-        <div style={{
-          width: '100%', height: '100%',
-          background: '#2a3a4a', borderRadius: 2,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 9, color: '#aabbcc', textAlign: 'center',
-          padding: 2, boxSizing: 'border-box', wordBreak: 'break-word',
-        }}>
-          {card.name}
-        </div>
-      )}
-    </div>
-  );
-}
 
 export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props) {
   const { phase, activePlayerId, activeCombat, playerOrder, winner } = gameState;
   const defenderId  = activePlayerId === playerOrder[0] ? playerOrder[1] : playerOrder[0];
   const isMyTurn    = !myPlayerId || myPlayerId === activePlayerId;
   const amIDefender = !!myPlayerId && myPlayerId === defenderId && activeCombat !== null;
-  const [showTrash, setShowTrash] = useState(false);
-
-  const renderTrashList = (trash: readonly string[], label: string) => (
-    <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ fontFamily: "'Cinzel', serif", fontSize: 10, color: '#b8860b', marginBottom: 6, borderBottom: '1px solid rgba(184,134,11,0.3)', paddingBottom: 4, letterSpacing: 1 }}>
-        {label} — {trash.length} carte{trash.length !== 1 ? 's' : ''}
-      </div>
-      {trash.length === 0 ? (
-        <div style={{ fontFamily: 'monospace', fontSize: 11, color: '#2a2a3a' }}>Vide</div>
-      ) : (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-          {[...trash].reverse().map(id => {
-            const card = gameState.cards[id as CardId];
-            if (card === undefined) return null;
-            return <CardThumb key={id} id={id} card={card} />;
-          })}
-        </div>
-      )}
-    </div>
-  );
-
-  const renderTrashPanel = () => {
-    const [p1Id, p2Id] = playerOrder;
-    const p1 = p1Id !== undefined ? gameState.players[p1Id] : undefined;
-    const p2 = p2Id !== undefined ? gameState.players[p2Id] : undefined;
-    return (
-      <div style={{
-        display: 'flex',
-        gap: 16,
-        maxHeight: 260,
-        overflowY: 'auto',
-        background: 'rgba(4,6,18,0.96)',
-        border: '1px solid rgba(184,134,11,0.35)',
-        borderRadius: 8,
-        padding: '8px 12px',
-        marginTop: 4,
-      }}>
-        {renderTrashList(p1?.trash ?? [], `Défausse ${String(p1Id)}`)}
-        <div style={{ width: 1, background: '#2a2a4a', flexShrink: 0 }} />
-        {renderTrashList(p2?.trash ?? [], `Défausse ${String(p2Id)}`)}
-      </div>
-    );
-  };
-
   if (winner !== null) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>
@@ -136,18 +57,9 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
     );
   }
 
-  // ── Opponent's turn: minimal bar (no action messages) ────────────────────
+  // ── Opponent's turn: no action bar ───────────────────────────────────────
   if (!isMyTurn && !amIDefender) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '1px solid rgba(184,134,11,0.2)', width: '100%', boxSizing: 'border-box' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '6px 20px' }}>
-          <button style={btnStyle} onClick={() => setShowTrash(v => !v)}>
-            Défausses{showTrash ? ' ×' : ' ↑'}
-          </button>
-        </div>
-        {showTrash && renderTrashPanel()}
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -186,13 +98,6 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
         {isMyTurn && phase === 'Refresh' && activeCombat === null && (
           <button style={primaryBtn} onClick={() => onAction({ type: 'EndPhase', playerId: activePlayerId })}>
             Commencer le tour →
-          </button>
-        )}
-
-        {/* Draw phase: draw button */}
-        {isMyTurn && phase === 'Draw' && (
-          <button style={primaryBtn} onClick={() => onAction({ type: 'DrawPhase', playerId: activePlayerId })}>
-            Piocher
           </button>
         )}
 
@@ -251,16 +156,9 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
             })()}
 
             <button style={btnStyle} onClick={() => onAction({ type: 'EndPhase', playerId: activePlayerId })}>
-              Fin de phase →
+              Fin de tour →
             </button>
           </>
-        )}
-
-        {/* End phase */}
-        {isMyTurn && phase === 'End' && activeCombat === null && (
-          <button style={btnStyle} onClick={() => onAction({ type: 'EndPhase', playerId: activePlayerId })}>
-            Fin du tour →
-          </button>
         )}
 
         {/* ── Combat ───────────────────────────────────────────────────── */}
@@ -380,16 +278,7 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           </span>
         )}
 
-        {/* ── Trash viewer button — always visible ──────────────────────── */}
-        <span style={{ marginLeft: 'auto' }}>
-          <button style={btnStyle} onClick={() => setShowTrash(v => !v)}>
-            Défausses{showTrash ? ' ×' : ' ↑'}
-          </button>
-        </span>
       </div>
-
-      {/* ── Trash panel ─────────────────────────────────────────────────────── */}
-      {showTrash && renderTrashPanel()}
     </div>
   );
 }

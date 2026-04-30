@@ -10,13 +10,14 @@
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "LeaderHasAttachedDon",
         "count": 1
       },
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
+          "from": "rested",
           "target": {
             "scope": "ChooseOwnCharacter"
           }

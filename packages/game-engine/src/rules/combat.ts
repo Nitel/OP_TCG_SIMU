@@ -1,9 +1,9 @@
 import type { CardId, GameState, PlayerId } from '../types/index.js';
-import { calculatePower, sendToTrash, clearPowerModifiers, hasKeyword } from './cardUtils.js';
+import { calculatePower, sendToTrash, sendToRemoved, clearPowerModifiers, hasKeyword } from './cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
 
 // Re-export for public API backwards compatibility
-export { calculatePower, sendToTrash } from './cardUtils.js';
+export { calculatePower, sendToTrash, sendToRemoved } from './cardUtils.js';
 
 // ─── Leader damage ────────────────────────────────────────────────────────────
 
@@ -77,6 +77,17 @@ export function resolveCombat(state: GameState): GameState {
 
   const attackerPower = calculatePower(attackerId, state);
   const attacker = state.cards[attackerId]; // read BEFORE any trash call
+  const attackerBanishes = attacker !== undefined && hasKeyword(attacker, 'Banish');
+
+  /** Send `cardId` to trash or removed-from-game depending on Banish, then fire OnKO + OnLeaveField. */
+  function koCard(s: GameState, cardId: CardId, card: typeof attacker): GameState {
+    let r = attackerBanishes ? sendToRemoved(s, cardId) : sendToTrash(s, cardId);
+    if (card?.effects?.length) {
+      r = resolveEffects(card.effects, 'OnKO', { sourceCardId: cardId, sourcePlayerId: card.ownerId }, r);
+      r = resolveEffects(card.effects, 'OnLeaveField', { sourceCardId: cardId, sourcePlayerId: card.ownerId }, r);
+    }
+    return r;
+  }
 
   if (blockerId !== null) {
     // ── Blocked combat ───────────────────────────────────────────────────────
@@ -85,25 +96,9 @@ export function resolveCombat(state: GameState): GameState {
     const blockerCard = state.cards[blockerId]; // read BEFORE trash
 
     if (attackerPower >= blockerPower) {
-      next = sendToTrash(next, blockerId);
-      if (blockerCard?.effects?.length) {
-        next = resolveEffects(
-          blockerCard.effects,
-          'OnKO',
-          { sourceCardId: blockerId, sourcePlayerId: blockerCard.ownerId },
-          next,
-        );
-      }
+      next = koCard(next, blockerId, blockerCard);
     } else {
-      next = sendToTrash(next, attackerId);
-      if (attacker?.effects?.length) {
-        next = resolveEffects(
-          attacker.effects,
-          'OnKO',
-          { sourceCardId: attackerId, sourcePlayerId: attacker.ownerId },
-          next,
-        );
-      }
+      next = koCard(next, attackerId, attacker);
     }
   } else {
     // ── Unblocked attack ─────────────────────────────────────────────────────
@@ -124,15 +119,7 @@ export function resolveCombat(state: GameState): GameState {
       } else {
         // Unblocked attack on a Character → KO if attacker power >= defender power
         const targetCard = state.cards[targetId]; // read BEFORE trash
-        next = sendToTrash(next, targetId);
-        if (targetCard?.effects?.length) {
-          next = resolveEffects(
-            targetCard.effects,
-            'OnKO',
-            { sourceCardId: targetId, sourcePlayerId: targetCard.ownerId },
-            next,
-          );
-        }
+        next = koCard(next, targetId, targetCard);
       }
     }
     // attacker power < defender power + counter → attack repelled

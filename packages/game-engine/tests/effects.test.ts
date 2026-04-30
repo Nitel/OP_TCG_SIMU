@@ -92,6 +92,18 @@ function addToHand(state: GameState, card: Card): GameState {
   };
 }
 
+/** Place a card on P1's board and return the updated state. */
+function addToP1Board(state: GameState, card: Card): GameState {
+  return {
+    ...state,
+    cards: { ...state.cards, [card.id]: { ...card, zone: 'board' } },
+    players: {
+      ...state.players,
+      [P1]: { ...state.players[P1]!, board: [...state.players[P1]!.board, card.id] },
+    },
+  };
+}
+
 /** Place a card on P2's board and return the updated state. */
 function addToP2Board(state: GameState, card: Card): GameState {
   return {
@@ -100,6 +112,34 @@ function addToP2Board(state: GameState, card: Card): GameState {
     players: {
       ...state.players,
       [P2]: { ...state.players[P2]!, board: [...state.players[P2]!.board, card.id] },
+    },
+  };
+}
+
+/** Add untapped (active) DON!! cards to P1's donArea. */
+function addFreeDon(state: GameState, dons: Card[]): GameState {
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const d of dons) updatedCards[d.id] = { ...d, zone: 'donArea', tapped: false, attachedTo: null };
+  return {
+    ...state,
+    cards: updatedCards as GameState['cards'],
+    players: {
+      ...state.players,
+      [P1]: { ...state.players[P1]!, donArea: [...state.players[P1]!.donArea, ...dons.map((d) => d.id)] },
+    },
+  };
+}
+
+/** Add DON!! cards (with their tapped/attachedTo as-is) to P1's donArea. */
+function addDonCards(state: GameState, dons: Card[]): GameState {
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const d of dons) updatedCards[d.id] = { ...d, zone: 'donArea' };
+  return {
+    ...state,
+    cards: updatedCards as GameState['cards'],
+    players: {
+      ...state.players,
+      [P1]: { ...state.players[P1]!, donArea: [...state.players[P1]!.donArea, ...dons.map((d) => d.id)] },
     },
   };
 }
@@ -363,7 +403,7 @@ describe('OnKO: Draw 1 quand la carte est KO', () => {
       actions: [{ type: 'Draw', count: 1 }],
     };
     // Put victim on P2's board (P1 will KO it)
-    const victim = makeChar('martyr', 'p2', 1000, { zone: 'board', effects: [koEffect] });
+    const victim = makeChar('martyr', 'p2', 1000, { zone: 'board', tapped: true, effects: [koEffect] });
 
     const state: GameState = {
       ...base,
@@ -662,7 +702,7 @@ describe('GiveDon négatif : OnKO retire 2 DON adverses', () => {
       ...base,
       cards: {
         ...base.cards,
-        [victimId]: { ...p2Card, zone: 'board' },
+        [victimId]: { ...p2Card, zone: 'board', tapped: true },
         [don1.id]: don1,
         [don2.id]: don2,
       },
@@ -751,5 +791,117 @@ describe('PowerBoost EndOfTurn : boost effacé après EndPhase', () => {
     if (isGameError(afterEnd)) return;
 
     expect(calculatePower(playCard.id, afterEnd)).toBe(3000); // boost gone
+  });
+});
+
+// ── 15. HasAttachedDon Activated — ST21 mécanique (Zoro pattern) ──────────────
+
+describe('HasAttachedDon Activated : Rush accordé quand 2 DON!! attachés (pattern ST21-015)', () => {
+  it('HasAttachedDon:2 Activated → temporaryKeywords contient Rush', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'Activated',
+      condition: { type: 'HasAttachedDon', count: 2 },
+      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+    };
+    const card = makeChar('zoro-pattern', 'p1', 5000, { effects: [eff] });
+    let s = addToP1Board(base, card);
+    // Attach 2 DON!! to the card (simulates leader giving REST DON!! to a character)
+    const don1 = makeDon('attached-1', 'p1');
+    const don2 = makeDon('attached-2', 'p1');
+    s = addDonCards(s, [
+      { ...don1, tapped: true, attachedTo: card.id },
+      { ...don2, tapped: true, attachedTo: card.id },
+    ]);
+
+    const result = applyAction(s, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[card.id]?.temporaryKeywords).toContain('Rush');
+  });
+
+  it('HasAttachedDon:2 Activated — échoue avec seulement 1 DON!! attaché', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'Activated',
+      condition: { type: 'HasAttachedDon', count: 2 },
+      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+    };
+    const card = makeChar('zoro-1don', 'p1', 5000, { effects: [eff] });
+    let s = addToP1Board(base, card);
+    const don = makeDon('attached-1', 'p1');
+    s = addDonCards(s, [{ ...don, tapped: true, attachedTo: card.id }]);
+
+    const result = applyAction(s, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(true);
+    if (!isGameError(result)) return;
+    expect(result.code).toBe('CONDITION_NOT_MET');
+  });
+});
+
+// ── 16. Activated HasRestingDon — coût payé (DON!! actifs reposés) ────────────
+
+describe('Activated HasRestingDon : coût DON!! payé après activation', () => {
+  it('Activated HasRestingDon:1 — le DON!! actif est reposé après activation', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'Activated',
+      condition: { type: 'HasRestingDon', count: 1 },
+      actions: [{ type: 'Draw', count: 1 }],
+    };
+    const card = makeChar('don-cost-card', 'p1', 3000, { effects: [eff] });
+    let s = addToP1Board(base, card);
+    const don = makeDon('free-don-1', 'p1');
+    s = addFreeDon(s, [don]);
+    const handBefore = s.players[P1]!.hand.length;
+
+    const result = applyAction(s, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // DON!! actif doit être reposé (coût payé)
+    expect(result.cards[don.id]?.tapped).toBe(true);
+    // Et la pioche a eu lieu
+    expect(result.players[P1]!.hand.length).toBe(handBefore + 1);
+  });
+
+  it('Activated HasRestingDon:2 — échoue si seulement 1 DON!! actif', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'Activated',
+      condition: { type: 'HasRestingDon', count: 2 },
+      actions: [{ type: 'Draw', count: 1 }],
+    };
+    const card = makeChar('don-cost-fail', 'p1', 3000, { effects: [eff] });
+    let s = addToP1Board(base, card);
+    s = addFreeDon(s, [makeDon('only-one', 'p1')]);
+
+    const result = applyAction(s, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(true);
+    if (!isGameError(result)) return;
+    expect(result.code).toBe('CONDITION_NOT_MET');
+  });
+});
+
+// ── 17. SearchDeck — carte trouvée arrive en main ─────────────────────────────
+
+describe('SearchDeck ByType Character → carte arrive en main', () => {
+  it('OnPlay SearchDeck ByType Character → main +1, deck -1', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'SearchDeck', filter: { kind: 'ByType', cardType: 'Character' }, destination: 'hand' }],
+    };
+    const card = makeChar('search-card', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
+    const s = addToHand(base, card);
+    const handBefore = s.players[P1]!.hand.length;
+    const deckBefore = s.players[P1]!.deck.length;
+
+    const result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Card was played (leaves hand) → hand -1 from play + 1 from search = handBefore - 1 + 1
+    expect(result.players[P1]!.hand.length).toBe(handBefore - 1 + 1);
+    // Deck decreased by 1 (card searched)
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 1);
   });
 });

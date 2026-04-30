@@ -467,6 +467,7 @@ function drawCard(
   isDoubleAttacker = false,
   onDragStart?: (gx: number, gy: number) => void,
   cardScale = 1,
+  isPlayable = false,
 ): void {
   const fillColor = faceDown ? H.back : cardBodyColor(card);
 
@@ -542,6 +543,11 @@ function drawCard(
     border.rect(-2, -2, CARD_W + 4, CARD_H + 4);
     border.stroke({ color: 0x44ffcc, width: 2 });
     cardContainer.addChild(border);
+  } else if (isPlayable) {
+    const border = new Graphics();
+    border.rect(-2, -2, CARD_W + 4, CARD_H + 4);
+    border.stroke({ color: 0x44cc44, width: 2 });
+    cardContainer.addChild(border);
   }
 
   // Click handler
@@ -584,6 +590,21 @@ function drawCard(
     });
   }
 
+  // DON!! badge — small purple pill in bottom-left showing attached DON!! count
+  if (attachedDonCount > 0 && !faceDown) {
+    const badgeBg = new Graphics();
+    badgeBg.roundRect(3, CARD_H - 22, 36, 18, 4);
+    badgeBg.fill({ color: 0x6a1090, alpha: 0.92 });
+    cardContainer.addChild(badgeBg);
+    const badgeTxt = new Text({
+      text: `◆ ${attachedDonCount}`,
+      style: { fontSize: 11, fill: 0xffffff, fontFamily: 'monospace', fontWeight: 'bold' },
+    });
+    badgeTxt.x = 5;
+    badgeTxt.y = CARD_H - 21;
+    cardContainer.addChild(badgeTxt);
+  }
+
   scene.addChild(cardContainer);
 
   if (isNew) scaleIn(cardContainer);
@@ -600,7 +621,7 @@ function drawStack(
   topCard?: Card,
   onClick?: () => void,
 ): void {
-  addText(scene, label, x, y - 17, C.label);
+  addText(scene, label, x, y - 18, C.label, 14);
 
   const cardContainer = new Container();
   cardContainer.x = x;
@@ -633,16 +654,21 @@ function drawStack(
     }
   }
 
-  // Count badge
+  // Count badge — dark pill background for contrast on top of card artwork
   const txt   = count > 0 ? `${count}` : '—';
   const tFill = count > 0 ? C.white : C.muted;
-  const tSize = count > 0 ? 24 : 18;
+  const tSize = count > 0 ? 30 : 18;
+  const bgW = count > 9 ? 44 : 34;
+  const countBg = new Graphics();
+  countBg.roundRect(CARD_W / 2 - bgW / 2, CARD_H / 2 - 18, bgW, 34, 6);
+  countBg.fill({ color: 0x000000, alpha: 0.88 });
+  cardContainer.addChild(countBg);
   const countTxt = new Text({
     text: txt,
-    style: { fontSize: tSize, fill: tFill, fontFamily: 'monospace' },
+    style: { fontSize: tSize, fill: tFill, fontFamily: 'monospace', fontWeight: 'bold' },
   });
-  countTxt.x = CARD_W / 2 - (count > 9 ? 13 : 8);
-  countTxt.y = CARD_H / 2 - 13;
+  countTxt.x = CARD_W / 2 - (count > 9 ? 16 : 9);
+  countTxt.y = CARD_H / 2 - 16;
   cardContainer.addChild(countTxt);
 
   // Hover preview (same 500 ms delay as regular cards)
@@ -735,8 +761,10 @@ function isValidTarget(
   _allCards: Readonly<Record<CardId, Card>>,
 ): boolean {
   if (uiState.selectionMode === 'attack') {
-    // Valid targets: opponent's board cards or leader (any non-active owner)
-    return (card.zone === 'board' || card.type === 'Leader') && card.ownerId !== activePlayerId;
+    if (card.ownerId === activePlayerId) return false;
+    // Leader is always targetable; characters must be rested
+    if (card.type === 'Leader') return true;
+    return card.zone === 'board' && card.tapped === true;
   }
   if (uiState.selectionMode === 'assignDon') {
     // Valid targets: OWN board cards or OWN leader (not the selected DON itself)
@@ -774,6 +802,9 @@ function renderPlayer(
   myPlayerId: PlayerId | null,
   skipHand = false,
   onTrashClick?: (cards: Card[]) => void,
+  phase = 'Main',
+  availableDon = 0,
+  turnNumber = 1,
 ): void {
   const isTop    = pos === 'top';
   const isActive = player.id === activePlayerId;
@@ -802,13 +833,14 @@ function renderPlayer(
 
   // DON row
   drawStack(scene, 'DON!!', player.donDeck.length, COL_DON_DECK, donY, H.donDeck);
-  // COST AREA — fixed width centered (max 10 DON cards)
+  // COST AREA — fixed width centered (max 10 DON cards); only show free (non-attached) DON!!
+  const freeDonIds  = player.donArea.filter(id => allCards[id]?.attachedTo === null);
   const donZoneX    = Math.round((CANVAS_W - DON_ZONE_W) / 2);
   drawZoneBackground(scene, donZoneX - 6, donY - 4, DON_ZONE_W + 12, CARD_H + 8, H.donArea, H.sep);
-  const costCount   = player.donArea.length;
+  const costCount   = freeDonIds.length;
   const costSpreadW = costCount > 0 ? costCount * (CARD_W + DON_GAP) - DON_GAP : CARD_W;
   const costX       = costCount > 0 ? Math.max(donZoneX, Math.round((CANVAS_W - costSpreadW) / 2)) : donZoneX;
-  drawSpread(scene, 'COST AREA', player.donArea, allCards, costX, donY, false, uiState, activePlayerId, onCardClick, newCardIds,
+  drawSpread(scene, 'COST AREA', freeDonIds, allCards, costX, donY, false, uiState, activePlayerId, onCardClick, newCardIds,
     null, false, DON_GAP,
     (id, gx, gy) => {
       const templateId = String(id).match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? String(id);
@@ -846,7 +878,12 @@ function renderPlayer(
       const lx = Math.round(COL_LEADER - (CARD_W * (LEADER_SCALE - 1)) / 2);
       const ly = Math.round(midY      - (CARD_H * (LEADER_SCALE - 1)) / 2);
       registerDropZone(lx, ly, player.leader, player.id, Math.round(CARD_W * LEADER_SCALE), Math.round(CARD_H * LEADER_SCALE));
-      drawCard(scene, lc, lx, ly, false, isLeaderSelected, isTarget, () => onCardClick(player.leader!), false, donCount, false, false, undefined, LEADER_SCALE);
+      const leaderActivatedEff = (lc.effects ?? []).find(e => e.trigger === 'Activated');
+      const leaderActivatedDonCost = leaderActivatedEff?.condition?.type === 'HasRestingDon' ? leaderActivatedEff.condition.count : 0;
+      const leaderCanActivate = leaderActivatedEff !== undefined && availableDon >= leaderActivatedDonCost;
+      const leaderCanAttack = turnNumber > 2;
+      const isLeaderPlayable = isActive && phase === 'Main' && !lc.tapped && (leaderCanAttack || leaderCanActivate);
+      drawCard(scene, lc, lx, ly, false, isLeaderSelected, isTarget, () => onCardClick(player.leader!), false, donCount, false, false, undefined, LEADER_SCALE, isLeaderPlayable);
     }
   } else {
     addRect(scene, COL_LEADER, midY, CARD_W, CARD_H, H.empty, 0.08);
@@ -890,6 +927,14 @@ function renderPlayer(
         c => c.type === 'DON' && c.attachedTo === id
       ).length;
       const isDA  = id === doubleAttackerId && (card.keywords ?? []).includes('DoubleAttack');
+      const hasRush = (card.keywords ?? []).includes('Rush') || (card.temporaryKeywords ?? []).includes('Rush');
+      const justPlayed = newCardIds.has(id);
+      const canAttack = !justPlayed || hasRush;
+      const activatedEff = (card.effects ?? []).find(e => e.trigger === 'Activated');
+      const activatedDonCost = activatedEff?.condition?.type === 'HasRestingDon' ? activatedEff.condition.count : 0;
+      const activatedAttachedCost = activatedEff?.condition?.type === 'HasAttachedDon' ? activatedEff.condition.count : 0;
+      const canActivate = activatedEff !== undefined && availableDon >= activatedDonCost && donCount >= activatedAttachedCost;
+      const isBoardPlayable = isActive && phase === 'Main' && !card.tapped && ((turnNumber > 2 && canAttack) || canActivate);
       const cardX = boardStartX + i * (CARD_W + GAP);
       registerDropZone(cardX, boardY, id, player.id);
       drawCard(
@@ -901,6 +946,9 @@ function renderPlayer(
         donCount,
         false,
         isDA,
+        undefined,
+        1,
+        isBoardPlayable,
       );
     });
   }
@@ -924,6 +972,8 @@ function drawHandFan(
   newCardIds: ReadonlySet<CardId>,
   counterDefenderId: PlayerId | null,
   blockerLocked: boolean,
+  phase: string,
+  availableDon: number,
 ): void {
   const ids = player.hand;
   const n   = ids.length;
@@ -961,6 +1011,13 @@ function drawHandFan(
       && card.ownerId === counterDefenderId
       && card.zone === 'hand'
       && (card.counter ?? 0) > 0;
+    const isPlayable = !faceDown
+      && !isCounter
+      && counterDefenderId === null
+      && player.id === activePlayerId
+      && phase === 'Main'
+      && card.type !== 'DON'
+      && card.cost <= availableDon;
 
     const cardContainer = new Container();
     cardContainer.pivot.set(HAND_W / 2, HAND_H);
@@ -1010,6 +1067,11 @@ function drawHandFan(
       const border = new Graphics();
       border.rect(-2, -2, HAND_W + 4, HAND_H + 4);
       border.stroke({ color: 0x44ffcc, width: 2 });
+      cardContainer.addChild(border);
+    } else if (isPlayable) {
+      const border = new Graphics();
+      border.rect(-2, -2, HAND_W + 4, HAND_H + 4);
+      border.stroke({ color: 0x44cc44, width: 2 });
       cardContainer.addChild(border);
     }
 
@@ -1184,6 +1246,15 @@ export function renderGameState(
   const op = state.players[opId];
   if (me === undefined || op === undefined) return;
 
+  // Available DON!! for the active player (un-tapped, un-attached)
+  const activePl = state.players[state.activePlayerId];
+  const availableDon = activePl !== undefined
+    ? activePl.donArea.filter(id => {
+        const c = state.cards[id];
+        return c !== undefined && !c.tapped && c.attachedTo === null;
+      }).length
+    : 0;
+
   // Defender ID (non-active player) — used to highlight counter-playable hand cards
   const counterDefenderId = state.activeCombat !== null
     ? (state.activePlayerId === meId ? opId : meId)
@@ -1203,8 +1274,8 @@ export function renderGameState(
 
   // Render both players without hand (fan is drawn last so it stays above everything)
   const trashCb = (cards: Card[]) => _onTrashClick?.(cards);
-  renderPlayer(scene, op, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId, true,  trashCb);
-  renderPlayer(scene, me, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId, true,  trashCb);
+  renderPlayer(scene, op, state.cards, 'top',    uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId, true,  trashCb, state.phase, availableDon, state.turnNumber);
+  renderPlayer(scene, me, state.cards, 'bottom', uiState, onCardClick, newBoardIds, state.activePlayerId, counterDefenderId, hideCards, combatViewDefenderId, doubleAttackerId, myPlayerId, true,  trashCb, state.phase, availableDon, state.turnNumber);
 
   // Hand face-down logic (mirrors renderPlayer logic)
   const opHandFaceDown = myPlayerId !== null
@@ -1215,6 +1286,6 @@ export function renderGameState(
     : hideCards || (combatViewDefenderId !== null ? me.id !== combatViewDefenderId : me.id !== state.activePlayerId);
   const blockerLockedGlobal = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
 
-  drawHandFan(scene, op, state.cards, P2_HAND_Y, opHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal);
-  drawHandFan(scene, me, state.cards, P1_HAND_Y, meHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal);
+  drawHandFan(scene, op, state.cards, P2_HAND_Y, opHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal, state.phase, availableDon);
+  drawHandFan(scene, me, state.cards, P1_HAND_Y, meHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal, state.phase, availableDon);
 }

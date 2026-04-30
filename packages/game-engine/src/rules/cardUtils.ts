@@ -23,7 +23,7 @@ export function calculatePower(cardId: CardId, state: GameState): number {
     (c) => c.type === 'DON' && c.attachedTo === cardId,
   ).length;
 
-  return card.power + donAttached * 1000 + (card.powerModifier ?? 0);
+  return card.power + donAttached * 1000 + (card.powerModifier ?? 0) + (card.powerModifierOT ?? 0);
 }
 
 // ─── clearPowerModifiers ──────────────────────────────────────────────────────
@@ -38,6 +38,33 @@ export function clearPowerModifiers(state: GameState, cardIds: readonly CardId[]
     if (updatedCards[id]?.powerModifier !== undefined) {
       const { powerModifier: _pm, ...rest } = updatedCards[id]!;
       void _pm;
+      updatedCards[id] = rest;
+      changed = true;
+    }
+  }
+  if (!changed) return state;
+  return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+}
+
+// ─── clearOppTurnModifiers ────────────────────────────────────────────────────
+
+/**
+ * Clear `powerModifierOT` (EndOfOpponentTurn) from all cards of `playerId`.
+ * Called at the start of that player's turn (i.e. after the opponent's turn ended).
+ */
+export function clearOppTurnModifiers(state: GameState, playerId: PlayerId): GameState {
+  const player = state.players[playerId];
+  if (player === undefined) return state;
+
+  const ids: CardId[] = [...player.board];
+  if (player.leader !== null) ids.push(player.leader);
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  let changed = false;
+  for (const id of ids) {
+    if (updatedCards[id]?.powerModifierOT !== undefined) {
+      const { powerModifierOT: _ot, ...rest } = updatedCards[id]!;
+      void _ot;
       updatedCards[id] = rest;
       changed = true;
     }
@@ -98,6 +125,45 @@ export function sendToTrash(state: GameState, cardId: CardId): GameState {
     ...owner,
     board: owner.board.filter((id) => id !== cardId),
     trash: [...owner.trash, cardId],
+  };
+
+  return {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: { ...state.players, [card.ownerId]: updatedOwner },
+  };
+}
+
+// ─── sendToRemoved ────────────────────────────────────────────────────────────
+
+/**
+ * Remove a card from the game entirely (Banish keyword).
+ * Card goes to 'removed' zone — NOT added to trash.
+ * Attached DON are detached and returned to donArea (untapped).
+ * Does NOT trigger OnKO or OnLeaveField — callers must do that separately.
+ */
+export function sendToRemoved(state: GameState, cardId: CardId): GameState {
+  const card = state.cards[cardId];
+  if (card === undefined) return state;
+
+  const owner = state.players[card.ownerId];
+  if (owner === undefined) return state;
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+
+  for (const [id, c] of Object.entries(state.cards)) {
+    if (c.type === 'DON' && c.attachedTo === cardId) {
+      updatedCards[id] = { ...c, attachedTo: null, tapped: false };
+    }
+  }
+
+  const { powerModifier: _pm, ...cardNoModifier } = card;
+  void _pm;
+  updatedCards[cardId] = { ...cardNoModifier, zone: 'removed' };
+
+  const updatedOwner: PlayerState = {
+    ...owner,
+    board: owner.board.filter((id) => id !== cardId),
   };
 
   return {

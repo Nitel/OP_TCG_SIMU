@@ -24,7 +24,8 @@ export type Zone =
   | 'life'
   | 'donDeck'
   | 'donArea'
-  | 'trash';
+  | 'trash'
+  | 'removed';
 
 export type CardColor = 'Red' | 'Blue' | 'Green' | 'Purple' | 'Black' | 'Yellow';
 
@@ -47,8 +48,8 @@ export type TargetSelector =
   | { readonly scope: 'Self' }
   | { readonly scope: 'Attacker' }
   | { readonly scope: 'OriginalTarget' }
-  | { readonly scope: 'AllOpponentCharacters' }
-  | { readonly scope: 'AllOwnCharacters' }
+  | { readonly scope: 'AllOpponentCharacters'; readonly maxPower?: number }
+  | { readonly scope: 'AllOwnCharacters'; readonly maxPower?: number }
   | { readonly scope: 'OpponentLeader' }
   | { readonly scope: 'OwnLeader' }
   | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number }
@@ -56,7 +57,7 @@ export type TargetSelector =
 
 // ─── DSL — Duration ───────────────────────────────────────────────────────────
 
-export type EffectDuration = 'EndOfTurn' | 'EndOfBattle' | 'Permanent';
+export type EffectDuration = 'EndOfTurn' | 'EndOfBattle' | 'EndOfOpponentTurn' | 'Permanent';
 
 // ─── DSL — Deck filter ────────────────────────────────────────────────────────
 
@@ -78,7 +79,7 @@ export type EffectAction =
   | { readonly type: 'GiveDon'; readonly count: number }
   | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' }
   | { readonly type: 'TakeLifeToHand'; readonly count: number }
-  | { readonly type: 'AttachDon'; readonly count: number; readonly target: TargetSelector }
+  | { readonly type: 'AttachDon'; readonly count: number; readonly target: TargetSelector; readonly from?: 'active' | 'rested' }
   | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration }
   | { readonly type: 'Rest'; readonly target: TargetSelector }
   | { readonly type: 'RemoveLife'; readonly count: number }
@@ -87,19 +88,28 @@ export type EffectAction =
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
 export type EffectTrigger =
-  | 'OnPlay'      // When this card is played from hand to the board
-  | 'OnAttack'    // When this card declares an attack
-  | 'OnKO'        // When this card is KO'd
-  | 'OnBlock'     // When this card becomes a blocker
-  | 'Trigger'     // When this card is revealed from the Life zone
-  | 'Activated';  // Activated ability during Main phase (future)
+  | 'OnPlay'              // When this card is played from hand to the board
+  | 'OnAttack'            // When this card declares an attack
+  | 'OnKO'                // When this card is KO'd (by any means)
+  | 'OnLeaveField'        // When this card leaves the board (KO or returned to hand)
+  | 'OnBlock'             // When this card becomes a blocker
+  | 'Trigger'             // When this card is revealed from the Life zone
+  | 'Activated'           // Activated ability during Main phase — [DON!! xN] cost
+  | 'StartOfTurn'         // At the start of the card owner's turn (Refresh phase)
+  | 'StartOfOpponentTurn' // At the start of the opponent's turn
+  | 'StartOfMainPhase'    // When the active player enters Main phase
+  | 'EndOfTurn';          // When the active player enters End phase
 
 // ─── DSL — Condition ──────────────────────────────────────────────────────────
 
 export type EffectCondition =
   | { readonly type: 'Always' }
   | { readonly type: 'TurnCount'; readonly min?: number; readonly max?: number }
-  | { readonly type: 'HasRestingDon'; readonly count: number };
+  | { readonly type: 'HasRestingDon'; readonly count: number }
+  /** True when the source card (leader) has at least `count` DON!! attached to it */
+  | { readonly type: 'LeaderHasAttachedDon'; readonly count: number }
+  /** True when the source card itself has at least `count` DON!! attached to it */
+  | { readonly type: 'HasAttachedDon'; readonly count: number };
 
 // ─── DSL — CardEffect ─────────────────────────────────────────────────────────
 
@@ -130,10 +140,15 @@ export interface Card {
   /** DSL-encoded card effects (OnPlay, OnAttack, OnKO, Trigger, …) */
   readonly effects?: readonly CardEffect[];
   /**
-   * Temporary power modifier (e.g. OnAttack PowerBoost).
-   * Added to calculatePower; cleared at end of battle (EndOfBattle) or end of turn (EndOfTurn).
+   * Temporary power modifier (EndOfTurn / EndOfBattle duration).
+   * Cleared at end of battle (attacker) or end of own turn.
    */
   readonly powerModifier?: number;
+  /**
+   * Power modifier that persists through the opponent's turn (EndOfOpponentTurn duration).
+   * Applied during your Main Phase; cleared at the start of your NEXT turn (applyRefresh).
+   */
+  readonly powerModifierOT?: number;
   /** Temporary keywords granted by GainKeyword effects — cleared at end of turn */
   readonly temporaryKeywords?: readonly CardKeyword[];
 }
@@ -183,6 +198,10 @@ export interface GameState {
   readonly firstPlayerId: PlayerId;
   /** Players who have already made their mulligan decision */
   readonly mulliganDecided: readonly PlayerId[];
+  /** Cards placed on the board during the current turn (cleared on turn change) */
+  readonly newBoardIds: readonly CardId[];
+  /** Cards that have used their Activated ability this turn (once-per-turn enforcement) */
+  readonly activatedAbilityIds: readonly CardId[];
 }
 
 // ─── Player setup (used in StartGame) ────────────────────────────────────────
@@ -371,5 +390,7 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     winner: null,
     firstPlayerId: p1,
     mulliganDecided: [],
+    newBoardIds: [],
+    activatedAbilityIds: [],
   };
 }

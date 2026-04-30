@@ -137,7 +137,7 @@ function TrashViewPanel({ cards, onClose }: { cards: Card[]; onClose: () => void
         </div>
 
         {/* Inline preview */}
-        <div style={{ width: 210, flexShrink: 0, minHeight: 294 }}>
+        <div style={{ width: 300, flexShrink: 0, minHeight: 420 }}>
           {hovered !== null && (() => {
             const templateId = hovered.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
             const imgUrl = templateId !== undefined ? `${CDN_BASE}/card-images/${templateId}.png` : null;
@@ -148,17 +148,17 @@ function TrashViewPanel({ cards, onClose }: { cards: Card[]; onClose: () => void
             return (
               <div style={{ border: '1px solid rgba(184,134,11,0.4)', borderRadius: 6, overflow: 'hidden', background: '#0d0d2a' }}>
                 {imgUrl !== null ? (
-                  <img src={imgUrl} alt={hovered.name} style={{ width: 210, height: 294, display: 'block', objectFit: 'cover' }} />
+                  <img src={imgUrl} alt={hovered.name} style={{ width: 300, height: 420, display: 'block', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: 210, height: 294, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1a3a' }}>
-                    <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 12, textAlign: 'center', padding: 8 }}>{hovered.name}</span>
+                  <div style={{ width: 300, height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a1a3a' }}>
+                    <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 14, textAlign: 'center', padding: 8 }}>{hovered.name}</span>
                   </div>
                 )}
-                <div style={{ padding: '6px 10px' }}>
-                  <div style={{ color: '#fff', fontFamily: 'monospace', fontWeight: 'bold', fontSize: 12, marginBottom: 4 }}>{hovered.name}</div>
-                  <div style={{ color: '#aaaacc', fontFamily: 'monospace', fontSize: 10 }}>{infoParts.join('  •  ')}</div>
-                  {(hovered.counter ?? 0) > 0 && <div style={{ color: '#44ffcc', fontFamily: 'monospace', fontSize: 10 }}>Counter +{hovered.counter}</div>}
-                  {kws.length > 0 && <div style={{ color: '#ffee44', fontFamily: 'monospace', fontSize: 10 }}>{kws.join(' / ')}</div>}
+                <div style={{ padding: '8px 12px' }}>
+                  <div style={{ color: '#fff', fontFamily: 'monospace', fontWeight: 'bold', fontSize: 14, marginBottom: 4 }}>{hovered.name}</div>
+                  <div style={{ color: '#aaaacc', fontFamily: 'monospace', fontSize: 12 }}>{infoParts.join('  •  ')}</div>
+                  {(hovered.counter ?? 0) > 0 && <div style={{ color: '#44ffcc', fontFamily: 'monospace', fontSize: 12 }}>Counter +{hovered.counter}</div>}
+                  {kws.length > 0 && <div style={{ color: '#ffee44', fontFamily: 'monospace', fontSize: 12 }}>{kws.join(' / ')}</div>}
                 </div>
               </div>
             );

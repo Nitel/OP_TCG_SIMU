@@ -88,7 +88,7 @@ function buildCombatState(attackerPower: number, targetPower: number): GameState
   const attackerId = makeCardId('attacker');
   const targetId   = makeCardId('target');
   const attacker   = makeChar('attacker', 'p1', attackerPower);
-  const target     = makeChar('target', 'p2', targetPower);
+  const target     = makeChar('target', 'p2', targetPower, { tapped: true });
 
   return {
     ...base,
@@ -207,6 +207,39 @@ describe('DeclareAttack', () => {
     });
     expect(isGameError(result)).toBe(true);
     if (isGameError(result)) expect(result.code).toBe('NOT_ACTIVE_PLAYER');
+  });
+
+  it('retourne TARGET_NOT_RESTED si le personnage cible est actif (non reposé)', () => {
+    const state = buildCombatState(3000, 2000);
+    const targetId = makeCardId('target');
+    const s = {
+      ...state,
+      cards: { ...state.cards, [targetId]: { ...state.cards[targetId]!, tapped: false } },
+    };
+    const result = applyAction(s, {
+      type: 'DeclareAttack',
+      playerId: P1,
+      attackerId: makeCardId('attacker'),
+      targetId,
+    });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('TARGET_NOT_RESTED');
+  });
+
+  it('peut attaquer le leader adverse même s\'il n\'est pas reposé', () => {
+    const state = buildCombatState(3000, 2000);
+    const leaderId = state.players[P2]!.leader!;
+    const s = {
+      ...state,
+      cards: { ...state.cards, [leaderId]: { ...state.cards[leaderId]!, tapped: false } },
+    };
+    const result = applyAction(s, {
+      type: 'DeclareAttack',
+      playerId: P1,
+      attackerId: makeCardId('attacker'),
+      targetId: leaderId,
+    });
+    expect(isGameError(result)).toBe(false);
   });
 });
 
@@ -910,5 +943,97 @@ describe('checkVictoryCondition', () => {
   it('retourne le vainqueur si winner est défini dans le state', () => {
     const state: GameState = { ...bootstrapGame(), winner: P1 };
     expect(checkVictoryCondition(state)).toBe(P1);
+  });
+});
+
+// ─── Summon sickness ──────────────────────────────────────────────────────────
+
+describe('Summon sickness', () => {
+  /** Advance to the active player's Main phase at turn 3+ so attacks are normally allowed */
+  function advanceToMainTurn3(): GameState {
+    let s = bootstrapGame();
+    // Force to turn 3 Main so turnNumber > 2 restriction is cleared
+    s = { ...s, turnNumber: 3, phase: 'Main', activePlayerId: P1 };
+    return s;
+  }
+
+  it('un personnage posé ce tour ne peut pas attaquer sans Rush', () => {
+    const base = advanceToMainTurn3();
+    const target = makeChar('target', 'p2', 1000, { zone: 'board' });
+    const p2 = base.players[P2]!;
+    let s: GameState = {
+      ...base,
+      cards: { ...base.cards, [target.id]: target },
+      players: { ...base.players, [P2]: { ...p2, board: [...p2.board, target.id] } },
+    };
+
+    // Play a character (cost 0, no Rush)
+    const newChar = makeChar('new-char', 'p1', 2000, { zone: 'hand', cost: 0 });
+    const p1 = s.players[P1]!;
+    s = {
+      ...s,
+      cards: { ...s.cards, [newChar.id]: newChar },
+      players: { ...s.players, [P1]: { ...p1, hand: [...p1.hand, newChar.id] } },
+    };
+    const afterPlay = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: newChar.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    // Immediately try to attack → summon sickness
+    const result = applyAction(afterPlay, { type: 'DeclareAttack', playerId: P1, attackerId: newChar.id, targetId: target.id });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('SUMMON_SICKNESS');
+  });
+
+  it('un personnage posé ce tour avec Rush peut attaquer immédiatement', () => {
+    const base = advanceToMainTurn3();
+    const target = makeChar('target2', 'p2', 1000, { zone: 'board', tapped: true });
+    const p2 = base.players[P2]!;
+    let s: GameState = {
+      ...base,
+      cards: { ...base.cards, [target.id]: target },
+      players: { ...base.players, [P2]: { ...p2, board: [...p2.board, target.id] } },
+    };
+
+    // Play a character with Rush
+    const rushChar = makeChar('rush-char', 'p1', 2000, { zone: 'hand', cost: 0, keywords: ['Rush'] });
+    const p1 = s.players[P1]!;
+    s = {
+      ...s,
+      cards: { ...s.cards, [rushChar.id]: rushChar },
+      players: { ...s.players, [P1]: { ...p1, hand: [...p1.hand, rushChar.id] } },
+    };
+    const afterPlay = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: rushChar.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    // Rush → can attack immediately
+    const result = applyAction(afterPlay, { type: 'DeclareAttack', playerId: P1, attackerId: rushChar.id, targetId: target.id });
+    expect(isGameError(result)).toBe(false);
+  });
+
+  it('un personnage posé au tour précédent peut attaquer normalement', () => {
+    const base = advanceToMainTurn3();
+    const target = makeChar('target3', 'p2', 1000, { zone: 'board', tapped: true });
+    const p2 = base.players[P2]!;
+    let s: GameState = {
+      ...base,
+      cards: { ...base.cards, [target.id]: target },
+      players: { ...base.players, [P2]: { ...p2, board: [...p2.board, target.id] } },
+    };
+
+    // Inject the card directly into newBoardIds (as if played last turn) — but here we put it on the board
+    // without going through PlayCharacterFromHand, so newBoardIds stays empty
+    const oldChar = makeChar('old-char', 'p1', 2000, { zone: 'board' });
+    const p1 = s.players[P1]!;
+    s = {
+      ...s,
+      cards: { ...s.cards, [oldChar.id]: oldChar },
+      players: { ...s.players, [P1]: { ...p1, board: [...p1.board, oldChar.id] } },
+      // newBoardIds is empty → card was played a previous turn
+    };
+
+    const result = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId: oldChar.id, targetId: target.id });
+    expect(isGameError(result)).toBe(false);
   });
 });

@@ -8,6 +8,7 @@ interface Props {
   myPlayerId?: PlayerId | null;
   notification?: { cardId: CardId; label: string } | null;
   onDismissNotification?: () => void;
+  onReturnToMenu?: () => void;
 }
 
 const hudPanel: CSSProperties = {
@@ -22,7 +23,7 @@ const hudPanel: CSSProperties = {
   alignItems: 'center',
 };
 
-export function GameUI({ gameState, uiState, myPlayerId, notification, onDismissNotification }: Props) {
+export function GameUI({ gameState, uiState, myPlayerId, notification, onDismissNotification, onReturnToMenu }: Props) {
   const { phase, turnNumber, activePlayerId, playerOrder, players } = gameState;
 
   const [p1Id, p2Id] = playerOrder;
@@ -107,9 +108,10 @@ export function GameUI({ gameState, uiState, myPlayerId, notification, onDismiss
           top: 0, left: 0, width: '100%', height: '100%',
           background: 'radial-gradient(ellipse at center, rgba(30,20,5,0.85) 0%, rgba(0,0,0,0.92) 100%)',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          pointerEvents: 'none',
+          pointerEvents: 'auto',
         }}>
           <div style={{
             textAlign: 'center',
@@ -135,6 +137,27 @@ export function GameUI({ gameState, uiState, myPlayerId, notification, onDismiss
             }}>
               VICTOIRE
             </div>
+            {onReturnToMenu !== undefined && (
+              <button
+                onClick={onReturnToMenu}
+                style={{
+                  marginTop: 32,
+                  padding: '12px 36px',
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                  letterSpacing: 2,
+                  color: '#ffd700',
+                  background: 'rgba(10,15,30,0.9)',
+                  border: '1px solid rgba(184,134,11,0.7)',
+                  borderRadius: 8,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.6)',
+                }}
+              >
+                Retour au menu
+              </button>
+            )}
           </div>
           <style>{`
             @keyframes victoryPulse {

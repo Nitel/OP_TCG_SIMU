@@ -86,9 +86,11 @@ function declareAttack(state: GameState, botId: PlayerId): GameAction | null {
     ...(player.leader !== null && !state.cards[player.leader]?.tapped ? [player.leader] : []),
   ];
 
-  // Targets: opponent characters (weakest first) then leader
+  // Targets: rested opponent characters (weakest first) then leader (always targetable)
   const targetCandidates: CardId[] = [
-    ...[...opponent.board].sort((a, b) => calcPower(a, state) - calcPower(b, state)),
+    ...[...opponent.board]
+      .filter(id => state.cards[id]?.tapped === true)
+      .sort((a, b) => calcPower(a, state) - calcPower(b, state)),
     ...(opponent.leader !== null ? [opponent.leader] : []),
   ];
 

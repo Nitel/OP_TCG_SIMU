@@ -59,9 +59,15 @@ function selectTargets(
         : [];
 
     case 'AllOpponentCharacters':
+      if (selector.maxPower !== undefined) {
+        return (opponent?.board ?? []).filter((id) => (state.cards[id]?.power ?? 0) <= selector.maxPower!);
+      }
       return opponent?.board ?? [];
 
     case 'AllOwnCharacters':
+      if (selector.maxPower !== undefined) {
+        return (ownPlayer?.board ?? []).filter((id) => (state.cards[id]?.power ?? 0) <= selector.maxPower!);
+      }
       return ownPlayer?.board ?? [];
 
     case 'ChooseOpponentCharacter': {
@@ -129,9 +135,12 @@ function resolveAction(
       const targets = selectTargets(action.target, context, state);
       let next = state;
       for (const id of targets) {
+        const card = next.cards[id]; // read BEFORE trash
         next = sendToTrash(next, id);
-        // Note: OnKO effects of the KO'd card are NOT re-triggered here
-        // to avoid infinite recursion. Callers (combat.ts) handle top-level OnKO.
+        if (card?.effects?.length) {
+          next = resolveEffects(card.effects, 'OnKO', { sourceCardId: id, sourcePlayerId: card.ownerId }, next);
+          next = resolveEffects(card.effects, 'OnLeaveField', { sourceCardId: id, sourcePlayerId: card.ownerId }, next);
+        }
       }
       return next;
     }
@@ -141,7 +150,12 @@ function resolveAction(
       const targets = selectTargets(action.target, context, state);
       let next = state;
       for (const id of targets) {
+        const card = next.cards[id]; // read BEFORE moving
+        const wasOnBoard = card?.zone === 'board';
         next = returnToHand(next, id);
+        if (wasOnBoard && card?.effects?.length) {
+          next = resolveEffects(card.effects, 'OnLeaveField', { sourceCardId: id, sourcePlayerId: card.ownerId }, next);
+        }
       }
       return next;
     }
@@ -151,13 +165,13 @@ function resolveAction(
       const targets = selectTargets(action.target, context, state);
       if (targets.length === 0) return state;
       const updatedCards: Record<string, Card> = { ...state.cards };
+      const isOT = action.duration === 'EndOfOpponentTurn';
       for (const id of targets) {
         const card = state.cards[id];
         if (card !== undefined) {
-          updatedCards[id] = {
-            ...card,
-            powerModifier: (card.powerModifier ?? 0) + action.amount,
-          };
+          updatedCards[id] = isOT
+            ? { ...card, powerModifierOT: (card.powerModifierOT ?? 0) + action.amount }
+            : { ...card, powerModifier: (card.powerModifier ?? 0) + action.amount };
         }
       }
       return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
@@ -241,14 +255,14 @@ function resolveAction(
         };
       }
 
-      // Positive: give opponent DON!! cards from their donDeck
+      // Positive: give opponent DON!! cards from their donDeck — arrive as rested (OPTcg rule)
       if (opponent.donDeck.length === 0) return state;
       const count = Math.min(action.count, opponent.donDeck.length);
       const drawn = opponent.donDeck.slice(0, count);
       const remaining = opponent.donDeck.slice(count);
       const updatedCards: Record<string, Card> = { ...state.cards };
       for (const id of drawn) {
-        updatedCards[id] = { ...updatedCards[id]!, zone: 'donArea' as const };
+        updatedCards[id] = { ...updatedCards[id]!, zone: 'donArea' as const, tapped: true };
       }
       const updatedOpponent: PlayerState = {
         ...opponent,
@@ -292,10 +306,11 @@ function resolveAction(
       const targetId = targets[0]!;
       const player = state.players[context.sourcePlayerId];
       if (player === undefined) return state;
-      // Find untapped, unattached DON cards in the player's donArea
+      // Find eligible DON cards: untapped (active) by default, or tapped (rested) when from='rested'
       const freeDon = player.donArea.filter((id) => {
         const d = state.cards[id];
-        return d !== undefined && !d.tapped && d.attachedTo === null;
+        if (d === undefined || d.attachedTo !== null) return false;
+        return action.from === 'rested' ? d.tapped : !d.tapped;
       });
       const count = Math.min(action.count, freeDon.length);
       if (count === 0) return state;
@@ -451,11 +466,39 @@ export function resolveEffects(
       }
       if (cond.type === 'HasRestingDon') {
         const player = next.players[context.sourcePlayerId];
-        const resting = (player?.donArea ?? []).filter((id) => {
-          const d = next.cards[id];
-          return d !== undefined && d.tapped && d.attachedTo === null;
-        }).length;
-        if (resting < cond.count) continue;
+        if (trigger === 'Activated') {
+          // Guard: "[DON!! xN]" = need N active DON!! to activate; pay cost by resting them.
+          const activeDon = (player?.donArea ?? []).filter((id) => {
+            const d = next.cards[id];
+            return d !== undefined && !d.tapped && d.attachedTo === null;
+          });
+          if (activeDon.length < cond.count) continue;
+          // Pay activation cost: rest N active DON!!
+          for (const donId of activeDon.slice(0, cond.count)) {
+            next = { ...next, cards: { ...next.cards, [donId]: { ...next.cards[donId]!, tapped: true } } };
+          }
+        } else {
+          // Passive condition: "if you have N or more rested DON!!"
+          const resting = (player?.donArea ?? []).filter((id) => {
+            const d = next.cards[id];
+            return d !== undefined && d.tapped && d.attachedTo === null;
+          }).length;
+          if (resting < cond.count) continue;
+        }
+      }
+      if (cond.type === 'LeaderHasAttachedDon') {
+        // Source card (leader) must have at least `count` DON!! attached to it
+        const attached = Object.values(next.cards).filter(
+          (d) => d.type === 'DON' && d.attachedTo === context.sourceCardId,
+        ).length;
+        if (attached < cond.count) continue;
+      }
+      if (cond.type === 'HasAttachedDon') {
+        // Source card must have at least `count` DON!! attached to it
+        const attached = Object.values(next.cards).filter(
+          (d) => d.type === 'DON' && d.attachedTo === context.sourceCardId,
+        ).length;
+        if (attached < cond.count) continue;
       }
       // 'Always' → always passes
     }

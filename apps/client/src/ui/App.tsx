@@ -322,14 +322,49 @@ export function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState, isVsBot]);
 
-  // ── Auto-advance DON!! phase for human (assign DON during Main instead) ──
+  // ── Auto-advance transient phases (DON, End, Draw) ──────────────────────────
+  // Merged into a single effect to avoid cascading re-renders (flickering).
   useEffect(() => {
-    if (gameState === null || gameState.phase !== 'DON' || isNetwork) return;
+    if (gameState === null) return;
+
+    // Network: dispatch individually so the socket receives each action
+    if (isNetwork) {
+      const phase = gameState.phase;
+      if (phase !== 'End' && phase !== 'Draw') return;
+      if (myPlayerId !== null && gameState.activePlayerId !== myPlayerId) return;
+      dispatch(phase === 'Draw'
+        ? { type: 'DrawPhase', playerId: gameState.activePlayerId }
+        : { type: 'EndPhase', playerId: gameState.activePlayerId });
+      return;
+    }
+
+    // Local / vsBot: cascade all transient phases in one synchronous pass → one setGameState
     const humanId = isVsBot ? makePlayerId('P1') : null;
-    if (humanId !== null && gameState.activePlayerId !== humanId) return;
-    dispatch({ type: 'EndPhase', playerId: gameState.activePlayerId });
+    const isAutoPhase = (s: GameState) =>
+      s.phase === 'DON' || s.phase === 'End' || s.phase === 'Draw';
+
+    let current = gameState;
+    let advanced = false;
+    while (isAutoPhase(current)) {
+      if (humanId !== null && current.activePlayerId !== humanId) break;
+      const action = current.phase === 'Draw'
+        ? { type: 'DrawPhase' as const, playerId: current.activePlayerId }
+        : { type: 'EndPhase' as const, playerId: current.activePlayerId };
+      const next = applyAction(current, action);
+      if (isGameError(next)) break;
+      current = next;
+      advanced = true;
+    }
+    if (!advanced) return;
+
+    const playerChanged = current.activePlayerId !== gameState.activePlayerId;
+    setGameState(prev => (prev !== gameState ? prev : current));
+    if (playerChanged) {
+      setNeedsHandoff(true);
+      prevActivePlayerRef.current = current.activePlayerId;
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameState, isVsBot, isNetwork]);
+  }, [gameState, isVsBot, isNetwork, myPlayerId]);
 
   // ── Click state machine ───────────────────────────────────────────────────
   const handleCardClick = useCallback((cardId: CardId) => {
@@ -604,6 +639,7 @@ export function App() {
           myPlayerId={isNetwork ? myPlayerId : isVsBot ? makePlayerId('P1') : null}
           notification={notification}
           onDismissNotification={() => setNotification(null)}
+          onReturnToMenu={() => setAppScreen('lobby')}
         />
       </div>
 

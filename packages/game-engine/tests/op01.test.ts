@@ -490,8 +490,8 @@ describe("OP01-115 Elephant's Marchoo: Trigger depuis life", () => {
 
 // ── 6. HasRestingDon condition — Activated skipped quand DON insuffisant ───────
 
-describe('HasRestingDon condition: Activated ignoré si pas assez de DON resting', () => {
-  it("l'effet Activated n'est pas résolu si la condition HasRestingDon n'est pas remplie", () => {
+describe('HasRestingDon condition on Activated: coût en DON actifs', () => {
+  it("l'effet Activated n'est pas résolu si pas assez de DON actifs (coût insuffisant)", () => {
     const base = bootstrapGame();
 
     const conditionEffect: CardEffect = {
@@ -513,8 +513,8 @@ describe('HasRestingDon condition: Activated ignoré si pas assez de DON resting
     });
     const zoroId = zoro.id;
 
-    // Set up: P1 has only 1 resting DON (condition requires 3)
-    const don = { ...makeDon('test-don-a', 'p1'), tapped: true, attachedTo: null as null };
+    // P1 has only 1 active DON (cost requires 3)
+    const don = makeDon('test-don-a', 'p1'); // untapped = active
     const state: GameState = {
       ...base,
       cards: { ...base.cards, [zoroId]: zoro, [don.id]: don },
@@ -530,7 +530,6 @@ describe('HasRestingDon condition: Activated ignoré si pas assez de DON resting
 
     const powerBefore = calculatePower(zoroId, state);
 
-    // Resolve Activated directly — condition not met → no change
     const after = resolveEffects(
       [conditionEffect],
       'Activated',
@@ -541,7 +540,7 @@ describe('HasRestingDon condition: Activated ignoré si pas assez de DON resting
     expect(calculatePower(zoroId, after)).toBe(powerBefore);
   });
 
-  it("l'effet Activated se résout quand HasRestingDon est satisfaite", () => {
+  it("l'effet Activated se résout quand assez de DON actifs sont disponibles", () => {
     const base = bootstrapGame();
 
     const conditionEffect: CardEffect = {
@@ -563,23 +562,26 @@ describe('HasRestingDon condition: Activated ignoré si pas assez de DON resting
     });
     const zoroId = zoro.id;
 
-    // 2 resting DON (satisfies count: 2)
-    const don1 = { ...makeDon('test-don-b1', 'p1'), tapped: true, attachedTo: null as null };
-    const don2 = { ...makeDon('test-don-b2', 'p1'), tapped: true, attachedTo: null as null };
+    // 2 active (untapped) DON — cost requires 2
+    const don1 = makeDon('test-don-b1', 'p1');
+    const don2 = makeDon('test-don-b2', 'p1');
+    const p1Before = base.players[P1]!;
     const state: GameState = {
       ...base,
       cards: { ...base.cards, [zoroId]: zoro, [don1.id]: don1, [don2.id]: don2 },
       players: {
         ...base.players,
         [P1]: {
-          ...base.players[P1]!,
-          board: [...base.players[P1]!.board, zoroId],
-          donArea: [...base.players[P1]!.donArea, don1.id, don2.id],
+          ...p1Before,
+          board: [...p1Before.board, zoroId],
+          donArea: [...p1Before.donArea, don1.id, don2.id],
         },
       },
     };
 
     const powerBefore = calculatePower(zoroId, state);
+    const donAreaBefore = state.players[P1]!.donArea.length;
+    const donDeckBefore = state.players[P1]!.donDeck.length;
 
     const after = resolveEffects(
       [conditionEffect],
@@ -588,6 +590,53 @@ describe('HasRestingDon condition: Activated ignoré si pas assez de DON resting
       state,
     );
 
+    // Effect resolved — DON!! are NOT consumed (just a guard condition)
     expect(calculatePower(zoroId, after)).toBe(powerBefore + 1000);
+  });
+});
+
+// ── ST21-015 — Activated GainKeyword Rush + summon sickness ──────────────────
+
+describe('ST21-015: Activated [DON!! x2] → GainKeyword Rush — peut attaquer le tour où posée', () => {
+  it('carte posée ce tour sans Rush permanent → Rush via Activated → DeclareAttack ok', () => {
+    const base = bootstrapGame();
+
+    // Card with Activated [DON!! x2] → GainKeyword Rush (ST21-015 pattern)
+    const activatedEffect: CardEffect = {
+      trigger: 'Activated',
+      condition: { type: 'HasRestingDon', count: 2 },
+      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+    };
+    const card = makeChar('ST21-015', 'p1', 4000, {
+      zone: 'hand',
+      cost: 0,
+      effects: [activatedEffect],
+    });
+
+    // Play the card → lands in newBoardIds (no permanent Rush)
+    let state = addToHand(base, card);
+    let result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.newBoardIds).toContain(card.id);
+
+    // Give P1 two active (untapped) DON!!
+    const don1 = makeDon('test-st21-don1', 'p1');
+    const don2 = makeDon('test-st21-don2', 'p1');
+    result = addFreeDon(result, [don1, don2]);
+
+    // Activate the ability → card gains Rush via temporaryKeywords
+    result = applyAction(result, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[card.id]?.temporaryKeywords).toContain('Rush');
+
+    // Add a target to P2's board (must be rested to be attackable)
+    const target = makeChar('target-p2', 'p2', 1000, { zone: 'board', tapped: true });
+    result = addToP2Board(result, target);
+
+    // DeclareAttack → must succeed despite summon sickness (Rush is in temporaryKeywords)
+    const attack = applyAction(result, { type: 'DeclareAttack', playerId: P1, attackerId: card.id, targetId: target.id });
+    expect(isGameError(attack)).toBe(false);
   });
 });
