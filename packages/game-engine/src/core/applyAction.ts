@@ -13,8 +13,9 @@ import type {
 } from '../types/index.js';
 import { makeGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
-import { clearPowerModifiers, clearOppTurnModifiers, clearTemporaryKeywords, hasKeyword } from '../rules/cardUtils.js';
+import { clearPowerModifiers, clearOppTurnModifiers, clearTemporaryKeywords, hasKeyword, calculatePower } from '../rules/cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
+import type { EffectContext } from '../effects/effectResolver.js';
 
 // ─── Phase helpers ────────────────────────────────────────────────────────────
 
@@ -385,6 +386,8 @@ function applyStartGame(
     newBoardIds: [],
     activatedAbilityIds: [],
     pendingOnKOInteraction: null,
+    pendingTargetInteraction: null,
+    pendingRevealInteraction: null,
   };
 }
 
@@ -1046,6 +1049,9 @@ function applyResolveOnKOInteraction(
   if (f.excludeSelf === true && action.cardId === pending.sourceCardId) {
     return makeGameError('INVALID_CHOICE', 'Cannot choose the card that triggered the OnKO effect');
   }
+  if (f.subType !== undefined && card.subTypes !== undefined && !card.subTypes.includes(f.subType)) {
+    return makeGameError('INVALID_CHOICE', `Card subtype "${card.subTypes}" does not include required "${f.subType}"`);
+  }
 
   // Play the chosen card for free (remove from hand, add to board)
   const updatedPlayer: PlayerState = {
@@ -1071,6 +1077,156 @@ function applyResolveOnKOInteraction(
       { sourceCardId: action.cardId, sourcePlayerId: action.playerId },
       next,
     );
+  }
+
+  return next;
+}
+
+// ─── ResolveTargetInteraction ─────────────────────────────────────────────────
+
+function applyResolveTargetInteraction(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveTargetInteraction' }>,
+): ActionResult {
+  const pending = state.pendingTargetInteraction;
+  if (pending === null) {
+    return makeGameError('NO_PENDING_INTERACTION', 'No pending target interaction to resolve');
+  }
+  if (pending.playerId !== action.playerId) {
+    return makeGameError('WRONG_PLAYER', `Player ${action.playerId} cannot resolve another player's target choice`);
+  }
+
+  const target = state.cards[action.targetCardId];
+  if (target === undefined || target.zone !== 'board' || target.type !== 'Character') {
+    return makeGameError('INVALID_TARGET', `Card ${action.targetCardId} is not a valid board character`);
+  }
+
+  const [p1, p2] = state.playerOrder;
+  const opponentOfSource = pending.sourcePlayerId === p1 ? p2 : p1;
+  const expectedOwner = pending.scope === 'ChooseOwnCharacter' ? pending.sourcePlayerId : opponentOfSource;
+  if (target.ownerId !== expectedOwner) {
+    return makeGameError('INVALID_TARGET', `Target belongs to wrong player for scope ${pending.scope}`);
+  }
+
+  if (pending.maxCost !== undefined && target.cost > pending.maxCost) {
+    return makeGameError('INVALID_TARGET', `Target cost ${target.cost} exceeds max ${pending.maxCost}`);
+  }
+  if (pending.maxPower !== undefined && calculatePower(action.targetCardId, state) > pending.maxPower) {
+    return makeGameError('INVALID_TARGET', `Target power exceeds max ${pending.maxPower}`);
+  }
+
+  let next: GameState = { ...state, pendingTargetInteraction: null };
+  const ctx: EffectContext = {
+    sourceCardId: pending.sourceCardId,
+    sourcePlayerId: pending.sourcePlayerId,
+    chosenTargetId: action.targetCardId,
+  };
+  const ctxNoTarget: EffectContext = {
+    sourceCardId: pending.sourceCardId,
+    sourcePlayerId: pending.sourcePlayerId,
+  };
+
+  // Execute the pending action with the chosen target (wrap in a CardEffect for resolveEffects)
+  next = resolveEffects(
+    [{ trigger: pending.trigger, actions: [pending.pendingAction] }],
+    pending.trigger,
+    ctx,
+    next,
+  );
+
+  // Execute remaining actions from the same effect
+  if (pending.pendingEffectActions.length > 0) {
+    next = resolveEffects(
+      [{ trigger: pending.trigger, actions: pending.pendingEffectActions }],
+      pending.trigger,
+      ctxNoTarget,
+      next,
+    );
+    if (next.pendingTargetInteraction !== null) return next;
+  }
+
+  // Execute remaining effects from the original effect list
+  if (pending.pendingEffects.length > 0) {
+    next = resolveEffects(pending.pendingEffects, pending.trigger, ctxNoTarget, next);
+  }
+
+  return next;
+}
+
+// ─── ResolveRevealInteraction ─────────────────────────────────────────────────
+
+function applyResolveRevealInteraction(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveRevealInteraction' }>,
+): ActionResult {
+  const pending = state.pendingRevealInteraction;
+  if (pending === null) {
+    return makeGameError('NO_PENDING_INTERACTION', 'No pending reveal interaction to resolve');
+  }
+  if (pending.playerId !== action.playerId) {
+    return makeGameError('WRONG_PLAYER', `Player ${action.playerId} cannot resolve another player's reveal`);
+  }
+
+  // Skip: player passes without revealing
+  if (action.revealedCardIds.length === 0) {
+    return { ...state, pendingRevealInteraction: null };
+  }
+
+  // Validate count
+  if (action.revealedCardIds.length !== pending.count) {
+    return makeGameError('INVALID_REVEAL', `Must reveal exactly ${pending.count} card(s), got ${action.revealedCardIds.length}`);
+  }
+
+  // Validate each card: in hand, owned by player, matching filter
+  for (const cardId of action.revealedCardIds) {
+    const card = state.cards[cardId];
+    if (card === undefined || card.zone !== 'hand' || card.ownerId !== pending.playerId) {
+      return makeGameError('INVALID_TARGET', `Card ${cardId} is not in hand`);
+    }
+    const f = pending.filter;
+    const valid =
+      (f.color === undefined || card.color === f.color) &&
+      (f.cardType === undefined || card.type === f.cardType) &&
+      (f.maxPower === undefined || card.power <= f.maxPower) &&
+      (f.excludeSelf !== true || cardId !== pending.sourceCardId) &&
+      // subType: fail-open if card has no subTypes data (set not yet re-fetched)
+      (f.subType === undefined || card.subTypes === undefined || card.subTypes.includes(f.subType));
+    if (!valid) {
+      return makeGameError('INVALID_TARGET', `Card ${cardId} does not match reveal filter`);
+    }
+  }
+
+  let next: GameState = { ...state, pendingRevealInteraction: null };
+  const ctx: EffectContext = {
+    sourceCardId: pending.sourceCardId,
+    sourcePlayerId: pending.sourcePlayerId,
+  };
+
+  // Execute thenActions (the effect that triggers when cards are revealed)
+  if (pending.thenActions.length > 0) {
+    next = resolveEffects(
+      [{ trigger: pending.trigger, actions: pending.thenActions }],
+      pending.trigger,
+      ctx,
+      next,
+    );
+    if (next.pendingTargetInteraction !== null || next.pendingRevealInteraction !== null) return next;
+  }
+
+  // Execute remaining actions from the same effect
+  if (pending.pendingEffectActions.length > 0) {
+    next = resolveEffects(
+      [{ trigger: pending.trigger, actions: pending.pendingEffectActions }],
+      pending.trigger,
+      ctx,
+      next,
+    );
+    if (next.pendingTargetInteraction !== null || next.pendingRevealInteraction !== null) return next;
+  }
+
+  // Execute remaining effects from the original effect list
+  if (pending.pendingEffects.length > 0) {
+    next = resolveEffects(pending.pendingEffects, pending.trigger, ctx, next);
   }
 
   return next;
@@ -1108,6 +1264,10 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyActivatedAbility(state, action);
     case 'ResolveOnKOInteraction':
       return applyResolveOnKOInteraction(state, action);
+    case 'ResolveTargetInteraction':
+      return applyResolveTargetInteraction(state, action);
+    case 'ResolveRevealInteraction':
+      return applyResolveRevealInteraction(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

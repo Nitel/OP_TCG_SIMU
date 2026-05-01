@@ -169,6 +169,48 @@ function decideCombatDefense(state: GameState, botId: PlayerId): GameAction | nu
 export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction | null {
   if (state.winner !== null) return null;
 
+  // Handle pending reveal interaction — bot auto-reveals valid cards or skips
+  if (state.pendingRevealInteraction !== null && state.pendingRevealInteraction.playerId === botId) {
+    const pending = state.pendingRevealInteraction;
+    const player = state.players[botId];
+    const f = pending.filter;
+    const validCards = (player?.hand ?? [])
+      .map((id) => state.cards[id])
+      .filter((c): c is NonNullable<typeof c> => {
+        if (c === undefined) return false;
+        if (f.color !== undefined && c.color !== f.color) return false;
+        if (f.cardType !== undefined && c.type !== f.cardType) return false;
+        if (f.maxPower !== undefined && c.power > f.maxPower) return false;
+        if (f.excludeSelf === true && c.id === pending.sourceCardId) return false;
+        if (f.subType !== undefined && c.subTypes !== undefined && !c.subTypes.includes(f.subType)) return false;
+        return true;
+      });
+    if (validCards.length < pending.count) {
+      return { type: 'ResolveRevealInteraction', playerId: botId, revealedCardIds: [] };
+    }
+    const toReveal = validCards.slice(0, pending.count).map((c) => c.id);
+    return { type: 'ResolveRevealInteraction', playerId: botId, revealedCardIds: toReveal };
+  }
+
+  // Handle pending target interaction (ChooseOwnCharacter / ChooseOpponentCharacter)
+  if (state.pendingTargetInteraction !== null && state.pendingTargetInteraction.playerId === botId) {
+    const pending = state.pendingTargetInteraction;
+    const opponentId = state.playerOrder.find((id) => id !== botId);
+    const ownerId = pending.scope === 'ChooseOwnCharacter' ? botId : opponentId;
+    if (ownerId === undefined) return null;
+    const candidates = (state.players[ownerId]?.board ?? [])
+      .map((id) => state.cards[id])
+      .filter((c): c is NonNullable<typeof c> => {
+        if (c === undefined || c.type !== 'Character') return false;
+        if (pending.maxCost  !== undefined && c.cost  > pending.maxCost)  return false;
+        if (pending.maxPower !== undefined && c.power > pending.maxPower) return false;
+        return true;
+      })
+      .sort((a, b) => b.power - a.power);
+    if (candidates.length === 0) return null;
+    return { type: 'ResolveTargetInteraction', playerId: botId, targetCardId: candidates[0]!.id };
+  }
+
   // Handle pending OnKO interaction — bot picks the strongest valid card or skips
   if (state.pendingOnKOInteraction !== null && state.pendingOnKOInteraction.playerId === botId) {
     const pending = state.pendingOnKOInteraction;

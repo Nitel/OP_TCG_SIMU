@@ -425,6 +425,7 @@ function resolveAction(
         if (f.cardType !== undefined && c.type !== f.cardType) return false;
         if (f.maxPower !== undefined && c.power > f.maxPower) return false;
         if (f.excludeSelf === true && id === context.sourceCardId) return false;
+        if (f.subType !== undefined && c.subTypes !== undefined && !c.subTypes.includes(f.subType)) return false;
         return true;
       });
       if (validIds.length === 0) return state; // no valid cards — skip silently
@@ -478,6 +479,11 @@ function resolveAction(
         players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
       };
     }
+
+    // ── RevealFromHand ────────────────────────────────────────────────────────
+    // Intercepted in resolveEffects before reaching here; this case is unreachable.
+    case 'RevealFromHand':
+      return state;
   }
 }
 
@@ -486,6 +492,10 @@ function resolveAction(
 /**
  * Filter and resolve all effects matching `trigger` from the given list.
  * Returns the updated GameState after all matching effects are applied in order.
+ *
+ * If an effect action requires player target selection (ChooseOwnCharacter /
+ * ChooseOpponentCharacter) and no `context.chosenTargetId` was pre-supplied,
+ * the function sets `GameState.pendingTargetInteraction` and returns early.
  */
 export function resolveEffects(
   effects: readonly CardEffect[],
@@ -493,8 +503,12 @@ export function resolveEffects(
   context: EffectContext,
   state: GameState,
 ): GameState {
+  const [p1, p2] = state.playerOrder;
+  const opponentId = context.sourcePlayerId === p1 ? p2 : p1;
+  void opponentId; // used below for scope resolution
   let next = state;
-  for (const effect of effects) {
+  for (let ei = 0; ei < effects.length; ei++) {
+    const effect = effects[ei]!;
     if (effect.trigger !== trigger) continue;
     // Evaluate optional condition
     if (effect.condition !== undefined) {
@@ -542,8 +556,62 @@ export function resolveEffects(
       }
       // 'Always' → always passes
     }
-    for (const action of effect.actions) {
+    for (let ai = 0; ai < effect.actions.length; ai++) {
+      const action = effect.actions[ai]!;
+
+      // Detect ChooseTarget actions that need player input (not pre-supplied via context).
+      // OnPlay and Activated are intercepted client-side (chosenTargetId provided before dispatch);
+      // for all other triggers the engine must pause and wait for ResolveTargetInteraction.
+      const needsEngineInteraction = trigger !== 'OnPlay' && trigger !== 'Activated';
+      if (needsEngineInteraction && context.chosenTargetId === undefined) {
+        const t = (action as Record<string, unknown>).target;
+        if (t !== null && t !== undefined && typeof t === 'object') {
+          const scope = (t as { scope: string }).scope;
+          if (scope === 'ChooseOwnCharacter' || scope === 'ChooseOpponentCharacter') {
+            const chooseScope = scope as 'ChooseOwnCharacter' | 'ChooseOpponentCharacter';
+            const maxCost  = (t as { maxCost?: number }).maxCost;
+            const maxPower = (t as { maxPower?: number }).maxPower;
+            return {
+              ...next,
+              pendingTargetInteraction: {
+                playerId: context.sourcePlayerId,
+                scope: chooseScope,
+                sourceCardId: context.sourceCardId,
+                sourcePlayerId: context.sourcePlayerId,
+                ...(maxCost  !== undefined ? { maxCost }  : {}),
+                ...(maxPower !== undefined ? { maxPower } : {}),
+                pendingAction: action,
+                pendingEffectActions: effect.actions.slice(ai + 1),
+                pendingEffects: effects.slice(ei + 1),
+                trigger,
+              },
+            };
+          }
+        }
+      }
+
+      // Detect RevealFromHand — pause and wait for ResolveRevealInteraction
+      if (action.type === 'RevealFromHand') {
+        return {
+          ...next,
+          pendingRevealInteraction: {
+            playerId: context.sourcePlayerId,
+            count: action.count,
+            filter: action.filter,
+            sourceCardId: context.sourceCardId,
+            sourcePlayerId: context.sourcePlayerId,
+            thenActions: action.thenActions,
+            pendingEffectActions: effect.actions.slice(ai + 1),
+            pendingEffects: effects.slice(ei + 1),
+            trigger,
+          },
+        };
+      }
+
       next = resolveAction(action, context, next);
+      // Propagate if a nested resolveEffects call set pendingTargetInteraction
+      if (next.pendingTargetInteraction !== null) return next;
+      if (next.pendingRevealInteraction !== null) return next;
     }
   }
   return next;

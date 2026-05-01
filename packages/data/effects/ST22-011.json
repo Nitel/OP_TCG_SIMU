@@ -14,12 +14,19 @@
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": { "subType": "Whitebeard Pirates" },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     }

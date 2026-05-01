@@ -1019,3 +1019,332 @@ describe('GainKeyword: durée Permanent vs EndOfTurn', () => {
     expect(afterPlay.cards[card.id]?.temporaryKeywords ?? []).toHaveLength(0);
   });
 });
+
+// ── 20. pendingTargetInteraction — ChooseOwnCharacter OnAttack ────────────────
+// L'engine doit stocker pendingTargetInteraction et attendre ResolveTargetInteraction.
+
+describe('pendingTargetInteraction : ChooseOwnCharacter OnAttack', () => {
+  it('OnAttack ChooseOwnCharacter — set pendingTargetInteraction au lieu d\'auto-pick', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnAttack',
+      actions: [{ type: 'PowerBoost', amount: 2000, target: { scope: 'ChooseOwnCharacter' }, duration: 'EndOfTurn' }],
+    };
+    const attacker = makeChar('atk-choose', 'p1', 5000, { effects: [eff] });
+    const ally     = makeChar('ally-target', 'p1', 3000);
+    const victim   = makeChar('victim', 'p2', 1000, { tapped: true });
+
+    let s = addToP1Board(base, attacker);
+    s = addToP1Board(s, ally);
+    s = addToP2Board(s, victim);
+
+    const result = applyAction(s, {
+      type: 'DeclareAttack',
+      playerId: P1,
+      attackerId: attacker.id,
+      targetId: victim.id,
+    });
+
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // pendingTargetInteraction doit être défini — pas d'auto-pick
+    expect(result.pendingTargetInteraction).not.toBeNull();
+    expect(result.pendingTargetInteraction?.playerId).toBe(P1);
+    expect(result.pendingTargetInteraction?.scope).toBe('ChooseOwnCharacter');
+    // L'allié ne doit PAS encore avoir de boost (en attente du choix)
+    expect(calculatePower(ally.id, result)).toBe(3000);
+  });
+
+  it('ResolveTargetInteraction applique le boost sur la cible choisie', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnAttack',
+      actions: [{ type: 'PowerBoost', amount: 2000, target: { scope: 'ChooseOwnCharacter' }, duration: 'EndOfTurn' }],
+    };
+    const attacker = makeChar('atk-choose2', 'p1', 5000, { effects: [eff] });
+    const ally     = makeChar('ally-target2', 'p1', 3000);
+    const victim   = makeChar('victim2', 'p2', 1000, { tapped: true });
+
+    let s = addToP1Board(base, attacker);
+    s = addToP1Board(s, ally);
+    s = addToP2Board(s, victim);
+
+    let result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: victim.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    result = applyAction(result, {
+      type: 'ResolveTargetInteraction', playerId: P1, targetCardId: ally.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    expect(result.pendingTargetInteraction).toBeNull();
+    expect(calculatePower(ally.id, result)).toBe(5000); // 3000 + 2000
+  });
+});
+
+// ── 21. pendingTargetInteraction — mauvais joueur → erreur ───────────────────
+
+describe('ResolveTargetInteraction : validations', () => {
+  it('mauvais joueur → WRONG_PLAYER', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnAttack',
+      actions: [{ type: 'PowerBoost', amount: 1000, target: { scope: 'ChooseOwnCharacter' }, duration: 'EndOfTurn' }],
+    };
+    const attacker = makeChar('atk-wrong', 'p1', 5000, { effects: [eff] });
+    const ally     = makeChar('ally-wrong', 'p1', 3000);
+    const victim   = makeChar('victim-wrong', 'p2', 1000, { tapped: true });
+
+    let s = addToP1Board(base, attacker);
+    s = addToP1Board(s, ally);
+    s = addToP2Board(s, victim);
+
+    let result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: victim.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // P2 tries to resolve P1's pending
+    const wrongResult = applyAction(result, {
+      type: 'ResolveTargetInteraction', playerId: P2, targetCardId: ally.id,
+    });
+    expect(isGameError(wrongResult)).toBe(true);
+    if (!isGameError(wrongResult)) return;
+    expect(wrongResult.code).toBe('WRONG_PLAYER');
+  });
+
+  it('cible adverse pour ChooseOwnCharacter → INVALID_TARGET', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnAttack',
+      actions: [{ type: 'PowerBoost', amount: 1000, target: { scope: 'ChooseOwnCharacter' }, duration: 'EndOfTurn' }],
+    };
+    const attacker = makeChar('atk-scope', 'p1', 5000, { effects: [eff] });
+    const victim   = makeChar('victim-scope', 'p2', 1000, { tapped: true });
+
+    let s = addToP1Board(base, attacker);
+    s = addToP2Board(s, victim);
+
+    let result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: victim.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // Try to target an opponent's card for ChooseOwnCharacter
+    const wrongResult = applyAction(result, {
+      type: 'ResolveTargetInteraction', playerId: P1, targetCardId: victim.id,
+    });
+    expect(isGameError(wrongResult)).toBe(true);
+    if (!isGameError(wrongResult)) return;
+    expect(wrongResult.code).toBe('INVALID_TARGET');
+  });
+});
+
+// ── 22. pendingTargetInteraction — ChooseOpponentCharacter OnBlock ────────────
+
+describe('pendingTargetInteraction : ChooseOpponentCharacter OnBlock', () => {
+  it('OnBlock ChooseOpponentCharacter — set pending, puis résolution KO la cible', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnBlock',
+      actions: [{ type: 'KO', target: { scope: 'ChooseOpponentCharacter' } }],
+    };
+    const blocker  = makeChar('blocker-ko', 'p2', 4000, { effects: [eff], keywords: ['Blocker'] });
+    const attacker = makeChar('attacker-ko', 'p1', 5000);
+    const p2ally   = makeChar('p2ally-ko', 'p2', 3000, { tapped: true });
+
+    let s = addToP1Board(base, attacker);
+    let s2 = addToP2Board(s, blocker);
+    s2 = addToP2Board(s2, p2ally);
+
+    // P1 declares attack on P2 leader
+    const p2Leader = s2.players[P2]!.leader!;
+    let result = applyAction(s2, {
+      type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: p2Leader,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // P2 blocks
+    result = applyAction(result, { type: 'DeclareBlock', playerId: P2, blockerId: blocker.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // pending must be set — P2 must choose an opponent (P1) character to KO
+    expect(result.pendingTargetInteraction).not.toBeNull();
+    expect(result.pendingTargetInteraction?.scope).toBe('ChooseOpponentCharacter');
+    expect(result.pendingTargetInteraction?.playerId).toBe(P2);
+
+    // Resolve: P2 chooses P1's attacker to KO
+    result = applyAction(result, {
+      type: 'ResolveTargetInteraction', playerId: P2, targetCardId: attacker.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    expect(result.pendingTargetInteraction).toBeNull();
+    expect(result.cards[attacker.id]?.zone).toBe('trash'); // P1's attacker got KO'd
+  });
+});
+
+// ── 23. pendingTargetInteraction — chaîne d'effets : ChooseTarget + Draw ──────
+// Vérifie que les actions suivant ChooseTarget (pendingEffectActions) sont bien
+// exécutées après la résolution.
+
+describe('pendingTargetInteraction : ChooseTarget suivi d\'autres actions', () => {
+  it('PowerBoost sur cible + Draw 1 — les deux actions s\'appliquent', () => {
+    const base = bootstrapGame();
+    const eff: CardEffect = {
+      trigger: 'OnAttack',
+      actions: [
+        { type: 'PowerBoost', amount: 2000, target: { scope: 'ChooseOwnCharacter' }, duration: 'EndOfTurn' },
+        { type: 'Draw', count: 1 },
+      ],
+    };
+    const attacker = makeChar('chain-atk', 'p1', 5000, { effects: [eff] });
+    const ally     = makeChar('chain-ally', 'p1', 3000);
+    const victim   = makeChar('chain-victim', 'p2', 1000, { tapped: true });
+
+    let s = addToP1Board(base, attacker);
+    s = addToP1Board(s, ally);
+    s = addToP2Board(s, victim);
+
+    const handBefore = s.players[P1]!.hand.length;
+
+    let result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: victim.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Pending, no draw yet
+    expect(result.pendingTargetInteraction).not.toBeNull();
+    expect(result.players[P1]!.hand.length).toBe(handBefore);
+
+    result = applyAction(result, {
+      type: 'ResolveTargetInteraction', playerId: P1, targetCardId: ally.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    expect(result.pendingTargetInteraction).toBeNull();
+    expect(calculatePower(ally.id, result)).toBe(5000); // boost applied
+    expect(result.players[P1]!.hand.length).toBe(handBefore + 1); // draw happened
+  });
+});
+
+// ─── Tests #24–#27 : RevealFromHand ──────────────────────────���───────────────
+
+describe('RevealFromHand', () => {
+  function makeRevealState() {
+    const blueCard: Card = {
+      id: makeCardId('BLUE-001'), name: 'BlueCard', cost: 1, power: 1000,
+      color: 'Blue', type: 'Character', zone: 'hand', ownerId: P1,
+      tapped: false, attachedTo: null,
+    };
+    const redCard: Card = {
+      id: makeCardId('RED-001'), name: 'RedCard', cost: 1, power: 1000,
+      color: 'Red', type: 'Character', zone: 'hand', ownerId: P1,
+      tapped: false, attachedTo: null,
+    };
+    const leader: Card = {
+      id: makeCardId('LDR-001'), name: 'Leader', cost: 0, power: 5000,
+      color: 'Blue', type: 'Leader', zone: 'leader', ownerId: P1,
+      tapped: false, attachedTo: null,
+    };
+    const source: Card = {
+      id: makeCardId('SRC-001'), name: 'Whitey Bay', cost: 1, power: 1000,
+      color: 'Blue', type: 'Character', zone: 'hand', ownerId: P1,
+      tapped: false, attachedTo: null,
+      effects: [{
+        trigger: 'OnPlay',
+        condition: { type: 'Always' },
+        actions: [{
+          type: 'RevealFromHand',
+          count: 1,
+          filter: { color: 'Blue' },
+          thenActions: [{
+            type: 'PowerBoost', amount: 2000,
+            target: { scope: 'OwnLeader' }, duration: 'EndOfTurn',
+          }],
+        }],
+      }],
+    };
+    const don: Card = {
+      id: makeCardId('DON-001'), name: 'DON', cost: 0, power: 0,
+      color: 'Red', type: 'DON', zone: 'donArea', ownerId: P1,
+      tapped: false, attachedTo: null,
+    };
+    let s = makeEmptyState(P1, P2);
+    s = {
+      ...s,
+      phase: 'Main',
+      activePlayerId: P1,
+      cards: { ...s.cards, [blueCard.id]: blueCard, [redCard.id]: redCard, [leader.id]: leader, [source.id]: source, [don.id]: don },
+      players: {
+        ...s.players,
+        [P1]: { ...s.players[P1]!, hand: [source.id, blueCard.id, redCard.id], board: [], leader: leader.id, donArea: [don.id] },
+      },
+    };
+    return { s, blueCard, redCard, leader, source };
+  }
+
+  it('#24 — RevealFromHand sets pendingRevealInteraction; effect not yet applied', () => {
+    const { s, source, leader } = makeRevealState();
+    const result = applyAction(s, {
+      type: 'PlayCharacterFromHand', playerId: P1, cardId: source.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.pendingRevealInteraction).not.toBeNull();
+    expect(result.pendingRevealInteraction?.count).toBe(1);
+    expect(result.pendingRevealInteraction?.filter.color).toBe('Blue');
+    // thenActions not yet applied — leader power unchanged
+    expect(calculatePower(leader.id, result)).toBe(5000);
+  });
+
+  it('#25 — ResolveRevealInteraction with valid card applies thenActions', () => {
+    const { s, source, blueCard, leader } = makeRevealState();
+    let result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: source.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    result = applyAction(result, {
+      type: 'ResolveRevealInteraction', playerId: P1, revealedCardIds: [blueCard.id],
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.pendingRevealInteraction).toBeNull();
+    expect(calculatePower(leader.id, result)).toBe(7000); // +2000 applied
+    // blueCard stays in hand
+    expect(result.cards[blueCard.id]?.zone).toBe('hand');
+  });
+
+  it('#26 — ResolveRevealInteraction skip (empty array) → no effect applied', () => {
+    const { s, source, leader } = makeRevealState();
+    let result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: source.id });
+    if (isGameError(result)) return;
+    result = applyAction(result, {
+      type: 'ResolveRevealInteraction', playerId: P1, revealedCardIds: [],
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.pendingRevealInteraction).toBeNull();
+    expect(calculatePower(leader.id, result)).toBe(5000); // no boost
+  });
+
+  it('#27 — ResolveRevealInteraction with non-matching card → INVALID_TARGET', () => {
+    const { s, source, redCard } = makeRevealState();
+    let result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: source.id });
+    if (isGameError(result)) return;
+    const err = applyAction(result, {
+      type: 'ResolveRevealInteraction', playerId: P1, revealedCardIds: [redCard.id],
+    });
+    expect(isGameError(err)).toBe(true);
+    if (isGameError(err)) expect(err.code).toBe('INVALID_TARGET');
+  });
+});

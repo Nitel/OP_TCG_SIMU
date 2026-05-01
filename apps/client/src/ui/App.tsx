@@ -313,6 +313,25 @@ export function App() {
     }
   }, [gameState]);
 
+  // ── Detect pendingTargetInteraction — show chooseTarget UI for human player ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingTargetInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      setUiState({
+        selectedCardId: null,
+        selectionMode: 'chooseTarget',
+        errorMessage: null,
+        targetScope: pending.scope,
+      });
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'chooseTarget' && prev.pendingTargetAction === undefined ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingTargetInteraction]);
+
   // ── Detect pendingOnKOInteraction — show resolveOnKO UI for human player ──
   useEffect(() => {
     if (gameState === null) return;
@@ -332,6 +351,29 @@ export function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState?.pendingOnKOInteraction]);
 
+  // ── Detect pendingRevealInteraction — show revealFromHand UI for human player ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingRevealInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      setUiState((prev) => ({
+        ...prev,
+        selectionMode: 'revealFromHand',
+        revealInteraction: {
+          filter: pending.filter,
+          count: pending.count,
+          sourceCardId: pending.sourceCardId,
+          selectedCardIds: [],
+        },
+      }));
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'revealFromHand' ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingRevealInteraction]);
+
   // ── Greedy bot (vsBot mode) ───────────────────────────────────────────────
 
   useEffect(() => {
@@ -343,8 +385,11 @@ export function App() {
     const isBotDefender = activeCombat !== null
       && activePlayerId !== BOT_ID
       && gameState.cards[activeCombat.targetId]?.ownerId === BOT_ID;
+    const isBotPendingTarget = gameState.pendingTargetInteraction?.playerId === BOT_ID;
+    const isBotPendingOnKO   = gameState.pendingOnKOInteraction?.playerId   === BOT_ID;
+    const isBotPendingReveal = gameState.pendingRevealInteraction?.playerId  === BOT_ID;
 
-    if (!isBotTurn && !isBotDefender) return;
+    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal) return;
 
     const action = greedyBotDecide(gameState, BOT_ID);
     if (action === null) return;
@@ -442,16 +487,48 @@ export function App() {
 
       if (selectionMode === 'chooseTarget') {
         const { pendingTargetAction, targetScope } = prev;
-        if (pendingTargetAction === undefined || targetScope === undefined) return IDLE_UI;
+        if (targetScope === undefined) return IDLE_UI;
         const opponentId = activeId === p1Id ? p2Id : p1Id;
         const pool = targetScope === 'ChooseOpponentCharacter'
           ? (gameState.players[opponentId]?.board ?? [])
           : (gameState.players[activeId]?.board ?? []);
         if (pool.includes(cardId)) {
-          const withTarget = { ...pendingTargetAction, chosenTargetId: cardId } as GameAction;
-          setTimeout(() => dispatch(withTarget), 0);
+          const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? activeId;
+          if (pendingTargetAction !== undefined) {
+            // Client-side intercept: re-dispatch the stored action with chosenTargetId
+            const withTarget = { ...pendingTargetAction, chosenTargetId: cardId } as GameAction;
+            setTimeout(() => dispatch(withTarget), 0);
+          } else {
+            // Engine-side pending: dispatch ResolveTargetInteraction
+            setTimeout(() => dispatch({ type: 'ResolveTargetInteraction', playerId: humanId, targetCardId: cardId }), 0);
+          }
         }
         return IDLE_UI;
+      }
+
+      if (selectionMode === 'revealFromHand') {
+        const { revealInteraction } = prev;
+        if (revealInteraction === undefined) return IDLE_UI;
+        if (card.zone !== 'hand') return prev;
+        const f = revealInteraction.filter;
+        const valid =
+          (f.color === undefined || card.color === f.color) &&
+          (f.cardType === undefined || card.type === f.cardType) &&
+          (f.maxPower === undefined || card.power <= f.maxPower) &&
+          (f.excludeSelf !== true || cardId !== revealInteraction.sourceCardId);
+        if (!valid) return prev;
+        // Toggle card selection
+        const alreadySelected = revealInteraction.selectedCardIds.includes(cardId);
+        const newSelected = alreadySelected
+          ? revealInteraction.selectedCardIds.filter((id) => id !== cardId)
+          : [...revealInteraction.selectedCardIds, cardId];
+        // Auto-confirm when count reached
+        if (!alreadySelected && newSelected.length === revealInteraction.count) {
+          const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? activeId;
+          setTimeout(() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: newSelected }), 0);
+          return IDLE_UI;
+        }
+        return { ...prev, revealInteraction: { ...revealInteraction, selectedCardIds: newSelected } };
       }
 
       if (selectedCardId !== null) {
@@ -598,6 +675,117 @@ export function App() {
           myPlayerId={isNetwork ? myPlayerId : isVsBot ? makePlayerId('P1') : null}
           activityLog={activityLog}
         />
+
+        {/* ── Reveal-from-hand overlay ────────────────────────────────────── */}
+        {uiState.selectionMode === 'revealFromHand' && uiState.revealInteraction !== undefined && (() => {
+          const ri = uiState.revealInteraction;
+          const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? gameState.activePlayerId;
+          const playerHand = gameState.players[humanId]?.hand ?? [];
+          const validCards = playerHand
+            .map((id) => gameState.cards[id])
+            .filter((c): c is NonNullable<typeof c> => {
+              if (c === undefined) return false;
+              const f = ri.filter;
+              return (
+                (f.color === undefined || c.color === f.color) &&
+                (f.cardType === undefined || c.type === f.cardType) &&
+                (f.maxPower === undefined || c.power <= f.maxPower) &&
+                (f.excludeSelf !== true || c.id !== ri.sourceCardId)
+              );
+            });
+          const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 460,
+              background: 'rgba(0,0,0,0.82)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'auto',
+            }}>
+              <div style={{
+                background: 'rgba(4,8,24,0.97)',
+                border: '1px solid rgba(85,187,255,0.55)',
+                borderRadius: 10,
+                padding: 20,
+                maxWidth: '80vw',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
+                display: 'flex', flexDirection: 'column', gap: 16,
+              }}>
+                <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#55bbff', textAlign: 'center', letterSpacing: 1 }}>
+                  Révélez {ri.count} carte{ri.count > 1 ? 's' : ''}
+                  {ri.filter.color !== undefined ? ` [${ri.filter.color}]` : ''} de votre main
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${Math.min(validCards.length, 7)}, 86px)`,
+                  gap: 8,
+                  justifyContent: 'center',
+                }}>
+                  {validCards.map((card) => {
+                    const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
+                    const imgUrl = templateId !== undefined ? `${CDN_BASE}/card-images/${templateId}.png` : null;
+                    const isSelected = ri.selectedCardIds.includes(card.id);
+                    return (
+                      <div
+                        key={card.id}
+                        onClick={() => handleCardClick(card.id)}
+                        style={{
+                          width: 86, height: 120, borderRadius: 4, overflow: 'hidden',
+                          cursor: 'pointer', flexShrink: 0,
+                          border: isSelected ? '2px solid #55bbff' : '1px solid rgba(85,187,255,0.25)',
+                          boxShadow: isSelected ? '0 0 8px rgba(85,187,255,0.6)' : 'none',
+                          transition: 'border-color 0.1s, box-shadow 0.1s',
+                        }}
+                      >
+                        {imgUrl !== null ? (
+                          <img src={imgUrl} alt={card.name} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{ width: '100%', height: '100%', background: '#1a1a3a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4, boxSizing: 'border-box' }}>
+                            <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 9, textAlign: 'center' }}>{card.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {validCards.length === 0 && (
+                    <div style={{ color: '#aaaacc', fontFamily: 'monospace', fontSize: 12, gridColumn: '1/-1', textAlign: 'center' }}>
+                      Aucune carte valide en main
+                    </div>
+                  )}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+                  <span style={{ color: '#aaaacc', fontFamily: 'monospace', fontSize: 12 }}>
+                    {ri.selectedCardIds.length}/{ri.count} sélectionnée{ri.count > 1 ? 's' : ''}
+                  </span>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                      onClick={() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: [] })}
+                      style={{
+                        padding: '6px 16px', fontFamily: 'monospace', fontSize: 12,
+                        border: '1px solid rgba(170,170,204,0.4)', borderRadius: 4,
+                        cursor: 'pointer', background: '#1a1a3a', color: '#aaaacc',
+                      }}
+                    >
+                      Passer
+                    </button>
+                    {ri.selectedCardIds.length === ri.count && (
+                      <button
+                        onClick={() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: ri.selectedCardIds })}
+                        style={{
+                          padding: '6px 16px', fontFamily: 'monospace', fontSize: 12,
+                          border: '1px solid #55bbff', borderRadius: 4,
+                          cursor: 'pointer', background: '#0a1a3a', color: '#55bbff',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        Révéler
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ── Hotseat handoff overlay — plateau visible en dessous ────────── */}
         {!isNetwork && !isVsBot && needsHandoff && (

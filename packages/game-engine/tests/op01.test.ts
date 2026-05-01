@@ -483,6 +483,19 @@ describe("OP01-115 Elephant's Marchoo: Trigger depuis life", () => {
     expect(isGameError(result)).toBe(false);
     if (isGameError(result)) return;
 
+    // Trigger effect requires P2 to choose a target → pendingTargetInteraction set
+    expect(result.pendingTargetInteraction).not.toBeNull();
+    expect(result.pendingTargetInteraction?.scope).toBe('ChooseOpponentCharacter');
+
+    // P2 resolves by choosing p1-char
+    result = applyAction(result, {
+      type: 'ResolveTargetInteraction',
+      playerId: P2,
+      targetCardId: p1Char.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
     // Marchoo was revealed → Trigger effect KO'd p1-char (P2's opponent's character)
     expect(result.cards[p1Char.id]?.zone).toBe('trash');
   });

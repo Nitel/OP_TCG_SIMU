@@ -7,7 +7,8 @@ export type SelectionMode =
   | 'declareBlock'
   | 'playCounter'
   | 'chooseTarget'
-  | 'resolveOnKO';
+  | 'resolveOnKO'
+  | 'revealFromHand';
 
 export interface UIState {
   selectedCardId: CardId | null;
@@ -19,6 +20,13 @@ export interface UIState {
   targetScope?: 'ChooseOpponentCharacter' | 'ChooseOwnCharacter';
   /** Set when selectionMode === 'resolveOnKO' — filter and source for the pending OnKO interaction */
   onKOInteraction?: { filter: HandFilter; sourceCardId: CardId };
+  /** Set when selectionMode === 'revealFromHand' — filter, count, and in-progress selection */
+  revealInteraction?: {
+    filter: HandFilter;
+    count: number;
+    sourceCardId: CardId;
+    selectedCardIds: CardId[];
+  };
 }
 
 export const IDLE_UI: UIState = {

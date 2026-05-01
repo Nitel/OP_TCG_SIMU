@@ -67,7 +67,7 @@ export type DeckFilter =
   | { readonly kind: 'ByCost'; readonly maxCost: number }
   | { readonly kind: 'ByName'; readonly name: string };
 
-// ─── DSL — Hand filter (used by PlayFromHand) ─────────────────────────────────
+// ─── DSL — Hand filter (used by PlayFromHand / RevealFromHand) ────────────────
 
 export interface HandFilter {
   readonly color?: CardColor;
@@ -75,6 +75,12 @@ export interface HandFilter {
   readonly maxPower?: number;
   /** Exclude the source card itself (the card that triggered the OnKO) */
   readonly excludeSelf?: boolean;
+  /**
+   * Subtype/affiliation substring check — matches cards whose subTypes string
+   * includes this value (e.g. "Whitebeard Pirates").
+   * If the card has no subTypes data, the check is skipped (fail-open).
+   */
+  readonly subType?: string;
 }
 
 // ─── DSL — Effect actions ─────────────────────────────────────────────────────
@@ -95,7 +101,17 @@ export type EffectAction =
   | { readonly type: 'RemoveLife'; readonly count: number }
   | { readonly type: 'PlaySelf' }
   /** Play a card from the owner's hand for free, filtered by HandFilter. Requires player choice — sets pendingOnKOInteraction. */
-  | { readonly type: 'PlayFromHand'; readonly filter: HandFilter };
+  | { readonly type: 'PlayFromHand'; readonly filter: HandFilter }
+  /**
+   * Reveal N cards from hand matching filter: if the player can (and does), apply thenActions.
+   * Requires player choice — sets pendingRevealInteraction. Cards stay in hand.
+   */
+  | {
+      readonly type: 'RevealFromHand';
+      readonly count: number;
+      readonly filter: HandFilter;
+      readonly thenActions: readonly EffectAction[];
+    };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
@@ -163,6 +179,12 @@ export interface Card {
   readonly powerModifierOT?: number;
   /** Temporary keywords granted by GainKeyword effects — cleared at end of turn */
   readonly temporaryKeywords?: readonly CardKeyword[];
+  /**
+   * Card subtypes / affiliations as a space-concatenated string from the API
+   * (e.g. "The Four Emperors Whitebeard Pirates").
+   * Use .includes() to check membership.
+   */
+  readonly subTypes?: string;
 }
 
 // ─── Player state ─────────────────────────────────────────────────────────────
@@ -222,6 +244,43 @@ export interface GameState {
     readonly playerId: PlayerId;
     readonly filter: HandFilter;
     readonly sourceCardId: CardId;
+  } | null;
+  /**
+   * Set when a ChooseOwnCharacter / ChooseOpponentCharacter effect fires during OnAttack,
+   * OnBlock, Trigger, or OnKO and requires the player to pick a board target.
+   * Cleared when the player dispatches ResolveTargetInteraction.
+   */
+  readonly pendingTargetInteraction: {
+    readonly playerId: PlayerId;
+    readonly scope: 'ChooseOwnCharacter' | 'ChooseOpponentCharacter';
+    readonly sourceCardId: CardId;
+    readonly sourcePlayerId: PlayerId;
+    readonly maxCost?: number;
+    readonly maxPower?: number;
+    /** The EffectAction that needs the chosen target to execute */
+    readonly pendingAction: EffectAction;
+    /** Remaining actions in the same effect (after pendingAction) */
+    readonly pendingEffectActions: readonly EffectAction[];
+    /** Remaining CardEffects in the effect list (after the current effect) */
+    readonly pendingEffects: readonly CardEffect[];
+    readonly trigger: EffectTrigger;
+  } | null;
+  /**
+   * Set when a RevealFromHand effect fires and requires the player to reveal cards.
+   * Cleared when the player dispatches ResolveRevealInteraction.
+   */
+  readonly pendingRevealInteraction: {
+    readonly playerId: PlayerId;
+    readonly count: number;
+    readonly filter: HandFilter;
+    readonly sourceCardId: CardId;
+    readonly sourcePlayerId: PlayerId;
+    readonly thenActions: readonly EffectAction[];
+    /** Remaining actions in the same effect (after RevealFromHand) */
+    readonly pendingEffectActions: readonly EffectAction[];
+    /** Remaining CardEffects in the effect list (after the current effect) */
+    readonly pendingEffects: readonly CardEffect[];
+    readonly trigger: EffectTrigger;
   } | null;
 }
 
@@ -355,6 +414,19 @@ export interface ResolveOnKOInteractionAction {
   readonly cardId: CardId | null;
 }
 
+export interface ResolveTargetInteractionAction {
+  readonly type: 'ResolveTargetInteraction';
+  readonly playerId: PlayerId;
+  readonly targetCardId: CardId;
+}
+
+export interface ResolveRevealInteractionAction {
+  readonly type: 'ResolveRevealInteraction';
+  readonly playerId: PlayerId;
+  /** IDs of hand cards to reveal. Empty array = player skips (no effect applied). */
+  readonly revealedCardIds: readonly CardId[];
+}
+
 export type GameAction =
   | MulliganAction
   | DrawCardAction
@@ -369,7 +441,9 @@ export type GameAction =
   | PlayCounterAction
   | PlayEventAction
   | ActivatedAbilityAction
-  | ResolveOnKOInteractionAction;
+  | ResolveOnKOInteractionAction
+  | ResolveTargetInteractionAction
+  | ResolveRevealInteractionAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 
@@ -422,5 +496,7 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     newBoardIds: [],
     activatedAbilityIds: [],
     pendingOnKOInteraction: null,
+    pendingTargetInteraction: null,
+    pendingRevealInteraction: null,
   };
 }

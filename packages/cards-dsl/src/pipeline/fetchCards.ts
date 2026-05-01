@@ -18,6 +18,8 @@ export interface RawCard {
   counter: number | null;
   effectText: string;
   attribute: string;
+  /** Space-concatenated card subtypes/affiliations, e.g. "The Four Emperors Whitebeard Pirates" */
+  subTypes?: string;
 }
 
 // Raw shape returned by optcgapi.com /api/sets/
@@ -32,6 +34,7 @@ interface ApiCard {
   counter_amount?: string | number | null;
   card_text?: string | null;
   attribute?: string | null;
+  sub_types?: string | null;
 }
 
 // Raw shape returned by optcgapi.com /api/decks/
@@ -47,6 +50,7 @@ interface ApiDeckCard {
   counter_amount?: string | number | null;  // same field name as /api/sets/ endpoint
   card_text?: string | null;
   attribute?: string | null;
+  sub_types?: string | null;
   quantity?: number;
 }
 
@@ -80,6 +84,7 @@ function mapCard(raw: ApiCard): RawCard {
     counter:    counter !== null && isNaN(counter) ? null : counter,
     effectText: raw.card_text    ?? '',
     attribute:  raw.attribute    ?? '',
+    ...(raw.sub_types ? { subTypes: raw.sub_types } : {}),
   };
 }
 
@@ -131,6 +136,7 @@ async function fetchDeck(setId: string): Promise<RawCard[] | null> {
         counter:    counter !== null && isNaN(counter) ? null : counter,
         effectText: c.card_text   ?? '',
         attribute:  c.attribute   ?? '',
+        ...(c.sub_types ? { subTypes: c.sub_types } : {}),
       });
     }
     return result.length > 0 ? result : null;

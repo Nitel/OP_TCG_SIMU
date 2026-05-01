@@ -54,6 +54,7 @@ interface RawCard {
   readonly power: number;
   readonly color: string;
   readonly counter: number | null;
+  readonly subTypes?: string;
 }
 
 function normalizeCardType(t: string): 'Leader' | 'Character' | 'Event' | 'Stage' | null {
@@ -115,6 +116,7 @@ function rawToCard(
   return {
     ...base,
     ...(raw.counter !== null ? { counter: raw.counter } : {}),
+    ...(raw.subTypes !== undefined ? { subTypes: raw.subTypes } : {}),
     ...(eff !== undefined && eff.keywords.length > 0 ? { keywords: eff.keywords } : {}),
     ...(eff !== undefined && eff.effects.length > 0 ? { effects: eff.effects } : {}),
   };
