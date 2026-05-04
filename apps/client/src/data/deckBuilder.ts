@@ -287,7 +287,7 @@ export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = (() => {
   return allRaw
     .map((c) => ({ ...c, normalizedType: normalizeCardType(c.cardType) }))
     .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' | 'Stage' } => {
-      const baseId = c.id.match(/^([A-Z]{2,3}\d{2}-\d{3})/)?.[1] ?? c.id;
+      const baseId = baseCardId(c.id);
       return (
         (c.normalizedType === 'Leader' || c.normalizedType === 'Character'
           || c.normalizedType === 'Event' || c.normalizedType === 'Stage')
@@ -372,10 +372,10 @@ export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerS
   return { id: playerId, leaderCard, deckCards, donCards };
 }
 
-/** Extract set ID from a card ID: "OP01-005" → "OP-01", "ST01-001" → "ST-01". */
+/** Extract set ID from a card ID: "OP01-005" → "OP-01", "ST01-001" → "ST-01", "P-069" → "P". */
 export function cardSetFromId(id: string): string {
   const m = id.match(/^([A-Z]+)(\d{2})-/);
-  if (m === null) return id;
+  if (m === null) return id.split('-')[0] ?? id;
   return `${m[1]}-${m[2]}`;
 }
 
