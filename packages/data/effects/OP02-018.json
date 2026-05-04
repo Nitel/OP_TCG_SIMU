@@ -5,27 +5,23 @@
   "power": 5000,
   "color": "Red",
   "cardType": "Character",
-  "keywords": [],
+  "keywords": [
+    "Blocker"
+  ],
   "effects": [
     {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    },
-    {
       "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "PlaySelf"
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "PlaySelf"
+            }
+          ]
         }
       ]
     }

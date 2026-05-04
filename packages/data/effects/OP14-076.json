@@ -1,0 +1,37 @@
+{
+  "id": "OP14-076",
+  "name": "Ever White",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Donquixote Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

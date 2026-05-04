@@ -1,0 +1,38 @@
+{
+  "id": "OP07-021_r2",
+  "name": "Urouge",
+  "cost": 4,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 1
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

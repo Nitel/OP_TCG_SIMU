@@ -1,6 +1,6 @@
 {
   "id": "OP02-073",
-  "name": "Little Sadi (Alternate Art)",
+  "name": "Little Sadi",
   "cost": 3,
   "power": 3000,
   "color": "Purple",
@@ -11,12 +11,11 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByName",
-            "name": "Jailer Beast"
-          },
-          "destination": "board"
+            "subType": "Jailer Beast",
+            "cardType": "Character"
+          }
         }
       ]
     }

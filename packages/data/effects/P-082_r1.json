@@ -1,0 +1,27 @@
+{
+  "id": "P-082_r1",
+  "name": "Crocodile",
+  "cost": 5,
+  "power": 7000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Cross Guild"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP14-058",
+  "name": "Ocean Current Shoulder Throw",
+  "cost": 2,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Fish-Man",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxPower": 6000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

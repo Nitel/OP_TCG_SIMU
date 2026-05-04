@@ -1,0 +1,29 @@
+{
+  "id": "ST10-005_p2",
+  "name": "Jinbe",
+  "cost": 2,
+  "power": 2000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
+    }
+  ],
+  "counter": 2000
+}

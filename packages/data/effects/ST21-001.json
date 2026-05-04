@@ -1,7 +1,7 @@
 {
   "id": "ST21-001",
-  "name": "Monkey D Luffy",
-  "cost": 0,
+  "name": "Monkey.D.Luffy",
+  "cost": 5,
   "power": 5000,
   "color": "Red",
   "cardType": "Leader",
@@ -9,20 +9,19 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasAttachedDon",
-        "count": 1
-      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
-          "from": "rested",
           "target": {
             "scope": "ChooseOwnCharacter"
           }
         }
-      ]
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
     }
   ]
 }

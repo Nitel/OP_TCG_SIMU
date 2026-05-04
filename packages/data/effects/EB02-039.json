@@ -1,0 +1,33 @@
+{
+  "id": "EB02-039",
+  "name": "GERMA 66",
+  "cost": 4,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "GERMA 66",
+            "cardType": "Character",
+            "maxPower": 4000
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "power": 5000,
+                "maxPower": 7000
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

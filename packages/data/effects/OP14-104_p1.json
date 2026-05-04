@@ -1,0 +1,37 @@
+{
+  "id": "OP14-104_p1",
+  "name": "Gecko Moria",
+  "cost": 8,
+  "power": 10000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 4
+          },
+          "destination": "board"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 4
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

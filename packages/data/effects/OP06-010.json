@@ -1,0 +1,28 @@
+{
+  "id": "OP06-010",
+  "name": "Douglas Bullet",
+  "cost": 6,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

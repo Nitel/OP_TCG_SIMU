@@ -1,0 +1,28 @@
+{
+  "id": "OP10-009",
+  "name": "Smiley",
+  "cost": 5,
+  "power": 6000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

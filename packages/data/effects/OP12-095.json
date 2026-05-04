@@ -1,0 +1,30 @@
+{
+  "id": "OP12-095",
+  "name": "Lindbergh",
+  "cost": 4,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

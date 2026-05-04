@@ -1,0 +1,29 @@
+{
+  "id": "EB02-033",
+  "name": "Klabautermann",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Merry Go"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

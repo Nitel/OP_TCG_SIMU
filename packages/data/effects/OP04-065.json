@@ -1,0 +1,39 @@
+{
+  "id": "OP04-065",
+  "name": "Miss.Goldenweek(Marianne)",
+  "cost": 2,
+  "power": 3000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

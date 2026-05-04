@@ -1,0 +1,37 @@
+{
+  "id": "OP10-119",
+  "name": "Trafalgar Law",
+  "cost": 7,
+  "power": 9000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Supernovas",
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "AddLife",
+              "count": 1
+            },
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

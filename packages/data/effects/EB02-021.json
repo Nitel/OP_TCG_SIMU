@@ -1,0 +1,31 @@
+{
+  "id": "EB02-021",
+  "name": "Gum-Gum Giant Pistol",
+  "cost": 3,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

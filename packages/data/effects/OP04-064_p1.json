@@ -1,0 +1,42 @@
+{
+  "id": "OP04-064_p1",
+  "name": "Ms. All Sunday",
+  "cost": 5,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ]
+}

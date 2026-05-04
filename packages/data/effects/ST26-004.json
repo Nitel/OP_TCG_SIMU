@@ -1,0 +1,28 @@
+{
+  "id": "ST26-004",
+  "name": "General Franky",
+  "cost": 8,
+  "power": 10000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

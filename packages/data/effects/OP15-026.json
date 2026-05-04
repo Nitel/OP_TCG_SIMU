@@ -1,0 +1,36 @@
+{
+  "id": "OP15-026",
+  "name": "Jango",
+  "cost": 1,
+  "power": 2000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

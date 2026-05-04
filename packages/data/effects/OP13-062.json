@@ -1,0 +1,40 @@
+{
+  "id": "OP13-062",
+  "name": "Crocus",
+  "cost": 5,
+  "power": 6000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP01-060_p2",
+  "name": "Donquixote Doflamingo",
+  "cost": 0,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "The Seven Warlords of the Sea",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "The Seven Warlords of the Sea",
+                "cardType": "Character",
+                "maxCost": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP05-058",
+  "name": "It's a Waste of Human Life!!",
+  "cost": 8,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OpponentHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ]
+    }
+  ]
+}

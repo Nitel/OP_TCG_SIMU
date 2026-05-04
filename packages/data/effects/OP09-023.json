@@ -1,0 +1,42 @@
+{
+  "id": "OP09-023",
+  "name": "Adio",
+  "cost": 9,
+  "power": 9000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

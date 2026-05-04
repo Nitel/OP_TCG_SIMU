@@ -1,0 +1,40 @@
+{
+  "id": "OP10-019",
+  "name": "Divine Departure",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 5
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 8000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

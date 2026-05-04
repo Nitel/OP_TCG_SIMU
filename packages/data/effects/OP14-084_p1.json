@@ -1,0 +1,36 @@
+{
+  "id": "OP14-084_p1",
+  "name": "Ms. All Sunday",
+  "cost": 7,
+  "power": 8000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Baroque Works"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Baroque Works"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "OP09-008",
+  "name": "Building Snake",
+  "cost": 1,
+  "power": 2000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Red-Haired Pirates"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

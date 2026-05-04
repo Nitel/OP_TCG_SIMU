@@ -1,0 +1,33 @@
+{
+  "id": "OP08-040",
+  "name": "Atmos",
+  "cost": 4,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

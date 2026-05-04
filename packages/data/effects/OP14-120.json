@@ -1,0 +1,47 @@
+{
+  "id": "OP14-120",
+  "name": "Crocodile",
+  "cost": 8,
+  "power": 10000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 9
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "cardType": "Character",
+                "color": "Black"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

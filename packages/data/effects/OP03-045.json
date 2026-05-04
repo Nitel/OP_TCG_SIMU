@@ -1,0 +1,41 @@
+{
+  "id": "OP03-045",
+  "name": "Carne",
+  "cost": 3,
+  "power": 3000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

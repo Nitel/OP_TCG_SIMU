@@ -1,0 +1,44 @@
+{
+  "id": "OP14-080_p1",
+  "name": "Gecko Moria",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 3,
+          "from": "OwnHand"
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

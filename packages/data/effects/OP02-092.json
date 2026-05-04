@@ -9,31 +9,30 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "SearchDeck",
+          "type": "TrashFromHand",
           "filter": {
-            "kind": "ByName",
-            "name": "Impel Down"
+            "kind": "Any"
           },
-          "destination": "hand"
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            },
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByName",
+                "name": "Impel Down"
+              },
+              "destination": "hand"
+            }
+          ]
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

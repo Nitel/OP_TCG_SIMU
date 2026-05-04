@@ -1,0 +1,38 @@
+{
+  "id": "EB01-034_p1",
+  "name": "Ms. Wednesday",
+  "cost": 3,
+  "power": 4000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

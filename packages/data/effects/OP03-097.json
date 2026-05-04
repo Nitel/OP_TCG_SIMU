@@ -1,0 +1,46 @@
+{
+  "id": "OP03-097",
+  "name": "Six King Pistol",
+  "cost": 0,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacter"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          }
+        }
+      ]
+    }
+  ]
+}

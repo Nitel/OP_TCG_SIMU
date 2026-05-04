@@ -1,0 +1,35 @@
+{
+  "id": "EB02-006_p1",
+  "name": "Yamato",
+  "cost": 6,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Land of Wano"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

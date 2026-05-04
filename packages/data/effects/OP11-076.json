@@ -1,0 +1,30 @@
+{
+  "id": "OP11-076",
+  "name": "Hannyabal",
+  "cost": 5,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Impel Down",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

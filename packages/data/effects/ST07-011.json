@@ -1,0 +1,41 @@
+{
+  "id": "ST07-011",
+  "name": "Zeus",
+  "cost": 3,
+  "power": 3000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [
+    "Banish"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

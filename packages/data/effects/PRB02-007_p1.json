@@ -1,0 +1,37 @@
+{
+  "id": "PRB02-007_p1",
+  "name": "Jinbe",
+  "cost": 4,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "The Seven Warlords of the Sea"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

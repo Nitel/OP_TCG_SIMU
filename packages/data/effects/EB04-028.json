@@ -1,0 +1,45 @@
+{
+  "id": "EB04-028",
+  "name": "Ice Time",
+  "cost": 5,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxPower": 10000
+              }
+            }
+          ]
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader"
+      }
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ]
+}

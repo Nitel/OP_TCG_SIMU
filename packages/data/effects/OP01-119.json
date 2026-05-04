@@ -8,28 +8,15 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 4000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
         }
       ]
     },

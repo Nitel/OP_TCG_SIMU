@@ -1,0 +1,30 @@
+{
+  "id": "ST01-012_p2",
+  "name": "Monkey.D.Luffy",
+  "cost": 5,
+  "power": 6000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Unblockable",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

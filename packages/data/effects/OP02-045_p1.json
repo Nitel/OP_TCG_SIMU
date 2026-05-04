@@ -1,0 +1,43 @@
+{
+  "id": "OP02-045_p1",
+  "name": "Three Sword Style Oni Giri",
+  "cost": 3,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ]
+}

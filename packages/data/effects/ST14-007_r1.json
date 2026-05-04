@@ -1,0 +1,46 @@
+{
+  "id": "ST14-007_r1",
+  "name": "Nico Robin",
+  "cost": 6,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

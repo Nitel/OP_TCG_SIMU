@@ -1,6 +1,6 @@
 {
   "id": "OP02-031",
-  "name": "Kouzuki Toki (Box Topper)",
+  "name": "Kouzuki Toki",
   "cost": 1,
   "power": 0,
   "color": "Green",
@@ -8,6 +8,24 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Kouzuki Oden"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

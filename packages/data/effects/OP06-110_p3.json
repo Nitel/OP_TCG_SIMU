@@ -1,0 +1,37 @@
+{
+  "id": "OP06-110_p3",
+  "name": "Nekomamushi",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Unblockable",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

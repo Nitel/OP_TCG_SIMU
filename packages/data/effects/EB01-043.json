@@ -1,0 +1,35 @@
+{
+  "id": "EB01-043",
+  "name": "Spandine",
+  "cost": 3,
+  "power": 2000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "subType": "CP"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "CP",
+                "cardType": "Character",
+                "maxCost": 4,
+                "excludeSelf": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

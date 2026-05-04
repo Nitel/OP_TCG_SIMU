@@ -1,0 +1,60 @@
+{
+  "id": "EB04-029",
+  "name": "I Heard the Sound...of a Lady's Teardrops Falling",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event"
+            ],
+            "subType": "Sanji"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 4000,
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "subType": "Sanji"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

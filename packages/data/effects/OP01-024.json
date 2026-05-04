@@ -1,6 +1,6 @@
 {
   "id": "OP01-024",
-  "name": "Monkey.D.Luffy (024) (Parallel)",
+  "name": "Monkey.D.Luffy",
   "cost": 2,
   "power": 3000,
   "color": "Red",
@@ -9,14 +9,13 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 2
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "Self"
+          }
         }
       ]
     }

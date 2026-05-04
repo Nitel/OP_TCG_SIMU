@@ -1,0 +1,43 @@
+{
+  "id": "EB03-034_p1",
+  "name": "Charlotte Linlin",
+  "cost": 7,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,55 @@
+{
+  "id": "PRB02-015",
+  "name": "Shiryu",
+  "cost": 4,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

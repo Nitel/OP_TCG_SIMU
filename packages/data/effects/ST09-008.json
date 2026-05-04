@@ -1,0 +1,33 @@
+{
+  "id": "ST09-008",
+  "name": "Shimotsuki Ushimaru",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Yellow",
+            "cardType": "Character",
+            "subType": "Land of Wano",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

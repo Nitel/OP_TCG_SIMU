@@ -1,0 +1,40 @@
+{
+  "id": "OP10-115",
+  "name": "Let's Meet Again in the New World",
+  "cost": 2,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 0
+          }
+        }
+      ]
+    }
+  ]
+}

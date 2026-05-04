@@ -1,0 +1,32 @@
+{
+  "id": "OP03-102",
+  "name": "Sanji",
+  "cost": 2,
+  "power": 3000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

@@ -1,0 +1,28 @@
+{
+  "id": "OP12-043",
+  "name": "Kuzan",
+  "cost": 6,
+  "power": 8000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

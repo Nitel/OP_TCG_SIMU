@@ -1,0 +1,44 @@
+{
+  "id": "OP03-113_r1",
+  "name": "Charlotte Perospero",
+  "cost": 3,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Big Mom Pirates"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "PlaySelf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

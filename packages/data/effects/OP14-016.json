@@ -1,0 +1,28 @@
+{
+  "id": "OP14-016",
+  "name": "X.Drake",
+  "cost": 5,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

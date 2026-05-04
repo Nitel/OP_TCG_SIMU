@@ -1,0 +1,40 @@
+{
+  "id": "EB04-007_p1",
+  "name": "Roronoa Zoro",
+  "cost": 7,
+  "power": 9000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

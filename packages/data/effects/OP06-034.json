@@ -1,0 +1,35 @@
+{
+  "id": "OP06-034",
+  "name": "Hyouzou",
+  "cost": 4,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

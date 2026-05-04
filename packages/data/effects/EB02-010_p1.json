@@ -1,0 +1,32 @@
+{
+  "id": "EB02-010_p1",
+  "name": "Monkey.D.Luffy",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Straw Hat Crew"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 2
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

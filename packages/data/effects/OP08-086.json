@@ -1,0 +1,29 @@
+{
+  "id": "OP08-086",
+  "name": "Ginrummy",
+  "cost": 2,
+  "power": 3000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

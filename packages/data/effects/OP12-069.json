@@ -1,0 +1,28 @@
+{
+  "id": "OP12-069",
+  "name": "Crocodile",
+  "cost": 6,
+  "power": 8000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

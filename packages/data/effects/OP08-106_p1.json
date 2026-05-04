@@ -1,0 +1,39 @@
+{
+  "id": "OP08-106_p1",
+  "name": "Nami",
+  "cost": 5,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5
+              }
+            },
+            {
+              "type": "Draw",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

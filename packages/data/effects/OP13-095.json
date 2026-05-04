@@ -1,0 +1,37 @@
+{
+  "id": "OP13-095",
+  "name": "Saint Rosward",
+  "cost": 3,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            },
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP13-080_p1",
+  "name": "St. Ethanbaron V. Nusjuro",
+  "cost": 6,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

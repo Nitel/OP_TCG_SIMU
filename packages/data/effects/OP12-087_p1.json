@@ -1,0 +1,31 @@
+{
+  "id": "OP12-087_p1",
+  "name": "Nico Robin",
+  "cost": 6,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "TrashCard",
+              "count": 2,
+              "from": "OpponentHand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

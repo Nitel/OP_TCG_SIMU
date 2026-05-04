@@ -1,0 +1,37 @@
+{
+  "id": "OP14-063",
+  "name": "Sugar",
+  "cost": 4,
+  "power": 1000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Donquixote Pirates",
+            "cardType": "Character",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

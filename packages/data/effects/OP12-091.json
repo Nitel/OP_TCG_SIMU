@@ -1,0 +1,32 @@
+{
+  "id": "OP12-091",
+  "name": "Poker",
+  "cost": 3,
+  "power": 4000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

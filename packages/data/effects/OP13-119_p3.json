@@ -1,0 +1,39 @@
+{
+  "id": "OP13-119_p3",
+  "name": "Portgas.D.Ace",
+  "cost": 6,
+  "power": 7000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

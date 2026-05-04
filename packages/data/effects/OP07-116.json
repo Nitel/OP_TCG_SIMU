@@ -1,0 +1,66 @@
+{
+  "id": "OP07-116",
+  "name": "Blaze Slice",
+  "cost": 1,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

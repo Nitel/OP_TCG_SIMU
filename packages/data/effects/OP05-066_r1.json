@@ -1,0 +1,42 @@
+{
+  "id": "OP05-066_r1",
+  "name": "Jinbe",
+  "cost": 5,
+  "power": 6000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

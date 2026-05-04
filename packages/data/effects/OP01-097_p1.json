@@ -1,0 +1,33 @@
+{
+  "id": "OP01-097_p1",
+  "name": "Queen",
+  "cost": 6,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

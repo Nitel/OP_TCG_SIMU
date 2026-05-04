@@ -1,0 +1,42 @@
+{
+  "id": "OP03-090",
+  "name": "Blueno",
+  "cost": 5,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "CP",
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,34 @@
+{
+  "id": "OP15-073",
+  "name": "Yama",
+  "cost": 3,
+  "power": 4000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Heavenly Warriors",
+            "maxCost": 1
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Vassals",
+            "maxCost": 1,
+            "cardType": "Character"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

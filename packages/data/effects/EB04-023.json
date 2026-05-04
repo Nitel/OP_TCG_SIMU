@@ -1,0 +1,30 @@
+{
+  "id": "EB04-023",
+  "name": "Chaka & Pell",
+  "cost": 8,
+  "power": 9000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "DoubleAttack"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Draw",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "OP13-023",
+  "name": "Uta",
+  "cost": 4,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

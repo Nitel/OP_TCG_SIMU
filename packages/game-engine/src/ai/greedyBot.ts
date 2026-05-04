@@ -135,7 +135,9 @@ function decideCombatDefense(state: GameState, botId: PlayerId): GameAction | nu
   // Try best counter card first
   const counters = player.hand
     .map(id => state.cards[id])
-    .filter((c): c is NonNullable<typeof c> => c !== undefined && (c.counter ?? 0) > 0)
+    .filter((c): c is NonNullable<typeof c> =>
+      c !== undefined && ((c.counter ?? 0) > 0 || c.effects?.some((e) => e.trigger === 'Counter') === true),
+    )
     .sort((a, b) => (b.counter ?? 0) - (a.counter ?? 0));
 
   for (const card of counters) {
@@ -170,6 +172,27 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
   if (state.winner !== null) return null;
 
   // Handle pending reveal interaction — bot auto-reveals valid cards or skips
+  // Handle pending trash interaction — bot trashes all eligible cards (maximises power boost)
+  if (state.pendingTrashInteraction !== null && state.pendingTrashInteraction.playerId === botId) {
+    const pending = state.pendingTrashInteraction;
+    const player = state.players[botId];
+    const f = pending.filter;
+    const validCards = (player?.hand ?? [])
+      .map((id) => state.cards[id])
+      .filter((c): c is NonNullable<typeof c> => {
+        if (c === undefined) return false;
+        if (f.color     !== undefined && c.color !== f.color) return false;
+        if (f.cardType  !== undefined && (c.type as string) !== f.cardType) return false;
+        if (f.cardTypes !== undefined && !(f.cardTypes as readonly string[]).includes(c.type)) return false;
+        if (f.maxPower  !== undefined && c.power > f.maxPower) return false;
+        if (f.excludeSelf === true && c.id === pending.sourceCardId) return false;
+        if (f.subType !== undefined && c.subTypes !== undefined && !c.subTypes.includes(f.subType)) return false;
+        return true;
+      });
+    // Greedy: trash all valid cards to maximise any perTrashedCard power boost
+    return { type: 'ResolveTrashInteraction', playerId: botId, trashedCardIds: validCards.map((c) => c.id) };
+  }
+
   if (state.pendingRevealInteraction !== null && state.pendingRevealInteraction.playerId === botId) {
     const pending = state.pendingRevealInteraction;
     const player = state.players[botId];
@@ -192,16 +215,24 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
     return { type: 'ResolveRevealInteraction', playerId: botId, revealedCardIds: toReveal };
   }
 
-  // Handle pending target interaction (ChooseOwnCharacter / ChooseOpponentCharacter)
+  // Handle pending target interaction
   if (state.pendingTargetInteraction !== null && state.pendingTargetInteraction.playerId === botId) {
     const pending = state.pendingTargetInteraction;
     const opponentId = state.playerOrder.find((id) => id !== botId);
-    const ownerId = pending.scope === 'ChooseOwnCharacter' ? botId : opponentId;
+    const isOpponentScope = pending.scope === 'ChooseOpponentCharacter' || pending.scope === 'ChooseOpponentCharacterOrLeader';
+    const ownerId = isOpponentScope ? opponentId : botId;
     if (ownerId === undefined) return null;
-    const candidates = (state.players[ownerId]?.board ?? [])
+    const boardIds = state.players[ownerId]?.board ?? [];
+    // For ChooseOwnCharacterOrLeader include own leader; for ChooseOpponentCharacterOrLeader include opponent's leader
+    const isLeaderScope = pending.scope === 'ChooseOwnCharacterOrLeader' || pending.scope === 'ChooseOpponentCharacterOrLeader';
+    const leaderIds: readonly CardId[] = isLeaderScope && state.players[ownerId]?.leader !== null
+      ? [state.players[ownerId]!.leader!]
+      : [];
+    const candidates = [...boardIds, ...leaderIds]
       .map((id) => state.cards[id])
       .filter((c): c is NonNullable<typeof c> => {
-        if (c === undefined || c.type !== 'Character') return false;
+        if (c === undefined) return false;
+        if (c.type !== 'Character' && c.type !== 'Leader') return false;
         if (pending.maxCost  !== undefined && c.cost  > pending.maxCost)  return false;
         if (pending.maxPower !== undefined && c.power > pending.maxPower) return false;
         return true;

@@ -1,0 +1,33 @@
+{
+  "id": "OP09-020_r1",
+  "name": "Come On!! We'll Fight You!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 5
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

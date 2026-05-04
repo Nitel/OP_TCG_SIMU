@@ -1,0 +1,39 @@
+{
+  "id": "OP10-061",
+  "name": "Special Long-Range Attack!! Bagworm",
+  "cost": 3,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ]
+    }
+  ]
+}

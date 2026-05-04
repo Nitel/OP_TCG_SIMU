@@ -1,0 +1,32 @@
+{
+  "id": "OP13-091",
+  "name": "St. Marcus Mars",
+  "cost": 6,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

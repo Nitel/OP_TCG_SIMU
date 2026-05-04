@@ -1,0 +1,40 @@
+{
+  "id": "OP09-037_p2",
+  "name": "Lim",
+  "cost": 3,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "ODYSSEY"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "OP03-059",
+  "name": "Kaku",
+  "cost": 5,
+  "power": 6000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Banish"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

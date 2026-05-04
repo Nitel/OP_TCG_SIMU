@@ -1,0 +1,33 @@
+{
+  "id": "OP09-062_p1",
+  "name": "Nico Robin",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [
+    "Banish"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Trigger"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "board"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

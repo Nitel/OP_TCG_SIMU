@@ -9,10 +9,6 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
       "actions": [
         {
           "type": "ReturnToHand",
@@ -21,12 +17,11 @@
           }
         },
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
+            "cardType": "Character",
             "maxCost": 3
-          },
-          "destination": "board"
+          }
         }
       ]
     }

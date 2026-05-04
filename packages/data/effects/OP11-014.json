@@ -1,0 +1,34 @@
+{
+  "id": "OP11-014",
+  "name": "Borsalino",
+  "cost": 3,
+  "power": 3000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Unblockable",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "subType": "Navy"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

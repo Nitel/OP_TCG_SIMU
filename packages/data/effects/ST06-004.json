@@ -1,0 +1,28 @@
+{
+  "id": "ST06-004",
+  "name": "Smoker",
+  "cost": 5,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

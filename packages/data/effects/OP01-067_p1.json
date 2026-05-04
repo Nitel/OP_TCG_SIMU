@@ -1,0 +1,31 @@
+{
+  "id": "OP01-067_p1",
+  "name": "Crocodile",
+  "cost": 7,
+  "power": 7000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Banish"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,40 @@
+{
+  "id": "EB03-061_p1",
+  "name": "Uta",
+  "cost": 7,
+  "power": 8000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ]
+}

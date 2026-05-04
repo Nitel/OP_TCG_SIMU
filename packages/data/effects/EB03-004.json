@@ -1,0 +1,31 @@
+{
+  "id": "EB03-004",
+  "name": "Carina",
+  "cost": 3,
+  "power": 2000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Multicolored Leader"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

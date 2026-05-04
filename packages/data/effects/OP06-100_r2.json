@@ -1,0 +1,47 @@
+{
+  "id": "OP06-100_r2",
+  "name": "Inuarashi",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

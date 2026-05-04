@@ -8,22 +8,22 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
       "condition": {
         "type": "HasRestingDon",
         "count": 2
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 3
-          },
-          "destination": "board"
+            "subType": "SMILE",
+            "cardType": "Character",
+            "maxCost": 3,
+            "excludeSelf": true
+          }
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

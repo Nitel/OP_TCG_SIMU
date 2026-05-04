@@ -1,0 +1,54 @@
+{
+  "id": "EB04-022_p1",
+  "name": "Issho",
+  "cost": 5,
+  "power": 7000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "TrashCard",
+              "count": 2,
+              "from": "OpponentHand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

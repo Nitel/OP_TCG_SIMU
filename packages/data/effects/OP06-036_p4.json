@@ -1,0 +1,35 @@
+{
+  "id": "OP06-036_p4",
+  "name": "Ryuma",
+  "cost": 4,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

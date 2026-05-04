@@ -8,19 +8,16 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttack",
+      "trigger": "OnKO",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "Always"
       },
       "actions": [
         {
-          "type": "GainKeyword",
-          "keyword": "Rush",
+          "type": "Rest",
           "target": {
             "scope": "Self"
-          },
-          "duration": "EndOfBattle"
+          }
         }
       ]
     }

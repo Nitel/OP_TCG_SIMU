@@ -1,0 +1,39 @@
+{
+  "id": "EB02-049",
+  "name": "Monkey.D.Garp",
+  "cost": 5,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Monkey.D.Garp"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          }
+        }
+      ]
+    }
+  ]
+}

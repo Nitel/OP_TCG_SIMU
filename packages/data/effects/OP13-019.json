@@ -1,0 +1,48 @@
+{
+  "id": "OP13-019",
+  "name": "But Ace Here Said You Deserved It!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 4
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

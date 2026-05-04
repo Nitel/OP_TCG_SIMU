@@ -1,0 +1,34 @@
+{
+  "id": "OP01-096_p1",
+  "name": "King",
+  "cost": 7,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ]
+    }
+  ]
+}

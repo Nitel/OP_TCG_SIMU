@@ -1,0 +1,38 @@
+{
+  "id": "OP13-082",
+  "name": "Five Elders",
+  "cost": 10,
+  "power": 12000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Imu"
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOwnCharacters"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "OP03-114_p2",
+  "name": "Charlotte Linlin",
+  "cost": 10,
+  "power": 12000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "RemoveLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ST05-011",
+  "name": "Douglas Bullet",
+  "cost": 8,
+  "power": 10000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

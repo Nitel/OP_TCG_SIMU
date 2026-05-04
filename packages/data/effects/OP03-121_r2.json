@@ -1,0 +1,39 @@
+{
+  "id": "OP03-121_r2",
+  "name": "Thunder Bolt",
+  "cost": 2,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP06-112_r1",
+  "name": "Raizo",
+  "cost": 3,
+  "power": 4000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,29 @@
+{
+  "id": "OP15-072",
+  "name": "Hotori",
+  "cost": 1,
+  "power": 2000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Kotori"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

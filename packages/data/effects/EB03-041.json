@@ -1,0 +1,42 @@
+{
+  "id": "EB03-041",
+  "name": "Kujyaku",
+  "cost": 4,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "maxCost": 6
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Navy"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

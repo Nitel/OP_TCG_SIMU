@@ -1,0 +1,38 @@
+{
+  "id": "OP13-002_p1",
+  "name": "Portgas.D.Ace",
+  "cost": 0,
+  "power": 6000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

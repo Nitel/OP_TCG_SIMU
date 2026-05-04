@@ -1,0 +1,32 @@
+{
+  "id": "ST06-001",
+  "name": "Sakazuki",
+  "cost": 5,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

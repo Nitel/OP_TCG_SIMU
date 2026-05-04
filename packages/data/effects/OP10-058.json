@@ -1,0 +1,38 @@
+{
+  "id": "OP10-058",
+  "name": "Rebecca",
+  "cost": 7,
+  "power": 4000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 7,
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Dressrosa",
+                "cardType": "Character",
+                "maxCost": 7,
+                "excludeSelf": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

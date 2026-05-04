@@ -1,0 +1,29 @@
+{
+  "id": "OP05-048",
+  "name": "Bastille",
+  "cost": 5,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 2
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

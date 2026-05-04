@@ -1,0 +1,38 @@
+{
+  "id": "OP10-057",
+  "name": "Leo",
+  "cost": 1,
+  "power": 2000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            },
+            {
+              "type": "TrashCard",
+              "count": 1,
+              "from": "OwnHand"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

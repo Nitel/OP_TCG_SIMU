@@ -1,0 +1,36 @@
+{
+  "id": "OP02-121_p3",
+  "name": "Kuzan",
+  "cost": 10,
+  "power": 10000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 0
+          }
+        }
+      ]
+    }
+  ]
+}

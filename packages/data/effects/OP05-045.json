@@ -1,0 +1,35 @@
+{
+  "id": "OP05-045",
+  "name": "Stainless",
+  "cost": 4,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            },
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "maxCost": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

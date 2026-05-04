@@ -1,0 +1,33 @@
+{
+  "id": "OP09-103",
+  "name": "Koala",
+  "cost": 6,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

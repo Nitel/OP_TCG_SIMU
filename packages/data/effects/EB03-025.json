@@ -1,0 +1,32 @@
+{
+  "id": "EB03-025",
+  "name": "Hina",
+  "cost": 5,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxPower": 6000
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

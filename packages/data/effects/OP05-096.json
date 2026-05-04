@@ -1,0 +1,67 @@
+{
+  "id": "OP05-096",
+  "name": "I Bid 500 Million!!",
+  "cost": 3,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP15-104",
+  "name": "Conis",
+  "cost": 1,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

@@ -20,6 +20,10 @@ export interface RawCard {
   attribute: string;
   /** Space-concatenated card subtypes/affiliations, e.g. "The Four Emperors Whitebeard Pirates" */
   subTypes?: string;
+  /** Trigger effect text, e.g. "Trigger: Add this card to your hand." */
+  triggerText?: string;
+  /** Official Bandai image URL from punk-records */
+  imgUrl?: string;
 }
 
 // Raw shape returned by optcgapi.com /api/sets/

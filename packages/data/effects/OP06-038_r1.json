@@ -1,0 +1,53 @@
+{
+  "id": "OP06-038_r1",
+  "name": "The Billion-fold World Trichiliocosm",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
+}

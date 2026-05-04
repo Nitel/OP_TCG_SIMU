@@ -1,0 +1,28 @@
+{
+  "id": "ST01-012",
+  "name": "Monkey.D.Luffy",
+  "cost": 5,
+  "power": 6000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          }
+        }
+      ]
+    }
+  ]
+}

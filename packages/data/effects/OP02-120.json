@@ -1,6 +1,6 @@
 {
   "id": "OP02-120",
-  "name": "Uta (Alternate Art)",
+  "name": "Uta",
   "cost": 8,
   "power": 8000,
   "color": "Purple",
@@ -9,29 +9,16 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharacters"
+            "scope": "AllOwnCharactersAndLeader"
           },
           "duration": "EndOfTurn"
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

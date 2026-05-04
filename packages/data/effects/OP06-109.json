@@ -1,0 +1,39 @@
+{
+  "id": "OP06-109",
+  "name": "Denjiro",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ]
+}

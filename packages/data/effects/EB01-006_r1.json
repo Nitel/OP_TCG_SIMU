@@ -1,0 +1,29 @@
+{
+  "id": "EB01-006_r1",
+  "name": "Tony Tony.Chopper",
+  "cost": 3,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      }
+    }
+  ],
+  "counter": 1000
+}

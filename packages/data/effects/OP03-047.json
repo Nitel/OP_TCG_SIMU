@@ -1,0 +1,43 @@
+{
+  "id": "OP03-047",
+  "name": "Zeff",
+  "cost": 5,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 7,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        },
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

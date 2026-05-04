@@ -1,0 +1,44 @@
+{
+  "id": "OP06-057",
+  "name": "But I Will Never Doubt a Woman's Tears!!!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 2
+          },
+          "destination": "board"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 2
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "EB03-013_p1",
+  "name": "Carrot",
+  "cost": 6,
+  "power": 7000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 0,
+        "max": 0
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Zou"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

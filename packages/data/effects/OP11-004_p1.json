@@ -1,0 +1,46 @@
+{
+  "id": "OP11-004_p1",
+  "name": "Kujyaku",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "target": {
+                "scope": "ChooseOwnCharacter"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

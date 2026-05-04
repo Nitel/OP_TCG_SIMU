@@ -1,0 +1,39 @@
+{
+  "id": "OP14-052",
+  "name": "Hannyabal",
+  "cost": 5,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Impel Down",
+                "cardType": "Character",
+                "maxCost": 6
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP03-016",
+  "name": "Flame Emperor",
+  "cost": 7,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 8000
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ]
+}

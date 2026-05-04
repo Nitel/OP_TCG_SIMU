@@ -1,0 +1,42 @@
+{
+  "id": "ST28-002",
+  "name": "Izo",
+  "cost": 2,
+  "power": 1000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      }
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

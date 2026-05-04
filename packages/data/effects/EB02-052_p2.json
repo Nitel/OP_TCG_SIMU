@@ -1,0 +1,40 @@
+{
+  "id": "EB02-052_p2",
+  "name": "Enel",
+  "cost": 10,
+  "power": 11000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Sky Island"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": []
+        }
+      ]
+    }
+  ]
+}

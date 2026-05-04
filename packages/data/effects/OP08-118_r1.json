@@ -1,0 +1,31 @@
+{
+  "id": "OP08-118_r1",
+  "name": "Silvers Rayleigh",
+  "cost": 8,
+  "power": 8000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    }
+  ]
+}

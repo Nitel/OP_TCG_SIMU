@@ -6,6 +6,11 @@ import {
   loadDecksFromStorage, deleteDeckFromStorage, cardSetFromId,
 } from '../data/deckBuilder';
 
+// ─── Base card ID (strips variant suffixes like _p1, _p2, _r1, _r2, …) ──────
+function baseCardId(id: string): string {
+  return id.match(/^([A-Z]{2,3}\d{2}-\d{3})/)?.[1] ?? id;
+}
+
 // ─── CDN image URL ────────────────────────────────────────────────────────────
 
 const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
@@ -459,6 +464,16 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
       .sort((a, b) => a.tpl.cost - b.tpl.cost || a.tpl.name.localeCompare(b.tpl.name));
   }, [counts]);
 
+  // Total per base ID (OP01-001 + OP01-001_p1 share the same 4-copy limit)
+  const baseCountMap = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const [id, n] of Object.entries(counts)) {
+      const base = baseCardId(id);
+      m[base] = (m[base] ?? 0) + n;
+    }
+    return m;
+  }, [counts]);
+
   const mismatchCount = useMemo(() => {
     if (allowedColors === null) return 0;
     return deckEntries.filter(({ tpl }) => !allowedColors.has(tpl.color)).reduce((sum, e) => sum + e.count, 0);
@@ -467,10 +482,11 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
   const addCard = (tpl: CardTemplate) => {
     if (tpl.type === 'Leader') { setLeaderId(tpl.id); return; }
     if (allowedColors !== null && !allowedColors.has(tpl.color)) return;
+    const base = baseCardId(tpl.id);
     setCounts(prev => {
-      const cur = prev[tpl.id] ?? 0;
-      if (cur >= 4 || totalCards >= 50) return prev;
-      return { ...prev, [tpl.id]: cur + 1 };
+      const baseTotal = Object.entries(prev).reduce((s, [k, n]) => baseCardId(k) === base ? s + n : s, 0);
+      if (baseTotal >= 4 || totalCards >= 50) return prev;
+      return { ...prev, [tpl.id]: (prev[tpl.id] ?? 0) + 1 };
     });
   };
 
@@ -673,7 +689,7 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
                 <GridCard
                   key={`${tpl.id}-${i}`}
                   tpl={tpl}
-                  count={tpl.type === 'Leader' ? (leaderId === tpl.id ? 1 : 0) : (counts[tpl.id] ?? 0)}
+                  count={tpl.type === 'Leader' ? (leaderId === tpl.id ? 1 : 0) : (baseCountMap[baseCardId(tpl.id)] ?? 0)}
                   onAdd={() => addCard(tpl)}
                   colorMismatch={colorMismatch}
                   onHoverStart={rect => handleHoverStart(tpl, rect)}
@@ -778,7 +794,10 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
                   display: 'flex', alignItems: 'center', gap: 6,
                   padding: '4px 0', borderBottom: '1px solid #0f0f20',
                   opacity: isMismatch ? 0.5 : 1,
-                }}>
+                }}
+                  onMouseEnter={e => handleHoverStart(tpl, e.currentTarget.getBoundingClientRect())}
+                  onMouseLeave={handleHoverEnd}
+                >
                   <span style={{ fontSize: 11, color: isMismatch ? '#cc6644' : '#88ffaa', width: 18 }}>
                     ×{count}
                   </span>
@@ -798,13 +817,14 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
                   <button
                     style={{
                       background: 'none', border: 'none',
-                      cursor: (count >= 4 || isMismatch) ? 'default' : 'pointer',
-                      color: (count >= 4 || isMismatch) ? '#334455' : '#44aa66', fontSize: 14, padding: '0 2px',
+                      cursor: ((baseCountMap[baseCardId(id)] ?? 0) >= 4 || isMismatch) ? 'default' : 'pointer',
+                      color: ((baseCountMap[baseCardId(id)] ?? 0) >= 4 || isMismatch) ? '#334455' : '#44aa66', fontSize: 14, padding: '0 2px',
                     }}
                     onClick={() => {
                       if (isMismatch) return;
-                      const cur = counts[id] ?? 0;
-                      if (cur < 4 && totalCards < 50) setCounts(prev => ({ ...prev, [id]: cur + 1 }));
+                      const base = baseCardId(id);
+                      const baseTotal = Object.entries(counts).reduce((s, [k, n]) => baseCardId(k) === base ? s + n : s, 0);
+                      if (baseTotal < 4 && totalCards < 50) setCounts(prev => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
                     }}
                   >
                     ＋

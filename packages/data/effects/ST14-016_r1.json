@@ -1,0 +1,40 @@
+{
+  "id": "ST14-016_r1",
+  "name": "I Have My Crew!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
+}

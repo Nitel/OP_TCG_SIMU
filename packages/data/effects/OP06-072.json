@@ -1,0 +1,28 @@
+{
+  "id": "OP06-072",
+  "name": "Cosette",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

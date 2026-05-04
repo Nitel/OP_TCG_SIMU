@@ -1,0 +1,42 @@
+{
+  "id": "OP03-110",
+  "name": "Charlotte Smoothie",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

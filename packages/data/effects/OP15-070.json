@@ -1,0 +1,44 @@
+{
+  "id": "OP15-070",
+  "name": "Fuza",
+  "cost": 3,
+  "power": 4000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Unblockable"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Unblockable",
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 0
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,45 @@
+{
+  "id": "EB04-032",
+  "name": "Queen",
+  "cost": 1,
+  "power": 1000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Animal Kingdom Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Animal Kingdom Pirates"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

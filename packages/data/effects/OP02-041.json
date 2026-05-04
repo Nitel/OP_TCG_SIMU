@@ -1,6 +1,6 @@
 {
   "id": "OP02-041",
-  "name": "Monkey.D.Luffy (041) (Alternate Art)",
+  "name": "Monkey.D.Luffy",
   "cost": 7,
   "power": 7000,
   "color": "Green",
@@ -13,15 +13,20 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
+            "subType": "FILM",
             "maxCost": 4
-          },
-          "destination": "board"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Straw Hat Crew",
+            "maxCost": 4
+          }
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

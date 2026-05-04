@@ -1,0 +1,29 @@
+{
+  "id": "ST09-004",
+  "name": "Kaido",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 1
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

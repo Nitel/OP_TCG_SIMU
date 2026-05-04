@@ -1,0 +1,33 @@
+{
+  "id": "OP03-122_p2",
+  "name": "Sogeking",
+  "cost": 7,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

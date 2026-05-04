@@ -1,0 +1,28 @@
+{
+  "id": "OP12-086_p1",
+  "name": "Koala",
+  "cost": 1,
+  "power": 2000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader with Revolutionary Army type"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

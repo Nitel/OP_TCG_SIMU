@@ -1,0 +1,36 @@
+{
+  "id": "OP13-064",
+  "name": "Gol.D.Roger",
+  "cost": 10,
+  "power": 13000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

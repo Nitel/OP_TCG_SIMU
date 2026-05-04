@@ -1,0 +1,45 @@
+{
+  "id": "OP06-001_p2",
+  "name": "Uta",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "FILM"
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "duration": "EndOfTurn"
+            },
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "board"
+            },
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

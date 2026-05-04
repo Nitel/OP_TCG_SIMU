@@ -1,0 +1,39 @@
+{
+  "id": "OP02-030_p1",
+  "name": "Kouzuki Oden",
+  "cost": 8,
+  "power": 8000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Land of Wano"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

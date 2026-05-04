@@ -1,0 +1,42 @@
+{
+  "id": "EB01-060_r1",
+  "name": "Did Someone Say...Kami?",
+  "cost": 4,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Enel"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "RemoveLife",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ]
+}

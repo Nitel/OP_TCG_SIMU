@@ -1,0 +1,28 @@
+{
+  "id": "ST04-002",
+  "name": "Ulti",
+  "cost": 4,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "name": "Page One",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

@@ -12,18 +12,13 @@
     {
       "trigger": "OnKO",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "name": "Leader"
       },
       "actions": [
         {
           "type": "GiveDon",
           "count": 1
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
         }
       ]
     }

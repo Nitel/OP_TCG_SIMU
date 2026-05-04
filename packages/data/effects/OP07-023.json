@@ -1,0 +1,31 @@
+{
+  "id": "OP07-023",
+  "name": "Caribou",
+  "cost": 4,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

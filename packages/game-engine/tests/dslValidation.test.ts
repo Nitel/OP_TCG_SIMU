@@ -13,24 +13,25 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const EFFECTS_DIR = path.join(__dirname, '../../data/effects');
 
 const VALID_TRIGGERS = new Set([
-  'Activated', 'OnPlay', 'OnAttack', 'OnBlock', 'OnKO', 'OnLeaveField', 'Trigger',
+  'Activated', 'OnPlay', 'OnAttack', 'OnAttacked', 'OnBlock', 'OnKO', 'OnLeaveField', 'Counter', 'Trigger',
   'StartOfTurn', 'StartOfOpponentTurn', 'StartOfMainPhase', 'EndOfTurn',
 ]);
 const VALID_CONDITIONS = new Set([
-  'Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon',
+  'Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon', 'TrashCount', 'HasCardOnBoard',
 ]);
 const VALID_ACTIONS = new Set([
   'Draw', 'KO', 'ReturnToHand', 'PowerBoost', 'TrashCard', 'AddLife',
   'GiveDon', 'TakeLifeToHand', 'AttachDon', 'GainKeyword', 'Rest',
   'RemoveLife', 'PlaySelf', 'SearchDeck', 'PlayFromHand', 'RevealFromHand',
+  'TrashFromHand',
 ]);
-const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Trigger']);
+const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
 const VALID_SCOPES = new Set([
   'Self', 'Attacker', 'OriginalTarget',
   'AllOwnCharacters', 'AllOwnCharactersAndLeader',
   'AllOpponentCharacters',
   'OpponentLeader', 'OwnLeader',
-  'ChooseOwnCharacter', 'ChooseOpponentCharacter',
+  'ChooseOwnCharacter', 'ChooseOpponentCharacter', 'ChooseOwnCharacterOrLeader', 'ChooseOpponentCharacterOrLeader',
 ]);
 const VALID_DURATIONS = new Set(['EndOfTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
 const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName']);

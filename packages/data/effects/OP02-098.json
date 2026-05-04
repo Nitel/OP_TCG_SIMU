@@ -9,21 +9,21 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
         }
       ]
     }

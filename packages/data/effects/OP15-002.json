@@ -1,0 +1,61 @@
+{
+  "id": "OP15-002",
+  "name": "Lucy",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "perTrashedCard": true,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "perTrashedCard": true,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP06-023_p2",
+  "name": "Arlong",
+  "cost": 4,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "OpponentLeader"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "ST13-003_p1",
+  "name": "Monkey.D.Luffy",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByCost",
+                "maxCost": 5
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

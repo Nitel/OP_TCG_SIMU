@@ -1,0 +1,45 @@
+{
+  "id": "ST09-014_p2",
+  "name": "Narikabura Arrow",
+  "cost": 1,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "TurnCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

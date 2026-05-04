@@ -1,0 +1,36 @@
+{
+  "id": "EB03-016",
+  "name": "Kouzuki Hiyori",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Kouzuki Oden"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    }
+  ]
+}

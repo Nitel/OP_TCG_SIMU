@@ -1,0 +1,47 @@
+{
+  "id": "OP15-114_p1",
+  "name": "Wyper",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ST25-004",
+  "name": "Buggy",
+  "cost": 4,
+  "power": 1000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Buggy"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Cross Guild",
+                "cardType": "Character",
+                "maxCost": 6
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,43 @@
+{
+  "id": "ST21-015_p1",
+  "name": "Roronoa Zoro",
+  "cost": 4,
+  "power": 5000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Red",
+            "cardType": "Character",
+            "maxPower": 6000,
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,28 @@
+{
+  "id": "ST13-008",
+  "name": "Sabo",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

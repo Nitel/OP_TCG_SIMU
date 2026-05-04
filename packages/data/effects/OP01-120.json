@@ -1,6 +1,6 @@
 {
   "id": "OP01-120",
-  "name": "Shanks (Parallel) (Manga) (Alternate Art)",
+  "name": "Shanks",
   "cost": 9,
   "power": 10000,
   "color": "Red",
@@ -8,6 +8,18 @@
   "keywords": [
     "Rush"
   ],
-  "effects": [],
-  "counter": 0
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000
+          }
+        }
+      ]
+    }
+  ]
 }

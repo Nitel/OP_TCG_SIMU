@@ -1,0 +1,28 @@
+{
+  "id": "OP03-020",
+  "name": "Striker",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Event"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

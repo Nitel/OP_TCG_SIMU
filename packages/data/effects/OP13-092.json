@@ -1,0 +1,28 @@
+{
+  "id": "OP13-092",
+  "name": "Saint Mjosgard",
+  "cost": 2,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TurnCount"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Mary Geoise"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

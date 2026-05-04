@@ -1,0 +1,45 @@
+{
+  "id": "EB03-061_p2",
+  "name": "Uta",
+  "cost": 7,
+  "power": 8000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "FILM"
+          }
+        }
+      ]
+    }
+  ]
+}

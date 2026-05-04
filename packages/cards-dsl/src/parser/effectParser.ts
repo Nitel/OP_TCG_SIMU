@@ -9,13 +9,14 @@ import type {
 
 // ─── Validation helpers ───────────────────────────────────────────────────────
 
-const VALID_TRIGGERS: EffectTrigger[] = ['OnPlay', 'OnAttack', 'OnKO', 'OnBlock', 'Trigger', 'Activated'];
+const VALID_TRIGGERS: EffectTrigger[] = ['OnPlay', 'OnAttack', 'OnAttacked', 'OnKO', 'OnBlock', 'Counter', 'Trigger', 'Activated'];
 const VALID_KEYWORDS: CardKeyword[]   = ['Rush', 'Blocker', 'Banish', 'DoubleAttack', 'Unblockable'];
+const VALID_CONDITIONS = ['Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon', 'TrashCount', 'HasCardOnBoard'] as const;
 const TARGET_SCOPES = [
   'Self', 'Attacker', 'OriginalTarget',
-  'AllOpponentCharacters', 'AllOwnCharacters',
+  'AllOpponentCharacters', 'AllOwnCharacters', 'AllOwnCharactersAndLeader',
   'OpponentLeader', 'OwnLeader',
-  'ChooseOpponentCharacter', 'ChooseOwnCharacter',
+  'ChooseOpponentCharacter', 'ChooseOwnCharacter', 'ChooseOwnCharacterOrLeader', 'ChooseOpponentCharacterOrLeader',
 ] as const;
 
 export interface ParseError {
@@ -114,6 +115,38 @@ function validateAction(action: unknown, path: string): ParseError[] {
         errors.push({ path: `${path}.duration`, message: 'GainKeyword.duration is invalid' });
       }
       break;
+    case 'PlayFromHand':
+      if (typeof a['filter'] !== 'object' || a['filter'] === null) {
+        errors.push({ path: `${path}.filter`, message: 'PlayFromHand.filter must be an object' });
+      }
+      break;
+    case 'RevealFromHand':
+      if (typeof a['count'] !== 'number' || a['count'] < 1) {
+        errors.push({ path: `${path}.count`, message: 'RevealFromHand.count must be a positive number' });
+      }
+      if (typeof a['filter'] !== 'object' || a['filter'] === null) {
+        errors.push({ path: `${path}.filter`, message: 'RevealFromHand.filter must be an object' });
+      }
+      if (!Array.isArray(a['thenActions'])) {
+        errors.push({ path: `${path}.thenActions`, message: 'RevealFromHand.thenActions must be an array' });
+      } else {
+        (a['thenActions'] as unknown[]).forEach((sub, i) => {
+          errors.push(...validateAction(sub, `${path}.thenActions[${i}]`));
+        });
+      }
+      break;
+    case 'TrashFromHand':
+      if (typeof a['filter'] !== 'object' || a['filter'] === null) {
+        errors.push({ path: `${path}.filter`, message: 'TrashFromHand.filter must be an object' });
+      }
+      if (!Array.isArray(a['thenActions'])) {
+        errors.push({ path: `${path}.thenActions`, message: 'TrashFromHand.thenActions must be an array' });
+      } else {
+        (a['thenActions'] as unknown[]).forEach((sub, i) => {
+          errors.push(...validateAction(sub, `${path}.thenActions[${i}]`));
+        });
+      }
+      break;
     default:
       errors.push({ path: `${path}.type`, message: `Unknown action type: ${String(a['type'])}` });
   }
@@ -129,6 +162,17 @@ function validateEffect(effect: unknown, path: string): ParseError[] {
 
   if (!VALID_TRIGGERS.includes(e['trigger'] as EffectTrigger)) {
     errors.push({ path: `${path}.trigger`, message: `Unknown trigger: ${String(e['trigger'])}` });
+  }
+  if (e['condition'] !== undefined && e['condition'] !== null) {
+    const cond = e['condition'] as Record<string, unknown>;
+    if (!VALID_CONDITIONS.includes(cond['type'] as typeof VALID_CONDITIONS[number])) {
+      errors.push({ path: `${path}.condition.type`, message: `Unknown condition type: ${String(cond['type'])}` });
+    }
+    if (cond['type'] === 'HasCardOnBoard') {
+      if (typeof cond['name'] !== 'string' || cond['name'].length === 0) {
+        errors.push({ path: `${path}.condition.name`, message: 'HasCardOnBoard.name must be a non-empty string' });
+      }
+    }
   }
   if (!Array.isArray(e['actions'])) {
     errors.push({ path: `${path}.actions`, message: 'Effect.actions must be an array' });

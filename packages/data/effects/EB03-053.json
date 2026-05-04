@@ -1,0 +1,43 @@
+{
+  "id": "EB03-053",
+  "name": "Nami",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

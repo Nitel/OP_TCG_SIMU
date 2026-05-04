@@ -1,0 +1,37 @@
+{
+  "id": "OP06-061_p1",
+  "name": "Vinsmoke Ichiji",
+  "cost": 7,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "OP12-094",
+  "name": "Monkey.D.Dragon",
+  "cost": 8,
+  "power": 8000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "OP14-100",
+  "name": "Absalom",
+  "cost": 3,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

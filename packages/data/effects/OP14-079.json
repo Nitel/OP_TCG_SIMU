@@ -1,0 +1,35 @@
+{
+  "id": "OP14-079",
+  "name": "Crocodile",
+  "cost": 0,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -10,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ]
+}

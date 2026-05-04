@@ -1,0 +1,37 @@
+{
+  "id": "OP15-039",
+  "name": "Rebecca",
+  "cost": 5,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 3
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
+}

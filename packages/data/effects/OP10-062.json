@@ -1,0 +1,30 @@
+{
+  "id": "OP10-062",
+  "name": "Violet",
+  "cost": 3,
+  "power": 4000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

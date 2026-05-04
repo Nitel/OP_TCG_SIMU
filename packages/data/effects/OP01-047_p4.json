@@ -1,0 +1,31 @@
+{
+  "id": "OP01-047_p4",
+  "name": "Trafalgar Law",
+  "cost": 5,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
+}

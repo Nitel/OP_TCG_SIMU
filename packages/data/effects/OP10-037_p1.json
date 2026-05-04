@@ -1,0 +1,41 @@
+{
+  "id": "OP10-037_p1",
+  "name": "Lim",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "ODYSSEY"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "ODYSSEY"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

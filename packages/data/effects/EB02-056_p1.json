@@ -1,0 +1,41 @@
+{
+  "id": "EB02-056_p1",
+  "name": "Vegapunk",
+  "cost": 5,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 5
+          },
+          "destination": "board"
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

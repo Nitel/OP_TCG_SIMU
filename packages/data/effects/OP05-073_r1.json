@@ -1,0 +1,35 @@
+{
+  "id": "OP05-073_r1",
+  "name": "Miss Doublefinger(Zala)",
+  "cost": 4,
+  "power": 4000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1
+            },
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP12-061",
+  "name": "Donquixote Rosinante",
+  "cost": 0,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Trafalgar Law"
+      },
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Trafalgar Law"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

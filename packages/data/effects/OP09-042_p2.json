@@ -1,0 +1,32 @@
+{
+  "id": "OP09-042_p2",
+  "name": "Buggy",
+  "cost": 5,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "subType": "Cross Guild"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Cross Guild",
+                "cardType": "Character"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "EB03-020",
+  "name": "There You Are, Sore Loser!",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "FILM"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    }
+  ]
+}

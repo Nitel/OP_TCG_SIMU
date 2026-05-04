@@ -1,0 +1,38 @@
+{
+  "id": "EB03-062_p1",
+  "name": "Trafalgar Law",
+  "cost": 8,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "name": "Trafalgar Law",
+            "maxCost": 7
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP15-116",
+  "name": "Gum-Gum Golden Rifle",
+  "cost": 1,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Straw Hat Crew"
+      },
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

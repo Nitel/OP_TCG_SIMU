@@ -1,0 +1,29 @@
+{
+  "id": "OP15-111",
+  "name": "Mont Blanc Noland",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
+    }
+  ],
+  "counter": 2000
+}

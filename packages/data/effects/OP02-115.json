@@ -1,6 +1,6 @@
 {
   "id": "OP02-115",
-  "name": "Monkey.D.Garp (115) (Alternate Art)",
+  "name": "Monkey.D.Garp",
   "cost": 2,
   "power": 3000,
   "color": "Black",
@@ -9,19 +9,18 @@
   "effects": [
     {
       "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
       "actions": [
         {
           "type": "KO",
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 0
+            "scope": "ChooseOpponentCharacter"
           }
         }
-      ]
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      }
     }
   ],
   "counter": 2000

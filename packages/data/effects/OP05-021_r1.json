@@ -1,0 +1,34 @@
+{
+  "id": "OP05-021_r1",
+  "name": "Revolutionary Army HQ",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP05-018",
+  "name": "Emporio Energy Hormone",
+  "cost": 3,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxPower": 5000,
+            "cardType": "Character"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxPower": 5000,
+            "cardType": "Character"
+          }
+        }
+      ]
+    }
+  ]
+}

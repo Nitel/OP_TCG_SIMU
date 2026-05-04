@@ -1,0 +1,35 @@
+{
+  "id": "OP04-011",
+  "name": "Nami",
+  "cost": 2,
+  "power": 3000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 6000
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

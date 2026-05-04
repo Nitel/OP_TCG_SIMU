@@ -1,0 +1,42 @@
+{
+  "id": "ST13-007_p2",
+  "name": "Sabo",
+  "cost": 2,
+  "power": 2000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "name": "Sabo",
+            "maxCost": 5
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "name": "Sabo",
+                "maxCost": 5
+              }
+            },
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EB03-031_p2",
+  "name": "Vinsmoke Reiju",
+  "cost": 5,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Event"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

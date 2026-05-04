@@ -1,0 +1,44 @@
+{
+  "id": "OP03-118",
+  "name": "Ikoku Sovereignty",
+  "cost": 2,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 5000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

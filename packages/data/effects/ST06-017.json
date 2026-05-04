@@ -1,0 +1,41 @@
+{
+  "id": "ST06-017",
+  "name": "Navy HQ",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Navy"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

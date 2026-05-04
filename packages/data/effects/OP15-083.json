@@ -1,0 +1,37 @@
+{
+  "id": "OP15-083",
+  "name": "Spoil",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 3,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

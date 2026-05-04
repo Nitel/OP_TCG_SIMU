@@ -1,0 +1,30 @@
+{
+  "id": "OP06-090",
+  "name": "Dr. Hogback",
+  "cost": 4,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "TakeLifeToHand",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

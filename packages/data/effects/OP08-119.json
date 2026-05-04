@@ -1,0 +1,34 @@
+{
+  "id": "OP08-119",
+  "name": "Kaido & Linlin",
+  "cost": 10,
+  "power": 12000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          }
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "RemoveLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

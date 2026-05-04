@@ -1,0 +1,38 @@
+{
+  "id": "EB03-055_p2",
+  "name": "Nico Robin",
+  "cost": 7,
+  "power": 8000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 2
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Straw Hat Crew"
+      }
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP12-018",
+  "name": "Color of the Supreme King Haki",
+  "cost": 0,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "OpponentLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "EB04-044",
+  "name": "Koby",
+  "cost": 6,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Navy"
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

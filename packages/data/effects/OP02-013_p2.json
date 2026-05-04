@@ -1,0 +1,36 @@
+{
+  "id": "OP02-013_p2",
+  "name": "Portgas.D.Ace",
+  "cost": 7,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "name": "Leader"
+          }
+        }
+      ]
+    }
+  ]
+}

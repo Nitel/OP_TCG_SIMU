@@ -8,19 +8,21 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
         }
       ]
     },

@@ -1,0 +1,46 @@
+{
+  "id": "EB04-048",
+  "name": "Rob Lucci",
+  "cost": 4,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "CP"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perTrashedCard": true,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

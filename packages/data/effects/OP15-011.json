@@ -1,0 +1,55 @@
+{
+  "id": "OP15-011",
+  "name": "Pearl",
+  "cost": 4,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

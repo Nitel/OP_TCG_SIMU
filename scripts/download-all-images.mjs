@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Download card images for all sets that have a raw JSON in packages/data/raw/.
- * Usage: node scripts/download-all-images.mjs [--skip-existing]
+ * Usage: node scripts/download-all-images.mjs [--force]
  *
- * --skip-existing is passed to download-card-images.mjs (already skips by default per file).
- * This script just iterates over all known JSON files.
+ * Default: skip files that already exist locally.
+ * --force: re-download everything, overwriting existing files.
  */
 
 import { execSync } from 'node:child_process';
@@ -18,8 +18,8 @@ const RAW_DIR = join(ROOT, 'packages/data/raw');
 const sets = readdirSync(RAW_DIR)
   .filter(f => f.endsWith('.json') && !f.startsWith('_'))
   .sort()
-  // Convert "OP-01.json" → "OP01" (format expected by download-card-images.mjs)
-  .map(f => f.replace(/\.json$/, '').replace(/-/g, ''));
+  // Pass the set name as-is (without .json); download-card-images.mjs handles normalization
+  .map(f => f.replace(/\.json$/, ''));
 
 if (sets.length === 0) {
   console.error('No sets found in packages/data/raw/ — run `pnpm fetch-all-sets` first.');
@@ -33,7 +33,8 @@ let ok = 0, failed = 0;
 for (const setCode of sets) {
   console.log(`\n─── ${setCode} ───────────────────────────────────────`);
   try {
-    execSync(`node scripts/download-card-images.mjs ${setCode}`, { cwd: ROOT, stdio: 'inherit' });
+    const forceFlag = process.argv.includes('--force') ? ' --force' : '';
+    execSync(`node scripts/download-card-images.mjs ${setCode}${forceFlag}`, { cwd: ROOT, stdio: 'inherit' });
     ok++;
   } catch {
     console.error(`FAIL  ${setCode}`);

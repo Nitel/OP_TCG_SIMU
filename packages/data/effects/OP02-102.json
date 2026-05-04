@@ -1,6 +1,6 @@
 {
   "id": "OP02-102",
-  "name": "Smoker (102)",
+  "name": "Smoker",
   "cost": 3,
   "power": 4000,
   "color": "Black",
@@ -10,7 +10,8 @@
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "name": "Character with a cost of 0"
       },
       "actions": [
         {

@@ -1,0 +1,34 @@
+{
+  "id": "EB03-057",
+  "name": "Yamato",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 3,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OpponentHand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

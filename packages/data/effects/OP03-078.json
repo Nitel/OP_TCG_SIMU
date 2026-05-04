@@ -1,0 +1,41 @@
+{
+  "id": "OP03-078",
+  "name": "Issho",
+  "cost": 8,
+  "power": 9000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OpponentHand"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP05-037_r1",
+  "name": "Because the Side of Justice Will Be Whichever Side Wins!!",
+  "cost": 0,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

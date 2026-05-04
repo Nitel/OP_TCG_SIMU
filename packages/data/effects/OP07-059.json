@@ -1,0 +1,32 @@
+{
+  "id": "OP07-059",
+  "name": "Foxy",
+  "cost": 0,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OpponentLeader"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    }
+  ]
+}

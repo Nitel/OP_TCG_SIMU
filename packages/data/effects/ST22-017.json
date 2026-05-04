@@ -8,11 +8,20 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
       "actions": [
         {
-          "type": "Draw",
-          "count": 1
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 1
+            }
+          ]
         }
       ]
     },
@@ -22,7 +31,7 @@
         {
           "type": "ReturnToHand",
           "target": {
-            "scope": "ChooseOpponentCharacter",
+            "scope": "ChooseOwnCharacter",
             "maxCost": 3
           }
         }

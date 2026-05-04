@@ -1,0 +1,37 @@
+{
+  "id": "OP04-075",
+  "name": "Nez-Palm Cannon",
+  "cost": 3,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

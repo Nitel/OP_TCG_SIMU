@@ -1,0 +1,36 @@
+{
+  "id": "OP11-092",
+  "name": "Helmeppo",
+  "cost": 6,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 1
+            },
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByName",
+                "name": "SWORD"
+              },
+              "destination": "board"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "OP15-051",
+  "name": "Monkey.D.Luffy",
+  "cost": 3,
+  "power": 4000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Dressrosa"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

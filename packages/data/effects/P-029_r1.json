@@ -1,0 +1,32 @@
+{
+  "id": "P-029_r1",
+  "name": "Bartolomeo",
+  "cost": 2,
+  "power": 3000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 2
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,32 @@
+{
+  "id": "OP06-119_p1",
+  "name": "Sanji",
+  "cost": 9,
+  "power": 9000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "maxCost": 9,
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "maxCost": 9
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

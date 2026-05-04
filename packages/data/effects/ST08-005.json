@@ -1,0 +1,31 @@
+{
+  "id": "ST08-005",
+  "name": "Shanks",
+  "cost": 9,
+  "power": 10000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "AllOpponentCharacters",
+                "maxCost": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

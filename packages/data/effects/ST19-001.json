@@ -1,0 +1,32 @@
+{
+  "id": "ST19-001",
+  "name": "Smoker",
+  "cost": 6,
+  "power": 8000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "color": "Black",
+            "subType": "Navy"
+          },
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

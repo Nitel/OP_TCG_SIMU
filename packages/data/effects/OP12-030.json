@@ -1,0 +1,29 @@
+{
+  "id": "OP12-030",
+  "name": "Dracule Mihawk",
+  "cost": 8,
+  "power": 8000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 4
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ]
+}

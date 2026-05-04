@@ -12,16 +12,17 @@
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "name": "Penguin",
+        "negate": true
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByName",
-            "name": "Penguin"
-          },
-          "destination": "board"
+            "cardType": "Character",
+            "subType": "Heart Pirates"
+          }
         }
       ]
     }

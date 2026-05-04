@@ -1,0 +1,44 @@
+{
+  "id": "ST13-014_p1",
+  "name": "Monkey.D.Luffy",
+  "cost": 2,
+  "power": 2000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "TakeLifeToHand",
+              "count": 1
+            },
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "cardType": "Character",
+                "maxCost": 5
+              }
+            },
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,6 +1,6 @@
 {
   "id": "ST27-005",
-  "name": "Marshall D Teach",
+  "name": "Marshall.D.Teach",
   "cost": 7,
   "power": 8000,
   "color": "Black",
@@ -9,10 +9,6 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
       "actions": [
         {
           "type": "KO",
@@ -27,13 +23,12 @@
       "trigger": "OnKO",
       "actions": [
         {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black"
           }
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

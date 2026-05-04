@@ -8,17 +8,13 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -3000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacterOrLeader"
           },
           "duration": "EndOfTurn"
         }
@@ -33,7 +29,7 @@
         {
           "type": "Rest",
           "target": {
-            "scope": "OpponentLeader"
+            "scope": "ChooseOpponentCharacter"
           }
         }
       ]

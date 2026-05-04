@@ -11,12 +11,13 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 3
-          },
-          "destination": "board"
+            "subType": "Minks",
+            "maxCost": 3,
+            "excludeSelf": true,
+            "cardType": "Character"
+          }
         }
       ]
     }

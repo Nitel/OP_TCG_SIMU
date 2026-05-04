@@ -1,0 +1,32 @@
+{
+  "id": "ST17-004",
+  "name": "Boa Hancock",
+  "cost": 4,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ]
+}

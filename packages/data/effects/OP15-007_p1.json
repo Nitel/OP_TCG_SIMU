@@ -1,0 +1,28 @@
+{
+  "id": "OP15-007_p1",
+  "name": "Gin",
+  "cost": 6,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "East Blue"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "maxCost": 5,
+            "cardType": "Character"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

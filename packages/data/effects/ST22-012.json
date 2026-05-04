@@ -8,23 +8,34 @@
   "keywords": [],
   "effects": [
     {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "RevealFromHand",
+          "count": 1,
           "filter": {
-            "kind": "ByType",
-            "cardType": "Character"
+            "subType": "Whitebeard Pirates"
           },
-          "destination": "hand"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     }

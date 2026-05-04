@@ -1,0 +1,38 @@
+{
+  "id": "EB01-012_p1",
+  "name": "Cavendish",
+  "cost": 5,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Cavendish"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Cavendish"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

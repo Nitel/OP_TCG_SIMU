@@ -1,0 +1,66 @@
+{
+  "id": "OP14-105",
+  "name": "Gorgon Sisters",
+  "cost": 6,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "subType": "Amazon Lily"
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "AllOwnCharactersAndLeader"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "subType": "Kuja Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "AllOwnCharactersAndLeader"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Kuja Pirates"
+      },
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

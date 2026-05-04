@@ -1,6 +1,6 @@
 {
   "id": "OP01-002",
-  "name": "Trafalgar Law (002) (Parallel)",
+  "name": "Trafalgar Law",
   "cost": 0,
   "power": 5000,
   "color": "Multi",
@@ -10,8 +10,8 @@
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 2
+        "type": "HasCardOnBoard",
+        "name": "Character"
       },
       "actions": [
         {
@@ -21,12 +21,11 @@
           }
         },
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
+            "cardType": "Character",
             "maxCost": 5
-          },
-          "destination": "board"
+          }
         }
       ]
     }

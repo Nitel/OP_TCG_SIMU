@@ -1,0 +1,39 @@
+{
+  "id": "OP03-094",
+  "name": "Air Door",
+  "cost": 4,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "maxPower": 3
+          }
+        }
+      ]
+    }
+  ]
+}

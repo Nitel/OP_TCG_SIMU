@@ -1,0 +1,38 @@
+{
+  "id": "P-058_p1",
+  "name": "Where the Wind Blows",
+  "cost": 2,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "AllOwnCharacters"
+          }
+        }
+      ]
+    }
+  ]
+}

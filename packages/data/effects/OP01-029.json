@@ -8,13 +8,13 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
         },
@@ -22,12 +22,22 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "condition": {
-            "type": "Always"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
         }
       ]
     }

@@ -1,0 +1,46 @@
+{
+  "id": "EB04-009",
+  "name": "It's My Student's Farewell. I Want It to Be Proper.",
+  "cost": 0,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Silvers Rayleigh"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "subType": "Silvers Rayleigh"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

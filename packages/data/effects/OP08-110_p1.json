@@ -1,0 +1,32 @@
+{
+  "id": "OP08-110_p1",
+  "name": "Wyper",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Upper Yard"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Stage",
+            "subType": "Upper Yard"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

@@ -1,0 +1,32 @@
+{
+  "id": "OP09-065",
+  "name": "Sanji",
+  "cost": 7,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

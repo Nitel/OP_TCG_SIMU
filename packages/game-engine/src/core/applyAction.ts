@@ -388,6 +388,7 @@ function applyStartGame(
     pendingOnKOInteraction: null,
     pendingTargetInteraction: null,
     pendingRevealInteraction: null,
+    pendingTrashInteraction: null,
   };
 }
 
@@ -710,16 +711,36 @@ function applyDeclareAttack(
     },
   };
 
-  // Trigger OnAttack effects
+  // Trigger OnAttack effects for the attacker
+  let afterOnAttack: GameState = afterAttack;
   if (attacker.effects?.length) {
-    return resolveEffects(
+    afterOnAttack = resolveEffects(
       attacker.effects,
       'OnAttack',
       { sourceCardId: action.attackerId, sourcePlayerId: action.playerId },
       afterAttack,
     );
+    // If a pending interaction was set, return early — OnAttacked fires after resolution
+    if (
+      afterOnAttack.pendingTargetInteraction !== null ||
+      afterOnAttack.pendingRevealInteraction !== null ||
+      afterOnAttack.pendingTrashInteraction  !== null
+    ) {
+      return afterOnAttack;
+    }
   }
-  return afterAttack;
+
+  // Trigger OnAttacked effects for the target card
+  const targetCard = afterOnAttack.cards[action.targetId];
+  if (targetCard?.effects?.length) {
+    return resolveEffects(
+      targetCard.effects,
+      'OnAttacked',
+      { sourceCardId: action.targetId, sourcePlayerId: opponentId },
+      afterOnAttack,
+    );
+  }
+  return afterOnAttack;
 }
 
 // ─── DeclareBlock ─────────────────────────────────────────────────────────────
@@ -957,11 +978,14 @@ function applyPlayCounter(
   if (card === undefined) {
     return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
   }
-  if ((card.counter ?? 0) === 0) {
-    return makeGameError('NO_COUNTER_VALUE', `Card ${action.cardId} has no counter value`);
+
+  const hasCounterValue  = (card.counter ?? 0) > 0;
+  const hasCounterEffect = card.effects?.some((e) => e.trigger === 'Counter') ?? false;
+  if (!hasCounterValue && !hasCounterEffect) {
+    return makeGameError('NO_COUNTER_VALUE', `Card ${action.cardId} has no counter value or Counter effect`);
   }
 
-  const counterValue = card.counter!;
+  const counterValue = card.counter ?? 0;
   const updatedCards: Record<string, Card> = {
     ...state.cards,
     [action.cardId]: { ...card, zone: 'trash' as const },
@@ -972,7 +996,7 @@ function applyPlayCounter(
     trash: [...player.trash, action.cardId],
   };
 
-  return {
+  const afterPlay: GameState = {
     ...state,
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: { ...state.players, [action.playerId]: updatedPlayer },
@@ -981,6 +1005,16 @@ function applyPlayCounter(
       counterPower: state.activeCombat.counterPower + counterValue,
     },
   };
+
+  if (hasCounterEffect) {
+    return resolveEffects(
+      card.effects!,
+      'Counter',
+      { sourceCardId: action.cardId, sourcePlayerId: action.playerId },
+      afterPlay,
+    );
+  }
+  return afterPlay;
 }
 
 // ─── ResolveCombat ────────────────────────────────────────────────────────────
@@ -1097,13 +1131,19 @@ function applyResolveTargetInteraction(
   }
 
   const target = state.cards[action.targetCardId];
-  if (target === undefined || target.zone !== 'board' || target.type !== 'Character') {
-    return makeGameError('INVALID_TARGET', `Card ${action.targetCardId} is not a valid board character`);
+  const isValidBoardChar = target !== undefined && target.zone === 'board' && target.type === 'Character';
+  const isValidLeader    = target !== undefined && target.zone === 'leader' && target.type === 'Leader'
+    && (pending.scope === 'ChooseOwnCharacterOrLeader' || pending.scope === 'ChooseOpponentCharacterOrLeader');
+  if (!isValidBoardChar && !isValidLeader) {
+    return makeGameError('INVALID_TARGET', `Card ${action.targetCardId} is not a valid target for scope ${pending.scope}`);
   }
 
   const [p1, p2] = state.playerOrder;
   const opponentOfSource = pending.sourcePlayerId === p1 ? p2 : p1;
-  const expectedOwner = pending.scope === 'ChooseOwnCharacter' ? pending.sourcePlayerId : opponentOfSource;
+  const expectedOwner =
+    pending.scope === 'ChooseOpponentCharacter' || pending.scope === 'ChooseOpponentCharacterOrLeader'
+      ? opponentOfSource
+      : pending.sourcePlayerId;
   if (target.ownerId !== expectedOwner) {
     return makeGameError('INVALID_TARGET', `Target belongs to wrong player for scope ${pending.scope}`);
   }
@@ -1232,6 +1272,113 @@ function applyResolveRevealInteraction(
   return next;
 }
 
+// ─── ResolveTrashInteraction ──────────────────────────────────────────────────
+
+function applyResolveTrashInteraction(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveTrashInteraction' }>,
+): ActionResult {
+  const pending = state.pendingTrashInteraction;
+  if (pending === null) {
+    return makeGameError('NO_PENDING_INTERACTION', 'No pending trash interaction to resolve');
+  }
+  if (pending.playerId !== action.playerId) {
+    return makeGameError('WRONG_PLAYER', `Player ${action.playerId} cannot resolve another player's trash`);
+  }
+
+  // Validate each chosen card: must be in hand, owned by the player, and match the filter
+  for (const cardId of action.trashedCardIds) {
+    const card = state.cards[cardId];
+    if (card === undefined || card.zone !== 'hand' || card.ownerId !== pending.playerId) {
+      return makeGameError('INVALID_TARGET', `Card ${cardId} is not in hand`);
+    }
+    const f = pending.filter;
+    const typeOk =
+      f.cardType  !== undefined ? (card.type as string) === f.cardType :
+      f.cardTypes !== undefined ? (f.cardTypes as readonly string[]).includes(card.type) :
+      true;
+    const valid =
+      typeOk &&
+      (f.color     === undefined || card.color === f.color) &&
+      (f.maxPower  === undefined || card.power <= f.maxPower) &&
+      (f.excludeSelf !== true    || cardId !== pending.sourceCardId) &&
+      (f.subType   === undefined || card.subTypes === undefined || card.subTypes.includes(f.subType));
+    if (!valid) {
+      return makeGameError('INVALID_TARGET', `Card ${cardId} does not match trash filter`);
+    }
+  }
+
+  // Move chosen cards to trash
+  const trashedCount = action.trashedCardIds.length;
+  let next: GameState = { ...state, pendingTrashInteraction: null };
+  if (trashedCount > 0) {
+    const player = next.players[pending.playerId]!;
+    const trashedSet = new Set<CardId>(action.trashedCardIds);
+    const updatedCards: Record<string, Card> = { ...next.cards };
+    for (const cardId of action.trashedCardIds) {
+      updatedCards[cardId] = { ...updatedCards[cardId]!, zone: 'trash' as const };
+    }
+    const updatedPlayer: PlayerState = {
+      ...player,
+      hand:  player.hand.filter((id) => !trashedSet.has(id)),
+      trash: [...player.trash, ...action.trashedCardIds],
+    };
+    next = {
+      ...next,
+      cards:   updatedCards as Readonly<Record<CardId, Card>>,
+      players: { ...next.players, [pending.playerId]: updatedPlayer },
+    };
+  }
+
+  const ctx: EffectContext = {
+    sourceCardId:   pending.sourceCardId,
+    sourcePlayerId: pending.sourcePlayerId,
+  };
+
+  // Execute thenActions — scale perTrashedCard PowerBoost by the number of cards trashed
+  if (pending.thenActions.length > 0) {
+    const scaledActions = pending.thenActions.map((a) => {
+      if (a.type === 'PowerBoost' && a.perTrashedCard === true) {
+        return { ...a, amount: a.amount * trashedCount };
+      }
+      return a;
+    });
+    next = resolveEffects(
+      [{ trigger: pending.trigger, actions: scaledActions }],
+      pending.trigger,
+      ctx,
+      next,
+    );
+    if (
+      next.pendingTargetInteraction !== null ||
+      next.pendingRevealInteraction !== null ||
+      next.pendingTrashInteraction  !== null
+    ) return next;
+  }
+
+  // Execute remaining actions from the same effect
+  if (pending.pendingEffectActions.length > 0) {
+    next = resolveEffects(
+      [{ trigger: pending.trigger, actions: pending.pendingEffectActions }],
+      pending.trigger,
+      ctx,
+      next,
+    );
+    if (
+      next.pendingTargetInteraction !== null ||
+      next.pendingRevealInteraction !== null ||
+      next.pendingTrashInteraction  !== null
+    ) return next;
+  }
+
+  // Execute remaining effects from the original effect list
+  if (pending.pendingEffects.length > 0) {
+    next = resolveEffects(pending.pendingEffects, pending.trigger, ctx, next);
+  }
+
+  return next;
+}
+
 // ─── applyAction (dispatcher) ─────────────────────────────────────────────────
 
 export function applyAction(state: GameState, action: GameAction): ActionResult {
@@ -1268,6 +1415,8 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyResolveTargetInteraction(state, action);
     case 'ResolveRevealInteraction':
       return applyResolveRevealInteraction(state, action);
+    case 'ResolveTrashInteraction':
+      return applyResolveTrashInteraction(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

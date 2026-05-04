@@ -374,6 +374,28 @@ export function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState?.pendingRevealInteraction]);
 
+  // ── Detect pendingTrashInteraction — show trashFromHand UI for human player ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingTrashInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      setUiState((prev) => ({
+        ...prev,
+        selectionMode: 'trashFromHand',
+        trashInteraction: {
+          filter: pending.filter,
+          sourceCardId: pending.sourceCardId,
+          selectedCardIds: [],
+        },
+      }));
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'trashFromHand' ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingTrashInteraction]);
+
   // ── Greedy bot (vsBot mode) ───────────────────────────────────────────────
 
   useEffect(() => {
@@ -388,8 +410,9 @@ export function App() {
     const isBotPendingTarget = gameState.pendingTargetInteraction?.playerId === BOT_ID;
     const isBotPendingOnKO   = gameState.pendingOnKOInteraction?.playerId   === BOT_ID;
     const isBotPendingReveal = gameState.pendingRevealInteraction?.playerId  === BOT_ID;
+    const isBotPendingTrash  = gameState.pendingTrashInteraction?.playerId   === BOT_ID;
 
-    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal) return;
+    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash) return;
 
     const action = greedyBotDecide(gameState, BOT_ID);
     if (action === null) return;
@@ -529,6 +552,29 @@ export function App() {
           return IDLE_UI;
         }
         return { ...prev, revealInteraction: { ...revealInteraction, selectedCardIds: newSelected } };
+      }
+
+      if (selectionMode === 'trashFromHand') {
+        const { trashInteraction } = prev;
+        if (trashInteraction === undefined) return IDLE_UI;
+        if (card.zone !== 'hand') return prev;
+        const f = trashInteraction.filter;
+        const typeOk =
+          f.cardType  !== undefined ? card.type === f.cardType :
+          f.cardTypes !== undefined ? (f.cardTypes as string[]).includes(card.type) :
+          true;
+        const valid =
+          typeOk &&
+          (f.color    === undefined || card.color === f.color) &&
+          (f.maxPower === undefined || card.power <= f.maxPower) &&
+          (f.excludeSelf !== true   || cardId !== trashInteraction.sourceCardId);
+        if (!valid) return prev;
+        // Toggle card selection
+        const alreadySelected = trashInteraction.selectedCardIds.includes(cardId);
+        const newSelected = alreadySelected
+          ? trashInteraction.selectedCardIds.filter((id) => id !== cardId)
+          : [...trashInteraction.selectedCardIds, cardId];
+        return { ...prev, trashInteraction: { ...trashInteraction, selectedCardIds: newSelected } };
       }
 
       if (selectedCardId !== null) {
@@ -781,6 +827,108 @@ export function App() {
                       </button>
                     )}
                   </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── Trash-from-hand overlay ─────────────────────────────────────── */}
+        {uiState.selectionMode === 'trashFromHand' && uiState.trashInteraction !== undefined && (() => {
+          const ti = uiState.trashInteraction;
+          const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? gameState.activePlayerId;
+          const playerHand = gameState.players[humanId]?.hand ?? [];
+          const validCards = playerHand
+            .map((id) => gameState.cards[id])
+            .filter((c): c is NonNullable<typeof c> => {
+              if (c === undefined) return false;
+              const f = ti.filter;
+              const typeOk =
+                f.cardType  !== undefined ? c.type === f.cardType :
+                f.cardTypes !== undefined ? (f.cardTypes as string[]).includes(c.type) :
+                true;
+              return (
+                typeOk &&
+                (f.color    === undefined || c.color === f.color) &&
+                (f.maxPower === undefined || c.power <= f.maxPower) &&
+                (f.excludeSelf !== true   || c.id !== ti.sourceCardId)
+              );
+            });
+          const CDN_BASE_: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
+          const typeLabel = ti.filter.cardTypes !== undefined
+            ? ti.filter.cardTypes.join('/') : (ti.filter.cardType ?? 'carte');
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 460,
+              background: 'rgba(0,0,0,0.82)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'auto',
+            }}>
+              <div style={{
+                background: 'rgba(4,8,24,0.97)',
+                border: '1px solid rgba(255,140,0,0.55)',
+                borderRadius: 10,
+                padding: 20,
+                maxWidth: '80vw',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
+                display: 'flex', flexDirection: 'column', gap: 16,
+              }}>
+                <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#ff8c00', textAlign: 'center', letterSpacing: 1 }}>
+                  Défaussez des cartes [{typeLabel}] de votre main (+1000 force/carte)
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${Math.min(Math.max(validCards.length, 1), 7)}, 86px)`,
+                  gap: 8,
+                  justifyContent: 'center',
+                }}>
+                  {validCards.map((card) => {
+                    const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
+                    const imgUrl = templateId !== undefined ? `${CDN_BASE_}/card-images/${templateId}.png` : null;
+                    const isSelected = ti.selectedCardIds.includes(card.id);
+                    return (
+                      <div
+                        key={card.id}
+                        onClick={() => handleCardClick(card.id)}
+                        style={{
+                          width: 86, height: 120, borderRadius: 4, overflow: 'hidden',
+                          cursor: 'pointer', flexShrink: 0,
+                          border: isSelected ? '2px solid #ff8c00' : '1px solid rgba(255,140,0,0.25)',
+                          boxShadow: isSelected ? '0 0 8px rgba(255,140,0,0.6)' : 'none',
+                          transition: 'border-color 0.1s, box-shadow 0.1s',
+                        }}
+                      >
+                        {imgUrl !== null ? (
+                          <img src={imgUrl} alt={card.name} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{ width: '100%', height: '100%', background: '#1a1a3a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4, boxSizing: 'border-box' }}>
+                            <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 9, textAlign: 'center' }}>{card.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {validCards.length === 0 && (
+                    <div style={{ color: '#aaaacc', fontFamily: 'monospace', fontSize: 12, gridColumn: '1/-1', textAlign: 'center' }}>
+                      Aucune carte éligible en main
+                    </div>
+                  )}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+                  <span style={{ color: '#aaaacc', fontFamily: 'monospace', fontSize: 12 }}>
+                    {ti.selectedCardIds.length} carte{ti.selectedCardIds.length !== 1 ? 's' : ''} sélectionnée{ti.selectedCardIds.length !== 1 ? 's' : ''}
+                  </span>
+                  <button
+                    onClick={() => dispatch({ type: 'ResolveTrashInteraction', playerId: humanId, trashedCardIds: ti.selectedCardIds })}
+                    style={{
+                      padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                      border: '1px solid #ff8c00', borderRadius: 4,
+                      cursor: 'pointer', background: '#1a0a00', color: '#ff8c00',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {ti.selectedCardIds.length === 0 ? 'Passer (0 carte)' : `Défausser (${ti.selectedCardIds.length})`}
+                  </button>
                 </div>
               </div>
             </div>

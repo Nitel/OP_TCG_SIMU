@@ -1,0 +1,48 @@
+{
+  "id": "OP15-119",
+  "name": "Monkey.D.Luffy",
+  "cost": 5,
+  "power": 7000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

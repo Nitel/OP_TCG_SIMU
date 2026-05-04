@@ -1,0 +1,63 @@
+{
+  "id": "OP02-062_p1",
+  "name": "Monkey.D.Luffy",
+  "cost": 6,
+  "power": 7000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "DoubleAttack"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

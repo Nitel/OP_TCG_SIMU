@@ -10,8 +10,8 @@
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 0
+        "type": "HasCardOnBoard",
+        "name": "Emporio.Ivankov"
       },
       "actions": [
         {
@@ -24,12 +24,11 @@
           "from": "OwnHand"
         },
         {
-          "type": "TrashCard",
-          "count": 3,
-          "from": "OwnHand"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": []
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

@@ -1,70 +1,63 @@
 {
   "id": "OP02-062",
-  "name": "Monkey.D.Luffy (062) (Alternate Art)",
+  "name": "Monkey.D.Luffy",
   "cost": 6,
   "power": 7000,
   "color": "Blue",
   "cardType": "Character",
-  "keywords": [
-    "DoubleAttack"
-  ],
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 2,
-          "from": "OwnHand"
-        },
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        },
-        {
-          "type": "GainKeyword",
-          "keyword": "DoubleAttack",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 4
+              }
+            },
+            {
+              "type": "GainKeyword",
+              "keyword": "DoubleAttack",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     },
     {
       "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 2,
-          "from": "OwnHand"
-        },
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        },
-        {
-          "type": "GainKeyword",
-          "keyword": "DoubleAttack",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 4
+              }
+            },
+            {
+              "type": "GainKeyword",
+              "keyword": "DoubleAttack",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

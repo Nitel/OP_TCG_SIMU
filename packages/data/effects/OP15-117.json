@@ -1,0 +1,40 @@
+{
+  "id": "OP15-117",
+  "name": "Heso!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Sky Island"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP09-107",
+  "name": "Nico Robin",
+  "cost": 6,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Yellow",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

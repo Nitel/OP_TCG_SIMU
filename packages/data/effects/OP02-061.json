@@ -6,6 +6,22 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

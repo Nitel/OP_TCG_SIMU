@@ -1,0 +1,32 @@
+{
+  "id": "ST17-005_r1",
+  "name": "Marshall.D.Teach",
+  "cost": 2,
+  "power": 3000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 2,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

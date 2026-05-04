@@ -1,6 +1,6 @@
 {
   "id": "OP01-060",
-  "name": "Donquixote Doflamingo (060) (Parallel)",
+  "name": "Donquixote Doflamingo",
   "cost": 0,
   "power": 5000,
   "color": "Blue",
@@ -15,12 +15,23 @@
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "RevealFromHand",
+          "count": 1,
           "filter": {
-            "kind": "ByCost",
+            "subType": "The Seven Warlords of the Sea",
+            "cardType": "Character",
             "maxCost": 4
           },
-          "destination": "board"
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "The Seven Warlords of the Sea",
+                "cardType": "Character",
+                "maxCost": 4
+              }
+            }
+          ]
         }
       ]
     }

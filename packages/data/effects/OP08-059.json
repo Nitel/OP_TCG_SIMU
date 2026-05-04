@@ -1,0 +1,35 @@
+{
+  "id": "OP08-059",
+  "name": "Alber",
+  "cost": 4,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "King",
+                "maxCost": 7
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

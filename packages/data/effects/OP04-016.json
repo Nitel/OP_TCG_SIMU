@@ -1,0 +1,45 @@
+{
+  "id": "OP04-016",
+  "name": "Bad Manners Kick Course",
+  "cost": 0,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacter"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "OP07-056",
+  "name": "Slave Arrow",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 2
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

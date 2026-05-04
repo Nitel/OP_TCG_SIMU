@@ -1,0 +1,35 @@
+{
+  "id": "OP05-091_r1",
+  "name": "Rebecca",
+  "cost": 4,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 7
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

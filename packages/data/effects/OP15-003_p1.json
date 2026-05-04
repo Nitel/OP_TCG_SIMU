@@ -1,0 +1,37 @@
+{
+  "id": "OP15-003_p1",
+  "name": "Alvida",
+  "cost": 5,
+  "power": 6000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 6000
+          },
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

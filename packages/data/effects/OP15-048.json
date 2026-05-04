@@ -1,0 +1,39 @@
+{
+  "id": "OP15-048",
+  "name": "Chinjao",
+  "cost": 4,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OpponentHand"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

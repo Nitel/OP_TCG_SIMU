@@ -1,0 +1,33 @@
+{
+  "id": "EB03-045_p1",
+  "name": "Perona",
+  "cost": 4,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 2
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

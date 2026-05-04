@@ -1,0 +1,43 @@
+{
+  "id": "PRB02-018_p1",
+  "name": "Portgas.D.Ace",
+  "cost": 5,
+  "power": 7000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Sabo"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Portgas.D.Ace"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Monkey.D.Luffy"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

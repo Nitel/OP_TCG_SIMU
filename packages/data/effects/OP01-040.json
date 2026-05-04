@@ -1,6 +1,6 @@
 {
   "id": "OP01-040",
-  "name": "Kin'emon (Parallel)",
+  "name": "Kin'emon",
   "cost": 6,
   "power": 6000,
   "color": "Green",
@@ -10,16 +10,16 @@
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "name": "Kouzuki Oden"
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByType",
-            "cardType": "Character"
-          },
-          "destination": "board"
+            "subType": "The Akazaya Nine",
+            "maxCost": 3
+          }
         }
       ]
     },
@@ -33,11 +33,11 @@
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 3
           }
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

@@ -1,0 +1,29 @@
+{
+  "id": "OP13-050",
+  "name": "Boa Sandersonia",
+  "cost": 2,
+  "power": 3000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Boa Hancock"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3,
+            "subType": "Boa Hancock"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

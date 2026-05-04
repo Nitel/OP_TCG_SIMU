@@ -1,0 +1,42 @@
+{
+  "id": "OP05-093",
+  "name": "Rob Lucci",
+  "cost": 4,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 2
+              }
+            },
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

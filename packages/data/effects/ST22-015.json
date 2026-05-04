@@ -10,16 +10,16 @@
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "name": "Edward.Newgate"
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByName",
-            "name": "Edward Newgate"
-          },
-          "destination": "board"
+            "cardType": "Character",
+            "subType": "Edward.Newgate"
+          }
         },
         {
           "type": "TakeLifeToHand",

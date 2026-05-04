@@ -1,0 +1,37 @@
+{
+  "id": "OP14-031_p1",
+  "name": "Nami",
+  "cost": 4,
+  "power": 2000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8
+          }
+        },
+        {
+          "type": "GiveDon",
+          "count": 5
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

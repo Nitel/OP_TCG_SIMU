@@ -1,0 +1,44 @@
+{
+  "id": "EB01-042",
+  "name": "Scarlet",
+  "cost": 2,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 3,
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Dressrosa",
+                "cardType": "Character",
+                "maxCost": 3
+              }
+            },
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

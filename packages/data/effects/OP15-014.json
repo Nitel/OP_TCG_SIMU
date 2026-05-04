@@ -1,0 +1,36 @@
+{
+  "id": "OP15-014",
+  "name": "Bartolomeo",
+  "cost": 4,
+  "power": 6000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Dressrosa",
+            "cardType": "Event",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
+}

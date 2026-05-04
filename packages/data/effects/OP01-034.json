@@ -1,6 +1,6 @@
 {
   "id": "OP01-034",
-  "name": "Inuarashi (Box Topper)",
+  "name": "Inuarashi",
   "cost": 3,
   "power": 4000,
   "color": "Green",
@@ -8,7 +8,7 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttack",
+      "trigger": "Activated",
       "condition": {
         "type": "HasRestingDon",
         "count": 2
@@ -16,7 +16,10 @@
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "target": {
+            "scope": "Self"
+          }
         }
       ]
     }

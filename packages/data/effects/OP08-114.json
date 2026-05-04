@@ -1,0 +1,46 @@
+{
+  "id": "OP08-114",
+  "name": "S-Hawk",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PlaySelf"
+            }
+          ]
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    }
+  ],
+  "counter": 1000
+}

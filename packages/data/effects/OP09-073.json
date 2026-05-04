@@ -1,0 +1,31 @@
+{
+  "id": "OP09-073",
+  "name": "Brook",
+  "cost": 6,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

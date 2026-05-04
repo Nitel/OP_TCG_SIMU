@@ -1,0 +1,33 @@
+{
+  "id": "OP11-008_p1",
+  "name": "Doll",
+  "cost": 4,
+  "power": 1000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -6000,
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

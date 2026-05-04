@@ -1,0 +1,29 @@
+{
+  "id": "EB03-042_p1",
+  "name": "Koala",
+  "cost": 4,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxCost": 6,
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

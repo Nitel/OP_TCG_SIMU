@@ -1,7 +1,7 @@
 {
   "id": "OP02-093",
-  "name": "Smoker (093) (Alternate Art)",
-  "cost": 0,
+  "name": "Smoker",
+  "cost": 5,
   "power": 5000,
   "color": "Black",
   "cardType": "Leader",
@@ -9,14 +9,10 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
       "actions": [
         {
           "type": "PowerBoost",
-          "amount": -1,
+          "amount": -1000,
           "target": {
             "scope": "ChooseOpponentCharacter"
           },
@@ -26,7 +22,7 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "Self"
+            "scope": "OwnLeader"
           },
           "duration": "EndOfTurn"
         }

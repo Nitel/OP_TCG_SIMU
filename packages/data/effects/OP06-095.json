@@ -1,0 +1,54 @@
+{
+  "id": "OP06-095",
+  "name": "Shadows Asgard",
+  "cost": 2,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 2
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn",
+          "perTrashedCard": true
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "OP05-111",
+  "name": "Hotori",
+  "cost": 3,
+  "power": 3000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "subType": "Kotori"
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,33 @@
+{
+  "id": "OP15-012",
+  "name": "Buggy",
+  "cost": 3,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

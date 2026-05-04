@@ -1,0 +1,32 @@
+{
+  "id": "OP13-054_p1",
+  "name": "Yamato",
+  "cost": 5,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TurnCount",
+        "max": 3
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

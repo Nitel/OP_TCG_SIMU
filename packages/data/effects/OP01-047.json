@@ -1,6 +1,6 @@
 {
   "id": "OP01-047",
-  "name": "Trafalgar Law (047) (Parallel)",
+  "name": "Trafalgar Law",
   "cost": 5,
   "power": 6000,
   "color": "Green",
@@ -11,9 +11,6 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
           "type": "ReturnToHand",
@@ -22,15 +19,13 @@
           }
         },
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
+            "cardType": "Character",
             "maxCost": 3
-          },
-          "destination": "board"
+          }
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

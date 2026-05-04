@@ -1,0 +1,35 @@
+{
+  "id": "OP09-022_p1",
+  "name": "Lim",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "ODYSSEY",
+            "maxCost": 5,
+            "cardType": "Character"
+          }
+        }
+      ]
+    }
+  ]
+}

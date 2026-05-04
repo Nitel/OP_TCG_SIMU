@@ -1,6 +1,6 @@
 {
   "id": "OP02-114",
-  "name": "Borsalino (Alternate Art)",
+  "name": "Borsalino",
   "cost": 4,
   "power": 5000,
   "color": "Black",
@@ -10,7 +10,10 @@
   ],
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -18,7 +21,7 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "Permanent"
         }
       ]
     }

@@ -11,12 +11,19 @@
       "trigger": "Activated",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 1
-          },
-          "destination": "board"
+            "color": "Red",
+            "cardType": "Character",
+            "maxCost": 1,
+            "excludeSelf": true
+          }
         }
       ]
     }

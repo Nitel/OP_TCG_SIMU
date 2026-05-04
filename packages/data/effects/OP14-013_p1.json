@@ -1,0 +1,38 @@
+{
+  "id": "OP14-013_p1",
+  "name": "Monkey.D.Luffy",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Supernovas"
+          },
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

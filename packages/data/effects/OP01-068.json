@@ -5,23 +5,21 @@
   "power": 5000,
   "color": "Blue",
   "cardType": "Character",
-  "keywords": [
-    "DoubleAttack"
-  ],
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttack",
+      "trigger": "Activated",
       "condition": {
         "type": "Always"
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 0,
+          "type": "GainKeyword",
+          "keyword": "DoubleAttack",
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfBattle"
+          "duration": "EndOfTurn"
         }
       ]
     }

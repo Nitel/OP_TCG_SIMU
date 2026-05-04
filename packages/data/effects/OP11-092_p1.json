@@ -1,0 +1,35 @@
+{
+  "id": "OP11-092_p1",
+  "name": "Helmeppo",
+  "cost": 6,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 1
+            },
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "SWORD",
+                "cardType": "Character",
+                "maxCost": 8,
+                "excludeSelf": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

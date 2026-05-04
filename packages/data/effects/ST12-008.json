@@ -1,0 +1,27 @@
+{
+  "id": "ST12-008",
+  "name": "Roronoa Zoro",
+  "cost": 4,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
+    }
+  ]
+}

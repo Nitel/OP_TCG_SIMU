@@ -12,16 +12,13 @@
     {
       "trigger": "OnKO",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "name": "Leader"
       },
       "actions": [
         {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByType",
-            "cardType": "Event"
-          },
-          "destination": "hand"
+          "type": "TakeLifeToHand",
+          "count": 1
         }
       ]
     }

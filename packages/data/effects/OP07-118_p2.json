@@ -1,0 +1,39 @@
+{
+  "id": "OP07-118_p2",
+  "name": "Sabo",
+  "cost": 8,
+  "power": 9000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5
+              }
+            },
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "OP07-079",
+  "name": "Rob Lucci",
+  "cost": 0,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

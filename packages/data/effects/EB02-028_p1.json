@@ -1,0 +1,36 @@
+{
+  "id": "EB02-028_p1",
+  "name": "Portgas.D.Ace",
+  "cost": 5,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Character"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 2000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

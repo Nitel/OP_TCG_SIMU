@@ -1,0 +1,36 @@
+{
+  "id": "ST16-001",
+  "name": "Uta",
+  "cost": 4,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "FILM"
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

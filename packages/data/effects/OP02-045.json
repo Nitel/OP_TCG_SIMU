@@ -8,32 +8,32 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "Always"
-      },
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 6000,
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 999
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
         },
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
+            "cardType": "Character",
             "maxCost": 3
-          },
-          "destination": "board"
-        },
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOpponentCharacter",
+            "scope": "ChooseOpponentCharacterOrLeader",
             "maxCost": 5
           }
         }

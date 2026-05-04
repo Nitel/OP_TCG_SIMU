@@ -1,0 +1,32 @@
+{
+  "id": "OP08-049",
+  "name": "Speed Jil",
+  "cost": 4,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "GainKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

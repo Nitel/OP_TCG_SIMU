@@ -1,0 +1,53 @@
+{
+  "id": "OP02-036_p1",
+  "name": "Nami",
+  "cost": 3,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "subType": "FILM"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "subType": "FILM"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

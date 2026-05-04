@@ -1,0 +1,33 @@
+{
+  "id": "ST13-005_p1",
+  "name": "Emporio.Ivankov",
+  "cost": 3,
+  "power": 4000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "thenActions": [
+            {
+              "type": "RemoveLife",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,33 @@
+{
+  "id": "OP03-070",
+  "name": "Monkey.D.Luffy",
+  "cost": 6,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 5
+          },
+          "thenActions": [
+            {
+              "type": "GainKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

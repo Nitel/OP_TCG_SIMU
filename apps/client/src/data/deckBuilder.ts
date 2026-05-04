@@ -1,6 +1,14 @@
 import { makeCardId } from 'game-engine';
 import type { Card, CardEffect, CardKeyword, PlayerId, PlayerSetup } from 'game-engine';
 
+/**
+ * Canonical base ID — strips variant suffixes (_p1, _r1, etc.).
+ * Handles both standard format (OP01-001) and promo format (P-069).
+ */
+export function baseCardId(id: string): string {
+  return id.match(/^([A-Z]+\d*-\d{3})/)?.[1] ?? id;
+}
+
 // ─── AUTO-GENERATED: raw set imports — do not edit manually, run pnpm sync-sets
 import eb01Raw from '../../../../packages/data/raw/EB-01.json';
 import eb02Raw from '../../../../packages/data/raw/EB-02.json';
@@ -15,6 +23,13 @@ import op07Raw from '../../../../packages/data/raw/OP-07.json';
 import op08Raw from '../../../../packages/data/raw/OP-08.json';
 import op09Raw from '../../../../packages/data/raw/OP-09.json';
 import op10Raw from '../../../../packages/data/raw/OP-10.json';
+import op11Raw from '../../../../packages/data/raw/OP-11.json';
+import op12Raw from '../../../../packages/data/raw/OP-12.json';
+import op13Raw from '../../../../packages/data/raw/OP-13.json';
+import op14eb04Raw from '../../../../packages/data/raw/OP14-EB04.json';
+import op15eb04Raw from '../../../../packages/data/raw/OP15-EB04.json';
+import prb01Raw from '../../../../packages/data/raw/PRB-01.json';
+import prb02Raw from '../../../../packages/data/raw/PRB-02.json';
 import st01Raw from '../../../../packages/data/raw/ST-01.json';
 import st02Raw from '../../../../packages/data/raw/ST-02.json';
 import st03Raw from '../../../../packages/data/raw/ST-03.json';
@@ -42,6 +57,8 @@ import st24Raw from '../../../../packages/data/raw/ST-24.json';
 import st25Raw from '../../../../packages/data/raw/ST-25.json';
 import st26Raw from '../../../../packages/data/raw/ST-26.json';
 import st27Raw from '../../../../packages/data/raw/ST-27.json';
+import st28Raw from '../../../../packages/data/raw/ST-28.json';
+import st29Raw from '../../../../packages/data/raw/ST-29.json';
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
 // ─── Local types matching raw/effect file shapes ──────────────────────────────
@@ -55,6 +72,8 @@ interface RawCard {
   readonly color: string;
   readonly counter: number | null;
   readonly subTypes?: string;
+  readonly triggerText?: string;
+  readonly imgUrl?: string;
 }
 
 function normalizeCardType(t: string): 'Leader' | 'Character' | 'Event' | 'Stage' | null {
@@ -223,6 +242,13 @@ const allRaw: RawCard[] = [
   ...(op08Raw as unknown as RawCard[]),
   ...(op09Raw as unknown as RawCard[]),
   ...(op10Raw as unknown as RawCard[]),
+  ...(op11Raw as unknown as RawCard[]),
+  ...(op12Raw as unknown as RawCard[]),
+  ...(op13Raw as unknown as RawCard[]),
+  ...(op14eb04Raw as unknown as RawCard[]),
+  ...(op15eb04Raw as unknown as RawCard[]),
+  ...(prb01Raw as unknown as RawCard[]),
+  ...(prb02Raw as unknown as RawCard[]),
   ...(st01Raw as unknown as RawCard[]),
   ...(st02Raw as unknown as RawCard[]),
   ...(st03Raw as unknown as RawCard[]),
@@ -250,6 +276,8 @@ const allRaw: RawCard[] = [
   ...(st25Raw as unknown as RawCard[]),
   ...(st26Raw as unknown as RawCard[]),
   ...(st27Raw as unknown as RawCard[]),
+  ...(st28Raw as unknown as RawCard[]),
+  ...(st29Raw as unknown as RawCard[]),
 ];
 // ─── END AUTO-GENERATED ───────────────────────────────────────────────────────
 
@@ -258,11 +286,14 @@ export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = (() => {
   const seen = new Set<string>();
   return allRaw
     .map((c) => ({ ...c, normalizedType: normalizeCardType(c.cardType) }))
-    .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' | 'Stage' } =>
-      (c.normalizedType === 'Leader' || c.normalizedType === 'Character'
-        || c.normalizedType === 'Event' || c.normalizedType === 'Stage')
-      && !seen.has(c.id) && (seen.add(c.id), true),
-    )
+    .filter((c): c is typeof c & { normalizedType: 'Leader' | 'Character' | 'Event' | 'Stage' } => {
+      const baseId = c.id.match(/^([A-Z]{2,3}\d{2}-\d{3})/)?.[1] ?? c.id;
+      return (
+        (c.normalizedType === 'Leader' || c.normalizedType === 'Character'
+          || c.normalizedType === 'Event' || c.normalizedType === 'Stage')
+        && !seen.has(baseId) && (seen.add(baseId), true)
+      );
+    })
     .map((c) => {
       const eff = effectMap[c.id];
       return {

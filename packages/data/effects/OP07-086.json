@@ -1,0 +1,30 @@
+{
+  "id": "OP07-086",
+  "name": "Spandam",
+  "cost": 3,
+  "power": 4000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 2,
+          "from": "OwnHand"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

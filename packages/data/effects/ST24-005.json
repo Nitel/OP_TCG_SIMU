@@ -1,0 +1,32 @@
+{
+  "id": "ST24-005",
+  "name": "X.Drake",
+  "cost": 5,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "X.Drake"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

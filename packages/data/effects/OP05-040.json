@@ -1,0 +1,34 @@
+{
+  "id": "OP05-040",
+  "name": "Birdcage",
+  "cost": 5,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ]
+}

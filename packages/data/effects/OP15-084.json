@@ -1,0 +1,35 @@
+{
+  "id": "OP15-084",
+  "name": "Dr. Hogback",
+  "cost": 1,
+  "power": 2000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader"
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 5,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

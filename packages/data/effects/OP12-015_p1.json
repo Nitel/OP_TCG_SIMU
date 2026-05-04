@@ -1,0 +1,41 @@
+{
+  "id": "OP12-015_p1",
+  "name": "Monkey.D.Luffy",
+  "cost": 4,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "color": "Red",
+                "cardType": "Character",
+                "maxPower": 3000
+              }
+            },
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

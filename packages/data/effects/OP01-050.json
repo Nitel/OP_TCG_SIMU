@@ -11,14 +11,18 @@
   "effects": [
     {
       "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Shachi",
+        "negate": true
+      },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByName",
-            "name": "Shachi"
-          },
-          "destination": "board"
+            "cardType": "Character",
+            "subType": "Heart Pirates"
+          }
         }
       ]
     }

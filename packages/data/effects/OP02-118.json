@@ -8,12 +8,21 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Counter",
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "GainKeyword",
+              "keyword": "Banish",
+              "target": {
+                "scope": "ChooseOwnCharacter"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
         }
       ]
     },
@@ -23,7 +32,7 @@
         {
           "type": "KO",
           "target": {
-            "scope": "ChooseOpponentCharacter",
+            "scope": "ChooseOpponentCharacterOrLeader",
             "maxCost": 3
           }
         }

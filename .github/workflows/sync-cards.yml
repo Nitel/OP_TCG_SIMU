@@ -1,0 +1,67 @@
+name: Sync card data from punk-records
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # daily at 06:00 UTC
+  workflow_dispatch:       # manual trigger from GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 1. Sync raw card data ────────────────────────────────────────────────
+      - name: Clone punk-records (shallow)
+        run: git clone --depth=1 https://github.com/buhbbl/punk-records.git
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Convert punk-records → raw JSON
+        run: node scripts/convert-punk-records.mjs --dir ./punk-records
+
+      # ── 2. Generate effect DSLs for new cards ────────────────────────────────
+      - name: Generate missing effect DSLs
+        if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/generate-all-effects.mjs
+
+      # ── 3. Download new card images ──────────────────────────────────────────
+      - name: Download new card images
+        run: pnpm download-all-images
+
+      # ── 4. Upload new images to R2 CDN ───────────────────────────────────────
+      - name: Upload images to R2
+        if: ${{ secrets.R2_ACCOUNT_ID != '' }}
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+        run: node scripts/upload-to-r2.mjs
+
+      # ── 5. Commit data changes (effects only — images live on R2) ────────────
+      - name: Commit if changed
+        run: |
+          git config user.name  "punk-records-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add packages/data/raw/ packages/data/effects/ apps/client/src/data/deckBuilder.ts
+          git diff --cached --quiet || git commit -m "chore: sync card data from punk-records"
+          git push

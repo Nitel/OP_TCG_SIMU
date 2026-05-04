@@ -1,0 +1,33 @@
+{
+  "id": "OP10-082",
+  "name": "Kuzan",
+  "cost": 5,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 5
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

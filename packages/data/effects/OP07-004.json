@@ -1,0 +1,33 @@
+{
+  "id": "OP07-004",
+  "name": "Curly.Dadan",
+  "cost": 2,
+  "power": 3000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByType",
+                "cardType": "Character"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

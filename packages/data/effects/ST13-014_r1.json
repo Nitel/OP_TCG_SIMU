@@ -1,0 +1,43 @@
+{
+  "id": "ST13-014_r1",
+  "name": "Monkey.D.Luffy",
+  "cost": 2,
+  "power": 2000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "name": "Monkey.D.Luffy",
+            "maxCost": 5
+          },
+          "thenActions": [
+            {
+              "type": "PlaySelf"
+            },
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

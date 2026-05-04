@@ -1,0 +1,32 @@
+{
+  "id": "ST18-002_r1",
+  "name": "O-Nami",
+  "cost": 4,
+  "power": 2000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "Draw",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

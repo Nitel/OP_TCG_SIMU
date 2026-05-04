@@ -1,0 +1,29 @@
+{
+  "id": "ST18-005",
+  "name": "Luffy-Tarou",
+  "cost": 7,
+  "power": 8000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Purple",
+            "cardType": "Character",
+            "subType": "Straw Hat Crew",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ]
+}

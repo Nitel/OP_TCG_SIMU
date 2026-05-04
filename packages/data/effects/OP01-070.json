@@ -1,6 +1,6 @@
 {
   "id": "OP01-070",
-  "name": "Dracule Mihawk (Parallel)",
+  "name": "Dracule Mihawk",
   "cost": 9,
   "power": 9000,
   "color": "Blue",
@@ -11,12 +11,11 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
             "maxCost": 7
-          },
-          "destination": "hand"
+          }
         }
       ]
     }

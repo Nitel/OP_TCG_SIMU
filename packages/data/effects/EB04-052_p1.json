@@ -1,0 +1,42 @@
+{
+  "id": "EB04-052_p1",
+  "name": "Sanji",
+  "cost": 4,
+  "power": 4000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 0,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "TurnCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Yellow",
+            "cardType": "Character",
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

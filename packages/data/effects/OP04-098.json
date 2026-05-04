@@ -1,0 +1,29 @@
+{
+  "id": "OP04-098",
+  "name": "Toko",
+  "cost": 2,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Land of Wano"
+          },
+          "thenActions": [
+            {
+              "type": "TakeLifeToHand",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

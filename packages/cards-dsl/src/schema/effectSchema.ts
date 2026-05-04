@@ -15,10 +15,13 @@ export type TargetSelector =
   | { readonly scope: 'OriginalTarget' }                         // target declared in DeclareAttack
   | { readonly scope: 'AllOpponentCharacters' }
   | { readonly scope: 'AllOwnCharacters' }
+  | { readonly scope: 'AllOwnCharactersAndLeader' }
   | { readonly scope: 'OpponentLeader' }
   | { readonly scope: 'OwnLeader' }
   | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number }
-  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number };
+  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number }
+  | { readonly scope: 'ChooseOwnCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number }
+  | { readonly scope: 'ChooseOpponentCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number };
 
 // ─── Duration ─────────────────────────────────────────────────────────────────
 
@@ -32,6 +35,19 @@ export type DeckFilter =
   | { readonly kind: 'ByCost'; readonly maxCost: number }
   | { readonly kind: 'ByName'; readonly name: string };
 
+// ─── Hand filter (used by PlayFromHand / RevealFromHand) ──────────────────────
+
+export interface HandFilter {
+  readonly color?: string;
+  readonly cardType?: 'Character' | 'Event' | 'Stage';
+  /** OR filter: matches cards whose type is any of these values */
+  readonly cardTypes?: readonly ('Character' | 'Event' | 'Stage')[];
+  readonly maxPower?: number;
+  readonly excludeSelf?: boolean;
+  /** Affiliation substring match, e.g. "Whitebeard Pirates" */
+  readonly subType?: string;
+}
+
 // ─── Effect actions ───────────────────────────────────────────────────────────
 
 export type EffectAction =
@@ -41,8 +57,8 @@ export type EffectAction =
   | { readonly type: 'KO'; readonly target: TargetSelector }
   /** Return target card to its owner's hand */
   | { readonly type: 'ReturnToHand'; readonly target: TargetSelector }
-  /** Give +amount power to target for the given duration */
-  | { readonly type: 'PowerBoost'; readonly amount: number; readonly target: TargetSelector; readonly duration: EffectDuration }
+  /** Give +amount power to target for the given duration. If perTrashedCard is true, amount is multiplied by the number of cards trashed in the preceding TrashFromHand action. */
+  | { readonly type: 'PowerBoost'; readonly amount: number; readonly perTrashedCard?: true; readonly target: TargetSelector; readonly duration: EffectDuration }
   /** Force a player to discard count cards at random */
   | { readonly type: 'TrashCard'; readonly count: number; readonly from: 'OpponentHand' | 'OwnHand' }
   /** Add count life cards from top of deck to life zone */
@@ -62,24 +78,38 @@ export type EffectAction =
   /** Attach count DON!! cards to target character, boosting its power (+1000 per DON) */
   | { readonly type: 'AttachDon'; readonly count: number; readonly target: TargetSelector }
   /** Target character gains the given keyword for the specified duration */
-  | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration };
+  | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration }
+  /** Play a card from hand for free matching filter (OnKO "you may play" effects) */
+  | { readonly type: 'PlayFromHand'; readonly filter: HandFilter }
+  /** Reveal N cards from hand matching filter; if successful, apply thenActions */
+  | { readonly type: 'RevealFromHand'; readonly count: number; readonly filter: HandFilter; readonly thenActions: readonly EffectAction[] }
+  /**
+   * Player chooses any number of cards matching filter from their hand and trashes them.
+   * thenActions are executed after, with PowerBoost(perTrashedCard) scaled by the trashed count.
+   */
+  | { readonly type: 'TrashFromHand'; readonly filter: HandFilter; readonly thenActions: readonly EffectAction[] };
 
 // ─── Trigger ──────────────────────────────────────────────────────────────────
 
 export type EffectTrigger =
   | 'OnPlay'      // When this card is played from hand to the board
   | 'OnAttack'    // When this card declares an attack
+  | 'OnAttacked'  // When this card is the declared target of an attack
   | 'OnKO'        // When this card is KO'd (sent to trash or removed)
   | 'OnBlock'     // When this card becomes a blocker
+  | 'Counter'     // When this card is played during the opponent's attack window
   | 'Trigger'     // When this card is revealed from the Life zone
-  | 'Activated';  // Activated ability (future: costs DON during Main phase)
+  | 'Activated'   // Activated ability (costs DON during Main phase)
+  | 'EndOfTurn'
+  | 'StartOfTurn';
 
 // ─── Optional condition ───────────────────────────────────────────────────────
 
 export type EffectCondition =
   | { readonly type: 'Always' }
   | { readonly type: 'TurnCount'; readonly min?: number; readonly max?: number }
-  | { readonly type: 'HasRestingDon'; readonly count: number };
+  | { readonly type: 'HasRestingDon'; readonly count: number }
+  | { readonly type: 'HasCardOnBoard'; readonly name: string };
 
 // ─── CardEffect ───────────────────────────────────────────────────────────────
 

@@ -1,0 +1,28 @@
+{
+  "id": "EB03-060",
+  "name": "Will You Be My Servant?",
+  "cost": 1,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Nami"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 8
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

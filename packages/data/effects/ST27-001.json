@@ -9,11 +9,15 @@
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Fullalead"
+      },
       "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "Self"
           }
         },
         {

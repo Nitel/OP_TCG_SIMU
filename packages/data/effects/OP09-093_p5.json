@@ -1,0 +1,34 @@
+{
+  "id": "OP09-093_p5",
+  "name": "Marshall.D.Teach",
+  "cost": 10,
+  "power": 12000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OpponentLeader"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    }
+  ]
+}

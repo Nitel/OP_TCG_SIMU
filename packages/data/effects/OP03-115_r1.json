@@ -1,0 +1,32 @@
+{
+  "id": "OP03-115_r1",
+  "name": "Streusen",
+  "cost": 1,
+  "power": 1000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Trigger"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

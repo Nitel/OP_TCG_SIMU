@@ -1,0 +1,45 @@
+{
+  "id": "OP15-085",
+  "name": "Tony Tony.Chopper",
+  "cost": 2,
+  "power": 2000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 3,
+          "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Straw Hat Crew"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Straw Hat Crew",
+            "cardType": "Character",
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

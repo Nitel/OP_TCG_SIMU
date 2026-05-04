@@ -1,0 +1,31 @@
+{
+  "id": "OP14-014",
+  "name": "Eustass\"Captain\"Kid",
+  "cost": 4,
+  "power": 5000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Red",
+            "cardType": "Character",
+            "maxPower": 2000
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

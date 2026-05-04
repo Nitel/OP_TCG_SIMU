@@ -1,0 +1,32 @@
+{
+  "id": "ST11-004_p2",
+  "name": "New Genesis",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "New Genesis"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

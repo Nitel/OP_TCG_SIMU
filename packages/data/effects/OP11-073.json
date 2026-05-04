@@ -1,0 +1,35 @@
+{
+  "id": "OP11-073",
+  "name": "Charlotte Linlin",
+  "cost": 10,
+  "power": 12000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 5
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

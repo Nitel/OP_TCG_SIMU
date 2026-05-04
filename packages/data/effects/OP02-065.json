@@ -1,6 +1,6 @@
 {
   "id": "OP02-065",
-  "name": "Mr.3 (Galdino)",
+  "name": "Mr.3(Galdino)",
   "cost": 4,
   "power": 5000,
   "color": "Blue",
@@ -10,7 +10,7 @@
   ],
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "OnAttacked",
       "actions": [
         {
           "type": "Rest",
@@ -22,14 +22,18 @@
     },
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
         }
       ]
     }

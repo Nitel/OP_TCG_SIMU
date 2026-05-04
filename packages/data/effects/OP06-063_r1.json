@@ -1,0 +1,32 @@
+{
+  "id": "OP06-063_r1",
+  "name": "Vinsmoke Sora",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

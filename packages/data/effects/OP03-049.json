@@ -1,0 +1,26 @@
+{
+  "id": "OP03-049",
+  "name": "Patty",
+  "cost": 3,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
+}

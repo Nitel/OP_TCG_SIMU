@@ -1,0 +1,31 @@
+{
+  "id": "OP08-098",
+  "name": "Kalgara",
+  "cost": 0,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Shandian Warrior",
+            "cardType": "Character"
+          }
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

@@ -8,19 +8,19 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttack",
+      "trigger": "Activated",
       "condition": {
         "type": "HasRestingDon",
         "count": 1
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
+            "subType": "Heart Pirates",
+            "maxCost": 4,
+            "excludeSelf": true
+          }
         }
       ]
     }

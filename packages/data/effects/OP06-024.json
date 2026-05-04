@@ -1,0 +1,32 @@
+{
+  "id": "OP06-024",
+  "name": "Ikaros Much",
+  "cost": 5,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Fish-Man",
+            "maxCost": 4,
+            "cardType": "Character"
+          }
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,28 @@
+{
+  "id": "OP12-054",
+  "name": "Marshall.D.Teach",
+  "cost": 1,
+  "power": 2000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "The Seven Warlords of the Sea"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

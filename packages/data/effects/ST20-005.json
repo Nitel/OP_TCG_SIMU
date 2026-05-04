@@ -1,0 +1,27 @@
+{
+  "id": "ST20-005",
+  "name": "Charlotte Linlin",
+  "cost": 6,
+  "power": 7000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "TrashCard",
+              "count": 2,
+              "from": "OpponentHand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -11,13 +11,16 @@
       "trigger": "Activated",
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 2,
-          "from": "OwnHand"
-        },
-        {
-          "type": "Draw",
-          "count": 2
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 2
+            }
+          ]
         }
       ]
     },

@@ -1,0 +1,33 @@
+{
+  "id": "OP13-024",
+  "name": "Gordon",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "cardTypes": [
+              "Music",
+              "FILM"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

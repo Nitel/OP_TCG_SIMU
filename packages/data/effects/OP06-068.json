@@ -1,0 +1,34 @@
+{
+  "id": "OP06-068",
+  "name": "Vinsmoke Reiju",
+  "cost": 2,
+  "power": 2000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "name": "Vinsmoke Reiju",
+            "maxCost": 4,
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "name": "Vinsmoke Reiju",
+                "maxCost": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

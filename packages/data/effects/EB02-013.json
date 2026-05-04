@@ -1,0 +1,35 @@
+{
+  "id": "EB02-013",
+  "name": "Carrot",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Zou"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Zou"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

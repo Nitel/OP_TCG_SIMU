@@ -1,6 +1,6 @@
 {
   "id": "OP01-064",
-  "name": "Alvida (Box Topper)",
+  "name": "Alvida",
   "cost": 2,
   "power": 3000,
   "color": "Blue",
@@ -15,16 +15,35 @@
       },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
-        },
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
         {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
         }
       ]
     }

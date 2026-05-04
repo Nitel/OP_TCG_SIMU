@@ -1,0 +1,47 @@
+{
+  "id": "OP03-055_r1",
+  "name": "Gum-Gum Giant Gavel",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 4000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfBattle"
+            },
+            {
+              "type": "TrashCard",
+              "count": 2,
+              "from": "OwnHand"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
+}

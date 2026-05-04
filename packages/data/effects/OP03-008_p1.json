@@ -1,0 +1,25 @@
+{
+  "id": "OP03-008_p1",
+  "name": "Buggy",
+  "cost": 1,
+  "power": 3000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any",
+            "color": "Red",
+            "cardType": "Event"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

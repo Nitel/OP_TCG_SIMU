@@ -1,0 +1,40 @@
+{
+  "id": "OP06-114",
+  "name": "Wyper",
+  "cost": 5,
+  "power": 7000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 1
+          },
+          "destination": "board"
+        },
+        {
+          "type": "RevealFromHand",
+          "count": 5,
+          "filter": {
+            "subType": "Upper Yard"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OP06-080_p1",
+  "name": "Gecko Moria",
+  "cost": 0,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "board"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

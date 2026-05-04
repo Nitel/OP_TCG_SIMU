@@ -8,16 +8,23 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 3
-      },
+      "trigger": "OnAttacked",
       "actions": [
         {
           "type": "TrashCard",
-          "count": 1,
+          "count": 2,
           "from": "OwnHand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
         },
         {
           "type": "ReturnToHand",
@@ -27,6 +34,5 @@
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

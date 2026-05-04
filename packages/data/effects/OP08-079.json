@@ -1,0 +1,40 @@
+{
+  "id": "OP08-079",
+  "name": "Kaido",
+  "cost": 9,
+  "power": 9000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 0
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 7
+              }
+            },
+            {
+              "type": "TrashCard",
+              "count": 1,
+              "from": "OpponentHand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

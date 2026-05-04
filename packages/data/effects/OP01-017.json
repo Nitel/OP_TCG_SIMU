@@ -8,7 +8,7 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "actions": [
         {
           "type": "KO",
@@ -17,7 +17,11 @@
             "maxPower": 3000
           }
         }
-      ]
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
     }
   ],
   "counter": 1000

@@ -1,6 +1,6 @@
 {
   "id": "OP01-084",
-  "name": "Mr.2.Bon.Kurei (Bentham)",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
   "cost": 3,
   "power": 4000,
   "color": "Blue",
@@ -8,7 +8,7 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "condition": {
         "type": "HasRestingDon",
         "count": 1
@@ -17,8 +17,8 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByName",
-            "name": "Baroque Works"
+            "kind": "ByCost",
+            "maxCost": 5
           },
           "destination": "hand"
         }

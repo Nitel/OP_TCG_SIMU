@@ -1,6 +1,6 @@
 {
   "id": "OP02-064",
-  "name": "Mr.2.Bon.Kurei (Bentham)",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
   "cost": 5,
   "power": 5000,
   "color": "Blue",
@@ -15,19 +15,23 @@
       },
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
-        },
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        },
-        {
-          "type": "PlaySelf"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 2
+              }
+            },
+            {
+              "type": "KO",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
         }
       ]
     }

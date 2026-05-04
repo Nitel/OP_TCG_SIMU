@@ -50,10 +50,13 @@ export type TargetSelector =
   | { readonly scope: 'OriginalTarget' }
   | { readonly scope: 'AllOpponentCharacters'; readonly maxPower?: number }
   | { readonly scope: 'AllOwnCharacters'; readonly maxPower?: number }
+  | { readonly scope: 'AllOwnCharactersAndLeader'; readonly maxPower?: number }
   | { readonly scope: 'OpponentLeader' }
   | { readonly scope: 'OwnLeader' }
   | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number }
-  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number };
+  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number }
+  | { readonly scope: 'ChooseOwnCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number }
+  | { readonly scope: 'ChooseOpponentCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number };
 
 // ─── DSL — Duration ───────────────────────────────────────────────────────────
 
@@ -71,7 +74,9 @@ export type DeckFilter =
 
 export interface HandFilter {
   readonly color?: CardColor;
-  readonly cardType?: 'Character' | 'Event';
+  readonly cardType?: 'Character' | 'Event' | 'Stage';
+  /** OR filter: matches cards whose type is any of these values */
+  readonly cardTypes?: readonly ('Character' | 'Event' | 'Stage')[];
   readonly maxPower?: number;
   /** Exclude the source card itself (the card that triggered the OnKO) */
   readonly excludeSelf?: boolean;
@@ -89,7 +94,7 @@ export type EffectAction =
   | { readonly type: 'Draw'; readonly count: number }
   | { readonly type: 'KO'; readonly target: TargetSelector }
   | { readonly type: 'ReturnToHand'; readonly target: TargetSelector }
-  | { readonly type: 'PowerBoost'; readonly amount: number; readonly target: TargetSelector; readonly duration: EffectDuration }
+  | { readonly type: 'PowerBoost'; readonly amount: number; readonly perTrashedCard?: true; readonly target: TargetSelector; readonly duration: EffectDuration }
   | { readonly type: 'TrashCard'; readonly count: number; readonly from: 'OpponentHand' | 'OwnHand' }
   | { readonly type: 'AddLife'; readonly count: number }
   | { readonly type: 'GiveDon'; readonly count: number }
@@ -111,6 +116,16 @@ export type EffectAction =
       readonly count: number;
       readonly filter: HandFilter;
       readonly thenActions: readonly EffectAction[];
+    }
+  /**
+   * Player chooses any number of cards matching filter from their hand and trashes them.
+   * Sets pendingTrashInteraction. thenActions execute after; PowerBoost(perTrashedCard) is
+   * scaled by the number of cards actually trashed.
+   */
+  | {
+      readonly type: 'TrashFromHand';
+      readonly filter: HandFilter;
+      readonly thenActions: readonly EffectAction[];
     };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
@@ -118,9 +133,11 @@ export type EffectAction =
 export type EffectTrigger =
   | 'OnPlay'              // When this card is played from hand to the board
   | 'OnAttack'            // When this card declares an attack
+  | 'OnAttacked'          // When this card is the declared target of an attack
   | 'OnKO'                // When this card is KO'd (by any means)
   | 'OnLeaveField'        // When this card leaves the board (KO or returned to hand)
   | 'OnBlock'             // When this card becomes a blocker
+  | 'Counter'             // When this card is played from hand during the opponent's attack window
   | 'Trigger'             // When this card is revealed from the Life zone
   | 'Activated'           // Activated ability during Main phase — [DON!! xN] cost
   | 'StartOfTurn'         // At the start of the card owner's turn (Refresh phase)
@@ -137,7 +154,11 @@ export type EffectCondition =
   /** True when the source card (leader) has at least `count` DON!! attached to it */
   | { readonly type: 'LeaderHasAttachedDon'; readonly count: number }
   /** True when the source card itself has at least `count` DON!! attached to it */
-  | { readonly type: 'HasAttachedDon'; readonly count: number };
+  | { readonly type: 'HasAttachedDon'; readonly count: number }
+  /** True when the source player's trash contains at least `min` cards */
+  | { readonly type: 'TrashCount'; readonly min: number }
+  /** True when the source player has a character named `name` on the board */
+  | { readonly type: 'HasCardOnBoard'; readonly name: string };
 
 // ─── DSL — CardEffect ─────────────────────────────────────────────────────────
 
@@ -252,7 +273,7 @@ export interface GameState {
    */
   readonly pendingTargetInteraction: {
     readonly playerId: PlayerId;
-    readonly scope: 'ChooseOwnCharacter' | 'ChooseOpponentCharacter';
+    readonly scope: 'ChooseOwnCharacter' | 'ChooseOpponentCharacter' | 'ChooseOwnCharacterOrLeader' | 'ChooseOpponentCharacterOrLeader';
     readonly sourceCardId: CardId;
     readonly sourcePlayerId: PlayerId;
     readonly maxCost?: number;
@@ -277,6 +298,22 @@ export interface GameState {
     readonly sourcePlayerId: PlayerId;
     readonly thenActions: readonly EffectAction[];
     /** Remaining actions in the same effect (after RevealFromHand) */
+    readonly pendingEffectActions: readonly EffectAction[];
+    /** Remaining CardEffects in the effect list (after the current effect) */
+    readonly pendingEffects: readonly CardEffect[];
+    readonly trigger: EffectTrigger;
+  } | null;
+  /**
+   * Set when a TrashFromHand effect fires and requires the player to choose cards to trash.
+   * Cleared when the player dispatches ResolveTrashInteraction.
+   */
+  readonly pendingTrashInteraction: {
+    readonly playerId: PlayerId;
+    readonly filter: HandFilter;
+    readonly sourceCardId: CardId;
+    readonly sourcePlayerId: PlayerId;
+    readonly thenActions: readonly EffectAction[];
+    /** Remaining actions in the same effect (after TrashFromHand) */
     readonly pendingEffectActions: readonly EffectAction[];
     /** Remaining CardEffects in the effect list (after the current effect) */
     readonly pendingEffects: readonly CardEffect[];
@@ -427,6 +464,13 @@ export interface ResolveRevealInteractionAction {
   readonly revealedCardIds: readonly CardId[];
 }
 
+export interface ResolveTrashInteractionAction {
+  readonly type: 'ResolveTrashInteraction';
+  readonly playerId: PlayerId;
+  /** IDs of hand cards to trash. Empty array = player skips (0 cards trashed, thenActions still execute with count=0). */
+  readonly trashedCardIds: readonly CardId[];
+}
+
 export type GameAction =
   | MulliganAction
   | DrawCardAction
@@ -443,7 +487,8 @@ export type GameAction =
   | ActivatedAbilityAction
   | ResolveOnKOInteractionAction
   | ResolveTargetInteractionAction
-  | ResolveRevealInteractionAction;
+  | ResolveRevealInteractionAction
+  | ResolveTrashInteractionAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 
@@ -498,5 +543,6 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     pendingOnKOInteraction: null,
     pendingTargetInteraction: null,
     pendingRevealInteraction: null,
+    pendingTrashInteraction: null,
   };
 }

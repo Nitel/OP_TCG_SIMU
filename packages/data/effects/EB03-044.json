@@ -1,0 +1,34 @@
+{
+  "id": "EB03-044",
+  "name": "Black Maria",
+  "cost": 3,
+  "power": 4000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Onigashima Island"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Stage"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP15-054",
+  "name": "And No One Else Can Have It! It's Our Memento of Him",
+  "cost": 4,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Lucy"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Lucy"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "OP04-096_p1",
+  "name": "Corrida Coliseum",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Dressrosa"
+      },
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "OP06-064",
+  "name": "Vinsmoke Niji",
+  "cost": 3,
+  "power": 3000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "name": "Vinsmoke Niji",
+                "maxCost": 5
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

@@ -1,0 +1,30 @@
+{
+  "id": "EB03-003",
+  "name": "Uta",
+  "cost": 5,
+  "power": 7000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 2
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "id": "OP02-099",
-  "name": "Sakazuki (Alternate Art)",
+  "name": "Sakazuki",
   "cost": 6,
   "power": 7000,
   "color": "Black",
@@ -9,16 +9,21 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
       "actions": [
         {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5
+              }
+            }
+          ]
         }
       ]
     }

@@ -1,0 +1,35 @@
+{
+  "id": "OP06-066",
+  "name": "Vinsmoke Yonji",
+  "cost": 2,
+  "power": 2000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "name": "Vinsmoke Yonji",
+            "maxCost": 4
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "cardType": "Character",
+                "name": "Vinsmoke Yonji",
+                "maxCost": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

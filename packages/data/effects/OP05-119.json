@@ -1,0 +1,27 @@
+{
+  "id": "OP05-119",
+  "name": "Monkey.D.Luffy",
+  "cost": 10,
+  "power": 12000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
+        }
+      ]
+    }
+  ]
+}

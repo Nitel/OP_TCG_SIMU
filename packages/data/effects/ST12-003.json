@@ -1,0 +1,29 @@
+{
+  "id": "ST12-003",
+  "name": "Dracule Mihawk",
+  "cost": 3,
+  "power": 4000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TurnCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 4,
+            "subType": "Muggy Kingdom"
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

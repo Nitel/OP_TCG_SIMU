@@ -1,0 +1,35 @@
+{
+  "id": "OP09-089",
+  "name": "Stronger",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 1
+            },
+            {
+              "type": "PowerBoost",
+              "amount": -2,
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

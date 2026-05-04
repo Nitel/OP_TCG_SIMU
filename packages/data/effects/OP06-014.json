@@ -1,0 +1,34 @@
+{
+  "id": "OP06-014",
+  "name": "Ratchet",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "FILM"
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "perTrashedCard": true,
+              "target": {
+                "scope": "ChooseOwnCharacter"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

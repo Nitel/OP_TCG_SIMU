@@ -8,15 +8,23 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Counter",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
-            "kind": "ByCost",
+            "subType": "Baroque Works",
+            "cardType": "Character",
             "maxCost": 3
-          },
-          "destination": "board"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlaySelf"
         }
       ]
     }

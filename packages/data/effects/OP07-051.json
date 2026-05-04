@@ -1,0 +1,31 @@
+{
+  "id": "OP07-051",
+  "name": "Boa Hancock",
+  "cost": 6,
+  "power": 8000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 999
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 1
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

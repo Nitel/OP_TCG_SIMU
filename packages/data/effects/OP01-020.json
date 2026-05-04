@@ -11,10 +11,16 @@
       "trigger": "Activated",
       "actions": [
         {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfTurn"
         }

@@ -1,0 +1,29 @@
+{
+  "id": "OP09-043_r1",
+  "name": "Alvida",
+  "cost": 5,
+  "power": 6000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Cross Guild"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5,
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

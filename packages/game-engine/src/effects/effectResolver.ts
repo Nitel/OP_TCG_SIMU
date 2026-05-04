@@ -70,6 +70,15 @@ function selectTargets(
       }
       return ownPlayer?.board ?? [];
 
+    case 'AllOwnCharactersAndLeader': {
+      const all: CardId[] = [...(ownPlayer?.board ?? [])];
+      if (ownPlayer?.leader !== null && ownPlayer?.leader !== undefined) all.push(ownPlayer.leader);
+      if (selector.maxPower !== undefined) {
+        return all.filter((id) => calculatePower(id, state) <= selector.maxPower!);
+      }
+      return all;
+    }
+
     case 'ChooseOpponentCharacter': {
       const pool = opponent?.board ?? [];
       // If player pre-chose a target, validate it against filters
@@ -95,6 +104,48 @@ function selectTargets(
     case 'ChooseOwnCharacter': {
       const pool = ownPlayer?.board ?? [];
       // If player pre-chose a target, validate it against filters
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
+        const chosen = state.cards[context.chosenTargetId];
+        if (chosen !== undefined) {
+          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
+          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
+          if (costOk && powerOk) return [context.chosenTargetId];
+        }
+      }
+      const candidates = pool.filter((id) => {
+        const card = state.cards[id];
+        if (card === undefined) return false;
+        if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
+        if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
+        return true;
+      });
+      return candidates.length > 0 ? [candidates[0]!] : [];
+    }
+
+    case 'ChooseOwnCharacterOrLeader': {
+      const pool: CardId[] = [...(ownPlayer?.board ?? [])];
+      if (ownPlayer?.leader !== null && ownPlayer?.leader !== undefined) pool.push(ownPlayer.leader);
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
+        const chosen = state.cards[context.chosenTargetId];
+        if (chosen !== undefined) {
+          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
+          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
+          if (costOk && powerOk) return [context.chosenTargetId];
+        }
+      }
+      const candidates = pool.filter((id) => {
+        const card = state.cards[id];
+        if (card === undefined) return false;
+        if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
+        if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
+        return true;
+      });
+      return candidates.length > 0 ? [candidates[0]!] : [];
+    }
+
+    case 'ChooseOpponentCharacterOrLeader': {
+      const pool: CardId[] = [...(opponent?.board ?? [])];
+      if (opponent?.leader !== null && opponent?.leader !== undefined) pool.push(opponent.leader);
       if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
         const chosen = state.cards[context.chosenTargetId];
         if (chosen !== undefined) {
@@ -484,6 +535,11 @@ function resolveAction(
     // Intercepted in resolveEffects before reaching here; this case is unreachable.
     case 'RevealFromHand':
       return state;
+
+    // ── TrashFromHand ─────────────────────────────────────────────────────────
+    // Intercepted in resolveEffects before reaching here; this case is unreachable.
+    case 'TrashFromHand':
+      return state;
   }
 }
 
@@ -554,6 +610,16 @@ export function resolveEffects(
         ).length;
         if (attached < cond.count) continue;
       }
+      if (cond.type === 'TrashCount') {
+        const trashSize = next.players[context.sourcePlayerId]?.trash.length ?? 0;
+        if (trashSize < cond.min) continue;
+      }
+      if (cond.type === 'HasCardOnBoard') {
+        const hasCard = Object.values(next.cards).some(
+          (c) => c.ownerId === context.sourcePlayerId && c.zone === 'board' && c.name === cond.name,
+        );
+        if (!hasCard) continue;
+      }
       // 'Always' → always passes
     }
     for (let ai = 0; ai < effect.actions.length; ai++) {
@@ -567,8 +633,8 @@ export function resolveEffects(
         const t = (action as Record<string, unknown>).target;
         if (t !== null && t !== undefined && typeof t === 'object') {
           const scope = (t as { scope: string }).scope;
-          if (scope === 'ChooseOwnCharacter' || scope === 'ChooseOpponentCharacter') {
-            const chooseScope = scope as 'ChooseOwnCharacter' | 'ChooseOpponentCharacter';
+          if (scope === 'ChooseOwnCharacter' || scope === 'ChooseOpponentCharacter' || scope === 'ChooseOwnCharacterOrLeader' || scope === 'ChooseOpponentCharacterOrLeader') {
+            const chooseScope = scope as 'ChooseOwnCharacter' | 'ChooseOpponentCharacter' | 'ChooseOwnCharacterOrLeader' | 'ChooseOpponentCharacterOrLeader';
             const maxCost  = (t as { maxCost?: number }).maxCost;
             const maxPower = (t as { maxPower?: number }).maxPower;
             return {
@@ -608,10 +674,28 @@ export function resolveEffects(
         };
       }
 
+      // Detect TrashFromHand — pause and wait for ResolveTrashInteraction
+      if (action.type === 'TrashFromHand') {
+        return {
+          ...next,
+          pendingTrashInteraction: {
+            playerId: context.sourcePlayerId,
+            filter: action.filter,
+            sourceCardId: context.sourceCardId,
+            sourcePlayerId: context.sourcePlayerId,
+            thenActions: action.thenActions,
+            pendingEffectActions: effect.actions.slice(ai + 1),
+            pendingEffects: effects.slice(ei + 1),
+            trigger,
+          },
+        };
+      }
+
       next = resolveAction(action, context, next);
       // Propagate if a nested resolveEffects call set pendingTargetInteraction
       if (next.pendingTargetInteraction !== null) return next;
       if (next.pendingRevealInteraction !== null) return next;
+      if (next.pendingTrashInteraction !== null) return next;
     }
   }
   return next;

@@ -1,0 +1,41 @@
+{
+  "id": "OP04-108",
+  "name": "Charlotte Moscato",
+  "cost": 3,
+  "power": 4000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [
+    "Banish"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GainKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PlaySelf"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

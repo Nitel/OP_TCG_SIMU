@@ -1,0 +1,31 @@
+{
+  "id": "OP12-060",
+  "name": "Boeuf Burst",
+  "cost": 3,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Multicolored Leader"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "Draw",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

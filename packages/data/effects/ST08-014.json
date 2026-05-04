@@ -1,0 +1,41 @@
+{
+  "id": "ST08-014",
+  "name": "Gum-Gum Bell",
+  "cost": 2,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TakeLifeToHand",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -7000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Black Character"
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
+}

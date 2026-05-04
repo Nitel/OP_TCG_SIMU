@@ -1,0 +1,32 @@
+{
+  "id": "EB03-051",
+  "name": "Charlotte Smoothie",
+  "cost": 3,
+  "power": 3000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Life"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        },
+        {
+          "type": "RemoveLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

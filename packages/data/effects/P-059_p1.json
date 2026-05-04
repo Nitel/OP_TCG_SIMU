@@ -1,0 +1,35 @@
+{
+  "id": "P-059_p1",
+  "name": "The World's Continuation",
+  "cost": 2,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "AllOwnCharacters"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "perTrashedCard": true,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

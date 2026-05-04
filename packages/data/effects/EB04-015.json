@@ -1,0 +1,36 @@
+{
+  "id": "EB04-015",
+  "name": "Jinbe",
+  "cost": 7,
+  "power": 8000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Leader with Fish-Man or Merfolk type"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Green",
+            "cardType": "Character",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ]
+}

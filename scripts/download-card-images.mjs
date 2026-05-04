@@ -23,9 +23,14 @@ if (!setArg) {
   process.exit(1);
 }
 
-// Normalize: "OP01" → "OP-01" for the JSON filename, keep "OP01" for card IDs
-const setCode   = setArg.toUpperCase();                          // "OP01"
-const jsonName  = setCode.replace(/^([A-Z]+)(\d+)$/, '$1-$2');  // "OP-01"
+// Normalize set code to match the raw JSON filename:
+//   "OP01"      → "OP-01"
+//   "OP14EB04"  → "OP14-EB04"
+//   "OP14-EB04" → "OP14-EB04" (already correct)
+const setCode  = setArg.toUpperCase();
+const jsonName = setCode
+  .replace(/^([A-Z]+\d+)([A-Z]+\d+)$/, '$1-$2')  // OP14EB04  → OP14-EB04
+  .replace(/^([A-Z]+)(\d+)$/, '$1-$2');            // OP01      → OP-01
 const jsonPath  = join(ROOT, `packages/data/raw/${jsonName}.json`);
 
 if (!existsSync(jsonPath)) {
@@ -61,18 +66,27 @@ mkdirSync(OUT, { recursive: true });
 
 const BASE = 'https://en.onepiece-cardgame.com/images/cardlist/card';
 
+// Build map: card.id → imgUrl (from punk-records data, if present)
+/** @type {Map<string, string>} */
+const imgUrlMap = new Map();
+for (const card of cards) {
+  if (card.imgUrl) imgUrlMap.set(card.id, card.imgUrl);
+}
+
 async function tryDownload(url) {
   const res = await fetch(url);
   if (!res.ok) return null;
   return Buffer.from(await res.arrayBuffer());
 }
 
+const force = process.argv.includes('--force');
+
 let ok = 0, miss = 0, skip = 0;
 
 for (const { id, filename, isParallel } of targets) {
   const dest = join(OUT, filename);
 
-  if (existsSync(dest)) {
+  if (!force && existsSync(dest)) {
     console.log(`SKIP ${filename}`);
     skip++;
     continue;
@@ -83,8 +97,15 @@ for (const { id, filename, isParallel } of targets) {
     // Parallèle : uniquement _p1.png, pas de fallback
     buf = await tryDownload(`${BASE}/${id}_p1.png`);
   } else {
-    // Normale : .png en priorité, fallback _p1.png pour les sets qui n'ont que ça
-    buf = await tryDownload(`${BASE}/${id}.png`) ?? await tryDownload(`${BASE}/${id}_p1.png`);
+    // Use punk-records imgUrl if available (includes Bandai cache-busting param)
+    const directUrl = imgUrlMap.get(id);
+    if (directUrl) {
+      buf = await tryDownload(directUrl);
+    }
+    // Fallback: construct URL from ID pattern
+    if (!buf) {
+      buf = await tryDownload(`${BASE}/${id}.png`) ?? await tryDownload(`${BASE}/${id}_p1.png`);
+    }
   }
 
   if (buf) {
@@ -92,7 +113,7 @@ for (const { id, filename, isParallel } of targets) {
     console.log(`OK   ${filename}`);
     ok++;
   } else {
-    console.log(`MISS ${filename}  (image parallèle introuvable sur le serveur Bandai)`);
+    console.log(`MISS ${filename}  (image introuvable sur le serveur Bandai)`);
     miss++;
   }
 }

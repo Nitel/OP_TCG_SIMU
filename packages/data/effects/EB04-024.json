@@ -1,0 +1,39 @@
+{
+  "id": "EB04-024",
+  "name": "Terracotta",
+  "cost": 2,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Unblockable"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "GainKeyword",
+          "keyword": "Unblockable",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Alabasta"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

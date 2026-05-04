@@ -1,0 +1,36 @@
+{
+  "id": "OP08-069",
+  "name": "Charlotte Linlin",
+  "cost": 9,
+  "power": 9000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "Any"
+              },
+              "destination": "hand"
+            },
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 6
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

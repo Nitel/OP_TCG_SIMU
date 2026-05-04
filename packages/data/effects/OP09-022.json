@@ -1,0 +1,32 @@
+{
+  "id": "OP09-022",
+  "name": "Lim",
+  "cost": 0,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "ODYSSEY",
+            "cardType": "Character",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ]
+}

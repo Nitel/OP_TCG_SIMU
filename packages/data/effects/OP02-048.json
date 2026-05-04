@@ -11,18 +11,20 @@
       "trigger": "Activated",
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OwnHand"
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Land of Wano"
+          },
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

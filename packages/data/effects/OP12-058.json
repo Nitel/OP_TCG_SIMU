@@ -1,0 +1,48 @@
+{
+  "id": "OP12-058",
+  "name": "I Will Make Whitebeard the King of the Pirates",
+  "cost": 9,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "subType": "Whitebeard Pirates",
+            "maxCost": 9
+          },
+          "thenActions": [
+            {
+              "type": "GainKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Draw",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

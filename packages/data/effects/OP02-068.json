@@ -8,18 +8,21 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "Always"
-      },
+      "trigger": "Counter",
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
         }
       ]
     },

@@ -1,0 +1,38 @@
+{
+  "id": "OP09-099_r1",
+  "name": "Fullalead",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Stage",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            },
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByName",
+                "name": "Blackbeard Pirates"
+              },
+              "destination": "hand"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ST19-002_r1",
+  "name": "Sengoku",
+  "cost": 1,
+  "power": 1000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "color": "Black",
+            "subType": "Navy"
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

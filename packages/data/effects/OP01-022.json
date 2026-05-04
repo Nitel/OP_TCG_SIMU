@@ -9,20 +9,20 @@
   "effects": [
     {
       "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "AllOpponentCharacters"
           },
           "duration": "EndOfTurn"
         }
-      ]
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
     }
   ],
   "counter": 1000

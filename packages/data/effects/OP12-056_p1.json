@@ -1,0 +1,35 @@
+{
+  "id": "OP12-056_p1",
+  "name": "Monkey.D.Garp",
+  "cost": 8,
+  "power": 8000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Character",
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "color": "Blue",
+                "cardType": "Character",
+                "subType": "Navy",
+                "maxPower": 8000,
+                "excludeSelf": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

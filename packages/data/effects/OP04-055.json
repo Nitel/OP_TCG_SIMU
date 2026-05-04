@@ -1,0 +1,39 @@
+{
+  "id": "OP04-055",
+  "name": "Plague Rounds",
+  "cost": 2,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Ice Oni"
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "maxCost": 4
+              }
+            },
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByName",
+                "name": "Ice Oni"
+              },
+              "destination": "board"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

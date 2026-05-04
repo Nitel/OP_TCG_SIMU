@@ -1,0 +1,49 @@
+{
+  "id": "EB03-049",
+  "name": "I Knew You People Were Behind This.",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Perona"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 6
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
+}

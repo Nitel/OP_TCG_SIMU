@@ -1,0 +1,35 @@
+{
+  "id": "OP15-058",
+  "name": "Enel",
+  "cost": 0,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 2
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "GiveDon",
+          "count": 4
+        },
+        {
+          "type": "AttachDon",
+          "count": 4,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    }
+  ]
+}

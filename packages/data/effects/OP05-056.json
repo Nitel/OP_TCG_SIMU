@@ -1,0 +1,29 @@
+{
+  "id": "OP05-056",
+  "name": "X.Barrels",
+  "cost": 2,
+  "power": 2000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "Draw",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

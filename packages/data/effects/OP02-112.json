@@ -1,6 +1,6 @@
 {
   "id": "OP02-112",
-  "name": "Bell-mere",
+  "name": "Bell-mère",
   "cost": 1,
   "power": 1000,
   "color": "Black",
@@ -11,8 +11,14 @@
       "trigger": "Activated",
       "actions": [
         {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
           "type": "PowerBoost",
-          "amount": -1000,
+          "amount": -1,
           "target": {
             "scope": "ChooseOpponentCharacter"
           },
@@ -22,7 +28,7 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfTurn"
         }

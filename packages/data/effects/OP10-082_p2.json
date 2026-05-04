@@ -1,0 +1,34 @@
+{
+  "id": "OP10-082_p2",
+  "name": "Kuzan",
+  "cost": 5,
+  "power": 5000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashCard",
+          "count": 1,
+          "from": "OwnHand"
+        },
+        {
+          "type": "Draw",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Blackbeard Pirates",
+            "cardType": "Character",
+            "maxCost": 5,
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -8,7 +8,8 @@ export type SelectionMode =
   | 'playCounter'
   | 'chooseTarget'
   | 'resolveOnKO'
-  | 'revealFromHand';
+  | 'revealFromHand'
+  | 'trashFromHand';
 
 export interface UIState {
   selectedCardId: CardId | null;
@@ -17,13 +18,19 @@ export interface UIState {
   /** Set when selectionMode === 'chooseTarget' — the action to dispatch once a target is picked */
   pendingTargetAction?: GameAction;
   /** Set when selectionMode === 'chooseTarget' — which pool the player must pick from */
-  targetScope?: 'ChooseOpponentCharacter' | 'ChooseOwnCharacter';
+  targetScope?: 'ChooseOpponentCharacter' | 'ChooseOwnCharacter' | 'ChooseOwnCharacterOrLeader' | 'ChooseOpponentCharacterOrLeader';
   /** Set when selectionMode === 'resolveOnKO' — filter and source for the pending OnKO interaction */
   onKOInteraction?: { filter: HandFilter; sourceCardId: CardId };
   /** Set when selectionMode === 'revealFromHand' — filter, count, and in-progress selection */
   revealInteraction?: {
     filter: HandFilter;
     count: number;
+    sourceCardId: CardId;
+    selectedCardIds: CardId[];
+  };
+  /** Set when selectionMode === 'trashFromHand' — filter and in-progress selection */
+  trashInteraction?: {
+    filter: HandFilter;
     sourceCardId: CardId;
     selectedCardIds: CardId[];
   };

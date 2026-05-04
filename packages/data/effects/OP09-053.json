@@ -1,0 +1,32 @@
+{
+  "id": "OP09-053",
+  "name": "Mohji",
+  "cost": 5,
+  "power": 5000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Richie"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Richie"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 2000
+}

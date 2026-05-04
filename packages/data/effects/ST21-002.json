@@ -9,10 +9,6 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 2
-      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -22,7 +18,11 @@
           },
           "duration": "EndOfTurn"
         }
-      ]
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      }
     }
   ],
   "counter": 2000

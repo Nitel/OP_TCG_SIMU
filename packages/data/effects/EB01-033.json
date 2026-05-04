@@ -1,0 +1,30 @@
+{
+  "id": "EB01-033",
+  "name": "Blueno",
+  "cost": 4,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Water Seven"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Water Seven",
+            "cardType": "Character",
+            "maxCost": 5,
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}

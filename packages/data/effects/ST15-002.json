@@ -1,6 +1,6 @@
 {
   "id": "ST15-002",
-  "name": "Edward Newgate",
+  "name": "Edward.Newgate",
   "cost": 7,
   "power": 8000,
   "color": "Red",
@@ -14,7 +14,7 @@
           "type": "AttachDon",
           "count": 1,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           }
         }
       ]
@@ -22,6 +22,12 @@
     {
       "trigger": "Activated",
       "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
         {
           "type": "KO",
           "target": {
@@ -31,6 +37,5 @@
         }
       ]
     }
-  ],
-  "counter": 0
+  ]
 }

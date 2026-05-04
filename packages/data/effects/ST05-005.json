@@ -1,0 +1,35 @@
+{
+  "id": "ST05-005",
+  "name": "Carina",
+  "cost": 2,
+  "power": 3000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "FILM"
+          },
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "counter": 1000
+}
