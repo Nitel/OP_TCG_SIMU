@@ -1,28 +1,30 @@
 {
-  "id": "ST28-001",
-  "name": "Ashura Doji",
-  "cost": 3,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Land of Wano"
-      },
-      "actions": [
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "AND",
+      "conditions": [
         {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+          "type": "LeaderHasType",
+          "value": "Land of Wano"
+        },
+        {
+          "type": "OpponentLifeCount",
+          "value": 3,
+          "operator": "GreaterThanOrEqual"
         }
       ]
-    }
-  ],
-  "counter": 1000
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "id": "ST28-001"
 }

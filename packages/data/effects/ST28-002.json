@@ -1,42 +1,37 @@
 {
-  "id": "ST28-002",
-  "name": "Izo",
-  "cost": 2,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2
     },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Banish",
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Land of Wano"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Banish",
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "ST28-002"
 }
