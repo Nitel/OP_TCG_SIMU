@@ -1,12 +1,25 @@
 {
   "id": "PRB02-002",
-  "name": "Trafalgar Law",
-  "cost": 6,
-  "power": 7000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
     {
       "trigger": "OnAttack",
       "actions": [
@@ -14,12 +27,12 @@
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

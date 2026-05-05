@@ -1,27 +1,21 @@
 {
   "id": "PRB02-011",
-  "name": "Donquixote Doflamingo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasAnyType",
+    "types": [
+      "Multicolored"
+    ]
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Multicolored Leader"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
+      "type": "AttachDon",
+      "count": 1,
+      "source": "Deck"
+    },
+    {
+      "type": "Rest",
+      "target": "AttachedDon"
     }
-  ],
-  "counter": 1000
+  ]
 }

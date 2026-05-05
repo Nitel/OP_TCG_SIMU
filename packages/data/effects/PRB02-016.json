@@ -1,37 +1,32 @@
 {
-  "id": "PRB02-016",
-  "name": "Otama",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+      },
+      {
+        "type": "FlipLife",
+        "amount": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxCount": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "PRB02-016"
 }

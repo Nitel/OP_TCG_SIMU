@@ -1,28 +1,43 @@
 {
-  "id": "PRB02-001",
-  "name": "Koby",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
-          }
-        },
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "Trigger",
+    "duration": "DuringOpponentTurn",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Navy"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "conditions": [
+          {
+            "type": "HandCount",
+            "value": 6,
+            "comparison": "LessOrEqual"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "PRB02-001"
 }

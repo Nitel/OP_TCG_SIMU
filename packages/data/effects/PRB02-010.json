@@ -1,33 +1,36 @@
 {
-  "id": "PRB02-010",
-  "name": "Charlotte Pudding",
-  "cost": 7,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Big Mom Pirates"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Big Mom Pirates",
-            "cardType": "Character",
-            "maxPower": 8000
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Big Mom Pirates"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2,
+        "condition": {
+          "type": "HasAttachedDon",
+          "target": "opponent",
+          "minCount": 6
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "filter": {
+          "subType": "Big Mom Pirates",
+          "cardType": "Character",
+          "minPower": 6000,
+          "maxPower": 8000
+        },
+        "condition": {
+          "type": "HasAttachedDon",
+          "target": "opponent",
+          "minCount": 6
+        }
+      }
+    ]
+  },
+  "id": "PRB02-010"
 }

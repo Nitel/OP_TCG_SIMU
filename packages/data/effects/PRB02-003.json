@@ -1,21 +1,28 @@
 {
-  "id": "PRB02-003",
-  "name": "Lucky.Roux",
-  "cost": 4,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "zone": "hand",
+        "cardType": "Character",
+        "power": 6000
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {
+          "cardType": "Character",
+          "power": 6000
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "DrawCard",
+        "count": 2
+      }
+    ]
+  },
+  "id": "PRB02-003"
 }

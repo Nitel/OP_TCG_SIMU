@@ -1,13 +1,21 @@
 {
   "id": "PRB02-009",
-  "name": "Mr.3(Galdino)",
-  "cost": 2,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "target": "Self"
+        },
+        {
+          "type": "DrawCard",
+          "amount": 2
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ]
 }

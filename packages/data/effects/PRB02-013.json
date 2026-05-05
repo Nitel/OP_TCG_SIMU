@@ -1,35 +1,35 @@
 {
-  "id": "PRB02-013",
-  "name": "Gecko Moria",
-  "cost": 6,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Thriller Bark Pirates"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "typeValue": "Thriller Bark Pirates"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "ByCardType",
+          "cardType": "Character",
+          "maxCost": 4
         },
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
+        "source": "trash",
+        "count": 1,
+        "optional": true,
+        "restState": "rested"
+      },
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "optional": true,
+        "filter": {
+          "restState": "rested"
+        },
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "PRB02-013"
 }

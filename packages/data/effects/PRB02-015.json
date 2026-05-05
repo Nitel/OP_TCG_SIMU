@@ -1,55 +1,44 @@
 {
-  "id": "PRB02-015",
-  "name": "Shiryu",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Blackbeard Pirates"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Blackbeard Pirates"
     },
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Blackbeard Pirates"
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
       },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Blackbeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "PRB02-015"
 }

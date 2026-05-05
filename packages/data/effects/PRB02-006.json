@@ -1,13 +1,21 @@
 {
   "id": "PRB02-006",
-  "name": "Roronoa Zoro",
-  "cost": 4,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 2000
+  "effectText": "[Opponent's Turn] If this Character would be rested by your opponent's Character's effect, you may rest 1 of your other Characters instead.\n[Blocker]",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "OtherCharacter"
+        }
+      ]
+    }
+  ]
 }
