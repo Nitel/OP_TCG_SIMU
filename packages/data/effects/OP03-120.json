@@ -1,18 +1,23 @@
 {
   "id": "OP03-120",
-  "name": "Tropical Torment",
-  "cost": 3,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] If your opponent has 4 or more Life cards, trash up to 1 card from the top of your opponent's Life cards.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "operator": ">=",
+          "value": 4,
+          "target": "opponent"
+        }
+      ],
       "actions": [
         {
-          "type": "RemoveLife",
-          "count": 1
+          "type": "ForceDiscard",
+          "target": "opponentLifeDeck",
+          "count": 1,
+          "optional": true
         }
       ]
     }

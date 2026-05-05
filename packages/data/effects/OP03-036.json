@@ -1,38 +1,29 @@
 {
   "id": "OP03-036",
-  "name": "Out-of-the-Bag",
-  "cost": 3,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] You may rest 1 of your {East Blue} type Characters: Set up to 1 of your [Kuro] cards as active.",
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
+      "conditions": [],
       "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "East Blue"
+            },
+            "maxCount": 1
           }
         },
         {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "subType": "Kuro"
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
+          "type": "Rest",
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "name": "Kuro"
+            },
+            "maxCount": 1
           }
         }
       ]

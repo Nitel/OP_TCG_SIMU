@@ -1,14 +1,16 @@
 {
   "id": "OP03-018",
-  "name": "Fire Fist",
-  "cost": 3,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "type": "TrashFromHand",
+        "cardType": "Event",
+        "count": 1
+      },
       "actions": [
         {
           "type": "KO",
@@ -34,6 +36,13 @@
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxPower": 5000
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 4000
           }
         }
       ]

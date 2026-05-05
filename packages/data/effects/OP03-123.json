@@ -1,10 +1,19 @@
 {
   "id": "OP03-123",
-  "name": "Charlotte Katakuri",
-  "cost": 8,
-  "power": 8000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "duration": "Permanent",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "target": "CharacterWithCostEqualOrLess",
+          "targetValue": 8,
+          "count": 1,
+          "position": "TopOrBottom"
+        }
+      ]
+    }
+  ]
 }

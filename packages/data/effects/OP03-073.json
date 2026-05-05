@@ -1,27 +1,29 @@
 {
-  "id": "OP03-073",
-  "name": "Hull Dismantler Slash",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "All",
+      "conditions": [
         {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        {
+          "type": "LeaderHasType",
+          "typeId": "Water Seven"
         }
       ]
-    }
-  ]
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "id": "OP03-073"
 }

@@ -1,26 +1,17 @@
 {
-  "id": "OP03-015",
-  "name": "Lim",
-  "cost": 3,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentLeaderOrCharacter",
+          "maxTargets": 1
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP03-015"
 }

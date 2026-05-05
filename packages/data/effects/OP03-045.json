@@ -1,41 +1,32 @@
 {
-  "id": "OP03-045",
-  "name": "Carne",
-  "cost": 3,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": "<=",
+      "value": 20
     },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP03-045"
 }

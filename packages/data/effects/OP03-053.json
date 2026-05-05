@@ -1,28 +1,21 @@
 {
-  "id": "OP03-053",
-  "name": "Yosaku & Johnny",
-  "cost": 1,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": "<=",
+      "count": 20
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP03-053"
 }

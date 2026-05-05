@@ -1,28 +1,19 @@
 {
   "id": "OP03-017",
-  "name": "Cross Fire",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderHasType",
+    "subType": "Whitebeard Pirates"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Whitebeard Pirates"
+      "type": "PowerBoost",
+      "amount": -4000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "quantity": 1
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
   ]
 }

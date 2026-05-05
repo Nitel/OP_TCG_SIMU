@@ -1,46 +1,39 @@
 {
-  "id": "OP03-013",
-  "name": "Marco",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {
-            "cardType": "Event"
-          },
-          "optional": true,
-          "thenActions": [
-            {
-              "type": "PlaySelf",
-              "rested": true
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {
+          "cardType": "Event"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PlaySelf",
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP03-013"
 }

@@ -1,11 +1,27 @@
 {
   "id": "OP03-083",
-  "name": "Corgy",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "reveal": true,
+          "destination": "Hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "count": "up to 2",
+          "source": "Hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "destination": "DeckBottom",
+          "order": "any"
+        }
+      ]
+    }
+  ]
 }

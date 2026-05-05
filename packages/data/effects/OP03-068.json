@@ -1,23 +1,19 @@
 {
-  "id": "OP03-068",
-  "name": "Minozebra",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Banish"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Impel Down"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "rest": true
+      }
+    ]
+  },
+  "id": "OP03-068"
 }

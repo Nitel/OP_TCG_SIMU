@@ -1,11 +1,5 @@
 {
   "id": "OP03-034",
-  "name": "Buchi",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,11 +8,16 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
+            "maxCost": 2,
+            "conditions": [
+              {
+                "type": "HasRestingDon"
+              }
+            ]
+          },
+          "maxTargets": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

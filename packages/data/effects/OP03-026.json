@@ -1,11 +1,6 @@
 {
   "id": "OP03-026",
-  "name": "Kuroobi",
-  "cost": 4,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -17,19 +12,12 @@
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1,
+            "upTo": true
           }
         }
       ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,31 +1,21 @@
 {
   "id": "OP03-060",
-  "name": "Kalifa",
-  "cost": 4,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasAttachedDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "DrawCard",
+      "count": 2
+    },
+    {
+      "type": "ForceDiscard",
+      "count": 1,
+      "filter": {
+        "zone": "hand"
+      }
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,38 +1,35 @@
 {
-  "id": "OP03-051",
-  "name": "Bell-mère",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 7,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 3,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 7,
+        "filter": {
+          "source": "Deck",
+          "position": "Top"
+        },
+        "optional": true
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 3,
+        "filter": {
+          "source": "Deck",
+          "position": "Top"
+        },
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP03-051"
 }

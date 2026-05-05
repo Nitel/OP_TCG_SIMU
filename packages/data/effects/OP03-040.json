@@ -1,22 +1,20 @@
 {
-  "id": "OP03-040",
-  "name": "Nami",
-  "cost": 0,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromDeck",
+        "count": 1,
+        "filter": {},
+        "thenActions": []
+      }
+    ]
+  },
+  "id": "OP03-040"
 }

@@ -1,29 +1,37 @@
 {
-  "id": "OP03-004",
-  "name": "Curiel",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Restricted",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn",
+        "restriction": "CannotAttackLeader"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP03-004"
 }

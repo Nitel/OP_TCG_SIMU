@@ -1,25 +1,21 @@
 {
   "id": "OP03-067",
-  "name": "Peepley Lulu",
-  "cost": 5,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP03-067",
+  "effectText": "[DON!! x1] [When Attacking] If your Leader has the {Galley-La Company} type, add up to 1 DON!! card from your DON!! deck and rest it.",
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "LeaderHasType",
+        "value": "Galley-La Company"
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "source": "Deck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

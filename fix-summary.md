@@ -1,25 +1,28 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:08.708Z
+Generated: 2026-05-05T14:17:09.640Z
 
-**Total patched:** 82 | **Total skipped:** 11
+**Total patched:** 90 | **Total skipped:** 14
 
-## OP-02 — 82 cartes patchées
+## OP-03 — 90 cartes patchées
 
-**critical (40):** OP02-008, OP02-012, OP02-014, OP02-021, OP02-025, OP02-026, OP02-027, OP02-029, OP02-036, OP02-038, OP02-045, OP02-046, OP02-047, OP02-049, OP02-051, OP02-057, OP02-058, OP02-063, OP02-064, OP02-065, OP02-066, OP02-068, OP02-069, OP02-071, OP02-074, OP02-075, OP02-078, OP02-081, OP02-089, OP02-091, OP02-095, OP02-096, OP02-100, OP02-106, OP02-108, OP02-110, OP02-113, OP02-114, OP02-117, OP02-118
+**critical (46):** OP03-002, OP03-008, OP03-009, OP03-010, OP03-012, OP03-018, OP03-019, OP03-030, OP03-031, OP03-036, OP03-037, OP03-038, OP03-040, OP03-041, OP03-043, OP03-051, OP03-053, OP03-054, OP03-055, OP03-057, OP03-062, OP03-063, OP03-065, OP03-075, OP03-076, OP03-079, OP03-080, OP03-083, OP03-086, OP03-089, OP03-090, OP03-094, OP03-097, OP03-098, OP03-102, OP03-107, OP03-108, OP03-109, OP03-110, OP03-112, OP03-113, OP03-114, OP03-119, OP03-120, OP03-121, OP03-123
 
-**major (42):** OP02-001, OP02-004, OP02-005, OP02-009, OP02-010, OP02-013, OP02-015, OP02-016, OP02-018, OP02-019, OP02-030, OP02-032, OP02-034, OP02-035, OP02-037, OP02-040, OP02-041, OP02-048, OP02-050, OP02-056, OP02-059, OP02-062, OP02-067, OP02-070, OP02-072, OP02-076, OP02-079, OP02-082, OP02-086, OP02-087, OP02-090, OP02-092, OP02-093, OP02-094, OP02-098, OP02-099, OP02-102, OP02-103, OP02-115, OP02-119, OP02-120, OP02-121
+**major (44):** OP03-003, OP03-004, OP03-005, OP03-011, OP03-013, OP03-015, OP03-016, OP03-017, OP03-020, OP03-021, OP03-022, OP03-024, OP03-025, OP03-026, OP03-027, OP03-029, OP03-034, OP03-039, OP03-042, OP03-044, OP03-045, OP03-049, OP03-050, OP03-058, OP03-059, OP03-060, OP03-064, OP03-066, OP03-067, OP03-068, OP03-069, OP03-070, OP03-071, OP03-072, OP03-073, OP03-074, OP03-077, OP03-078, OP03-092, OP03-093, OP03-095, OP03-105, OP03-116, OP03-117
 
-**skipped — type inconnu (11):**
-- OP02-002 (Trigger::OnAttachedDon)
-- OP02-022 (ActionType::OrderDeck)
-- OP02-023 (no suggestedDsl)
-- OP02-024 (TargetScope::OwnCharacters)
-- OP02-061 (ConditionType::HandCount)
-- OP02-083 (ActionType::OrderDeckBottom)
-- OP02-085 (ActionType::ReturnDonToOpponentDeck, ConditionType::DuringOpponentTurn)
-- OP02-101 (ActionType::PreventBlocker)
-- OP02-104 (no suggestedDsl)
-- OP02-105 (TargetScope::OpponentCharacter)
-- OP02-112 (no suggestedDsl)
+**skipped — type inconnu (14):**
+- OP03-028 (ActionType::ChoiceAction)
+- OP03-032 (no suggestedDsl)
+- OP03-033 (no suggestedDsl)
+- OP03-047 (TargetScope::ChooseYourCharacter)
+- OP03-081 (TargetScope::OpponentCharacter)
+- OP03-088 (Trigger::Always)
+- OP03-091 (no suggestedDsl)
+- OP03-096 (TargetScope::ChooseOpponentCharacterOrStage)
+- OP03-099 (ActionType::PeekLifeCard, ActionType::ReorderLifeCard)
+- OP03-100 (no suggestedDsl)
+- OP03-104 (Trigger::Static)
+- OP03-115 (TargetScope::OpponentCharacter)
+- OP03-118 (TargetScope::ChooseOwnLeaderOrCharacter)
+- OP03-122 (TargetScope::ChooseCharacter)
 

@@ -1,33 +1,28 @@
 {
-  "id": "OP03-092",
-  "name": "Rob Lucci",
-  "cost": 6,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "RevealFromHand",
-          "count": 2,
-          "filter": {
-            "subType": "CP"
-          },
-          "thenActions": [
-            {
-              "type": "GiveKeyword",
-              "keyword": "Rush",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 2,
+        "filter": {
+          "type": "CP"
+        },
+        "source": "Trash",
+        "placement": "BottomOfDeck",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP03-092"
 }

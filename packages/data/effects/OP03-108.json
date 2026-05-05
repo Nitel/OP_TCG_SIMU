@@ -1,50 +1,28 @@
 {
-  "id": "OP03-108",
-  "name": "Charlotte Cracker",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "DoubleAttack",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
+  "0": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "Custom",
+      "description": "You have less Life cards than your opponent"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "DoubleAttack",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP03-108"
 }

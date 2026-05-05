@@ -1,11 +1,6 @@
 {
   "id": "OP03-030",
-  "name": "Nami",
-  "cost": 2,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 green {East Blue} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,21 +8,27 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
+            "kind": "ByType",
+            "types": [
+              "green",
+              "East Blue"
+            ],
+            "excludeNames": [
+              "Nami"
+            ],
+            "maxFromTop": 5
+          },
+          "count": {
+            "min": 0,
+            "max": 1
           },
           "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
+        },
         {
-          "type": "PlaySelf"
+          "type": "PlaySelf",
+          "destination": "deckBottom"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,34 +1,32 @@
 {
-  "id": "OP03-012",
-  "name": "Marshall.D.Teach",
-  "cost": 4,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "KO",
+        "count": 1,
+        "optional": true,
+        "filter": {
+          "type": "Character",
+          "color": "Red",
+          "minPower": 4000
         },
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
           },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP03-012"
 }

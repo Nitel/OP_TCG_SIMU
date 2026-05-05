@@ -1,38 +1,19 @@
 {
-  "id": "OP03-119",
-  "name": "Buzz Cut Mochi",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasFewerLifeThanOpponent"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 4
-          }
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxTargets": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP03-119"
 }

@@ -1,27 +1,22 @@
 {
-  "id": "OP03-114",
-  "name": "Charlotte Linlin",
-  "cost": 10,
-  "power": 12000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Big Mom Pirates"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "destination": "LifeCards"
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "RemoveLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      {
+        "type": "RemoveLife",
+        "count": 1,
+        "target": "opponent"
+      }
+    ]
+  },
+  "id": "OP03-114"
 }

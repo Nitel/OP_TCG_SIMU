@@ -1,24 +1,23 @@
 {
-  "id": "OP03-089",
-  "name": "Brannew",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 3,
+        "filter": {
+          "kind": "Navy",
+          "excludeName": "Brannew"
+        },
+        "maxSelect": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "ForceDiscard",
+        "source": "deck",
+        "destination": "trash"
+      }
+    ]
+  },
+  "id": "OP03-089"
 }

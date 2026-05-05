@@ -1,26 +1,22 @@
 {
-  "id": "OP03-109",
-  "name": "Charlotte Chiffon",
-  "cost": 2,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromLife",
+        "count": 1,
+        "source": "TopOrBottom",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "AddLife",
+            "source": "Deck",
+            "count": 1,
+            "placement": "Top"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP03-109"
 }

@@ -1,24 +1,18 @@
 {
-  "id": "OP03-095",
-  "name": "Soap Sheep",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Trigger",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "quantity": 2,
+          "quantityModifier": "UpTo"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP03-095"
 }

@@ -1,29 +1,24 @@
 {
   "id": "OP03-011",
-  "name": "Blamenco",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP03-011",
+  "effectText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters −2000 power during this turn.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "Always"
       },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,32 +1,22 @@
 {
   "id": "OP03-102",
-  "name": "Sanji",
-  "cost": 2,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasAttachedDon",
+    "count": 2
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
+      "type": "FlipLife",
+      "count": 1
+    },
+    {
+      "type": "SearchDeck",
+      "count": 1,
+      "filter": {
+        "kind": "Any"
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "destination": "life"
     }
-  ],
-  "counter": 2000
+  ]
 }

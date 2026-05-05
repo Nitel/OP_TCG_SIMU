@@ -1,42 +1,34 @@
 {
-  "id": "OP03-090",
-  "name": "Blueno",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "CP",
-            "cardType": "Character",
-            "maxCost": 4
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "type": "CP",
+          "cardType": "Character",
+          "maxCost": 4
+        },
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP03-090"
 }

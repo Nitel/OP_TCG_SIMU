@@ -1,11 +1,6 @@
 {
   "id": "OP03-029",
-  "name": "Chew",
-  "cost": 4,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,19 +9,11 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 4,
+            "hasRestingDon": true
           }
         }
       ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
     }
-  ],
-  "counter": 1000
+  ]
 }

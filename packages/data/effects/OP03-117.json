@@ -1,14 +1,10 @@
 {
   "id": "OP03-117",
-  "name": "Napoleon",
-  "cost": 3,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] You may rest this Character: Up to 1 of your [Charlotte Linlin] cards gains +1000 power until the start of your next turn.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [],
       "actions": [
         {
           "type": "Rest",
@@ -20,20 +16,18 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "conditions": [
+              {
+                "type": "HasCardName",
+                "value": "Charlotte Linlin"
+              }
+            ],
+            "maxTargets": 1
           },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+          "duration": "UntilStartOfYourNextTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

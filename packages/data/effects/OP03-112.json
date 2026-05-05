@@ -1,24 +1,30 @@
 {
-  "id": "OP03-112",
-  "name": "Charlotte Pudding",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "hasType": "Sanji"
+            },
+            {
+              "hasType": "Big Mom Pirates"
+            }
+          ],
+          "exclude": [
+            {
+              "cardName": "Charlotte Pudding"
+            }
+          ]
+        },
+        "destination": "hand",
+        "count": 1,
+        "lookAtTop": 4
+      }
+    ]
+  },
+  "id": "OP03-112"
 }

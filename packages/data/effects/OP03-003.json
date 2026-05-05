@@ -1,24 +1,29 @@
 {
   "id": "OP03-003",
-  "name": "Izo",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Conditional",
+        "conditions": [
+          {
+            "type": "HasCardType",
+            "value": "Whitebeard Pirates"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "type": "IsNotCard",
+            "value": "Izo"
+          }
+        ]
+      },
+      "destination": "hand",
+      "count": {
+        "min": 0,
+        "max": 1
+      },
+      "searchCount": 5,
+      "placeRest": "BottomOfDeck"
     }
-  ],
-  "counter": 1000
+  ]
 }

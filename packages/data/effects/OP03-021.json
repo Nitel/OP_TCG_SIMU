@@ -1,27 +1,27 @@
 {
-  "id": "OP03-021",
-  "name": "Kuro",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 3
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 3
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "minCount": 0,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "id": "OP03-021"
 }

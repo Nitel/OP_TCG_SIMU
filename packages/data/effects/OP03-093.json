@@ -1,24 +1,21 @@
 {
   "id": "OP03-093",
-  "name": "Wanze",
-  "cost": 2,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
+      "condition": "LeaderHasType:CP",
       "actions": [
         {
           "type": "TrashFromHand",
           "filter": {},
+          "optional": true,
           "thenActions": [
             {
               "type": "KO",
               "target": {
                 "scope": "ChooseOpponentCharacter",
-                "maxCost": 1
+                "maxCost": 1,
+                "maxCount": 1
               }
             }
           ]

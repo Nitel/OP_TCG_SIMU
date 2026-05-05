@@ -1,41 +1,23 @@
 {
-  "id": "OP03-121",
-  "name": "Thunder Bolt",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 5
-              }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromLife",
+        "count": 1,
+        "maxCount": 1,
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxCount": 1
             }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
           }
-        }
-      ]
-    }
-  ]
+        ]
+      }
+    ]
+  },
+  "id": "OP03-121"
 }

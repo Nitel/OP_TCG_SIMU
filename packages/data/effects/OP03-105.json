@@ -1,37 +1,29 @@
 {
-  "id": "OP03-105",
-  "name": "Charlotte Oven",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Trigger"
-          },
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 3000,
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfBattle"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "subType": "Trigger"
+        },
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP03-105"
 }

@@ -1,45 +1,22 @@
 {
-  "id": "OP03-054",
-  "name": "Usopp's Rubber Band of Doom!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
           "count": 1
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "source": "TopOfDeck"
+      }
+    ]
+  },
+  "id": "OP03-054"
 }

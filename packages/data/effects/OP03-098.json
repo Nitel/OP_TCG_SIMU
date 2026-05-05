@@ -1,30 +1,29 @@
 {
-  "id": "OP03-098",
-  "name": "Enies Lobby",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasAnyType",
+        "value": "CP"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "OpponentCharacter",
+          "count": 1
+        },
+        "value": -2,
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP03-098"
 }

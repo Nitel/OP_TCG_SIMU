@@ -1,27 +1,28 @@
 {
   "id": "OP03-086",
-  "name": "Spandam",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "CP"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+      "type": "SearchDeck",
+      "count": 3,
+      "filter": {
+        "kind": "TypeIncludes",
+        "value": "CP",
+        "excludeNames": [
+          "Spandam"
+        ]
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "selectUpTo": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "ForceDiscard",
+      "source": "deck",
+      "description": "Trash remaining cards from the 3 looked at"
     }
-  ],
-  "counter": 1000
+  ]
 }

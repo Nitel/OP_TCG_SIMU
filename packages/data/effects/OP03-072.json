@@ -1,39 +1,28 @@
 {
-  "id": "OP03-072",
-  "name": "Gum-Gum Jet Gatling",
-  "cost": 0,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 3000,
-              "target": {
-                "scope": "ChooseOwnCharacter"
-              },
-              "duration": "EndOfBattle"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Counter",
+    "cost": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "optional": true
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwn",
+          "cardType": [
+            "Leader",
+            "Character"
+          ],
+          "maxCount": 1
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP03-072"
 }

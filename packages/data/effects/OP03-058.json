@@ -1,23 +1,24 @@
 {
-  "id": "OP03-058",
-  "name": "Iceburg",
-  "cost": 5,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Galley-La Company",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "don": 1
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "self"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "type": "Character",
+          "subType": "Galley-La Company",
+          "maxCost": 5
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "id": "OP03-058"
 }

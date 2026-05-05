@@ -1,11 +1,6 @@
 {
   "id": "OP03-037",
-  "name": "Tooth Attack",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
   "effects": [
     {
       "trigger": "Activated",
@@ -13,25 +8,18 @@
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "typeFilter": [
+              "East Blue"
+            ]
           }
         },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "maxCost": 4
+            "maxCost": 3,
+            "mustBeRested": true
           }
         }
       ]

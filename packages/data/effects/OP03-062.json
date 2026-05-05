@@ -1,24 +1,36 @@
 {
   "id": "OP03-062",
-  "name": "Kokoro",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "lookAtCount": 5,
+      "filter": {
+        "kind": "And",
+        "conditions": [
+          {
+            "kind": "HasType",
+            "types": [
+              "Water Seven"
+            ]
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "kind": "Not",
+            "condition": {
+              "kind": "IsCard",
+              "cardName": "Kokoro"
+            }
+          }
+        ]
+      },
+      "maxSelect": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "ReturnToHand",
+      "source": "searchRemainder",
+      "destination": "deckBottom",
+      "order": "any"
     }
-  ],
-  "counter": 1000
+  ]
 }
