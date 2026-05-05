@@ -152,6 +152,21 @@ export type EffectAction =
   | {
       readonly type: 'PlayFromTrash';
       readonly filter: HandFilter;
+    }
+  /**
+   * Reveal `count` cards from the top of the source player's deck, execute thenActions,
+   * then return the revealed cards to 'top' or 'bottom' of deck.
+   */
+  | {
+      readonly type: 'RevealFromDeck';
+      readonly count: number;
+      readonly thenActions: readonly EffectAction[];
+      readonly returnTo: 'top' | 'bottom';
+    }
+  /** Move a card (from any zone) to the bottom of its owner's deck. */
+  | {
+      readonly type: 'PlaceAtBottomOfDeck';
+      readonly target: TargetSelector;
     };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────

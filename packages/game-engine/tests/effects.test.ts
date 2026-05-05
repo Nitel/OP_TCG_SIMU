@@ -1626,6 +1626,82 @@ describe('PlayFromTrash', () => {
   });
 });
 
+describe('RevealFromDeck', () => {
+  it('#R1 — returnTo=bottom : cartes révélées déplacées au fond, thenActions exécutés', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'RevealFromDeck', count: 2, returnTo: 'bottom', thenActions: [{ type: 'DrawCard', count: 1 }] }],
+    };
+    const src = makeChar('reveal-deck-src', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, src);
+    const deckBefore = state.players[P1]!.deck.slice();
+    const handBefore = state.players[P1]!.hand.length;
+    // top2 revealed cards go to the bottom after the effect
+    const top2 = deckBefore.slice(0, 2);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    const deckAfter = result.players[P1]!.deck;
+    // DrawCard thenAction consumed 1 card from top → deck length = N - 1
+    expect(deckAfter.length).toBe(deckBefore.length - 1);
+    // top2 are at the bottom (last 2 entries in deckAfter)
+    expect(deckAfter.slice(-2)).toEqual(top2);
+    // DrawCard thenAction executed: hand net = -1 (play) +1 (draw) = 0
+    expect(result.players[P1]!.hand.length).toBe(handBefore - 1 + 1);
+  });
+
+  it('#R2 — deck vide → state inchangé (pas d\'erreur)', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'RevealFromDeck', count: 2, returnTo: 'bottom', thenActions: [] }],
+    };
+    const src = makeChar('reveal-empty-deck', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    // Empty P1's deck
+    const emptyDeckState: GameState = {
+      ...base,
+      players: { ...base.players, [P1]: { ...base.players[P1]!, deck: [] } },
+    };
+    const state = addToHand(emptyDeckState, src);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(0);
+  });
+});
+
+describe('PlaceAtBottomOfDeck', () => {
+  it('#RD1 — carte sur le board déplacée au fond du deck', () => {
+    const base = bootstrapGame();
+    const boardChar = makeChar('board-to-deck', 'p1', 2000);
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PlaceAtBottomOfDeck', target: { scope: 'ChooseOwnCharacter' } }],
+    };
+    const src = makeChar('place-bottom-src', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Board(base, boardChar);
+    state = addToHand(state, src);
+    const deckBefore = state.players[P1]!.deck.length;
+    const boardBefore = state.players[P1]!.board.length;
+
+    const result = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: src.id,
+      chosenTargetId: boardChar.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[boardChar.id]?.zone).toBe('deck');
+    expect(result.players[P1]!.deck.length).toBe(deckBefore + 1);
+    expect(result.players[P1]!.deck[result.players[P1]!.deck.length - 1]).toBe(boardChar.id);
+    expect(result.players[P1]!.board.length).toBe(boardBefore); // removed from board, +1 from src playing
+  });
+});
+
 describe('Régression : OnPlay ChooseOpponentCharacter → pendingTargetInteraction engine-side', () => {
   it('PlayCharacterFromHand sans chosenTargetId → pendingTargetInteraction set (pas de blocage)', () => {
     const base = bootstrapGame();

@@ -634,6 +634,58 @@ function resolveAction(
       return next;
     }
 
+    // ── RevealFromDeck ────────────────────────────────────────────────────────
+    case 'RevealFromDeck': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined || player.deck.length === 0) return state;
+      const actual = Math.min(action.count, player.deck.length);
+      const revealed = player.deck.slice(0, actual);
+      const remaining = player.deck.slice(actual);
+      const newDeck: readonly CardId[] =
+        action.returnTo === 'bottom'
+          ? ([...remaining, ...revealed] as CardId[])
+          : ([...revealed, ...remaining] as CardId[]); // top
+      let next: GameState = {
+        ...state,
+        players: {
+          ...state.players,
+          [context.sourcePlayerId]: { ...player, deck: newDeck },
+        },
+      };
+      for (const a of action.thenActions) next = resolveAction(a, context, next);
+      return next;
+    }
+
+    // ── PlaceAtBottomOfDeck ───────────────────────────────────────────────────
+    case 'PlaceAtBottomOfDeck': {
+      const targets = selectTargets(action.target, context, state);
+      let next = state;
+      for (const cardId of targets) {
+        const card = next.cards[cardId];
+        if (card === undefined) continue;
+        const owner = next.players[card.ownerId];
+        if (owner === undefined) continue;
+        const updatedCards: Record<string, Card> = {
+          ...next.cards,
+          [cardId]: { ...card, zone: 'deck' as const, tapped: false },
+        };
+        const updatedPlayer: PlayerState = {
+          ...owner,
+          board: owner.board.filter((id) => id !== cardId),
+          hand:  owner.hand.filter((id) => id !== cardId),
+          trash: owner.trash.filter((id) => id !== cardId),
+          life:  owner.life.filter((id) => id !== cardId),
+          deck:  [...owner.deck, cardId],
+        };
+        next = {
+          ...next,
+          cards: updatedCards as Readonly<Record<CardId, Card>>,
+          players: { ...next.players, [card.ownerId]: updatedPlayer },
+        };
+      }
+      return next;
+    }
+
     // ── RevealFromHand ────────────────────────────────────────────────────────
     // Intercepted in resolveEffects before reaching here; this case is unreachable.
     case 'RevealFromHand':
