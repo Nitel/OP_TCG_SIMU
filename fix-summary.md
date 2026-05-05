@@ -1,12 +1,12 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:18:15.370Z
+Generated: 2026-05-05T14:18:16.023Z
 
-**Total patched:** 4 | **Total skipped:** 0
+**Total patched:** 5 | **Total skipped:** 0
 
-## ST-18 — 4 cartes patchées
+## ST-19 — 5 cartes patchées
 
-**critical (1):** ST18-004
+**critical (2):** ST19-004, ST19-005
 
-**major (3):** ST18-001, ST18-002, ST18-003
+**major (3):** ST19-001, ST19-002, ST19-003
 

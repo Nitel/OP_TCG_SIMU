@@ -1,30 +1,24 @@
 {
   "id": "ST19-001",
-  "name": "Smoker",
-  "cost": 6,
-  "power": 8000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "color": "Black",
+        "subType": "Navy"
+      },
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "color": "Black",
-            "subType": "Navy"
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 2
           },
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 4
-              }
-            }
-          ]
+          "duration": "UntilEndOfOpponentNextTurn"
         }
       ]
     }

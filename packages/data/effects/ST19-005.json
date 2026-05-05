@@ -1,33 +1,34 @@
 {
   "id": "ST19-005",
-  "name": "Monkey.D.Garp",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "name": "ST19-005",
+  "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Activate: Main] [Once Per Turn] You may place 1 card from your trash at the bottom of your deck: Give up to 1 of your opponent's Characters −1 cost during this turn.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "SearchDeck",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {
+            "source": "trash"
+          },
+          "placement": "bottom"
         },
         {
           "type": "PowerBoost",
           "amount": -1000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           },
           "duration": "EndOfTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

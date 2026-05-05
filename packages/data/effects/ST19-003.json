@@ -1,29 +1,42 @@
 {
-  "id": "ST19-003",
-  "name": "Tashigi",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Smoker"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Smoker"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -4000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1,
+          "filter": "cost=0"
         }
-      ]
+      }
+    ],
+    "restrictions": {
+      "activationType": "Main",
+      "oncePerTurn": true,
+      "requiresPlayedThisTurn": true
     }
-  ],
-  "counter": 1000
+  },
+  "id": "ST19-003"
 }
