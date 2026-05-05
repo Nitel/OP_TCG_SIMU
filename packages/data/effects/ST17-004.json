@@ -1,13 +1,6 @@
 {
   "id": "ST17-004",
-  "name": "Boa Hancock",
-  "cost": 4,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "effectText": "[On Play] Look at 3 cards from the top of your deck and place them at the top or bottom of your deck in any order. Then, give up to 1 rested DON!! card to 1 of your {The Seven Warlords of the Sea} type Leader or Character cards.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -15,15 +8,21 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "Any",
+            "count": 3,
+            "source": "TopOfDeck"
           },
-          "destination": "hand"
+          "destination": "TopOrBottomOfDeck"
         },
         {
           "type": "AttachDon",
           "count": 1,
+          "source": "RestedDon",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": {
+              "type": "The Seven Warlords of the Sea"
+            }
           }
         }
       ]

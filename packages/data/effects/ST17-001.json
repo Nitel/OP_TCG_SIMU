@@ -1,21 +1,24 @@
 {
-  "id": "ST17-001",
-  "name": "Crocodile",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "RevealFromDeck",
+        "count": 1,
+        "checkType": "The Seven Warlords of the Sea"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "PlaceCardOnTopOfDeck",
+        "source": "Hand",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST17-001"
 }

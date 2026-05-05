@@ -1,28 +1,35 @@
 {
-  "id": "ST17-002",
-  "name": "Trafalgar Law",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "The Seven Warlords of the Sea"
-      },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 4
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "The Seven Warlords of the Sea"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 4,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "id": "ST17-002"
 }

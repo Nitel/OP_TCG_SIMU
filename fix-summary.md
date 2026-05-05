@@ -1,12 +1,15 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:18:13.958Z
+Generated: 2026-05-05T14:18:14.617Z
 
-**Total patched:** 5 | **Total skipped:** 0
+**Total patched:** 4 | **Total skipped:** 1
 
-## ST-16 — 5 cartes patchées
+## ST-17 — 4 cartes patchées
 
-**critical (1):** ST16-003
+**critical (3):** ST17-001, ST17-003, ST17-004
 
-**major (4):** ST16-001, ST16-002, ST16-004, ST16-005
+**major (1):** ST17-002
+
+**skipped — type inconnu (1):**
+- ST17-005 (no suggestedDsl)
 
