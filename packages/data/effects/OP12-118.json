@@ -1,33 +1,26 @@
 {
   "id": "OP12-118",
-  "name": "Jewelry Bonney",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "TrashCount",
+    "count": 8
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 8
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "DrawCard",
+      "count": 2
+    },
+    {
+      "type": "ForceDiscard",
+      "count": 1,
+      "filter": {}
+    },
+    {
+      "type": "Rest",
+      "count": 1,
+      "filter": {
+        "cardType": "DON"
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

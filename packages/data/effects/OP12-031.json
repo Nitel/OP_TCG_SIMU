@@ -1,30 +1,24 @@
 {
   "id": "OP12-031",
-  "name": "Tashigi",
-  "cost": 5,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        },
-        {
-          "type": "AttachDon",
-          "count": 3,
-          "target": {
-            "scope": "OwnLeader"
-          }
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 6,
+        "maxCount": 1
+      }
+    },
+    {
+      "type": "AttachDon",
+      "count": 3,
+      "target": {
+        "scope": "OwnLeader"
+      },
+      "condition": {
+        "type": "HasRestingDon"
+      }
     }
   ]
 }

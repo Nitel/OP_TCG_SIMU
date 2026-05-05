@@ -1,42 +1,35 @@
 {
-  "id": "OP12-044",
-  "name": "Sakazuki",
-  "cost": 7,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Navy"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Navy"
     },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "AttachDon",
-              "count": 1,
-              "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
-              }
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "count": 1
+        },
+        "thenActions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
             }
-          ]
-        }
-      ]
-    }
-  ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP12-044"
 }

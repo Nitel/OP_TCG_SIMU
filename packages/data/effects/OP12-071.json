@@ -1,24 +1,30 @@
 {
   "id": "OP12-071",
-  "name": "Charlotte Pudding",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "lookCount": 4,
+      "filter": {
+        "kind": "Or",
+        "filters": [
+          {
+            "kind": "HasType",
+            "value": "Sanji"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "kind": "HasType",
+            "value": "Event"
+          }
+        ]
+      },
+      "limit": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "ReorderDeck",
+      "zone": "bottom",
+      "count": 3
     }
-  ],
-  "counter": 1000
+  ]
 }

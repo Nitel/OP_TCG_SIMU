@@ -1,28 +1,41 @@
 {
-  "id": "OP12-043",
-  "name": "Kuzan",
-  "cost": 6,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "ChooseOpponentCharacter"
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Passive",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "count": 5,
+        "comparison": "GreaterThanOrEqual",
+        "scope": "OwnHand"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "maxTargets": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotAttack",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxTargets": 1
+            },
+            "duration": "UntilEndOfOpponentNextEndPhase"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP12-043"
 }

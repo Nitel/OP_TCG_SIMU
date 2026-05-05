@@ -1,39 +1,37 @@
 {
   "id": "OP12-013",
-  "name": "Hatchan",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "Always"
+    }
+  ],
+  "actions": [
+    {
+      "type": "RevealFromHand",
+      "count": 2,
+      "filter": {
+        "cardType": "Event"
+      },
+      "thenActions": [
         {
           "type": "Rest",
           "target": {
             "scope": "Self"
-          }
+          },
+          "optional": true
         },
         {
-          "type": "RevealFromHand",
-          "count": 2,
-          "filter": {
-            "cardType": "Event"
+          "type": "AttachDon",
+          "count": {
+            "type": "UpTo",
+            "value": 2
           },
-          "thenActions": [
-            {
-              "type": "AttachDon",
-              "count": 2,
-              "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
-              }
-            }
-          ]
+          "target": {
+            "scope": "ChooseOwnLeaderOrOneCharacter"
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

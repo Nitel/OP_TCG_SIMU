@@ -1,13 +1,36 @@
 {
   "id": "OP12-021",
-  "name": "Ipponmatsu",
-  "cost": 3,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effectText": "If your Leader has the <Slash> attribute and you have 6 or more rested DON!! cards, this Character cannot be rested by your opponent's effects.",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Slash"
+        },
+        {
+          "type": "HasRestingDon",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRestedByOpponentEffects",
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

@@ -1,27 +1,25 @@
 {
   "id": "OP12-007",
-  "name": "Shanks",
-  "cost": 2,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "ChooseOwnCharacter"
+      "type": "GiveKeyword",
+      "keyword": "Rush",
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "conditions": [
+          {
+            "type": "HasCardType",
+            "cardType": "Roger Pirates"
           },
-          "duration": "EndOfTurn"
-        }
-      ]
+          {
+            "type": "IsNotName",
+            "name": "Shanks"
+          }
+        ],
+        "count": 1
+      },
+      "duration": "EndOfTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

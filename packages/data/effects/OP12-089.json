@@ -1,30 +1,37 @@
 {
-  "id": "OP12-089",
-  "name": "Hack",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Revolutionary Army"
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker"
       },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+      {
+        "type": "PowerBoost",
+        "costBoost": 4
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP12-089"
 }

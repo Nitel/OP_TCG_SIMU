@@ -1,13 +1,23 @@
 {
   "id": "OP12-066",
-  "name": "Carne",
-  "cost": 1,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 4,
+          "cardType": "Event"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

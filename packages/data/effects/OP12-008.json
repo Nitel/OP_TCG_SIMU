@@ -1,16 +1,8 @@
 {
   "id": "OP12-008",
-  "name": "Shanks",
-  "cost": 4,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "OnAttack",
       "condition": {
         "type": "Always"
       },
@@ -19,15 +11,17 @@
           "type": "TrashFromHand",
           "count": 1,
           "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacterOrLeader",
+                "count": 1
+              },
+              "duration": "DuringOpponentTurn"
+            }
+          ]
         }
       ]
     }

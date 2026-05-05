@@ -1,33 +1,32 @@
 {
   "id": "OP12-047",
-  "name": "Sengoku",
-  "cost": 3,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
+          "optional": true,
+          "maxCount": 1,
           "thenActions": [
             {
               "type": "SearchDeck",
+              "lookAt": 5,
               "filter": {
-                "kind": "ByName",
-                "name": "Navy"
+                "kind": "ByType",
+                "type": "Navy",
+                "excludeByName": [
+                  "Sengoku"
+                ]
               },
-              "destination": "hand"
+              "maxSelect": 2,
+              "destination": "hand",
+              "orderRest": "AnyOrder",
+              "restDestination": "DeckBottom"
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

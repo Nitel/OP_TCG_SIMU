@@ -1,32 +1,30 @@
 {
   "id": "OP12-091",
-  "name": "Poker",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "Always"
     }
   ],
-  "counter": 1000
+  "actions": [
+    {
+      "type": "PlayFromHand",
+      "filter": {
+        "kind": "Card",
+        "source": "trash",
+        "count": 3
+      },
+      "destination": "deckBottom"
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacterWithType",
+        "type": "SMILE",
+        "maxCount": 2
+      },
+      "duration": "EndOfTurn"
+    }
+  ]
 }

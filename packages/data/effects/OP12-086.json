@@ -1,27 +1,32 @@
 {
   "id": "OP12-086",
-  "name": "Koala",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Revolutionary Army"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Revolutionary Army"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByTypeOrName",
+        "value": [
+          {
+            "type": "Revolutionary Army",
+            "excludeName": "Koala"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "name": "Nico Robin"
+          }
+        ]
+      },
+      "max": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "ForceDiscard",
+      "source": "DeckTop",
+      "quantity": 2
     }
   ]
 }

@@ -1,53 +1,43 @@
 {
-  "id": "OP12-053",
-  "name": "Borsalino",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader with Navy type"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "preventRemoval": true,
+        "description": "Instead of being removed from field, trash 1 card from hand"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Navy"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "duration": "DuringOpponentTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP12-053"
 }

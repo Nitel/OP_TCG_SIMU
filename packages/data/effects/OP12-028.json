@@ -1,28 +1,39 @@
 {
-  "id": "OP12-028",
-  "name": "Kouzuki Hiyori",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Roronoa Zoro"
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Roronoa Zoro"
+    },
+    "cost": {
+      "restCharacters": 1,
+      "restDon": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "attribute": "Slash"
+            },
+            {
+              "type": "Event",
+              "color": "green"
+            }
+          ]
+        },
+        "revealCount": 1,
+        "destination": "hand"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "PlaceDecksBottom",
+        "source": "SearchedCards",
+        "orderBy": "any"
+      }
+    ]
+  },
+  "id": "OP12-028"
 }

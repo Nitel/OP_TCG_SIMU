@@ -1,28 +1,39 @@
 {
   "id": "OP12-034",
-  "name": "Perona",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "attribute": "Slash"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "lookAtCount": 5,
+      "filter": {
+        "kind": "Or",
+        "conditions": [
+          {
+            "kind": "Attribute",
+            "value": "Slash"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "kind": "And",
+            "conditions": [
+              {
+                "kind": "Type",
+                "value": "Event"
+              },
+              {
+                "kind": "Color",
+                "value": "Green"
+              }
+            ]
+          }
+        ]
+      },
+      "maxReveals": 1,
+      "destination": "hand",
+      "remainingDestination": "bottom_deck"
     }
-  ],
-  "counter": 1000
+  ]
 }

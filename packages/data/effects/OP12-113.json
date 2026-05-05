@@ -1,47 +1,21 @@
 {
-  "id": "OP12-113",
-  "name": "Roronoa Zoro",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader with Supernovas type"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Supernovas",
-            "cardType": "Character",
-            "maxCost": 4
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "typeValue": "Supernovas"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Supernovas",
+          "cardType": "Character",
+          "maxCost": 4
         },
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "rested": true
+      }
+    ]
+  },
+  "id": "OP12-113"
 }

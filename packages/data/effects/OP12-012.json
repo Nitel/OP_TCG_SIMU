@@ -1,25 +1,19 @@
 {
   "id": "OP12-012",
-  "name": "Buggy",
-  "cost": 2,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
+      "type": "GiveKeyword",
+      "keyword": "Blocker",
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "count": 1,
+        "filter": {
+          "hasType": "Roger Pirates",
+          "isNotName": "Buggy"
         }
-      ]
+      },
+      "duration": "UntilEndOfOpponentNextEndPhase"
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,24 +1,30 @@
 {
-  "id": "OP12-006",
-  "name": "Shakuyaku",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "kind": "CardName",
+              "value": "Monkey.D.Luffy"
+            },
+            {
+              "kind": "CardType",
+              "value": "Event",
+              "color": "red"
+            }
+          ]
+        },
+        "count": 5,
+        "maxSelect": 1,
+        "destination": "hand",
+        "reveal": true,
+        "remaining": "BottomOfDeckInAnyOrder"
+      }
+    ]
+  },
+  "id": "OP12-006"
 }

@@ -1,37 +1,40 @@
 {
-  "id": "OP12-102",
-  "name": "Shirahoshi",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardName": "Character",
+      "maxBaseCost": 6
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "TrashCount",
+      "cardName": "Shirahoshi",
+      "baseCost": 2,
+      "comparison": "equals",
+      "value": 0
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "types": [
+            "Neptunian"
+          ]
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP12-102"
 }

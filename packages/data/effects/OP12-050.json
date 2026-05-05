@@ -1,11 +1,16 @@
 {
   "id": "OP12-050",
-  "name": "Jaguar.D.Saul",
-  "cost": 6,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ]
 }

@@ -1,19 +1,30 @@
 {
-  "id": "OP12-080",
-  "name": "Baratie",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderIsName",
+        "value": "Sanji"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlaySelf",
+        "optional": true,
+        "placement": "DeckBottom"
+      },
+      {
+        "type": "SearchDeck",
+        "count": 3,
+        "reveal": true
+      },
+      {
+        "type": "RevealFromHand",
+        "cardType": "Event",
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP12-080"
 }

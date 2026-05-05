@@ -1,42 +1,31 @@
 {
   "id": "OP12-009",
-  "name": "Jinbe",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "RevealFromHand",
+      "count": 2,
+      "filter": {
+        "cardType": "Event"
+      },
+      "thenActions": [
         {
-          "type": "RevealFromHand",
-          "count": 2,
-          "filter": {
-            "cardType": "Event"
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
           },
-          "thenActions": [
-            {
-              "type": "GiveKeyword",
-              "keyword": "Rush",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            },
-            {
-              "type": "PowerBoost",
-              "amount": 1000,
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

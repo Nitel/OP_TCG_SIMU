@@ -1,40 +1,36 @@
 {
-  "id": "OP12-059",
-  "name": "Concasser",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Sanji"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Sanji"
     },
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": "GreaterThanOrEqual",
+      "count": 4,
+      "cardType": "Event"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "OwnLeader",
+          "maxTargets": 1
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP12-059"
 }

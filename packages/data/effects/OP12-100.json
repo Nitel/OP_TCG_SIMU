@@ -1,33 +1,40 @@
 {
-  "id": "OP12-100",
-  "name": "Sabo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Always",
+    "condition": "LifeCardsCount",
+    "conditionValue": 3,
+    "conditionComparison": "LessThanOrEqual",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 3,
+        "costBoost": true
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "optional": true,
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "thenActions": []
+      }
+    ]
+  },
+  "id": "OP12-100"
 }

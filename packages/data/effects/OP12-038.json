@@ -1,27 +1,25 @@
 {
   "id": "OP12-038",
-  "name": "Two-Sword Style Rashomon",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "cardNumber": "OP12-038",
+  "name": "[Main] Activated Ability",
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "count": 2,
+        "target": {
+          "scope": "OwnDon"
+        }
+      },
       "actions": [
         {
           "type": "KO",
+          "count": "UpTo2",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 4,
+            "hasResting": true
           }
         }
       ]

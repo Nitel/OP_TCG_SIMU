@@ -1,28 +1,26 @@
 {
-  "id": "OP12-078",
-  "name": "Brochette Blow",
-  "cost": 3,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "operator": "LessThanOrEqual",
+      "opponentComparison": true
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP12-078"
 }

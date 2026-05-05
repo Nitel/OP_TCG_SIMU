@@ -1,23 +1,36 @@
 {
-  "id": "OP12-065",
-  "name": "Emporio.Ivankov",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Always",
+    "condition": {
+      "type": "TrashCount",
+      "operator": ">=",
+      "value": 4,
+      "cardType": "Event"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "target": {
+          "scope": "Self"
+        },
+        "keyword": "Blocker",
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Trash",
+          "cardType": "Event"
+        },
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP12-065"
 }

@@ -1,28 +1,26 @@
 {
   "id": "OP12-069",
-  "name": "Crocodile",
-  "cost": 6,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP12-069",
+  "effectText": "[On Your Opponent's Attack] [Once Per Turn] DON!! −1: If your Leader's type includes \"Baroque Works\", up to 1 of your Leader or Character cards gains +2000 power during this battle.",
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "OnAttack",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Baroque Works"
+        "type": "LeaderHasType",
+        "value": "Baroque Works"
       },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
           },
-          "duration": "EndOfBattle"
+          "duration": "DuringOpponentTurn"
         }
-      ]
+      ],
+      "limitation": "OncePerTurn"
     }
   ]
 }

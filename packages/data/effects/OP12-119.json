@@ -1,46 +1,39 @@
 {
-  "id": "OP12-119",
-  "name": "Bartholomew Kuma",
-  "cost": 6,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "excludeSelf": true
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "excludeSelf": true
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "FlipLife",
+            "count": 1
           },
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
+          {
+            "type": "PowerBoost",
+            "amount": 2,
+            "target": {
+              "scope": "Self"
             },
-            {
-              "type": "PowerBoost",
-              "amount": 2,
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+            "duration": "UntilEndOfOpponentNextEndPhase"
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP12-119"
 }

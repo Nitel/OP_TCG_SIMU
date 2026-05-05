@@ -1,37 +1,35 @@
 {
   "id": "OP12-026",
-  "name": "Kuina",
-  "cost": 4,
-  "power": 1000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "OP12-026",
+  "effectText": "[Activate: Main] You may rest this Character: Rest up to 1 of your opponent's Characters with a base cost of 4 or less. Then, give up to 3 rested DON!! cards to your [Roronoa Zoro] Leader.",
   "effects": [
     {
       "trigger": "Activated",
+      "cost": "Rest Self",
       "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "Rest",
-          "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 4,
+            "optional": true,
+            "maxTargets": 1
           }
         },
         {
           "type": "AttachDon",
-          "count": 3,
+          "count": {
+            "value": 3,
+            "optional": true
+          },
           "target": {
-            "scope": "OwnLeader"
-          }
+            "scope": "OwnLeader",
+            "condition": "LeaderIsName",
+            "leaderName": "Roronoa Zoro"
+          },
+          "cardSource": "rested DON cards"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

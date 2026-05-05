@@ -1,11 +1,6 @@
 {
   "id": "OP12-105",
-  "name": "Trafalgar Lammy",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP12-105",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,12 +9,15 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasCardName": "Trafalgar Law"
+            },
+            "maxCount": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

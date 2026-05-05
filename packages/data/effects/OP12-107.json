@@ -1,37 +1,40 @@
 {
-  "id": "OP12-107",
-  "name": "Donquixote Doflamingo",
-  "cost": 8,
-  "power": 8000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "TurnCount",
-        "max": 2
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "max": 2
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "target": {
+          "scope": "TopOfDeck"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "id": "OP12-107"
 }

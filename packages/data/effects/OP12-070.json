@@ -1,25 +1,46 @@
 {
-  "id": "OP12-070",
-  "name": "Sanji",
-  "cost": 3,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "perTrashedCard": true,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
+  "0": {
+    "trigger": "Trigger",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 5
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "perTrashedCard": true,
+        "cardType": "Event",
+        "divisor": 5,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "scope": "Self"
+      }
+    ],
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "source": "Field",
+        "target": {
+          "scope": "Self",
+          "cardType": "DON!!"
         }
-      ]
-    }
-  ]
+      }
+    ],
+    "duration": "DuringOpponentTurn"
+  },
+  "id": "OP12-070"
 }

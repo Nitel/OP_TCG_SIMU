@@ -1,31 +1,34 @@
 {
-  "id": "OP12-095",
-  "name": "Lindbergh",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Revolutionary Army"
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "count": 4
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP12-095"
 }

@@ -1,31 +1,29 @@
 {
-  "id": "OP12-073",
-  "name": "Trafalgar Law",
-  "cost": 7,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "compareOperator": "LessThanOrEqual",
+      "opponentComparison": true
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filterType": [
+            "Donquixote Rosinante",
+            "Heart Pirates"
+          ]
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP12-073"
 }

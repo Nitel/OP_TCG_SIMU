@@ -1,20 +1,24 @@
 {
   "id": "OP12-096",
-  "name": "Ursa Shock",
-  "cost": 4,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [],
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 4
+          },
+          "condition": {
+            "type": "Not",
+            "condition": {
+              "type": "HasCardOnBoard",
+              "filter": {
+                "minCost": 8
+              }
+            }
           }
         },
         {
@@ -22,22 +26,13 @@
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 6
+          },
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "minCost": 8
+            }
           }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
         }
       ]
     }

@@ -1,11 +1,6 @@
 {
   "id": "OP12-116",
-  "name": "We'll Ring the Bell Waiting for You!!",
-  "cost": 3,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "Look at 5 cards from the top of your deck; reveal a total of up to 2 {Shandian Warrior} type Character cards or [Mont Blanc Noland] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,18 +8,23 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "Or",
+            "conditions": [
+              {
+                "kind": "HasType",
+                "type": "Shandian Warrior"
+              },
+              {
+                "kind": "IsName",
+                "name": "Mont Blanc Noland"
+              }
+            ]
           },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+          "count": 2,
+          "from": "top",
+          "deckSize": 5,
+          "destination": "hand",
+          "remaining": "bottom"
         }
       ]
     }

@@ -1,33 +1,28 @@
 {
   "id": "OP12-115",
-  "name": "I Love You!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "actions": [
     {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "name": "Trafalgar Law"
-          },
-          "condition": {
-            "type": "Always"
-          }
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "count": 1
+      },
+      "duration": "DuringThisBattle"
+    },
+    {
+      "type": "ReturnToHand",
+      "filter": {
+        "name": "Trafalgar Law"
+      },
+      "source": "Trash",
+      "count": 1,
+      "condition": {
+        "type": "LifeCount",
+        "value": 2,
+        "comparison": "LessThanOrEqual"
+      }
     }
   ]
 }

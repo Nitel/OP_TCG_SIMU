@@ -1,27 +1,36 @@
 {
-  "id": "OP12-094",
-  "name": "Monkey.D.Dragon",
-  "cost": 8,
-  "power": 8000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Revolutionary Army"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 6
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "cardType": "type",
+          "name": "Revolutionary Army"
+        },
+        "count": 3,
+        "optional": true,
+        "destination": "BottomOfDeck"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 6
+        },
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP12-094"
 }

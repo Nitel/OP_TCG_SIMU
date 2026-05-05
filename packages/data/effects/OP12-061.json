@@ -1,37 +1,39 @@
 {
-  "id": "OP12-061",
-  "name": "Donquixote Rosinante",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Trafalgar Law"
-      },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Trafalgar Law"
     },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Trafalgar Law"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "destination": "hand"
+      }
+    ],
+    "duration": "Permanent",
+    "note": "Prevents KO; instead flips 1 Life to hand"
+  },
+  "1": {
+    "trigger": "Activated",
+    "cost": "DON!! -1",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": "NextTrafalgarLawPlayedThisTurn",
+        "filter": {
+          "kind": "ByNameAndCost",
+          "name": "Trafalgar Law",
+          "minCost": 4
+        },
+        "costReduction": 2,
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP12-061"
 }

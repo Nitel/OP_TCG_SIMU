@@ -1,23 +1,24 @@
 {
   "id": "OP12-097",
-  "name": "Captains Assembled",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Type",
+        "value": "Revolutionary Army",
+        "excludeNames": [
+          "Captains Assembled"
+        ]
+      },
+      "destination": "hand",
+      "limit": 1,
+      "searchCount": 3
+    },
+    {
+      "type": "ForceDiscard",
+      "target": "RemainingViewedCards",
+      "destination": "trash"
     }
   ]
 }

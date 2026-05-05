@@ -1,23 +1,20 @@
 {
   "id": "OP12-090",
-  "name": "Belo Betty",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "actions": [
+      "type": "TrashFromDeck",
+      "count": 2,
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+          "type": "PowerBoost",
+          "target": "OpponentCharacter",
+          "maxTargets": 1,
+          "power": -2,
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,45 +1,22 @@
 {
-  "id": "OP12-057",
-  "name": "Ice Block Pheasant Peck",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ]
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP12-057"
 }

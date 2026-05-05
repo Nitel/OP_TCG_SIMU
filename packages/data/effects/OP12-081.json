@@ -1,18 +1,14 @@
 {
   "id": "OP12-081",
-  "name": "Koala",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
         "type": "HasCardOnBoard",
-        "name": "8+ cost Character"
+        "count": 2,
+        "minCost": 8
       },
+      "targetType": "OpponentLeader",
       "actions": [
         {
           "type": "DrawCard",
@@ -22,9 +18,15 @@
     },
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "activationCondition": "OpponentPlaysCharacterCost8PlusOrViaEffect",
+      "limitedUse": "OncePerTurn",
       "actions": [
         {
           "type": "FlipLife",
+          "player": "Opponent",
           "count": 1
         }
       ]

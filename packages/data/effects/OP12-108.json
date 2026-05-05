@@ -1,25 +1,15 @@
 {
   "id": "OP12-108",
-  "name": "Donquixote Rosinante",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Trafalgar Law"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByName",
+        "name": "Trafalgar Law"
+      },
+      "limit": 1,
+      "destination": "hand"
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,23 +1,34 @@
 {
   "id": "OP12-017",
-  "name": "Color of Observation Haki",
-  "cost": 0,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "HasAttachedDon",
+      "comparison": "≥",
+      "value": 1
+    }
+  ],
+  "actions": [
+    {
+      "type": "SearchDeck",
+      "lookAtTop": 4,
+      "filter": {
+        "kind": "Or",
+        "conditions": [
+          {
+            "color": "Red",
+            "type": "Event"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "type": "Character",
+            "cost": "≥3"
+          }
+        ]
+      },
+      "selectMax": 1,
+      "destination": "hand",
+      "reveal": true,
+      "placeRest": "BottomOfDeck"
     }
   ]
 }
