@@ -1,35 +1,32 @@
 {
   "id": "EB02-032",
-  "name": "Iceburg",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 3
       },
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 7,
           "filter": {
-            "kind": "Any"
+            "trait": "Galley-La Company"
           },
-          "destination": "hand"
+          "destination": "hand",
+          "maxCards": 1,
+          "reveal": true
         },
         {
           "type": "PlayFromHand",
           "filter": {
-            "subType": "Galley-La Company",
+            "trait": "Galley-La Company",
             "cardType": "Character"
-          }
+          },
+          "maxCards": 1
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

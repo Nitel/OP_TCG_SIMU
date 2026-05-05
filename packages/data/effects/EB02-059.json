@@ -1,11 +1,5 @@
 {
   "id": "EB02-059",
-  "name": "Without Your Help I Can't Become the King of the Pirates!!!!",
-  "cost": 4,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -14,24 +8,35 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
           },
           "duration": "EndOfBattle"
         },
         {
           "type": "PlayFromHand",
+          "count": 1,
           "filter": {
-            "color": "Yellow",
-            "subType": "Straw Hat Crew",
-            "cardType": "Character",
-            "maxCost": 5
+            "anyOf": [
+              {
+                "color": "Yellow",
+                "subType": "Straw Hat Crew",
+                "cardType": "Character",
+                "maxCost": 5
+              },
+              {
+                "name": "Sanji",
+                "cardType": "Character",
+                "maxCost": 5
+              }
+            ]
+          },
+          "condition": {
+            "type": "LifeCount",
+            "maxCount": 1
           }
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 0
-      }
+      ]
     }
   ]
 }

@@ -1,28 +1,29 @@
 {
   "id": "EB02-057",
-  "name": "Mad Treasure",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "actions": [
         {
           "type": "FlipLife",
-          "count": 1
+          "count": 1,
+          "optional": true,
+          "position": "TopOrBottom"
         },
         {
-          "type": "ReturnToHand",
+          "type": "AddLife",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 3
+          },
+          "toOpponent": true,
+          "faceUp": true,
+          "position": "TopOrBottom",
+          "condition": {
+            "type": "IfPreviousActionPerformed"
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

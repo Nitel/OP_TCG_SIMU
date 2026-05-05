@@ -1,22 +1,19 @@
 {
   "id": "EB02-040",
-  "name": "BRAND NEW WORLD",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 4,
           "filter": {
             "kind": "ByCost",
-            "maxCost": 4
+            "minCost": 4
           },
-          "destination": "hand"
+          "upTo": 1,
+          "destination": "hand",
+          "reveal": true
         }
       ]
     }

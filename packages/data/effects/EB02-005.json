@@ -1,11 +1,5 @@
 {
   "id": "EB02-005",
-  "name": "Fake Straw Hat Crew",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
@@ -16,7 +10,20 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
         }
       ]
     }

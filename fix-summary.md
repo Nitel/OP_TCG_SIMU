@@ -1,36 +1,33 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:16:37.633Z
+Generated: 2026-05-05T14:16:56.691Z
 
-**Total patched:** 30 | **Total skipped:** 22
+**Total patched:** 34 | **Total skipped:** 19
 
-## EB-01 — 30 cartes patchées
+## EB-02 — 34 cartes patchées
 
-**critical (19):** EB01-002, EB01-006, EB01-009, EB01-010, EB01-011, EB01-013, EB01-014, EB01-021, EB01-027, EB01-031, EB01-033, EB01-034, EB01-036, EB01-037, EB01-039, EB01-053, EB01-056, EB01-059, EB01-060
+**critical (25):** EB02-005, EB02-008, EB02-011, EB02-012, EB02-017, EB02-019, EB02-020, EB02-022, EB02-023, EB02-031, EB02-033, EB02-036, EB02-040, EB02-044, EB02-047, EB02-048, EB02-050, EB02-052, EB02-053, EB02-055, EB02-056, EB02-057, EB02-058, EB02-059, EB02-060
 
-**major (11):** EB01-007, EB01-016, EB01-019, EB01-020, EB01-035, EB01-040, EB01-044, EB01-045, EB01-047, EB01-050, EB01-061
+**major (9):** EB02-002, EB02-003, EB02-009, EB02-013, EB02-014, EB02-025, EB02-028, EB02-032, EB02-049
 
-**skipped — type inconnu (22):**
-- EB01-001 (Trigger::Passive, TargetScope::OwnCharacters)
-- EB01-003 (ConditionType::OpponentLifeCount)
-- EB01-004 (ConditionType::LeaderIsActive)
-- EB01-008 (ConditionType::KOByEffect, ActionType::PreventKO)
-- EB01-012 (ConditionType::And)
-- EB01-017 (no suggestedDsl)
-- EB01-022 (ConditionType::HandCount)
-- EB01-024 (ConditionType::HandSize)
-- EB01-026 (ConditionType::And, TargetScope::ChooseCharacter)
-- EB01-028 (TargetScope::OpponentActiveCharacter)
-- EB01-029 (ActionType::PlaceCardToBottomOfDeck, TargetScope::RevealedCard)
-- EB01-030 (no suggestedDsl)
-- EB01-038 (ActionType::ChangeAttackTarget)
-- EB01-042 (ActionType::TrashSelf, ActionType::CostReduction)
-- EB01-043 (ActionType::MoveToBottomOfDeck)
-- EB01-046 (ActionType::CostReduction)
-- EB01-048 (ActionType::CostReduction)
-- EB01-051 (ConditionType::PayCost)
-- EB01-052 (Trigger::Static, ActionType::ModalChoice)
-- EB01-054 (ConditionType::OpponentLifeCount)
-- EB01-057 (ConditionType::KOByOpponentEffect)
-- EB01-058 (ConditionType::And)
+**skipped — type inconnu (19):**
+- EB02-006 (ConditionType::Or)
+- EB02-007 (TargetScope::ChooseOwnCharactersAndLeader)
+- EB02-010 (ConditionType::OnlyHasTypeOnBoard, ActionType::UnrestDon)
+- EB02-015 (ActionType::PreventRefresh)
+- EB02-018 (ConditionType::NegateCondition)
+- EB02-021 (TargetScope::SameAsAbove)
+- EB02-024 (ActionType::BottomDeck, TargetScope::ChooseCharacter)
+- EB02-026 (ConditionType::And)
+- EB02-027 (no suggestedDsl)
+- EB02-030 (ActionType::PreventKO)
+- EB02-035 (Trigger::DonReturned, ConditionType::DonReturnedCount, ConditionType::DonCountComparison)
+- EB02-037 (ConditionType::And)
+- EB02-039 (ConditionType::DonCountComparison)
+- EB02-041 (ConditionType::DonCountComparison, ActionType::CostBoost)
+- EB02-045 (ActionType::Choice)
+- EB02-046 (no suggestedDsl)
+- EB02-051 (ActionType::CostReduction)
+- EB02-054 (no suggestedDsl)
+- EB02-061 (ConditionType::And, ConditionType::OncePerTurn)
 

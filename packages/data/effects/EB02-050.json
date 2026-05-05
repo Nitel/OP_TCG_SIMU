@@ -1,22 +1,19 @@
 {
   "id": "EB02-050",
-  "name": "Kokoro no Chizu",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "actions": [
         {
           "type": "SearchDeck",
+          "lookCount": 4,
+          "revealCount": 1,
           "filter": {
             "kind": "ByCost",
-            "maxCost": 4
+            "minCost": 4
           },
-          "destination": "hand"
+          "destination": "hand",
+          "remainderDestination": "bottomDeck"
         }
       ]
     }

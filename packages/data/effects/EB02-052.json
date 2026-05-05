@@ -1,17 +1,11 @@
 {
   "id": "EB02-052",
-  "name": "Enel",
-  "cost": 10,
-  "power": 11000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Sky Island"
+        "type": "LeaderHasType",
+        "leaderType": "Sky Island"
       },
       "actions": [
         {
@@ -29,10 +23,20 @@
       "actions": [
         {
           "type": "TrashFromHand",
+          "count": 1,
           "filter": {
             "kind": "Any"
           },
+          "optional": true,
           "thenActions": [
+            {
+              "type": "AddLife",
+              "count": 1,
+              "condition": {
+                "type": "LifeCountAtMost",
+                "count": 1
+              }
+            },
             {
               "type": "PowerBoost",
               "amount": 1000,

@@ -1,11 +1,30 @@
 {
   "id": "EB02-047",
-  "name": "Blueno",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "trashFromHand": 1,
+        "trashSelf": true
+      },
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "target": {
+            "type": "Character",
+            "filter": {
+              "hasType": "CP",
+              "maxCost": 5,
+              "notName": "Blueno"
+            }
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

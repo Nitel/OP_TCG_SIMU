@@ -1,27 +1,26 @@
 {
   "id": "EB02-022",
-  "name": "Usopp",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "minPower": 5000,
+        "maxCount": 2
       },
       "actions": [
         {
           "type": "PlayFromHand",
           "filter": {
             "cardType": "Character",
-            "maxPower": 6000
-          }
+            "maxPower": 6000,
+            "hasNoEffect": true
+          },
+          "count": 1,
+          "optional": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

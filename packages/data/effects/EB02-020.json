@@ -1,22 +1,19 @@
 {
   "id": "EB02-020",
-  "name": "We Are!",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "actions": [
         {
           "type": "SearchDeck",
+          "lookCount": 4,
+          "revealCount": 1,
           "filter": {
             "kind": "ByCost",
-            "maxCost": 4
+            "minCost": 4
           },
-          "destination": "hand"
+          "destination": "hand",
+          "bottomDeckRest": true
         }
       ]
     }

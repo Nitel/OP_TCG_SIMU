@@ -1,10 +1,5 @@
 {
   "id": "EB02-044",
-  "name": "Sengoku",
-  "cost": 7,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
   "keywords": [
     "Blocker"
   ],
@@ -13,15 +8,17 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromTrash",
           "filter": {
-            "kind": "ByCost",
+            "kind": "ByColorAndTypeAndCost",
+            "color": "Black",
+            "type": "Navy",
             "maxCost": 4
           },
-          "destination": "board"
+          "count": 1,
+          "mode": "Rested"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

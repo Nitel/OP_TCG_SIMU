@@ -1,26 +1,23 @@
 {
   "id": "EB02-009",
-  "name": "Thousand Sunny",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Stage",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
       "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
         {
           "type": "AttachDon",
           "count": 1,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Straw Hat Crew"
+            }
           }
         }
       ]

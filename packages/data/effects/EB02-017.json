@@ -1,25 +1,25 @@
 {
   "id": "EB02-017",
-  "name": "Nami",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 5,
+          "revealCount": 1,
           "filter": {
-            "kind": "ByName",
-            "name": "Straw Hat Crew"
+            "kind": "ByType",
+            "type": "Straw Hat Crew",
+            "exclude": {
+              "kind": "ByName",
+              "name": "Nami"
+            }
           },
-          "destination": "hand"
+          "destination": "hand",
+          "remainingCardsDestination": "bottomOfDeck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

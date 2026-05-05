@@ -1,15 +1,15 @@
 {
   "id": "EB02-060",
-  "name": "Merry Go",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Stage",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
         {
           "type": "FlipLife",
           "count": 1
@@ -19,9 +19,10 @@
           "amount": 1000,
           "target": {
             "scope": "ChooseOwnCharacter",
-            "maxPower": 1000
+            "count": 1,
+            "type": "Straw Hat Crew"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }

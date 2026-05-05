@@ -1,22 +1,19 @@
 {
   "id": "EB02-008",
-  "name": "The Peak",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "actions": [
         {
           "type": "SearchDeck",
+          "lookCount": 4,
           "filter": {
             "kind": "ByCost",
-            "maxCost": 4
+            "minCost": 4
           },
-          "destination": "hand"
+          "destination": "hand",
+          "upTo": 1,
+          "restDestination": "bottom"
         }
       ]
     }

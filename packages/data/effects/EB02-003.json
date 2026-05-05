@@ -1,11 +1,5 @@
 {
   "id": "EB02-003",
-  "name": "Tony Tony.Chopper",
-  "cost": 3,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
@@ -20,15 +14,15 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     },
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Straw Hat Crew"
+        "type": "LeaderHasType",
+        "characterType": "Straw Hat Crew"
       },
       "actions": [
         {
@@ -36,10 +30,10 @@
           "count": 1,
           "target": {
             "scope": "ChooseOwnCharacterOrLeader"
-          }
+          },
+          "fromRested": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

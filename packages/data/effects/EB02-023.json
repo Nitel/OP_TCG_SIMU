@@ -1,24 +1,25 @@
 {
   "id": "EB02-023",
-  "name": "Crocodile",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttack",
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 3,
           "filter": {
             "kind": "Any"
           },
-          "destination": "hand"
+          "destination": "deck",
+          "reorder": true
         }
-      ]
+      ],
+      "duration": "DuringYourTurn",
+      "oncePerTurn": true,
+      "activationCondition": "OpponentCharacterReturnedToHandByYourEffect"
     }
-  ],
-  "counter": 1000
+  ]
 }

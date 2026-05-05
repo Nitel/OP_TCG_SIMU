@@ -1,42 +1,33 @@
 {
   "id": "EB02-056",
-  "name": "Vegapunk",
-  "cost": 5,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 5,
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
+            "kind": "ByTypeAndCost",
+            "type": "Scientist",
+            "maxCost": 5,
+            "excludeName": "Vegapunk"
           },
-          "destination": "board"
+          "destination": "board",
+          "optional": true,
+          "limit": 1,
+          "restToBottom": true
         },
         {
           "type": "TrashFromHand",
           "count": 1,
           "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+          "condition": {
+            "type": "OpponentCharacterCount",
+            "maxCount": 2
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

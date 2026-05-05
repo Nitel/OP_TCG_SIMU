@@ -1,35 +1,37 @@
 {
   "id": "EB02-011",
-  "name": "Arlong",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
+        "type": "LeaderHasAnyType",
+        "types": [
+          "Fish-Man",
+          "East Blue"
+        ]
       },
       "actions": [
         {
           "type": "AttachDon",
           "count": 1,
+          "optional": true,
+          "fromRested": true,
           "target": {
             "scope": "OwnLeader"
           }
         },
         {
-          "type": "Rest",
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRested",
+          "optional": true,
+          "duration": "UntilEndOfOpponentNextTurn",
           "target": {
             "scope": "ChooseOpponentCharacter",
+            "count": 1,
             "maxCost": 5
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

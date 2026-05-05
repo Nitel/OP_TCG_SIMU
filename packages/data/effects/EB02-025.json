@@ -1,29 +1,30 @@
 {
   "id": "EB02-025",
-  "name": "Donquixote Rosinante",
-  "cost": 2,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "restDon": 1,
+        "restSelf": true
+      },
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Donquixote Rosinante"
       },
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 5,
           "filter": {
+            "cardType": "Character",
             "kind": "ByCost",
             "maxCost": 2
           },
-          "destination": "board"
+          "upTo": 1,
+          "destination": "board",
+          "state": "rested"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }
