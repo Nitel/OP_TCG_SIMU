@@ -1,27 +1,16 @@
 {
   "id": "OP10-090",
-  "name": "Franky",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnKO",
+  "actions": [
     {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Dressrosa",
-            "cardType": "Character",
-            "maxCost": 3
-          }
-        }
-      ]
+      "type": "PlayFromTrash",
+      "filter": {
+        "subType": "Dressrosa",
+        "cardType": "Character",
+        "maxCost": 3
+      },
+      "state": "Rested",
+      "maxCount": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

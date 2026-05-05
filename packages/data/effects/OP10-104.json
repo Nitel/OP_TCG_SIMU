@@ -1,28 +1,26 @@
 {
-  "id": "OP10-104",
-  "name": "Caribou",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 0,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttacked",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Supernovas",
+      "additionalCondition": {
+        "type": "TrashCount",
+        "operator": ">=",
+        "value": 3,
+        "player": "opponent"
+      }
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOdInBattle",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP10-104"
 }

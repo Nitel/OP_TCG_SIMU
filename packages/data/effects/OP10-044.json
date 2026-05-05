@@ -1,24 +1,33 @@
 {
   "id": "OP10-044",
-  "name": "Cub",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "conditions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        }
-      ]
+      "type": "Optional",
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "YourCards",
+          "hasTypes": [
+            "Dressrosa"
+          ],
+          "cardTypes": [
+            "Leader",
+            "Stage"
+          ]
+        },
+        "maxCount": 1
+      }
     }
   ],
-  "counter": 1000
+  "actions": [
+    {
+      "type": "ReturnToHand",
+      "target": {
+        "scope": "OpponentCharacter",
+        "maxCost": 1,
+        "maxCount": 1
+      }
+    }
+  ]
 }

@@ -1,34 +1,27 @@
 {
   "id": "OP10-024",
-  "name": "Edward.Newgate",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasRestingDon",
+    "value": 2
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 5,
+        "maxTargets": 1
+      }
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 3,
+        "resting": true,
+        "maxTargets": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

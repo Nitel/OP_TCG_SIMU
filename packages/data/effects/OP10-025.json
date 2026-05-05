@@ -1,29 +1,24 @@
 {
-  "id": "OP10-025",
-  "name": "Enel",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "restState": "Rested"
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 3
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      "count": 2,
+      "comparison": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 3
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP10-025"
 }

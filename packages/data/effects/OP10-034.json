@@ -1,24 +1,17 @@
 {
-  "id": "OP10-034",
-  "name": "Franky",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "source": "Life"
+      }
+    ],
+    "optional": true
+  },
+  "id": "OP10-034"
 }

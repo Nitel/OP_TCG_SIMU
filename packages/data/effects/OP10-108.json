@@ -1,13 +1,26 @@
 {
   "id": "OP10-108",
-  "name": "Scratchmen Apoo",
-  "cost": 1,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": {
+            "type": "yellow",
+            "cardType": "Supernovas",
+            "excludeName": "Scratchmen Apoo"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "Self",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

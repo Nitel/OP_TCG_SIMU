@@ -1,27 +1,39 @@
 {
   "id": "OP10-048",
-  "name": "Sai",
-  "cost": 3,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "trigger": "OnPlay",
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
       "actions": [
         {
           "type": "Rest",
           "target": {
             "scope": "ChooseOwnCharacterOrLeader",
             "subType": "Dressrosa"
-          }
-        },
+          },
+          "optional": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
         {
           "type": "ReturnToHand",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
+            "maxCost": 1,
+            "maxAmount": 1
           }
         }
       ]

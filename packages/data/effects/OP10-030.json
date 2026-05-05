@@ -1,22 +1,27 @@
 {
-  "id": "OP10-030",
-  "name": "Smoker",
-  "cost": 5,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Banish"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "KO",
+        "target": "DamagedCard"
+      }
+    ],
+    "description": "[Banish] - Target card is trashed without activating its Trigger"
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": "OwnCharacter"
+      }
+    ],
+    "duration": "DuringYourTurn",
+    "description": "[Activate: Main] Set up to 1 of your DON!! cards as active. Then, you cannot set DON!! cards as active using Character effects during this turn."
+  },
+  "id": "OP10-030"
 }

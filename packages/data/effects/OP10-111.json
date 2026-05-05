@@ -1,24 +1,22 @@
 {
-  "id": "OP10-111",
-  "name": "Monkey.D.Luffy",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "optional": true,
+        "filter": {
+          "kind": "Type",
+          "value": "Supernovas",
+          "exclude": [
+            "Monkey.D.Luffy"
+          ]
+        },
+        "destination": "hand",
+        "reveal": true
+      }
+    ]
+  },
+  "id": "OP10-111"
 }

@@ -1,21 +1,36 @@
 {
   "id": "OP10-003",
-  "name": "Sugar",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[End of Your Turn] If you have a {Donquixote Pirates} type Character with 6000 power or more, set up to 1 of your DON!! cards as active.\n[Opponent's Turn] [Once Per Turn] When you activate an Event, add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "cardType": "Donquixote Pirates",
+        "power": 6000
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "source": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "Always",
+        "once": "PerTurn"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "cardType": "DON!!",
+          "count": 1,
+          "action": "AttachDon"
         }
       ]
     }

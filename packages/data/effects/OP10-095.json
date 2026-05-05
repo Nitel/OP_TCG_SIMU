@@ -1,36 +1,26 @@
 {
   "id": "OP10-095",
-  "name": "Roronoa Zoro",
-  "cost": 4,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "subType": "Dressrosa"
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "subType": "Dressrosa"
+      },
+      "optional": true
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 4
+      },
+      "count": 1
+    },
+    {
+      "type": "TrashFromDeck",
+      "count": 2
     }
   ]
 }

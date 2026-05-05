@@ -1,11 +1,5 @@
 {
   "id": "OP10-081",
-  "name": "Usopp",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -15,23 +9,22 @@
           "target": {
             "scope": "ChooseOwnCharacterOrLeader",
             "subType": "Dressrosa"
-          }
+          },
+          "optional": true
         },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 2
-          }
+          },
+          "maxCount": 1
         },
         {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+          "type": "TrashFromDeck",
+          "count": 2
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

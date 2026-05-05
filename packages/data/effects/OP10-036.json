@@ -1,11 +1,22 @@
 {
   "id": "OP10-036",
-  "name": "Perona",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Activated",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "HasRestingDon"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "target": "YourDonCards",
+          "count": 1,
+          "state": "active"
+        }
+      ]
+    }
+  ]
 }

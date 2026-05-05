@@ -1,28 +1,21 @@
 {
   "id": "OP10-103",
-  "name": "Capone\"Gang\"Bege",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Supernovas",
-            "cardType": "Character"
-          }
-        }
-      ]
+      "type": "DrawCard",
+      "count": 1,
+      "optional": true,
+      "source": "Life"
+    },
+    {
+      "type": "PlayFromHand",
+      "filter": {
+        "cardType": "Character",
+        "subType": "Supernovas"
+      },
+      "count": 1,
+      "destination": "Life"
     }
-  ],
-  "counter": 2000
+  ]
 }

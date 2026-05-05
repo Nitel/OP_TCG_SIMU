@@ -1,24 +1,29 @@
 {
-  "id": "OP10-010",
-  "name": "Chadros.Higelyges (Brownbeard)",
-  "cost": 3,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "power": {
+            "lessThanOrEqual": 6000
+          }
+        },
+        "count": {
+          "lessThanOrEqual": 1
         }
-      ]
-    }
-  ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP10-010"
 }

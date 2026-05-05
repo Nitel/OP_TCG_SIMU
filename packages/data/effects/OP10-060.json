@@ -1,11 +1,6 @@
 {
   "id": "OP10-060",
-  "name": "Barrier-Barrier Pistol",
-  "cost": 5,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] Place up to 1 of your opponent's Characters with 6000 power or less at the bottom of the owner's deck.",
   "effects": [
     {
       "trigger": "Trigger",
@@ -14,8 +9,10 @@
           "type": "ReturnToHand",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxPower": 6000
-          }
+            "maxPower": 6000,
+            "maxCount": 1
+          },
+          "note": "DSL lacks standard action for 'bottom of deck' — this placeholder uses ReturnToHand. Requires custom implementation or new action type."
         }
       ]
     }

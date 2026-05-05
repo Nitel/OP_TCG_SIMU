@@ -1,23 +1,14 @@
 {
   "id": "OP10-035",
-  "name": "Brook",
-  "cost": 3,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "actions": [
     {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacterOrLeader",
+        "maxCost": 5,
+        "maxCount": 1
+      }
     }
   ]
 }

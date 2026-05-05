@@ -1,11 +1,5 @@
 {
   "id": "OP10-041",
-  "name": "Radio Knife",
-  "cost": 4,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
@@ -14,26 +8,17 @@
           "type": "Rest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
+            "maxCost": 6,
+            "maxTargets": 1
           }
         },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 5,
+            "isRested": true,
+            "maxTargets": 1
           }
         }
       ]

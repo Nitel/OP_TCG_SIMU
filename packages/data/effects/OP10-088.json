@@ -1,40 +1,33 @@
 {
-  "id": "OP10-088",
-  "name": "Nami",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "subType": "Dressrosa"
-          }
-        },
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "subType": "Dressrosa"
+        }
+      },
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "target": {
+          "scope": "OwnDeck",
+          "position": "Top"
+        }
+      }
+    ]
+  },
+  "id": "OP10-088"
 }

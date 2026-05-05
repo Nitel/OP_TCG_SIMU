@@ -1,26 +1,30 @@
 {
   "id": "OP10-106",
-  "name": "Killer",
-  "cost": 3,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Supernovas"
+  },
+  "actions": [
     {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Or",
+        "filters": [
+          {
+            "kind": "Type",
+            "value": "Supernovas"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "kind": "Type",
+            "value": "Kid Pirates"
+          }
+        ]
+      },
+      "deckLookCount": 3,
+      "maxReveal": 1,
+      "destination": "hand",
+      "remainingDestination": "bottomOfDeck"
     }
   ]
 }

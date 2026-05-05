@@ -1,34 +1,42 @@
 {
-  "id": "OP10-082",
-  "name": "Kuzan",
-  "cost": 5,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
+  "0": {
+    "trigger": "Activated",
+    "duration": "Main",
+    "actions": [
+      {
+        "type": "TrashSelf",
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
           },
-          "destination": "board"
-        }
-      ]
-    }
-  ]
+          {
+            "type": "PlayFromTrash",
+            "count": 1,
+            "filter": {
+              "kind": "ByType",
+              "type": "Blackbeard Pirates",
+              "maxCost": 5,
+              "notName": "Kuzan"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Passive",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeRemovedByOpponentEffects"
+      }
+    ]
+  },
+  "id": "OP10-082"
 }

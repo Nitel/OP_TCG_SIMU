@@ -1,24 +1,27 @@
 {
   "id": "OP10-028",
-  "name": "Kouzuki Momonosuke",
-  "cost": 1,
-  "power": 1000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP10-028",
+  "effectText": "[Activate: Main] You may rest 2 of your DON!! cards and trash this Character: Look at 5 cards from the top of your deck; reveal up to 2 {The Akazaya Nine} type cards and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "restDon": 2,
+        "trashSelf": true
+      },
       "actions": [
         {
           "type": "SearchDeck",
+          "lookAtCount": 5,
           "filter": {
-            "kind": "Any"
+            "kind": "Type",
+            "value": "The Akazaya Nine"
           },
-          "destination": "hand"
+          "maxReveal": 2,
+          "destination": "hand",
+          "remainderPlacement": "bottom_any_order"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

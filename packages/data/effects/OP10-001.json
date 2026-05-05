@@ -1,23 +1,41 @@
 {
-  "id": "OP10-001",
-  "name": "Smoker",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 2
+  "0": {
+    "trigger": "DuringOpponentTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": "YourCharactersWithType",
+        "types": [
+          "Navy",
+          "Punk Hazard"
+        ],
+        "power": 1000
+      }
+    ],
+    "duration": "DuringOpponentTurn"
+  },
+  "1": {
+    "trigger": "Activated",
+    "cost": "MainPhase",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "power": {
+          "min": 7000
         }
-      ]
-    }
-  ]
+      }
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 2,
+        "upTo": true
+      }
+    ],
+    "onceTurn": true
+  },
+  "id": "OP10-001"
 }

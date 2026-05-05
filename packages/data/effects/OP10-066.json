@@ -1,27 +1,22 @@
 {
   "id": "OP10-066",
-  "name": "Giolla",
-  "cost": 2,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasAttachedDon",
+    "minDon": 2
+  },
+  "actions": [
     {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 4,
+        "maxSelect": 1
       },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
+      "cost": {
+        "restOwnDon": 2
+      },
+      "oncePerTurn": true
     }
-  ],
-  "counter": 2000
+  ]
 }

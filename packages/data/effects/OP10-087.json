@@ -1,36 +1,58 @@
 {
-  "id": "OP10-087",
-  "name": "Tony Tony.Chopper",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "ForceDiscard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "type": "Dressrosa",
+        "cardType": [
+          "Leader",
+          "Stage"
+        ]
+      }
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Board",
+          "filter": {
+            "type": "Dressrosa",
+            "cardType": [
+              "Leader",
+              "Stage"
+            ]
+          },
+          "count": 1
+        }
+      },
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "Opponent"
+        },
+        "count": 1,
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {},
+          "comparison": ">=",
+          "value": 5
+        }
+      },
+      {
+        "type": "TrashFromDeck",
+        "target": {
+          "scope": "Self"
+        },
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP10-087"
 }

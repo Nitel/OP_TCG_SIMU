@@ -1,11 +1,6 @@
 {
   "id": "OP10-078",
-  "name": "I Do Not Forgive Those Who Laugh at My Family!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "Look at 3 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card other than [I Do Not Forgive Those Who Laugh at My Family!!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "Activated",
@@ -13,9 +8,23 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "CardType",
+            "value": "Donquixote Pirates",
+            "excludeCardName": "I Do Not Forgive Those Who Laugh at My Family!!!",
+            "deckPosition": "top3",
+            "maxCount": 1
           },
           "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "Remaining",
+            "source": "deck",
+            "count": 2
+          },
+          "destination": "bottomOfDeck",
+          "note": "arrange in any order"
         }
       ]
     },
@@ -25,9 +34,23 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "CardType",
+            "value": "Donquixote Pirates",
+            "excludeCardName": "I Do Not Forgive Those Who Laugh at My Family!!!",
+            "deckPosition": "top3",
+            "maxCount": 1
           },
           "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "Remaining",
+            "source": "deck",
+            "count": 2
+          },
+          "destination": "bottomOfDeck",
+          "note": "arrange in any order"
         }
       ]
     }

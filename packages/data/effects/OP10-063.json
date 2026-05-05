@@ -1,27 +1,23 @@
 {
-  "id": "OP10-063",
-  "name": "Vinsmoke Sanji",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "GERMA"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "HasType",
+          "value": "GERMA"
+        },
+        "limit": 1,
+        "destination": "hand",
+        "depth": 5,
+        "orderRest": "Any"
+      }
+    ]
+  },
+  "id": "OP10-063"
 }

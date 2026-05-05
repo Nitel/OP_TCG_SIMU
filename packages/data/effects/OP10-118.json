@@ -1,21 +1,55 @@
 {
-  "id": "OP10-118",
-  "name": "Monkey.D.Luffy",
-  "cost": 6,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Passive",
+    "duration": "Permanent",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOdByOpponentEffects",
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "duration": "DuringYourTurn",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "from": "Trash",
+        "count": 3,
+        "destination": "BottomOfDeck",
+        "optional": true
+      }
+    ]
+  },
+  "2": {
+    "trigger": "OnAttack",
+    "duration": "DuringYourTurn",
+    "conditions": [
+      {
+        "type": "OpponentHandSize",
+        "value": 5,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": "Opponent"
+      }
+    ]
+  },
+  "id": "OP10-118"
 }

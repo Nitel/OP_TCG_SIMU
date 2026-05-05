@@ -1,24 +1,17 @@
 {
   "id": "OP10-051",
-  "name": "Hack",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Character",
+        "hasType": "Revolutionary Army"
+      },
+      "lookAtAmount": 3,
+      "selectUpTo": 1,
+      "destination": "hand",
+      "restToBottom": true
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,14 +1,10 @@
 {
   "id": "OP10-045",
-  "name": "Cavendish",
-  "cost": 4,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[When Attacking] [Once Per Turn] Draw 2 cards and trash 1 card from your hand.",
   "effects": [
     {
       "trigger": "OnAttack",
+      "frequency": "OncePerTurn",
       "condition": {
         "type": "Always"
       },
@@ -19,8 +15,8 @@
         },
         {
           "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
+          "count": 1,
+          "filter": {}
         }
       ]
     }

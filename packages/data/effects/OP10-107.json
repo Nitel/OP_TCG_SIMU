@@ -1,31 +1,26 @@
 {
-  "id": "OP10-107",
-  "name": "Jewelry Bonney",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "ByType",
+          "type": "Supernovas",
+          "subtype": "Character",
+          "maxCost": 5
         },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "count": 1,
+        "destination": "LifePile",
+        "faceUp": true,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP10-107"
 }

@@ -1,47 +1,35 @@
 {
-  "id": "OP10-097",
-  "name": "Gum-Gum Rhino Schneider",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "Dressrosa"
+          }
         },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Banish",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Banish",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "Dressrosa"
+          }
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 10
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP10-097"
 }

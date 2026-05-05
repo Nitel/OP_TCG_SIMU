@@ -1,36 +1,43 @@
 {
-  "id": "OP10-091",
-  "name": "Brook",
-  "cost": 3,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "scope": "OwnLeaderOrStage",
+          "hasType": "Dressrosa"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnLeaderOrStage",
+          "hasType": "Dressrosa",
+          "count": 1
+        }
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1,
+          "count": 1
+        }
+      },
+      {
+        "type": "TrashDeck",
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP10-091"
 }

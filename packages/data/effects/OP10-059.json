@@ -1,11 +1,6 @@
 {
   "id": "OP10-059",
-  "name": "Fo...llow...Me...and...I...Will...Gui...de...You",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "Trigger",
@@ -13,10 +8,17 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
+            "kind": "ByType",
+            "types": [
+              "Dressrosa",
+              "Character"
+            ]
           },
-          "destination": "hand"
+          "limit": 1,
+          "destination": "hand",
+          "reveal": true,
+          "fromTop": 5,
+          "restToBottom": true
         }
       ]
     }

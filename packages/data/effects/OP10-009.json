@@ -1,29 +1,19 @@
 {
   "id": "OP10-009",
-  "name": "Smiley",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "subType": "Punk Hazard"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Punk Hazard"
+      "type": "PowerBoost",
+      "amount": -3000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "limit": 1
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

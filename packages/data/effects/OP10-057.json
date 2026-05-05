@@ -1,39 +1,47 @@
 {
   "id": "OP10-057",
-  "name": "Leo",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "OP10-057",
+  "effectText": "[On Play] You may rest your Leader or 1 of your Stage cards: If your Leader is [Usopp], look at 5 cards from the top of your deck; reveal up to 2 {Dressrosa} type cards other than [Leo] and add them to your hand. Then, place the rest at the bottom of your deck in any order, and trash 1 card from your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Usopp"
+      },
+      "cost": {
+        "optional": true,
+        "description": "Rest your Leader or 1 Stage card"
+      },
       "actions": [
         {
-          "type": "RevealFromHand",
-          "count": 1,
+          "type": "SearchDeck",
+          "count": 5,
+          "destination": "reveal",
           "filter": {
-            "cardType": "Character"
-          },
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "Any"
-              },
-              "destination": "hand"
-            },
-            {
-              "type": "TrashFromHand",
-              "count": 1,
-              "thenActions": [],
-              "filter": {}
-            }
-          ]
+            "kind": "Any"
+          }
+        },
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "upTo": true,
+          "destination": "hand",
+          "filter": {
+            "hasType": "Dressrosa",
+            "excludeName": "Leo"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "description": "Place remaining cards at bottom of deck in any order"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

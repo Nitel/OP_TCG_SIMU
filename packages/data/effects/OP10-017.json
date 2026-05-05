@@ -1,23 +1,25 @@
 {
-  "id": "OP10-017",
-  "name": "Rock",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Scotch"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "subType": "Scotch"
+        },
+        "negate": true
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Scotch"
+        },
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP10-017"
 }

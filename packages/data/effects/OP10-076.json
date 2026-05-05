@@ -1,27 +1,33 @@
 {
   "id": "OP10-076",
-  "name": "Baby 5",
-  "cost": 3,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] You may trash 1 card from your hand: If your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Donquixote Pirates"
+        }
+      ],
       "actions": [
         {
           "type": "TrashFromHand",
+          "count": 1,
+          "optional": true,
           "filter": {},
           "thenActions": [
             {
-              "type": "GiveDon",
-              "count": 1
+              "type": "SearchDeck",
+              "filter": {
+                "type": "DON!!"
+              },
+              "count": 1,
+              "optional": true
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

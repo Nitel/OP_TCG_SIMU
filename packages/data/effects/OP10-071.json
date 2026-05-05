@@ -1,24 +1,51 @@
 {
-  "id": "OP10-071",
-  "name": "Donquixote Doflamingo",
-  "cost": 8,
-  "power": 9000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Donquixote Pirates",
-            "cardType": "Character",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 1,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Donquixote Pirates",
+          "cardType": "Character",
+          "maxCost": 5
+        },
+        "optional": true,
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttacked",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "DON!!Card",
+        "optional": true,
+        "count": 1
+      },
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "type": "DON!!"
+        },
+        "optional": true,
+        "count": 1,
+        "setAsActive": true
+      }
+    ],
+    "oncePerTurn": true
+  },
+  "id": "OP10-071"
 }

@@ -1,23 +1,24 @@
 {
-  "id": "OP10-075",
-  "name": "Foxy",
-  "cost": 2,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Activated",
+    "condition": "HasAttachedDon",
+    "conditionValue": "<=OpponentDon",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {
+          "self": true
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP10-075"
 }

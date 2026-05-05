@@ -1,26 +1,43 @@
 {
-  "id": "OP10-037",
-  "name": "Lim",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "HasType",
+            "value": "ODYSSEY"
+          },
+          "quantity": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "HasType",
+            "value": "ODYSSEY"
+          },
+          "quantity": 1,
+          "active": true
+        }
+      }
+    ]
+  },
+  "id": "OP10-037"
 }

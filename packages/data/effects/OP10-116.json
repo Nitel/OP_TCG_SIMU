@@ -1,25 +1,23 @@
 {
-  "id": "OP10-116",
-  "name": "Damned Punk",
-  "cost": 4,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "source": "OpponentOrOwn",
+        "count": 1,
+        "placement": "TopOrBottom"
+      },
+      {
+        "type": "KO",
+        "filter": {
+          "controller": "Opponent",
+          "type": "Character",
+          "maxCost": 5
         },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP10-116"
 }

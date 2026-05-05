@@ -1,25 +1,34 @@
 {
-  "id": "OP10-065",
-  "name": "Sugar",
-  "cost": 1,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "count": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "self"
+      },
+      {
+        "type": "Rest",
+        "target": "DON",
+        "count": 1
+      },
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "maxReveal": 1,
+        "filter": {
+          "kind": "ByType",
+          "type": "Donquixote Pirates"
+        },
+        "destination": "hand",
+        "remainderDestination": "deckBottom"
+      }
+    ]
+  },
+  "id": "OP10-065"
 }

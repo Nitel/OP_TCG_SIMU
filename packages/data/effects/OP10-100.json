@@ -1,34 +1,25 @@
 {
   "id": "OP10-100",
-  "name": "Inazuma",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP10-100",
+  "effectText": "[When Attacking] Rest up to 1 of your opponent's Characters with a cost equal to or less than the total of your and your opponent's Life cards.",
   "effects": [
     {
       "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
       "condition": {
         "type": "Always"
       },
       "actions": [
         {
-          "type": "PlaySelf"
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": "UpTo1",
+            "filter": {
+              "costLessThanOrEqual": "TotalLifeCards"
+            }
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

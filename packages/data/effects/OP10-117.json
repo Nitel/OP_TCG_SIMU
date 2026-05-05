@@ -1,43 +1,29 @@
 {
   "id": "OP10-117",
-  "name": "ROOM",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "condition": {
+    "type": "HasRestingDon",
+    "amount": {
+      "max": 1
+    }
+  },
+  "actions": [
     {
-      "trigger": "Counter",
-      "condition": {
-        "type": "Always"
+      "type": "PowerBoost",
+      "amount": 3000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "maxCount": 1
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
+      "duration": "DuringThisBattle"
     },
     {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+      "type": "Activate",
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "maxCost": 5,
+        "maxCount": 1
+      }
     }
   ]
 }

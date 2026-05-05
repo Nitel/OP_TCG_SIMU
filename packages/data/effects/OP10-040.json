@@ -1,35 +1,41 @@
 {
-  "id": "OP10-040",
-  "name": "The Weak Do Not Have the Right to Choose How They Die",
-  "cost": 5,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 7
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "scope": "ChooseOpponentCharacter"
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 7,
+          "rested": true
         }
-      ]
-    },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 7
-          }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "scope": "ChooseOpponentCharacter"
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 7,
+          "rested": true
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP10-040"
 }

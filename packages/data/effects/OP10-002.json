@@ -1,35 +1,30 @@
 {
-  "id": "OP10-002",
-  "name": "Caesar Clown",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 2
-      },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "minCost": 2,
-            "subType": "Punk Hazard"
-          }
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 2
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "minCost": 2,
+          "subType": "Punk Hazard"
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 4000
-          }
-        }
-      ]
-    }
-  ]
+        "optional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 4000,
+          "count": 1
+        },
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP10-002"
 }

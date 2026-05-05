@@ -1,26 +1,22 @@
 {
-  "id": "OP10-008",
-  "name": "Scotch",
-  "cost": 2,
-  "power": 1000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Rock",
-            "maxCost": 0
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "subType": "Rock"
+      },
+      "negate": true
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Rock"
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "id": "OP10-008"
 }

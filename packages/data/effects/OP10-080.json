@@ -1,40 +1,36 @@
 {
-  "id": "OP10-080",
-  "name": "Little Black Bears",
-  "cost": 3,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "max": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ],
+    "condition": {
+      "type": "All",
+      "conditions": [
         {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+          "type": "HasAttachedDon",
+          "value": 7,
+          "comparison": "GreaterThanOrEqual"
         },
         {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ],
-      "condition": {
-        "type": "Always"
-      }
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
+          "type": "HandCount",
+          "value": 5,
+          "comparison": "LessThanOrEqual"
         }
       ]
     }
-  ]
+  },
+  "id": "OP10-080"
 }

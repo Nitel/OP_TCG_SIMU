@@ -1,31 +1,31 @@
 {
-  "id": "OP10-006",
-  "name": "Caesar Clown",
-  "cost": 7,
-  "power": 7000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "RevealFromHand",
-          "count": 1,
-          "filter": {
-            "subType": "Smiley"
-          },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "subType": "Smiley"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "RevealFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Smiley"
+            },
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "count": 1,
+                "filter": {
+                  "subType": "Smiley"
+                }
               }
-            }
-          ]
-        }
-      ]
-    }
-  ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP10-006"
 }

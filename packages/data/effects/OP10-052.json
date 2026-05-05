@@ -1,25 +1,16 @@
 {
-  "id": "OP10-052",
-  "name": "Bartolomeo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 1
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 1
+        },
+        "placement": "DeckBottom"
+      }
+    ]
+  },
+  "id": "OP10-052"
 }

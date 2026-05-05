@@ -1,11 +1,26 @@
 {
   "id": "OP10-038",
-  "name": "Roronoa Zoro",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": 2,
+          "comparison": ">=",
+          "filters": {
+            "status": "Resting"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "value": 2000,
+          "target": "Self"
+        }
+      ]
+    }
+  ]
 }

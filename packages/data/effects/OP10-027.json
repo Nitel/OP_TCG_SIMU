@@ -1,24 +1,26 @@
 {
-  "id": "OP10-027",
-  "name": "Kin'emon",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 6
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "filter": {
+          "cardName": "Kin'emon",
+          "power": 1000
+        },
+        "minCount": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardName": "Kin'emon",
+          "maxCost": 6
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "id": "OP10-027"
 }

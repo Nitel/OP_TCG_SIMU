@@ -1,28 +1,30 @@
 {
-  "id": "OP10-070",
-  "name": "Trebol",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 0,
-          "target": {
-            "scope": "AllOwnCharacters",
-            "maxPower": 1000
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnBlock",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOd",
+        "target": {
+          "scope": "AllOwnCharacters",
+          "maxPower": 1000
+        },
+        "duration": "EndOfOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP10-070"
 }

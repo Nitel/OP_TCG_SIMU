@@ -1,30 +1,21 @@
 {
   "id": "OP10-102",
-  "name": "Emporio.Ivankov",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCharacters": 3
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 1000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "maxCharacters": 3,
+        "condition": "HasType",
+        "value": "RevolutionaryArmy"
+      },
+      "duration": "DuringYourTurn"
+    },
+    {
+      "type": "FlipLife",
+      "count": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

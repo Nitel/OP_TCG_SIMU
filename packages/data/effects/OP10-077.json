@@ -1,32 +1,26 @@
 {
-  "id": "OP10-077",
-  "name": "Bellamy",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "OnBlock",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": -2
+      },
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "DON"
         },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "count": 1,
+        "destination": "active"
+      }
+    ]
+  },
+  "id": "OP10-077"
 }

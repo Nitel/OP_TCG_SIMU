@@ -1,11 +1,26 @@
 {
-  "id": "OP10-056",
-  "name": "Mansherry",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "YourDressrosaLeaderOrStage",
+        "optional": true
+      },
+      {
+        "type": "ReturnToHand",
+        "target": "YourDressrosaCharacterCost4Plus",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "ReturnToHand",
+        "target": "OpponentCharacterCost4Less",
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP10-056"
 }

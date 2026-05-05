@@ -1,22 +1,26 @@
 {
   "id": "OP10-067",
-  "name": "Senor Pink",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP10-067",
+  "effectText": "[On Play] DON!! −1: Add up to 1 purple Event with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "SearchTrash",
           "filter": {
-            "kind": "ByCost",
+            "kind": "ByCardType",
+            "cardType": "Event",
+            "color": "Purple",
             "maxCost": 5
           },
-          "destination": "hand"
+          "destination": "hand",
+          "amount": 1
+        },
+        {
+          "type": "Rest",
+          "target": "OwnDONCards",
+          "amount": 1
         }
       ]
     }
