@@ -1,24 +1,32 @@
 {
-  "id": "ST05-001",
-  "name": "Shanks",
-  "cost": 0,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "cardTypes": [
+            "FILM"
+          ],
+          "isCharacter": true
         }
-      ]
-    }
-  ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filter": {
+            "cardTypes": [
+              "FILM"
+            ]
+          }
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "ST05-001"
 }

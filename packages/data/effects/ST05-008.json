@@ -1,11 +1,20 @@
 {
-  "id": "ST05-008",
-  "name": "Shiki",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 8,
+        "comparison": "greaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Cannot be K.O.'d in battle"
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "id": "ST05-008"
 }

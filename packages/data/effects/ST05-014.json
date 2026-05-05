@@ -1,24 +1,18 @@
 {
   "id": "ST05-014",
-  "name": "Buena Festa",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Type",
+        "value": "FILM",
+        "excludeName": "Buena Festa"
+      },
+      "limit": 1,
+      "inspectTop": 5,
+      "destination": "hand",
+      "notes": "Remaining 4 cards placed at bottom of deck in any order"
     }
-  ],
-  "counter": 2000
+  ]
 }

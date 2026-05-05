@@ -1,14 +1,14 @@
 {
   "id": "ST05-005",
-  "name": "Carina",
-  "cost": 2,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "ST05-005",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "OpponentHasMoreDon"
+        }
+      ],
       "actions": [
         {
           "type": "Rest",
@@ -21,15 +21,14 @@
           "filter": {
             "subType": "FILM"
           },
-          "thenActions": [
-            {
-              "type": "GiveDon",
-              "count": 2
-            }
-          ]
+          "count": 1
+        },
+        {
+          "type": "GiveDon",
+          "count": 2,
+          "rest": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,28 +1,22 @@
 {
   "id": "ST05-011",
-  "name": "Douglas Bullet",
-  "cost": 8,
-  "power": 10000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "ST05-011",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
       "actions": [
         {
           "type": "Rest",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 6
-          }
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
+          },
+          "maxQuantity": 2
         },
         {
           "type": "GiveKeyword",
@@ -30,7 +24,7 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
