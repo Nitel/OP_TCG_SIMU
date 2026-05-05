@@ -1,32 +1,26 @@
 {
   "id": "ST24-005",
-  "name": "X.Drake",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Supernovas"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "X.Drake"
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 5,
+        "maxCount": 1
+      }
+    },
+    {
+      "type": "AttachDon",
+      "target": {
+        "scope": "YourDON",
+        "maxCount": 1
       },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        },
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
+      "duration": "EndOfTurn"
     }
-  ],
-  "counter": 2000
+  ]
 }

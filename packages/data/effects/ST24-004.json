@@ -1,33 +1,32 @@
 {
   "id": "ST24-004",
-  "name": "Law & Bepo",
-  "cost": 10,
-  "power": 11000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn",
-          "condition": {
-            "type": "Always"
-          }
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxTargets": 1,
+        "optional": true
+      },
+      "effect": {
+        "type": "PreventActivation",
+        "duration": "UntilOpponentRefreshPhase"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "OwnLeader"
+      },
+      "duration": "UntilOpponentEndPhase",
+      "condition": {
+        "type": "TrashCount",
+        "scope": "OpponentRestingCharacters",
+        "comparison": ">=",
+        "value": 2
+      }
     }
   ]
 }
