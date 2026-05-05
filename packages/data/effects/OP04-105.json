@@ -1,34 +1,22 @@
 {
   "id": "OP04-105",
-  "name": "Charlotte Amande",
-  "cost": 3,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "hasKeyword": "Trigger"
+      },
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardTypes": [
-              "Event"
-            ]
-          },
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 2
-              }
-            }
-          ]
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

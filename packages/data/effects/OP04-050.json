@@ -1,33 +1,32 @@
 {
   "id": "OP04-050",
-  "name": "Hanger",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "duration": "Permanent",
+  "conditions": [],
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "DrawCard",
+      "count": 1,
+      "conditions": [
+        {
+          "type": "HasCardInHand",
+          "scope": "Self"
+        }
+      ],
+      "optional": true,
+      "costs": [
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         },
         {
           "type": "Rest",
           "target": {
             "scope": "Self"
           }
-        },
-        {
-          "type": "DrawCard",
-          "count": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

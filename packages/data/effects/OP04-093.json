@@ -1,40 +1,37 @@
 {
   "id": "OP04-093",
-  "name": "Gum-Gum King Kong Gun",
-  "cost": 3,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Trigger",
       "actions": [
         {
-          "type": "DrawCard",
-          "count": 3
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
           "type": "PowerBoost",
           "amount": 6000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            },
+            "maxTargets": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         },
         {
           "type": "GiveKeyword",
           "keyword": "DoubleAttack",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            },
+            "maxTargets": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn",
+          "condition": {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 15
+          }
         }
       ]
     }

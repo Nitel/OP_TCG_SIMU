@@ -1,33 +1,21 @@
 {
-  "id": "OP04-076",
-  "name": "Weakness...Is an Unforgivable Sin.",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "cost": {
+      "type": "FlipDon",
+      "count": 1
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnLeaderOrCharacter",
           "count": 1
-        }
-      ]
-    }
-  ]
+        },
+        "duration": "DuringThisTurn"
+      }
+    ]
+  },
+  "id": "OP04-076"
 }

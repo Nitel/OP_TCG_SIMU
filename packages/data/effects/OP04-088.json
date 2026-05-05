@@ -1,31 +1,20 @@
 {
   "id": "OP04-088",
-  "name": "Hajrudin",
-  "cost": 6,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "OwnLeader"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "OwnLeader"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": -4000,
+      "target": {
+        "scope": "ChooseOpponentCharacter"
+      },
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

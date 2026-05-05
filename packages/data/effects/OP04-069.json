@@ -1,33 +1,21 @@
 {
-  "id": "OP04-069",
-  "name": "Mr.2.Bon.Kurei(Bentham)",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 0,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "OnAttacked",
+    "cost": {
+      "type": "AttachDon",
+      "amount": 1,
+      "optional": true
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": "OpponentAttackingUnitPower",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP04-069"
 }

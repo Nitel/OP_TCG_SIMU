@@ -1,37 +1,29 @@
 {
   "id": "OP04-079",
-  "name": "Orlumbus",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+      "type": "PowerBoost",
+      "amount": -4000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "count": 1
+      },
+      "duration": "DuringTurn"
+    },
+    {
+      "type": "TrashFromDeck",
+      "count": 2
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "filter": {
+          "type": "Dressrosa"
         },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
-        }
-      ]
+        "count": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

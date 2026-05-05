@@ -1,14 +1,11 @@
 {
   "id": "OP04-053",
-  "name": "Page One",
-  "cost": 4,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [Once Per Turn] When you activate an Event, draw 1 card. Then, place 1 card from your hand at the bottom of your deck.",
   "effects": [
     {
       "trigger": "Activated",
+      "scope": "Event",
+      "frequency": "OncePerTurn",
       "condition": {
         "type": "HasRestingDon",
         "count": 1
@@ -19,9 +16,10 @@
           "count": 1
         },
         {
-          "type": "TrashFromHand",
+          "type": "ReturnToHand",
           "count": 1,
           "filter": {},
+          "destination": "bottom",
           "thenActions": []
         }
       ]

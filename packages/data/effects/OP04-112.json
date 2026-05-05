@@ -1,27 +1,21 @@
 {
-  "id": "OP04-112",
-  "name": "Yamato",
-  "cost": 9,
-  "power": 9000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 20
-          }
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCostDynamic": "YourLifeCards+OpponentLifeCards"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "condition": "HasAttachedDon",
+        "conditionValue": "≤1"
+      }
+    ]
+  },
+  "id": "OP04-112"
 }

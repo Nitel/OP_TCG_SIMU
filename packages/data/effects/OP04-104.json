@@ -1,28 +1,16 @@
 {
-  "id": "OP04-104",
-  "name": "Sanji",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
+  "0": {
+    "trigger": "OnAttacked",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "Rest",
+        "filter": {
+          "self": true
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "id": "OP04-104"
 }

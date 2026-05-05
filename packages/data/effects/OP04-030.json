@@ -1,39 +1,33 @@
 {
-  "id": "OP04-030",
-  "name": "Trebol",
-  "cost": 6,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "rested": true
         }
-      ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2
     },
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP04-030"
 }

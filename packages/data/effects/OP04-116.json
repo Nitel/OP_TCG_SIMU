@@ -1,40 +1,26 @@
 {
-  "id": "OP04-116",
-  "name": "Diable Jambe Joue Shot",
-  "cost": 3,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 6000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 6000,
+        "target": {
+          "scope": "ChooseOwnLeaderOrCharacter",
+          "maxCount": 1
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+        "duration": "DuringBattle"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
+        },
+        "condition": "TotalLifeCards4OrLess"
+      }
+    ]
+  },
+  "id": "OP04-116"
 }

@@ -1,40 +1,25 @@
 {
-  "id": "OP04-074",
-  "name": "Colors Trap",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCount": 1
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxCount": 1
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP04-074"
 }

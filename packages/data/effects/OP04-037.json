@@ -1,40 +1,21 @@
 {
-  "id": "OP04-037",
-  "name": "Flapping Thread",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Donquixote Pirates"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Donquixote Pirates"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnLeaderOrCharacter",
+          "maxCount": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP04-037"
 }

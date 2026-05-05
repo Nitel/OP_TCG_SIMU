@@ -1,24 +1,46 @@
 {
-  "id": "OP04-024",
-  "name": "Sugar",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "triggerSource": "Opponent",
+    "triggerCondition": "HasCardType",
+    "triggerConditionParams": {
+      "cardType": "Character"
+    },
+    "duration": "DuringOpponentTurn",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Donquixote Pirates"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxAmount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxAmount": 1,
+          "maxCost": 4
+        }
+      }
+    ]
+  },
+  "id": "OP04-024"
 }

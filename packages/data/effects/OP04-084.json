@@ -1,24 +1,30 @@
 {
-  "id": "OP04-084",
-  "name": "Stussy",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "types": [
+            "Character"
+          ],
+          "includesType": "CP",
+          "excludesName": [
+            "Stussy"
+          ],
+          "maxCost": 2
+        },
+        "destination": "board",
+        "maxCount": 1,
+        "lookAtCount": 3
+      },
+      {
+        "type": "ForceDiscard",
+        "source": "deck",
+        "count": "remaining"
+      }
+    ]
+  },
+  "id": "OP04-084"
 }

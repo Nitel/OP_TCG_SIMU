@@ -1,30 +1,32 @@
 {
   "id": "OP04-041",
-  "name": "Apis",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "TrashFromHand",
-          "filter": {},
+          "count": 2,
+          "optional": true,
           "thenActions": [
             {
               "type": "SearchDeck",
+              "lookCount": 5,
+              "selectCount": 1,
               "filter": {
-                "kind": "Any"
+                "type": "East Blue"
               },
-              "destination": "hand"
+              "destination": "hand",
+              "thenActions": [
+                {
+                  "type": "PlaceAtBottomOfDeck",
+                  "inAnyOrder": true
+                }
+              ]
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,31 +1,32 @@
 {
-  "id": "OP04-028",
-  "name": "Diamante",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnAttacked",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 2,
+      "comparison": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "isActive": true
+      }
+    ]
+  },
+  "id": "OP04-028"
 }

@@ -1,14 +1,8 @@
 {
   "id": "OP04-017",
-  "name": "Happiness Punch",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
@@ -24,7 +18,10 @@
           "target": {
             "scope": "ChooseOpponentCharacter"
           },
-          "duration": "EndOfTurn"
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "LeaderIsActive"
+          }
         }
       ]
     }

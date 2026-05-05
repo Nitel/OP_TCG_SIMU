@@ -1,10 +1,19 @@
 {
   "id": "OP04-019",
-  "name": "Donquixote Doflamingo",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "count": 2,
+          "target": "YourDONCards"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

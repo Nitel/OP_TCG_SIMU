@@ -1,11 +1,7 @@
 {
   "id": "OP04-118",
-  "name": "Nefeltari Vivi",
-  "cost": 7,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP04-118",
+  "effectText": "All of your red Characters with a cost of 3 or more other than this Character gain [Rush].",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -15,12 +11,13 @@
           "keyword": "Rush",
           "target": {
             "scope": "AllOwnCharacters",
-            "maxCost": 3
+            "minCost": 3,
+            "hasType": "Red",
+            "excludeSelf": true
           },
           "duration": "Permanent"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

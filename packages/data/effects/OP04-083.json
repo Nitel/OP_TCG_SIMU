@@ -1,29 +1,33 @@
 {
-  "id": "OP04-083",
-  "name": "Sabo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOdByEffects",
+        "target": "YourCharacters"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "StartOfTurn",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP04-083"
 }

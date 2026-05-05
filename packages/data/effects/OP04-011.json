@@ -1,21 +1,17 @@
 {
   "id": "OP04-011",
-  "name": "Nami",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "RevealFromHand",
+          "type": "SearchDeck",
           "count": 1,
+          "reveal": true,
+          "fromTop": true,
           "filter": {
             "cardType": "Character",
-            "maxPower": 6000
+            "minPower": 6000
           },
           "thenActions": [
             {
@@ -26,10 +22,10 @@
               },
               "duration": "EndOfTurn"
             }
-          ]
+          ],
+          "placeLocation": "BottomOfDeck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

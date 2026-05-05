@@ -1,29 +1,29 @@
 {
   "id": "OP04-098",
-  "name": "Toko",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "subType": "Land of Wano",
+        "count": 2
+      },
+      "optional": true,
+      "condition": {
+        "type": "Always"
+      },
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Land of Wano"
-          },
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
+          "type": "FlipLife",
+          "count": 1,
+          "condition": {
+            "type": "HasCardOnBoard",
+            "cardAttribute": "YourLifeCards",
+            "comparison": "<=",
+            "value": 1
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

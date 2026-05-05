@@ -1,36 +1,42 @@
 {
-  "id": "OP04-039",
-  "name": "Rebecca",
-  "cost": 5,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      },
-      "actions": [
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "All",
+      "conditions": [
         {
-          "type": "RevealFromHand",
-          "count": 2,
-          "filter": {
-            "subType": "Dressrosa"
-          },
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "Any"
-              },
-              "destination": "hand"
-            }
-          ]
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        {
+          "type": "CardCount",
+          "location": "hand",
+          "comparison": "LessOrEqual",
+          "value": 6
         }
       ]
-    }
-  ]
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2,
+        "source": "deck",
+        "reveal": true
+      },
+      {
+        "type": "RevealFromHand",
+        "count": 1,
+        "filter": {
+          "subType": "Dressrosa"
+        },
+        "destination": "hand"
+      },
+      {
+        "type": "ForceDiscard",
+        "source": "revealed",
+        "count": -1
+      }
+    ]
+  },
+  "id": "OP04-039"
 }

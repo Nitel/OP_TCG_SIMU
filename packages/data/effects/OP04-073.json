@@ -1,38 +1,29 @@
 {
-  "id": "OP04-073",
-  "name": "Mr.13 & Ms.Friday",
-  "cost": 3,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Baroque Works",
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "GiveDon",
-              "count": 1
-            }
-          ]
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "trashSelf": true,
+      "trashTarget": {
+        "filter": {
+          "subType": "Baroque Works"
+        },
+        "count": 1
+      }
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "name": "DON!!"
+        },
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "AttachDon"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP04-073"
 }

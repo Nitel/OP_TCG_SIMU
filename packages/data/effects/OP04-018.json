@@ -1,28 +1,19 @@
 {
   "id": "OP04-018",
-  "name": "Enchanting Vertigo Dance",
-  "cost": 3,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderHasType",
+    "subType": "Alabasta"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Alabasta"
+      "type": "PowerBoost",
+      "amount": -2000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxTargets": 2
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
   ]
 }

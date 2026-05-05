@@ -1,25 +1,22 @@
 {
   "id": "OP04-012",
-  "name": "Nefeltari Cobra",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "AllOwnCharacters"
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "type": "Alabasta",
+              "excludeSelf": true
+            }
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,24 +1,22 @@
 {
   "id": "OP04-040",
-  "name": "Queen",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasCardOnBoard",
+    "cardAttribute": "cost",
+    "comparison": ">=",
+    "value": 8
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+      "type": "DrawCard",
+      "count": 1
+    },
+    {
+      "type": "FlipLife",
+      "count": 1,
+      "source": "DeckTop"
     }
-  ]
+  ],
+  "note": "Full implementation requires custom condition for 'total 4 or less in Life+hand' and conditional action selection between DrawCard and FlipLife"
 }

@@ -1,24 +1,23 @@
 {
-  "id": "OP04-051",
-  "name": "Who's.Who",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Specific",
+          "types": [
+            "Animal Kingdom Pirates"
+          ],
+          "excludeNames": [
+            "Who's.Who"
+          ],
+          "limit": 5,
+          "selectUpTo": 1
+        },
+        "destination": "hand"
+      }
+    ]
+  },
+  "id": "OP04-051"
 }

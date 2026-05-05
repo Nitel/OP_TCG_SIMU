@@ -1,23 +1,4 @@
 {
   "id": "OP04-110",
-  "name": "Pound",
-  "cost": 3,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "AddLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "note": "This effect cannot be accurately expressed with standard OPTCG DSL actions. 'AddLife' adds life totals, not Characters to Life cards. A custom action or extension is needed to represent 'move opponent Character to opponent's Life cards (face-up)'. Recommend flagging for manual implementation or DSL expansion."
 }

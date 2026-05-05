@@ -1,21 +1,18 @@
 {
   "id": "OP04-058",
-  "name": "Crocodile",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[Opponent's Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck by your effect, add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
+      "duration": "DuringOpponentTurn",
       "condition": {
-        "type": "Always"
+        "type": "HasRestingDon"
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "source": "Deck"
         }
       ]
     }

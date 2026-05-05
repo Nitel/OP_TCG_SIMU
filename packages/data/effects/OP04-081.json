@@ -1,35 +1,27 @@
 {
-  "id": "OP04-081",
-  "name": "Cavendish",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "OwnLeader"
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "OnAttack",
+    "optional": true,
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnLeader"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1
+        },
+        "optional": true
+      },
+      {
+        "type": "TrashFromDeck",
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP04-081"
 }

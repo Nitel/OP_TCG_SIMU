@@ -1,31 +1,22 @@
 {
-  "id": "OP04-086",
-  "name": "Chinjao",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "filter": {},
+        "thenActions": []
+      }
+    ]
+  },
+  "id": "OP04-086"
 }

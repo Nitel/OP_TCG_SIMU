@@ -1,38 +1,44 @@
 {
-  "id": "OP04-060",
-  "name": "Crocodile",
-  "cost": 8,
-  "power": 9000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Baroque Works"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any"
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+        "count": 1,
+        "destination": "life"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {
+          "kind": "Any"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP04-060"
 }

@@ -1,36 +1,16 @@
 {
   "id": "OP04-101",
-  "name": "Carmel",
-  "cost": 2,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Your Turn] [On Play] Draw 1 card.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "DrawCard",
           "count": 1
         }
       ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,28 +1,21 @@
 {
-  "id": "OP04-034",
-  "name": "Lao.G",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 3
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 3
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "isRested": true
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "id": "OP04-034"
 }

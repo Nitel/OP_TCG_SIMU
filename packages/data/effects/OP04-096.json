@@ -1,10 +1,25 @@
 {
   "id": "OP04-096",
-  "name": "Corrida Coliseum",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Dressrosa"
+        }
+      ],
+      "targets": {
+        "type": "CharactersOfType",
+        "value": "Dressrosa"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Haste"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

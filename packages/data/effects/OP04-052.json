@@ -1,35 +1,29 @@
 {
   "id": "OP04-052",
-  "name": "Black Maria",
-  "cost": 3,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] ➁ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character: Draw 1 card.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 2
+        }
+      ],
       "actions": [
         {
           "type": "Rest",
           "target": {
             "scope": "Self"
-          }
+          },
+          "optional": true
         },
         {
           "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+          "count": 1,
+          "optional": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

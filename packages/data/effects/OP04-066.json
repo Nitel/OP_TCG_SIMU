@@ -1,32 +1,26 @@
 {
-  "id": "OP04-066",
-  "name": "Miss.Valentine(Mikita)",
-  "cost": 2,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "HasType",
+          "value": "Baroque Works"
+        },
+        "limit": 1,
+        "peekCount": 5,
+        "destination": "hand"
+      },
+      {
+        "type": "ReturnToHand",
+        "filter": {
+          "kind": "Remaining"
+        },
+        "placement": "Bottom",
+        "order": "Any"
+      }
+    ]
+  },
+  "id": "OP04-066"
 }

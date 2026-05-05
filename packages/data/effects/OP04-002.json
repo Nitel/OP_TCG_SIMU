@@ -1,39 +1,37 @@
 {
   "id": "OP04-002",
-  "name": "Igaram",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -5000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Alabasta"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": -5000,
+      "target": {
+        "scope": "OwnLeader"
+      },
+      "duration": "DuringTurn"
+    },
+    {
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByType",
+        "type": "Alabasta"
+      },
+      "destination": "hand",
+      "quantity": {
+        "min": 0,
+        "max": 1
+      },
+      "lookAtCount": 5,
+      "remainderPlacement": {
+        "destination": "deck_bottom",
+        "order": "player_choice"
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

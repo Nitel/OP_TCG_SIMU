@@ -1,23 +1,22 @@
 {
-  "id": "OP04-036",
-  "name": "Donquixote Family",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Donquixote Pirates"
+        },
+        "destination": "hand",
+        "limit": 1,
+        "deckLookCount": 5
+      },
+      {
+        "type": "PlayFromHand",
+        "destination": "bottom_of_deck"
+      }
+    ]
+  },
+  "id": "OP04-036"
 }

@@ -1,39 +1,30 @@
 {
-  "id": "OP04-095",
-  "name": "Barrier!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnLeaderOrCharacter",
+          "count": 1
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "LastTargetedCard"
+        },
+        "duration": "EndOfBattle",
+        "condition": {
+          "type": "TrashCount",
+          "operator": ">=",
+          "value": 15
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP04-095"
 }

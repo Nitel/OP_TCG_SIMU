@@ -1,28 +1,27 @@
 {
-  "id": "OP04-001",
-  "name": "Nefeltari Vivi",
-  "cost": 5,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "count": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "optional": true
         },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP04-001"
 }

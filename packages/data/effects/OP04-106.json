@@ -1,45 +1,21 @@
 {
-  "id": "OP04-106",
-  "name": "Charlotte Bavarois",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasLife",
+      "comparison": "less",
+      "opponent": true
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP04-106"
 }

@@ -1,28 +1,38 @@
 {
-  "id": "OP04-020",
-  "name": "Issho",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "AllOpponentCharacters"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnCharacters",
+          "maxCost": 5
+        },
+        "optional": true,
+        "maxTargets": 1
+      }
+    ]
+  },
+  "id": "OP04-020"
 }

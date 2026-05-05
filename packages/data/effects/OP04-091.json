@@ -1,36 +1,34 @@
 {
-  "id": "OP04-091",
-  "name": "Leo",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "OwnLeader"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Dressrosa"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnLeader"
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
+        "optional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 1
         },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "maxCount": 1
+      },
+      {
+        "type": "TrashFromDeck",
+        "count": 2,
+        "fromTop": true
+      }
+    ]
+  },
+  "id": "OP04-091"
 }

@@ -1,30 +1,20 @@
 {
-  "id": "OP04-068",
-  "name": "Yokozuna",
-  "cost": 3,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": -1
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxAmount": 1
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
       }
-    }
-  ],
-  "counter": 1000
+    ]
+  },
+  "id": "OP04-068"
 }

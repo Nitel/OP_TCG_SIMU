@@ -1,11 +1,6 @@
 {
   "id": "OP04-038",
-  "name": "The Weak Do Not Have the Right to Choose How They Die!!!",
-  "cost": 5,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main]/[Counter] Rest up to 1 of your opponent's Leader or Character cards. Then, K.O. up to 1 of your opponent's rested Characters with a cost of 6 or less.",
   "effects": [
     {
       "trigger": "Activated",
@@ -13,24 +8,18 @@
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
           }
         },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 5
+            "maxCost": 6,
+            "isRested": true
+          },
+          "maxCount": 1
         }
       ]
     }

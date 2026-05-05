@@ -1,29 +1,20 @@
 {
-  "id": "OP04-059",
-  "name": "Iceburg",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Water Seven"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP04-059"
 }

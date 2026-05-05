@@ -1,24 +1,18 @@
 {
   "id": "OP04-097",
-  "name": "Otama",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
+      "type": "MoveToOpponentLife",
+      "target": {
+        "scope": "OpponentCharacter",
+        "maxCost": 3,
+        "hasAnyType": [
+          "Animal",
+          "SMILE"
+        ],
+        "max": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

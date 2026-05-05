@@ -1,24 +1,28 @@
 {
   "id": "OP04-092",
-  "name": "Rebecca",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
+          "searchCount": 3,
           "filter": {
-            "kind": "Any"
+            "kind": "Type",
+            "value": "Dressrosa",
+            "excludeNames": [
+              "Rebecca"
+            ]
           },
+          "selectCount": "UpTo1",
           "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "SearchedRemainder",
+          "destination": "trash"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

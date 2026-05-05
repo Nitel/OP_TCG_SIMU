@@ -1,33 +1,31 @@
 {
   "id": "OP04-109",
-  "name": "Tonoyasu",
-  "cost": 2,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "TrashFromBoard",
+      "target": {
+        "scope": "Self"
+      },
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "excludeSelf": true
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Land of Wano",
+              "cardType": [
+                "Leader",
+                "Character"
+              ]
+            },
+            "maxCount": 1
           },
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 3000,
-              "target": {
-                "scope": "ChooseOwnCharacter"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }
