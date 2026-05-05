@@ -1,32 +1,35 @@
 {
-  "id": "OP13-044",
-  "name": "Curiel",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+  "0": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "conditions": [
+          {
+            "type": "HasRestingDon"
+          }
+        ],
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "filter": {
+            "type": "HasAnyType",
+            "values": [
+              "Whitebeard Pirates"
+            ]
           }
         }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP13-044"
 }

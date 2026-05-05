@@ -1,44 +1,28 @@
 {
   "id": "OP13-115",
-  "name": "Paper Art Afterimage",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "actions": [
     {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn",
-          "condition": {
-            "type": "Always"
-          }
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 3000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "count": 1
+      },
+      "duration": "EndOfBattle"
     },
     {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 1000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "count": 1
+      },
+      "duration": "DuringThisTurn",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "maxValue": 2
+      }
     }
   ]
 }

@@ -1,21 +1,26 @@
 {
-  "id": "OP13-053",
-  "name": "Marshall.D.Teach",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": "YourCharactersWithType",
+        "targetValue": "Whitebeard Pirates",
+        "optional": true
+      },
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Banish",
+        "target": "Self",
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP13-053"
 }

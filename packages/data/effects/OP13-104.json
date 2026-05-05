@@ -1,29 +1,34 @@
 {
-  "id": "OP13-104",
-  "name": "Kouzuki Hiyori",
-  "cost": 4,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "LeaderHasAnyType",
+        "value": [
+          "Red",
+          "Blue",
+          "Green",
+          "Purple",
+          "Black",
+          "White"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "destination": "Life",
+            "position": "Top"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP13-104"
 }

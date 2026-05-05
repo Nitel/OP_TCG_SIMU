@@ -1,37 +1,23 @@
 {
-  "id": "OP13-046",
-  "name": "Vista",
-  "cost": 6,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "DoubleAttack"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Whitebeard Pirates"
-          },
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "TurnCount",
+      "value": 1
     },
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Whitebeard Pirates"
-          },
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "type": "Whitebeard Pirates"
+        },
+        "thenActions": [
+          {
+            "type": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP13-046"
 }

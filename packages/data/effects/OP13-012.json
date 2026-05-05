@@ -1,11 +1,7 @@
 {
   "id": "OP13-012",
-  "name": "Nefeltari Vivi",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP13-012",
+  "effectText": "[On Play] Look at 4 cards from the top of your deck; reveal up to 1 {Alabasta} or {Straw Hat Crew} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,13 +9,19 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
+            "kind": "ByTypeAndCost",
+            "types": [
+              "Alabasta",
+              "Straw Hat Crew"
+            ],
+            "minCost": 2
           },
-          "destination": "hand"
+          "lookCount": 4,
+          "maxResults": 1,
+          "destination": "hand",
+          "arrangeRest": "BottomOfDeck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

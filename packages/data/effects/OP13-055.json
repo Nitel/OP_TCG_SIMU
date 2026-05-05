@@ -1,28 +1,24 @@
 {
-  "id": "OP13-055",
-  "name": "Rakuyo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HandCount",
+      "value": 4,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filter": {
+            "hasType": "Whitebeard Pirates"
+          }
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP13-055"
 }

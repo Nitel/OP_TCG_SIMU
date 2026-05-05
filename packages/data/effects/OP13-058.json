@@ -1,36 +1,37 @@
 {
-  "id": "OP13-058",
-  "name": "Phoenix Pyreapple",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "Rest",
+      "target": {
+        "scope": "OwnDonCards",
+        "count": 1
+      }
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000,
+          "count": 1
+        },
+        "placement": "BottomOfDeck"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP13-058"
 }

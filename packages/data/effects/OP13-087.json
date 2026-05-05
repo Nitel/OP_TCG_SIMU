@@ -1,25 +1,26 @@
 {
-  "id": "OP13-087",
-  "name": "Saint Charlos",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {
+          "source": "Deck"
+        },
+        "thenActions": []
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "Self"
+      }
+    ]
+  },
+  "id": "OP13-087"
 }

@@ -1,39 +1,21 @@
 {
-  "id": "OP13-038",
-  "name": "Gum-Gum Elephant Gun",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        },
-        {
-          "type": "GiveDon",
-          "count": 2
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1,
+          "maxCost": 5
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "AttachDon",
+        "count": 2,
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP13-038"
 }

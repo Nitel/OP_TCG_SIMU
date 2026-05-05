@@ -1,14 +1,9 @@
 {
   "id": "OP13-024",
-  "name": "Gordon",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
+      "optional": true,
       "actions": [
         {
           "type": "RevealFromHand",
@@ -21,13 +16,18 @@
           },
           "thenActions": [
             {
-              "type": "GiveDon",
-              "count": 2
+              "type": "Rest",
+              "count": 2,
+              "filter": {
+                "location": "Board",
+                "controlledBy": "Self",
+                "hasAttachedDon": true
+              },
+              "duration": "EndOfTurn"
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,18 +1,11 @@
 {
   "id": "OP13-052",
-  "name": "Boa Marigold",
-  "cost": 5,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardId": "OP13-052",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Boa Hancock"
       },
       "actions": [
@@ -22,10 +15,10 @@
             "cardType": "Character",
             "maxCost": 6,
             "subType": "Boa Hancock"
-          }
+          },
+          "amount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

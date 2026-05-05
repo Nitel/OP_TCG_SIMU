@@ -1,11 +1,26 @@
 {
   "id": "OP13-060",
-  "name": "Amatsuki Toki",
-  "cost": 2,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "params": {
+            "filter": "HasType",
+            "value": "Roger Pirates"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "params": {
+            "target": "ThisCharacter"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

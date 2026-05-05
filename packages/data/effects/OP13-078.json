@@ -1,23 +1,21 @@
 {
-  "id": "OP13-078",
-  "name": "Oro Jackson",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardType": "Roger Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "deck"
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      {
+        "type": "Rest"
+      }
+    ],
+    "limit": "OncePerTurn"
+  },
+  "id": "OP13-078"
 }

@@ -1,31 +1,33 @@
 {
   "id": "OP13-086",
-  "name": "Saint Shalria",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByType",
+        "type": "Celestial Dragons",
+        "excludeNames": [
+          "Saint Shalria"
+        ]
+      },
+      "destination": "hand",
+      "maxCount": 1,
+      "lookAtCount": 3,
+      "thenActions": [
         {
-          "type": "SearchDeck",
+          "type": "ForceDiscard",
+          "count": 2,
           "filter": {
-            "kind": "ByName",
-            "name": "Celestial Dragons"
-          },
-          "destination": "hand"
+            "source": "deckLookAt"
+          }
         },
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

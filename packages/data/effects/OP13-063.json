@@ -1,36 +1,24 @@
 {
   "id": "OP13-063",
-  "name": "Kouzuki Oden",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasAttachedDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "DON"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
+      "destination": "board",
+      "maxCount": 1
+    },
+    {
+      "type": "Rest",
+      "target": {
+        "scope": "LastSearched"
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,16 +1,15 @@
 {
   "id": "OP13-026",
-  "name": "Sunny-Kun",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP13-026",
+  "effectText": "[Activate: Main] [Once Per Turn] You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
         "type": "Always"
+      },
+      "cost": {
+        "restDon": 1
       },
       "actions": [
         {
@@ -19,10 +18,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

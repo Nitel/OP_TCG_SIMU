@@ -1,28 +1,33 @@
 {
-  "id": "OP13-079",
-  "name": "Imu",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Celestial Dragons"
-          },
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "activation": "Main",
+    "oncePerTurn": true,
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "type": "Character",
+          "subType": "Celestial Dragons"
+        },
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP13-079"
 }

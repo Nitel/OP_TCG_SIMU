@@ -1,13 +1,6 @@
 {
   "id": "OP13-042",
-  "name": "Edward.Newgate",
-  "cost": 10,
-  "power": 12000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardNumber": "OP13-042",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -19,12 +12,12 @@
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         },
         {
           "type": "AttachDon",
           "count": 2,
+          "optional": true,
           "target": {
             "scope": "OwnLeader"
           }
@@ -32,8 +25,11 @@
         {
           "type": "AttachDon",
           "count": 2,
+          "optional": true,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "excludeLeader": true,
+            "maxTargets": 1
           }
         }
       ]

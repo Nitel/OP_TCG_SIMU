@@ -1,39 +1,37 @@
 {
   "id": "OP13-082",
-  "name": "Five Elders",
-  "cost": 10,
-  "power": 12000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderIsName",
+    "value": "Imu"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Imu"
+      "type": "Rest",
+      "target": {
+        "scope": "OwnDonCards"
       },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "AllOwnCharacters"
-          }
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        }
-      ]
+      "count": 1
+    },
+    {
+      "type": "TrashFromHand",
+      "count": 1,
+      "filter": {}
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "AllOwnCharacters"
+      }
+    },
+    {
+      "type": "PlayFromHand",
+      "source": "trash",
+      "count": 5,
+      "filter": {
+        "type": "FiveElders",
+        "power": 5000
+      }
     }
   ]
 }

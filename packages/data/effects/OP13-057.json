@@ -1,38 +1,40 @@
 {
-  "id": "OP13-057",
-  "name": "If I Bowed Down to Power, What's the Point in Living?",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasLifeCards",
+      "amount": 1,
+      "comparison": "LessOrEqual"
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": "HasDon"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "PreventBlocker",
+        "target": {
+          "scope": "Opponent"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP13-057"
 }

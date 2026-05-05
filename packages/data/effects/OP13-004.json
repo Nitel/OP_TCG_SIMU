@@ -1,28 +1,39 @@
 {
-  "id": "OP13-004",
-  "name": "Sabo",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Character"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharactersAndLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": "GreaterThanOrEqual",
+      "value": 4
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "Leader"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Character",
+      "costThreshold": 8
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "AllOwnCharactersAndLeader"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP13-004"
 }

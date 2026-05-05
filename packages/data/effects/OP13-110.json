@@ -1,28 +1,21 @@
 {
-  "id": "OP13-110",
-  "name": "Stussy",
-  "cost": 7,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Egghead"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 5,
+          "keyword": "Trigger"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  "id": "OP13-110"
 }

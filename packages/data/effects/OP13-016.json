@@ -1,63 +1,29 @@
 {
   "id": "OP13-016",
-  "name": "Monkey.D.Garp",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "note": "Standard DSL cannot fully represent 'look at 4 cards, reveal up to 1 with cost ≥3, place rest at bottom in order'. Recommended custom action or extended schema.",
+  "structure": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Sabo"
+        "type": "LeaderHasAnyType",
+        "names": [
+          "Sabo",
+          "Portgas.D.Ace",
+          "Monkey.D.Luffy"
+        ]
       },
       "actions": [
         {
           "type": "SearchDeck",
           "filter": {
             "kind": "ByCost",
-            "maxCost": 3
+            "minCost": 3
           },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Portgas.D.Ace"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 3
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Monkey.D.Luffy"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 3
-          },
-          "destination": "hand"
+          "destination": "hand",
+          "maxResults": 1,
+          "note": "Limitation: cannot express 'look at 4 cards' constraint or 'place rest at bottom in order' mechanic"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,32 +1,21 @@
 {
   "id": "OP13-015",
-  "name": "Makino",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "subType": "Monkey.D.Luffy"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "subType": "Monkey.D.Luffy"
+      },
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,39 +1,72 @@
 {
-  "id": "OP13-002",
-  "name": "Portgas.D.Ace",
-  "cost": 0,
-  "power": 6000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnAttacked",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ],
+    "frequency": "OncePerTurn"
+  },
+  "1": {
+    "trigger": "OnDamage",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ],
+    "frequency": "OncePerTurn",
+    "cost": {
+      "don": 1
     }
-  ]
+  },
+  "2": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "basePower": {
+            "min": 6000
+          }
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ],
+    "frequency": "OncePerTurn",
+    "cost": {
+      "don": 1
+    }
+  },
+  "id": "OP13-002"
 }

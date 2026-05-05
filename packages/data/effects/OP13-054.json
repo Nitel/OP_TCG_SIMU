@@ -1,32 +1,22 @@
 {
   "id": "OP13-054",
-  "name": "Yamato",
-  "cost": 5,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasAttachedDon",
+    "max": 3
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "TurnCount",
-        "max": 3
+      "type": "DrawCard",
+      "count": 2
+    },
+    {
+      "type": "GiveDon",
+      "count": 1,
+      "target": {
+        "scope": "OwnLeader"
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "OwnLeader"
-          }
-        }
-      ]
+      "restriction": "rested"
     }
-  ],
-  "counter": 1000
+  ]
 }

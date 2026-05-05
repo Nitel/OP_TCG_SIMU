@@ -1,16 +1,14 @@
 {
   "id": "OP13-098",
-  "name": "Never Existed... in the First Place...",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "RestDon",
+        "amount": 1
+      },
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Imu"
       },
       "actions": [
@@ -18,7 +16,8 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 7
+            "maxCost": 7,
+            "maxCount": 1
           }
         }
       ]
@@ -26,7 +25,7 @@
     {
       "trigger": "Counter",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Imu"
       },
       "actions": [
@@ -34,9 +33,10 @@
           "type": "PowerBoost",
           "amount": 4000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
           },
-          "duration": "EndOfBattle"
+          "duration": "DuringThisBattle"
         }
       ]
     }

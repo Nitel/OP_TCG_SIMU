@@ -1,30 +1,20 @@
 {
   "id": "OP13-069",
-  "name": "Tom",
-  "cost": 2,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "ReturnToHand",
+      "filter": {
+        "kind": "ByType",
+        "cardType": "Stage",
+        "maxCost": 3,
+        "source": "trash"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByType",
-            "cardType": "Stage",
-            "maxCost": 3
-          },
-          "destination": "hand"
-        }
-      ]
+      "count": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

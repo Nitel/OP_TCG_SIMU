@@ -1,31 +1,36 @@
 {
-  "id": "OP13-068",
-  "name": "Douglas Bullet",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Roger Pirates"
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasAttachedDon",
+      "value": 8
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "value": 2000
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Roger Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "LastAdded"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP13-068"
 }

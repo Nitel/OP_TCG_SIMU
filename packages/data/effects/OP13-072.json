@@ -1,28 +1,32 @@
 {
-  "id": "OP13-072",
-  "name": "Buggy",
-  "cost": 2,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Roger Pirates"
-      },
-      "actions": [
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "AllOf",
+      "conditions": [
         {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
+          "type": "LeaderHasType",
+          "name": "Roger Pirates"
+        },
+        {
+          "type": "HasAttachedDon"
         }
       ]
-    }
-  ],
-  "counter": 2000
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "DON!!"
+        },
+        "destination": "board",
+        "amount": 1
+      },
+      {
+        "type": "Rest",
+        "target": "LastSearched"
+      }
+    ]
+  },
+  "id": "OP13-072"
 }

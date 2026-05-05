@@ -1,33 +1,28 @@
 {
-  "id": "OP13-027",
-  "name": "Sanji",
-  "cost": 5,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 2
-        }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 2
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "types": [
+        "FILM",
+        "Straw Hat Crew"
       ]
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP13-027"
 }

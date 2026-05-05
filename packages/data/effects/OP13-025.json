@@ -1,27 +1,23 @@
 {
   "id": "OP13-025",
-  "name": "Koby",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardName": "OP13-025",
+  "effectText": "[On Play] If your Leader has the {FILM} type or the <Strike> attribute, set up to 1 of your DON!! cards as active.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
+        "type": "LeaderHasAnyType",
+        "types": [
+          "FILM"
+        ]
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "max": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

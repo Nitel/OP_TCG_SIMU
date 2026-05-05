@@ -1,34 +1,17 @@
 {
   "id": "OP13-117",
-  "name": "Gum-Gum Dawn Stamp",
-  "cost": 5,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] You may turn 1 card from the top of your Life cards face-up: K.O. up to 1 of your opponent's Characters with a base cost of 6 or less.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
+            "maxCost": 6,
+            "maxCount": 1
           }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
         }
       ]
     }

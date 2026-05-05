@@ -1,29 +1,26 @@
 {
-  "id": "OP13-066",
-  "name": "Silvers Rayleigh",
-  "cost": 8,
-  "power": 9000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "AttachDon",
+        "source": "DONDeck",
+        "maxCount": 1,
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP13-066"
 }

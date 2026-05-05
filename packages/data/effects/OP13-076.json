@@ -1,47 +1,44 @@
 {
-  "id": "OP13-076",
-  "name": "Divine Departure",
-  "cost": 0,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 5
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -8000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "RestDon",
+      "count": 5
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -8000,
+        "target": {
+          "scope": "ChooseOpponentCharacterOptional",
+          "count": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "cost": {
+      "type": "TrashFromHand",
+      "count": 1,
+      "filter": {}
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeaderOptional",
+          "count": 1
+        },
+        "duration": "DuringBattle"
+      }
+    ]
+  },
+  "id": "OP13-076"
 }

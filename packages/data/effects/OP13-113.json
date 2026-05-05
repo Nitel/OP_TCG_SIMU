@@ -1,24 +1,36 @@
 {
-  "id": "OP13-113",
-  "name": "Lilith",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "And",
+          "conditions": [
+            {
+              "kind": "HasKeyword",
+              "keyword": "Trigger"
+            },
+            {
+              "kind": "Not",
+              "condition": {
+                "kind": "HasCardName",
+                "name": "Lilith"
+              }
+            }
+          ]
+        },
+        "maxCount": 1,
+        "searchCount": 4,
+        "destination": "hand",
+        "reveal": true
+      },
+      {
+        "type": "ReorderDeck",
+        "position": "bottom",
+        "count": 3
+      }
+    ]
+  },
+  "id": "OP13-113"
 }

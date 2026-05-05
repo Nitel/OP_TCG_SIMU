@@ -1,36 +1,42 @@
 {
-  "id": "OP13-081",
-  "name": "Koala",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Revolutionary Army"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "count": 3
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "Card",
+          "location": "trash"
+        },
+        "placement": "bottom"
       },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "AttachDon",
-              "count": 1,
-              "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
-              }
-            }
-          ]
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "filter": {
+          "isRested": true
+        },
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP13-081"
 }

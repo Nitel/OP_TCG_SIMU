@@ -1,40 +1,51 @@
 {
-  "id": "OP13-075",
-  "name": "Guess We'll Have Another Scrap. You Can Only Risk Death While You're Still Alive!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Gol.D.Roger"
-      },
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "OwnLeader"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Gol.D.Roger"
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnField",
+          "cardType": "Don"
+        },
+        "count": 1
+      },
+      {
+        "type": "SearchDeck",
+        "cardType": "Don",
+        "count": 1
+      },
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "OwnLeader"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnLeader"
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP13-075"
 }

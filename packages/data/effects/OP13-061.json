@@ -1,35 +1,27 @@
 {
   "id": "OP13-061",
-  "name": "Inuarashi",
-  "cost": 3,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasAttachedDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Don"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        }
-      ]
+      "destination": "board",
+      "rest": true,
+      "count": 1
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 1,
+        "count": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

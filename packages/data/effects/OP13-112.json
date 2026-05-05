@@ -1,16 +1,11 @@
 {
   "id": "OP13-112",
-  "name": "Vegapunk",
-  "cost": 1,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "If you have a total of 2 or more given DON!! cards, this Character gains [Blocker].",
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "OnPlay",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 2
       },
       "actions": [
@@ -24,6 +19,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

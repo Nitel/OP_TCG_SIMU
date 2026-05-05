@@ -1,28 +1,24 @@
 {
-  "id": "OP13-092",
-  "name": "Saint Mjosgard",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "TurnCount"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Mary Geoise"
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasLife",
+      "value": 3,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "source": "trash",
+        "filter": {
+          "kind": "ByType",
+          "type": "Stage",
+          "name": "Mary Geoise",
+          "cost": 1
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "id": "OP13-092"
 }

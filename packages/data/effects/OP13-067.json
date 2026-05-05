@@ -1,35 +1,29 @@
 {
   "id": "OP13-067",
-  "name": "Scopper Gaban",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "Roger Pirates"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Roger Pirates"
-      },
-      "actions": [
+      "type": "DrawCard",
+      "count": 2
+    },
+    {
+      "type": "TrashFromHand",
+      "count": 1,
+      "filter": {},
+      "thenActions": []
+    },
+    {
+      "type": "GiveDon",
+      "count": 1,
+      "thenActions": [
         {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "GiveDon",
-          "count": 1
+          "type": "Rest",
+          "target": "self"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

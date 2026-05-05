@@ -1,24 +1,22 @@
 {
   "id": "OP13-032",
-  "name": "Nico Robin",
-  "cost": 7,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP13-032",
+  "effectText": "[On Play] Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next End Phase.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "Rest",
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRested",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 8
-          }
+            "maxCost": 8,
+            "maxCount": 1
+          },
+          "duration": "UntilEndOfOpponentNextTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

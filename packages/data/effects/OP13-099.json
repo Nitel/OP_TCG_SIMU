@@ -1,33 +1,55 @@
 {
-  "id": "OP13-099",
-  "name": "The Empty Throne",
-  "cost": 7,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Trigger",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": ">=",
+      "value": 19
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "LeaderCard"
         },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "color": "Black",
-            "subType": "Five Elders",
-            "cardType": "Character"
-          }
+        "value": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "activation": "Main",
+    "condition": {
+      "type": "HasAttachedDon",
+      "comparison": ">=",
+      "value": 3
+    },
+    "cost": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "GiveDon",
+        "value": -3
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "color": "Black",
+          "subType": "Five Elders",
+          "cardType": "Character",
+          "costComparison": "<=",
+          "costReference": "DONCardsOnField"
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "id": "OP13-099"
 }

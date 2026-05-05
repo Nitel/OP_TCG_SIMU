@@ -1,33 +1,29 @@
 {
-  "id": "OP13-120",
-  "name": "Sabo",
-  "cost": 6,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter"
         },
-        {
-          "type": "GiveDon",
-          "count": 1
+        "duration": "DuringOpponentTurn"
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": {
+          "scope": "OwnLeader",
+          "condition": {
+            "type": "HasRestingDon"
+          }
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP13-120"
 }
