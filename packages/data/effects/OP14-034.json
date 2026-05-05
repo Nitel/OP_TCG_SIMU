@@ -1,25 +1,52 @@
 {
-  "id": "OP14-034",
-  "name": "Monkey.D.Luffy",
-  "cost": 3,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "StartOfTurn",
+    "duration": "DuringYourTurn",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "color": "green",
+          "types": [
+            "Straw Hat Crew"
+          ],
+          "baseCostMin": 4
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filter": {
+            "color": "green",
+            "types": [
+              "Straw Hat Crew"
+            ],
+            "baseCostMin": 4
+          }
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnCharacters",
+          "count": 1
+        }
+      }
+    ]
+  },
+  "id": "OP14-034"
 }

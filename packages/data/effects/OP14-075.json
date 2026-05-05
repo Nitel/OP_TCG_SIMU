@@ -1,29 +1,26 @@
 {
   "id": "OP14-075",
-  "name": "Lao.G",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP14-075",
+  "effectText": "[On K.O.] Add up to 1 DON!! card from your DON!! deck and rest it. Then, give up to 1 of your opponent's Characters −2000 power during this turn.",
   "effects": [
     {
       "trigger": "OnKO",
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "rest": true
         },
         {
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

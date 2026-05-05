@@ -1,11 +1,24 @@
 {
   "id": "OP14-022",
-  "name": "Usopp",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effectText": "[End of Your Turn] If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "FILM",
+          "Straw Hat Crew"
+        ]
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "YourDonCards",
+          "maxCount": 2
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

@@ -1,34 +1,20 @@
 {
   "id": "OP14-059",
-  "name": "Please Take Me with You!! I Can Be of Great Help to You!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Jinbe"
+        "type": "LeaderIsName",
+        "name": "Jinbe",
+        "handSize": {
+          "max": 2
+        }
       },
       "actions": [
         {
           "type": "DrawCard",
           "count": 2
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
         }
       ]
     }

@@ -1,21 +1,34 @@
 {
-  "id": "OP14-094",
-  "name": "Mr.5(Gem)",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Character",
+          "costCondition": "OR",
+          "costs": [
+            0,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "source": "Hand"
+      }
+    ]
+  },
+  "id": "OP14-094"
 }

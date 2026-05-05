@@ -1,40 +1,39 @@
 {
-  "id": "OP14-074",
-  "name": "Monet",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Donquixote Pirates"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Donquixote Pirates"
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "setActive": true
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1
+      },
+      {
+        "type": "GiveDon",
+        "count": 2,
+        "setActive": false
+      },
+      {
+        "type": "Rest",
+        "target": "LastAddedDon"
+      }
+    ]
+  },
+  "id": "OP14-074"
 }

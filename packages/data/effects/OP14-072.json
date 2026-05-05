@@ -1,18 +1,17 @@
 {
   "id": "OP14-072",
-  "name": "Baby 5",
-  "cost": 4,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "OP14-072",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "kind": "DON"
+          },
+          "destination": "active"
         }
       ]
     },
@@ -25,13 +24,14 @@
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 1,
           "filter": {
-            "kind": "Any"
+            "kind": "Any",
+            "fromTop": true
           },
-          "destination": "hand"
+          "destination": "lifeCards"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

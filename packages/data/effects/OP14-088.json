@@ -1,32 +1,22 @@
 {
   "id": "OP14-088",
-  "name": "Miss.MerryChristmas(Drophy)",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Baroque Works"
+  },
+  "actions": [
     {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Baroque Works"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        }
-      ]
+      "type": "DrawCard",
+      "count": 1
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentStage",
+        "maxCost": 1,
+        "maxCount": 1
+      }
     }
-  ],
-  "counter": 2000
+  ]
 }

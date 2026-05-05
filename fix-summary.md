@@ -1,28 +1,26 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:31.764Z
+Generated: 2026-05-05T14:17:32.680Z
 
-**Total patched:** 85 | **Total skipped:** 14
+**Total patched:** 98 | **Total skipped:** 12
 
-## OP-13 — 85 cartes patchées
+## OP-14 — 98 cartes patchées
 
-**critical (30):** OP13-001, OP13-004, OP13-008, OP13-009, OP13-012, OP13-016, OP13-017, OP13-025, OP13-035, OP13-047, OP13-053, OP13-059, OP13-060, OP13-065, OP13-066, OP13-078, OP13-081, OP13-082, OP13-083, OP13-086, OP13-087, OP13-092, OP13-096, OP13-099, OP13-102, OP13-109, OP13-112, OP13-113, OP13-115, OP13-117
+**critical (45):** OP14-002, OP14-003, OP14-009, OP14-017, OP14-019, OP14-020, OP14-021, OP14-022, OP14-023, OP14-026, OP14-027, OP14-029, OP14-033, OP14-034, OP14-036, OP14-041, OP14-044, OP14-045, OP14-047, OP14-048, OP14-053, OP14-056, OP14-059, OP14-060, OP14-061, OP14-065, OP14-068, OP14-070, OP14-071, OP14-074, OP14-082, OP14-086, OP14-092, OP14-097, OP14-099, OP14-100, OP14-103, OP14-104, OP14-107, OP14-110, OP14-112, OP14-113, OP14-114, OP14-115, OP14-118
 
-**major (55):** OP13-002, OP13-003, OP13-005, OP13-015, OP13-019, OP13-020, OP13-021, OP13-022, OP13-023, OP13-024, OP13-026, OP13-027, OP13-031, OP13-032, OP13-033, OP13-034, OP13-038, OP13-039, OP13-042, OP13-043, OP13-044, OP13-046, OP13-050, OP13-051, OP13-052, OP13-054, OP13-055, OP13-056, OP13-057, OP13-058, OP13-061, OP13-063, OP13-064, OP13-067, OP13-068, OP13-069, OP13-071, OP13-072, OP13-075, OP13-076, OP13-079, OP13-080, OP13-091, OP13-093, OP13-094, OP13-095, OP13-098, OP13-100, OP13-104, OP13-106, OP13-110, OP13-114, OP13-116, OP13-118, OP13-120
+**major (53):** OP14-004, OP14-005, OP14-006, OP14-011, OP14-012, OP14-013, OP14-014, OP14-015, OP14-018, OP14-025, OP14-031, OP14-037, OP14-038, OP14-039, OP14-040, OP14-042, OP14-043, OP14-046, OP14-049, OP14-050, OP14-051, OP14-052, OP14-054, OP14-057, OP14-058, OP14-062, OP14-063, OP14-064, OP14-067, OP14-069, OP14-072, OP14-075, OP14-076, OP14-077, OP14-078, OP14-079, OP14-080, OP14-081, OP14-083, OP14-084, OP14-085, OP14-087, OP14-088, OP14-090, OP14-091, OP14-093, OP14-094, OP14-098, OP14-105, OP14-108, OP14-111, OP14-116, OP14-120
 
-**skipped — type inconnu (14):**
-- OP13-007 (TargetScope::ChooseOwnLeaderOrCharacter)
-- OP13-028 (ActionType::AddRestriction)
-- OP13-030 (ActionType::ActivateDon)
-- OP13-037 (TargetScope::YourField)
-- OP13-040 (TargetScope::OwnDonCards)
-- OP13-045 (ConditionType::HandCount)
-- OP13-062 (TargetScope::OpponentCharacter)
-- OP13-077 (TargetScope::OwnDonCards)
-- OP13-084 (Trigger::Permanent)
-- OP13-089 (Trigger::Always)
-- OP13-097 (ConditionType::OnlyCharacterType)
-- OP13-105 (ActionType::ArrangeLiveCards)
-- OP13-108 (TargetScope::Opponent)
-- OP13-119 (TargetScope::OpponentHand)
+**skipped — type inconnu (12):**
+- OP14-001 (ActionType::SelectTarget, ActionType::PowerSwap)
+- OP14-010 (ActionType::ViewDeck, ActionType::PlaceAtBottom)
+- OP14-016 (TargetScope::YourLeader, TargetScope::OpponentCharacter)
+- OP14-024 (ActionType::ActivateDon, TargetScope::YourDONCards, TargetScope::ChooseOpponentCard)
+- OP14-028 (Trigger::OnRest)
+- OP14-032 (Trigger::OnRest)
+- OP14-035 (Trigger::OnRest)
+- OP14-096 (TargetScope::OwnDonCards, TargetScope::OpponentCharacters)
+- OP14-102 (no suggestedDsl)
+- OP14-106 (no suggestedDsl)
+- OP14-109 (no suggestedDsl)
+- OP14-119 (Trigger::OnRest, ActionType::PreventRest)
 

@@ -1,28 +1,18 @@
 {
   "id": "OP14-025",
-  "name": "Kuro",
-  "cost": 7,
-  "power": 8000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderIsName",
+    "name": "Kuro"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Kuro"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "East Blue",
-            "cardType": "Character",
-            "maxCost": 6
-          }
-        }
-      ]
+      "type": "PlayFromHand",
+      "filter": {
+        "subType": "East Blue",
+        "cardType": "Character",
+        "maxCost": 6
+      }
     }
   ]
 }

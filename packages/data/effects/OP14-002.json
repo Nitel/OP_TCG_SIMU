@@ -1,21 +1,28 @@
 {
-  "id": "OP14-002",
-  "name": "Urouge",
-  "cost": 3,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "HasPower",
+        "value": 5000,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": "OpponentCharacter",
+        "count": 1,
+        "filter": {
+          "basePower": 3000,
+          "comparison": "LessThanOrEqual"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP14-002"
 }

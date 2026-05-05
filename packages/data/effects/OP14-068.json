@@ -1,11 +1,24 @@
 {
   "id": "OP14-068",
-  "name": "Trebol",
-  "cost": 5,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effectText": "[Opponent's Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, if your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Donquixote Pirates"
+      },
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "value": 1,
+          "source": "DonDeck",
+          "modifiers": [
+            "Rest"
+          ]
+        }
+      ]
+    }
+  ]
 }

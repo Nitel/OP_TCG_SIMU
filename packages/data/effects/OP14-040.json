@@ -1,29 +1,27 @@
 {
   "id": "OP14-040",
-  "name": "Jinbe",
-  "cost": 5,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "excludeSelf": true
+      },
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "AttachDon",
-              "count": 2,
-              "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
-              }
+          "type": "AttachDon",
+          "count": 2,
+          "requireRested": true,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "typeFilter": {
+              "anyOf": [
+                "Fish-Man",
+                "Merfolk"
+              ]
             }
-          ]
+          }
         }
       ]
     }

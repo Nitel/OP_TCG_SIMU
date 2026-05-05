@@ -1,25 +1,31 @@
 {
-  "id": "OP14-070",
-  "name": "Buffalo",
-  "cost": 2,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Field",
+          "filter": {
+            "cardType": "DON"
+          },
+          "count": 1
+        },
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "value": false
+      }
+    ]
+  },
+  "id": "OP14-070"
 }

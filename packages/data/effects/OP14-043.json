@@ -1,42 +1,29 @@
 {
-  "id": "OP14-043",
-  "name": "Aladine",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 3,
-            "subType": "Fish-Man"
-          }
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 3,
-            "subType": "Merfolk"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 3,
+          "subType": [
+            "Fish-Man",
+            "Merfolk"
+          ]
         }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP14-043"
 }

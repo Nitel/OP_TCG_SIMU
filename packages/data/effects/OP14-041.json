@@ -1,36 +1,38 @@
 {
-  "id": "OP14-041",
-  "name": "Boa Hancock",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "duration": "DuringOpponentTurn",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
+    "actions": [
+      {
+        "type": "DrawCard",
         "count": 1
-      },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "typeFilter": [
+        "Amazon Lily",
+        "Kuja Pirates"
+      ],
+      "minBasePower": 5000
+    },
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ],
+    "oncePerTurn": true,
+    "costRequirement": {
+      "type": "HasAttachedDon",
+      "count": 1
     }
-  ]
+  },
+  "id": "OP14-041"
 }

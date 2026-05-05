@@ -1,33 +1,33 @@
 {
   "id": "OP14-033",
-  "name": "Perona",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "OP14-033",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "Rest",
+          "type": "GiveKeyword",
+          "keyword": "CannotRest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+            "maxCost": 5,
+            "maxTargets": 2
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
         }
       ]
     },
     {
       "trigger": "OnKO",
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseYourCard",
+            "maxTargets": 1
+          }
+        }
+      ],
       "actions": [
         {
           "type": "PlayFromHand",
@@ -35,10 +35,10 @@
             "color": "Green",
             "cardType": "Character",
             "maxCost": 5
-          }
+          },
+          "maxTargets": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

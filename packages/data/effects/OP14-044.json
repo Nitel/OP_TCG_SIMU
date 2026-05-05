@@ -1,21 +1,33 @@
 {
-  "id": "OP14-044",
-  "name": "Edward.Newgate",
-  "cost": 8,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "source": "TopOfDeck",
+        "count": 1
+      },
+      {
+        "type": "DrawCard",
+        "count": 2,
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Whitebeard Pirates"
+          }
+        ]
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Whitebeard Pirates"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP14-044"
 }

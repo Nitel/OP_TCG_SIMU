@@ -1,22 +1,27 @@
 {
   "id": "OP14-076",
-  "name": "Ever White",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
+  "cardNumber": "OP14-076",
+  "effectText": "[Main] You may rest 2 of your DON!! cards: If your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and rest it.\n[Counter] Your Leader gains +3000 power during this battle.",
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "count": 2,
+        "target": {
+          "scope": "OwnDon"
+        }
+      },
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Donquixote Pirates"
+        "type": "LeaderHasType",
+        "typeValue": "Donquixote Pirates"
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DONDeck",
+          "rest": true
         }
       ]
     },
@@ -29,7 +34,7 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "EndOfBattle"
+          "duration": "DuringThisBattle"
         }
       ]
     }

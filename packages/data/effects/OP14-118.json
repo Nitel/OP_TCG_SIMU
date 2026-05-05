@@ -1,37 +1,20 @@
 {
-  "id": "OP14-118",
-  "name": "You'll Frighten Me... ♡",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "TurnCount",
-        "max": 2
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "HasAttachedDon",
+      "max": 2
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "maxPower": 6000
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP14-118"
 }

@@ -1,42 +1,23 @@
 {
-  "id": "OP14-112",
-  "name": "Boa Hancock",
-  "cost": 9,
-  "power": 10000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "The Seven Warlords of the Sea"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "name": "The Seven Warlords of the Sea"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "maxPower": 6000
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "source": "YourDeck"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "source": "OpponentLife",
+        "destination": "OpponentHand"
+      }
+    ]
+  },
+  "id": "OP14-112"
 }

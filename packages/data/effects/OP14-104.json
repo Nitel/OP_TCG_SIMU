@@ -1,37 +1,19 @@
 {
-  "id": "OP14-104",
-  "name": "Gecko Moria",
-  "cost": 8,
-  "power": 10000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "ByType",
+          "type": "Thriller Bark Pirates",
+          "maxCost": 4
+        },
+        "source": "trash",
+        "destination": "board|life",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP14-104"
 }

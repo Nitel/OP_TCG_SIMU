@@ -1,41 +1,27 @@
 {
   "id": "OP14-116",
-  "name": "Salamander",
-  "cost": 4,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "actions": [
     {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Amazon Lily",
-            "maxCost": 4,
-            "cardType": "Character"
-          }
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "maxCount": 1
+      },
+      "duration": "EndOfBattle"
     },
     {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+      "type": "PlayFromHand",
+      "maxCount": 1,
+      "filter": {
+        "cardType": "Character",
+        "subTypes": [
+          "Amazon Lily",
+          "Kuja Pirates"
+        ],
+        "maxCost": 4
+      }
     }
   ]
 }

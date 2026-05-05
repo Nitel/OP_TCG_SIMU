@@ -1,47 +1,52 @@
 {
-  "id": "OP14-120",
-  "name": "Crocodile",
-  "cost": 8,
-  "power": 10000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 9
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 9
         },
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
+        "duration": "UntilEndOfOpponentNextTurn"
+      },
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "condition": {
+          "type": "HasCardOnBoard",
+          "scope": "OpponentBoard",
           "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "cardType": "Character",
-                "color": "Black"
-              }
-            }
-          ]
+            "cardType": "Character",
+            "costCondition": "OR",
+            "costs": [
+              0,
+              8,
+              9,
+              10
+            ]
+          }
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "kind": "Any"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PlaySelf",
+            "source": "Trash"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP14-120"
 }

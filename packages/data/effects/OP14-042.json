@@ -1,28 +1,23 @@
 {
-  "id": "OP14-042",
-  "name": "Arlong",
-  "cost": 1,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Fish-Man"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Fish-Man"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByCost",
+          "minCost": 2
+        },
+        "destination": "hand",
+        "limit": 1,
+        "deckPosition": "top4",
+        "restToBottom": true
+      }
+    ]
+  },
+  "id": "OP14-042"
 }

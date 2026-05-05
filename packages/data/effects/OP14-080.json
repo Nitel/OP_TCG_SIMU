@@ -1,45 +1,49 @@
 {
-  "id": "OP14-080",
-  "name": "Gecko Moria",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOwnCharacter"
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "TurnCount",
+        "limit": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "hasType": "Thriller Bark Pirates"
           }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharactersAndLeader"
-          },
-          "duration": "EndOfTurn"
         }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 3,
-          "filter": {},
-          "thenActions": []
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "AllOwnCharactersAndLeader"
         },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 3,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "optional": true,
+            "placement": "TopOfLife"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP14-080"
 }

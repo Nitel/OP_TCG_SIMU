@@ -1,35 +1,27 @@
 {
   "id": "OP14-009",
-  "name": "Trafalgar Law",
-  "cost": 9,
-  "power": 10000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
+  "trigger": "Counter",
+  "condition": {
+    "type": "Always",
+    "perTurn": true
+  },
+  "cost": {
+    "type": "TrashFromHand",
+    "count": 2,
+    "source": "hand"
+  },
+  "actions": [
     {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
+      "type": "PowerSwap",
+      "targets": [
         {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 0,
-              "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
-              },
-              "duration": "EndOfBattle"
-            }
-          ]
+          "scope": "ChooseOwnLeader"
+        },
+        {
+          "scope": "ChooseOwnCharacter"
         }
-      ]
+      ],
+      "duration": "DuringBattle"
     }
   ]
 }

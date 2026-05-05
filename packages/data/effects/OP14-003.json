@@ -1,11 +1,20 @@
 {
-  "id": "OP14-003",
-  "name": "Capone\"Gang\"Bege",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PreventKO",
+        "target": "Self",
+        "source": "OpponentCharacterWithMaxBasePower",
+        "maxBasePower": 5000
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "id": "OP14-003"
 }

@@ -1,26 +1,21 @@
 {
   "id": "OP14-092",
-  "name": "Mr.3(Galdino)",
-  "cost": 4,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "duration": "DuringOpponentTurn",
+  "condition": {
+    "type": "Always"
+  },
+  "frequency": "OncePerTurn",
+  "actions": [
     {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
+      "type": "PlayFromHand",
+      "filter": {
+        "kind": "Trash",
+        "quantity": 3
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "destination": "deck",
+      "position": "bottom",
+      "optional": true
     }
   ]
 }

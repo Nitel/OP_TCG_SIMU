@@ -1,25 +1,24 @@
 {
-  "id": "OP14-006",
-  "name": "Shachi &amp; Penguin",
-  "cost": 2,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "PowerCheck",
+        "value": 5000,
+        "operator": ">="
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "max": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP14-006"
 }

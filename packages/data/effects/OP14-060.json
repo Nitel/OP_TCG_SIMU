@@ -1,28 +1,17 @@
 {
   "id": "OP14-060",
-  "name": "Donquixote Doflamingo",
-  "cost": 0,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "OncePerTurn"
+  },
+  "actions": [
     {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
+      "type": "ChangeAttackTarget",
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "subType": "Donquixote Pirates"
       },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Unblockable",
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "subType": "Donquixote Pirates"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
+      "duration": "DuringAttack"
     }
   ]
 }

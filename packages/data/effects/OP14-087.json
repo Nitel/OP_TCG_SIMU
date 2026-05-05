@@ -1,29 +1,25 @@
 {
   "id": "OP14-087",
-  "name": "Miss.Valentine(Mikita)",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Baroque Works"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByType",
+        "type": "Baroque Works",
+        "excludeName": "Miss.Valentine(Mikita)"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Baroque Works"
-          },
-          "destination": "hand"
-        }
-      ]
+      "searchCount": 4,
+      "selectCount": {
+        "min": 0,
+        "max": 1
+      },
+      "destination": "hand",
+      "trashRest": true
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,27 +1,23 @@
 {
-  "id": "OP14-021",
-  "name": "Issho",
-  "cost": 6,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": "Always",
+    "optional": true,
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeActive",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOpponentCharacterOrStage"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP14-021"
 }

@@ -1,25 +1,30 @@
 {
-  "id": "OP14-054",
-  "name": "Fisher Tiger",
-  "cost": 6,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Fish-Man"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 3
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Fish-Man"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 3
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "source": "Hand",
+        "count": "ExcessOver5"
+      }
+    ]
+  },
+  "id": "OP14-054"
 }

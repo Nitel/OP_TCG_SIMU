@@ -1,26 +1,35 @@
 {
   "id": "OP14-098",
-  "name": "Crescent Cutlass",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
+  "cardId": "OP14-098",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "target": {
+          "scope": "AllOwnCharacters"
+        },
+        "costCheck": {
+          "operator": "OR",
+          "values": [
+            {
+              "equals": 0
+            },
+            {
+              "greaterThanOrEqual": 8
+            }
+          ]
+        }
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 3000,
+          "type": "GiveKeyword",
+          "keyword": "+3cost",
           "target": {
             "scope": "AllOwnCharacters",
             "subType": "Baroque Works"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     },

@@ -1,36 +1,33 @@
 {
-  "id": "OP14-079",
-  "name": "Crocodile",
-  "cost": 0,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOwnCharacter"
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "hasType": "Baroque Works"
           }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -10,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -10,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1
+        },
+        "duration": "DuringThisTurn"
+      },
+      {
+        "type": "TrashFromDeck",
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP14-079"
 }

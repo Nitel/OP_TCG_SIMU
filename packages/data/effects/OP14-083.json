@@ -1,26 +1,19 @@
 {
-  "id": "OP14-083",
-  "name": "Ms. Wednesday",
-  "cost": 1,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 0
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 0,
+          "maxTargets": 1
+        },
+        "duration": "DuringTurn"
+      }
+    ]
+  },
+  "id": "OP14-083"
 }

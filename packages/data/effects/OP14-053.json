@@ -1,13 +1,23 @@
 {
   "id": "OP14-053",
-  "name": "Vista",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
+  "effectText": "[Blocker]\n[Opponent's Turn] If you have 7 or less cards in your hand, this Character's base power becomes the same as your Leader's base power.",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": "LeaderBasePower"
+        }
+      ]
+    }
+  ],
   "keywords": [
     "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  ]
 }

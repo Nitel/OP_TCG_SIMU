@@ -1,38 +1,21 @@
 {
-  "id": "OP14-110",
-  "name": "Dr. Hogback",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "source": "trash",
+        "max": 1,
+        "filter": {
+          "kind": "ByCardType",
+          "cardType": "Character",
+          "maxCost": 4,
+          "excludeByName": [
+            "Dr. Hogback"
+          ]
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP14-110"
 }

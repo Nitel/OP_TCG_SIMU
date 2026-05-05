@@ -1,23 +1,23 @@
 {
-  "id": "OP14-099",
-  "name": "Disappointed?",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any",
+          "type": "Baroque Works",
+          "excludeName": "[Disappointed?]"
+        },
+        "deckLookSize": 3,
+        "destination": "hand",
+        "maxAmount": 1
+      },
+      {
+        "type": "ForceDiscard",
+        "target": "RemainingDeckLookCards"
+      }
+    ]
+  },
+  "id": "OP14-099"
 }

@@ -1,36 +1,29 @@
 {
-  "id": "OP14-036",
-  "name": "Strive to Surpass me, Roronoa Zoro!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "scope": "OwnCharacterOrLeader"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 7000
-          }
-        }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxTargets": 1
+        },
+        "duration": "DuringThisBattle"
+      }
+    ]
+  },
+  "id": "OP14-036"
 }

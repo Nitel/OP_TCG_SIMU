@@ -1,39 +1,35 @@
 {
-  "id": "OP14-027",
-  "name": "Shanks",
-  "cost": 7,
-  "power": 9000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 7000
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 7000
         }
-      ]
-    }
-  ]
+      }
+    ],
+    "duration": "DuringYourTurn"
+  },
+  "1": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasRestingDon"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "AllOpponentCharacters"
+        }
+      }
+    ],
+    "duration": "DuringOpponentTurn"
+  },
+  "id": "OP14-027"
 }

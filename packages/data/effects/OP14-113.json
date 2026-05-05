@@ -1,41 +1,31 @@
 {
-  "id": "OP14-113",
-  "name": "Marguerite",
-  "cost": 3,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "reveal": true,
+        "filter": {
+          "type": "Or",
+          "conditions": [
+            {
+              "hasType": "Amazon Lily"
+            },
+            {
+              "hasType": "Kuja Pirates"
+            }
+          ]
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Kuja Pirates"
+        "destination": "hand",
+        "maxReveal": 1
       },
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ]
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP14-113"
 }

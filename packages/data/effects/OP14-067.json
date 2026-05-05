@@ -1,29 +1,27 @@
 {
-  "id": "OP14-067",
-  "name": "Dellinger",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "rest": true
+      },
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "filter": {
+          "kind": "ByType",
+          "type": "Donquixote Pirates"
         },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Donquixote Pirates"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "maxReveal": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "OrderDeckBottom",
+        "count": 4
+      }
+    ]
+  },
+  "id": "OP14-067"
 }

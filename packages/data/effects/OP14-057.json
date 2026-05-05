@@ -1,11 +1,6 @@
 {
   "id": "OP14-057",
-  "name": "Don't Worry!! I'm Here!!",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] All of your {Fish-Man} or {Merfolk} type Leader and Character cards gain +1000 power during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,18 +9,13 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "AllOwnCharactersAndLeader"
+            "scope": "AllOwnCharactersAndLeader",
+            "hasAnyType": [
+              "Fish-Man",
+              "Merfolk"
+            ]
           },
           "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
         }
       ]
     }

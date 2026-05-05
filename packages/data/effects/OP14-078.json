@@ -1,36 +1,27 @@
 {
   "id": "OP14-078",
-  "name": "Bullet String",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Donquixote Pirates"
+  },
+  "actions": [
     {
-      "trigger": "Counter",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Donquixote Pirates"
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "max": 1
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "EndOfBattle"
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "PreviouslySelectedTarget"
+      },
+      "duration": "EndOfTurn"
     }
   ]
 }

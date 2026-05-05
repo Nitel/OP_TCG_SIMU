@@ -1,42 +1,24 @@
 {
-  "id": "OP14-107",
-  "name": "Shakuyaku",
-  "cost": 6,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "OpponentLifeCount",
+      "value": 3,
+      "comparison": "LessOrEqual"
     },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Kuja Pirates"
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
       },
-      "actions": [
-        {
-          "type": "PlaySelf"
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "filter": {
+          "source": "Hand"
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ]
+  },
+  "id": "OP14-107"
 }

@@ -1,40 +1,34 @@
 {
-  "id": "OP14-037",
-  "name": "For Fun",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 3
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 7000
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "RestOwnCards",
+      "count": 3
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxBasePower": 7000,
+          "isRested": true,
+          "maxChoices": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringThisBattle"
+      }
+    ]
+  },
+  "id": "OP14-037"
 }

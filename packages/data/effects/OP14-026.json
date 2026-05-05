@@ -1,11 +1,22 @@
 {
   "id": "OP14-026",
-  "name": "Kouzuki Oden",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": "Self",
+          "condition": "HasRestingDon"
+        }
+      ]
+    }
+  ]
 }

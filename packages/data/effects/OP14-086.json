@@ -1,28 +1,32 @@
 {
-  "id": "OP14-086",
-  "name": "Miss Doublefinger(Zala)",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "TrashCount",
+      "value": 7,
+      "comparison": ">="
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "PowerBoost",
+        "amount": 2,
+        "target": {
+          "scope": "YourCharacters",
+          "filter": {
+            "hasType": "Baroque Works"
+          }
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP14-086"
 }

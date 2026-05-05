@@ -1,32 +1,22 @@
 {
-  "id": "OP14-019",
-  "name": "I Have a Plan to Take Down One of the Four Emperors!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 4,
+        "filter": {
+          "kind": "Character",
+          "types": [
+            "Supernovas",
+            "Straw Hat Crew"
+          ]
+        },
+        "reveal": true,
+        "revealCount": 1,
+        "destination": "hand"
+      }
+    ]
+  },
+  "id": "OP14-019"
 }

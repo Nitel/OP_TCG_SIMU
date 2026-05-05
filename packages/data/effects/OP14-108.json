@@ -1,27 +1,28 @@
 {
   "id": "OP14-108",
-  "name": "Silvers Rayleigh",
-  "cost": 6,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "AND",
+    "conditions": [
+      {
+        "type": "LeaderHasAnyType",
+        "isMulticolored": true
       },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 7000
-          }
-        }
-      ]
+      {
+        "type": "OpponentLifeCount",
+        "comparison": "LessOrEqual",
+        "value": 3
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCount": 1,
+        "maxPower": 7000
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,46 +1,40 @@
 {
-  "id": "OP14-038",
-  "name": "I Never Bother to Remember the Faces of Trash",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "AllOwnCharacters"
-          }
-        },
-        {
-          "type": "DrawCard",
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "count": 2
+        }
+      },
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 7000,
           "count": 1
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "OwnLeader"
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 7000
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP14-038"
 }

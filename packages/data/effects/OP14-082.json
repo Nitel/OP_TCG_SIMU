@@ -1,38 +1,20 @@
 {
-  "id": "OP14-082",
-  "name": "Oinkchuck",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "SearchDeck",
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "AllOwnCharacters",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+            "kind": "ByType",
+            "type": "Thriller Bark Pirates"
+          }
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP14-082"
 }

@@ -1,27 +1,22 @@
 {
-  "id": "OP14-005",
-  "name": "Killer",
-  "cost": 1,
-  "power": 1000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "frequency": "OncePerTurn",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "source": {
+          "scope": "OwnRested"
+        },
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP14-005"
 }

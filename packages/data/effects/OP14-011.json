@@ -1,14 +1,13 @@
 {
   "id": "OP14-011",
-  "name": "Bartolomeo",
-  "cost": 2,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x2] This Character gains [Blocker].",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
+      },
       "actions": [
         {
           "type": "GiveKeyword",
@@ -16,14 +15,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "Permanent"
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      }
+      ]
     }
-  ],
-  "counter": 2000
+  ]
 }

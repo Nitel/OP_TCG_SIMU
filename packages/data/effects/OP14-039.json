@@ -1,24 +1,32 @@
 {
-  "id": "OP14-039",
-  "name": "Coffin Boat",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Dracule Mihawk"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Dracule Mihawk"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Dracule Mihawk"
+    },
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": "YourDON",
+        "mode": "SetActive"
+      }
+    ]
+  },
+  "id": "OP14-039"
 }

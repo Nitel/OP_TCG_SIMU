@@ -1,40 +1,27 @@
 {
   "id": "OP14-114",
-  "name": "Ran",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to 1 of your {Kuja Pirates} type Leader or Character cards.",
   "effects": [
     {
       "trigger": "Activated",
+      "activation": "Main",
+      "duration": "OncePerTurn",
       "condition": {
         "type": "HasCardOnBoard",
-        "name": "Kuja Pirates"
+        "hasType": "Kuja Pirates"
       },
       "actions": [
         {
           "type": "AttachDon",
           "count": 1,
+          "optional": true,
+          "source": "Rested",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "hasType": "Kuja Pirates"
           }
         }
       ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Kuja Pirates"
-      },
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
     }
-  ],
-  "counter": 1000
+  ]
 }
