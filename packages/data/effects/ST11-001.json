@@ -1,35 +1,34 @@
 {
   "id": "ST11-001",
-  "name": "Uta",
-  "cost": 0,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "condition": {
         "type": "Always"
       },
       "actions": [
         {
-          "type": "RevealFromHand",
+          "type": "RevealFromDeck",
           "count": 1,
-          "filter": {
-            "subType": "FILM"
-          },
           "thenActions": [
             {
               "type": "SearchDeck",
+              "count": 1,
               "filter": {
-                "kind": "Any"
+                "subType": "FILM"
               },
               "destination": "hand"
+            },
+            {
+              "type": "PlaceAtBottomOfDeck",
+              "source": "revealed"
             }
           ]
         }
-      ]
+      ],
+      "limitation": {
+        "type": "OncePerTurn"
+      }
     }
   ]
 }

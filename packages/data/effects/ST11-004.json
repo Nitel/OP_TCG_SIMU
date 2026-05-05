@@ -1,27 +1,24 @@
 {
   "id": "ST11-004",
-  "name": "New Genesis",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderIsName",
+    "name": "Uta"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Uta"
+      "type": "SearchDeck",
+      "filter": {
+        "type": "FILM",
+        "excludeName": "New Genesis"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "maxResults": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "Rest",
+      "target": "DON!!",
+      "maxResults": 1
     }
   ]
 }

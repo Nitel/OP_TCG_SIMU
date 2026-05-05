@@ -1,34 +1,36 @@
 {
-  "id": "ST11-003",
-  "name": "Backlight",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Uta"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Uta"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Uta"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "rested": true
+        }
+      }
+    ]
+  },
+  "id": "ST11-003"
 }

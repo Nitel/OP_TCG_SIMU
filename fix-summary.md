@@ -1,12 +1,12 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:59.457Z
+Generated: 2026-05-05T14:18:10.441Z
 
-**Total patched:** 17 | **Total skipped:** 0
+**Total patched:** 5 | **Total skipped:** 0
 
-## ST-10 — 17 cartes patchées
+## ST-11 — 5 cartes patchées
 
-**critical (4):** ST10-002, ST10-003, ST10-011, ST10-016
+**critical (3):** ST11-001, ST11-004, ST11-005
 
-**major (13):** ST10-001, ST10-004, ST10-005, ST10-006, ST10-007, ST10-008, ST10-009, ST10-010, ST10-012, ST10-013, ST10-014, ST10-015, ST10-017
+**major (2):** ST11-002, ST11-003
 

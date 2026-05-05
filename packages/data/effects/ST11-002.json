@@ -1,48 +1,44 @@
 {
-  "id": "ST11-002",
-  "name": "Uta",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Event"
-          },
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "ChooseOwnCharacter",
-                "maxCost": 0
-              }
-            }
-          ]
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "cardType": "Event"
+        },
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "active",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "characterType": "FILM"
+              },
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "id": "ST11-002"
 }
