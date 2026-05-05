@@ -1,17 +1,15 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:54.651Z
+Generated: 2026-05-05T14:17:55.399Z
 
-**Total patched:** 10 | **Total skipped:** 3
+**Total patched:** 11 | **Total skipped:** 1
 
-## ST-03 — 10 cartes patchées
+## ST-04 — 11 cartes patchées
 
-**critical (4):** ST03-004, ST03-008, ST03-010, ST03-013
+**critical (2):** ST04-005, ST04-011
 
-**major (6):** ST03-001, ST03-005, ST03-007, ST03-015, ST03-016, ST03-017
+**major (9):** ST04-001, ST04-002, ST04-003, ST04-004, ST04-006, ST04-008, ST04-010, ST04-014, ST04-017
 
-**skipped — type inconnu (3):**
-- ST03-003 (TargetScope::ChooseCharacter)
-- ST03-009 (TargetScope::ChooseCharacter)
-- ST03-014 (TargetScope::ChooseCharacter)
+**skipped — type inconnu (1):**
+- ST04-015 (TargetScope::OpponentCharacter, TargetScope::DON!!Deck)
 

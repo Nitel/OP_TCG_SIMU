@@ -1,35 +1,27 @@
 {
-  "id": "ST04-003",
-  "name": "Kaido",
-  "cost": 9,
-  "power": 10000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 5
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 5
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "ST04-003"
 }

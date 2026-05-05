@@ -1,24 +1,15 @@
 {
   "id": "ST04-017",
-  "name": "Onigashima Island",
-  "cost": 3,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Animal Kingdom Pirates"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Animal Kingdom Pirates"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
+      "type": "GiveDon",
+      "count": 1,
+      "rested": true
     }
   ]
 }

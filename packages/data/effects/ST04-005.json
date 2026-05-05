@@ -1,33 +1,23 @@
 {
-  "id": "ST04-005",
-  "name": "Queen",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {
+          "location": "hand"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "ST04-005"
 }

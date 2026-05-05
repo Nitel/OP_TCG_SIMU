@@ -1,27 +1,25 @@
 {
   "id": "ST04-004",
-  "name": "King",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "Always"
       },
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 4,
+            "upTo": 1
           }
         }
-      ]
+      ],
+      "cost": {
+        "type": "AttachDon",
+        "count": 1
+      }
     }
   ]
 }

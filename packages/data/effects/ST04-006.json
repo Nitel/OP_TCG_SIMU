@@ -1,21 +1,18 @@
 {
-  "id": "ST04-006",
-  "name": "Sasaki",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST04-006"
 }

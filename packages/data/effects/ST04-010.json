@@ -1,31 +1,21 @@
 {
-  "id": "ST04-010",
-  "name": "Who's.Who",
-  "cost": 3,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1,
+          "isOptional": true
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST04-010"
 }
