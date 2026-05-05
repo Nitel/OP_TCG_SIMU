@@ -1,40 +1,47 @@
 {
   "id": "OP06-114",
-  "name": "Wyper",
-  "cost": 5,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "optional": true,
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 1
-          },
-          "destination": "board"
-        },
-        {
-          "type": "RevealFromHand",
-          "count": 5,
-          "filter": {
+      "type": "SearchDeck",
+      "count": 1,
+      "filter": {
+        "kind": "ByCardType",
+        "cardType": "Stage",
+        "maxCost": 1
+      },
+      "destination": "deck",
+      "placement": "bottom"
+    },
+    {
+      "type": "SearchDeck",
+      "count": 5,
+      "filter": {
+        "kind": "Any"
+      },
+      "reveal": true,
+      "revealFilter": {
+        "operator": "OR",
+        "conditions": [
+          {
+            "kind": "BySubType",
             "subType": "Upper Yard"
           },
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "Any"
-              },
-              "destination": "hand"
-            }
-          ]
-        }
-      ]
+          {
+            "kind": "ByType",
+            "type": "Shandian Warrior"
+          }
+        ]
+      },
+      "revealCount": 1,
+      "destination": "hand",
+      "thenAction": {
+        "type": "PlaceDecks",
+        "cards": "remaining",
+        "placement": "bottom",
+        "playerOrder": true
+      }
     }
   ]
 }

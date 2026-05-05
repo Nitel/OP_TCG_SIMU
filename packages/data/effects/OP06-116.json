@@ -1,48 +1,42 @@
 {
-  "id": "OP06-116",
-  "name": "Reject",
-  "cost": 4,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Choice",
+        "options": [
+          {
+            "actions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 5
+                }
+              }
+            ]
+          },
+          {
+            "condition": {
+              "type": "HasLifeCount",
+              "count": 1,
+              "target": "opponent"
+            },
+            "actions": [
+              {
+                "type": "RemoveLife",
+                "target": "opponent",
+                "count": 1
+              },
+              {
+                "type": "FlipLife",
+                "count": 1
+              }
+            ]
           }
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "RemoveLife",
-          "count": 1
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+        ]
+      }
+    ]
+  },
+  "id": "OP06-116"
 }

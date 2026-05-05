@@ -1,33 +1,39 @@
 {
   "id": "OP06-029",
-  "name": "Daruma",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cost": [
+    {
+      "type": "GiveDon",
+      "count": 1
+    }
+  ],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "LeaderHasType",
+        "value": "New Fish-Man Pirates"
       },
       "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         },
         {
           "type": "FlipLife",
           "count": 1
         }
-      ]
+      ],
+      "frequency": "OncePerTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

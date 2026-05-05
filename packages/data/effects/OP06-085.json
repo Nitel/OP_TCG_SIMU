@@ -1,14 +1,8 @@
 {
   "id": "OP06-085",
-  "name": "Kumacy",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "StartOfTurn",
       "condition": {
         "type": "HasRestingDon",
         "count": 2
@@ -17,14 +11,14 @@
         {
           "type": "PowerBoost",
           "amount": 1000,
-          "perTrashedCard": true,
+          "perXCards": 5,
+          "cardSource": "trash",
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,22 +1,18 @@
 {
   "id": "OP06-011",
-  "name": "Tot Musica",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] [Once Per Turn] You may rest 1 of your [Uta] cards: This Character gains +5000 power during this turn.",
   "effects": [
     {
       "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "subType": "Uta"
-          }
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "subType": "Uta"
         },
+        "optional": true
+      },
+      "actions": [
         {
           "type": "PowerBoost",
           "amount": 5000,
@@ -27,6 +23,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

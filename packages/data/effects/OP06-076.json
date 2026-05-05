@@ -1,24 +1,26 @@
 {
   "id": "OP06-076",
-  "name": "Hitokiri Kamazo",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Trigger",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": 1
+        }
+      ],
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
+            "maxCost": 2,
+            "count": 1
           }
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

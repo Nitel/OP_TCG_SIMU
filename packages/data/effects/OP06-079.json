@@ -1,11 +1,6 @@
 {
   "id": "OP06-079",
-  "name": "Kingdom of GERMA",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Stage",
-  "keywords": [],
+  "effectText": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 card with a type including \"GERMA\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "Activated",
@@ -13,6 +8,7 @@
         {
           "type": "TrashFromHand",
           "filter": {},
+          "optional": true,
           "thenActions": [
             {
               "type": "Rest",
@@ -23,8 +19,10 @@
             {
               "type": "SearchDeck",
               "filter": {
-                "kind": "Any"
+                "type": "GERMA"
               },
+              "maxReveal": 3,
+              "maxRetrieve": 1,
               "destination": "hand"
             }
           ]

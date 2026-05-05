@@ -1,25 +1,26 @@
 {
   "id": "OP06-060",
-  "name": "Vinsmoke Ichiji",
-  "cost": 4,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] DON!! −1: You may trash this Character. If your Leader has the {GERMA 66} type, play up to 1 [Vinsmoke Ichiji] with a cost of 7 from your hand or trash.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "GERMA 66"
+        }
+      ],
       "actions": [
         {
           "type": "PlayFromHand",
           "filter": {
             "cardType": "Character",
             "name": "Vinsmoke Ichiji",
-            "maxCost": 7
-          }
+            "cost": 7
+          },
+          "maxAmount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

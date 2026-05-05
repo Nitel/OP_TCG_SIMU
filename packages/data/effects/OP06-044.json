@@ -1,11 +1,22 @@
 {
   "id": "OP06-044",
-  "name": "Gion",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "once": "PerTurn",
+      "effect": "When your opponent activates an Event, your opponent must place 1 card from their hand at the bottom of their deck.",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": "OpponentHand",
+          "amount": 1,
+          "destination": "DeckBottom"
+        }
+      ]
+    }
+  ]
 }

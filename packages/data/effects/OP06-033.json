@@ -1,31 +1,63 @@
 {
-  "id": "OP06-033",
-  "name": "Vander Decken IX",
-  "cost": 2,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Fish-Man"
-          },
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ConditionalAction",
+        "condition": "CanTrashFromHandOrField",
+        "description": "Player may choose: trash 1 Fish-Man from hand OR trash 1 [The Ark Noah] from hand/field",
+        "options": [
+          {
+            "optionName": "TrashFishMan",
+            "actions": [
+              {
+                "type": "TrashFromHand",
+                "filter": {
+                  "subType": "Fish-Man"
+                },
+                "thenActions": [
+                  {
+                    "type": "KO",
+                    "target": {
+                      "scope": "ChooseOpponentCharacter",
+                      "condition": "IsRested"
+                    },
+                    "count": {
+                      "type": "UpTo",
+                      "value": 1
+                    }
+                  }
+                ]
               }
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+            ]
+          },
+          {
+            "optionName": "TrashArkNoah",
+            "actions": [
+              {
+                "type": "TrashFromHandOrField",
+                "filter": {
+                  "cardName": "[The Ark Noah]"
+                },
+                "thenActions": [
+                  {
+                    "type": "KO",
+                    "target": {
+                      "scope": "ChooseOpponentCharacter",
+                      "condition": "IsRested"
+                    },
+                    "count": {
+                      "type": "UpTo",
+                      "value": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP06-033"
 }

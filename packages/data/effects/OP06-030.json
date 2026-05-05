@@ -1,32 +1,32 @@
 {
-  "id": "OP06-030",
-  "name": "Dosun",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "New Fish-Man Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOdInBattle",
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "duration": "UntilStartOfNextTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "UntilStartOfNextTurn"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP06-030"
 }

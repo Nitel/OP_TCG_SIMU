@@ -1,32 +1,21 @@
 {
-  "id": "OP06-078",
-  "name": "GERMA 66",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "HasType",
+          "value": "GERMA",
+          "exclusions": [
+            "GERMA 66"
+          ]
+        },
+        "count": 1,
+        "destination": "hand",
+        "deckPosition": "top5"
+      }
+    ]
+  },
+  "id": "OP06-078"
 }

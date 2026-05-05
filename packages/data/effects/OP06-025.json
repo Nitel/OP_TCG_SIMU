@@ -1,24 +1,33 @@
 {
   "id": "OP06-025",
-  "name": "Camie",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "lookAtCount": 4,
+      "filter": {
+        "kind": "Or",
+        "conditions": [
+          {
+            "type": "HasCardType",
+            "cardType": "Fish-Man"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "type": "HasCardType",
+            "cardType": "Merfolk"
+          }
+        ],
+        "excludeCards": [
+          "Camie"
+        ]
+      },
+      "selectCount": {
+        "min": 0,
+        "max": 1
+      },
+      "destination": "hand",
+      "remainingDestination": "deck-bottom",
+      "remainingOrder": "any"
     }
-  ],
-  "counter": 1000
+  ]
 }

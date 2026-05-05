@@ -1,28 +1,20 @@
 {
-  "id": "OP06-035",
-  "name": "Hody Jones",
-  "cost": 7,
-  "power": 8000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacterOrDon",
+          "count": 2,
+          "upTo": true
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP06-035"
 }

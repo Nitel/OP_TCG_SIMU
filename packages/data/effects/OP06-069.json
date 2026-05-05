@@ -1,11 +1,27 @@
 {
   "id": "OP06-069",
-  "name": "Vinsmoke Reiju",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "operator": "LessThanOrEqual",
+          "value": "OpponentAttachedDon"
+        },
+        {
+          "type": "HandCount",
+          "operator": "LessThanOrEqual",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "value": 2
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

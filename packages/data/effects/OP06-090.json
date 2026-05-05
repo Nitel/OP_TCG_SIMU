@@ -1,30 +1,21 @@
 {
   "id": "OP06-090",
-  "name": "Dr. Hogback",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "cost": {
+    "type": "ReturnToHand",
+    "zone": "Trash",
+    "count": 2,
+    "destination": "DeckBottom"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Thriller Bark Pirates",
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
-        }
-      ]
+      "type": "ReturnToHand",
+      "zone": "Trash",
+      "filter": {
+        "subType": "Thriller Bark Pirates",
+        "excludeName": "Dr. Hogback"
+      },
+      "count": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,34 +1,35 @@
 {
-  "id": "OP06-080",
-  "name": "Gecko Moria",
-  "cost": 0,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "ByCost",
-                "maxCost": 4
-              },
-              "destination": "board"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "thenActions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "deck",
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "filter": {
+                  "type": "Thriller Bark Pirates",
+                  "kind": "ByCost",
+                  "maxCost": 4
+                },
+                "source": "trash",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP06-080"
 }

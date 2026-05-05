@@ -1,40 +1,35 @@
 {
   "id": "OP06-023",
-  "name": "Arlong",
-  "cost": 4,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] You may trash 1 card from your hand: Up to 1 of your opponent's rested Leader cannot attack until the end of your opponent's next turn.",
   "effects": [
     {
       "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "OpponentLeader"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
+      "condition": {
+        "type": "HasRestingDon",
+        "scope": "OpponentLeader"
+      },
       "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+            "scope": "OpponentLeader",
+            "filters": [
+              {
+                "kind": "Rested"
+              }
+            ]
+          },
+          "duration": "UntilEndOfOpponentNextTurn",
+          "costType": "optional",
+          "cost": [
+            {
+              "type": "TrashFromHand",
+              "filter": {
+                "kind": "Any"
+              },
+              "amount": 1
+            }
+          ]
         }
       ]
     }

@@ -1,11 +1,6 @@
 {
   "id": "OP06-050",
-  "name": "Tashigi",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Tashigi] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,12 +8,22 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "Navy",
+            "excludeName": [
+              "Tashigi"
+            ]
           },
-          "destination": "hand"
+          "quantity": "upTo1",
+          "destination": "hand",
+          "searchDepth": 5
+        },
+        {
+          "type": "PlayFromHand",
+          "target": "remainingCards",
+          "destination": "deckBottom",
+          "order": "any"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

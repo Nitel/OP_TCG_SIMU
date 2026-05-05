@@ -1,27 +1,23 @@
 {
-  "id": "OP06-071",
-  "name": "Gild Tesoro",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "FILM"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "filter": {
+          "kind": "Character",
+          "type": "FILM",
+          "maxCost": 4,
+          "source": "trash"
+        },
+        "destination": "hand",
+        "maxCount": 2
+      }
+    ]
+  },
+  "id": "OP06-071"
 }

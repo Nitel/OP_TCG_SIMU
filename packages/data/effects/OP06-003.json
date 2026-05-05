@@ -1,23 +1,36 @@
 {
-  "id": "OP06-003",
-  "name": "Emporio.Ivankov",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": { "type": "Always" },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "count": 5,
-          "filter": { "kind": "Any" },
-          "destination": "board"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 3,
+        "filter": {
+          "kind": "Character",
+          "type": "RevolutionaryArmy",
+          "maxPower": 5000
+        },
+        "destination": "hand",
+        "reveal": true
+      },
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "filter": {
+          "kind": "Character",
+          "type": "RevolutionaryArmy",
+          "maxPower": 5000
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "ReturnToHand",
+        "destination": "deckBottom",
+        "inAnyOrder": true
+      }
+    ]
+  },
+  "id": "OP06-003"
 }

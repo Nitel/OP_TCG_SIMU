@@ -1,13 +1,6 @@
 {
   "id": "OP06-009",
-  "name": "Shuraiya",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "blocker": true,
   "effects": [
     {
       "trigger": "OnAttack",
@@ -21,7 +14,11 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "UntilStartOfNextTurn",
+          "metadata": {
+            "baseMatchesOpponentLeaderPower": true,
+            "oncePerTurn": true
+          }
         }
       ]
     },
@@ -37,10 +34,13 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "UntilStartOfNextTurn",
+          "metadata": {
+            "baseMatchesOpponentLeaderPower": true,
+            "oncePerTurn": true
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

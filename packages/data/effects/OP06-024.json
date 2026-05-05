@@ -1,32 +1,23 @@
 {
   "id": "OP06-024",
-  "name": "Ikaros Much",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "New Fish-Man Pirates"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Fish-Man",
-            "maxCost": 4,
-            "cardType": "Character"
-          }
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      "type": "PlayFromHand",
+      "count": 1,
+      "filter": {
+        "cardType": "Character",
+        "subType": "Fish-Man",
+        "maxCost": 4
+      }
+    },
+    {
+      "type": "FlipLife",
+      "count": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

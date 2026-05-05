@@ -1,28 +1,21 @@
 {
-  "id": "OP06-052",
-  "name": "Tokikake",
-  "cost": 2,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Unblockable",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HandCount",
+      "value": 4,
+      "operator": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOed",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP06-052"
 }

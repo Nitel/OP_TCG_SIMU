@@ -1,37 +1,20 @@
 {
-  "id": "OP06-104",
-  "name": "Kikunojo",
-  "cost": 4,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "OpponentLifeCount",
+      "value": 3,
+      "operator": "LessOrEqual"
     },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "FlipLife",
+        "filter": {
+          "kind": "Any"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  "id": "OP06-104"
 }

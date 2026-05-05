@@ -1,35 +1,21 @@
 {
   "id": "OP06-077",
-  "name": "Black Bug",
-  "cost": 4,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, place up to 1 of your opponent's Characters with a cost of 5 or less at the bottom of the owner's deck.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "opponentHasMoreDon": true
       },
       "actions": [
         {
-          "type": "KO",
+          "type": "ReturnToHand",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 5,
+            "maxAmount": 1
           }
         }
       ]

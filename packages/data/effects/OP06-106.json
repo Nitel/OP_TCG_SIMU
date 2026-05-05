@@ -1,26 +1,25 @@
 {
   "id": "OP06-106",
-  "name": "Kouzuki Hiyori",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP06-106",
+  "effectText": "[On Play] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "FlipLife",
-          "count": 1
+          "count": 1,
+          "optional": true
         },
         {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
+          "type": "AttachDon",
+          "count": 1,
+          "filter": {
+            "location": "Hand"
+          },
+          "optional": true
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,33 +1,34 @@
 {
-  "id": "OP06-028",
-  "name": "Zeo",
-  "cost": 2,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "FlipLife",
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "LeaderHasType",
+      "types": [
+        "New Fish-Man Pirates"
+      ]
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Board",
+          "filter": "DON",
           "count": 1
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP06-028"
 }

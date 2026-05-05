@@ -1,34 +1,26 @@
 {
   "id": "OP06-001",
-  "name": "Uta",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "subType": "FILM"
+      },
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "FILM"
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           },
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": -2000,
-              "target": {
-                "scope": "ChooseOpponentCharacter"
-              },
-              "duration": "EndOfTurn"
-            },
-            {
-              "type": "GiveDon",
-              "count": 1
-            }
-          ]
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true
         }
       ]
     }

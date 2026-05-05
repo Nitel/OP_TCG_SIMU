@@ -1,32 +1,30 @@
 {
   "id": "OP06-064",
-  "name": "Vinsmoke Niji",
-  "cost": 3,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "GiveDon",
+      "value": -1
+    },
+    {
+      "type": "TrashFromHand",
+      "filter": {
+        "excludeSelf": true
+      },
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "GERMA 66"
+      },
+      "thenActions": [
         {
-          "type": "TrashFromHand",
+          "type": "PlayFromHand",
           "filter": {
-            "excludeSelf": true
+            "name": "Vinsmoke Niji",
+            "maxCost": 5
           },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "name": "Vinsmoke Niji",
-                "maxCost": 5
-              }
-            }
-          ]
+          "amount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

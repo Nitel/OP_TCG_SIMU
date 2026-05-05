@@ -1,43 +1,26 @@
 {
-  "id": "OP06-111",
-  "name": "Braham",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByType",
-            "cardType": "Stage"
-          },
-          "destination": "hand"
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "kind": "ByType",
+          "cardType": "Stage",
+          "cost": 1
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
+        "destination": "deck",
+        "position": "bottom"
       },
-      "actions": [
-        {
-          "type": "PlaySelf"
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxAmount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP06-111"
 }

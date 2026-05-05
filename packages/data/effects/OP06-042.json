@@ -1,14 +1,16 @@
 {
   "id": "OP06-042",
-  "name": "Vinsmoke Reiju",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, draw 1 card.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Trigger",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": 1
+        }
+      ],
       "actions": [
         {
           "type": "DrawCard",

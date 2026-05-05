@@ -1,32 +1,20 @@
 {
-  "id": "OP06-073",
-  "name": "Shiki",
-  "cost": 2,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 8
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "TrashFromHand",
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP06-073"
 }

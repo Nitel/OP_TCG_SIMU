@@ -1,26 +1,16 @@
 {
   "id": "OP06-091",
-  "name": "Victoria Cindry",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Thriller Bark Pirates"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 5,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "ForceDiscard",
+      "count": 5,
+      "source": "Deck",
+      "filter": {}
     }
-  ],
-  "counter": 2000
+  ]
 }

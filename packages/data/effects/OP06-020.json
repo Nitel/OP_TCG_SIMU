@@ -1,23 +1,29 @@
 {
-  "id": "OP06-020",
-  "name": "Hody Jones",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCardsByType",
+          "cardTypes": [
+            "DON",
+            "Character"
+          ],
+          "maxCost": 3,
+          "maxCount": 1
+        },
+        "optional": true
+      },
+      {
+        "type": "GiveKeyword",
+        "target": {
+          "scope": "Self"
+        },
+        "keyword": "CannotAddLifeThisTurn",
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP06-020"
 }

@@ -1,37 +1,37 @@
 {
-  "id": "OP06-043",
-  "name": "Aramaki",
-  "cost": 8,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 3000,
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "kind": "Any"
+        },
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "Character",
+              "maxCost": 2
+            },
+            "zone": "DeckBottom",
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "EndOfTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP06-043"
 }

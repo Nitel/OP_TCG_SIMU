@@ -1,11 +1,6 @@
 {
   "id": "OP06-083",
-  "name": "Oars",
-  "cost": 4,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "This Character cannot attack.<br>[Activate: Main] You may K.O. 1 of your {Thriller Bark Pirates} type Characters: This Character's effect is negated during this turn.",
   "effects": [
     {
       "trigger": "Activated",
@@ -19,11 +14,11 @@
         },
         {
           "type": "GiveKeyword",
-          "keyword": "Rush",
+          "keyword": "EffectNegated",
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }

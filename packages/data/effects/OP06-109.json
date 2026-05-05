@@ -1,37 +1,25 @@
 {
   "id": "OP06-109",
-  "name": "Denjiro",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x2] If your opponent has 3 or less Life cards, this Character cannot be K.O.'d by effects.",
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Banish",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
+      "trigger": "OnPlay",
       "condition": {
         "type": "Always"
       },
       "actions": [
         {
-          "type": "PlaySelf"
+          "type": "GiveKeyword",
+          "keyword": "Protected",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent",
+          "conditionalCheck": {
+            "type": "OpponentLifeCount",
+            "value": 3,
+            "comparison": "<="
+          }
         }
       ]
     }

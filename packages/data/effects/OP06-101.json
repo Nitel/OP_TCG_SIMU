@@ -1,11 +1,6 @@
 {
   "id": "OP06-101",
-  "name": "O-Nami",
-  "cost": 2,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Up to 1 of your Leader or Character cards gains [Banish] during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,24 +9,12 @@
           "type": "GiveKeyword",
           "keyword": "Banish",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
           },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

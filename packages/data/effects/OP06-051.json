@@ -1,31 +1,25 @@
 {
-  "id": "OP06-051",
-  "name": "Tsuru",
-  "cost": 5,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "ReturnToHand",
-              "target": {
-                "scope": "ChooseOpponentCharacter"
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "kind": "Any"
+        },
+        "count": 2,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP06-051"
 }

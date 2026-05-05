@@ -1,31 +1,33 @@
 {
   "id": "OP06-063",
-  "name": "Vinsmoke Sora",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "maxQty": 1
+      },
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "ByName",
-                "name": "The Vinsmoke Family"
-              },
-              "destination": "hand"
-            }
-          ]
+          "type": "AddFromTrash",
+          "filter": {
+            "kind": "ByType",
+            "type": "Character",
+            "subtypes": [
+              "The Vinsmoke Family"
+            ],
+            "maxPower": 4000
+          },
+          "destination": "hand",
+          "maxQty": 1,
+          "condition": {
+            "type": "HasAttachedDon",
+            "comparison": "LessOrEqual",
+            "opponentComparison": true
+          }
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

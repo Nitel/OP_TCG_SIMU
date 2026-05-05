@@ -1,34 +1,30 @@
 {
   "id": "OP06-015",
-  "name": "Lily Carnation",
-  "cost": 4,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] [Once Per Turn] You may trash 1 of your Characters with 6000 power or more: Play up to 1 {FILM} type Character card with 2000 to 5000 power from your trash rested.",
   "effects": [
     {
       "trigger": "Activated",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "KO",
           "filter": {
             "cardType": "Character",
-            "maxPower": 999999
+            "minPower": 6000
           },
           "thenActions": [
             {
-              "type": "PlayFromHand",
+              "type": "PlayFromTrash",
               "filter": {
                 "subType": "FILM",
                 "cardType": "Character",
+                "minPower": 2000,
                 "maxPower": 5000
-              }
+              },
+              "rested": true
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }
