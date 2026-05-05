@@ -1,11 +1,24 @@
 {
   "id": "OP15-105",
-  "name": "Jewelry Bonney",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "Character",
+          "qualifier": "basePower<=7000"
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "target": "TopOfLifeCards",
+          "count": 1
+        }
+      ],
+      "duration": "Permanent",
+      "description": "If your Character with 7000 base power or less would be removed from the field by your opponent's effect, you may add 1 card from the top of your Life cards to your hand instead"
+    }
+  ]
 }

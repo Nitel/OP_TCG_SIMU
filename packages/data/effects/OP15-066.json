@@ -1,25 +1,31 @@
 {
-  "id": "OP15-066",
-  "name": "Satori",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
         "count": 1
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 6,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 2,
+        "description": "Look at 2 cards from top of deck and place them at top or bottom in any order"
+      }
+    ]
+  },
+  "id": "OP15-066"
 }

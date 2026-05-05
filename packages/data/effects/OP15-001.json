@@ -1,14 +1,13 @@
 {
   "id": "OP15-001",
-  "name": "Krieg",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red/Green",
-  "cardType": "Leader",
-  "keywords": [],
+  "version": "1.0",
+  "card": "OP15-001",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -16,22 +15,25 @@
           "target": {
             "scope": "AllOpponentCharacters"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn",
+          "conditionalCheck": "OnlyEastBlueCharactersOnField"
         }
-      ],
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      }
+      ]
     },
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
+            "scope": "ChooseOpponentCharacter",
+            "restriction": "HasAttachedDon",
+            "restrictionValue": 2
+          },
+          "limit": "OncePerTurn"
         }
       ]
     }

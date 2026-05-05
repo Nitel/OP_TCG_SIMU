@@ -1,26 +1,23 @@
 {
-  "id": "OP15-017",
-  "name": "Morgan",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "scope": "OpponentCharacters",
+        "count": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOpponentLeaderOrCharacter"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "oncePerTurn": true
+  },
+  "id": "OP15-017"
 }

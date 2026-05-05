@@ -1,24 +1,21 @@
 {
   "id": "OP15-029",
-  "name": "Bartholomew Kuma",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Up to 1 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next End Phase.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "Rest",
+          "type": "GiveKeyword",
+          "keyword": "CannotRest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+            "maxCost": 5,
+            "maxTargets": 1
+          },
+          "duration": "UntilEndOfOpponentNextTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

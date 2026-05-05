@@ -1,23 +1,51 @@
 {
-  "id": "OP15-032",
-  "name": "Brook",
-  "cost": 6,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "quantity": {
+            "type": "UpTo",
+            "value": 1
           }
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Straw Hat Crew"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlaySelf",
+        "optional": true,
+        "cost": "Trash"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseYourCharacter",
+          "quantity": {
+            "type": "UpTo",
+            "value": 1
+          },
+          "filter": {
+            "baseCost": {
+              "type": "LessOrEqual",
+              "value": 8
+            }
+          },
+          "setActive": true
+        }
+      }
+    ]
+  },
+  "id": "OP15-032"
 }

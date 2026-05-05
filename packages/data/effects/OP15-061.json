@@ -1,37 +1,37 @@
 {
-  "id": "OP15-061",
-  "name": "Ohm",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "cost": {
+      "type": "DON",
+      "amount": 1
     },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": {
+        "operator": "<=",
+        "value": 6
+      }
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP15-061"
 }

@@ -1,46 +1,43 @@
 {
-  "id": "OP15-099",
-  "name": "Urouge",
-  "cost": 6,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Supernovas",
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "GiveKeyword",
-              "keyword": "Rush",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Supernovas",
+          "excludeSelf": true
+        },
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
           }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP15-099"
 }

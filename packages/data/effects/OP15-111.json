@@ -1,29 +1,20 @@
 {
   "id": "OP15-111",
-  "name": "Mont Blanc Noland",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      }
+      "type": "GiveKeyword",
+      "keyword": "Rush",
+      "target": {
+        "scope": "ChooseOwnCharacterByType",
+        "type": "Kalgara",
+        "maxTargets": 1
+      },
+      "duration": "EndOfTurn"
     }
   ],
-  "counter": 2000
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 1
+  }
 }

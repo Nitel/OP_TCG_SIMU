@@ -1,26 +1,22 @@
 {
-  "id": "OP15-113",
-  "name": "Roronoa Zoro",
-  "cost": 4,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "zone": "Hand"
+        },
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP15-113"
 }

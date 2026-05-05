@@ -1,13 +1,35 @@
 {
   "id": "OP15-094",
-  "name": "Roronoa Zoro",
-  "cost": 2,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "type": "StrawHatCrew",
+            "excludeSelf": true
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

@@ -1,33 +1,46 @@
 {
-  "id": "OP15-118",
-  "name": "Enel",
-  "cost": 6,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 6,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Unremovable",
+        "duration": "Permanent"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any"
         },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+        "count": 1,
+        "destination": "hand",
+        "viewCount": 5
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP15-118"
 }

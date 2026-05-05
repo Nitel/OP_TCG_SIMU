@@ -1,21 +1,22 @@
 {
-  "id": "OP15-033",
-  "name": "Hody Jones",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Fish-Man"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "Leader"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP15-033"
 }

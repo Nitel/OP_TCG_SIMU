@@ -1,26 +1,32 @@
 {
-  "id": "OP15-087",
-  "name": "Nico Robin",
-  "cost": 5,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "TrashCount",
+      "value": 10,
+      "comparison": ">="
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP15-087"
 }

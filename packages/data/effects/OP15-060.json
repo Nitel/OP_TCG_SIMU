@@ -1,34 +1,49 @@
 {
-  "id": "OP15-060",
-  "name": "Enel",
-  "cost": 6,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "Permanent",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 6,
+      "comparison": "<="
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeRemovedByOpponentEffects",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "PowerBoost",
+        "power": 2000,
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP15-060"
 }

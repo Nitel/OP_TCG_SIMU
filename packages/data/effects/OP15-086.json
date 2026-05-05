@@ -1,36 +1,31 @@
 {
-  "id": "OP15-086",
-  "name": "Nami",
-  "cost": 8,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 7
-          },
-          "destination": "board"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Straw Hat Crew"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "ByType",
+          "type": "Straw Hat Crew",
+          "maxCost": 7
         },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "source": "trash",
+        "destination": "board",
+        "maxAmount": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "LastPlayedCard"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP15-086"
 }

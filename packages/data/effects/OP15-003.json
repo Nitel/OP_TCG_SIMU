@@ -1,25 +1,49 @@
 {
-  "id": "OP15-003",
-  "name": "Alvida",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxPower": 6000
-          },
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Counter",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "target": "self",
+        "filter": {
+          "cardType": "Character",
+          "maxPower": 6000,
+          "zone": "Hand"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "RemoveLife",
+            "target": "self",
+            "amount": 0,
+            "note": "Prevents KO of this Character"
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "target": "opponent",
+        "filter": {
+          "rested": true
+        },
+        "maxCount": 1,
+        "moveTo": [
+          "opponent's Leader",
+          "opponent's Character"
+        ],
+        "optional": true
+      }
+    ],
+    "duration": "Permanent",
+    "activationType": "Main",
+    "frequency": "OncePerTurn"
+  },
+  "id": "OP15-003"
 }

@@ -1,17 +1,20 @@
 {
   "id": "OP15-012",
-  "name": "Buggy",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[When Attacking] Give up to 1 rested DON!! card to its owner's Leader or 1 of their Characters.\n[On K.O.] Draw 1 card.",
   "effects": [
     {
       "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "comparison": ">=",
+          "value": 1,
+          "rested": true
+        }
+      ],
       "actions": [
         {
-          "type": "AttachDon",
+          "type": "GiveDon",
           "count": 1,
           "target": {
             "scope": "ChooseOpponentCharacterOrLeader"
@@ -28,6 +31,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

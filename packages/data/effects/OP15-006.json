@@ -1,28 +1,22 @@
 {
-  "id": "OP15-006",
-  "name": "Cavendish",
-  "cost": 4,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "TrashCount",
+      "operator": "gte",
+      "value": 4,
+      "cardType": "Event"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP15-006"
 }

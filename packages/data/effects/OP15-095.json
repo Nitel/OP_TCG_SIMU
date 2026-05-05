@@ -1,49 +1,48 @@
 {
-  "id": "OP15-095",
-  "name": "Gum-Gum Storm",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TrashCount",
+      "value": 15,
+      "comparison": ">="
     },
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "Always"
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": "HasAttachedDon"
+        },
+        "optional": true
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "filter": "LeaderHasAnyType:StrawHatCrew"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "TrashCount",
+      "value": 15,
+      "comparison": ">="
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
+        },
+        "duration": "DuringBattle"
+      }
+    ]
+  },
+  "id": "OP15-095"
 }

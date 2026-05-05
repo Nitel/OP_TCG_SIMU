@@ -1,24 +1,19 @@
 {
   "id": "OP15-096",
-  "name": "Swallow Bond en Avant",
-  "cost": 0,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
+  "cardId": "OP15-096",
+  "effectText": "[Main] You may rest 1 of your DON!! cards: If your Leader has the {Straw Hat Crew} type, trash 5 cards from the top of your deck. [Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Straw Hat Crew"
+        "type": "LeaderHasType",
+        "value": "Straw Hat Crew"
       },
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "TrashFromDeck",
           "count": 5,
-          "filter": {},
-          "thenActions": []
+          "fromTop": true
         }
       ]
     },
@@ -26,18 +21,19 @@
       "trigger": "Counter",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "ForceDiscard",
           "count": 1,
           "filter": {},
-          "thenActions": []
+          "optional": true
         },
         {
           "type": "PowerBoost",
           "amount": 3000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
           },
-          "duration": "EndOfBattle"
+          "duration": "DuringThisBattle"
         }
       ]
     }

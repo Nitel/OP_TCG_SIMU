@@ -1,28 +1,18 @@
 {
-  "id": "OP15-028",
-  "name": "Meowban Brothers",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "East Blue"
-      },
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "East Blue"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": {
+          "scope": "OpponentCharacter"
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ]
+  },
+  "id": "OP15-028"
 }

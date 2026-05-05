@@ -1,38 +1,38 @@
 {
-  "id": "OP15-083",
-  "name": "Spoil",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 3,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromDeck",
+        "count": 3,
+        "filter": {}
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TrashCount",
+      "threshold": 15,
+      "operator": ">="
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "Self"
+        },
+        "thenActions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
           }
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+        ]
+      }
+    ]
+  },
+  "id": "OP15-083"
 }

@@ -1,47 +1,45 @@
 {
-  "id": "OP15-114",
-  "name": "Wyper",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "AllOpponentCharacters"
         },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "AllOpponentCharacters"
-          }
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "AllOpponentCharacters",
+          "filter": "PowerLessThanOrEqual0"
         }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "OncePerTurn"
+      }
+    ],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "filter": "HasType:SkyIsland"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP15-114"
 }

@@ -1,24 +1,18 @@
 {
   "id": "OP15-100",
-  "name": "Kamakiri",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        }
-      ]
+      "type": "FlipLife",
+      "count": 1
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 6
+      },
+      "maxCount": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

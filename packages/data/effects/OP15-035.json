@@ -1,11 +1,28 @@
 {
   "id": "OP15-035",
-  "name": "Laboon",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "params": {
+            "filter": "basePower <= 7000",
+            "type": "Character"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "params": {
+            "target": "YourCards",
+            "count": 2
+          }
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ]
 }

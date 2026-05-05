@@ -1,23 +1,48 @@
 {
-  "id": "OP15-080",
-  "name": "Oars",
-  "cost": 4,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "LeaderIsName",
+        "value": "Gecko Moria"
+      },
+      {
+        "type": "HasCardOnBoard",
+        "cardName": "Gecko Moria",
+        "minPower": 10000
+      },
+      {
+        "type": "HasCardOnBoard",
+        "cardName": "Oars",
+        "count": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 7000,
+        "target": "Self"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "minCards": 3
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlaySelf",
+        "source": "Trash",
+        "cost": {
+          "trashCards": 3,
+          "placement": "BottomOfDeck"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP15-080"
 }

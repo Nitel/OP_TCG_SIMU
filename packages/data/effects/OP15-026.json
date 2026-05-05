@@ -1,36 +1,46 @@
 {
   "id": "OP15-026",
-  "name": "Jango",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardName": "OP15-026",
+  "effectText": "[On Play] Look at 3 cards from the top of your deck; reveal up to 1 {East Blue} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Activate: Main] You may trash this Character: Give up to 1 of your opponent's rested DON!! cards to 1 of your opponent's Characters.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 3,
           "filter": {
-            "kind": "Any"
+            "kind": "Type",
+            "value": "East Blue"
           },
-          "destination": "hand"
+          "reveal": 1,
+          "destination": "hand",
+          "remainderDestination": "bottom",
+          "remainderOrder": "any"
         }
       ]
     },
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "cost": {
+        "type": "TrashSelf"
+      },
+      "optional": true,
       "actions": [
         {
-          "type": "AttachDon",
+          "type": "GiveDon",
           "count": 1,
+          "source": "OpponentRestingDon",
           "target": {
             "scope": "ChooseOpponentCharacter"
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

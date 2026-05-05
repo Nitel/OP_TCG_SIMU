@@ -1,11 +1,26 @@
 {
-  "id": "OP15-090",
-  "name": "Perona",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "0": {
+    "trigger": "OnAttacked",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "value": {
+          "basePower": "≤7000"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "target": "OwnHand",
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeRemoved"
+      }
+    ],
+    "duration": "DuringOpponentTurn"
+  },
+  "id": "OP15-090"
 }

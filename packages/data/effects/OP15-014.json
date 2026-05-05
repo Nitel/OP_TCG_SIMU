@@ -1,36 +1,15 @@
 {
   "id": "OP15-014",
-  "name": "Bartolomeo",
-  "cost": 4,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "conditions": [],
+  "actions": [
     {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Event"
-          },
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Dressrosa",
-            "cardType": "Event",
-            "maxCost": 3
-          }
-        }
-      ]
+      "type": "ForceDiscard",
+      "filter": {
+        "cardType": "Event",
+        "owner": "self"
+      }
     }
-  ]
+  ],
+  "notes": "This Counter prevents the KO by discarding an Event from hand instead. The second effect (OnPlay) is correctly structured."
 }

@@ -1,24 +1,18 @@
 {
-  "id": "OP15-098",
-  "name": "Monkey.D.Luffy",
-  "cost": 0,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Sky Island"
-      },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Sky Island",
+      "basePower": 6000
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "source": "Life",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP15-098"
 }

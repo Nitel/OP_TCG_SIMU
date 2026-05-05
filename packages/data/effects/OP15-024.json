@@ -1,26 +1,34 @@
 {
-  "id": "OP15-024",
-  "name": "Usopp",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader",
-            "maxCost": 7
-          }
+  "0": {
+    "trigger": "Permanent",
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacterOrLeader",
+          "maxCost": 7
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "id": "OP15-024"
 }

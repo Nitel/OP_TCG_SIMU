@@ -1,29 +1,28 @@
 {
-  "id": "OP15-072",
-  "name": "Hotori",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Kotori"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "names": [
+        "Kotori",
+        "Satori"
       ]
-    }
-  ],
-  "counter": 1000
+    },
+    "cost": {
+      "don": 2,
+      "restSelf": true
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacterOptional",
+          "amount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP15-072"
 }

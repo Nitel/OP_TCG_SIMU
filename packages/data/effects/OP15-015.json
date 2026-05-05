@@ -1,32 +1,25 @@
 {
-  "id": "OP15-015",
-  "name": "Higuma",
-  "cost": 1,
-  "power": 1000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "OpponentRestingDon",
+        "target": {
+          "scope": "ChooseOpponentCharacter"
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "condition": "HasAttachedDon"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP15-015"
 }

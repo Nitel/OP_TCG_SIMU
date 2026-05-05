@@ -1,11 +1,23 @@
 {
   "id": "OP15-052",
-  "name": "Leo",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "value": {
+          "power": "≤7000"
+        }
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": "YourCharacter",
+          "placement": "DeckBottom"
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ]
 }

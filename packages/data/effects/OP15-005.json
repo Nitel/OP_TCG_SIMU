@@ -1,11 +1,22 @@
 {
   "id": "OP15-005",
-  "name": "Cabaji",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "targetPlayer": "opponent",
+          "comparison": ">"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

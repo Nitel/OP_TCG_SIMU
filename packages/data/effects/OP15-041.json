@@ -1,40 +1,40 @@
 {
-  "id": "OP15-041",
-  "name": "Orlumbus",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PlayFromHand",
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "OncePerTurn"
+      }
+    ],
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Self",
           "filter": {
-            "cardType": "Character"
+            "cardType": "Character",
+            "zone": "Board"
           }
-        },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP15-041"
 }

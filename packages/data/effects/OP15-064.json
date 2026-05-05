@@ -1,28 +1,25 @@
 {
-  "id": "OP15-064",
-  "name": "Kotori",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Satori"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 5000
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "names": [
+        "Satori",
+        "Hotori"
+      ],
+      "requireAll": true
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 5000,
+          "optional": true,
+          "upTo": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP15-064"
 }

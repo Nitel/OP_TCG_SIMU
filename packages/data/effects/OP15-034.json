@@ -1,11 +1,6 @@
 {
   "id": "OP15-034",
-  "name": "Yorki",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Your Turn] [On Play] Up to 1 of your [Brook] cards gains +2000 power during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,12 +9,13 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "type": "Brook",
+            "count": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

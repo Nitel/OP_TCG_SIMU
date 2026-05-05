@@ -1,29 +1,17 @@
 {
   "id": "OP15-046",
-  "name": "Sabo",
-  "cost": 7,
-  "power": 9000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "Dressrosa"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Dressrosa"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Event",
-            "subType": "Dressrosa"
-          }
-        }
-      ]
+      "type": "PlayFromHand",
+      "count": 1,
+      "filter": {
+        "cardType": "Event",
+        "subType": "Dressrosa"
+      }
     }
   ]
 }

@@ -1,27 +1,25 @@
 {
-  "id": "OP15-044",
-  "name": "Koala",
-  "cost": 3,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Dressrosa"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Event",
+          "subtype": "Dressrosa"
+        },
+        "destination": "hand",
+        "count": {
+          "min": 0,
+          "max": 1
+        },
+        "deckPosition": "top",
+        "deckPositionCount": 3,
+        "remainderPlacement": "bottom",
+        "remainderOrder": "any"
+      }
+    ]
+  },
+  "id": "OP15-044"
 }

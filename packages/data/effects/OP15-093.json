@@ -1,14 +1,16 @@
 {
   "id": "OP15-093",
-  "name": "The Risky Brothers",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": [
+        {
+          "type": "TrashFromHand",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
       "condition": {
         "type": "TrashCount",
         "min": 15
@@ -18,12 +20,29 @@
           "type": "GiveKeyword",
           "keyword": "Rush",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasCardName",
+              "name": "Monkey.D.Luffy"
+            },
+            "maxCount": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Slash",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasCardName",
+              "name": "Monkey.D.Luffy"
+            },
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

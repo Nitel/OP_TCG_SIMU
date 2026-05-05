@@ -1,55 +1,44 @@
 {
-  "id": "OP15-011",
-  "name": "Pearl",
-  "cost": 4,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Trigger",
+    "duration": "DuringOpponentTurn",
+    "condition": {
+      "type": "LeaderHasType",
+      "type_name": "East Blue"
     },
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 6000
-          }
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "type_name": "East Blue"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 6000
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "id": "OP15-011"
 }

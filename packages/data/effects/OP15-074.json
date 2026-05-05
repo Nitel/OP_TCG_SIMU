@@ -1,16 +1,11 @@
 {
   "id": "OP15-074",
-  "name": "Varie",
-  "cost": 0,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
+  "cardId": "OP15-074",
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Enel"
       },
       "actions": [
@@ -19,12 +14,14 @@
           "count": 1
         },
         {
-          "type": "PowerBoost",
-          "amount": 2000,
+          "type": "GiveKeyword",
+          "keyword": "CostModifier",
+          "amount": 2,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "max": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     },
@@ -36,7 +33,8 @@
           "amount": 2000,
           "target": {
             "scope": "ChooseOwnCharacter",
-            "subType": "Enel"
+            "subType": "Enel",
+            "max": 1
           },
           "duration": "EndOfBattle"
         }

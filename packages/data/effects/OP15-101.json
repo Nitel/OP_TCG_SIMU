@@ -1,29 +1,26 @@
 {
   "id": "OP15-101",
-  "name": "Kalgara",
-  "cost": 3,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {
+        "excludeSelf": true
+      },
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
+          "type": "SearchDeck",
           "filter": {
-            "excludeSelf": true
+            "cardType": [
+              "Mont Blanc Noland",
+              "Shandian Warrior"
+            ]
           },
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "Any"
-              },
-              "destination": "hand"
-            }
-          ]
+          "maxResults": 2,
+          "destination": "hand",
+          "revealedCount": 2,
+          "orderRemaining": "bottom"
         }
       ]
     }

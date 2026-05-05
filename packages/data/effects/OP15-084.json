@@ -1,36 +1,33 @@
 {
-  "id": "OP15-084",
-  "name": "Dr. Hogback",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 5,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Thriller Bark Pirates"
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 5,
+        "filter": {
+          "source": "TopOfDeck"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HandCount",
+      "operator": "<=",
+      "value": 6
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP15-084"
 }

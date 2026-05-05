@@ -1,24 +1,18 @@
 {
   "id": "OP15-040",
-  "name": "Viola",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "depth": 3,
+      "filter": {
+        "type": "Dressrosa"
+      },
+      "maxCount": 1,
+      "reveal": true,
+      "destination": "hand",
+      "remaining": "bottomOfDeck",
+      "remainingOrder": "any"
     }
-  ],
-  "counter": 2000
+  ]
 }

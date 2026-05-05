@@ -1,24 +1,36 @@
 {
-  "id": "OP15-102",
-  "name": "Gan.Fall",
-  "cost": 4,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Permanent",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "scope": "YourCharacters",
+        "cardType": "Sky Island",
+        "minPower": 7000
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "ThisCardInHand"
+        },
+        "costReduction": 3
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": "OpponentLifeCardCount"
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "id": "OP15-102"
 }

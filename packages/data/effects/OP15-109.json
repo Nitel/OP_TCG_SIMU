@@ -1,40 +1,32 @@
 {
   "id": "OP15-109",
-  "name": "Nico Robin",
-  "cost": 7,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand",
-          "condition": {
-            "type": "HasCardOnBoard",
-            "name": "Straw Hat Crew"
-          }
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Sky Island",
-            "cardType": "Character",
-            "maxCost": 5
-          }
-        }
-      ]
+      "type": "FlipLife",
+      "count": 1,
+      "optional": true
+    },
+    {
+      "type": "SearchDeck",
+      "count": 1,
+      "filter": {
+        "kind": "Any"
+      },
+      "destination": "lifeCards",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Straw Hat Crew"
+      }
+    },
+    {
+      "type": "PlayFromHand",
+      "count": 1,
+      "filter": {
+        "subType": "Sky Island",
+        "cardType": "Character",
+        "maxCost": 5
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

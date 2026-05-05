@@ -1,13 +1,34 @@
 {
   "id": "OP15-013",
-  "name": "Pincers",
-  "cost": 4,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "PowerLessOrEqual",
+          "comparison": 0
+        }
+      ],
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": -2
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "Self",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ]
 }

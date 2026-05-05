@@ -1,25 +1,16 @@
 {
   "id": "OP15-110",
-  "name": "Braham",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Shandian Warrior"
+  },
+  "actions": [
     {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      "type": "SearchDeck",
+      "count": 1,
+      "optional": true,
+      "destination": "TopOfLife"
     }
-  ],
-  "counter": 2000
+  ]
 }

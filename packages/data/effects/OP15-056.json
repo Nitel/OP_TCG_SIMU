@@ -1,37 +1,30 @@
 {
-  "id": "OP15-056",
-  "name": "Would You Let Me Eat the Flame-Flame Fruit?",
-  "cost": 7,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "DoubleAttack",
+        "target": {
+          "scope": "ChooseOwnLeader",
+          "name": "Lucy"
         },
-        {
-          "type": "GiveKeyword",
-          "keyword": "DoubleAttack",
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "power": 3000,
+        "target": {
+          "scope": "ChooseOwnLeader",
+          "name": "Lucy"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP15-056"
 }

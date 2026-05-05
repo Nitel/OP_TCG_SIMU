@@ -1,53 +1,44 @@
 {
-  "id": "OP15-054",
-  "name": "And No One Else Can Have It! It's Our Memento of Him",
-  "cost": 4,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Lucy"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Dressrosa",
-            "cardType": "Character",
-            "maxCost": 4
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Lucy"
     },
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Lucy"
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
       },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
-          }
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {}
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "type": "Dressrosa",
+          "cardType": "Character",
+          "maxCost": 4
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Lucy"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "OpponentStage"
+        }
+      }
+    ]
+  },
+  "id": "OP15-054"
 }

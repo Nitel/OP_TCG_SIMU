@@ -1,11 +1,7 @@
 {
   "id": "OP15-117",
-  "name": "Heso!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "cardNumber": "OP15-117",
+  "effectText": "[Main] Draw 1 card. Then, give up to 1 rested DON!! card to 1 of your {Sky Island} type Leader or Character cards.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -18,21 +14,10 @@
           "type": "AttachDon",
           "count": 1,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Sky Island"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+            "scope": "ChooseOwnCharacterOrLeader",
+            "hasType": "Sky Island"
+          },
+          "optional": true
         }
       ]
     }

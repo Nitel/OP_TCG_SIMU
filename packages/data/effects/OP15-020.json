@@ -1,31 +1,42 @@
 {
-  "id": "OP15-020",
-  "name": "Fire Fist",
-  "cost": 7,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "Leader"
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 0
-          }
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -8000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1
+        },
+        "duration": "DuringOpponentTurn"
+      },
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "Hand",
+          "maxCount": 2
+        },
+        "conditional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1,
+          "maxPower": 0
+        },
+        "condition": "OnlyIfTrashSucceeded"
+      }
+    ]
+  },
+  "id": "OP15-020"
 }

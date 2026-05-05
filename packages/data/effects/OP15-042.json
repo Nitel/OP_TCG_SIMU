@@ -1,47 +1,39 @@
 {
-  "id": "OP15-042",
-  "name": "Kyros",
-  "cost": 3,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "GiveKeyword",
-              "keyword": "Rush",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ],
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Rebecca"
-      }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Rebecca"
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
-          }
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "optional": true,
+        "filter": {
+          "excludeSelf": true
+        },
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP15-042"
 }

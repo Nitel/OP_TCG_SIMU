@@ -1,24 +1,21 @@
 {
-  "id": "OP15-108",
-  "name": "Nami",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "type": "Sky Island"
+        },
+        "maxResults": 1,
+        "destination": "hand",
+        "reveal": true
+      },
+      {
+        "type": "OrderDeckBottom",
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP15-108"
 }

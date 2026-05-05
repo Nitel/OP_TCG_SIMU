@@ -1,17 +1,12 @@
 {
   "id": "OP15-051",
-  "name": "Monkey.D.Luffy",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Opponent's Turn] If your Leader has the {Dressrosa} type, this Character gains +3000 power.",
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "Trigger",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Dressrosa"
+        "type": "LeaderHasType",
+        "value": "Dressrosa"
       },
       "actions": [
         {
@@ -20,10 +15,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

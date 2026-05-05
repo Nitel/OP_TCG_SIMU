@@ -1,60 +1,67 @@
 {
-  "id": "OP15-092",
-  "name": "Monkey.D.Luffy",
-  "cost": 7,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": ">=",
+      "value": 10
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 9000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent",
+        "isBasePower": true
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 7000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      {
+        "type": "GiveKeyword",
+        "keyword": "Cost+10",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": ">=",
+      "value": 20
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 7000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringOpponentTurn",
+        "isBasePower": true
+      }
+    ]
+  },
+  "2": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": ">=",
+      "value": 30
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP15-092"
 }

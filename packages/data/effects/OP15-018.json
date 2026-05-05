@@ -1,24 +1,28 @@
 {
   "id": "OP15-018",
-  "name": "Mohji",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "scope": "TargetCharacter"
+        }
+      ],
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
+            "maxPower": 3000,
+            "conditions": [
+              {
+                "type": "HasAttachedDon"
+              }
+            ]
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

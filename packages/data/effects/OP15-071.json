@@ -1,27 +1,38 @@
 {
-  "id": "OP15-071",
-  "name": "Holly",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "DoubleAttack"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "DoubleAttack",
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "DoubleAttack",
+        "target": {
+          "scope": "AllOwnCharacters",
+          "condition": "HasCardType",
+          "conditionValue": "Ohm"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 6000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "condition": "HasCardType",
+          "conditionValue": "Ohm"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP15-071"
 }

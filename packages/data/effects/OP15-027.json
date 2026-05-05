@@ -1,23 +1,19 @@
 {
-  "id": "OP15-027",
-  "name": "Dracule Mihawk",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "conditions": [
+            {
+              "type": "HasAttachedDon"
+            }
+          ]
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ]
+  },
+  "id": "OP15-027"
 }

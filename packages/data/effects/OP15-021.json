@@ -1,37 +1,50 @@
 {
-  "id": "OP15-021",
-  "name": "Just Watch Me, Ace!!!",
-  "cost": 4,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "TrashCount",
+      "cardType": "Event",
+      "comparison": ">=",
+      "value": 4
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "limit": 1
+        },
+        "duration": "DuringTurn"
+      }
+    ]
+  },
+  "2": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "limit": 1
+        },
+        "duration": "DuringTurn"
+      }
+    ]
+  },
+  "id": "OP15-021"
 }

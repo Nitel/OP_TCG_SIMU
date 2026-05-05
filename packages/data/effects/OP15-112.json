@@ -1,27 +1,24 @@
 {
-  "id": "OP15-112",
-  "name": "Raki",
-  "cost": 4,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Shandian Warrior",
-            "cardType": "Character",
-            "maxCost": 3
-          }
+  "0": {
+    "trigger": "OnBlock",
+    "actions": [
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Shandian Warrior",
+          "cardType": "Character",
+          "maxCost": 3
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP15-112"
 }

@@ -1,11 +1,6 @@
 {
   "id": "OP15-002",
-  "name": "Lucy",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
+  "card": "OP15-002",
   "effects": [
     {
       "trigger": "OnAttack",
@@ -54,6 +49,24 @@
               "duration": "EndOfBattle"
             }
           ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "OncePerTurn"
+        },
+        {
+          "type": "ActivatedEventWithMinCost",
+          "cost": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "amount": 1
         }
       ]
     }
