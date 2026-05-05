@@ -1,12 +1,15 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:18:28.223Z
+Generated: 2026-05-05T14:18:28.900Z
 
-**Total patched:** 5 | **Total skipped:** 0
+**Total patched:** 4 | **Total skipped:** 1
 
-## ST-26 — 5 cartes patchées
+## ST-27 — 4 cartes patchées
 
-**critical (1):** ST26-005
+**critical (2):** ST27-002, ST27-003
 
-**major (4):** ST26-001, ST26-002, ST26-003, ST26-004
+**major (2):** ST27-004, ST27-005
+
+**skipped — type inconnu (1):**
+- ST27-001 (ConditionType::And, TargetScope::Board)
 

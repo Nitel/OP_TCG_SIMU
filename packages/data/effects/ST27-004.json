@@ -1,29 +1,42 @@
 {
-  "id": "ST27-004",
-  "name": "Sanjuan Wolf",
-  "cost": 4,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Blackbeard Pirates"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Blackbeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Blackbeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": "TrashCount/4"
+      }
+    ]
+  },
+  "2": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "ST27-004"
 }

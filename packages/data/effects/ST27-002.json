@@ -1,24 +1,25 @@
 {
   "id": "ST27-002",
-  "name": "Catarina Devon",
-  "cost": 1,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Blackbeard Pirates"
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
       },
       "actions": [
         {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+          "type": "PlaySelf",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "target": "OpponentCharacter",
+              "count": 1,
+              "power": -1,
+              "duration": "DuringYourTurn"
+            }
+          ]
         }
       ]
     },
@@ -31,6 +32,5 @@
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

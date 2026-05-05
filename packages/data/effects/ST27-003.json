@@ -1,27 +1,18 @@
 {
-  "id": "ST27-003",
-  "name": "Kuzan",
-  "cost": 6,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Blackbeard Pirates",
-            "cardType": "Character",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "subType": "Blackbeard Pirates",
+          "cardType": "Character",
+          "maxCost": 5
+        },
+        "maxCount": 1,
+        "state": "Rested"
+      }
+    ]
+  },
+  "id": "ST27-003"
 }
