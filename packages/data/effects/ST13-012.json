@@ -1,21 +1,15 @@
 {
   "id": "ST13-012",
-  "name": "Makino",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      "type": "FlipLife",
+      "count": 1,
+      "optional": true
+    },
+    {
+      "type": "ReorderLife",
+      "optional": false
     }
-  ],
-  "counter": 2000
+  ]
 }

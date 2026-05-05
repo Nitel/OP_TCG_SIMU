@@ -1,13 +1,5 @@
 {
   "id": "ST13-006",
-  "name": "Curly Dadan",
-  "cost": 5,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -16,11 +8,20 @@
           "type": "PlayFromHand",
           "filter": {
             "cardType": "Character",
-            "maxCost": 2
+            "maxCost": 2,
+            "cardNames": [
+              "Sabo",
+              "Portgas.D.Ace",
+              "Monkey.D.Luffy"
+            ]
+          },
+          "count": {
+            "mode": "UpToOneEachNamed",
+            "maxPerName": 1,
+            "maxTotal": 3
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,23 +1,30 @@
 {
-  "id": "ST13-019",
-  "name": "The Three Brothers' Bond",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any",
+          "names": [
+            "Sabo",
+            "Portgas.D.Ace",
+            "Monkey.D.Luffy"
+          ],
+          "maxCost": 5,
+          "scopeTop": 5,
+          "maxCards": 1
+        },
+        "destination": "hand",
+        "revealMode": "reveal"
+      },
+      {
+        "type": "ArrangeFromDeck",
+        "location": "bottom",
+        "scopeTop": 5,
+        "orderingChoice": "player"
+      }
+    ]
+  },
+  "id": "ST13-019"
 }

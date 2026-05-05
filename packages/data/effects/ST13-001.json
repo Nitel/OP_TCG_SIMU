@@ -1,28 +1,41 @@
 {
-  "id": "ST13-001",
-  "name": "Sabo",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red/Yellow",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ],
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PlaySelf",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filters": [
+            {
+              "property": "cost",
+              "operator": ">=",
+              "value": 3
+            },
+            {
+              "property": "power",
+              "operator": ">=",
+              "value": 7000
+            }
+          ]
+        },
+        "destination": "TopOfLife",
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxTargets": 1
+        },
+        "duration": "DuringYourTurn"
       }
-    }
-  ]
+    ]
+  },
+  "id": "ST13-001"
 }

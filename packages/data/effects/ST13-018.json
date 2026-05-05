@@ -1,40 +1,25 @@
 {
-  "id": "ST13-018",
-  "name": "Gum-Gum Jet Spear",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxChoose": 1
         },
-        {
-          "type": "DrawCard",
-          "count": 1,
-          "condition": {
-            "type": "Always"
-          }
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "condition": {
+          "type": "TrashCount",
+          "value": 0
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST13-018"
 }

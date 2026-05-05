@@ -1,11 +1,7 @@
 {
   "id": "ST13-015",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "ST13-015",
+  "effectText": "[Activate: Main] [Once Per Turn] This Character gains +2000 power until the start of your next turn. Then, if you have 1 or more Life cards, draw 1 card and trash 1 card from the top of your Life cards.",
   "effects": [
     {
       "trigger": "Activated",
@@ -16,18 +12,27 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "UntilStartOfNextTurn"
         },
         {
           "type": "DrawCard",
-          "count": 1
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 1
+          }
         },
         {
           "type": "RemoveLife",
-          "count": 1
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 1
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

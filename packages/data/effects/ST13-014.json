@@ -1,11 +1,6 @@
 {
   "id": "ST13-014",
-  "name": "Monkey.D.Luffy",
-  "cost": 2,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] You may trash this Character: Reveal 1 card from the top of your Life cards. If that card is a [Monkey.D.Luffy] with a cost of 5, you may play that card. If you do, up to 1 of your Leader gains +2000 power until the end of your opponent's next turn.",
   "effects": [
     {
       "trigger": "Activated",
@@ -13,15 +8,38 @@
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
+          "filter": {
+            "cardId": "this"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "FlipLife",
+              "count": 1,
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "count": 1,
+                  "filter": {
+                    "hasType": "Monkey.D.Luffy",
+                    "cost": 5
+                  },
+                  "optional": true,
+                  "thenActions": [
+                    {
+                      "type": "PowerBoost",
+                      "count": 1,
+                      "power": 2000,
+                      "target": "YourLeader",
+                      "duration": "DuringOpponentTurn"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

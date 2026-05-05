@@ -1,11 +1,7 @@
 {
   "id": "ST13-013",
-  "name": "Monkey.D.Garp",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "ST13-013",
+  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 [Sabo], [Portgas.D.Ace], or [Monkey.D.Luffy] with a cost of 5 or less and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,12 +10,16 @@
           "type": "SearchDeck",
           "filter": {
             "kind": "ByName",
-            "name": "Sabo|Portgas.D.Ace|Monkey.D.Luffy"
+            "name": "Sabo|Portgas.D.Ace|Monkey.D.Luffy",
+            "maxCost": 5
           },
-          "destination": "hand"
+          "depth": 5,
+          "destination": "hand",
+          "count": "UpTo1",
+          "orderRemaining": "AnyOrder",
+          "placeRemaining": "BottomOfDeck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,33 +1,36 @@
 {
   "id": "ST13-005",
-  "name": "Emporio.Ivankov",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardNumber": "ST13-005",
+  "effectText": "[On Play] You may trash 1 card from the top or bottom of your Life cards: Reveal up to 1 Character card with a cost of 5 from your hand and add it to the top of your Life cards face-down.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "RevealFromHand",
+          "type": "ForceDiscard",
+          "source": "Life",
           "count": 1,
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 5
-          },
+          "optional": true,
           "thenActions": [
             {
-              "type": "RemoveLife",
-              "count": 1
+              "type": "RevealFromHand",
+              "count": 1,
+              "filter": {
+                "cardType": "Character",
+                "cost": 5
+              },
+              "thenActions": [
+                {
+                  "type": "AddLife",
+                  "count": 1,
+                  "faceDown": true,
+                  "position": "top"
+                }
+              ]
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

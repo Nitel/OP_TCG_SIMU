@@ -1,24 +1,23 @@
 {
-  "id": "ST13-017",
-  "name": "Flame Dragon King",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "ReorderLifeCards",
+        "target": {
+          "scope": "OwnLifeCards"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST13-017"
 }
