@@ -1,24 +1,23 @@
 {
   "id": "EB01-016",
-  "name": "Bingoh",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "RestSelf"
+      },
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
+            "maxCost": 1,
+            "condition": {
+              "type": "IsRested"
+            }
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

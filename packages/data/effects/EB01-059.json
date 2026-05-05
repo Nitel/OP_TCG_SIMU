@@ -1,24 +1,21 @@
 {
   "id": "EB01-059",
-  "name": "Kingdom Come",
-  "cost": 6,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter"
-          }
+          },
+          "count": 1,
+          "optional": true
         },
         {
           "type": "RemoveLife",
-          "count": 1
+          "count": "UntilOne",
+          "comment": "Trash life cards until you have 1 remaining"
         }
       ]
     },
@@ -29,7 +26,9 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter"
-          }
+          },
+          "count": 1,
+          "optional": true
         }
       ]
     }

@@ -1,16 +1,16 @@
 {
   "id": "EB01-045",
-  "name": "Brook",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "costFilter": {
+          "operator": "equals",
+          "value": 0
+        },
+        "controller": "Opponent"
       },
       "actions": [
         {
@@ -23,6 +23,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

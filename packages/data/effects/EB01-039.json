@@ -1,30 +1,20 @@
 {
   "id": "EB01-039",
-  "name": "Conquerer of Three Worlds Ragnaraku",
-  "cost": 5,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "ReturnDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 8
+            "maxCost": 8,
+            "count": 1
           }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
         }
       ]
     }

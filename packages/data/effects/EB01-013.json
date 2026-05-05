@@ -1,23 +1,22 @@
 {
   "id": "EB01-013",
-  "name": "Kouzuki Hiyori",
-  "cost": 4,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "TrashSelf"
+      },
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "PlayFromHand",
           "filter": {
-            "subType": "Land of Wano",
             "cardType": "Character",
+            "subType": "Land of Wano",
             "maxCost": 5,
-            "excludeSelf": true
+            "excludeName": "Kouzuki Hiyori"
           },
+          "count": 1,
+          "optional": true,
           "thenActions": [
             {
               "type": "DrawCard",
@@ -27,6 +26,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

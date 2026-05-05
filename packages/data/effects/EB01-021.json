@@ -1,26 +1,29 @@
 {
   "id": "EB01-021",
-  "name": "Hannyabal",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "ReturnToHand",
           "target": {
             "scope": "ChooseOwnCharacter",
-            "maxCost": 2,
-            "minCost": 2
-          }
+            "minCost": 2,
+            "types": [
+              "Impel Down"
+            ]
+          },
+          "optional": true
         },
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "condition": {
+            "type": "IfPreviousActionPerformed"
+          }
         }
       ]
     }

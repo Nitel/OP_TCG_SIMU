@@ -1,18 +1,13 @@
 {
   "id": "EB01-002",
-  "name": "Izo",
-  "cost": 5,
-  "power": 7000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "AttachDon",
+          "type": "GiveDon",
           "count": 1,
+          "restingOnly": true,
           "target": {
             "scope": "ChooseOwnCharacterOrLeader"
           }
@@ -21,6 +16,7 @@
     },
     {
       "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasAnyType",
         "subTypes": [
@@ -28,13 +24,12 @@
           "Whitebeard Pirates"
         ]
       },
+      "cost": {
+        "type": "TrashFromHand",
+        "count": 1,
+        "optional": true
+      },
       "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
         {
           "type": "PowerBoost",
           "amount": -2000,

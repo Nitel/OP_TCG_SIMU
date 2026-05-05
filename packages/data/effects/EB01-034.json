@@ -1,27 +1,27 @@
 {
   "id": "EB01-034",
-  "name": "Ms. Wednesday",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
   "keywords": [
     "Blocker"
   ],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttacked",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Baroque Works"
+        "type": "LeaderHasType",
+        "cardType": "Baroque Works"
       },
+      "cost": {
+        "type": "ReturnDon",
+        "count": 1
+      },
+      "restriction": "OncePerTurn",
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "active": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

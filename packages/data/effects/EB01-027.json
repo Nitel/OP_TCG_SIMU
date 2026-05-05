@@ -1,12 +1,26 @@
 {
   "id": "EB01-027",
-  "name": "Mr.1(Daz.Bonez)",
-  "cost": 5,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "leaderType": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "amount": 1000,
+          "multiplier": {
+            "type": "TrashCount",
+            "cardType": "Event",
+            "divideBy": 2
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
     {
       "trigger": "OnPlay",
       "actions": [
@@ -22,6 +36,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

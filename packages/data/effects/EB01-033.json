@@ -1,17 +1,15 @@
 {
   "id": "EB01-033",
-  "name": "Blueno",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
+      "cost": {
+        "type": "ReturnDon",
+        "amount": 1
+      },
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Water Seven"
+        "type": "LeaderHasType",
+        "subType": "Water Seven"
       },
       "actions": [
         {
@@ -19,12 +17,24 @@
           "filter": {
             "subType": "Water Seven",
             "cardType": "Character",
-            "maxCost": 5,
-            "excludeSelf": true
-          }
+            "cost": 5,
+            "excludeName": "Blueno"
+          },
+          "amount": 1,
+          "optional": true
+        },
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "subType": "Water Seven",
+            "cardType": "Character",
+            "cost": 5,
+            "excludeName": "Blueno"
+          },
+          "amount": 1,
+          "optional": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

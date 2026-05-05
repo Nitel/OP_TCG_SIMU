@@ -1,24 +1,30 @@
 {
   "id": "EB01-036",
-  "name": "Minochihuahua",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
   "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": "Self"
+        }
+      ]
+    },
     {
       "trigger": "OnKO",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
+        "type": "LeaderHasType",
+        "trait": "Impel Down"
       },
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "rested": true
         }
       ]
     }

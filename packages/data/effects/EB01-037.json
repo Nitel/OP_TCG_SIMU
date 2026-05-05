@@ -1,27 +1,26 @@
 {
   "id": "EB01-037",
-  "name": "Mr. 9",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "OnAttack",
       "condition": {
         "type": "Always"
+      },
+      "oncePerTurn": true,
+      "cost": {
+        "donMinus": 1
       },
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
+            "maxCost": 2,
+            "count": 1,
+            "optional": true
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

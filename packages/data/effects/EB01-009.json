@@ -1,22 +1,25 @@
 {
   "id": "EB01-009",
-  "name": "Just Shut Up and Come with Us!!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 5,
           "filter": {
-            "kind": "ByCost",
+            "kind": "ByTypeAndCost",
+            "types": [
+              "Animal"
+            ],
+            "cardType": "Character",
             "maxCost": 3
           },
-          "destination": "board"
+          "limit": 1,
+          "destination": "board",
+          "optional": true,
+          "remainingCardsDestination": "bottomOfDeck",
+          "remainingCardsOrder": "anyOrder"
         }
       ]
     }

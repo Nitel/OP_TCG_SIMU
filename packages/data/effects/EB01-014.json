@@ -1,14 +1,12 @@
 {
   "id": "EB01-014",
-  "name": "Sanji",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -16,14 +14,13 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn",
+          "scalingFactor": {
+            "type": "RestingDonCount",
+            "divisor": 3
+          }
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      }
+      ]
     }
-  ],
-  "counter": 2000
+  ]
 }

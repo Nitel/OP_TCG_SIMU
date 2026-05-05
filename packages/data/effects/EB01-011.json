@@ -1,14 +1,16 @@
 {
   "id": "EB01-011",
-  "name": "Mini-Merry",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Stage",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "restSelf": true,
+        "placeCharacterAtBottomOfDeck": {
+          "count": 1,
+          "basePowerRequirement": 1000,
+          "controller": "Self"
+        }
+      },
       "actions": [
         {
           "type": "DrawCard",

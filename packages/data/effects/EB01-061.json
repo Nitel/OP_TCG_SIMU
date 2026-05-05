@@ -1,18 +1,13 @@
 {
   "id": "EB01-061",
-  "name": "Mr.2.Bon.Kurei(Bentham)",
-  "cost": 4,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "active": true
         }
       ]
     },
@@ -21,14 +16,18 @@
       "actions": [
         {
           "type": "PowerBoost",
-          "amount": 0,
+          "amount": "CopyPower",
           "target": {
             "scope": "Self"
+          },
+          "copyFrom": {
+            "scope": "OpponentCharacter",
+            "count": 1,
+            "optional": true
           },
           "duration": "EndOfTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

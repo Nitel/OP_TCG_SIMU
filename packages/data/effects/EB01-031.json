@@ -1,29 +1,26 @@
 {
   "id": "EB01-031",
-  "name": "Kalifa",
-  "cost": 5,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Water Seven"
+        "type": "LeaderHasType",
+        "leaderType": "Water Seven"
+      },
+      "cost": {
+        "don": -1
       },
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "SearchTrash",
           "filter": {
-            "kind": "ByCost",
+            "cardType": "Character",
             "maxCost": 4
           },
+          "count": 2,
           "destination": "hand"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

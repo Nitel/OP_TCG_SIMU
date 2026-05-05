@@ -1,17 +1,11 @@
 {
   "id": "EB01-020",
-  "name": "Chambres",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Supernovas"
+        "type": "LeaderHasType",
+        "typeName": "Supernovas"
       },
       "actions": [
         {
@@ -24,7 +18,8 @@
           "type": "PlayFromHand",
           "filter": {
             "cardType": "Character",
-            "maxCost": 2
+            "maxCost": 2,
+            "differentColorThanReturned": true
           }
         }
       ]

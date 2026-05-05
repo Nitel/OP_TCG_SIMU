@@ -1,34 +1,18 @@
 {
   "id": "EB01-053",
-  "name": "Gastino",
-  "cost": 3,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "ReturnToHand",
+          "type": "AddLife",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 3
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
           },
-          "duration": "EndOfTurn"
+          "position": "TopOrBottom",
+          "faceUp": true,
+          "toOpponent": true
         }
       ]
     }

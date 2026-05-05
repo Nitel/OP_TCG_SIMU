@@ -1,21 +1,21 @@
 {
   "id": "EB01-056",
-  "name": "Charlotte Flampe",
-  "cost": 1,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true,
+          "fromTopOrBottom": true
+        },
+        {
           "type": "DrawCard",
-          "count": 1
+          "count": 1,
+          "condition": "IfPreviousActionTaken"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

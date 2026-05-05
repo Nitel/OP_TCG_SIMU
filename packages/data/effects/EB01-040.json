@@ -1,24 +1,20 @@
 {
   "id": "EB01-040",
-  "name": "Kyros",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
+      "cost": {
+        "type": "FlipLife",
+        "count": 1
+      },
       "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 0
+            "maxCost": 0,
+            "count": 1
           }
         }
       ]
