@@ -1,11 +1,18 @@
 {
   "id": "ST10-011",
-  "name": "Heat",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": "Self"
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "description": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, this Character gains +2000 power until the start of your next turn."
+    }
+  ]
 }

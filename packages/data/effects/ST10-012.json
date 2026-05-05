@@ -1,36 +1,36 @@
 {
   "id": "ST10-012",
-  "name": "Bepo",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play]/[When Attacking] If your opponent has more DON!! cards on their field than you, add up to 1 DON!! card from your DON!! deck and rest it.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "comparison": "less",
+        "value": "opponent"
       },
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "rest": true
         }
       ]
     },
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "comparison": "less",
+        "value": "opponent"
       },
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "rest": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

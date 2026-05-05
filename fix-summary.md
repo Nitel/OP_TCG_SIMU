@@ -1,18 +1,12 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:58.793Z
+Generated: 2026-05-05T14:17:59.457Z
 
-**Total patched:** 7 | **Total skipped:** 4
+**Total patched:** 17 | **Total skipped:** 0
 
-## ST-09 — 7 cartes patchées
+## ST-10 — 17 cartes patchées
 
-**critical (3):** ST09-004, ST09-010, ST09-014
+**critical (4):** ST10-002, ST10-003, ST10-011, ST10-016
 
-**major (4):** ST09-005, ST09-007, ST09-008, ST09-012
-
-**skipped — type inconnu (4):**
-- ST09-001 (ConditionType::HasLife)
-- ST09-002 (no suggestedDsl)
-- ST09-009 (no suggestedDsl)
-- ST09-015 (TargetScope::ChooseUpToOneOwnCharacterOrLeader, ActionType::AttachToLife, TargetScope::ChooseUpToOneOpponentCharacter)
+**major (13):** ST10-001, ST10-004, ST10-005, ST10-006, ST10-007, ST10-008, ST10-009, ST10-010, ST10-012, ST10-013, ST10-014, ST10-015, ST10-017
 

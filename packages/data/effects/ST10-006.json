@@ -1,25 +1,16 @@
 {
-  "id": "ST10-006",
-  "name": "Monkey.D.Luffy",
-  "cost": 10,
-  "power": 11000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 8000
-          }
+  "0": {
+    "trigger": "OnBlock",
+    "condition": "Once Per Turn",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 8000
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST10-006"
 }

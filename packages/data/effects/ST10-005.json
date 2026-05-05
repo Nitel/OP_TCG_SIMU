@@ -1,29 +1,25 @@
 {
   "id": "ST10-005",
-  "name": "Jinbe",
-  "cost": 2,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "ST10-005",
+  "effectText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters −2000 power during this turn.",
   "effects": [
     {
       "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      }
+      ]
     }
-  ],
-  "counter": 2000
+  ]
 }

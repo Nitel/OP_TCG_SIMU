@@ -1,24 +1,19 @@
 {
   "id": "ST10-008",
-  "name": "Shachi & Penguin",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasAttachedDon",
+    "count": 3,
+    "comparison": "LessOrEqual"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 2
-        }
-      ]
+      "type": "AttachDon",
+      "count": 2,
+      "source": "DONDeck"
+    },
+    {
+      "type": "Rest"
     }
-  ],
-  "counter": 2000
+  ]
 }

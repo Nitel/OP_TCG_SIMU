@@ -1,28 +1,24 @@
 {
-  "id": "ST10-004",
-  "name": "Sanji",
-  "cost": 6,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "scope": "Opponent",
+      "filter": {
+        "cardType": "Character",
+        "powerThreshold": 5000
+      }
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "ST10-004"
 }

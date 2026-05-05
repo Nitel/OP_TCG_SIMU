@@ -1,45 +1,37 @@
 {
-  "id": "ST10-013",
-  "name": "Eustass\"Captain\"Kid",
-  "cost": 7,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
     },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "UntilStartOfNextTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "UntilStartOfNextTurn"
+      }
+    ]
+  },
+  "id": "ST10-013"
 }

@@ -1,24 +1,24 @@
 {
-  "id": "ST10-007",
-  "name": "Killer",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
+  "0": {
+    "trigger": "Trigger",
+    "conditions": [
+      {
+        "type": "DuringYourTurn"
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "filters": {
+            "isRested": true,
             "maxCost": 3
-          }
+          },
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "ST10-007"
 }

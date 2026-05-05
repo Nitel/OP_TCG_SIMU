@@ -1,23 +1,26 @@
 {
-  "id": "ST10-015",
-  "name": "Gum-Gum Giant Sumo Slap",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 2000
-          }
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "ChooseYourCharacter",
+          "maxCount": 1,
+          "includeLeader": true
+        },
+        "powerBoost": 2000,
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1,
+          "maxPower": 2000
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST10-015"
 }

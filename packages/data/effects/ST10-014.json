@@ -1,40 +1,21 @@
 {
-  "id": "ST10-014",
-  "name": "Wire",
-  "cost": 3,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnReturnDonToDeck",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "thenActions": []
+      }
+    ]
+  },
+  "id": "ST10-014"
 }

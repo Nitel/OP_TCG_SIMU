@@ -1,21 +1,21 @@
 {
   "id": "ST10-009",
-  "name": "Jean Bart",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] ➀ (You may rest the specified number of DON!! cards in your cost area.): Add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [],
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "SearchDeck",
+          "count": 1,
+          "cardType": "DON"
+        },
+        {
+          "type": "AttachDon",
           "count": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

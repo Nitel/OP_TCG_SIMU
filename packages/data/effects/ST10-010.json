@@ -1,26 +1,18 @@
 {
-  "id": "ST10-010",
-  "name": "Trafalgar Law",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "count": 2
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "OpponentHandCount",
+      "value": 7,
+      "operator": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "target": "opponent"
+      }
+    ]
+  },
+  "id": "ST10-010"
 }
