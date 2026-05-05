@@ -1,42 +1,22 @@
 {
-  "id": "OP02-118",
-  "name": "Yasakani Sacred Jewel",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "GiveKeyword",
-              "keyword": "Banish",
-              "target": {
-                "scope": "ChooseOwnCharacter"
-              },
-              "duration": "EndOfBattle"
-            }
-          ]
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "cost": {
+      "type": "TrashFromHand",
+      "filter": {},
+      "optional": true
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOd",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxAmount": 1
+        },
+        "duration": "DuringThisBattle"
+      }
+    ]
+  },
+  "id": "OP02-118"
 }

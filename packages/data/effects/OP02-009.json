@@ -1,32 +1,23 @@
 {
   "id": "OP02-009",
-  "name": "Squard",
-  "cost": 3,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Whitebeard Pirates"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Whitebeard Pirates"
+      "type": "PowerBoost",
+      "amount": -4000,
+      "target": {
+        "scope": "OpponentCharacter",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      "duration": "DuringYourTurn"
+    },
+    {
+      "type": "FlipLife",
+      "count": 1
     }
   ]
 }

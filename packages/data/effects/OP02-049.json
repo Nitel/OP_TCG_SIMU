@@ -1,23 +1,16 @@
 {
-  "id": "OP02-049",
-  "name": "Emporio.Ivankov",
-  "cost": 5,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "EndOfTurn",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "HasCardOnBoard"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      }
+    ]
+  },
+  "id": "OP02-049"
 }

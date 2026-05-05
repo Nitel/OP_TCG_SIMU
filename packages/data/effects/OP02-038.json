@@ -1,10 +1,19 @@
 {
   "id": "OP02-038",
-  "name": "Nekomamushi",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "Self",
+          "keyword": "Blocker",
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

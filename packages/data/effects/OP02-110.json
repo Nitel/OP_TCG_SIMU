@@ -1,26 +1,18 @@
 {
-  "id": "OP02-110",
-  "name": "Hina",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnBlock",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6,
+          "maxTargets": 1
+        },
+        "keyword": "CannotAttack",
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP02-110"
 }

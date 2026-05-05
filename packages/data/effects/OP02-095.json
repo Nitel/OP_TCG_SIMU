@@ -1,13 +1,23 @@
 {
   "id": "OP02-095",
-  "name": "Onigumo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Banish"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "cost": 0
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "type": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

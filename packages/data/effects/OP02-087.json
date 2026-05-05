@@ -1,27 +1,17 @@
 {
-  "id": "OP02-087",
-  "name": "Minotaur",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "DoubleAttack"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Impel Down"
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "rested": true
+      }
+    ]
+  },
+  "id": "OP02-087"
 }

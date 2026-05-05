@@ -1,24 +1,19 @@
 {
-  "id": "OP02-026",
-  "name": "Sanji",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Character"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 2
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "value": 3,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 2,
+        "target": "OwnDonCards"
+      }
+    ],
+    "frequency": "OncePerTurn"
+  },
+  "id": "OP02-026"
 }

@@ -1,11 +1,22 @@
 {
   "id": "OP02-100",
-  "name": "Jango",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "Fullbody"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "self",
+          "negate": true
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

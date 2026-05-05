@@ -1,40 +1,20 @@
 {
-  "id": "OP02-021",
-  "name": "Seaquake",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Whitebeard Pirates"
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Whitebeard Pirates"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000,
+          "maxCount": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP02-021"
 }

@@ -1,24 +1,16 @@
 {
   "id": "OP02-090",
-  "name": "Hydra",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": -3000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "count": 1,
+        "optional": true
+      },
+      "duration": "DuringYourTurn"
     }
   ]
 }

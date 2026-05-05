@@ -1,26 +1,21 @@
 {
   "id": "OP02-016",
-  "name": "Magura",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 1
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 3000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "maxCost": 1,
+        "conditions": [
+          {
+            "type": "HasCardType",
+            "value": "Red"
+          }
+        ]
+      },
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

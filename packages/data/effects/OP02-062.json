@@ -1,63 +1,59 @@
 {
-  "id": "OP02-062",
-  "name": "Monkey.D.Luffy",
-  "cost": 6,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "ReturnToHand",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 4
-              }
-            },
-            {
-              "type": "GiveKeyword",
-              "keyword": "DoubleAttack",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "quantity": 2
+        },
+        "thenActions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 4
             }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "ReturnToHand",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 4
-              }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "Self"
             },
-            {
-              "type": "GiveKeyword",
-              "keyword": "DoubleAttack",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "quantity": 2
+        },
+        "thenActions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 4
             }
-          ]
-        }
-      ]
-    }
-  ]
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP02-062"
 }

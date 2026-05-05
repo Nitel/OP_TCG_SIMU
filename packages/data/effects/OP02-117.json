@@ -1,36 +1,17 @@
 {
-  "id": "OP02-117",
-  "name": "Ice Age",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -5,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -5,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxAmount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP02-117"
 }

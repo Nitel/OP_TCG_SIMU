@@ -1,32 +1,25 @@
 {
   "id": "OP02-098",
-  "name": "Koby",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
+          "count": 1,
+          "optional": true,
           "thenActions": [
             {
               "type": "KO",
               "target": {
                 "scope": "ChooseOpponentCharacter",
                 "maxCost": 3
-              }
+              },
+              "count": 1
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

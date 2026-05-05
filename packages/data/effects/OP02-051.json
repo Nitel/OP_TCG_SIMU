@@ -1,21 +1,20 @@
 {
   "id": "OP02-051",
-  "name": "Emporio.Ivankov",
-  "cost": 7,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "DrawCard",
-          "count": 3
+          "upTo": 3,
+          "condition": {
+            "type": "HandCount",
+            "targetCount": 3
+          }
         },
         {
           "type": "PlayFromHand",
+          "upTo": 1,
           "filter": {
             "color": "Blue",
             "subType": "Impel Down",

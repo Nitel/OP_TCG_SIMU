@@ -1,38 +1,17 @@
 {
-  "id": "OP02-089",
-  "name": "Judgment of Hell",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "count": 2,
+        "target": {
+          "scope": "ChooseOpponentCharacterOrLeader"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP02-089"
 }

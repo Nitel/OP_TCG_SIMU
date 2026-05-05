@@ -1,11 +1,5 @@
 {
   "id": "OP02-068",
-  "name": "Gum-Gum Rain",
-  "cost": 0,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -13,28 +7,18 @@
         {
           "type": "TrashFromHand",
           "filter": {},
+          "optional": true,
           "thenActions": [
             {
               "type": "PowerBoost",
               "amount": 3000,
               "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
+                "scope": "ChooseOwnCharacterOrLeader",
+                "maxAmount": 1
               },
               "duration": "EndOfBattle"
             }
           ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 2
-          }
         }
       ]
     }

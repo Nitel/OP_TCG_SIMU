@@ -1,24 +1,21 @@
 {
   "id": "OP02-032",
-  "name": "Shishilian",
-  "cost": 2,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "conditions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
+      "type": "HasAttachedDon",
+      "amount": 2
     }
   ],
-  "counter": 1000
+  "actions": [
+    {
+      "type": "Activate",
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "type": "Minks",
+        "maxCost": 5,
+        "maxSelect": 1
+      }
+    }
+  ]
 }

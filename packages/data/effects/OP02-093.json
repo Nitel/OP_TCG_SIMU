@@ -1,32 +1,33 @@
 {
-  "id": "OP02-093",
-  "name": "Smoker",
-  "cost": 5,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "scope": "AnyCharacter",
+        "costComparison": "equal",
+        "costValue": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "quantity": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "modifyCost": -1,
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP02-093"
 }

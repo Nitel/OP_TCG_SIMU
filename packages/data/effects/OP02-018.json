@@ -1,30 +1,26 @@
 {
-  "id": "OP02-018",
-  "name": "Marco",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Whitebeard Pirates"
-          },
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "type": "Whitebeard Pirates"
+        },
+        "thenActions": [
+          {
+            "type": "PlaySelf",
+            "conditions": [
+              {
+                "type": "LeaderHasLife",
+                "value": 2,
+                "operator": "LTE"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP02-018"
 }

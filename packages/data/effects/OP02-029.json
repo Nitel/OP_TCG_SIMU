@@ -1,11 +1,18 @@
 {
   "id": "OP02-029",
-  "name": "Carrot",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "triggers": [
+    "EndOfTurn"
+  ],
+  "effects": [
+    {
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "OwnDonCards",
+          "amount": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,46 +1,15 @@
 {
   "id": "OP02-056",
-  "name": "Donquixote Doflamingo",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Any"
       },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 1
-              }
-            }
-          ]
-        }
-      ]
+      "count": 3,
+      "destination": "top_or_bottom",
+      "arrangement": true
     }
-  ],
-  "counter": 1000
+  ]
 }

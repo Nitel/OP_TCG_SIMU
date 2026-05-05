@@ -1,11 +1,5 @@
 {
   "id": "OP02-005",
-  "name": "Curly Dadan",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,13 +7,19 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByCost",
+            "kind": "ByMultiple",
+            "color": "red",
+            "cardType": "Character",
             "maxCost": 1
           },
-          "destination": "hand"
+          "deckPosition": "top",
+          "deckPositionLimit": 5,
+          "maxSelect": 1,
+          "destination": "hand",
+          "remainderDestination": "bottomOfDeck",
+          "remainderOrder": "any"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

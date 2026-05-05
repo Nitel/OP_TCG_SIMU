@@ -1,28 +1,19 @@
 {
-  "id": "OP02-079",
-  "name": "Douglas Bullet",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "upTo": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP02-079"
 }

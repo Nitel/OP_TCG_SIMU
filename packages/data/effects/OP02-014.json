@@ -1,29 +1,23 @@
 {
   "id": "OP02-014",
-  "name": "Whitey Bay",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] This Character can also attack your opponent's active Characters.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 1
       },
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Unblockable",
+          "keyword": "CanAttackActive",
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "Permanent"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

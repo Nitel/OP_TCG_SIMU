@@ -1,11 +1,5 @@
 {
   "id": "OP02-069",
-  "name": "DEATH WINK",
-  "cost": 3,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -14,25 +8,15 @@
           "type": "PowerBoost",
           "amount": 6000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
           },
-          "duration": "EndOfBattle"
+          "duration": "DuringThisBattle"
         },
         {
           "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 7
-          }
+          "count": "DrawToTotal",
+          "total": 2
         }
       ]
     }

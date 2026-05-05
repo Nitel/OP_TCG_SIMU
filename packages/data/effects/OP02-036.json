@@ -1,43 +1,45 @@
 {
-  "id": "OP02-036",
-  "name": "Nami",
-  "cost": 3,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
     },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "amount": 3,
+        "reveal": true,
+        "filter": {
+          "type": "FILM",
+          "excludeName": "Nami"
+        },
+        "selectUpTo": 1,
+        "destination": "hand",
+        "remainingToBottom": true
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "amount": 3,
+        "reveal": true,
+        "filter": {
+          "type": "FILM",
+          "excludeName": "Nami"
+        },
+        "selectUpTo": 1,
+        "destination": "hand",
+        "remainingToBottom": true
+      }
+    ]
+  },
+  "id": "OP02-036"
 }

@@ -1,28 +1,15 @@
 {
   "id": "OP02-034",
-  "name": "Tony Tony.Chopper",
-  "cost": 2,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "cost": 1,
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 2,
+        "maxCount": 1
       }
     }
-  ],
-  "counter": 2000
+  ]
 }

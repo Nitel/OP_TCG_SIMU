@@ -1,25 +1,21 @@
 {
   "id": "OP02-063",
-  "name": "Mr.1(Daz.Bonez)",
-  "cost": 1,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "ReturnToHand",
           "filter": {
-            "kind": "ByCost",
+            "kind": "ByProperties",
+            "color": "blue",
+            "cardType": "Event",
             "maxCost": 1
           },
-          "destination": "hand"
+          "source": "trash",
+          "amount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

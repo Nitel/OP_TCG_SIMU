@@ -1,11 +1,7 @@
 {
   "id": "OP02-004",
-  "name": "Edward.Newgate",
-  "cost": 9,
-  "power": 10000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP02-004",
+  "effectText": "[On Play] Up to 1 of your Leader gains +2000 power until the start of your next turn. Then, you cannot add Life cards to your hand using your own effects during this turn.\n[DON!! x2] [When Attacking] K.O. up to 1 of your opponent's Characters with 3000 power or less.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -16,14 +12,19 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "EndOfTurn"
+          "duration": "UntilStartOfNextTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAddLifeToHand",
+          "duration": "DuringYourTurn"
         }
       ]
     },
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 2
       },
       "actions": [

@@ -1,42 +1,26 @@
 {
-  "id": "OP02-065",
-  "name": "Mr.3(Galdino)",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "Self"
-              }
+  "0": {
+    "trigger": "EndOfTurn",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
             }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP02-065"
 }

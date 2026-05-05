@@ -1,11 +1,19 @@
 {
   "id": "OP02-027",
-  "name": "Inuarashi",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasRestingDon",
+        "value": "all"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemoved",
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

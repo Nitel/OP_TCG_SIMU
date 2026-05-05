@@ -1,32 +1,29 @@
 {
-  "id": "OP02-013",
-  "name": "Portgas.D.Ace",
-  "cost": 7,
-  "power": 7000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 2
         },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+        "duration": "EndOfTurn"
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "EndOfTurn",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Whitebeard Pirates"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP02-013"
 }

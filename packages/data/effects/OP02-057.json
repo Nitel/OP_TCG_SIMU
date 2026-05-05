@@ -1,24 +1,21 @@
 {
   "id": "OP02-057",
-  "name": "Bartholomew Kuma",
-  "cost": 3,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "depth": 2,
+      "filter": {
+        "kind": "Type",
+        "value": "The Seven Warlords of the Sea"
+      },
+      "maxCount": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "OrderDeckCards",
+      "count": 1,
+      "placement": "TopOrBottom"
     }
-  ],
-  "counter": 1000
+  ]
 }

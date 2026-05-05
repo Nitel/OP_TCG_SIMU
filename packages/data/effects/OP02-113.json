@@ -1,33 +1,42 @@
 {
   "id": "OP02-113",
-  "name": "Helmeppo",
-  "cost": 3,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "trigger": "OnAttack",
   "effects": [
     {
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": -2000,
+          "type": "ForceDiscard",
+          "amount": 2,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     },
     {
       "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "AnyCharacter",
+          "filter": {
+            "cost": 0
+          }
+        }
+      ],
       "actions": [
         {
-          "type": "PlaySelf"
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringThisBattle"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

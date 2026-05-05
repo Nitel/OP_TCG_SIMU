@@ -1,35 +1,24 @@
 {
   "id": "OP02-070",
-  "name": "New Kama Land",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderIsName",
+    "name": "Emporio.Ivankov"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Emporio.Ivankov"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "DrawCard",
+      "count": 1
+    },
+    {
+      "type": "TrashFromHand",
+      "count": 1,
+      "filter": {}
+    },
+    {
+      "type": "TrashFromHand",
+      "count": 3,
+      "filter": {}
     }
   ]
 }

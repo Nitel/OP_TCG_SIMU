@@ -1,32 +1,29 @@
 {
   "id": "OP02-010",
-  "name": "Dogura",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] You may rest this Character: Play up to 1 red Character other than [Dogura] with a cost of 1 from your hand.",
   "effects": [
     {
       "trigger": "Activated",
-      "actions": [
+      "conditions": [
         {
-          "type": "Rest",
+          "type": "HasRestingDon",
           "target": {
             "scope": "Self"
           }
-        },
+        }
+      ],
+      "actions": [
         {
           "type": "PlayFromHand",
           "filter": {
             "color": "Red",
             "cardType": "Character",
             "maxCost": 1,
-            "excludeSelf": true
-          }
+            "excludeCardName": "Dogura"
+          },
+          "maxAmount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,29 +1,23 @@
 {
   "id": "OP02-019",
-  "name": "Rakuyo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "AllOwnCharacters"
+            "scope": "AllOwnCharacters",
+            "typeFilter": "Whitebeard Pirates"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      }
+      ]
     }
-  ],
-  "counter": 1000
+  ]
 }

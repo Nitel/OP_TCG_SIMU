@@ -1,33 +1,27 @@
 {
-  "id": "OP02-096",
-  "name": "Kuzan",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "CostReduction",
+        "amount": -4,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "optional": true,
           "count": 1
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP02-096"
 }

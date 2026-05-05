@@ -1,18 +1,20 @@
 {
   "id": "OP02-008",
-  "name": "Jozu",
-  "cost": 4,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] If you have 2 or less Life cards and your Leader's type includes \"Whitebeard Pirates\", this Character gains [Rush].",
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Whitebeard Pirates"
-      },
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Whitebeard Pirates"
+        },
+        {
+          "type": "LifeCount",
+          "comparison": "<=",
+          "value": 2
+        }
+      ],
       "actions": [
         {
           "type": "GiveKeyword",
@@ -20,10 +22,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfBattle"
+          "duration": "Permanent"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }
