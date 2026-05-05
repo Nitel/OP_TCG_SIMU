@@ -1,11 +1,6 @@
 {
   "id": "ST09-008",
-  "name": "Shimotsuki Ushimaru",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[When Attacking] You may add 1 card from the top or bottom of your Life cards to your hand: Play up to 1 yellow {Land of Wano} type Character card with a cost of 4 or less from your hand.",
   "effects": [
     {
       "trigger": "OnAttack",
@@ -15,8 +10,10 @@
       },
       "actions": [
         {
-          "type": "FlipLife",
-          "count": 1
+          "type": "DrawCard",
+          "source": "Life",
+          "count": 1,
+          "optional": true
         },
         {
           "type": "PlayFromHand",
@@ -25,7 +22,9 @@
             "cardType": "Character",
             "subType": "Land of Wano",
             "maxCost": 4
-          }
+          },
+          "count": 1,
+          "optional": true
         }
       ]
     }

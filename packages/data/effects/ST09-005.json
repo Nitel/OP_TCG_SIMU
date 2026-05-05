@@ -1,48 +1,39 @@
 {
-  "id": "ST09-005",
-  "name": "Kouzuki Oden",
-  "cost": 7,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "DoubleAttack",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "Any"
-              },
-              "destination": "hand"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "DoubleAttack",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "FlipLife",
+            "filter": {
+              "kind": "Any"
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "ST09-005"
 }
