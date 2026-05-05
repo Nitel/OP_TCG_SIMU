@@ -1,33 +1,22 @@
 {
-  "id": "ST18-002",
-  "name": "O-Nami",
-  "cost": 4,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 8
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {},
+        "thenActions": []
       },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "DrawCard",
+        "count": 2
+      }
+    ]
+  },
+  "id": "ST18-002"
 }

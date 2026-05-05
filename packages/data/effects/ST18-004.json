@@ -1,23 +1,21 @@
 {
   "id": "ST18-004",
-  "name": "Zoro-Juurou",
-  "cost": 4,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "count": 5,
+      "filter": {
+        "type": "purple",
+        "cardType": "{Straw Hat Crew}"
+      },
+      "maxReveal": 1,
+      "destination": "hand"
+    },
+    {
+      "type": "ReorderDeck",
+      "zone": "bottom",
+      "remaining": true
     }
   ]
 }
