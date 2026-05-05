@@ -1,24 +1,23 @@
 {
-  "id": "ST29-003",
-  "name": "Kaku",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Always",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "operator": "LessThanOrEqual",
+        "comparison": "OpponentTrashCount"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "Self"
+        },
+        "amount": 1000
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "id": "ST29-003"
 }

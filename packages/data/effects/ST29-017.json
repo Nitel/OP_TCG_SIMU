@@ -1,52 +1,30 @@
 {
   "id": "ST29-017",
-  "name": "Iai Death Lion Song",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "actions": [
     {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          },
-          "condition": {
-            "type": "Always"
-          }
-        }
-      ],
-      "condition": {
-        "type": "Always"
-      }
+      "type": "PowerBoost",
+      "amount": 4000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "maxCount": 1
+      },
+      "duration": "DuringThisBattle"
     },
     {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 3,
+        "maxCount": 1
+      },
+      "condition": {
+        "type": "HasLifeOrLess",
+        "value": 2
+      }
     }
-  ]
+  ],
+  "condition": {
+    "type": "Always"
+  }
 }

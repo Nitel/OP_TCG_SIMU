@@ -1,11 +1,6 @@
 {
   "id": "ST29-012",
-  "name": "Monkey.D.Luffy",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to 1 of your [Monkey.D.Luffy] cards.",
   "effects": [
     {
       "trigger": "Activated",
@@ -16,20 +11,17 @@
         {
           "type": "AttachDon",
           "count": 1,
+          "source": {
+            "scope": "OwnRested",
+            "type": "Don"
+          },
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "characterType": "Monkey.D.Luffy"
           }
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
+      ],
+      "frequency": "OncePerTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,29 +1,22 @@
 {
-  "id": "ST29-001",
-  "name": "Monkey.D.Luffy",
-  "cost": 0,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "LeaderHasType",
+      "comparison": "<=",
+      "value": 2
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "ST29-001"
 }

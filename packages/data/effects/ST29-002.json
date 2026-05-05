@@ -1,23 +1,31 @@
 {
-  "id": "ST29-002",
-  "name": "Usopp",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "filter": "CostLessOrEqual",
+          "filterValue": "OpponentLifeCount",
+          "upTo": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "filter": "CostLessOrEqual",
+          "filterValue": "OpponentLifeCount",
+          "upTo": 1
+        }
+      }
+    ]
+  },
+  "id": "ST29-002"
 }

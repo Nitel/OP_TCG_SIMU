@@ -1,19 +1,10 @@
 {
   "id": "ST29-014",
-  "name": "Roronoa Zoro",
-  "cost": 6,
-  "power": 8000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "TurnCount",
-        "min": 1
+        "type": "Always"
       },
       "actions": [
         {
@@ -31,6 +22,9 @@
               "count": 1,
               "target": {
                 "scope": "ChooseOwnCharacterOrLeader"
+              },
+              "filter": {
+                "status": "Rested"
               }
             }
           ]

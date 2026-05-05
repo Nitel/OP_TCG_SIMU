@@ -1,24 +1,17 @@
 {
-  "id": "ST29-008",
-  "name": "Nami",
-  "cost": 3,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Monkey D. Luffy"
-      },
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Egghead"
+    },
+    "actions": [
+      {
+        "type": "FlipLife",
+        "target": 1
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "id": "ST29-008"
 }

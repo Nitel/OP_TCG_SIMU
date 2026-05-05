@@ -1,45 +1,31 @@
 {
-  "id": "ST29-015",
-  "name": "Raw Heat Strike",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ],
-      "condition": {
-        "type": "TurnCount",
-        "max": 0
-      }
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
           "count": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "EndOfTurn",
+        "condition": {
+          "type": "LifeCount",
+          "comparison": "<=",
+          "value": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST29-015"
 }
