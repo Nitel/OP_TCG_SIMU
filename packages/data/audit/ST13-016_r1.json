@@ -1,0 +1,20 @@
+{
+  "id": "ST13-016_r1",
+  "name": "Yamato",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife is incorrect for this effect. The card looks at Life cards, places 1 on top of deck, and returns rest to Life area. This requires SearchDeck (to place card on deck) or a custom action. FlipLife specifically means converting Life cards to hand, which is not the effect here."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the core mechanic: selecting 1 Life card to place on top of deck while returning others to Life area. Current DSL does not capture the deck placement or the reordering aspect."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:23:40.985Z"
+}

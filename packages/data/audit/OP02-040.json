@@ -1,0 +1,37 @@
+{
+  "id": "OP02-040",
+  "name": "Brook",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter does not account for the OR condition between {FILM} OR {Straw Hat Crew}. Current filter only checks subType:FILM. Must include both subTypes with OR logic, or use a separate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action lacks 'count' property to enforce 'up to 1' limit. Should include count:1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "subType": [
+              "FILM",
+              "Straw Hat Crew"
+            ],
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:30:49.566Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "ST14-015",
+  "name": "Gum-Gum Diable Three-Swords Style Mouten Jet Six Hundred Pound Phoenix Cannon",
+  "set": "ST-14",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object with trigger:'Trigger' is extraneous and has no basis in card text. Card only describes one conditional KO effect tied to the first action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target.maxCost",
+      "description": "Target maxCost should be 2 (as stated in text 'cost of 2 or less'), not missing from primary effect structure"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check for 'Character' with cost 8+ on own board; current string name format is non-standard. Should use HasCardOnBoard with cardType/minCost filters or equivalent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "minCost": 8
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T13:10:13.128Z"
+}

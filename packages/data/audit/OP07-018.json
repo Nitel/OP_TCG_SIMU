@@ -1,0 +1,35 @@
+{
+  "id": "OP07-018",
+  "name": "KEEP OUT",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter by card type {Revolutionary Army}. Current DSL uses generic ChooseOwnCharacter without type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the end of your next turn', which means the boost persists through opponent's turn and ends at the next end of your turn. Should be 'UntilEndOfNextTurn' or equivalent multi-turn duration, not single EndOfTurn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "cardType": "Revolutionary Army"
+          },
+          "duration": "UntilEndOfNextTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:03:41.749Z"
+}

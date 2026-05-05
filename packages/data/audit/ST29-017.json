@@ -1,0 +1,58 @@
+{
+  "id": "ST29-017",
+  "name": "Iai Death Lion Song",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].condition",
+      "description": "KO action has condition type 'Always' but should be 'HasLifeOrLess' with value 2 to match 'if you have 2 or less Life cards'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object (Trigger with DrawCard/TrashFromHand) is completely extraneous and not present in card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target scope should specify 'ChooseOpponentCharacter' with conditional application only when life condition is met"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is acceptable but should verify if 'DuringThisBattle' is more precise for counter effects"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxCount": 1
+        },
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        },
+        "condition": {
+          "type": "HasLifeOrLess",
+          "value": 2
+        }
+      }
+    ],
+    "condition": {
+      "type": "Always"
+    }
+  },
+  "auditedAt": "2026-05-05T13:25:18.707Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP04-038",
+  "name": "The Weak Do Not Have the Right to Choose How They Die!!!",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "K.O. action missing required condition: target must be rested. Card text states 'K.O. up to 1 of your opponent's rested Characters' but DSL has no 'isRested' condition on the KO action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Unexplained second effect with trigger 'Trigger' and GiveDon action has no basis in card text. Card contains only Rest and K.O. effects; no Don-granting effect exists."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should specify 'up to 1' via maxCount or similar limiter; currently appears unrestricted."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main]/[Counter] Rest up to 1 of your opponent's Leader or Character cards. Then, K.O. up to 1 of your opponent's rested Characters with a cost of 6 or less.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6,
+              "isRested": true
+            },
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:11.531Z"
+}

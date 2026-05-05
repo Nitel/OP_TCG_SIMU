@@ -1,0 +1,35 @@
+{
+  "id": "EB03-027",
+  "name": "Marguerite",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'a Character' with no player restriction. Should be 'ChooseCharacter' to allow selecting from either player's board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxPower",
+      "description": "Condition uses 'maxPower:7000' but effect text specifies '7000 base power' exactly or up to. The maxPower filter should clarify if this is <=7000 or ==7000. Based on standard wording 'with 7000 base power', this likely means exactly 7000, not up to 7000."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "basePower": 7000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:16:57.046Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "EB01-061_r1",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incomplete. Card text specifies 'Add up to 1 DON!! card from your DON!! deck and set it as active' - this requires a search/fetch action from deck, not just giving DON. Should use SearchDeck or similar mechanism to retrieve from DON deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].amount",
+      "description": "PowerBoost amount is 0, but effect should match selected opponent character's power. The amount should be dynamic (equal to target character's power), not a fixed 0. Mechanism for dynamic power matching is unclear in current DSL structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is valid, but the effect sets THIS character's power (not modifying the selected opponent character). Target should clarify self-targeting with conditional power calculation based on selected opponent character."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "EB01-061_r1",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": "DON",
+            "action": "AttachDon"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": "SelectedCharacterPower",
+            "target": {
+              "scope": "Self"
+            },
+            "condition": {
+              "type": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:40:56.347Z"
+}

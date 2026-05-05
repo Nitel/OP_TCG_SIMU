@@ -1,0 +1,49 @@
+{
+  "id": "EB02-050",
+  "name": "Kokoro no Chizu",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is incorrect: text says 'cost of 4 or more' (minCost: 4) but DSL has maxCost: 4 (cost of 4 or less)",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing lookCount parameter: text specifies 'Look at 4 cards from the top of your deck' but DSL has no count specified",
+      "field": "effects[0].actions[0].lookCount"
+    },
+    {
+      "severity": "major",
+      "description": "Missing revealCount parameter: text says 'reveal up to 1 card' but DSL does not specify the limit of 1 card to add to hand",
+      "field": "effects[0].actions[0].revealCount"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing bottomDeck behavior: text says 'place the rest at the bottom of your deck in any order' but DSL does not specify this destination for non-selected cards",
+      "field": "effects[0].actions[0].remainderDestination"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookCount": 4,
+            "revealCount": 1,
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 4
+            },
+            "destination": "hand",
+            "remainderDestination": "bottomDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:44.264Z"
+}

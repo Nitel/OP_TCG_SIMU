@@ -1,0 +1,46 @@
+{
+  "id": "OP01-090",
+  "name": "Baroque Works",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and inaccurate. The effect requires: (1) looking at top 5 cards, (2) revealing up to 1 Baroque Works type card (excluding the card named 'Baroque Works'), (3) adding it to hand, (4) placing rest at bottom in any order. Current DSL only specifies SearchDeck with no filter constraints."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify: type includes 'Baroque Works', excluding the specific card name 'Baroque Works'. This requires a type-based filter with name exclusion."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the 'arrange rest at bottom' mechanic. After selecting up to 1 card, the remaining 4 cards must be placed at bottom of deck in any order. Current DSL does not capture this second part of the effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Baroque Works",
+            "excludeName": "Baroque Works"
+          },
+          "destination": "hand",
+          "quantity": {
+            "min": 0,
+            "max": 1
+          },
+          "searchQuantity": 5,
+          "remainingPlacement": "BottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:35.779Z"
+}

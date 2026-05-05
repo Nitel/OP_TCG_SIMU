@@ -1,0 +1,60 @@
+{
+  "id": "ST10-017",
+  "name": "Punk Vise",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action is incomplete. The card text states 'add up to 1 DON!! card from your DON!! deck and rest it'. This requires: (1) SearchDeck to find DON!! card, (2) AttachDon to attach it, (3) Rest to rest the attached DON!!. Current DSL only has GiveDon which does not match the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate 'Trigger' effect with only GiveDon is unexplained and appears to be an error. The card text does not support a secondary trigger effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action target should include maxCost constraint. Current target specification 'ChooseOpponentCharacter' with maxCost:2 is correct, but the implementation is incomplete for the full effect chain."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST10-017",
+    "effectText": "[Main] Rest up to 1 of your opponent's Characters with a cost of 2 or less, and add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "SearchDeck",
+            "target": {
+              "cardType": "DON",
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": 1
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:55.896Z"
+}

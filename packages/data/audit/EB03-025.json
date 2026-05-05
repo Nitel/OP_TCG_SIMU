@@ -1,0 +1,48 @@
+{
+  "id": "EB03-025",
+  "name": "Hina",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "TrashFromHand filter is incorrect. The effect says 'trash 1 card from your hand' without restriction to Character type, meaning any card type (Character, Event, Stage) can be trashed.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "ReturnToHand target scope is wrong. The effect says 'Return up to 1 Character' without specifying opponent's Character, so it should target any Character (yours or opponent's) with the power restriction.",
+      "field": "effects[0].actions[0].thenActions[0].target.scope"
+    },
+    {
+      "severity": "minor",
+      "description": "The power restriction should specify 'basePower' instead of 'maxPower' since the text explicitly says '6000 base power'.",
+      "field": "effects[0].actions[0].thenActions[0].target.maxPower"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "target": {
+                  "scope": "ChooseCharacter",
+                  "basePower": 6000,
+                  "count": 1,
+                  "optional": true
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:12:26.071Z"
+}

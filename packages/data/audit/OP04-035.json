@@ -1,0 +1,52 @@
+{
+  "id": "OP04-035",
+  "name": "Spiderweb",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Counter effect must use trigger 'Counter', not 'OnAttacked'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second action 'Rest' on opponent characters is completely wrong. Text says 'set up to 1 of your Characters as active' which means Rest your own character, not opponent's"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object is entirely incorrect. No mention of +2000 power to leader for EndOfTurn in official text. This effect should not exist"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should allow Leader or Character; 'ChooseOwnCharacter' excludes Leader. Should be 'ChooseOwnLeaderOrCharacter' or equivalent"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "limit": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "limit": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:07.224Z"
+}

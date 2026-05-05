@@ -1,0 +1,80 @@
+{
+  "id": "OP06-114",
+  "name": "Wyper",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should place a Stage card at bottom of deck, not search and put on board. Should use 'SearchDeck' with destination 'deck' and 'bottom' placement, or a dedicated 'PlaceDeck' action type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "RevealFromHand is incorrect. Effect requires looking at top 5 cards of YOUR deck (not hand), revealing up to 1 card matching '[Upper Yard] or {Shandian Warrior}' type, and adding to hand. Should be 'SearchDeck' with count:5 and filter for both subtypes."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter only includes 'Upper Yard' subtype. Must include OR condition for '{Shandian Warrior}' type cards as well."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "thenActions structure is unclear. Effect requires 'place rest at bottom of deck in any order' after revealing 1 card to hand. This reordering step is not properly captured."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'optional:true' flag. Effect text states 'You may place 1 Stage', indicating this is optional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "optional": true,
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "filter": {
+          "kind": "ByCardType",
+          "cardType": "Stage",
+          "maxCost": 1
+        },
+        "destination": "deck",
+        "placement": "bottom"
+      },
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "filter": {
+          "kind": "Any"
+        },
+        "reveal": true,
+        "revealFilter": {
+          "operator": "OR",
+          "conditions": [
+            {
+              "kind": "BySubType",
+              "subType": "Upper Yard"
+            },
+            {
+              "kind": "ByType",
+              "type": "Shandian Warrior"
+            }
+          ]
+        },
+        "revealCount": 1,
+        "destination": "hand",
+        "thenAction": {
+          "type": "PlaceDecks",
+          "cards": "remaining",
+          "placement": "bottom",
+          "playerOrder": true
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:21:50.947Z"
+}

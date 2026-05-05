@@ -1,0 +1,43 @@
+{
+  "id": "OP02-105",
+  "name": "Tashigi",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text states 'during this turn', which means the effect lasts for the current turn phase only, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should be 'OpponentCharacter' with proper selection limit. 'ChooseOpponentCharacter' is not standard; should use scope with maxSelect or similar constraint to enforce 'up to 1'."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP02-105",
+    "effectText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters −3 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -3000,
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxSelect": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:19.402Z"
+}

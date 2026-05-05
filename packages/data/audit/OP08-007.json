@@ -1,0 +1,75 @@
+{
+  "id": "OP08-007",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "duration",
+      "description": "Card text contains '[Your Turn]' prefix indicating effects only work during your turn. DSL missing duration:'DuringYourTurn' on both triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is incomplete. Must specify: type='Animal' (not name-based), power limit 4000, and rested state. Current filter uses 'ByName' which is incorrect for type-based search."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].quantity",
+      "description": "Action missing quantity constraint. Text states 'up to 1' card but DSL does not restrict quantity."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination 'board' is incomplete. Must specify card enters 'rested' state per card text 'play...rested'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action for deck ordering. Text requires 'place the rest at the bottom of your deck in any order' but DSL has no corresponding action."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [On Play]/[When Attacking] Look at 5 cards from the top of your deck and play up to 1 {Animal} type Character card with 4000 power or less rested. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "quantity": 1,
+            "filter": {
+              "kind": "ByType",
+              "type": "Animal",
+              "maxPower": 4000
+            },
+            "destination": "board",
+            "state": "rested"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringYourTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "quantity": 1,
+            "filter": {
+              "kind": "ByType",
+              "type": "Animal",
+              "maxPower": 4000
+            },
+            "destination": "board",
+            "state": "rested"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:12:11.073Z"
+}

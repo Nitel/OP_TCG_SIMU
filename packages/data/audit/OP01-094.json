@@ -1,0 +1,35 @@
+{
+  "id": "OP01-094",
+  "name": "Kaido",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' (checking if Leader has {Animal Kingdom Pirates} type), not 'HasCardOnBoard' (which checks for a card on the board)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope should be 'AllCharactersExcept' with target name 'OP01-094' to exclude this Character, not 'AllOpponentCharacters' which includes opponent characters only"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Animal Kingdom Pirates"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "AllCharactersExcept",
+          "name": "OP01-094"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:38.748Z"
+}

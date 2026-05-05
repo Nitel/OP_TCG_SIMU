@@ -1,0 +1,33 @@
+{
+  "id": "OP13-020",
+  "name": "Meteor Fist",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn' to match the effect lasting for the current turn phase."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows choosing up to 1 opponent character, but DSL uses ChooseOpponentCharacter without explicit 'up to' constraint. Should clarify max:1 if scope doesn't inherently limit to single selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -5000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "max": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:59:52.517Z"
+}

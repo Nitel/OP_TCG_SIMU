@@ -1,0 +1,47 @@
+{
+  "id": "OP01-055",
+  "name": "You Can Be My Samurai!!",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is mandatory in DSL but card text says 'You may rest' (optional). Rest action must include optional:true flag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest target is AllOwnCharacters but card specifies exactly '2 of your Characters'. Target must use count:2 constraint, not scope:AllOwnCharacters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DrawCard action should be conditional on Rest action completion. Current DSL executes both independently; card requires Rest as condition for Draw."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "optional": true,
+          "target": {
+            "scope": "OwnCharacters",
+            "count": 2
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "ActionResolved",
+            "action": 0
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:31.841Z"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "OP04-009",
+  "name": "Super Spot-Billed Duck Troops",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the cost condition: 'You may give your 1 active Leader −5000 power during this turn'. This is an optional cost that must be paid to trigger the return effect.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the PowerBoost action that represents giving the Leader -5000 power. This should be part of the cost or actions.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "major",
+      "description": "The ReturnToHand action is missing the timing specification 'at the end of this turn'. It should have a delay or timing property.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": {
+              "scope": "YourLeader",
+              "requirements": {
+                "state": "Active"
+              }
+            },
+            "amount": -5000,
+            "duration": "EndOfTurn",
+            "optional": true
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "Self"
+            },
+            "timing": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:54:03.362Z"
+}

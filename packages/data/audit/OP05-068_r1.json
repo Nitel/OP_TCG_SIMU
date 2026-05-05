@@ -1,0 +1,45 @@
+{
+  "id": "OP05-068_r1",
+  "name": "Chopa-Emon",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' checks for resting DON!! cards. Card text says '8 or more DON!! cards on your field' (attached DON!!), not resting. Should be 'HasAttachedDon' with count:8."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' sets a character as active (opposite of resting). Card text says 'set up to 1 of your purple {Straw Hat Crew} type Characters... as active', which is correct for Rest action, but the target filter is missing the purple color and {Straw Hat Crew} type requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacter' with maxPower:6000 is incomplete. Must also filter by color:purple and type:{Straw Hat Crew}."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "color": "purple",
+            "type": "{Straw Hat Crew}",
+            "maxPower": 6000,
+            "maxChoice": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:13:23.200Z"
+}

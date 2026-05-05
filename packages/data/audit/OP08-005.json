@@ -1,0 +1,56 @@
+{
+  "id": "OP08-005",
+  "name": "Chess",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which means the effect lasts only while it's your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action is missing a condition. The effect should only trigger 'if you don't have [Kuromarimo]' on board. Needs a condition: HasCardOnBoard with negate=true or similar conditional logic."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target uses 'ChooseOpponentCharacter' but action says 'up to 1', which should be enforced in the target scope (max: 1)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-005",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Kuromarimo"
+            },
+            "condition": {
+              "type": "HasCardOnBoard",
+              "filter": {
+                "subType": "Kuromarimo"
+              },
+              "negate": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:12:00.057Z"
+}

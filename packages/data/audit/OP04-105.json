@@ -1,0 +1,40 @@
+{
+  "id": "OP04-105",
+  "name": "Charlotte Amande",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.cardTypes",
+      "description": "Filter specifies 'Event' type, but card text requires '[Trigger]' keyword. Should filter by keyword, not card type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but maxCost:2 should be maxCost:2 and must include 'maxCount':1 to enforce 'up to 1'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "hasKeyword": "Trigger"
+        },
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:44:44.007Z"
+}

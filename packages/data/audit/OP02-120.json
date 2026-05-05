@@ -1,0 +1,29 @@
+{
+  "id": "OP02-120",
+  "name": "Uta",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text states 'until the start of your next turn', which means the boost lasts through your current turn and into opponent's turn, ending at the start of your next turn. This is a multi-turn duration scenario that requires 'DuringYourTurn' or similar extended duration, not immediate EndOfTurn removal."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader"
+          },
+          "duration": "UntilStartOfNextTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:41.424Z"
+}

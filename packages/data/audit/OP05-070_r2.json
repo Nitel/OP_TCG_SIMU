@@ -1,0 +1,41 @@
+{
+  "id": "OP05-070_r2",
+  "name": "Fra-Nosuke",
+  "set": "ST-26",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. The effect activates when the card enters play, not from an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. Rush keyword is a permanent passive ability, not a temporary effect that expires."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] If you have 8 or more DON!! cards on your field, this Character gains [Rush].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:21:04.489Z"
+}

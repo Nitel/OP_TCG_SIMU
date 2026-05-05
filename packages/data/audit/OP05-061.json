@@ -1,0 +1,46 @@
+{
+  "id": "OP05-061",
+  "name": "Uso-Hachi",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (When Attacking), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' with count 8 (8 or more DON!! on field), not 'HasRestingDon' with count 1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify 'up to 1' as optional selection; current syntax does not clearly express optionality"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1,
+              "optional": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:56.476Z"
+}

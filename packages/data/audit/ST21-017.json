@@ -1,0 +1,50 @@
+{
+  "id": "ST21-017",
+  "name": "Gum-Gum Mole Pistol",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "The condition for the KO action is incorrectly placed. The condition 'HasCardOnBoard' should check for a Character with minPower 6000 on your side, but the structure doesn't properly specify it's checking your own Characters.",
+      "field": "effects[0].actions[1].condition"
+    },
+    {
+      "severity": "minor",
+      "description": "The condition uses a 'name' field with descriptive text instead of proper minPower parameter. The condition should use minPower: 6000 to check for Characters with 6000 power or more.",
+      "field": "effects[0].actions[1].condition.name"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -5000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 2000,
+              "count": 1
+            },
+            "condition": {
+              "type": "HasCardOnBoard",
+              "scope": "YourCharacters",
+              "minPower": 6000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:47.448Z"
+}

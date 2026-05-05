@@ -1,0 +1,36 @@
+{
+  "id": "OP12-066",
+  "name": "Carne",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional effect text but effects array is empty. Should contain condition checking trash count and action granting Blocker keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 4,
+            "cardType": "Event"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:54:21.364Z"
+}

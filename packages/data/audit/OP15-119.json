@@ -1,0 +1,30 @@
+{
+  "id": "OP15-119",
+  "name": "Monkey.D.Luffy",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger is 'OnAttacked' but card text states 'When your opponent activates an Event or [Blocker]'. Should be 'Trigger' with custom activation condition, not a standard trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action is 'RevealFromHand' but card text says 'reveal up to 1 card from the top of your Life cards'. Should be a Life reveal action (likely custom or different action type), not hand reveal."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0]",
+      "description": "Power boost amount is fixed at 1000, but text states '+1000 power per 1 cost on the revealed card'. Amount should be dynamic based on revealed card's cost, not a flat 1000."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn', which implies the boost lasts through the current turn. Should verify if 'EndOfTurn' is correct interpretation or if duration needs adjustment."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:31:05.855Z"
+}

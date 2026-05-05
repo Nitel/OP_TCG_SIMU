@@ -1,0 +1,40 @@
+{
+  "id": "OP15-113",
+  "name": "Roronoa Zoro",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect should use 'ForceDiscard' (legacy alias: TrashCard) to trash from hand, but the real issue is the sequence: trashing is optional ('You may') and conditional on the main action. The structure should reflect: [optional trash from hand] → [if trashed, then flip 1 from deck to life]."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "'FlipLife' is correct for adding a card from top of deck to top of life cards, but the conditional logic is wrong. The action should only execute if the player chooses to trash a card (optional condition, not mandatory)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "zone": "Hand"
+          },
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "FlipLife",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:30:36.396Z"
+}

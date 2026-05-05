@@ -1,0 +1,93 @@
+{
+  "id": "OP06-062",
+  "name": "Vinsmoke Judge",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing DON!! cost structure. [On Play] DON!! −1 must be represented as a cost condition, not just trigger. Current DSL does not capture the optional DON!! return mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action is present but effect text says 'You may trash 2 cards' — this is optional, not mandatory. Action should reflect optionality and require exactly 2 cards, not unspecified count."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PlayFromHand filter incorrect. Effect requires cards from trash (not hand), specifically 'GERMA 66' type Characters with 4000 power or less, up to 4 cards with different names. Current filter targets hand and lacks differentiation constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].target",
+      "description": "Second effect targets opponent's DON!! cards (not Characters). Current target 'ChooseOpponentCharacter' is wrong. Should target DON!! tokens on opponent's field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing DON!! −1 cost. [Activate: Main] with 'DON!! −1' cost is not represented in DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "GiveDon",
+        "amount": 1,
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "optional": true,
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "GERMA 66",
+                "cardType": "Character",
+                "maxPower": 4000
+              },
+              "maxCount": 4,
+              "differentNames": true,
+              "source": "Trash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "GiveDon",
+        "amount": 1
+      },
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": "OncePerTurn"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentDon",
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:25:30.495Z"
+}

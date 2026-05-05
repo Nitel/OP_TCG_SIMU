@@ -1,0 +1,49 @@
+{
+  "id": "OP08-073",
+  "name": "Viscount Hiyoko",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Card text states '[Opponent's Turn]' but DSL has no duration field. Must add duration:'DuringOpponentTurn' to indicate this effect only occurs during opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' not 'HasRestingDon'. The effect requires DON!! cards attached to this card (to return to deck), not resting DON!! on field."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing cost constraint. Card text specifies 'cost of 6 or less' but filter does not include maxCost:6 restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-073",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByName",
+              "name": "Count Niwatori",
+              "maxCost": 6
+            },
+            "destination": "board",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:29:48.360Z"
+}

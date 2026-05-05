@@ -1,0 +1,54 @@
+{
+  "id": "OP15-102",
+  "name": "Gan.Fall",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing static effect for cost reduction. Card has two effects: (1) static conditional cost reduction based on Sky Island Character with 7000+ power, and (2) OnPlay trigger. Only OnPlay is captured."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost is hardcoded as 5, but should be dynamic: equal to opponent's current Life card count. This is a variable condition, not a fixed value."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Permanent",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "YourCharacters",
+          "cardType": "Sky Island",
+          "minPower": 7000
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ThisCardInHand"
+          },
+          "costReduction": 3
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": "OpponentLifeCardCount"
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:29:52.625Z"
+}

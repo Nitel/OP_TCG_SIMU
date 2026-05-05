@@ -1,0 +1,42 @@
+{
+  "id": "OP09-088",
+  "name": "Shiryu",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Optional effect ('You may trash 2 cards') must be wrapped in a conditional structure. Current DSL executes TrashFromHand and DrawCard sequentially without 'may' logic. Should use optional/conditional pattern where DrawCard only occurs if player chooses to trash 2 cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Legacy alias 'TrashFromHand' is not standard. Should use 'ForceDiscard' per official DSL vocabulary."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "source": "Hand",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:28:30.870Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP12-099",
+  "name": "Kalgara",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a triggered effect with duration '[Your Turn]' but effects[] is empty. DSL must include the trigger, conditions, and actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text contains '[Your Turn]' which indicates duration should be 'DuringYourTurn', not empty or 'Permanent'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] When a card is removed from your or your opponent's Life cards, draw 1 card. Then, you cannot draw cards using your own effects during this turn.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotDrawCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:56:51.451Z"
+}

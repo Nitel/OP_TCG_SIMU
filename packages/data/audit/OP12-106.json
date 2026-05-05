@@ -1,0 +1,26 @@
+{
+  "id": "OP12-106",
+  "name": "Trafalgar Law",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from effects array. Card has [Blocker] text that must be represented as a keyword effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:57:23.193Z"
+}

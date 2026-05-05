@@ -1,0 +1,60 @@
+{
+  "id": "OP12-020",
+  "name": "Roronoa Zoro",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'Rest' but card text says 'set this Leader as active' (opposite effect). Should be a custom action or clarified as activating/unresting."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional logic: effect should only trigger 'If this Leader battles your opponent's Character during this turn'. Current DSL has no battle condition. Requires either a Counter trigger on attack or conditional check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing restriction action: 'this Leader cannot attack your opponent's Characters with a base cost of 7 or less during this turn' is not represented. Requires a GiveKeyword or custom restriction action with duration DuringYourTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' is correct for '[Activate: Main]', but the conditional structure doesn't capture the battle dependency properly."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x3] [Activate: Main] [Once Per Turn] If this Leader battles your opponent's Character during this turn, set this Leader as active. Then, this Leader cannot attack your opponent's Characters with a base cost of 7 or less during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 3
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": {
+              "scope": "Self"
+            },
+            "keyword": "Active",
+            "duration": "DuringYourTurn",
+            "condition": "OnlyIfBattledThisTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "target": {
+              "scope": "Self"
+            },
+            "keyword": "CannotAttackCostLessOrEqual7",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:49.949Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP03-118",
+  "name": "Ikoku Sovereignty",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Counter events use trigger 'Counter', not 'OnAttacked'. The [Counter] effect is triggered when the opponent attacks, allowing you to activate it from hand by paying cost.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Target scope 'ChooseOwnCharacter' is too restrictive. Official text says 'Up to 1 of your Leader or Character', so it should include the leader as a valid target.",
+      "field": "effects[0].actions[0].target.scope"
+    },
+    {
+      "severity": "minor",
+      "description": "The Trigger effect (second effect in array) appears to be generic card text for all cards with trigger icons, but the official effectText provided does not mention this trigger effect. However, this is likely a trigger icon effect that's standard, so this is not necessarily wrong if it's part of the card's design.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 5000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "filter": {
+                  "kind": "Any"
+                },
+                "destination": "hand"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:54:02.333Z"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP07-033",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain a triggered effect that prevents KO of eligible characters."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "targetType": "Character",
+          "minCount": 3
+        },
+        "actions": [
+          {
+            "type": "Prevention",
+            "target": "Character",
+            "filter": {
+              "cost": "<=3",
+              "excludeName": "Monkey.D.Luffy"
+            },
+            "preventSource": "OpponentEffect"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:04:52.605Z"
+}

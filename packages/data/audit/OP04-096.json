@@ -1,0 +1,38 @@
+{
+  "id": "OP04-096",
+  "name": "Corrida Coliseum",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a conditional ability (if Leader has {Dressrosa} type, grant keyword to {Dressrosa} Characters) but effects array is empty. Should contain at least one effect with condition LeaderHasType, action GiveKeyword (Haste or equivalent), and appropriate targeting."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Dressrosa"
+          }
+        ],
+        "targets": {
+          "type": "CharactersOfType",
+          "value": "Dressrosa"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Haste"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:44:05.914Z"
+}

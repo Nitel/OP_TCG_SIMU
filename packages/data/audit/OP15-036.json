@@ -1,0 +1,55 @@
+{
+  "id": "OP15-036",
+  "name": "Ryuma",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].target",
+      "description": "Target must filter for rested Characters only. Current DSL lacks condition to restrict to rested state. Should include condition or filter in target scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].target",
+      "description": "Target must filter for rested Characters only. Current DSL lacks condition to restrict to rested state. Should include condition or filter in target scope."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "conditions": [
+              {
+                "type": "IsRested"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "conditions": [
+              {
+                "type": "IsRested"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:24:42.514Z"
+}

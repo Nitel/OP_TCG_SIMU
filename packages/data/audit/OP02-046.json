@@ -1,0 +1,38 @@
+{
+  "id": "OP02-046",
+  "name": "Diable Jambe Venaison Shoot",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Second effect uses trigger 'Trigger' without specifying what triggers it. Card text only describes a Main effect (K.O. up to 1 opponent's rested Character with cost ≤4). No secondary triggered effect is mentioned. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is missing the 'rested' condition. Card text explicitly states 'rested Characters'. Target should include a condition filter for resting state."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "conditions": [
+              {
+                "type": "IsRested"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:30:55.636Z"
+}

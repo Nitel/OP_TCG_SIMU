@@ -1,0 +1,74 @@
+{
+  "id": "OP12-063",
+  "name": "Vinsmoke Reiju",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition check for '4 or more Events in trash'. Current condition is 'Always', but should be 'TrashCount' with type 'Event' and count >= 4."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing cost boost action. Effect grants '+5 cost' but only PowerBoost is present. Need second action to modify cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Trigger should be 'StartOfTurn' or 'Permanent' (static ability), not 'Activated'. This is a static passive that checks on card entry/state, not user activation."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Blocker keyword effect missing entirely. '[Blocker]' mechanic should be represented as a separate effect or embedded GiveKeyword action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "TrashCount",
+        "cardType": "Event",
+        "count": 4,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "ModifyCost",
+          "amount": 5,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:54:10.008Z"
+}

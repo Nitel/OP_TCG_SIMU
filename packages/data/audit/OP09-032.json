@@ -1,0 +1,60 @@
+{
+  "id": "OP09-032",
+  "name": "Donquixote Rosinante",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's attack phase), not 'OnAttacked' (this card being attacked). The card text states '[On Your Opponent's Attack]' which occurs during opponent's turn before targeting decisions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing condition to restrict activation to optional response. The text '[Once Per Turn]' and 'you may' indicate this should include a condition limiting to one activation per turn, and the action should make this card the attack target (not just Rest)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringOpponentTurn' per Duration rule: text contains 'opponent's attack' implying activation occurs during opponent's turn phase, not a permanent effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action incompletely models the effect. Blocker sets this character as the new attack target, which requires a more complex action or additional context; 'Rest' alone does not capture 'Set this Character as active' (making it active/blocking the attack)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Your Opponent's Attack] [Once Per Turn] Set this Character as active.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "TurnCount",
+            "value": 1,
+            "scope": "PerTurn"
+          }
+        ],
+        "duration": "DuringOpponentTurn",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:35:48.404Z"
+}

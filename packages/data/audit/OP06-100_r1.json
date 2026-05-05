@@ -1,0 +1,45 @@
+{
+  "id": "OP06-100_r1",
+  "name": "Inuarashi",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target.maxCost",
+      "description": "maxCost should be dynamic, based on opponent's Life card count, not null. Should reference opponent's life total as the cost limit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is spurious. Cost activation [DON!! x2] should be represented via cost metadata, not as a separate effect. This effect does not correspond to card text."
+    }
+  ],
+  "suggestedDsl": {
+    "cost": {
+      "don": 2
+    },
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": "OpponentLifeCount"
+                },
+                "amount": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:14.226Z"
+}

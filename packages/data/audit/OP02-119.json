@@ -1,0 +1,35 @@
+{
+  "id": "OP02-119",
+  "name": "Meteor Volcano",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'Trigger' with no associated condition. This is incomplete and ambiguous. A proper trigger event must be specified (e.g., OnPlay, OnAttack, OnKO, etc.) or this effect should be removed if it does not belong to this card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "DrawCard action appears without justification in the card text. The official text only describes a K.O. effect with no mention of drawing cards. This effect should be removed unless it reflects additional card mechanics not shown in the provided text."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:39.954Z"
+}

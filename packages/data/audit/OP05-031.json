@@ -1,0 +1,45 @@
+{
+  "id": "OP05-031",
+  "name": "Buffalo",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition 'HasRestingDon' - card requires 2 or more rested Characters as prerequisite"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but should be 'PowerBoost' or similar - card sets a rested Character as active (removes rest), not applies rest"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'once per turn' limitation - condition should include TurnCount restriction"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "minCount": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1,
+            "mustBeResting": true
+          },
+          "effect": "setActive"
+        }
+      ],
+      "once": "PerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:39:13.733Z"
+}

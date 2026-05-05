@@ -1,0 +1,37 @@
+{
+  "id": "ST14-003",
+  "name": "Sanji",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition checks for 'Character' on board but doesn't verify cost ≥6. Should use a cost-based condition or clarify that any Character satisfies the requirement."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is non-standard. Should use 'OpponentCharacter' with maxCost constraint. Also missing 'maxCount':1 to enforce 'up to 1'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Character",
+      "minCost": 6
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:09:18.549Z"
+}

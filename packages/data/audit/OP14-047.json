@@ -1,0 +1,35 @@
+{
+  "id": "OP14-047",
+  "name": "Shirahoshi",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the second action: 'play up to 1 {Fish-Man} or {Merfolk} type Character card with a cost of 3 or less from your hand'. Only DrawCard is present; PlayFromHand action with type filter and cost limit is completely missing."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "optional": true,
+        "filter": {
+          "cardTypes": [
+            "Fish-Man",
+            "Merfolk"
+          ],
+          "maxCost": 3
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:13:46.987Z"
+}

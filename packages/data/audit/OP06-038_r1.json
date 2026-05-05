@@ -1,0 +1,67 @@
+{
+  "id": "OP06-038_r1",
+  "name": "The Billion-fold World Trichiliocosm",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[2]",
+      "description": "Third effect with trigger 'Trigger' and KO action is completely absent from card text. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].target",
+      "description": "Target scope should be 'ChooseOwnCharacterOrLeader' with maxCount:1 to match 'Up to 1 of your Leader or Character cards'. Current scope is correct but needs maxCount constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].target",
+      "description": "Second effect targets 'ChooseOwnCharacterOrLeader' but should reference 'that card' from the first effect. The DSL represents two separate choices instead of applying the second boost to the same card boosted in step 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition type 'HasRestingDon' checks for rested cards, but card text states '8 or more rested cards'. Should verify condition is 'HasRestingDon' with count:8 (minimum threshold), not exact match."
+    }
+  ],
+  "suggestedDsl": {
+    "id": "OP06-038_r1",
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 8 or more rested cards, that card gains an additional +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 8,
+          "comparison": "GreaterThanOrEqual"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "LastTargetedCharacter"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:37:18.107Z"
+}

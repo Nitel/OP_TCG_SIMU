@@ -1,0 +1,36 @@
+{
+  "id": "OP01-049",
+  "name": "Bepo",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (card activates when attacking), not 'Activated' (player-triggered)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter excludes self by name, but card text specifies '[Bepo]' as exclusion. Use 'excludeName' or ensure exclusion targets the correct card name, not 'excludeSelf'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Heart Pirates",
+          "maxCost": 4,
+          "excludeName": "Bepo"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:22.500Z"
+}

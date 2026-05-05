@@ -1,0 +1,59 @@
+{
+  "id": "OP08-016",
+  "name": "Dr.Hiriluk",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'LeaderIsName' or 'LeaderHasType' to check if Leader is [Tony Tony.Chopper]. The DSL applies the boost to all own Characters unconditionally, but the card text requires the Leader to be Chopper."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope should be 'AllOwnCharactersWithType' or filtered to [Tony Tony.Chopper] Characters only. Currently 'AllOwnCharacters' applies the boost to all Characters, not just Chopper characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be a cost (conditional requirement), not an effect action. The syntax '[Activate: Main] You may rest this Character' indicates resting is optional/part of activation cost, not a consequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' but should be explicitly 'DuringYourTurn' since it applies only on your turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "cost": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ],
+    "conditions": [
+      {
+        "type": "LeaderIsName",
+        "value": "Tony Tony.Chopper"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filter": {
+            "cardName": "Tony Tony.Chopper"
+          }
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:21:52.630Z"
+}

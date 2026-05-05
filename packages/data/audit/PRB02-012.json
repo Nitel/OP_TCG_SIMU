@@ -1,0 +1,60 @@
+{
+  "id": "PRB02-012",
+  "name": "Nami",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete: missing 'topN' parameter (should be 5). SearchDeck must specify how many cards to search from."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incorrect: uses 'ByName' but should use 'ByType' to search for {Straw Hat Crew} type cards. Additionally, must exclude [Nami] which requires a complex filter (type=Straw Hat Crew AND name!=Nami)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action should allow 'upTo' parameter to reveal up to 1 card (not exactly 1). Current DSL does not support this optionality."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is incorrect and unrelated to card text. Card text describes placing remaining cards at bottom of deck in any order—no 'PlaySelf' action exists in the effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing action to handle the 'place the rest at the bottom of your deck in any order' portion of the effect. No ReorderDeck or similar action present."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Straw Hat Crew} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "topN": 5,
+            "filter": {
+              "kind": "ByType",
+              "type": "Straw Hat Crew",
+              "excludeName": "Nami"
+            },
+            "upTo": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "ReorderDeck",
+            "zone": "bottom",
+            "remaining": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:51:10.353Z"
+}

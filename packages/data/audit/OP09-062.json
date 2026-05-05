@@ -1,0 +1,59 @@
+{
+  "id": "OP09-062",
+  "name": "Nico Robin",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence is incomplete. After trashing a card with [Trigger], the card must also REST the added DON!! card. Current DSL only includes GiveDon but is missing the Rest action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand should be conditional (optional 'may'). The DSL does not reflect the optional nature of the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing Banish passive effect. The DSL only covers the Attack trigger but omits the passive [Banish] effect that states 'When this card deals damage, the target card is trashed without activating its Trigger.'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Trigger"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1
+            },
+            {
+              "type": "Rest",
+              "target": "addedDon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "description": "Banish - When this card deals damage, the target card is trashed without activating its Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": "damagedCard",
+          "bypassTrigger": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:28:33.961Z"
+}

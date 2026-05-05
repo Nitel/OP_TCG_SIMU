@@ -1,0 +1,92 @@
+{
+  "id": "OP09-084_r1",
+  "name": "Catarina Devon",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard' - effect checks Leader type, not board presence"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the end of your opponent's next turn' which means the keyword persists through opponent's turn - should be 'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect - should be 'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[2].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[2].duration",
+      "description": "Duration 'EndOfTurn' is incorrect - should be 'DuringOpponentTurn'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:46.076Z"
+}

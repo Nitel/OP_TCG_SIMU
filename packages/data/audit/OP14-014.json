@@ -1,0 +1,33 @@
+{
+  "id": "OP14-014",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Supernovas} type, not just if Leader exists on board. Should use LeaderHasType:Supernovas instead of HasCardOnBoard:Leader"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Red",
+            "cardType": "Character",
+            "maxPower": 2000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:11:11.041Z"
+}

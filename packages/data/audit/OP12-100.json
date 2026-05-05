@@ -1,0 +1,63 @@
+{
+  "id": "OP12-100",
+  "name": "Sabo",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the conditional static ability. Card text states 'If you have 3 or less Life cards, this Character gains [Blocker] and +3 cost' — this is a permanent conditional effect that must be represented as a separate effect with trigger 'Always' and condition 'LifeCardsCount' (or equivalent), not part of the OnPlay trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "OnPlay effect uses 'FlipLife' but card text says 'add 1 card from the top of your Life cards to your hand' — this is a retrieval action, not a flip. Should be custom action or clarify intent; FlipLife typically means converting life to damage."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "OnPlay effect structure is missing 'optional' flag. Card text says 'You may...' indicating this is an optional triggered ability, not mandatory."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Always",
+      "condition": "LifeCardsCount",
+      "conditionValue": 3,
+      "conditionComparison": "LessThanOrEqual",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3,
+          "costBoost": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "optional": true,
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:56:58.914Z"
+}

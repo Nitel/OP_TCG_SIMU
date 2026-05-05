@@ -1,0 +1,29 @@
+{
+  "id": "ST10-006",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Once Per Turn]' condition. The card text explicitly states 'Once Per Turn', which should be represented as a condition in the DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "condition": "Once Per Turn",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 8000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:05:01.957Z"
+}

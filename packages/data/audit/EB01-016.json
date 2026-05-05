@@ -1,0 +1,41 @@
+{
+  "id": "EB01-016",
+  "name": "Bingoh",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that target must be rested. The effect text specifies 'rested Characters' but the DSL does not include a rested condition in the target.",
+      "field": "effects[0].actions[0].target.condition"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing cost specification for Activated trigger. The effect requires resting this Character as a cost, which should be encoded in the trigger.",
+      "field": "effects[0].trigger.cost"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestSelf"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1,
+              "condition": {
+                "type": "IsRested"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:05.222Z"
+}

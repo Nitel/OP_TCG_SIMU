@@ -1,0 +1,30 @@
+{
+  "id": "OP15-037",
+  "name": "The Outcome Will Tell Us Who's Strong and Who's Weak",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck does not support the required 'look at 5 cards' mechanic with conditional reveal and bottom-deck placement. Current DSL uses SearchDeck which searches entire deck, not limited to top 5."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing filter for card name exclusion: [The Outcome Will Tell Us Who's Strong and Who's Weak] must be excluded from selection."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger → DrawCard) is incorrect. The card effect does not draw a card; it manipulates deck order by placing non-revealed cards at bottom in any order."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Current DSL structure cannot express: (1) Look at top 5 cards as a set operation, (2) reveal UP TO 1 (optional), (3) place rest at bottom in any order. These require custom action types or extended syntax not present in standard OPTCG DSL."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:24:48.707Z"
+}

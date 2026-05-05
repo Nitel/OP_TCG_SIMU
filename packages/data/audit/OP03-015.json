@@ -1,0 +1,35 @@
+{
+  "id": "OP03-015",
+  "name": "Lim",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but card text specifies '[Opponent's Turn] When this Character is K.O.'d, give up to 1 of your opponent's Leader or Character cards −2000 power during this turn.' The −2000 power effect occurs during opponent's turn (when this card is KO'd on opponent's turn), so duration should be 'DuringOpponentTurn', not 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' should include Leader as valid option. Card text says 'give up to 1 of your opponent's Leader or Character cards', so target should allow selection of either Leader OR Character, not just Character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentLeaderOrCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:09.854Z"
+}

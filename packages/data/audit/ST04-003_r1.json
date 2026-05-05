@@ -1,0 +1,38 @@
+{
+  "id": "ST04-003_r1",
+  "name": "Kaido",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Rush keyword grant during play should use duration 'DuringYourTurn' not 'EndOfTurn'. The text states 'during this turn' which means the character can attack on the turn it enters play and for the remainder of that turn only."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 5
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6
+        }
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:39:27.861Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "ST14-011",
+  "name": "Heracles",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but card text states 'until the end of your opponent's next turn'. This should be 'DuringOpponentTurn' to represent the opponent's next turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target specifies 'maxCost:2' but card text says 'Up to 1 of your black {Straw Hat Crew} type Characters'. The target should filter by type '{Straw Hat Crew}' and color/attribute 'Black', not by cost restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCount": 1,
+          "hasType": "Straw Hat Crew",
+          "hasColor": "Black"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:09:55.624Z"
+}

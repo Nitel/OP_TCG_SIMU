@@ -1,0 +1,59 @@
+{
+  "id": "ST26-001",
+  "name": "Soba Mask",
+  "set": "ST-26",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing static effect for cost reduction. Card has two effects: (1) static cost reduction based on leader/character type condition, (2) OnPlay trigger. DSL only captures OnPlay."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "ReturnToHand target is too broad. Should target only [San-Gorou] and [Sanji] Characters, not all owned characters."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": {
+            "cardTypes": [
+              "San-Gorou",
+              "Sanji"
+            ],
+            "minPower": 7000
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": -5
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "OwnCharacters",
+            "cardTypes": [
+              "San-Gorou",
+              "Sanji"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:21:34.311Z"
+}

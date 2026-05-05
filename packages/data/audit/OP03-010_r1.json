@@ -1,0 +1,29 @@
+{
+  "id": "OP03-010_r1",
+  "name": "Fossa",
+  "set": "ST-15",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability completely missing from DSL. Card text describes a triggered Counter ability that should be encoded as an effect with trigger OnAttacked, condition Always, and action to rest the card and redirect attack."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:10:59.828Z"
+}

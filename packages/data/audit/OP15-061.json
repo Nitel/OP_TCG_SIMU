@@ -1,0 +1,65 @@
+{
+  "id": "OP15-061",
+  "name": "Ohm",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First effect requires cost DON!! −1, but DSL has no cost specified. DrawCard action should be paired with a cost constraint or the effect should include a cost model."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition is 'Always', but card text requires 'If you have 6 or less DON!! cards on your field'. Should be a HasAttachedDon condition with count ≤6."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration is 'EndOfTurn', but text says 'during this turn'. Should be 'DuringYourTurn' to match the scope of the attack action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target allows choosing any opponent character ('ChooseOpponentCharacter'), but text specifies 'up to 1' which implies optional selection. Scope should reflect optional targeting or max count of 1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "DON",
+        "amount": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": {
+          "operator": "<=",
+          "value": 6
+        }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:39.970Z"
+}

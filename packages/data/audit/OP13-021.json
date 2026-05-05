@@ -1,0 +1,49 @@
+{
+  "id": "OP13-021",
+  "name": "Gum-Gum Gatling Gun",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action missing required condition: should only target [Monkey.D.Luffy] characters. Current target scope is too broad."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate Trigger effect with identical PowerBoost action. DSL contains redundant effect entry that should be consolidated into single Activated effect."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon should specify condition that card must be resting (HasRestingDon or similar validation may be implicit in scope, but condition clarity recommended)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "condition": "LeaderIsName",
+            "value": "Monkey.D.Luffy"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:59:56.965Z"
+}

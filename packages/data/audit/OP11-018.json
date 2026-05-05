@@ -1,0 +1,53 @@
+{
+  "id": "OP11-018",
+  "name": "Honesty Impact",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger object with type 'Trigger' is undefined/unclear. The DSL describes a single OnPlay effect with two sequential actions; there should not be a separate 'Trigger' entry without clarification of what triggers it"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Action should specify 'up to 1' via maxTargets:1 or similar constraint for clarity"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "Action should specify 'up to 1' via maxTargets:1 or similar constraint for clarity"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000,
+            "maxTargets": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:41:30.813Z"
+}

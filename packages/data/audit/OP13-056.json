@@ -1,0 +1,29 @@
+{
+  "id": "OP13-056",
+  "name": "LittleOars Jr.",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader's type includes 'Whitebeard Pirates', not if a card with that name is on board."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:02:32.108Z"
+}

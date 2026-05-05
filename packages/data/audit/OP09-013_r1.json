@@ -1,0 +1,46 @@
+{
+  "id": "OP09-013_r1",
+  "name": "Yasopp",
+  "set": "ST-23",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states 'until the end of your opponent's next turn' but DSL has 'EndOfTurn'. This should be 'DuringOpponentTurn' to represent the opponent's next turn duration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:05.767Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "ST16-003_r1",
+  "name": "Charlotte Katakuri",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect is completely missing. Card text describes a conditional power boost that should trigger OnPlay or be Permanent. Expected: condition checking LeaderHasType(FILM) AND HasRestingDon(6+), action PowerBoost(2000)"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "FILM"
+          },
+          {
+            "type": "HasRestingDon",
+            "value": 6
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "value": 2000,
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:06.537Z"
+}

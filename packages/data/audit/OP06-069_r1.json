@@ -1,0 +1,45 @@
+{
+  "id": "OP06-069_r1",
+  "name": "Vinsmoke Reiju",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "DSL is missing required conditions. Card text specifies TWO conditions that must both be met: (1) DON count comparison (your field ≤ opponent's field), and (2) hand size check (5 or less cards in hand). DSL has no conditions array, making it unconditional."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions[0]",
+      "description": "Missing condition for DON card comparison: 'HasAttachedDon' with value operator checking your DON count ≤ opponent's DON count"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions[1]",
+      "description": "Missing condition for hand size check: should verify hand contains 5 or fewer cards (requires hand count condition not currently in standard trigger set)"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": "≤",
+        "target": "opponent"
+      },
+      {
+        "type": "HandCount",
+        "value": "≤",
+        "count": 5
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:37:55.532Z"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "OP12-077",
+  "name": "The \"Extinguishes All Sound Created by Your Influence\" Technique",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which is a temporary effect limited to your current turn phase."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must specify card name filter. Text requires 'Select up to 1 of your [Trafalgar Law] cards'. Current scope lacks cardName constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (DrawCard) is completely absent from card text. No draw effect exists in the official text. This action should not be present."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing conditional action: 'if the selected card attacks during this turn, your opponent cannot activate [Blocker]'. This requires a Counter trigger on attack with a condition blocking opponent's [Blocker] activation."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP12-077",
+    "effectText": "[Main] Select up to 1 of your [Trafalgar Law] cards and that card gains +2000 power during this turn. Then, if the selected card attacks during this turn, your opponent cannot activate [Blocker].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "cardName": "Trafalgar Law",
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardName": "Trafalgar Law"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "BlockerCannotActivate",
+            "target": {
+              "scope": "OpponentHand"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:14.169Z"
+}

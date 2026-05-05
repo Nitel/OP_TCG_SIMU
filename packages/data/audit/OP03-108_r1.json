@@ -1,0 +1,56 @@
+{
+  "id": "OP03-108_r1",
+  "name": "Charlotte Cracker",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: card text requires 'If you have less Life cards than your opponent' but DSL only checks HasRestingDon. Correct condition should be a comparison of player life totals, not don count."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type incorrect: 'Activated' implies manual activation ([DON!!] cost), but card text describes a passive conditional effect that should trigger 'OnPlay' or be 'Always' with condition check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect completely unrelated to card text: 'Trigger' with TrashFromHand→PlaySelf has no basis in official text. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[*].duration",
+      "description": "Duration should be 'Permanent' (or omitted for permanent effects), not 'EndOfTurn'. Card text states 'gains [Double Attack] and +1000 power' with no turn restriction."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Custom",
+        "description": "You have less Life cards than your opponent"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:33:45.002Z"
+}

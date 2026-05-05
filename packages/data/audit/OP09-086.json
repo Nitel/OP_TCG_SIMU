@@ -1,0 +1,59 @@
+{
+  "id": "OP09-086",
+  "name": "Jesus Burgess",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing protection effect: 'This Character cannot be K.O.'d by your opponent's effects' is not represented in DSL at all"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'LeaderHasType' checking for {Blackbeard Pirates}, not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Power boost logic is wrong: should scale dynamically based on trash count (divided by 4), not fixed +1000 on play"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CantBeKOdByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": "TrashCount/4*1000",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:28:21.162Z"
+}

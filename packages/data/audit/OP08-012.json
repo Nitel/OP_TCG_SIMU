@@ -1,0 +1,47 @@
+{
+  "id": "OP08-012",
+  "name": "Lapins",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (When Attacking), not 'Activated'. 'Activated' is for abilities you choose to use; 'OnAttack' is for automatic triggers when the card attacks."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing required condition 'LeaderHasType' to check if Leader has {Drum Kingdom} type. Current condition only checks for resting DON but ignores the Leader type requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x2] [When Attacking] If your Leader has the {Drum Kingdom} type, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "count": 2
+          },
+          {
+            "type": "LeaderHasType",
+            "value": "Drum Kingdom"
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 4000,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:12:28.476Z"
+}

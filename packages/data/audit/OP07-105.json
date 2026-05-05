@@ -1,0 +1,51 @@
+{
+  "id": "OP07-105",
+  "name": "Pythagoras",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 2 or less Life cards' requires condition type 'LifeCount' with value 2, but condition is 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'PlayFromHand' but card must be played from trash (rested), not hand. Should be 'PlayFromTrash' or equivalent zone-specific action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing rested state requirement: card must be played 'rested' but filter has no rest/duration modifier"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained and does not match card text. This appears to be erroneous"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LifeCount",
+        "value": 2,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "subType": "Egghead",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "maxCount": 1,
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:10:27.959Z"
+}

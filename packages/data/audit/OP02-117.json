@@ -1,0 +1,40 @@
+{
+  "id": "OP02-117",
+  "name": "Ice Age",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which means the effect lasts for the remainder of your turn, not until end of turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action is completely unsupported by card text. Card only grants −5 cost to opponent's Characters during this turn. No KO effect exists."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include 'maxAmount':1 to match 'up to 1' in the text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxAmount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:36.764Z"
+}

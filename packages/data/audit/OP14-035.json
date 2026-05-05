@@ -1,0 +1,40 @@
+{
+  "id": "OP14-035",
+  "name": "Yosaku",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty but card text describes a conditional ability that triggers when this Character becomes rested during your turn. Missing entire effect definition."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] prefix requires duration to be DuringYourTurn, not a permanent or EndOfTurn effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnRest",
+        "duration": "DuringYourTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "OpponentCharacter",
+            "restriction": {
+              "maxCost": 4,
+              "count": 1,
+              "requiresResting": true
+            },
+            "skipRefresh": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:12:52.574Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP02-098",
+  "name": "Koby",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "TrashFromHand has an incorrect filter requiring cardType 'Character'. The official text says 'trash 1 card from your hand' with no restriction on card type - it can be any card (Character, Event, or Stage).",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "minor",
+      "description": "The thenActions structure implies the KO is mandatory after trashing. The official text uses 'may trash' suggesting the entire effect is optional, but once you choose to trash, the KO effect should occur. The current structure is acceptable but could be clearer with an optional flag on the parent action.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 3
+                },
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:46.004Z"
+}

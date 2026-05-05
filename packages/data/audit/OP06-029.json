@@ -1,0 +1,67 @@
+{
+  "id": "OP06-029",
+  "name": "Daruma",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' (When Attacking), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing required condition: LeaderHasType with value 'New Fish-Man Pirates'. Current condition only checks for DON!!, which is a cost, not an effect condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: Rest (set this Character as active). Current actions only include PowerBoost and FlipLife"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing 'Once Per Turn' restriction. Should include a turnCount or similar limiter"
+    }
+  ],
+  "suggestedDsl": {
+    "cost": [
+      {
+        "type": "GiveDon",
+        "count": 1
+      }
+    ],
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "New Fish-Man Pirates"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:55:26.040Z"
+}

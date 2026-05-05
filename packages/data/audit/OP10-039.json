@@ -1,0 +1,46 @@
+{
+  "id": "OP10-039",
+  "name": "Gum-Gum Dragon Fire Pistol Twister Star",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing required condition: LeaderHasType with type ODYSSEY. Effect should only trigger if Leader has {ODYSSEY} type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Must specify: look at top 5 cards, filter for up to 2 ODYSSEY Character cards only, reveal them, add to hand, then place rest at bottom of deck in any order. Current filter 'Any' is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with Rest action) is completely unrelated to card text. No mention of resting opponent characters in official text. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "ODYSSEY"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Character",
+            "type": "ODYSSEY"
+          },
+          "maxResults": 2,
+          "destination": "hand",
+          "deckLookCount": 5,
+          "restToBottom": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:33:50.082Z"
+}

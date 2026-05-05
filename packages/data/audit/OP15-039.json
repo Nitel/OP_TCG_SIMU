@@ -1,0 +1,47 @@
+{
+  "id": "OP15-039",
+  "name": "Rebecca",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "ReturnToHand target is incorrect. Card text says 'return 1 of your {Dressrosa} type Characters' but DSL specifies maxCost:3 with no subType filter. Should filter by Dressrosa subType."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be conditional. Card text says 'You may rest this Leader and return...' indicating Rest is part of the activation cost/condition, not guaranteed. The entire action sequence should be optional via 'You may'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnLeader"
+        }
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "subType": "Dressrosa"
+          }
+        }
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Dressrosa",
+          "cardType": "Character",
+          "maxCost": 3
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:24:57.819Z"
+}

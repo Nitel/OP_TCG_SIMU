@@ -1,0 +1,40 @@
+{
+  "id": "OP05-047",
+  "name": "Basil Hawkins",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'if you have 3 or less cards in your hand' should be represented as a condition before DrawCard action"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [
+        {
+          "type": "HandCount",
+          "operator": "<=",
+          "value": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:47:51.913Z"
+}

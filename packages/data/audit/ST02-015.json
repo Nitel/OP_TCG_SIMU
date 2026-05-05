@@ -1,0 +1,42 @@
+{
+  "id": "ST02-015",
+  "name": "Scalpel",
+  "set": "ST-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the second action: 'set up to 1 of your DON!! cards as active'. Counter effects should include both the power boost AND the DON setup action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Only one action present; Counter should have two sequential actions: PowerBoost followed by AttachDon (or equivalent DON activation mechanism)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "AttachDon",
+          "target": {
+            "scope": "ChooseOwnDonCards",
+            "maxAmount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:56:11.669Z"
+}

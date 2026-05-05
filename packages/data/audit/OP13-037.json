@@ -1,0 +1,71 @@
+{
+  "id": "OP13-037",
+  "name": "Roronoa Zoro",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'OnPlay' but condition checks for Leader on board. Should verify Leader type as part of condition, not just presence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'LeaderHasAnyType' with types [\"FILM\", \"Straw Hat Crew\"], not 'HasCardOnBoard' for Leader. Current condition is semantically wrong."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'GiveDon' but effect text says 'set up to 2 of your DON!! cards as active' - this means activating DON cards, not giving them. Should be 'AttachDon' or a Don activation mechanic, not 'GiveDon'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger is 'Activated' but effect text says '[End of Your Turn]'. Should be 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action is 'Rest' but effect says 'Set this Character as active' - these are opposite states. Should be a no-op or implicit, not 'Rest'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.\n[End of Your Turn] Set this Character as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "FILM",
+            "Straw Hat Crew"
+          ]
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "target": {
+              "scope": "YourField",
+              "cardType": "Character"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Active",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:01:11.347Z"
+}

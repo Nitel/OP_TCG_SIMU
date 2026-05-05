@@ -1,0 +1,62 @@
+{
+  "id": "OP12-034",
+  "name": "Perona",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition should check if Leader has <Slash> attribute, not just HasCardOnBoard. Should be LeaderHasType with type 'Slash'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing critical parameters: must specify lookAtCount (5), filter should restrict to <Slash> attribute cards OR green Events, and maxReveals should be 1. Current filter 'Any' is overly broad"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Action incomplete: after adding card to hand, must handle remaining 4 cards (place at bottom of deck in any order). Current DSL only captures the hand addition"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "attribute": "Slash"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookAtCount": 5,
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "kind": "Attribute",
+              "value": "Slash"
+            },
+            {
+              "kind": "And",
+              "conditions": [
+                {
+                  "kind": "Type",
+                  "value": "Event"
+                },
+                {
+                  "kind": "Color",
+                  "value": "Green"
+                }
+              ]
+            }
+          ]
+        },
+        "maxReveals": 1,
+        "destination": "hand",
+        "remainingDestination": "bottom_deck"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:51:55.845Z"
+}

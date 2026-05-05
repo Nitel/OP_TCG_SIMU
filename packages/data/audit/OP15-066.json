@@ -1,0 +1,49 @@
+{
+  "id": "OP15-066",
+  "name": "Satori",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second effect: [When Attacking] If you have 6 or less DON!! cards on your field, look at 2 cards from the top of your deck and place them at the top or bottom of your deck in any order."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (cost requirement) not 'HasRestingDon'. The card costs 1 DON!! to activate, meaning attached/available DON!! must be spent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 6,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "description": "Look at 2 cards from top of deck and place them at top or bottom in any order"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:58.162Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP07-097",
+  "name": "Vegapunk",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second action: effect allows playing card OR adding to Life cards face-up. DSL only includes PlayFromHand, not the alternative action for adding to Life cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is incomplete - it should support OR logic between two outcomes: (1) play from hand, or (2) add to top of Life cards face-up. Current DSL structure does not represent this choice."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Egghead",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "AddLife",
+          "filter": {
+            "subType": "Egghead",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:51.541Z"
+}

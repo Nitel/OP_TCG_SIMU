@@ -1,0 +1,49 @@
+{
+  "id": "OP05-015_r1",
+  "name": "Belo Betty",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) looking at 5 cards from top, (2) revealing up to 1 Revolutionary Army card OTHER THAN Belo Betty, (3) adding it to hand, (4) placing rest at bottom in any order. Current DSL only searches by type, missing the exclusion of Belo Betty and the deck ordering mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' but should be 'ByType' for Revolutionary Army type cards. Additionally, it must exclude the card named 'Belo Betty' which is not represented in the current filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to place remaining cards at bottom of deck in any order. The DSL must represent the full sequence including deck restructuring."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Revolutionary Army} type card other than [Belo Betty] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Revolutionary Army",
+              "excludeName": "Belo Betty"
+            },
+            "destination": "hand",
+            "amount": 1,
+            "searchDepth": 5
+          },
+          {
+            "type": "ArrangeBottomDeck",
+            "amount": 4
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:26.918Z"
+}

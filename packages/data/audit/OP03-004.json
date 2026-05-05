@@ -1,0 +1,55 @@
+{
+  "id": "OP03-004",
+  "name": "Curiel",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing the passive restriction: 'This Character cannot attack a Leader on the turn in which it is played.' This is a permanent passive effect that should be represented as a separate effect entry, not part of the DON!! activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (the character gains Rush when played if you have DON!!), not 'Activated'. The DON!! cost makes this an inherent play condition, not a manual activation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Restricted",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn",
+          "restriction": "CannotAttackLeader"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:49.539Z"
+}

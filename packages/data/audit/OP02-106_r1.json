@@ -1,0 +1,33 @@
+{
+  "id": "OP02-106_r1",
+  "name": "Tsuru",
+  "set": "ST-19",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts for the current turn only. Duration should be 'DuringYourTurn' not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at end of turn, while 'DuringYourTurn' correctly represents an effect active throughout the turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target uses 'ChooseOpponentCharacter' but card text specifies 'up to 1', meaning it should allow choosing 0 characters. Standard target should be 'OpponentCharacter' with proper quantifier handling, or the action needs explicit optional targeting."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentCharacter",
+          "quantity": "UpTo1"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:04.232Z"
+}

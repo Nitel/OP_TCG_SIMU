@@ -1,0 +1,45 @@
+{
+  "id": "OP12-030",
+  "name": "Dracule Mihawk",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'GiveDon' is incorrect. 'Set up to 4 of your DON!! cards as active' means activating existing DON cards, not giving new ones. Should use 'AttachDon' or a DON activation action. Current DSL gives DON instead of activating them."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'PlayFromHand' with restriction is incorrect. The card text states a restriction/prevention: 'you cannot play Character cards with a base cost of 7 or more during this turn.' This is a conditional restriction on gameplay, not an action that plays cards. This should be represented as a condition/constraint on the player's available actions, not as a PlayFromHand action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. The restriction 'during this turn' indicates a temporary effect that lasts until end of turn. Should have duration:'DuringYourTurn' or appropriate turn-limited duration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 4
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "restrictions": [
+        {
+          "type": "CannotPlayCards",
+          "filter": {
+            "cardType": "Character",
+            "minCost": 7
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:51:38.816Z"
+}

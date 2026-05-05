@@ -1,0 +1,44 @@
+{
+  "id": "OP04-106",
+  "name": "Charlotte Bavarois",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasLife' comparing opponent life cards, not 'HasRestingDon'. The card text states 'If you have less Life cards than your opponent' which requires a life comparison condition, not a DON condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' or similar state-check, but the condition logic is wrong. This is a passive/state-based effect that should trigger when the condition becomes true."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (TrashFromHand → PlaySelf) has no basis in the card text. The card only describes a power boost conditional on life total difference. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasLife",
+        "comparison": "less",
+        "opponent": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:44:48.984Z"
+}

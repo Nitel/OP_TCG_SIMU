@@ -1,0 +1,20 @@
+{
+  "id": "EB02-054",
+  "name": "Sanji",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Condition type is completely wrong. The text says 'If you have 2 or less Life cards' which checks the number of Life cards remaining, not turn count. Should use a condition that checks Life count, but no such condition type exists in the schema. This fundamentally changes when the effect can activate.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "minor",
+      "description": "The card has [Blocker] keyword which should be represented in the DSL, but it's missing from the effects array. Blocker is a static keyword ability.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:10:05.209Z"
+}

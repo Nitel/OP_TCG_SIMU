@@ -1,0 +1,57 @@
+{
+  "id": "OP06-018",
+  "name": "Gum-Gum King Kong Gatling",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Second PowerBoost action is missing conditional check. Effect text states 'if your opponent has a Character with 7000 power or more' — this condition must be applied to the second PowerBoost action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous effect present. The DSL includes a KO action with trigger 'Trigger' and maxPower condition that does not exist in the card text. This entire effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text explicitly states 'during this turn' which indicates the boost lasts only for the current turn phase, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text explicitly states 'during this turn' which indicates the boost lasts only for the current turn phase, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringYourTurn",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "OpponentCharacter",
+            "minPower": 7000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:54:33.201Z"
+}

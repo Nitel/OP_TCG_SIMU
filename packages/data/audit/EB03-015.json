@@ -1,0 +1,49 @@
+{
+  "id": "EB03-015",
+  "name": "Camie",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that restricts AttachDon target to only {Fish-Man} or {Merfolk} type Leader or Character. The target scope 'ChooseOwnCharacterOrLeader' allows any character/leader, but the effect text specifies 'Give up to 1 rested DON!! card to 1 of your {Fish-Man} or {Merfolk} type Leader or Character cards'",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Missing cost specification for the Activated trigger. The effect text states '[Activate: Main] You may rest this Character', indicating this Character must be rested as a cost to activate",
+      "field": "effects[0].cost"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestSelf"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "typeFilter": [
+                "Fish-Man",
+                "Merfolk"
+              ]
+            }
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:39.044Z"
+}

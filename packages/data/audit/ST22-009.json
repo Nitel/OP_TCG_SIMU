@@ -1,0 +1,27 @@
+{
+  "id": "ST22-009",
+  "name": "Vista",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is completely missing. The card has the [Blocker] mechanic which must be represented as an effect triggered OnBlock with appropriate actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T13:17:09.972Z"
+}

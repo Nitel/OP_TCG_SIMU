@@ -1,0 +1,37 @@
+{
+  "id": "OP13-106",
+  "name": "Conney",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Text states '[Opponent's Turn]' which requires duration 'DuringOpponentTurn', but DSL specifies 'EndOfTurn'. This is a critical duration mismatch."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect with trigger 'Trigger' and action 'PlaySelf' appears to be a default/placeholder effect. The card text does not mention playing the character itself, only granting Blocker keyword."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:06:27.611Z"
+}

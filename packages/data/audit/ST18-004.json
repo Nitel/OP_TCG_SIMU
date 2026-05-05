@@ -1,0 +1,39 @@
+{
+  "id": "ST18-004",
+  "name": "Zoro-Juurou",
+  "set": "ST-18",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing required parameters: 'count' (should specify looking at 5 cards), 'filter' conditions (must include: type=purple, cardType={Straw Hat Crew}), and 'maxReveal' (up to 1 card). Current filter is 'Any' which doesn't match the card text restrictions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action for placing remaining cards at bottom of deck in any order. The effect only captures the search/reveal/add-to-hand portion but omits the deck reorganization step."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "filter": {
+          "type": "purple",
+          "cardType": "{Straw Hat Crew}"
+        },
+        "maxReveal": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "ReorderDeck",
+        "zone": "bottom",
+        "remaining": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:13:50.107Z"
+}

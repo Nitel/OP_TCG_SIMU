@@ -1,0 +1,33 @@
+{
+  "id": "OP14-003",
+  "name": "Capone\"Gang\"Bege",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain a Counter/prevention effect blocking KO from opponent's Characters with ≤5000 base power."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PreventKO",
+          "target": "Self",
+          "source": "OpponentCharacterWithMaxBasePower",
+          "maxBasePower": 5000
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:10:23.063Z"
+}

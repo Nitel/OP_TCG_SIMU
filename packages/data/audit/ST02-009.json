@@ -1,0 +1,47 @@
+{
+  "id": "ST02-009",
+  "name": "Trafalgar Law",
+  "set": "ST-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but card text says 'Set up...as active' which means to change from rested to active state. Should be a state-change action (likely 'Activate' or inverse of Rest), not Rest."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter missing type requirements. Must filter for {Supernovas} OR {Heart Pirates} type. Current target only filters by maxCost:5 and scope, but lacks type condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target implicitly requires Characters to already be rested (per 'Set up...rested Characters'), but scope lacks 'HasRestingDon' or similar resting state filter."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Activate",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCount": 1,
+              "maxCost": 5,
+              "typeFilter": [
+                "Supernovas",
+                "Heart Pirates"
+              ],
+              "requireRestingDon": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:55:46.598Z"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "OP01-077",
+  "name": "Perona",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has gameplay effect text but effects array is empty. Must define [On Play] trigger with deck manipulation actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": "Self",
+            "params": {
+              "count": 5,
+              "position": "top",
+              "arrangement": "any"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:11.610Z"
+}

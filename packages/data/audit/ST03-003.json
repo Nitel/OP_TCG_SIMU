@@ -1,0 +1,46 @@
+{
+  "id": "ST03-003",
+  "name": "Crocodile",
+  "set": "ST-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'KO' but card text says 'Place...at the bottom of the owner's deck' — should be 'ReturnToHand' or similar deck placement action, not KO"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is 'ChooseOwnCharacter' but card says 'a Character' (unspecified owner) — should allow opponent's characters or use broader scope"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' is incorrect — [DON!! x1] means costs 1 DON to activate, should use 'HasAttachedDon' with count:1 or similar resource cost model"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [On Block] Place up to 1 Character with a cost of 2 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "OnBlock",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 2,
+              "location": "Board"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:56:31.255Z"
+}

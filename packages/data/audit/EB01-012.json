@@ -1,0 +1,91 @@
+{
+  "id": "EB01-012",
+  "name": "Cavendish",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing condition check for Leader having {Supernovas} type. The current condition checks for a card named 'Supernovas' on board, but the text requires 'your Leader has the {Supernovas} type'.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing condition check that you have no other [Cavendish] Characters. This is a required restriction for the effect to activate.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong action type. The effect 'set up to 2 of your DON!! cards as active' means untapping/activating DON!! cards, not giving new DON!! cards. Should use Rest action with active:true or a dedicated action for DON!! activation.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Same issues apply to the OnAttack trigger: wrong condition type, missing Cavendish check, and wrong action type.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "cardType": "Supernovas"
+            },
+            {
+              "type": "Not",
+              "condition": {
+                "type": "HasCardOnBoard",
+                "name": "Cavendish",
+                "excludeSelf": true
+              }
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourDon",
+            "count": 2,
+            "active": true,
+            "upTo": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "cardType": "Supernovas"
+            },
+            {
+              "type": "Not",
+              "condition": {
+                "type": "HasCardOnBoard",
+                "name": "Cavendish",
+                "excludeSelf": true
+              }
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourDon",
+            "count": 2,
+            "active": true,
+            "upTo": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:54.179Z"
+}

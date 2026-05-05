@@ -1,0 +1,35 @@
+{
+  "id": "EB03-026",
+  "name": "Boa Hancock",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If your opponent has 5 or more cards in their hand' requires condition type 'HandCount' or similar with opponent scope and threshold ≥5. Current condition is 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'ForceDiscard' is incorrect. Effect places card at bottom of deck, not discard. Should be custom action or 'ReturnToHand' is semantically wrong. The DSL lacks a 'PlaceBottomOfDeck' action type. This is a structural game action not covered by standard action set."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'Activated' is correct, but missing activation cost specification. Effect requires '[Once Per Turn]' and '[Activate: Main]' which should be encoded in activation metadata (not present in DSL structure)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "Action 'TrashFromHand' is incorrect. Effect requires placing 1 own Character from board (not hand) at bottom of deck. Should reference board Characters, not hand. Action type and target scope are wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions",
+      "description": "AttachDon actions should be conditional on the first action succeeding (placed Character). Structure suggests sequential execution but conditional logic is unclear."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:16:56.748Z"
+}

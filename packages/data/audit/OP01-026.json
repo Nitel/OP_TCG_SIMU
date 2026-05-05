@@ -1,0 +1,43 @@
+{
+  "id": "OP01-026",
+  "name": "Gum-Gum Fire-Fist Pistol Red Hawk",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect block with trigger 'Trigger' and PowerBoost -10000 action has no basis in card text. Only Counter effect should exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' to accurately reflect 'during this battle' timing."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 4000,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:47.036Z"
+}

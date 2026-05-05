@@ -1,0 +1,29 @@
+{
+  "id": "OP14-085",
+  "name": "Miss.Goldenweek(Marianne)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'trash 2 cards from your hand' is not represented. The DSL only includes DrawCard but omits the ForceDiscard action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:16:40.975Z"
+}

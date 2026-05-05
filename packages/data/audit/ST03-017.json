@@ -1,0 +1,40 @@
+{
+  "id": "ST03-017",
+  "name": "Love-Love Mellow",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "DrawCard action missing condition. Card text states 'draw 1 card if you have 3 or less cards in your hand' — requires condition HandCount <= 3"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "condition": {
+              "type": "HandCount",
+              "operator": "<=",
+              "value": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:57:30.628Z"
+}

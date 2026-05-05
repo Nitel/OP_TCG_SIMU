@@ -1,0 +1,39 @@
+{
+  "id": "ST06-008_r1",
+  "name": "Hina",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect applies for the remainder of the current turn. This should be duration:'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at end of turn, but 'during this turn' is a broader temporal scope that persists until turn end."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target should be 'OpponentCharacter' (singular selection up to 1), not 'ChooseOpponentCharacter'. The phrase 'up to 1' indicates optional selection of a single opponent character."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Give up to 1 of your opponent's Characters −4 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -4000,
+            "target": {
+              "scope": "OpponentCharacter",
+              "quantity": 1,
+              "optional": true
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:51:52.473Z"
+}

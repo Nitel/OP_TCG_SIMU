@@ -1,0 +1,35 @@
+{
+  "id": "OP09-024",
+  "name": "Usopp",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: 'If you have 2 or more rested Characters' requires a condition checking rested character count. Current condition is 'Always' which ignores this requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:09.282Z"
+}

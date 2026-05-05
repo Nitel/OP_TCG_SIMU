@@ -1,0 +1,45 @@
+{
+  "id": "OP06-014",
+  "name": "Ratchet",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' not 'EndOfBattle'. Card text states 'during this battle' which occurs on opponent's turn, and the boost applies for the duration of that battle phase on opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope is incomplete. Card allows choice of 'Your Leader OR 1 of your Characters' but current DSL only specifies 'ChooseOwnCharacter'. Should allow selection between leader and character with scope like 'ChooseOwnLeaderOrCharacter' or equivalent multi-option target."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "FILM"
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 1000,
+                "perTrashedCard": true,
+                "target": {
+                  "scope": "ChooseOwnLeaderOrCharacter"
+                },
+                "duration": "DuringOpponentTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:13.237Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ST13-012",
+  "name": "Makino",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'FlipLife' is incorrect. FlipLife only flips life cards; it does not add them to hand or allow reordering. The effect requires two distinct actions: (1) add 1 card from top/bottom of Life to hand, and (2) look at all Life cards and reorder them."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing the reordering mechanic entirely. The DSL must capture the ability to look at and rearrange all Life cards in any order."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "No condition for the optional 'You may' clause. Should include a condition that makes this action optional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "ReorderLife",
+        "optional": false
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:08:31.240Z"
+}

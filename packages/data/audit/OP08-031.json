@@ -1,0 +1,43 @@
+{
+  "id": "OP08-031",
+  "name": "Miyagi",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'GiveKeyword' to set character as active (grant Active keyword), not 'Rest' which does the opposite"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing type filter '{Minks}' — should include cardType condition or filter in target scope"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' for a setup effect that sets character state, not 'EndOfTurn'"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Active",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 2,
+              "cardType": "Minks"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:29.162Z"
+}

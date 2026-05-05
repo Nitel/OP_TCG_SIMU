@@ -1,0 +1,44 @@
+{
+  "id": "OP06-059_r1",
+  "name": "White Snake",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisTurn' not 'EndOfTurn'. Text says 'during this turn' which indicates the boost lasts only while the turn is active, not until end of turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous effect detected. The second effect with trigger 'Trigger' and SearchDeck action has no basis in the card text. Only Counter trigger with PowerBoost and DrawCard are mentioned."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should allow 'Up to 1', which means it can be optional/zero targets. Current 'ChooseOwnCharacterOrLeader' may not properly represent 'up to 1' optionality."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "DuringThisTurn"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:43:19.026Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP10-002",
+  "name": "Caesar Clown",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (card triggers when attacking), not 'Activated' (player-activated ability)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "K.O. action should be optional ('may K.O.'), indicated by 'optional':true flag"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 2,
+            "subType": "Punk Hazard"
+          },
+          "optional": true
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 4000,
+            "count": 1
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:31:02.832Z"
+}

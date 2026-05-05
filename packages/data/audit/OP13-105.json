@@ -1,0 +1,27 @@
+{
+  "id": "OP13-105",
+  "name": "Kouzuki Momonosuke",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a clear [On Play] effect that allows the player to arrange their Life cards. This requires at least one effect object with trigger, conditions, and actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ArrangeLiveCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:06:20.243Z"
+}

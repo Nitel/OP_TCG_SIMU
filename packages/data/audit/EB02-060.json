@@ -1,0 +1,63 @@
+{
+  "id": "EB02-060",
+  "name": "Merry Go",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing cost: the effect requires resting this Stage, but no Rest action on self is present",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "major",
+      "description": "Missing target filter: PowerBoost should only target Characters with type {Straw Hat Crew}, but no type condition is specified",
+      "field": "effects[0].actions[1].target"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong duration: effect should last 'until the end of your opponent's next turn' (DuringOpponentTurn), not 'EndOfTurn'",
+      "field": "effects[0].actions[1].duration"
+    },
+    {
+      "severity": "minor",
+      "description": "Target scope should be ChooseOwnCharacter with count:1 to match 'Up to 1 of your Characters'",
+      "field": "effects[0].actions[1].target.scope"
+    },
+    {
+      "severity": "minor",
+      "description": "Incorrect maxPower filter - should be a type filter for {Straw Hat Crew}, not maxPower:1000",
+      "field": "effects[0].actions[1].target.maxPower"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1,
+              "type": "Straw Hat Crew"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:31.931Z"
+}

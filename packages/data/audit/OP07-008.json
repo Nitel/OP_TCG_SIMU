@@ -1,0 +1,25 @@
+{
+  "id": "OP07-008",
+  "name": "Mr. Tanaka",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is invalid. Blocker ability should use 'OnAttacked' (triggered when this card is attacked or when opponent declares attack targeting another card)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'PlaySelf' is incorrect. Blocker allows you to rest this card to redirect an attack. Should use 'Rest' action, not 'PlaySelf'. The redirect mechanic itself is a keyword ability (Blocker), not an action in the DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker is a keyword ability that should be represented as 'GiveKeyword' action granting 'Blocker', or the card should be flagged as having the Blocker keyword in its card properties. The DSL should not attempt to manually recreate the redirect logic."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:02:58.954Z"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "OP15-060",
+  "name": "Enel",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check 'HasAttachedDon' with count <= 6, not 'HasRestingDon' with count 1. Card requires 6 or fewer DON!! on field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next End Phase), not 'EndOfTurn'. Text states '[Blocker] until the end of your opponent's next End Phase'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing passive effect: 'If you have 6 or less DON!! cards on your field, this Character cannot be removed from the field by your opponent's effects and gains +2000 power.' Requires a Permanent trigger with HasAttachedDon condition and GivesKeyword + PowerBoost actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 6,
+        "comparison": "<="
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "power": 2000,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:30.822Z"
+}

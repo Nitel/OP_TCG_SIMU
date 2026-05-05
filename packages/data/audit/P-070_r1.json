@@ -1,0 +1,27 @@
+{
+  "id": "P-070_r1",
+  "name": "Carrot",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from DSL. This is a core game mechanic that must be represented."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:10.834Z"
+}

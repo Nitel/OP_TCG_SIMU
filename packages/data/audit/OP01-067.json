@@ -1,0 +1,70 @@
+{
+  "id": "OP01-067",
+  "name": "Crocodile",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct) but the effect describes a passive cost reduction, not an activated ability. This should likely be 'Trigger' or represent a static effect, not an action-based trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'Give blue Events in your hand −1 cost'. This should be a cost reduction mechanic (PowerBoost with negative value or similar cost modifier), not trashing cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "The [Banish] effect is completely missing from the DSL. This passive effect (When this card deals damage, the target card is trashed without activating its Trigger) must be represented as a separate effect triggered OnAttack or OnDealDamage."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition requires HasRestingDon count 1, but card text states '[DON!! x1]' which typically means the cost/requirement is 1 DON, not a condition for the effect itself."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Banish] (When this card deals damage, the target card is trashed without activating its Trigger.)<br>[DON!! x1] Give blue Events in your hand −1 cost.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "filter": {
+              "zone": "Hand",
+              "color": "Blue",
+              "cardType": "Event"
+            },
+            "description": "Banish: target card trashed without activating Trigger"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "filter": {
+              "zone": "Hand",
+              "color": "Blue",
+              "cardType": "Event"
+            },
+            "amount": -1,
+            "description": "Blue Events in hand gain −1 cost"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:55.658Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP10-069",
+  "name": "Fighting Fish",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (When Attacking), not 'Activated'. 'Activated' implies a player choice separate from attacking; 'OnAttack' is the correct trigger for attack-triggered effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' not 'HasRestingDon'. The card requires DON!! attached to this card (−1 DON!!), not resting DON!! on the field."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include 'maxCount':1 to represent 'up to 1'. Current structure uses 'maxCost' which is correct, but should clarify 'maxCount':1 for the 'up to' limitation on quantity."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:36:11.262Z"
+}

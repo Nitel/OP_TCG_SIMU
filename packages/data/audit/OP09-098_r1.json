@@ -1,0 +1,50 @@
+{
+  "id": "OP09-098_r1",
+  "name": "Black Hole",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should check Leader type, not board presence. Should be 'LeaderHasType' with type:'Blackbeard Pirates', not 'HasCardOnBoard'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'Rest' is incorrect for negating an effect. No standard action exists for effect negation in OPTCG DSL; this represents a non-standard game mechanic that cannot be properly encoded"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incomplete. Should specify maxCost constraint or use conditional targeting based on cost check result"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and no condition is malformed. Trigger type requires associated condition context"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration specification. Text 'during this turn' indicates duration should be 'DuringYourTurn'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Blackbeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4
+        }
+      }
+    ],
+    "duration": "DuringYourTurn"
+  },
+  "auditedAt": "2026-05-05T12:47:47.461Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP07-086",
+  "name": "Spandam",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand, but effect requires trashing from top of deck. Should use ForceDiscard with source:'Deck' or equivalent mechanism for deck milling."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should be 'up to 1' opponent Character (optional). ChooseOpponentCharacter without 'up to' constraint forces selection. Should add optional:true or use conditional targeting."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "source": "Deck",
+        "filter": {}
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "optional": true
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:09:02.696Z"
+}

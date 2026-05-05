@@ -1,0 +1,57 @@
+{
+  "id": "ST22-017",
+  "name": "Fire Fist",
+  "set": "ST-22",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand should have conditional chaining: reveal 2 cards is optional ('You may'), and DrawCard should only execute if reveal succeeds. Current structure doesn't express the optional nature or proper condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect uses trigger 'Trigger' which is vague. Should be 'OnPlay' (same trigger as first effect, part of same card play). Also 'ReturnToHand' is incorrect action—card text says 'place at bottom of deck', which is not a standard action. Closest is moving to deck, but ReturnToHand sends to hand, not deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxCost",
+      "description": "maxCost is 3, but card text specifies 'cost of 5 or less'. Should be maxCost: 5."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Scope is 'ChooseOwnCharacter' but card doesn't specify 'your Character'—it says 'a Character' implying either player's field. Should be 'ChooseCharacter' or scope should allow opponent's characters."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 2,
+        "filter": {
+          "subType": "Whitebeard Pirates"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 5,
+              "maxCount": 1
+            },
+            "placement": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:17:47.891Z"
+}

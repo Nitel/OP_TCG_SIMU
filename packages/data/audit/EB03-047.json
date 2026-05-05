@@ -1,0 +1,38 @@
+{
+  "id": "EB03-047",
+  "name": "Miss.Valentine(Mikita)",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand, but card text says 'from the top of your deck'. Should be ForceDiscard with source 'deck' or a mill/trash-from-deck action. TrashFromHand is incorrect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Trash 3 cards from the top of your deck.\n[On K.O.] Draw 1 card.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 3,
+            "source": "deck"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:36.678Z"
+}

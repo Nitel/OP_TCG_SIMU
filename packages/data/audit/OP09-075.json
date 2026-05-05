@@ -1,0 +1,39 @@
+{
+  "id": "OP09-075",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the conditional action. Card text has two distinct actions: (1) FlipLife (unconditional, 'You may'), and (2) conditional GiveDon action that only triggers if Leader has {Kid Pirates} type. Current DSL only captures the first action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'add up to 1 DON!! card from your DON!! deck and set it as active' requires a conditional GiveDon action with LeaderHasType condition for {Kid Pirates}"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "DONDeck",
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "Kid Pirates"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:27:24.702Z"
+}

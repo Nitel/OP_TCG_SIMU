@@ -1,0 +1,44 @@
+{
+  "id": "OP07-021_r2",
+  "name": "Urouge",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker ability is a static keyword mechanic, not a triggered effect. Should not appear in effects array—it's handled by the 'Blocker' trait/keyword."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'EndOfTurn', not 'Activated'. Text reads '[End of Your Turn]', which is a passive trigger, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. Text says 'Set up to 1 of your DON!! cards as active', which means activating resting DON cards. Should be a custom action or 'ActivateDon' if available; 'GiveDon' adds new DON counters, not activates existing ones."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "'TurnCount' condition is unnecessary and incorrect. The effect triggers at end of turn with no special turn count requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "actions": [
+        {
+          "type": "ActivateDon",
+          "count": 1,
+          "target": {
+            "scope": "YourField",
+            "filter": "IsResting"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:44:20.892Z"
+}

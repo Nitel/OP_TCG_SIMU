@@ -1,0 +1,48 @@
+{
+  "id": "OP05-069_r1",
+  "name": "Trafalgar Law",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing: 'opponent has more DON!! cards on their field than you' must be encoded as a condition (likely a custom comparison or HasAttachedDon comparison), not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "actions",
+      "description": "SearchDeck action incomplete: does not specify 'look at 5 cards from top' (depth/limit), does not specify card type filter (should be type:HeartPirates or equivalent), does not handle 'reveal up to 1' (quantity limit), and missing action to 'place rest at bottom of deck in any order'"
+    },
+    {
+      "severity": "major",
+      "field": "actions",
+      "description": "Missing second action: placing non-selected cards at bottom of deck. Current DSL only adds 1 card to hand; the full effect requires managing the remaining 4 cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "OpponentHasMoreDonThanYou"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "HeartPirates"
+          },
+          "limit": 5,
+          "quantity": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "ArrangeBottomOfDeck",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:35:47.495Z"
+}

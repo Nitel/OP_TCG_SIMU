@@ -1,0 +1,56 @@
+{
+  "id": "OP08-116",
+  "name": "Burn Bazooka",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "FlipLife is incorrect. The action 'add 1 card from the top or bottom of your Life cards to your hand' is taking a Life card into hand, which should be TakeLifeToHand (or legacy alias FlipLife used correctly). However, FlipLife typically means flipping a Life card face-up/down. The correct action here should explicitly support 'from top or bottom' selection."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].type",
+      "description": "TrashFromHand is incorrect. The action 'add up to 1 {Shandian Warrior} type card from your hand to the top of your Life cards face-up' is attaching/adding to Life cards, not trashing. Should be a custom action or clarified as adding to Life cards, not TrashFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "The conditional chain is incomplete. The second ability ('If you do, add up to 1...') should only trigger if the first optional action (FlipLife) is performed. Current thenActions is empty and doesn't reflect the conditional dependency."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Shandian Warrior"
+              },
+              "max": 1,
+              "destination": "TopOfLife",
+              "faceUp": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:33:08.386Z"
+}

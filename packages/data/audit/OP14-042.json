@@ -1,0 +1,46 @@
+{
+  "id": "OP14-042",
+  "name": "Arlong",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderHasType' (checking Leader type), not 'HasCardOnBoard' (checking board state)"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].filter.maxCost",
+      "description": "Filter should be 'minCost: 2' (cost of 2 or more), not 'maxCost: 2' (cost 2 or less)"
+    },
+    {
+      "severity": "minor",
+      "field": "actions[0]",
+      "description": "SearchDeck action should specify looking at top 4 cards and placing rest at bottom in any order; current DSL does not capture deck order manipulation"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Fish-Man"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "minCost": 2
+          },
+          "destination": "hand",
+          "limit": 1,
+          "deckPosition": "top4",
+          "restToBottom": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:21.958Z"
+}

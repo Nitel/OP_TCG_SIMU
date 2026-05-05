@@ -1,0 +1,53 @@
+{
+  "id": "EB04-061",
+  "name": "Monkey.D.Luffy",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "PowerBoost duration is 'EndOfTurn' but text says 'until the end of your opponent's next End Phase' — should be 'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].duration",
+      "description": "GiveKeyword duration is 'EndOfTurn' but text says 'until the end of your opponent's next End Phase' — should be 'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing passive effect: 'If you have 1 or less Life cards, give this card in your hand −1 cost' — requires a Condition-based cost modifier that is not present in DSL"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "DuringOpponentTurn"
+            },
+            {
+              "type": "GiveKeyword",
+              "keyword": "Blocker",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringOpponentTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:52.975Z"
+}

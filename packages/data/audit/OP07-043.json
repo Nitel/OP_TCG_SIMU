@@ -1,0 +1,34 @@
+{
+  "id": "OP07-043",
+  "name": "Salome",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says '[Your Turn]' which indicates the effect lasts during your turn only. Duration should be 'DuringYourTurn', not 'EndOfTurn'. '[Your Turn]' in effect text is a specific temporal marker meaning the effect applies throughout your turn phase, not just until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify the card name constraint '[Boa Hancock]' to match 'Up to 1 of your [Boa Hancock] cards'. Current target lacks this filter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "cardName": "Boa Hancock",
+          "maxAmount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:39.912Z"
+}

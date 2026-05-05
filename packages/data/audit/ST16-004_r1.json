@@ -1,0 +1,35 @@
+{
+  "id": "ST16-004_r1",
+  "name": "Shanks",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for rested Characters only. Current target 'ChooseOpponentCharacter' does not restrict to rested state. Should include condition or target filter for HasRestingDon or equivalent rested-character scope."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "conditions": [
+                {
+                  "type": "HasRestingDon"
+                }
+              ],
+              "limit": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:11.283Z"
+}

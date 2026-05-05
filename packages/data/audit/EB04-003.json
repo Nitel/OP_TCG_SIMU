@@ -1,0 +1,48 @@
+{
+  "id": "EB04-003",
+  "name": "Smoker &amp; Tashigi",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Opponent's Turn]' which requires duration 'DuringOpponentTurn', not 'EndOfTurn'. This is a major violation of duration rules."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' (opponent's turn) or similar temporal trigger, not generic 'Trigger'. The effect activates during opponent's turn, not on a card play/attack event."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target condition should verify Leader has {Navy} type. Current target lacks type condition check."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Opponent's Turn] Your {Navy} type Leader's base power becomes 7000.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Navy"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 7000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:19:42.330Z"
+}

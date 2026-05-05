@@ -1,0 +1,50 @@
+{
+  "id": "OP11-086",
+  "name": "Coribou",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'PlayFromHand' is incorrect. Card text states 'Play up to 1 [Caribou]...from your trash', which requires 'PlayFromTrash' or similar action that plays from trash, not from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should include cost specification. Text says 'You may trash this Character: Play up to 1 [Caribou]' — the activation cost (trashing the character) must be encoded, not just the trigger type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "cost": {
+        "type": "KO",
+        "target": "Self"
+      },
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "count": 1,
+          "filter": {
+            "subType": "Caribou",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:46:47.402Z"
+}

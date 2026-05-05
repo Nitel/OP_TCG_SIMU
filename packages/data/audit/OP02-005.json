@@ -1,0 +1,43 @@
+{
+  "id": "OP02-005",
+  "name": "Curly.Dadan",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The card text specifies: (1) look at up to 5 cards from top of deck, (2) reveal up to 1 red Character with cost 1, (3) add to hand, (4) place rest at bottom in any order. The DSL only captures the search without the 5-card limit, color filter (red), card type filter (Character), or the instruction to place remaining cards at bottom."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing required constraints: no color filter for 'red', no card type filter for 'Character', and no limit on cards examined (should examine top 5 only)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByMultiple",
+              "color": "red",
+              "cardType": "Character",
+              "maxCost": 1
+            },
+            "deckPosition": "top",
+            "deckPositionLimit": 5,
+            "maxSelect": 1,
+            "destination": "hand",
+            "remainderDestination": "bottomOfDeck",
+            "remainderOrder": "any"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:34.043Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP09-080",
+  "name": "Thousand Sunny",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' (character removed from field), not 'Activated'. This is an automatic effect when a Straw Hat Crew character is removed by opponent effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration. Text states '[Opponent's Turn]' which requires duration:'DuringOpponentTurn', not permanent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to verify character type is {Straw Hat Crew} and removal is caused by opponent's effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'AttachDon' (rest the DON), not just 'GiveDon'. The effect adds DON and rests it, requiring Rest action as well."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "Missing Rest action. DSL should include both GiveDon and Rest to fully capture 'add up to 1 DON!! card and rest it'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Straw Hat Crew"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "deck"
+        },
+        {
+          "type": "Rest",
+          "target": "addedDon"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:27:53.799Z"
+}

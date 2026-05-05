@@ -1,0 +1,27 @@
+{
+  "id": "ST02-004",
+  "name": "Capone\"Gang\"Bege",
+  "set": "ST-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is missing. Card text explicitly states '[Blocker]' mechanic which must be represented as a Counter trigger effect that allows resting this card to redirect an attack."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "description": "Blocker - After opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T12:55:21.383Z"
+}

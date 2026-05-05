@@ -1,0 +1,45 @@
+{
+  "id": "OP04-027",
+  "name": "Daddy Masterson",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'Activated'. Card text says '[End of Your Turn]' which is a passive end-of-turn trigger, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' is correct in type, but the effect sets character as ACTIVE not RESTING. The card says 'Set this Character as active' which means the opposite of Rest. There is no standard 'Activate' or 'SetActive' action in the DSL—this may require 'GiveKeyword' with 'Active' or clarification, but Rest sets to resting state, which is backwards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' checks for resting DON, but card text '[DON!! x1]' means requires 1 DON attached (any state). Should be 'HasAttachedDon' with count 1, not specifically resting DON."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [End of Your Turn] Set this Character as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:48.786Z"
+}

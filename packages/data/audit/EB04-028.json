@@ -1,0 +1,64 @@
+{
+  "id": "EB04-028",
+  "name": "Ice Time",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Navy} type, not if Leader exists on board. Should be LeaderHasType:Navy"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action is optional (\"You may\") but DSL shows it as mandatory. Missing optional flag or restructuring needed"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Rest action targets opponent's characters and should prevent attack, but Rest doesn't convey the duration restriction (cannot attack until end of opponent's next End Phase). This requires a GiveKeyword action with CannotAttack keyword and proper duration tracking"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope is wrong: should be ChooseOpponentCharacter with maxCount:2 and maxPower:10000, not just maxPower filter"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely unrelated to card text. References ReturnToHand and ChooseOwnCharacter with maxCost:5, which do not appear in the official card effect. This should be removed entirely"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Navy"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "GiveKeyword",
+                "keyword": "CannotAttack",
+                "duration": "DuringOpponentTurn",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCount": 2,
+                  "maxPower": 10000
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:59.447Z"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "ST09-015",
+  "name": "Thunder Bagua",
+  "set": "ST-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'ChooseUpToOneOwnCharacterOrLeader' (up to 1), not open-ended ChooseOwnCharacterOrLeader"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely wrong. Should attach opponent's Character (cost ≤3) to opponent's Life cards as face-up, conditional on own Life ≤2. Current DSL uses DrawCard which is incorrect action entirely"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger should be 'Trigger' with proper condition 'HasLifeCardsLessThanOrEqual:2', not standalone"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type should be 'AttachDon' (attaching Character to Life cards as face-up) or custom 'AttachToLife', not 'DrawCard'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseUpToOneOwnCharacterOrLeader"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasLifeCardsLessThanOrEqual",
+            "count": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "AttachToLife",
+            "target": {
+              "scope": "ChooseUpToOneOpponentCharacter",
+              "filter": {
+                "maxCost": 3
+              }
+            },
+            "position": "TopOrBottom",
+            "faceUp": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:04:36.428Z"
+}

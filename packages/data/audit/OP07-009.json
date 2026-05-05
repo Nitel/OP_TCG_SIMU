@@ -1,0 +1,43 @@
+{
+  "id": "OP07-009",
+  "name": "Dogura &amp; Magura",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be \"DuringYourTurn\" not \"EndOfTurn\". Card text says \"during this turn\" which means the effect lasts only while it is your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.conditions",
+      "description": "Target scope missing condition filter for \"red Characters\". Current scope only filters by maxCost but does not restrict to red characters. Should add HasCardType or color-based condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 1,
+              "conditions": [
+                {
+                  "type": "HasCardType",
+                  "value": "Red"
+                }
+              ]
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:01.056Z"
+}

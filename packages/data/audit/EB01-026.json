@@ -1,0 +1,60 @@
+{
+  "id": "EB01-026",
+  "name": "Prince Bellett",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Trigger is 'Activated' but should be 'OnAttack' according to '[When Attacking]' in the effect text",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing condition check for hand size '1 or less cards' - the effect requires 'If you have 1 or less cards in your hand'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Target scope is 'ChooseOpponentCharacter' but official text says 'return up to 1 Character' without specifying opponent only - should allow choosing any character",
+      "field": "effects[0].actions[0].target.scope"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing 'count: 1' to specify 'up to 1 Character'",
+      "field": "effects[0].actions[0].target.count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "HasRestingDon",
+              "count": 1
+            },
+            {
+              "type": "HandCount",
+              "count": 1,
+              "comparison": "LessThanOrEqual"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 3,
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:36.655Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP10-099",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'Activated'. Text says '[End of Your Turn]' which is an automatic trigger, not a player-activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'PlayFromHand' is incorrect. The ability sets a Character already on board as active, not plays from hand. Should be 'Rest' or similar board state change. Additionally, filter missing 'minCost:3' constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration 'EndOfBattle' is wrong. Text says 'until the end of your opponent's next turn', which should be 'DuringOpponentTurn' or equivalent multi-turn duration, not a battle-scoped duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife is listed but action should be conditional ('You may'). Need to verify if this is optional or mandatory in DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "optional": true,
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Board",
+            "filter": {
+              "subType": "Supernovas",
+              "minCost": 3,
+              "maxCost": 8
+            }
+          },
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "LastAffected"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:38:34.825Z"
+}

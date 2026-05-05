@@ -1,0 +1,51 @@
+{
+  "id": "OP05-001",
+  "name": "Sabo",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text says '[Opponent's Turn]' which requires duration:'DuringOpponentTurn', not 'EndOfTurn'. Duration must persist only during opponent's turn, not end at turn's end."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition to check if Character has 5000 power or more. Current DSL only checks for DON!! but not power threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should be 'Self' (the Character being attacked) or 'AttackedCharacter', not 'OriginalTarget'. The effect applies to the Character that would be K.O.'d."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttacked",
+    "condition": {
+      "type": "And",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        {
+          "type": "HasPowerThreshold",
+          "power": 5000,
+          "comparison": "GreaterOrEqual"
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:45:23.431Z"
+}

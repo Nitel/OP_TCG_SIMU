@@ -1,0 +1,20 @@
+{
+  "id": "ST13-004_r1",
+  "name": "Edward.Newgate",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Effect text describes a complex two-step process: (1) Add 1 card from top of deck to top of Life cards, (2) Look at all Life cards, place 1 at top of deck, rest back to Life area in any order. Current DSL only captures FlipLife(1) which is incomplete. This effect requires custom logic or multiple actions that FlipLife alone cannot represent. The 'look at all Life cards and rearrange' component is missing entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing prerequisite action: moving 1 card from top of deck to top of Life cards before the rearrangement phase. DSL does not model the deck-to-life transfer that precedes the life card inspection."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:52:16.805Z"
+}

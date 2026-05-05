@@ -1,0 +1,45 @@
+{
+  "id": "OP01-016",
+  "name": "Nami",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to limit search to 5 cards from top of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify {Straw Hat Crew} type, exclude [Nami], and limit to 1 card reveal; currently 'Any' is too broad"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to place remaining cards at bottom of deck in any order"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Straw Hat Crew",
+          "excludeName": "Nami"
+        },
+        "destination": "hand",
+        "maxResults": 1,
+        "fromTopCount": 5
+      },
+      {
+        "type": "ArrangeFromDeck",
+        "destination": "deckBottom",
+        "allowAnyOrder": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:33.101Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP13-120",
+  "name": "Sabo",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next turn), not 'EndOfTurn'. Text states 'until the end of your opponent's next turn' which is a specific opponent turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action is missing target specification. Should specify target as rested DON!! cards (condition: HasRestingDon or similar constraint on selection)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader",
+            "condition": {
+              "type": "HasRestingDon"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:07:30.865Z"
+}

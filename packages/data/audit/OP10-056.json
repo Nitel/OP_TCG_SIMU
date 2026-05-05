@@ -1,0 +1,39 @@
+{
+  "id": "OP10-056",
+  "name": "Mansherry",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has complex On Play trigger with multiple conditional actions that must be DSL-encoded"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "YourDressrosaLeaderOrStage",
+          "optional": true
+        },
+        {
+          "type": "ReturnToHand",
+          "target": "YourDressrosaCharacterCost4Plus",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "ReturnToHand",
+          "target": "OpponentCharacterCost4Less",
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:35:05.095Z"
+}

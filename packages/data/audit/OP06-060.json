@@ -1,0 +1,54 @@
+{
+  "id": "OP06-060",
+  "name": "Vinsmoke Ichiji",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check if Leader has {GERMA 66} type. DSL requires: LeaderHasType condition with type:'GERMA 66'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should support playing from trash as well as hand. Current DSL only includes PlayFromHand; card text says 'from your hand or trash'. Need to handle both sources or use appropriate action type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing prerequisite action: trashing this Character is a cost ('You may trash this Character'). Should include ForceDiscard action targeting self as part of activation cost logic, or clarify in condition that this is optional."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'maxCost':7 but card text says 'with a cost of 7', implying exact cost. Should clarify if this is ≤7 or =7."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] DON!! −1: You may trash this Character. If your Leader has the {GERMA 66} type, play up to 1 [Vinsmoke Ichiji] with a cost of 7 from your hand or trash.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "GERMA 66"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "name": "Vinsmoke Ichiji",
+              "cost": 7
+            },
+            "maxAmount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:57:42.843Z"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "OP05-023",
+  "name": "Vergo",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target must filter for rested Characters. Current DSL omits the rested state condition. Should include 'rested' or 'restingDon' filter in target specification."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "rested": true
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:46:06.425Z"
+}

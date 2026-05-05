@@ -1,0 +1,25 @@
+{
+  "id": "OP06-013",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck is incorrect for this effect. The card requires looking at 3 specific cards from top of deck, revealing up to 1 FILM card, and placing rest at bottom in any order. This is a deck manipulation sequence, not a standard search. Should use a custom action or properly model the 'look at top 3' + 'reveal up to 1' + 'arrange rest' workflow."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' with 'FILM' - but FILM is a type, not a card name. Should use type-based filtering if supported, or clarify that this searches by card type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is incomplete: missing the 'place rest at bottom of deck in any order' step. The DSL only captures the 'add 1 FILM to hand' portion and omits the deck arrangement mechanic."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:54:10.764Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP11-085",
+  "name": "Kurozumi Orochi",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect searches from trash, not deck. Should be 'PlayFromHand' or a trash-specific search action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'type' constraint. Effect requires SMILE type; filter only specifies cost. Must add type:'SMILE' to filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "No 'source' parameter specified. Effect searches from trash; must include source:'trash'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "source": "trash",
+            "filter": {
+              "kind": "ByCost",
+              "maxCost": 5,
+              "type": "SMILE"
+            },
+            "maxAmount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:46:42.735Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP07-058",
+  "name": "Island of Women",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should trash 1 card from hand (any type), not filtered to Character. Official text says 'trash 1 card from your hand' without type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action should be conditional on successful trash, but more critically: the ReturnToHand action is missing the prerequisite condition 'If your Leader has the {Kuja Pirates} type'. This condition must wrap the entire effect or be checked before ReturnToHand executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target",
+      "description": "ReturnToHand target is incomplete. Must allow choosing up to 1 Character with EITHER {Amazon Lily} OR {Kuja Pirates} type, not just Amazon Lily. Current target only filters Amazon Lily."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "target": {
+                  "scope": "ChooseOwnCharacter",
+                  "subType": [
+                    "Amazon Lily",
+                    "Kuja Pirates"
+                  ],
+                  "max": 1
+                },
+                "condition": {
+                  "type": "LeaderHasType",
+                  "value": "Kuja Pirates"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:48.828Z"
+}

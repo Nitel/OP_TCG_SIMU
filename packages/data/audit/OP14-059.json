@@ -1,0 +1,50 @@
+{
+  "id": "OP14-059",
+  "name": "Please Take Me with You!! I Can Be of Great Help to You!!",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' (Jinbe as character on board) but text requires Leader to be Jinbe. Should use 'LeaderIsName' condition type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing hand size condition (2 or less cards in hand). Condition object lacks the 'handSize' or equivalent constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (ReturnToHand targeting opponent character) has no basis in card text. This effect should not exist."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger type 'Trigger' is non-standard and undefined. Effect should be removed entirely as it contradicts the card text."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] If your Leader is [Jinbe] and you have 2 or less cards in your hand, draw 2 cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Jinbe",
+          "handSize": {
+            "max": 2
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:14:38.777Z"
+}

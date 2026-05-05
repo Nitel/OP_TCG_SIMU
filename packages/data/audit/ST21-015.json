@@ -1,0 +1,60 @@
+{
+  "id": "ST21-015",
+  "name": "Roronoa Zoro",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "The [DON!! x2] effect has wrong duration. It should be 'Permanent' (as long as 2 DON are attached), not 'EndOfTurn'. The effect is continuous while the condition is met, not temporary.",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "minor",
+      "description": "The PlayFromHand action is missing the 'count' field to specify 'up to 1' card. Should be count: 1.",
+      "field": "effects[1].actions[0].count"
+    },
+    {
+      "severity": "minor",
+      "description": "The excludeSelf filter excludes cards named 'Roronoa Zoro', but the official text says 'other than [Roronoa Zoro]', which should use excludeName instead of excludeSelf to be more precise.",
+      "field": "effects[1].actions[0].filter.excludeSelf"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "color": "Red",
+              "cardType": "Character",
+              "maxPower": 6000,
+              "excludeName": "Roronoa Zoro"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:44.374Z"
+}

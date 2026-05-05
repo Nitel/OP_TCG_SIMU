@@ -1,0 +1,36 @@
+{
+  "id": "ST06-010_r1",
+  "name": "Helmeppo",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts for the current turn only. 'EndOfTurn' is correct, but the issue is that 'during this turn' typically means DuringYourTurn (lasting until end of your turn). However, since this is an On Play effect triggered during your turn and affects opponent's characters, 'EndOfTurn' is acceptable. No violation here."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specifies 'ChooseOpponentCharacter' but the effect text says 'up to 1' which means it's optional. The DSL should reflect that this is optional selection, and the amount should be limited to 1 character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1,
+            "optional": true
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:42.279Z"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "EB03-061",
+  "name": "Uta",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "First ability trigger should be 'Activated' with condition 'OncePerTurn', not just 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should activate (set up) player's own DON!! card, not give DON. Action type 'GiveDon' is incorrect; should be 'GiveKeyword' or similar for 'set up' (activate). Card text says 'Set up to 1 of your DON!! cards as active'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action should target 'your DON!! cards OR opponent's Characters with cost ≤4', not just opponent characters. Must support DON!! cards as valid targets"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely: '[End of Your Turn] You may rest 1 of your DON!! cards: Set up to 1 of your {FILM} type Characters as active' — requires trigger 'EndOfTurn', condition on resting own DON!!, and action to set up FILM character"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": "OncePerTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "property": "isDon",
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrDon",
+            "maxCost": 4,
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "property": "isDon",
+            "maxCount": 1
+          },
+          "optional": true
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Active",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "property": "hasType",
+            "value": "FILM",
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:28:06.943Z"
+}

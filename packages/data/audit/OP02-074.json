@@ -1,0 +1,40 @@
+{
+  "id": "OP02-074",
+  "name": "Saldeath",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but empty effects array. Should contain triggered effect that grants Blocker keyword to Blugori on your board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing effect structure. Effect text indicates OnPlay trigger that searches for Blugori on board and grants Blocker keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Blugori"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "CardOnBoard",
+            "cardName": "Blugori",
+            "keyword": "Blocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:43.019Z"
+}

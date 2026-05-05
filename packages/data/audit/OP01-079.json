@@ -1,0 +1,50 @@
+{
+  "id": "OP01-079",
+  "name": "Ms. All Sunday",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' but the condition context is wrong: this effect triggers when THIS card is KO'd, not when leader is on board"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasCardOnBoard' with name 'Leader' is incorrect. Should be 'LeaderHasType' with type 'Baroque Works' to check if leader has that type"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'FlipLife' is completely wrong. Should be 'SearchDeck' or similar to add Event from trash to hand. The correct action should retrieve an Event card from trash"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action parameters: should specify target (Event cards in trash) and destination (hand). Action needs 'count: 1' and card filter"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-079",
+    "effectText": "[On K.O.] If your Leader has the {Baroque Works} type, add up to 1 Event from your trash to your hand.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Baroque Works"
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "from": "trash",
+            "cardType": "Event",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:17.038Z"
+}

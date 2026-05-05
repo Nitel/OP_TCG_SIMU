@@ -1,0 +1,30 @@
+{
+  "id": "OP13-030",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. Card text says 'Set up to 2 of your DON!! cards as active', which means activating resting DON!! cards, not giving new DON!!. Should use 'Rest' with a condition targeting resting DON!! cards, or a custom action for activation. 'GiveDon' adds DON!! to the leader, not activates existing ones."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-030",
+    "effectText": "[On Play] Set up to 2 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ActivateDon",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:37.341Z"
+}

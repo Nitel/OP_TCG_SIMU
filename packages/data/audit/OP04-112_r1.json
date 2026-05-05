@@ -1,0 +1,50 @@
+{
+  "id": "OP04-112_r1",
+  "name": "Yamato",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action missing cost restriction condition. Effect states 'K.O. up to 1 of your opponent's Characters with a cost equal to or less than the total of your and your opponent's Life cards' but DSL has no condition limiting target by cost comparison."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "FlipLife condition should be 'HasAttachedDon' with count 1 or less (meaning 0-1 Life cards), not 'Always'. Effect explicitly states 'if you have 1 or less Life cards'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "FlipLife action is incorrect. Effect describes 'add up to 1 card from the top of your deck to the top of your Life cards' which should be handled via a specialized condition + draw/attach mechanic, not generic FlipLife. This appears to need SearchDeck or custom life-addition logic."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP04-112_r1",
+    "effectText": "[On Play] K.O. up to 1 of your opponent's Characters with a cost equal to or less than the total of your and your opponent's Life cards. Then, if you have 1 or less Life cards, add up to 1 card from the top of your deck to the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": "TotalLifeCards"
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "condition": {
+              "type": "HasAttachedDon",
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:07.437Z"
+}

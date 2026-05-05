@@ -1,0 +1,38 @@
+{
+  "id": "OP01-052_r1",
+  "name": "Raizo",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 2 or more rested Characters' requires HasCardOnBoard condition with rested=true and count>=2, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Once Per Turn]' limitation - should include frequency constraint in DSL structure"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "rested": true
+        },
+        "count": 2
+      },
+      "frequency": "OncePerTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:49.633Z"
+}

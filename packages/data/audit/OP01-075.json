@@ -1,0 +1,26 @@
+{
+  "id": "OP01-075",
+  "name": "Pacifista",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has Blocker keyword ability but effects array is empty. Blocker is a keyword that should be represented in the DSL, typically as a GiveKeyword action or as part of card properties. The ability text describes a static keyword that allows resting to redirect attacks."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:09.461Z"
+}

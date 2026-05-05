@@ -1,0 +1,41 @@
+{
+  "id": "OP03-039",
+  "name": "One, Two, Jango",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text states 'during this turn' which indicates the boost applies for the remainder of your turn, not until end of turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and Rest action with maxCost 4 is not supported by the card text. The card only mentions one Main action with specific targets (opponent's Characters cost 1 or less, and your own Character). This second effect appears to be spurious."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:48.319Z"
+}

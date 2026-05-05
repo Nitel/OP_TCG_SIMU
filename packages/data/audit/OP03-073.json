@@ -1,0 +1,47 @@
+{
+  "id": "OP03-073",
+  "name": "Hull Dismantler Slash",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing required condition: LeaderHasType with {Water Seven}. Card text states 'If your Leader has the {Water Seven} type' - this conditional requirement is not represented in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope incomplete: should specify maxCount of 1 (up to 1 character). Current target lacks maxCount constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "All",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "count": 1
+          },
+          {
+            "type": "LeaderHasType",
+            "typeId": "Water Seven"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:46.725Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP08-076",
+  "name": "It's to Die For...",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition missing: should check if opponent has a Character with 6000 power or more. Current condition is 'Always' which ignores the power requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Second GiveDon action lacks conditional logic; should only trigger when opponent meets power threshold"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardProperties": {
+          "controller": "opponent",
+          "power": {
+            "min": 6000
+          }
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:30:04.622Z"
+}

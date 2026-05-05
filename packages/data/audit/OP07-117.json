@@ -1,0 +1,56 @@
+{
+  "id": "OP07-117",
+  "name": "Egghead",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is incorrect; should be 'EndOfTurn' for '[End of Your Turn]' timing"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check 'If you have 3 or less Life cards' - requires HasCardOnBoard or custom life count condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect; should be 'Rest' to set a Character as active, or a more specific activation action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].target",
+      "description": "Missing target specification for '{Egghead} type Character with a cost of 5 or less'"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] If you have 3 or less Life cards, set up to 1 {Egghead} type Character with a cost of 5 or less as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "LifeCount",
+            "value": 3,
+            "operator": "LessThanOrEqual"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "type": "Character",
+              "hasType": "Egghead",
+              "maxCost": 5,
+              "count": "UpTo1"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:11:23.250Z"
+}

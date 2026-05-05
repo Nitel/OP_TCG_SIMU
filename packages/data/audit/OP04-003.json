@@ -1,0 +1,36 @@
+{
+  "id": "OP04-003",
+  "name": "Usopp",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "The effect text specifies 'base power or less' but the DSL uses 'maxPower' which typically checks current power (including boosts). The correct field should be 'maxBasePower' to check only the base power as printed on the card.",
+      "field": "effects[0].actions[0].target.maxPower"
+    },
+    {
+      "severity": "minor",
+      "description": "The effect text says 'up to 1' which implies optional targeting, but the DSL doesn't explicitly mark this as optional. Should include 'optional: true' to match the 'up to' wording.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxBasePower": 5000
+            },
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:54:00.391Z"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ST10-016",
+  "name": "Gum-Gum Kong Gatling",
+  "set": "ST-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and PowerBoost action is not mentioned in card text. Card text only describes K.O. effect on play. This effect appears to be fabricated or from a different card."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 7000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:47.046Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP09-046",
+  "name": "Crocodile",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter does not capture the OR condition: '{Cross Guild} type Character card OR Character card with a type including \"Baroque Works\"'. Current filter only matches Cross Guild. Must support multiple type matching with OR logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing support for 'Baroque Works' type matching. The card effect allows playing cards that have 'Baroque Works' as part of their type, not just Cross Guild."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5,
+            "subType": [
+              "Cross Guild",
+              "Baroque Works"
+            ],
+            "typeMatch": "any"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:46:46.159Z"
+}

@@ -1,0 +1,76 @@
+{
+  "id": "OP10-003",
+  "name": "Sugar",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is completely missing the first effect (End of Your Turn trigger with Donquixote Pirates power condition). Only contains a generic OnPlay trigger that doesn't match card text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "First effect should be 'EndOfTurn', not 'OnPlay'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "First effect needs condition checking for HasCardOnBoard with Donquixote Pirates type and 6000+ power. Currently just 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "First effect should activate DON!! cards (likely 'AttachDon' or similar state change), not GiveDon. Action type and target are wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "First effect has '[End of Your Turn]' in text but missing duration:'DuringYourTurn' specification"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Second effect entirely missing: Opponent's Turn trigger with Once Per Turn activation that adds DON!! from deck when Event is activated"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] If you have a {Donquixote Pirates} type Character with 6000 power or more, set up to 1 of your DON!! cards as active.\n[Opponent's Turn] [Once Per Turn] When you activate an Event, add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardType": "Donquixote Pirates",
+          "power": 6000
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "hand"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "Always",
+          "once": "PerTurn"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "cardType": "DON!!",
+            "count": 1,
+            "action": "AttachDon"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:31:12.149Z"
+}

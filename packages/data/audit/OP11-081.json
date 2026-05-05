@@ -1,0 +1,47 @@
+{
+  "id": "OP11-081",
+  "name": "Cognac Mama-Mash",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'Trigger' but should be 'OnPlay' for a Main card effect"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions completely wrong. Should include: reveal opponent's deck card, conditional check of cost match, and KO action. Current DSL only has GiveDon which is not mentioned in card text"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition structure for cost comparison logic between chosen cost and revealed card"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "source": "OpponentDeck",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": "OpponentCharacter",
+          "conditions": [
+            {
+              "type": "Always"
+            }
+          ],
+          "maxTargets": 1,
+          "costLimit": 8
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:46:26.077Z"
+}

@@ -1,0 +1,81 @@
+{
+  "id": "ST22-005",
+  "name": "Kouzuki Oden",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (reactive to opponent's removal effect), not 'OnAttacked'. The effect activates when opponent attempts to remove this character, which is a counter-trigger, not when attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition that this is a replacement/prevention effect. Should include condition that character would be removed by opponent's effect, and TrashFromHand is contingent on that. Current DSL lacks the conditional logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Rest action missing target specification: should rest 3 DON!! cards specifically, not a generic character. Should be {'type':'Rest','target':{'scope':'ChooseDonCards','count':3}}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1]",
+      "description": "ReturnToHand target should exclude 'this Character' explicitly in filter. Should specify 'other than this Character' in the filter condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing action to 'Set this Character as active' (becomes active/leader position). Current DSL only has Rest and ReturnToHand but no action for the actual effect outcome."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseDonCards",
+            "count": 3
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "excludeSelf": true
+            }
+          }
+        },
+        {
+          "type": "PlaySelf",
+          "asActive": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:51.455Z"
+}

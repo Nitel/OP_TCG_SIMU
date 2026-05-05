@@ -1,0 +1,74 @@
+{
+  "id": "OP14-029",
+  "name": "Tashigi",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First ability trigger is wrong. Text says '[Opponent's Turn] If this Character would be removed from the field by your opponent's effect' — this is a conditional replacement effect, not OnAttacked. Should use Counter trigger with appropriate condition, not OnAttacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First ability action is incomplete. Text allows resting 1 card instead of removal, but DSL only has Rest without specifying the replacement/prevention mechanic. The effect prevents removal entirely by resting a card — not a simple Rest action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "First ability condition is wrong. Should check if opponent is taking a turn action that removes this Character, not just 'Always'. Needs condition reflecting 'opponent's effect would remove this'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Second ability duration is wrong. Text says 'until the end of your opponent's next End Phase' — duration should be 'DuringOpponentTurn', not 'EndOfTurn'. Violation of duration rule for opponent turn effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Second ability action incomplete. Should cost 2 rests (Rest action with amount 2 to Self/Leader), but DSL missing rest cost declaration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ],
+      "duration": "DuringOpponentTurn"
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "amount": 2,
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:12:24.417Z"
+}

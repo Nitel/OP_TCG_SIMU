@@ -1,0 +1,39 @@
+{
+  "id": "OP07-115",
+  "name": "I Re-Quasar Helllp!!",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'FlipCount' or life check, not 'HasRestingDon'. The card checks \"2 or less Life cards\" which refers to flipped life total, not resting Don."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.count",
+      "description": "Condition count should check for ≤2 life (FlipCount with max:2), not 2 resting Don."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "FlipCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:11:13.624Z"
+}

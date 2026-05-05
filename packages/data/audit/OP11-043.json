@@ -1,0 +1,64 @@
+{
+  "id": "OP11-043",
+  "name": "Vinsmoke Ichiji",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnBlock' (Blocker keyword with 'On Your Opponent's Attack'), not 'OnAttacked'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but text requires 'you only have Characters with a type including GERMA' — needs custom condition checking board state"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect — text says 'trash 2 cards from the top of your deck' (deck trash, not hand). Should be 'ForceDiscard' with source 'Deck' or similar deck-specific action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter object empty — trashing from deck should specify 'FromTop' or deck-specific source, not hand filter"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "'Once Per Turn' effect limiter not modeled in DSL structure"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-043",
+    "effectText": "[Blocker]\n[On Your Opponent's Attack] [Once Per Turn] This effect can be activated when you only have Characters with a type including \"GERMA\". Up to 1 of your Leader or Character cards gains +1000 power during this battle. Then, trash 2 cards from the top of your deck.",
+    "effects": [
+      {
+        "trigger": "OnBlock",
+        "condition": {
+          "type": "Custom",
+          "description": "OnlyGERMACharactersOnBoard"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "DeckTop"
+          }
+        ],
+        "limitPerTurn": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:43:32.714Z"
+}

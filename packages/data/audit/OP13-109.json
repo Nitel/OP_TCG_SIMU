@@ -1,0 +1,38 @@
+{
+  "id": "OP13-109",
+  "name": "Jewelry Bonney",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (interrupts opponent's removal effect), not 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions are completely wrong. Card should FlipLife (turn 1 Life card face-up), not DrawCard and TrashFromHand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition to check if Character would be removed by opponent's effect"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:06:35.704Z"
+}

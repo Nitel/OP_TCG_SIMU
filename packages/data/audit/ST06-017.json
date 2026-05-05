@@ -1,0 +1,65 @@
+{
+  "id": "ST06-017",
+  "name": "Navy HQ",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states 'during this turn' which indicates the effect applies for the current turn only. Duration should be 'DuringTurn' (not 'EndOfTurn'). 'EndOfTurn' implies the effect expires at turn end, but 'during this turn' means it lasts through the turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Text states 'during this turn' which indicates the effect applies for the current turn only. Duration should be 'DuringTurn' (not 'EndOfTurn')."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition references 'Navy' type on Leader. Should use 'LeaderHasType' condition (not 'HasCardOnBoard'). The activated ability checks if the Leader has {Navy} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.name",
+      "description": "Condition should specify 'type' field with value 'Navy', not 'name' field. The ability checks for a type attribute, not a card name."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST06-017",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": 1
+            },
+            "duration": "DuringTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Navy"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": 1
+            },
+            "duration": "DuringTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:01:07.937Z"
+}

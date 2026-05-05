@@ -1,0 +1,64 @@
+{
+  "id": "P-084",
+  "name": "Buggy",
+  "set": "ST-25",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the static ability 'This Character cannot attack' and the conditional static ability 'If your Leader is [Buggy], all Characters with a cost of 3 or 4 cannot attack.' Only the [On Play] triggered effect is captured."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action must specify count constraint. Should use 'upTo': 1 to match 'up to 1' in card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Permanent",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "target": "Self"
+        }
+      ]
+    },
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Buggy"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "target": "AllCharactersOnBoard",
+          "filter": {
+            "cost": [
+              3,
+              4
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "upTo": 1,
+          "filter": {
+            "subType": "Cross Guild",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:20:28.965Z"
+}

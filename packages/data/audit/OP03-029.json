@@ -1,0 +1,37 @@
+{
+  "id": "OP03-029",
+  "name": "Chew",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing rested condition. Card text specifies 'rested Characters' but DSL target has no RestingDon/rested filter. Should include condition to only target rested opponents' Characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Spurious second effect with trigger 'Trigger' and PlaySelf action. Card text contains no secondary trigger or self-play mechanic. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] K.O. up to 1 of your opponent's rested Characters with a cost of 4 or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "hasRestingDon": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:30.752Z"
+}

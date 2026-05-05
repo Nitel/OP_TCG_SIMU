@@ -1,0 +1,49 @@
+{
+  "id": "OP11-108",
+  "name": "Neptune",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing LeaderIsName check for [Shirahoshi]. Should be {\"type\":\"LeaderIsName\",\"name\":\"Shirahoshi\"} instead of Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is optional ('you may') but DSL does not reflect optionality. Action should include optional:true or be wrapped in conditional logic"
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP11-108",
+    "effectText": "[On Play] If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: Draw 2 cards and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Shirahoshi"
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:48:28.708Z"
+}

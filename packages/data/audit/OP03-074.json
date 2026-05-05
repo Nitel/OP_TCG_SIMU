@@ -1,0 +1,38 @@
+{
+  "id": "OP03-074",
+  "name": "Top Knot",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'KO' but effect text says 'Place...at the bottom of the owner's deck', which is 'ReturnToHand' or a similar return action, not KO (destruction)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but the maxCost constraint should be enforced as a condition or filter. Current DSL lacks explicit cost filter in target definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxQuantity": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:50.106Z"
+}

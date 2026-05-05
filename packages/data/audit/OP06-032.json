@@ -1,0 +1,29 @@
+{
+  "id": "OP06-032",
+  "name": "Hammond",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is not implemented. The card has an empty effects array but should contain the Blocker mechanic as a Counter trigger that allows resting this card to redirect an attack."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:55:37.609Z"
+}

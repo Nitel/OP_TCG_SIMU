@@ -1,0 +1,33 @@
+{
+  "id": "ST07-010",
+  "name": "Charlotte Linlin",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally wrong. Card text describes a choice ('Your opponent chooses one') between two mutually exclusive actions, but DSL lists both actions sequentially without any choice/conditional logic. Should use conditions or separate effects with mutually exclusive triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RemoveLife is incorrect. 'Trash 1 card from the top of your opponent's Life cards' means removing from opponent's Life stack, not dealing damage. This should be a Life trash action targeting opponent, not a RemoveLife (which typically damages). Correct action should reference opponent Life pile specifically."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "FlipLife is incorrect. 'Add 1 card from the top of your deck to the top of your Life cards' means moving a deck card to Life pile (like drawing into Life), not flipping Life. Should be custom Life-add action or similar, not FlipLife."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing choice/decision logic. DSL must represent that opponent chooses between two options - current structure executes both unconditionally."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "note": "Requires choice mechanic not fully represented in standard DSL. Suggest: either two separate conditional effects based on opponent choice state, or extended DSL with 'choice' field: [{'trigger':'OnPlay','choice':{'prompt':'Choose one:','options':[{'description':'Trash 1 from opponent Life','actions':[{'type':'TrashOpponentLife','count':1}]},{'description':'Add 1 from your deck to your Life','actions':[{'type':'AddDeckToLife','count':1}]}]}}]"
+  },
+  "auditedAt": "2026-05-05T13:01:54.064Z"
+}

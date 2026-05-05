@@ -1,0 +1,55 @@
+{
+  "id": "OP13-083",
+  "name": "St. Jaygarcia Saturn",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive ability: 'If you have 7 or more cards in your trash, this Character cannot be removed from the field by your opponent's effects.' This requires a Condition (TrashCount>=7) with an action preventing removal/KO by opponent effects."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete: must specify filter for {Five Elders} type card, limit to reveal 1, and handle remaining 4 cards returned to bottom of deck in any order. Current filter is 'Any' with no type constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Action only adds card to hand but does not return remaining cards to bottom of deck. Need separate action or enhanced SearchDeck to handle: reveal up to 1 {Five Elders}, add to hand, place rest at bottom in any order."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Passive",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 7
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Cannot be removed from field by opponent effects"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Five Elders"
+          },
+          "limit": 1,
+          "destination": "hand",
+          "description": "Look at 5 cards from top of deck; reveal up to 1 {Five Elders} type card and add to hand. Place rest at bottom in any order."
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:43.332Z"
+}

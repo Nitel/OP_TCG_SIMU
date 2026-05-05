@@ -1,0 +1,51 @@
+{
+  "id": "OP03-112_r1",
+  "name": "Charlotte Pudding",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) 'count' parameter specifying 4 cards examined, (2) 'filter' with proper type/name conditions (Sanji OR Big Mom Pirates, excluding Charlotte Pudding), (3) 'limit' parameter to restrict reveal/add to 1 card, (4) action for placing remaining cards at bottom of deck in any order"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'kind':'Any' does not match card text. Should filter for (HasCardType 'Sanji' OR HasCardType 'Big Mom Pirates') AND NOT (HasCardName 'Charlotte Pudding')"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 4,
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "kind": "HasCardType",
+              "value": "Sanji"
+            },
+            {
+              "kind": "HasCardType",
+              "value": "Big Mom Pirates"
+            }
+          ],
+          "exclusions": [
+            {
+              "kind": "HasCardName",
+              "value": "Charlotte Pudding"
+            }
+          ]
+        },
+        "limit": 1,
+        "destination": "hand",
+        "remainingDestination": "deckBottom",
+        "remainingOrder": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:15:14.936Z"
+}

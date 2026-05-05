@@ -1,0 +1,20 @@
+{
+  "id": "ST13-016",
+  "name": "Yamato",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect for this effect. The card effect allows you to look at and rearrange Life cards, placing 1 on top of deck and returning the rest to Life area. This requires SearchDeck or a custom rearrangement action, not FlipLife (which typically flips Life to hand). The action should represent selective deck placement and Life area reordering, which FlipLife does not capture."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "The DSL is missing the Rush keyword entirely. The card text explicitly states '[Rush] (This card can attack on the turn in which it is played.)' which must be represented as a separate keyword or effect."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:08:51.309Z"
+}

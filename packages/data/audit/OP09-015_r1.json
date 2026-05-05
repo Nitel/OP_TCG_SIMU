@@ -1,0 +1,33 @@
+{
+  "id": "OP09-015_r1",
+  "name": "Lucky.Roux",
+  "set": "ST-23",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Red-Haired Pirates} type, not if a card with that type is on board."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Red-Haired Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000
+          },
+          "maxAmount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:13.390Z"
+}

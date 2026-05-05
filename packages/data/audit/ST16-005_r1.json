@@ -1,0 +1,39 @@
+{
+  "id": "ST16-005_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition must specify that Uta is rested. Current condition only checks if Uta exists on board, not its resting state. Should use HasCardOnBoard with additional rested state requirement or a more specific condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (aura/static ability) not 'OnPlay'. This is a passive bonus that applies while Uta is rested on board, not an effect that triggers when this card is played."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Uta",
+        "rested": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:53:15.465Z"
+}

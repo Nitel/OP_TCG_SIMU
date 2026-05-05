@@ -1,0 +1,63 @@
+{
+  "id": "OP07-091",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'ForceDiscard' (trash opponent's card), not 'KO'. KO is for destroying own cards or general destruction; ForceDiscard is for trashing opponent's cards from board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing intermediate action to move cards from trash to bottom of deck. DSL must explicitly model the 'place any number of Character cards with cost 4+ from trash at bottom of deck' step before power boost calculation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].perTrashedCard",
+      "description": "Power boost is per 3 cards placed at bottom of deck (not per individual trashed card). Calculation should be 'amount': 1000 with a divisor or step-based modifier of 3, not 'perTrashedCard: true'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL lacks targeting/filtering for second action: only Character cards with cost 4+ should be retrieved from trash. Current structure does not express this constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "source": "Trash",
+          "target": {
+            "scope": "CharacterCard",
+            "minCost": 4,
+            "maxCount": -1
+          },
+          "placement": "BottomOfDeck"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perCards": 3,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:22.935Z"
+}

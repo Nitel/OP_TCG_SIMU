@@ -1,0 +1,82 @@
+{
+  "id": "EB01-052",
+  "name": "Viola",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing Blocker keyword entirely. The card has '[Blocker]' in its effect text but dsl.effects is empty.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing [On Play] trigger with modal choice effects. The card has two options on play but no OnPlay effect in DSL.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing first modal option: 'Look at all of your opponent's Life cards and place them back in their Life area in any order.' This requires a RevealLife/LookAtLife action.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing second modal option: 'Turn all of your Life cards face-down.' This requires a FlipLife or similar action targeting own life cards.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Static",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "ModalChoice",
+            "options": [
+              {
+                "description": "Look at all of your opponent's Life cards and place them back in their Life area in any order",
+                "actions": [
+                  {
+                    "type": "RevealLife",
+                    "target": "OpponentLife",
+                    "count": "All",
+                    "reorder": true
+                  }
+                ]
+              },
+              {
+                "description": "Turn all of your Life cards face-down",
+                "actions": [
+                  {
+                    "type": "FlipLife",
+                    "target": "YourLife",
+                    "count": "All",
+                    "faceDown": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:31.097Z"
+}

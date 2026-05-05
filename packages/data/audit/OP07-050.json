@@ -1,0 +1,43 @@
+{
+  "id": "OP07-050",
+  "name": "Boa Sandersonia",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required check. Card text specifies 'If you have 2 or more {Amazon Lily} or {Kuja Pirates} type Characters on your field' but DSL uses 'Always'. Should use a HasCardOnBoard condition to verify 2+ characters with these types."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing optional constraint. Card text says 'return up to 1' but DSL does not specify maxCount=1 to enforce the 'up to 1' limit."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "scope": "YourCharacters",
+      "filter": {
+        "hasAnyType": [
+          "Amazon Lily",
+          "Kuja Pirates"
+        ]
+      },
+      "minCount": 2
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:10.732Z"
+}

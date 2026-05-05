@@ -1,0 +1,31 @@
+{
+  "id": "OP10-046_r1",
+  "name": "Kyros",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'a Character' (no opponent restriction). Should be 'ChooseCharacter' to allow selecting any character on board, or 'ChooseYourCharacter' if limited to your own. Text does not specify opponent's character."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 5,
+              "maxTargets": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:48:04.377Z"
+}

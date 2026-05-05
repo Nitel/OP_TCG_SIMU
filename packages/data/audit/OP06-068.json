@@ -1,0 +1,59 @@
+{
+  "id": "OP06-068",
+  "name": "Vinsmoke Reiju",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing required condition: LeaderHasType with type 'GERMA 66'. The card text states 'If your Leader has the {GERMA 66} type' which must be a condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "First action should be 'TrashFromHand' but this is a cost (DON!! −1 and trashing this Character are costs), not the main effect. The structure conflates cost with conditional action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "The effect sequence is wrong. The card allows you to trash 'this Character' (the card itself), then conditionally play a Vinsmoke Reiju. Current DSL tries to trash Vinsmoke Reiju from hand, which is backwards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Should search/play from hand OR trash, not 'trash then play from hand'. The text says 'from your hand or trash', meaning the source is either hand or trash (where the card already exists), not a sequence."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-068",
+    "effectText": "You may trash this Character: If your Leader has the {GERMA 66} type, play up to 1 [Vinsmoke Reiju] with a cost of 4 from your hand or trash.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "GERMA 66"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "name": "Vinsmoke Reiju",
+              "maxCost": 4
+            },
+            "max": 1,
+            "optional": true
+          }
+        ],
+        "cost": {
+          "don": 1,
+          "trashSelf": true
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:58:20.320Z"
+}

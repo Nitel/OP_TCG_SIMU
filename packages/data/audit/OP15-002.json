@@ -1,0 +1,87 @@
+{
+  "id": "OP15-002",
+  "name": "Lucy",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0] and effects[1]",
+      "description": "Missing second effect: '[Activate: Main] [Once Per Turn] If you have activated an Event with a base cost of 3 or more during this turn, draw 1 card.' This is an Activated ability with a condition checking if an Event of cost 3+ was activated, leading to DrawCard action."
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP15-002",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "cardTypes": [
+                "Event",
+                "Stage"
+              ]
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 1000,
+                "perTrashedCard": true,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "cardTypes": [
+                "Event",
+                "Stage"
+              ]
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 1000,
+                "perTrashedCard": true,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "OncePerTurn"
+          },
+          {
+            "type": "ActivatedEventWithMinCost",
+            "cost": 3
+          }
+        ],
+        "actions": [
+          {
+            "type": "DrawCard",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:02.523Z"
+}

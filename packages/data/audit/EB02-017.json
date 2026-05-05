@@ -1,0 +1,58 @@
+{
+  "id": "EB02-017",
+  "name": "Nami",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck action is missing the 'count' parameter to look at exactly 5 cards from the top of deck",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck action is missing the 'revealCount' parameter (up to 1 card can be revealed and added)",
+      "field": "effects[0].actions[0].revealCount"
+    },
+    {
+      "severity": "critical",
+      "description": "Filter is using 'ByName' kind but should be checking for type 'Straw Hat Crew', not a card named 'Straw Hat Crew'",
+      "field": "effects[0].actions[0].filter.kind"
+    },
+    {
+      "severity": "major",
+      "description": "Missing exclusion filter to exclude cards named 'Nami' as specified in the effect text ('other than [Nami]')",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing instruction to place remaining cards at the bottom of the deck in any order",
+      "field": "effects[0].actions[0].remainingCardsDestination"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "revealCount": 1,
+            "filter": {
+              "kind": "ByType",
+              "type": "Straw Hat Crew",
+              "exclude": {
+                "kind": "ByName",
+                "name": "Nami"
+              }
+            },
+            "destination": "hand",
+            "remainingCardsDestination": "bottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:04.191Z"
+}

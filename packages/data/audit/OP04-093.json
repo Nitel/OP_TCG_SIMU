@@ -1,0 +1,72 @@
+{
+  "id": "OP04-093",
+  "name": "Gum-Gum King Kong Gun",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "DrawCard action present but card text contains no draw effect. Text only mentions power boost and conditional Double Attack."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action present but card text contains no trash effect. Card is a Main card that boosts characters, not a discard/trash effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target",
+      "description": "PowerBoost targets ChooseOwnCharacter but should target up to 1 Dressrosa type character. Requires type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[3]",
+      "description": "GiveKeyword (Double Attack) is not conditional on trash count >= 15. Current DSL applies unconditionally; should only apply if condition met."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition check for 'if you have 15 or more cards in your trash' before applying Double Attack action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 6000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "Dressrosa"
+              },
+              "maxTargets": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "Dressrosa"
+              },
+              "maxTargets": 1
+            },
+            "duration": "DuringYourTurn",
+            "condition": {
+              "type": "TrashCount",
+              "operator": ">=",
+              "value": 15
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:43:53.395Z"
+}

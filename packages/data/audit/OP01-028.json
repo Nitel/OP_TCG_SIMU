@@ -1,0 +1,30 @@
+{
+  "id": "OP01-028",
+  "name": "Green Star Rafflesia",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn scope, not EndOfTurn. The effect should last for the remainder of your turn only, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "amount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:49.998Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP04-008",
+  "name": "Chaka",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (card activates when attacking), not 'Activated' (manual activation)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition 'LeaderIsName:Nefeltari Vivi' — card effect requires specific leader"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' per text 'during this turn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "PowerBoost action should specify 'maxCount':1 to match 'up to 1'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "KO action should specify 'maxCount':1 to match 'up to 1'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Nefeltari Vivi"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 0,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:23.624Z"
+}

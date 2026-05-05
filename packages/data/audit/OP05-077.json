@@ -1,0 +1,49 @@
+{
+  "id": "OP05-077",
+  "name": "Gamma Knife",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Main effect trigger should be 'OnPlay' not 'Activated'. Activated is for abilities you choose to use; Main effects trigger automatically when played."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect structure is incorrect. The DON!! cost mechanic should not be a separate 'Trigger' effect. The cost (return DON!! to deck) is part of the card's activation cost, not a separate triggered effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'max': 1 to represent 'up to 1' opponent Character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but the structure implies this is the only effect. The DON!! cost return must be represented."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "GiveDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:09.732Z"
+}

@@ -1,0 +1,85 @@
+{
+  "id": "OP10-112",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect should use trigger 'Activated' (optional ability: 'You may rest this Character'), not 'OnPlay'. OnPlay is automatic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be a condition/cost for the ability, not an action. The ability reads 'You may rest this Character: [effect]', meaning Rest is the cost to activate, not the result."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger should be 'EndOfTurn', not 'Activated'. This is an automatic end-of-turn effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition check. Should verify 'LeaderHasAnyType' or opponent life count condition. Text states 'If your opponent has 2 or less Life cards' - requires proper condition structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Duration missing. First effect is 'You may rest this Character' - should clarify this is a optional/activated ability with proper cost structure."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].condition",
+      "description": "No condition defined to check opponent's Life card count (≤2). DSL must include condition evaluation before drawing/trashing actions."
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP10-112",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "target": {
+              "scope": "Opponent",
+              "zone": "LifeCards"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "scope": "Opponent",
+          "isCondition": true
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:39:31.642Z"
+}

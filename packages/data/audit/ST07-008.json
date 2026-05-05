@@ -1,0 +1,31 @@
+{
+  "id": "ST07-008",
+  "name": "Charlotte Pudding",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an On Play ability that allows looking at and rearranging Life cards, but effects array is empty. This is a complete absence of the card's primary mechanic."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": "YourLifeCards|OpponentLifeCards",
+            "amount": 1,
+            "reveal": true,
+            "destination": "TopOrBottomOfLifeCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:01:42.710Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP07-022",
+  "name": "Otama",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is completely wrong. Card text specifies: look at top 5 cards, reveal up to 1 green Land of Wano type card (excluding Otama), add to hand, place rest at bottom in any order. Current filter uses cost-based search which doesn't match the effect at all."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing required filters: card color (green), card type (Land of Wano), exclusion (not Otama). Filter should use cardName/cardType/cardColor/excludeCardName, not cost-based filtering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "No action to handle the 'place rest at bottom in any order' mechanic. This requires additional action or special handling that SearchDeck alone cannot provide."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByProperties",
+          "cardColor": "green",
+          "cardType": "Land of Wano",
+          "excludeCardName": "Otama",
+          "maxResults": 1
+        },
+        "destination": "hand",
+        "deckPosition": "top5"
+      },
+      {
+        "type": "OrderDeckCards",
+        "position": "bottom",
+        "count": "remaining"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:04:00.332Z"
+}

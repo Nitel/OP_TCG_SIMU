@@ -1,0 +1,54 @@
+{
+  "id": "OP10-006",
+  "name": "Caesar Clown",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the initial SearchDeck action. Card text begins with 'Look at 5 cards from the top of your deck; reveal up to 1 [Smiley] and add it to your hand.' This requires: (1) SearchDeck to look at top 5, (2) RevealFromHand is incorrect—should be revealing from the searched cards, (3) missing action to place rest at bottom of deck, (4) only then play up to 1 [Smiley] from hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RevealFromHand is wrong context. The reveal happens from the 5 cards looked at (search result), not from hand. Should use a search-then-reveal-then-add pattern."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the deck manipulation step: 'place the rest at the bottom of your deck in any order' is a required action between the add-to-hand and play-from-hand steps."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "RevealFromHand",
+              "count": 1,
+              "filter": {
+                "subType": "Smiley"
+              },
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "count": 1,
+                  "filter": {
+                    "subType": "Smiley"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:31:22.390Z"
+}

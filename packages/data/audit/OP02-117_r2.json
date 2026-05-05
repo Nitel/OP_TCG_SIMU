@@ -1,0 +1,43 @@
+{
+  "id": "OP02-117_r2",
+  "name": "Ice Age",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'KO' but card text says 'Give up to 1 of your opponent's Characters −5 cost'. This should be 'PowerBoost' with a negative value, not KO."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost is 3, but card text specifies '−5 cost'. The maxCost filter is incorrect—it should filter by cost, not limit the effect to cards costing 3 or less. The action itself (PowerBoost) applies the −5 modifier; maxCost is not the right property here."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration. Text says 'during this turn' which requires duration:'DuringYourTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Give up to 1 of your opponent's Characters −5 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "max": 1
+            },
+            "value": -5
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:58.414Z"
+}

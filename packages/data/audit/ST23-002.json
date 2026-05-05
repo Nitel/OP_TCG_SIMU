@@ -1,0 +1,62 @@
+{
+  "id": "ST23-002",
+  "name": "Shanks",
+  "set": "ST-23",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for Character with 8000+ base power on board, but effect text describes a hand cost reduction (−3 cost). This should be a separate static effect, not an OnPlay trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should check LeaderHasType or LeaderIsName, not HasCardOnBoard. The effect requires Leader to have {Red-Haired Pirates} type OR be [Uta]."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration is 'EndOfTurn' but text states 'until the end of your opponent's next End Phase', which means the buff persists through opponent's turn. Should be 'DuringOpponentTurn' or similar extended duration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "typeList": [
+          "Red-Haired Pirates"
+        ]
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:33.665Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "OP08-071",
+  "name": "Count Niwatori",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Text specifies '[Opponent's Turn]' but DSL has no duration field. Must add duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck should include cost filter constraint (cost ≤ 4). Current filter only matches by name, missing the cost restriction"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck should specify 'count':1 to represent 'up to 1' explicitly"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByName",
+          "name": "Baron Tamago",
+          "maxCost": 4
+        },
+        "destination": "board",
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:29:39.153Z"
+}

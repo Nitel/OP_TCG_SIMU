@@ -1,0 +1,40 @@
+{
+  "id": "OP10-108_r1",
+  "name": "Scratchmen Apoo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Must check: (1) HasCardOnBoard with type filter for yellow Supernovas, (2) exclude [Scratchmen Apoo] by name. Current condition only checks HasCardOnBoard without type or exclusion filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "HasCardOnBoard condition needs additional properties: 'color' (yellow), 'cardType' (Supernovas), and 'excludeName' (Scratchmen Apoo) to properly validate the full requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "color": "yellow",
+        "cardType": "Supernovas",
+        "excludeName": "Scratchmen Apoo"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:48:23.285Z"
+}

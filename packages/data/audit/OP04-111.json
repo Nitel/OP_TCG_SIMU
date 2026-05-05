@@ -1,0 +1,74 @@
+{
+  "id": "OP04-111",
+  "name": "Hera",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The card trashes from board (a Character in play), not from hand. Should be 'KO' or a board trash action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'subType' but should target board Characters with type 'Homies', not hand cards. Filter structure is wrong for board targeting."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action targets Self, but the ability requires the condition 'trash 1 of your Homies' to be optional ('You may'). The Rest should only execute if trash occurs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].type",
+      "description": "PlayFromHand is incorrect for 'Set up' which means make active. Should be 'Rest' to set as active (or equivalent state change). Also, this targets [Charlotte Linlin] Characters already on board, not from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained and not supported by card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Ability is optional ('You may') but DSL structure doesn't reflect optionality of the trash requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "filter": {
+              "type": "Homies",
+              "excludeSelf": true
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "Rest",
+                "target": {
+                  "scope": "Self"
+                }
+              },
+              {
+                "type": "Rest",
+                "filter": {
+                  "name": "Charlotte Linlin"
+                },
+                "target": {
+                  "scope": "Board"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:43.808Z"
+}

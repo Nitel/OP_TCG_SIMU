@@ -1,0 +1,51 @@
+{
+  "id": "OP03-079_r1",
+  "name": "Vergo",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Permanent' or similar (not 'Activated'). This is a static ability that applies as long as the condition is met, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be a protection mechanic (e.g., 'GiveKeyword' with 'CannotBeKOedInBattle' or equivalent), not 'Banish'. The card text states 'cannot be K.O.'d in battle', not any banish effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' (not 'EndOfTurn'). This is a persistent static ability while the condition is met."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' is incorrect. The card requires '[DON!! x1]' as cost/requirement, which should be 'HasAttachedDon' (at least 1 attached DON) or similar board state, not resting DON."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] This Character cannot be K.O.'d in battle.",
+    "effects": [
+      {
+        "trigger": "Permanent",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOedInBattle",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:28.212Z"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "ST20-005",
+  "name": "Charlotte Linlin",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing optional condition: card text says 'You may trash 1 card' but DSL does not implement optionality"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have count:1 specified; currently has empty filter"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Missing opponent's choice structure: card text presents two mutually exclusive options (opponent chooses), but DSL only implements ForceDiscard (2 cards). Second option 'Trash 1 card from opponent's Life cards' is completely missing"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "ForceDiscard in thenActions targets self by default, but should target opponent"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 card from your hand: Your opponent chooses one: • Your opponent trashes 2 cards from their hand. • Trash 1 card from the top of your opponent's Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "OpponentChooses",
+                "choices": [
+                  {
+                    "description": "Opponent trashes 2 cards from their hand",
+                    "actions": [
+                      {
+                        "type": "ForceDiscard",
+                        "count": 2,
+                        "target": "opponent"
+                      }
+                    ]
+                  },
+                  {
+                    "description": "Trash 1 card from opponent's Life cards",
+                    "actions": [
+                      {
+                        "type": "TrashFromLife",
+                        "count": 1,
+                        "target": "opponent"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:16:01.322Z"
+}

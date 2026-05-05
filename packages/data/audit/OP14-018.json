@@ -1,0 +1,42 @@
+{
+  "id": "OP14-018",
+  "name": "Time for the Counterattack",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires 'If there is a Character with 8000 power or more' — should be a HasCardOnBoard or similar condition checking for 8000+ power Character"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (PlayFromHand with Red Character filter) has no basis in card text. Card only describes a Counter trigger with power boost — this effect should be removed"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "cardType": "Character",
+          "minPower": 8000
+        }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:11:30.990Z"
+}

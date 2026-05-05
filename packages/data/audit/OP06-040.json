@@ -1,0 +1,33 @@
+{
+  "id": "OP06-040",
+  "name": "Shark Arrows",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Effect allows K.O. up to 2 characters, but DSL has two separate KO actions without a 'maxQuantity' or 'upTo' constraint. Should use single action with upTo:2 and filter for rested Characters, or implement proper quantity limiting. Current structure enforces exactly 2 KOs."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing 'rested' condition. Card text specifies 'rested Characters' but DSL only filters by cost. Must add resting state filter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "requireResting": true,
+          "upTo": 2
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:56:13.654Z"
+}

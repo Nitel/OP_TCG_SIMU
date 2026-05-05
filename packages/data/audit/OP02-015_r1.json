@@ -1,0 +1,53 @@
+{
+  "id": "OP02-015_r1",
+  "name": "Makino",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. The text 'during this turn' indicates the boost lasts for the current turn only, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope missing color filter. Text specifies 'red Characters' but target only filters by cost. Should include color constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for rest cost. DSL does not represent 'You may rest this Character' as a requirement/cost to activate this effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "negate": false
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1,
+            "color": "Red"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:32:27.668Z"
+}

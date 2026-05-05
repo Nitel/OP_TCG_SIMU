@@ -1,0 +1,32 @@
+{
+  "id": "OP10-015",
+  "name": "Mocha",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn' to match the temporary nature of the effect lasting only through the current turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:32:01.301Z"
+}

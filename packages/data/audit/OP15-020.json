@@ -1,0 +1,70 @@
+{
+  "id": "OP15-020",
+  "name": "Fire Fist",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "PowerBoost duration should be \"DuringYourTurn\" (this turn only), not \"EndOfTurn\". Text says 'during this turn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing second action: PowerBoost −8000 for opponent's Character with duration \"DuringOpponentTurn\" (until end of opponent's next End Phase). Current DSL jumps directly to KO."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "KO action missing condition: should only target Characters with 0 power or less. Missing maxPower:0 constraint and should use filter/condition logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing the conditional trash mechanic: 'you may trash 2 cards from your hand. If you do, K.O...' requires a conditional structure (if-then logic) not represented in current DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Leader"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -8000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Hand",
+            "maxCount": 2
+          },
+          "conditional": true
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxPower": 0
+          },
+          "condition": "OnlyIfTrashSucceeded"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:23:28.549Z"
+}

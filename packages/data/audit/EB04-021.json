@@ -1,0 +1,78 @@
+{
+  "id": "EB04-021",
+  "name": "Igaram",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks if Nefeltari Vivi is on board, but card text says 'If your Leader is [Nefeltari Vivi]' — should use LeaderIsName condition, not HasCardOnBoard"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Second effect missing [Once Per Turn] restriction — needs TurnCount condition with limit:1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand is not conditional; text says 'You may trash 1 card' then 'Give up to 1 rested DON!!' — the AttachDon should only trigger if player chooses to trash, or card text structure needs clarification. Current DSL implies trash is mandatory."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[1].target",
+      "description": "Target allows any own Character or Leader, but card text specifies 'Give up to 1 rested DON!! card' — should verify resting state is checked (HasRestingDon filter may be needed)"
+    }
+  ],
+  "suggestedDsl": {
+    "card": "EB04-021",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Nefeltari Vivi"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "TurnCount",
+          "limit": 1
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "AttachDon",
+                "count": 1,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "filter": {
+                    "resting": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:28.925Z"
+}

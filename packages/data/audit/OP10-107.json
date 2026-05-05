@@ -1,0 +1,54 @@
+{
+  "id": "OP10-107",
+  "name": "Jewelry Bonney",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife is incorrect. Card text says 'add 1 card from top or bottom of Life cards to hand' - this is a retrieval action, not a flip. Should be a custom action or clarified as retrieving from Life pile."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck is incorrect destination. Card specifies searching hand for {Supernovas} type Character with cost ≤5, then adding to top of Life cards face-up. Should filter by type AND cost, with destination as Life pile, not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter missing type constraint. Must include 'type:{Supernovas}' or equivalent type filter in addition to cost filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure doesn't capture the conditional nature: 'You may add 1 card from Life to hand' is the condition enabling the second effect. Current DSL treats both as sequential unconditional actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "type": "Supernovas",
+            "subtype": "Character",
+            "maxCost": 5
+          },
+          "count": 1,
+          "destination": "LifePile",
+          "faceUp": true,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:39:08.382Z"
+}

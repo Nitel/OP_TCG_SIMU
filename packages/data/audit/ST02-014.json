@@ -1,0 +1,54 @@
+{
+  "id": "ST02-014",
+  "name": "X.Drake",
+  "set": "ST-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if THIS CHARACTER is rested, not if a Supernovas card exists on board. Should use a resting state check on self."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be LIMITED to {Supernovas} or {Navy} type Leaders and Characters only, not all own characters and leader. Scope is too broad."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "[Your Turn] in text indicates duration should be 'DuringYourTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect should not exist as separate entry. Should be one effect with condition checking for either type, not two separate Activated effects."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnCharactersAndLeader",
+            "filter": {
+              "type": "HasAnyType",
+              "types": [
+                "Supernovas",
+                "Navy"
+              ]
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:56:05.042Z"
+}

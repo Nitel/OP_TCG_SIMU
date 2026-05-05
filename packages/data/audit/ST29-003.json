@@ -1,0 +1,51 @@
+{
+  "id": "ST29-003",
+  "name": "Kaku",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is invalid. This is a static conditional power boost, not an event trigger. Should use 'Always' or similar passive trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'KO' is completely wrong. Card grants a power boost (+1000 power), not KO effect. Should be 'PowerBoost'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition entirely. Card requires 'your Life cards ≤ opponent's Life cards' condition to activate the power boost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is wrong. Power boost applies to 'this Character' (self), not opponent character selection."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Always",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "operator": "LessThanOrEqual",
+          "comparison": "OpponentTrashCount"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 1000
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T13:24:18.262Z"
+}

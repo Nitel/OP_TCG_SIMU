@@ -1,0 +1,34 @@
+{
+  "id": "PRB02-009",
+  "name": "Mr.3(Galdino)",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an Activated ability triggered when this Character is rested by opponent's effect, allowing trash self + draw 2 cards. DSL effects[] is empty; should contain trigger, condition, and actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "target": "Self"
+          },
+          {
+            "type": "DrawCard",
+            "amount": 2
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:50:54.061Z"
+}

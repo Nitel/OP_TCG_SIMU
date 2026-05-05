@@ -1,0 +1,36 @@
+{
+  "id": "OP06-002",
+  "name": "Inazuma",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional keyword grant effect but effects array is empty. Should contain condition checking power >= 7000 and action to grant Banish keyword."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "condition": {
+            "type": "CardPowerThreshold",
+            "threshold": 7000,
+            "operator": ">="
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:53:22.748Z"
+}

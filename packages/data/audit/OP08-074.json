@@ -1,0 +1,67 @@
+{
+  "id": "OP08-074",
+  "name": "Black Maria",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the condition 'If you have no other [Black Maria] Characters' — this is a mandatory prerequisite for activation"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action sequence incomplete: missing Rest action after GiveDon, and missing the delayed return-to-deck action that occurs 'at the end of this turn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "GiveDon should attach DON cards to field and rest them immediately; the second part (returning DON at end of turn) requires a separate effect with EndOfTurn trigger and conditional logic to match opponent's DON count"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration/timing for the return-to-deck effect: should be a second effect with trigger EndOfTurn that executes after the initial GiveDon+Rest"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "[Black Maria]",
+          "negate": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 5
+        },
+        {
+          "type": "Rest",
+          "target": "DonCardsJustAdded"
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": "same"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": "OpponentDonField",
+          "count": "UntilMatchOpponentCount"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:29:56.336Z"
+}

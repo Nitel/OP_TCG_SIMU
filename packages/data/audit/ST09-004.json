@@ -1,0 +1,62 @@
+{
+  "id": "ST09-004",
+  "name": "Kaido",
+  "set": "ST-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (protection effect during battle), not 'Activated'. This is a passive protective ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type is 'TurnCount' but should be 'HasAttachedDon' with min:1. The effect triggers when you have 1+ Don attached (cost paid)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing second condition: life check 'LifeCount' with max:2. Effect only applies 'if you have 2 or less Life cards'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'GiveKeyword' with keyword 'CantBeKO' or protective action, not 'Banish'. The character 'cannot be K.O.'d in battle'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringBattle' or 'Permanent' (while condition met), not 'EndOfBattle'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] If you have 2 or less Life cards, this Character cannot be K.O.'d in battle.",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "condition": [
+          {
+            "type": "HasAttachedDon",
+            "min": 1
+          },
+          {
+            "type": "LifeCount",
+            "max": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CantBeKO",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:03:51.075Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "OP09-065",
+  "name": "Sanji",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which means the keyword applies only while it's your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing optional condition. Effect text states 'You may return 1 or more DON!! cards' - this is a cost/condition that should be represented as an optional prerequisite before actions execute."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6,
+          "maxQuantity": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:19:01.726Z"
+}

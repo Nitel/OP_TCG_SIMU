@@ -1,0 +1,32 @@
+{
+  "id": "OP13-022",
+  "name": "Windmill Village",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the boost applies only on the current turn. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' would remove the effect at end of turn, but 'during this turn' means it lasts through the turn's actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxPower": 2000
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:00.608Z"
+}

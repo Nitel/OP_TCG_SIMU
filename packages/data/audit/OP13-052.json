@@ -1,0 +1,37 @@
+{
+  "id": "OP13-052",
+  "name": "Boa Marigold",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' to check if Leader is [Boa Hancock], not 'HasCardOnBoard' which checks for a card on the board"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-052",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Boa Hancock"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 6,
+              "subType": "Boa Hancock"
+            },
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:02:14.921Z"
+}

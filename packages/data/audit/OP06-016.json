@@ -1,0 +1,52 @@
+{
+  "id": "OP06-016",
+  "name": "Raise Max",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing optional cost action: 'You may place this Character at the bottom of the owner's deck' should be represented as an optional cost (ReturnToHand or similar placement action). The DSL only captures the effect, not the optional activation cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'ChooseOpponentCharacter' with an optional/conditional selector (up to 1). Current scope is correct but lacks explicit 'optional' or 'max:1' constraint in the target definition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' phrasing, but the DSL should clarify this applies only during the current turn. Acceptable as-is, but 'DuringYourTurn' would be more precise."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:54:23.371Z"
+}

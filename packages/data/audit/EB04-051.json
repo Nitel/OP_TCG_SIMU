@@ -1,0 +1,47 @@
+{
+  "id": "EB04-051",
+  "name": "Emet",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL does not represent the card effect. Card text describes a static restriction ('cannot attack unless...'), not a triggered action. Current DSL models an unrelated OnPlay trigger with PowerBoost and PlaySelf, which contradicts the actual card mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type 'Trigger' is incorrect for a static restriction. Should use a restriction/prevention mechanic, not an OnPlay trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions (PowerBoost, PlaySelf) do not match card text. Card requires a static check: cannot attack unless an opponent's Character has 12000+ base power."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "This Character cannot attack unless there is a Character with 12000 base power or more.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "scope": "AllOpponentCharacters",
+          "basePower": 12000,
+          "comparison": "GreaterThanOrEqual",
+          "count": 0
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:21:05.540Z"
+}

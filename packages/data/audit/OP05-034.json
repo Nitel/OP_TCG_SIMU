@@ -1,0 +1,48 @@
+{
+  "id": "OP05-034",
+  "name": "Baby 5",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing prerequisite action: effect requires resting this Character as a cost before SearchDeck can occur. DSL must include Rest action for this card as first action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter incomplete: must specify 'count':5 to look at top 5 cards, and 'maxReveal':1 to reveal up to 1 card. Current filter lacks these constraints."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action for card ordering: effect allows placing rest of 5 cards at bottom of deck 'in any order' - requires additional context or separate shuffle/order action not captured."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "type": "Donquixote Pirates"
+          },
+          "count": 5,
+          "maxReveal": 1,
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:46:47.357Z"
+}

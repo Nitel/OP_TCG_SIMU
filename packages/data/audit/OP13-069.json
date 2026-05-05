@@ -1,0 +1,38 @@
+{
+  "id": "OP13-069",
+  "name": "Tom",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect requires searching from trash, not deck. Should be 'ReturnToHand' or equivalent trash-search action."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Effect text specifies 'from your trash' but DSL uses SearchDeck which typically queries deck. Destination should explicitly indicate trash source."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "filter": {
+          "kind": "ByType",
+          "cardType": "Stage",
+          "maxCost": 3,
+          "source": "trash"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:03:34.218Z"
+}

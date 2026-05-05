@@ -1,0 +1,41 @@
+{
+  "id": "OP01-114",
+  "name": "X.Drake",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: effect requires DON!! −1 cost (HasAttachedDon with count 1), which is a prerequisite action before the opponent trashes a card. DSL must model the cost mechanism."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Target incomplete: ForceDiscard targets 'opponent' but DSL does not specify target:'Opponent'. Should include target to clarify opponent's hand is source."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": -1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "Opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:10.490Z"
+}

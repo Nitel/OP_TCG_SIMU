@@ -1,0 +1,37 @@
+{
+  "id": "EB01-022",
+  "name": "Inazuma",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger: uses 'Activated' instead of 'EndOfTurn'. The effect should trigger at the end of your turn, not as an activated ability.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing condition: the effect requires checking if you have 2 or less cards in hand, but the DSL uses 'Always' condition with no hand size check.",
+      "field": "effects[0].condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "HandCount",
+          "comparison": "LessThanOrEqual",
+          "value": 2
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:20.657Z"
+}

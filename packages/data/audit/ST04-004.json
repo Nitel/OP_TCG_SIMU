@@ -1,0 +1,43 @@
+{
+  "id": "ST04-004",
+  "name": "King",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Card text shows 'DON!! −1' (cost payment mechanic), not a conditional trigger. Should use 'Always' condition, not 'HasRestingDon'. The DON!! payment is a cost, not a condition to check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow 0–1 selection. Current DSL uses implicit single selection; should explicitly specify 'upTo':1 or equivalent to match 'up to 1' in card text."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "upTo": 1
+            }
+          }
+        ],
+        "cost": {
+          "type": "AttachDon",
+          "count": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:57:48.449Z"
+}

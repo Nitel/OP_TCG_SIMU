@@ -1,0 +1,56 @@
+{
+  "id": "OP06-071",
+  "name": "Gild Tesoro",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. Card effect adds cards from trash to hand, not from deck. Should be 'PlayFromHand' or a trash-retrieval action. However, the DSL lacks proper trash-to-hand support; 'ReturnToHand' with trash source would be more appropriate."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but effect text states 'If your Leader has the {FILM} type'. Condition should be 'LeaderHasType' with type value 'FILM'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but effect requires: source=trash, type={FILM}, kind=Character, cost≤4. Filter must specify these constraints."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'count' or 'maxCount' parameter. Effect states 'add up to 2' cards, implying a maximum of 2."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Effect description mentions 'DON!! −1' cost mechanic but DSL contains no action reflecting this DON!! return requirement. This is a precondition, not modeled in current DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "FILM"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "Character",
+            "type": "FILM",
+            "maxCost": 4,
+            "source": "trash"
+          },
+          "destination": "hand",
+          "maxCount": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:58:36.705Z"
+}

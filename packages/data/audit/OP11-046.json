@@ -1,0 +1,79 @@
+{
+  "id": "OP11-046",
+  "name": "Vinsmoke Yonji",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker keyword effect is missing. The card text states '(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)' which is the Blocker mechanic and should be represented as a GiveKeyword action with keyword 'Blocker', not a Rest action on OnAttacked trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (conditional protection) is completely missing from DSL. Card text states: 'If you only have Characters with a type including \"GERMA\", this Character cannot be K.O.'d or rested by your opponent's effects.' This requires a condition checking if all Characters have GERMA type, then applying immunity to KO and Rest from opponent effects."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "OnAttacked trigger is incorrect for Blocker. Blocker is an Activated ability that can be used when opponent declares an attack, not an automatic OnAttacked response."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Activated trigger without proper cost/activation context. Blocker should have an explicit cost (Rest this card) as part of the ability definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "value": "GERMA",
+        "scope": "AllCharactersOnBoard"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRestedByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:44.274Z"
+}

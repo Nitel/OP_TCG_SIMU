@@ -1,0 +1,38 @@
+{
+  "id": "OP14-015",
+  "name": "Roronoa Zoro",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringTurn' (effect lasts during this turn only), not 'EndOfTurn'. The text 'during this turn' indicates the effect is active for the remainder of the turn, not persisting beyond it."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' more explicitly. Current 'ChooseOpponentCharacter' without quantity limit may be ambiguous; should clarify maximum of 1 character."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Give up to 1 of your opponent's Characters −1000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": 1
+            },
+            "duration": "DuringTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:11:17.295Z"
+}

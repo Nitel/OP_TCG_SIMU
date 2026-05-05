@@ -1,0 +1,38 @@
+{
+  "id": "ST01-013",
+  "name": "Roronoa Zoro",
+  "set": "ST-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Activated ability with [DON!! x1] cost should have duration 'Permanent' or 'UntilEndOfTurn', not 'EndOfTurn'. The card text 'This Character gains +1000 power' indicates a permanent boost for the current turn cycle. 'EndOfTurn' typically implies automatic removal at end of turn, which is correct for activated abilities. However, the condition uses 'HasRestingDon' (checking board state) rather than a cost structure. Duration should align with typical activated ability behavior: either 'Permanent' (if boost persists) or 'UntilEndOfTurn' (if it expires). 'EndOfTurn' as written is ambiguous—clarify intent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' checks if a Resting DON exists on board, but card text '[DON!! x1]' indicates a cost to activate, not a conditional requirement. Should use a cost structure or be triggered differently, not a board-state condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "AttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "UntilEndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:54:47.797Z"
+}

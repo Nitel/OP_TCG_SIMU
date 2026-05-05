@@ -1,0 +1,34 @@
+{
+  "id": "ST15-001",
+  "name": "Atmos",
+  "set": "ST-15",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Should contain a Counter/Trigger effect with condition on Leader type and action preventing life gain."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "LeaderIsName",
+            "value": "Edward.Newgate"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotFlipLife",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:11:04.704Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP10-061",
+  "name": "Special Long-Range Attack!! Bagworm",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect has trigger 'Trigger' with no context. The card text describes a single sequential action chain (Draw 1, THEN return up to 1), not two separate effects. The 'Trigger' effect should be removed."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "'maxCost' should be 'maxCostAmount' for consistency with DSL schema conventions, or clarify the exact field name used for cost filtering."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxChoose": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:35:34.398Z"
+}

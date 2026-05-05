@@ -1,0 +1,38 @@
+{
+  "id": "OP05-051",
+  "name": "Borsalino",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is SearchDeck with destination 'board', but card text says 'place at the bottom of the owner's deck'. Should use a different action that places card at deck bottom, not searches to board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is ByCost but missing the card kind 'Character'. Text specifies 'Character with a cost of 4 or less', so filter must include kind:'Character'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Place up to 1 Character with a cost of 4 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Character",
+              "maxCost": 4
+            },
+            "destination": "deckBottom",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:09.825Z"
+}

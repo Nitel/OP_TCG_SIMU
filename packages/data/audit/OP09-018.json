@@ -1,0 +1,30 @@
+{
+  "id": "OP09-018",
+  "name": "Get Out of Here!",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Main effect should K.O. up to 2 opponent Characters with total power ≤4000."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "target": "OpponentCharacters",
+            "amount": 2,
+            "filter": "TotalPowerLessOrEqual4000"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:34:40.361Z"
+}

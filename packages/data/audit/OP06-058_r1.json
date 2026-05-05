@@ -1,0 +1,53 @@
+{
+  "id": "OP06-058_r1",
+  "name": "Gravity Blade Raging Tiger",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but effect text requires 'ReturnToHand' or similar action to place cards at bottom of deck. 'Rest' does not match the game mechanic of placing cards in deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "Target maxCost is 6, which matches text 'cost of 6 or less' — this is correct."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacter' is correct, but the action itself (Rest) does not implement 'place at bottom of deck' mechanic. Requires custom action or SearchDeck with placement specification."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' with maxCost 5 has no basis in card text. Text specifies single effect: 'up to 2 Characters with cost 6 or less'. This second entry should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing specification for 'up to 2' character limit. DSL must include quantity constraint (maxTargets: 2)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Place up to 2 Characters with a cost of 6 or less at the bottom of the owner's deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 6,
+              "maxTargets": 2
+            },
+            "placement": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:43:12.243Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "OP09-021",
+  "name": "Red Force",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts until end of current turn. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect persists through opponent's turn and ends at the end of opponent's turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows choosing 0 or 1 opponent character ('up to 1'). Current scope 'ChooseOpponentCharacter' should clarify the optional/selective nature with maxCount or similar parameter if DSL supports it. If maxCount is not supported, this is acceptable as-is."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Red-Haired Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:34:56.337Z"
+}

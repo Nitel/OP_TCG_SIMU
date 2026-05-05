@@ -1,0 +1,52 @@
+{
+  "id": "OP09-052",
+  "name": "Marco",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to check if card was trashed from hand (prerequisite for playing from trash). The effect should only trigger if the cost was paid."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is a cost, not a triggered action. Should be represented as a condition or cost structure, not as the primary action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PlaySelf action missing 'rested' property. Card should be played in rested state per card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Duration '[Opponent's Turn]' in card text requires duration:\"DuringOpponentTurn\", not default. This is a mandatory effect timing requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {}
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlaySelf",
+          "rested": true,
+          "cost": {
+            "type": "TrashFromHand",
+            "filter": {},
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:02:44.992Z"
+}

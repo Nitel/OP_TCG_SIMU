@@ -1,0 +1,40 @@
+{
+  "id": "OP08-061",
+  "name": "Charlotte Oven",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "target missing 'maxCount' constraint; card text specifies 'up to 1' character, DSL must include maxCount:1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "condition type should be 'HasAttachedDon' not 'HasRestingDon'; DON!! cost payment uses attached DON!!, not resting DON!!"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:54.266Z"
+}

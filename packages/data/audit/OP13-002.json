@@ -1,0 +1,100 @@
+{
+  "id": "OP13-002",
+  "name": "Portgas.D.Ace",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (opponent attacking you), not 'Counter'. 'Counter' implies a reactive/interrupt mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be conditional (may trash). Current DSL structure doesn't reflect optional action. Should use a condition or restructure with optional flag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'OnDamage' or composite (OnDamage|OnKO), not 'Activated'. This is an automatic trigger, not a manual activation. Second condition (Character with 6000+ base power KO'd) requires OnKO trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Effect is missing condition: 'HasCardOnBoard' or similar to check for 6000+ base power Character before drawing. Two distinct triggers (damage taken OR character KO'd) should be separate effect entries or unified with OR logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacterOrLeader",
+                "count": 1
+              },
+              "duration": "DuringBattle"
+            }
+          ]
+        }
+      ],
+      "frequency": "OncePerTurn"
+    },
+    {
+      "trigger": "OnDamage",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "frequency": "OncePerTurn",
+      "cost": {
+        "don": 1
+      }
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "basePower": {
+              "min": 6000
+            }
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "frequency": "OncePerTurn",
+      "cost": {
+        "don": 1
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T11:58:36.982Z"
+}

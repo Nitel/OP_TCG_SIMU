@@ -1,0 +1,48 @@
+{
+  "id": "OP09-069",
+  "name": "Trafalgar Law",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses maxCost:2, but card text specifies 'cost of 2 or more' (minimum 2, not maximum). Should use minCost:2."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type requirement. Card text requires '{Straw Hat Crew} or {Heart Pirates}' type. Filter must include typeFilter with these types."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete. Card text specifies 'look at 4 cards from top' and 'place the rest at the bottom in any order' — this requires a multi-step process (reveal, filter, add to hand, arrange remainder). Current action only covers the search portion."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "deckPosition": "top",
+          "lookCount": 4,
+          "filter": {
+            "kind": "ByCost",
+            "minCost": 2,
+            "typeFilter": [
+              "Straw Hat Crew",
+              "Heart Pirates"
+            ]
+          },
+          "selectCount": 1,
+          "destination": "hand",
+          "remainderDestination": "bottomOfDeck",
+          "remainderArrangeable": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:19:18.859Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP08-023",
+  "name": "Carrot",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The card prevents a rested character from becoming active next Refresh Phase, which is a conditional effect preventing state change, not a Rest action. This requires a custom/special effect type or a duration-based condition that blocks activation during opponent's next Refresh Phase."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing duration specification. Text '...will not become active in your opponent's next Refresh Phase' indicates a delayed conditional effect lasting through opponent's next Refresh Phase, not an immediate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incomplete. Card specifies 'rested Characters', so condition must include HasRestingDon check."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 7
+      }
+    ],
+    "actions": [
+      {
+        "type": "SkipActivation",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 7,
+          "maxQuantity": 1
+        },
+        "duration": "UntilOpponentNextRefreshPhase"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:25:56.304Z"
+}

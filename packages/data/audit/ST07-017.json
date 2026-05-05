@@ -1,0 +1,30 @@
+{
+  "id": "ST07-017",
+  "name": "Queen Mama Chanter",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife is incorrect. Card text says 'add 1 card from the top or bottom of your Life cards to your hand' — this is drawing/retrieving a Life card, not flipping life total. Should be DrawCard with source:Life or equivalent mechanic; FlipLife changes life total, not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2]",
+      "description": "PlayFromHand is incorrect. Card text says 'Add up to 1 of your Characters with a cost of 3 to the top of the owner's Life cards face-up' — this means moving a Character already on board to Life cards (the reverse of normal play), not playing from hand. Should be a custom action like 'MoveToLife' or 'AttachToLife', not PlayFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].filter.maxCost",
+      "description": "Filter should be exactly cost 3 (costEqual:3 or cost:3), not 'up to 3' (maxCost). Text specifies 'a cost of 3'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: 'You may' indicates this is optional, but no condition reflects optionality in the DSL structure."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:02:30.959Z"
+}

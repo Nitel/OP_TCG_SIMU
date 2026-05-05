@@ -1,0 +1,75 @@
+{
+  "id": "OP11-004",
+  "name": "Kujyaku",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay effect is missing the deck peek mechanic (look at 5 cards). SearchDeck alone does not capture the full effect: must look at top 5, reveal up to 1 Navy non-Kujyaku, add to hand, then place rest at bottom in any order. Current DSL omits the peek, ordering, and filter logic entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "TrashFromHand is incorrect. The effect says 'trash this Character' (the card itself on board), not from hand. Should be KO or similar self-trash mechanic. TrashFromHand targets hand, not the battlefield."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Activate trigger should target the Character card itself (in play) for trashing, not a generic filter. Cost mechanic not properly represented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].target",
+      "description": "PowerBoost target is ChooseOwnCharacter (singular choice). Text says 'Up to 1 of your Characters', which allows 0 as a choice. Target scope may need optional selection logic."
+    }
+  ],
+  "suggestedDsl": {
+    "name": "OP11-004",
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Activate: Main] You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "peek": 5,
+            "filter": {
+              "type": "Navy",
+              "excludeName": "Kujyaku"
+            },
+            "count": 1,
+            "destination": "hand",
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "description": "Place remaining peeked cards at bottom of deck in any order"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": "Always",
+        "cost": {
+          "trashSelf": true
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1,
+              "optional": true
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:40:26.544Z"
+}

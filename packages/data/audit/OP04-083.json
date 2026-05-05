@@ -1,0 +1,51 @@
+{
+  "id": "OP04-083",
+  "name": "Sabo",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing protective effect: 'None of your Characters can be K.O.'d by effects until the start of your next turn' must be represented as a separate effect with GiveKeyword (protection/immunity) or custom condition logic with duration DuringYourTurn. Current DSL only includes DrawCard and TrashFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Incorrect action order and missing condition: DrawCard and TrashFromHand should occur AFTER the protection expires (at start of next turn), not immediately on play. Needs proper sequencing with duration or conditional timing."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByEffects",
+          "target": "YourCharacters"
+        }
+      ]
+    },
+    {
+      "trigger": "StartOfTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:20.436Z"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "OP04-039",
+  "name": "Rebecca",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action sequence is wrong. Should start with DrawCard (look at 2 cards from top of deck), not RevealFromHand. RevealFromHand is for cards already in hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'If you have 6 or less cards in your hand' must be added as a condition before the action executes."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure incorrect. Should be: DrawCard 2 from deck → reveal up to 1 Dressrosa → add to hand → trash rest. Current DSL attempts RevealFromHand then SearchDeck which doesn't match the effect flow."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing: 'Cannot attack' passive effect. Leader has a static ability that should be represented separately or noted."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "All",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "count": 1
+          },
+          {
+            "type": "CardCount",
+            "location": "hand",
+            "comparison": "LessOrEqual",
+            "value": 6
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "source": "deck",
+          "reveal": true
+        },
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Dressrosa"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "revealed",
+          "count": -1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:14.899Z"
+}

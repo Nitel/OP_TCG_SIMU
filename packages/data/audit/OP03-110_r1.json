@@ -1,0 +1,45 @@
+{
+  "id": "OP03-110_r1",
+  "name": "Charlotte Smoothie",
+  "set": "ST-20",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is correct for adding from Life cards to hand, but the DSL structure is wrong. The card says 'You may' — this should be optional/conditional, not a mandatory action before the power boost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "The two effects in the DSL appear to be unrelated. The first effect (OnAttack with FlipLife + PowerBoost) is correct structurally, but the second effect (Trigger with TrashFromHand + PlaySelf) has no basis in the card text and should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger block (Trigger + TrashFromHand + PlaySelf) does not match card text. This entire effect should be deleted."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:15:11.637Z"
+}

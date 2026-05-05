@@ -1,0 +1,51 @@
+{
+  "id": "OP09-050",
+  "name": "Nami",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is severely incomplete. Missing the core mechanic: looking at 5 cards from top of deck, revealing up to 1 blue Event, and ordering the rest at bottom. Current DSL only shows a generic SearchDeck with no filters, quantity limits, or ordering logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to blue Events only, with a quantity limit of up to 1 card."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action(s) to handle the remaining 4 cards (or fewer if Event found). The effect must allow ordering those cards at the bottom of the deck, which requires additional logic not captured in current DSL."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Look at 5 cards from the top of your deck; reveal up to 1 blue Event and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "Event",
+              "color": "Blue"
+            },
+            "quantity": 1,
+            "searchCount": 5,
+            "destination": "hand"
+          },
+          {
+            "type": "OrderDeckCards",
+            "zone": "deck",
+            "position": "bottom",
+            "count": 4
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:02:36.017Z"
+}

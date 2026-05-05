@@ -1,0 +1,53 @@
+{
+  "id": "OP10-100",
+  "name": "Inazuma",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition that limits Rest target to Characters with cost ≤ total of both players' Life cards. Current DSL has no cost comparison logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' with cost restriction. ChooseOpponentCharacter lacks the cost constraint condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and 'Always' condition with PlaySelf action is spurious and not supported by card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is correct, but the cost-based filtering condition is entirely missing from the DSL structure."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP10-100",
+    "effectText": "[When Attacking] Rest up to 1 of your opponent's Characters with a cost equal to or less than the total of your and your opponent's Life cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": "UpTo1",
+              "filter": {
+                "costLessThanOrEqual": "TotalLifeCards"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:38:34.314Z"
+}

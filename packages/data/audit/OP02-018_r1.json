@@ -1,0 +1,48 @@
+{
+  "id": "OP02-018_r1",
+  "name": "Marco",
+  "set": "ST-15",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence incorrect: effect requires condition check ('If you have 2 or less Life cards') before trashing. Current DSL allows trashing unconditionally. Should be: condition check first, then conditional trash+play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: 'If you have 2 or less Life cards' is a mandatory condition that gates the entire effect. Must add condition to effects array or wrap actions."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but card text says 'type including \"Whitebeard Pirates\"' — should verify if 'Whitebeard Pirates' is a Type or SubType in game data. May need cardType instead."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "LifeCount",
+        "comparison": "<=",
+        "value": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "cardType": "Whitebeard Pirates"
+        },
+        "thenActions": [
+          {
+            "type": "PlaySelf",
+            "rest": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:10:31.699Z"
+}

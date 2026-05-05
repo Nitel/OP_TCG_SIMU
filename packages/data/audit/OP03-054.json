@@ -1,0 +1,50 @@
+{
+  "id": "OP03-054",
+  "name": "Usopp's Rubber Band of Doom!!!",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Counter cards trigger on 'Counter', not 'OnAttacked'. The trigger should be 'Counter'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Second action should be 'ForceDiscard' (trash from deck), not 'TrashFromHand' (trash from hand). The card text says 'trash 1 card from the top of your deck'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect object is extraneous and incorrect. There should be only one effect with trigger 'Counter'. The 'DrawCard' action does not appear in the card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "ForceDiscard action targeting deck should not have an empty filter object; it should specify deck source or be implicit in the action type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "TopOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:13.275Z"
+}

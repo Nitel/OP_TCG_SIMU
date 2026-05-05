@@ -1,0 +1,38 @@
+{
+  "id": "OP15-069",
+  "name": "Nola",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect is completely missing. Card has a Counter trigger with conditional DON!! return action that should be implemented."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your Character with 7000 base power or less would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Character",
+            "qualifier": "BasePower7000OrLess"
+          }
+        ],
+        "actions": [
+          {
+            "type": "AttachDon",
+            "target": "DeckFromField",
+            "count": 1
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:27:14.550Z"
+}

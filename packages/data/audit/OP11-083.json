@@ -1,0 +1,33 @@
+{
+  "id": "OP11-083",
+  "name": "Caribou",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Blocker keyword effect. The card text explicitly states '[Blocker]' which should be represented as a GiveKeyword action granting 'Blocker' to the card itself during play."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": "self",
+          "duration": "Permanent"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:46:34.061Z"
+}

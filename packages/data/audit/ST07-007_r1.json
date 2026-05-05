@@ -1,0 +1,38 @@
+{
+  "id": "ST07-007_r1",
+  "name": "Charlotte Brulee",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is invalid. Blocker mechanic should use 'OnAttacked' trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker requires 'Rest' action (to rest this card) and implicit redirect of attack target. No card play occurs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition structure. Blocker is optional ('you may'), requires effect to model choice/conditional execution."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:51.303Z"
+}

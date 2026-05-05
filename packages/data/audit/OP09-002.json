@@ -1,0 +1,39 @@
+{
+  "id": "OP09-002",
+  "name": "Uta",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) looking at 5 cards from top of deck, (2) revealing up to 1 Red-Haired Pirates type card, (3) adding it to hand, (4) placing the rest at the bottom in any order. Current DSL only captures a generic search with no deck size limit, card type filter, or bottom deck placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is set to 'Any' but should specify CardType:'Red-Haired Pirates' and limit selection to up to 1 card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action to place non-selected cards at the bottom of the deck in any order. The DSL only handles the 'to hand' portion, not the deck organization step."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "deckSize": 5,
+        "filter": {
+          "cardType": "Red-Haired Pirates"
+        },
+        "maxResults": 1,
+        "destination": "hand",
+        "remainingCards": "BottomDeckAnyOrder"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:33:33.497Z"
+}

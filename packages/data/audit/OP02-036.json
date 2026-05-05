@@ -1,0 +1,68 @@
+{
+  "id": "OP02-036",
+  "name": "Nami",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and inaccurate. Official text requires: look at top 3 cards, reveal up to 1 FILM type card (excluding Nami), add to hand, place rest at bottom in any order. Current DSL only searches without specifying the look/reveal/reorder mechanics."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is {\"kind\":\"Any\"} but should specify FILM type cards and exclude Nami by name. Official text: 'reveal up to 1 {FILM} type card other than [Nami]'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence incomplete. Must include: (1) look at 3 cards from top, (2) reveal up to 1 FILM card (not Nami), (3) add to hand, (4) place rest at bottom in any order. Current DSL only has SearchDeck with no ordering/placement mechanic for remaining cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "amount": 3,
+          "reveal": true,
+          "filter": {
+            "type": "FILM",
+            "excludeName": "Nami"
+          },
+          "selectUpTo": 1,
+          "destination": "hand",
+          "remainingToBottom": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "amount": 3,
+          "reveal": true,
+          "filter": {
+            "type": "FILM",
+            "excludeName": "Nami"
+          },
+          "selectUpTo": 1,
+          "destination": "hand",
+          "remainingToBottom": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:30:44.574Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "OP14-088",
+  "name": "Miss.MerryChristmas(Drophy)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be \"LeaderHasType\" (checking Leader's type), not \"HasCardOnBoard\" (checking for a card on board). Text says 'your Leader's type includes \"Baroque Works\"'."
+    },
+    {
+      "severity": "major",
+      "field": "actions[1].target.scope",
+      "description": "Target scope should be \"ChooseOpponentStage\" for Stage characters, not \"ChooseOpponentCharacter\". Stages are a distinct unit type."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Baroque Works"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentStage",
+          "maxCost": 1,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:16:58.486Z"
+}

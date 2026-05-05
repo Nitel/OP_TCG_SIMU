@@ -1,0 +1,46 @@
+{
+  "id": "OP15-082",
+  "name": "Charlotte Lola",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The effect trashes from deck (top of deck), not from hand. Should be a deck milling/trashing action, not hand discard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Target scope should be 'OwnTrash' to select from trash. 'ChooseOwnCharacter' selects from board/hand, not trash. Also the action type ReturnToHand is correct but the source must be specified as trash."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "OwnTrash",
+              "type": "Character",
+              "maxCost": 8,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:28:15.039Z"
+}

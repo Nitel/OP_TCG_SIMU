@@ -1,0 +1,63 @@
+{
+  "id": "OP15-041",
+  "name": "Orlumbus",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action type 'PlayFromHand' is incorrect. The effect states 'place 1 of your Characters at the bottom of the owner's deck', which is a deck placement action, not playing from hand. Should use a custom action or clarify as deck-bottom placement, not PlayFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "Filter specifies 'cardType: Character' but the effect requires selecting from Characters already on board ('1 of your Characters'), not from hand. Filter should target board state, not card type alone."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].conditions",
+      "description": "Missing 'Once Per Turn' condition. The effect explicitly states '[Once Per Turn]' which must be represented in the DSL as a condition or limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "OncePerTurn"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self",
+            "filter": {
+              "cardType": "Character",
+              "zone": "Board"
+            }
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:25:07.490Z"
+}

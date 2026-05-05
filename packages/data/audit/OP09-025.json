@@ -1,0 +1,32 @@
+{
+  "id": "OP09-025",
+  "name": "Crocodile",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain OnAttacked trigger with condition checking Leader type and action preventing K.O."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "ODYSSEY"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PreventKO",
+          "target": "Self"
+        }
+      ],
+      "duration": "DuringYourTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:16.678Z"
+}

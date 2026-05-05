@@ -1,0 +1,37 @@
+{
+  "id": "P-030_r1",
+  "name": "Jinbe",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an OnKO trigger with a PlayFromHand action (placing a Character from hand), but effects array is empty. Missing entire effect definition."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "quantity": "UpTo1",
+            "filter": {
+              "type": "Character",
+              "costRange": [
+                0,
+                3
+              ]
+            },
+            "destination": "BottomOfDeck",
+            "targetOwner": "Self"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:12:15.560Z"
+}

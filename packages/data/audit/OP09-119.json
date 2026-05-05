@@ -1,0 +1,43 @@
+{
+  "id": "OP09-119",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing the optional condition for returning DON!! cards. The card text states 'You may return 1 or more DON!! cards from your field to your DON!! deck' which is a prerequisite/optional condition for the effect to trigger. The DSL should include a condition reflecting this optional cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration '[Your Turn]' / 'during this turn' must be represented as 'DuringYourTurn', not 'EndOfTurn'. The text explicitly states 'during this turn' which indicates the keyword is active only while it is your turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:30:54.025Z"
+}

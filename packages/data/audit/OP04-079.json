@@ -1,0 +1,47 @@
+{
+  "id": "OP04-079",
+  "name": "Orlumbus",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "TrashFromHand is incorrect. The card says 'trash 2 cards from the top of your deck', not from hand. Should use a deck-trashing action or custom implementation; TrashFromHand violates the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target",
+      "description": "KO target missing filter for {Dressrosa} type. Text requires 'K.O. 1 of your {Dressrosa} type Characters', but target has no type filter applied."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -4000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1
+        },
+        "duration": "DuringTurn"
+      },
+      {
+        "type": "TrashFromDeck",
+        "count": 2
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "Dressrosa"
+          },
+          "count": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:43:13.992Z"
+}

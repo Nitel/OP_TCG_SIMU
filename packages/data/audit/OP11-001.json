@@ -1,0 +1,69 @@
+{
+  "id": "OP11-001",
+  "name": "Koby",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the second effect entirely. Card has two distinct effects: (1) SWORD type Characters gain Rush, and (2) Once Per Turn protection for Navy type Characters with ≤7000 base power. Only the first effect is represented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incorrect. Effect should only apply to {SWORD} type Characters, not AllOwnCharacters. Target should include a type filter condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is set to 'EndOfTurn' but the effect text states 'on the turn in which they are played' with no explicit end condition mentioned. Should be 'Permanent' or 'DuringYourTurn' depending on intended scope (likely Permanent for the turn context, or DuringYourTurn if limited to active turn only)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "cardType": "SWORD"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filters": [
+              {
+                "type": "CardType",
+                "value": "SWORD"
+              }
+            ]
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "cardType": "Navy",
+          "powerThreshold": 7000
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "source": "Trash",
+          "count": 3,
+          "target": "DeckBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:40:11.601Z"
+}

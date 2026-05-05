@@ -1,0 +1,39 @@
+{
+  "id": "OP08-058",
+  "name": "Charlotte Pudding",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action missing 'rested' property. Card text specifies the DON!! card should be rested after being added. Should include 'rested':true"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for optional effect. Card text says 'You may...' indicating this is optional/conditional, but DSL has no condition to represent the optional nature or the prerequisite check for 2 face-down Life cards"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-058",
+    "effectText": "[When Attacking] You may turn 2 cards from the top of your Life cards face-up: Add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 2
+          },
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:42.646Z"
+}

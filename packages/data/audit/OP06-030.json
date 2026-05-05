@@ -1,0 +1,60 @@
+{
+  "id": "OP06-030",
+  "name": "Dosun",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: effect requires Leader to have {New Fish-Man Pirates} type, but condition is 'Always'. Should be {\"type\":\"LeaderHasType\",\"value\":\"New Fish-Man Pirates\"}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action: 'this Character cannot be K.O.'d in battle' is a keyword grant (GiveKeyword with 'Protection' or similar mechanic), not captured in DSL"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration incorrect: 'until the start of your next turn' is not 'EndOfTurn'. Should be duration:\"UntilStartOfNextTurn\" or similar. Text says '[Your Turn]' context, but power boost persists into opponent's turn until next start"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "Action order: FlipLife should follow PowerBoost logically per card text ('Then, add 1 card...')"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "New Fish-Man Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "UntilStartOfNextTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "UntilStartOfNextTurn"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:55:29.522Z"
+}

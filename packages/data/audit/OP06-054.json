@@ -1,0 +1,33 @@
+{
+  "id": "OP06-054",
+  "name": "Borsalino",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional passive ability that grants [Blocker] keyword, but effects array is empty. Must include condition check and GiveKeyword action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": "Always",
+      "effects": [
+        {
+          "condition": "Always",
+          "actions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Blocker",
+              "duration": "Permanent",
+              "conditionCheck": "HandCount<=5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:57:15.842Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP14-046",
+  "name": "Koala",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'TrashFromPlay' (trashing this Character from board), not 'TrashFromHand' (trashing from hand)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "'excludeSelf:true' is incorrect; the effect explicitly allows trashing 'this Character' as the cost. Should be 'includeSelf:true' or removed to allow self-trashing"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target.subType",
+      "description": "Target filter only specifies 'Fish-Man' but card text requires 'Fish-Man' OR 'Merfolk' type. Should use 'subTypes':['Fish-Man','Merfolk'] or equivalent union logic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' effect, but verify this matches card's turn context (Main phase activation suggests player's turn)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromPlay",
+          "filter": {
+            "includeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "subTypes": [
+                  "Fish-Man",
+                  "Merfolk"
+                ]
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:41.464Z"
+}

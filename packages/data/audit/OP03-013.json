@@ -1,0 +1,57 @@
+{
+  "id": "OP03-013",
+  "name": "Marco",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect missing duration. Text states '[Your Turn]' which requires duration:\"DuringYourTurn\". Currently has no duration specified."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action missing count constraint. Should specify maxCount:1 to match 'up to 1' in card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          },
+          "maxCount": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Event"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlaySelf",
+              "rested": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:04.634Z"
+}

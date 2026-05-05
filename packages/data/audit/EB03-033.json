@@ -1,0 +1,55 @@
+{
+  "id": "EB03-033",
+  "name": "Charlotte Brulee",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnPlay' or a custom trigger for 'When a DON!! card on your field is returned to your DON!! deck by your effect', not 'Activated'. Current trigger does not capture the return-to-deck event."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Missing duration. Text states '[Opponent's Turn]' which requires duration:'DuringOpponentTurn', not Permanent or EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check 'LeaderHasType' for {Big Mom Pirates}, not 'HasCardOnBoard'. Current condition type is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveDon' is incomplete. Should include 'Rest' action as a separate action since text says 'rest it'. Current DSL only adds DON but does not rest."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Once Per Turn]' constraint in DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Big Mom Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "DeckSearch"
+        },
+        {
+          "type": "Rest"
+        }
+      ],
+      "limit": "OncePerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:08.929Z"
+}

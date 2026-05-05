@@ -1,0 +1,46 @@
+{
+  "id": "OP12-054",
+  "name": "Marshall.D.Teach",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The card text checks if the Leader has the type, not if a card with that type is on board."
+    },
+    {
+      "severity": "major",
+      "field": "condition.name",
+      "description": "Condition field should be 'type' not 'name' when using LeaderHasType. The value should reference the type {The Seven Warlords of the Sea}."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target.scope",
+      "description": "Target scope should be 'OpponentCharacter' not 'ChooseOwnCharacter'. The effect returns opponent's characters to their hand, not your own."
+    },
+    {
+      "severity": "minor",
+      "field": "actions[0].target",
+      "description": "Target should exclude 'this Character' via an exclusion filter to match card text requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "The Seven Warlords of the Sea"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 1,
+          "excludeSelf": true
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:53:23.249Z"
+}

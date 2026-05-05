@@ -1,0 +1,61 @@
+{
+  "id": "EB04-008",
+  "name": "Distorted Future",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check Life count, not TurnCount. The card text states 'If you have 2 or less Life cards' which requires a HasLifeCards or similar condition (max: 2), not TurnCount."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incorrect. Should be 'OpponentCharacter' (singular selection), not 'ChooseOpponentCharacter'. The text allows 'up to 1' character, suggesting optional targeting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (when this card is played), not 'Activated'. The Main ability activates when the card enters play, not on demand."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-008",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasLifeCards",
+          "max": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -3000,
+            "target": {
+              "scope": "OpponentCharacter",
+              "optional": true,
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:05.314Z"
+}

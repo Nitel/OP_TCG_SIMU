@@ -1,0 +1,56 @@
+{
+  "id": "OP11-030",
+  "name": "Shirahoshi",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition requirement: effect requires resting 1 DON!! card and this Character as a cost. DSL must include conditions for HasAttachedDon (for DON!! availability) and/or explicit cost modeling."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is incomplete. Must specify type filter for {Neptunian} or {Fish-Man Island} types and limit to 'up to 1' card from top 5 of deck, not generic 'Any'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action: effect requires looking at 5 cards from top of deck and placing rest at bottom in any order. Current DSL only models the search portion; does not account for the 'look at 5 / place rest' sequencing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Trigger 'Activated' is correct for [Activate: Main], but no condition restricting to Main Phase is present in DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "Neptunian",
+              "Fish-Man Island"
+            ]
+          },
+          "maxCards": 1,
+          "deckPosition": "top",
+          "deckPositionValue": 5,
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:42:31.608Z"
+}

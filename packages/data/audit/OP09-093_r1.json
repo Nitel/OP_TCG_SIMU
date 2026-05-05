@@ -1,0 +1,73 @@
+{
+  "id": "OP09-093_r1",
+  "name": "Marshall.D.Teach",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct) but the condition logic is incomplete. Missing check for 'this Character was played on this turn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. Text says 'negate the effect' of opponent's Leader, which requires a negation mechanic, not Rest. No standard action maps to effect negation; this may need a custom action or clarification."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'Rest' is incorrect. Text says 'negate the effect' AND 'that Character cannot attack until the end of your opponent's next turn'. Rest alone does not capture both negation + attack prevention with duration through opponent's next turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition only checks Leader type but misses the temporal constraint 'this Character was played on this turn'. Needs additional condition or timestamp validation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Second action requires duration 'UntilEndOfOpponentNextTurn' (opponent's next turn end), not a simple state change. Current DSL omits duration specification."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "Effect negation is not a standard OPTCG DSL action. Recommend clarifying with official card database whether this uses a custom 'NegateEffect' action or if mechanics should be represented differently. Below shows structure assuming custom negation action exists:",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "All",
+          "conditions": [
+            {
+              "type": "HasCardOnBoard",
+              "value": "Blackbeard Pirates"
+            },
+            {
+              "type": "PlayedThisTurn",
+              "target": "Self"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "NegateEffect",
+            "target": {
+              "scope": "OpponentLeader"
+            },
+            "count": 1
+          },
+          {
+            "type": "NegateEffect",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "count": 1,
+            "duration": "UntilEndOfOpponentNextTurn",
+            "additionalEffect": "PreventAttack"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:47:36.945Z"
+}

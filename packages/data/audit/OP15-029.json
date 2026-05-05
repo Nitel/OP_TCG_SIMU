@@ -1,0 +1,44 @@
+{
+  "id": "OP15-029",
+  "name": "Bartholomew Kuma",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect prevents resting, not causes resting. Should use a keyword-granting action or a custom restriction mechanism. The card prevents a character from being rested."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing duration constraint. Text states 'cannot be rested until the end of your opponent's next End Phase' — this requires duration:'UntilEndOfOpponentNextTurn' or similar, indicating a temporary effect that lasts through opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect logic is inverted. Should prevent the target character from being rested (a restriction/immunity), not rest it. Current DSL applies Rest action, which is the opposite of the intended effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Up to 1 of your opponent's Characters with a cost of 5 or less cannot be rested until the end of your opponent's next End Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotRest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxTargets": 1
+            },
+            "duration": "UntilEndOfOpponentNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:24:13.089Z"
+}

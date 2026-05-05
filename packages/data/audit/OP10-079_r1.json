@@ -1,0 +1,38 @@
+{
+  "id": "OP10-079_r1",
+  "name": "God Thread",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action is incomplete. Missing 'source' field specifying 'DON!! deck'. Should include source to clarify cards are added from DON!! deck, not generated."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is undefined and unexplained. The card text describes a single Main action effect, not two separate triggers. This duplicate GiveDon effect should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "DONDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:48:12.657Z"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "OP07-029_r1",
+  "name": "Basil Hawkins",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Supernovas} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing the second effect: '[Once Per Turn] If this Character would be removed from the field by your opponent's effect, you may rest 1 of your opponent's Characters instead.' This requires a Counter trigger with a conditional action."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "Condition should specify the type value: 'type' field should be 'Supernovas' or similar structure to match LeaderHasType usage."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Supernovas"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            }
+          }
+        ],
+        "limitPerTurn": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:28.908Z"
+}

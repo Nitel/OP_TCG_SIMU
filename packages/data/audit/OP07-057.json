@@ -1,0 +1,63 @@
+{
+  "id": "OP07-057",
+  "name": "Perfume Femur",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing type filter constraint: action must target only {The Seven Warlords of the Sea} type cards, not all own characters/leaders"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn' — text states 'during this turn' which indicates active turn scope"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely wrong: should implement conditional blocker denial when selected card attacks, not DrawCard. Text requires: 'if the selected card attacks during this turn, your opponent cannot activate [Blocker]'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'Trigger' is invalid. Should be 'OnAttack' tied to the selected card attacking, with condition checking if that card is the one selected by PowerBoost effect"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Select up to 1 of your {The Seven Warlords of the Sea} type Leader or Character cards and that card gains +2000 power during this turn. Then, if the selected card attacks during this turn, your opponent cannot activate [Blocker].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "typeFilter": "The Seven Warlords of the Sea"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "IsSelectedCard"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "OpponentCannotActivateBlocker",
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:45.694Z"
+}

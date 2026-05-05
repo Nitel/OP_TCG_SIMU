@@ -1,0 +1,53 @@
+{
+  "id": "OP02-008",
+  "name": "Jozu",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (card gains Rush when played), not 'Activated' (manual activation)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Must check: (1) Life ≤ 2 AND (2) Leader has type 'Whitebeard Pirates'. Current DSL only checks leader type with wrong condition type. Should use 'LeaderHasType' not 'HasCardOnBoard'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is incorrect for Rush keyword. Rush is inherent to the Character and lasts the game (Permanent), not tied to battle end"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] If you have 2 or less Life cards and your Leader's type includes \"Whitebeard Pirates\", this Character gains [Rush].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Whitebeard Pirates"
+          },
+          {
+            "type": "LifeCount",
+            "comparison": "<=",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:39.263Z"
+}

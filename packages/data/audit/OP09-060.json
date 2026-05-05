@@ -1,0 +1,47 @@
+{
+  "id": "OP09-060",
+  "name": "Emptee Bluffs Island",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'place 2 cards from your hand at the bottom of your deck' — this is a deck placement, not trash. Should use 'PlayFromHand' or equivalent deck-bottom placement action, not discard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "DrawCard action missing condition check. Card text states 'If your Leader has the {Cross Guild} type, draw 2 cards' — DrawCard must be conditional on LeaderHasType:'Cross Guild', not unconditional."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 2,
+          "filter": {},
+          "placement": "DeckBottom",
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "Cross Guild"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:03:20.967Z"
+}

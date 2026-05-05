@@ -1,0 +1,25 @@
+{
+  "id": "EB04-002",
+  "name": "Jewelry Bonney",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and missing critical parameters. The DSL must specify: (1) look at 4 cards from top of deck, (2) filter for {Egghead} or {Straw Hat Crew} types excluding [Jewelry Bonney], (3) reveal up to 1 card, (4) add to hand, (5) place remaining cards at bottom of deck in any order. Current filter is 'Any' with no exclusions or type specification."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter lacks type requirements ({Egghead}|{Straw Hat Crew}) and exclusion of [Jewelry Bonney]"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not support the 'look at X cards and rearrange remaining' mechanic. This requires a custom action or multiple actions to handle deck peek, selection, and reordering logic not standard in the DSL"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:19:38.234Z"
+}

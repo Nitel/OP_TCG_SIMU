@@ -1,0 +1,53 @@
+{
+  "id": "EB03-012",
+  "name": "Otama",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing cost requirement: must rest this Character to activate the effect",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "critical",
+      "description": "Target scope is incomplete: can target opponent's DON!! cards OR {Animal}/{SMILE} type Characters, not just Characters",
+      "field": "effects[0].actions[0].target.scope"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing type restrictions: target must have {Animal} or {SMILE} type when targeting Characters",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Missing count limit: can rest 'up to 1' target, not unlimited",
+      "field": "effects[0].actions[0].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestSelf"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentDonOrCharacter",
+              "maxCost": 3,
+              "requiresAnyType": [
+                "Animal",
+                "SMILE"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:30.194Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "OP08-006",
+  "name": "Chessmarimo",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a conditional power boost during your turn, but effects[] is empty. Must define: trigger=StartOfTurn, condition=TrashCount (both Kuromarimo and Chess present), action=PowerBoost with +2000 value, and duration=DuringYourTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "TrashCount",
+            "value": 1,
+            "cardName": "Kuromarimo"
+          },
+          {
+            "type": "TrashCount",
+            "value": 1,
+            "cardName": "Chess"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "value": 2000
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:12:00.122Z"
+}

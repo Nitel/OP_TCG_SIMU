@@ -1,0 +1,37 @@
+{
+  "id": "OP06-073_r1",
+  "name": "Shiki",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon' (resting DON!! cards). 'HasRestingDon' checks for resting DON!!, but the card effect requires DON!! cards attached to the field."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:43:27.363Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "OP06-012",
+  "name": "Bear.King",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective/conditional effect text but effects array is empty. Should define a Counter or Trigger effect that prevents KO in battle when opponent has Leader/Character with base power ≥6000."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "target": "opponent",
+          "filters": {
+            "cardType": [
+              "Leader",
+              "Character"
+            ],
+            "basePower": {
+              "min": 6000
+            }
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOd",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:03.995Z"
+}

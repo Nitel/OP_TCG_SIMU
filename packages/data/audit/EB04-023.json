@@ -1,0 +1,43 @@
+{
+  "id": "EB04-023",
+  "name": "Chaka &amp; Pell",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be \"DuringYourTurn\" not \"EndOfTurn\". The card text says \"during this turn\", which indicates the effect lasts only for the current turn phase, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to make the draw optional. The text states \"You may give your active Leader −5000 power\", indicating this is a conditional/optional action, but the DSL has no condition field to reflect the player's choice."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-023",
+    "effectText": "[Double Attack] (This card deals 2 damage.)\n[On Play] You may give your active Leader −5000 power during this turn: Draw 2 cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -5000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:37.721Z"
+}

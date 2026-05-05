@@ -1,0 +1,60 @@
+{
+  "id": "OP06-043",
+  "name": "Aramaki",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the Blocker keyword effect entirely. Blocker is a static ability that should be represented as a separate effect with trigger 'OnAttacked' or similar passive mechanism."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "The activated ability requires TWO actions: (1) trash 1 card from hand AND (2) place 1 Character with cost ≤2 at bottom of deck. DSL only shows trashing. The 'place at bottom of deck' action is missing entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with proper main-phase activation context, but the condition and action structure don't capture the 'Once Per Turn' limitation at the DSL level (this may be handled elsewhere, but should be verified)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "kind": "Character",
+                "maxCost": 2
+              },
+              "zone": "DeckBottom",
+              "thenActions": [
+                {
+                  "type": "PowerBoost",
+                  "amount": 3000,
+                  "target": {
+                    "scope": "Self"
+                  },
+                  "duration": "EndOfTurn"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:56:26.947Z"
+}

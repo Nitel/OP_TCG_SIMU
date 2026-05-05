@@ -1,0 +1,46 @@
+{
+  "id": "EB03-056",
+  "name": "Belo Betty",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "FlipLife and KO are sequenced without conditional logic. The card text states 'You may turn 1 card...': this is optional, and the KO should only be possible if the flip action succeeds. Current DSL executes both unconditionally. Should use a condition or restructure to reflect the optional 'may' and the dependency."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target uses 'ChooseOpponentCharacter' but card text says 'up to 1', meaning zero targets is also valid. Scope should support optional targeting or target.count should be {min:0, max:1}."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB03-056",
+    "effectText": "[On Play] You may turn 1 card from the top of your Life cards face-up: K.O. up to 1 of your opponent's Characters with a base cost of 3 or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxCost": 3,
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:56.236Z"
+}

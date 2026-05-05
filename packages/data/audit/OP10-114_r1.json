@@ -1,0 +1,53 @@
+{
+  "id": "OP10-114_r1",
+  "name": "X.Drake",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "First Rest action targets Self unconditionally, but card text says 'You may rest this Character' as optional part of activation cost. The Self-rest should be conditional or restructured."
+    },
+    {
+      "severity": "major",
+      "field": "actions[1]",
+      "description": "Rest opponent's Character action missing condition: 'If the number of your Life cards is equal to or less than the number of your opponent's Life cards'. Current DSL has no life comparison condition."
+    },
+    {
+      "severity": "major",
+      "field": "actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is not a valid scope. Should use 'OpponentCharacter' with appropriate selection constraints. Also missing 'up to 1' quantifier."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          },
+          "condition": {
+            "type": "LifeComparison",
+            "operator": "LessOrEqual"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:48:37.598Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP11-107",
+  "name": "Topknot Neptunian",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing LeaderIsName check for 'Shirahoshi'. Current condition 'Always' does not enforce the leader requirement stated in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Actions missing the secondary effect: 'Set this Character as active at the end of this turn'. FlipLife is only the cost; the actual effect (Rest reversal/activation) must be represented as an action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Shirahoshi"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": "Self",
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:48:19.857Z"
+}

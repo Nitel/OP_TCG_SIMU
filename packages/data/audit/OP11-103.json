@@ -1,0 +1,46 @@
+{
+  "id": "OP11-103",
+  "name": "Long-Jaw Neptunian",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'RemoveLife' is incorrect. The card text states 'turn 1 card from the top of your Life cards face-down', which is a life flip mechanic, not life removal. Should use 'FlipLife' with count:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target",
+      "description": "Target scope 'ChooseOpponentCharacter' with maxCost constraint is not a valid target scope in the DSL. Should use scope:'OpponentCharacter' with a filter condition for cost ≤ 3, or clarify the exact target format. Current notation suggests manual selection but lacks proper DSL syntax."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Shirahoshi"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 3,
+          "maxTargets": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:48:04.550Z"
+}

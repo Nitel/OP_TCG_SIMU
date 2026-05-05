@@ -1,0 +1,46 @@
+{
+  "id": "OP10-063",
+  "name": "Vinsmoke Sanji",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing required condition: LeaderHasType 'GERMA'. Card text states 'If your Leader's type includes GERMA'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete. Must specify: look at top 5 cards, filter for type 'GERMA', reveal up to 1, add to hand, then place rest at bottom of deck in any order. Current filter is 'Any' with no depth/ordering logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should target cards with type including 'GERMA', not 'Any'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "GERMA"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "HasType",
+            "value": "GERMA"
+          },
+          "limit": 1,
+          "destination": "hand",
+          "depth": 5,
+          "orderRest": "Any"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:35:43.310Z"
+}

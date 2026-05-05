@@ -1,0 +1,53 @@
+{
+  "id": "ST07-005",
+  "name": "Charlotte Daifuku",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action sequence is reversed. Card text states: (1) add 1 card from top/bottom of Life cards to hand, then (2) add up to 1 card from top of deck to Life cards. DSL has SearchDeck before FlipLife, which is backwards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck with destination 'hand' is incorrect. Should add card to Life cards (top), not hand. Requires custom action or clarification of destination parameter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife adds to hand, but source should be specified as 'top or bottom' of Life cards. Current DSL does not capture the 'may choose' optionality."
+    }
+  ],
+  "suggestedDsl": {
+    "name": "ST07-005",
+    "effectText": "[DON!! x1] [When Attacking] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 card from the top of your deck to the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "source": "TopOrBottom",
+            "destination": "hand",
+            "optional": true
+          },
+          {
+            "type": "AddToLife",
+            "count": 1,
+            "source": "deck",
+            "destination": "top",
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:01:34.558Z"
+}

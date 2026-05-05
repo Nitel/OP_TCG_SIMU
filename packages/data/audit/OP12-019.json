@@ -1,0 +1,70 @@
+{
+  "id": "OP12-019",
+  "name": "Color of Arms Haki",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action missing required target specification. Text states 'give 1 active DON!! card to 1 of your [Silvers Rayleigh]' — must specify target as Silvers Rayleigh, not generic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].condition",
+      "description": "GiveDon action missing 'optional' condition. Text states 'You may give' indicating this is optional, not mandatory."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "PowerBoost target scope should be 'ChooseOwnCharacterOrLeader' per card text 'your Leader or Character cards', but current value matches text. However, the GiveDon target restriction (Silvers Rayleigh only) is not reflected in PowerBoost target — unclear if power boost is restricted to Silvers Rayleigh or any character."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Counter effect targets 'ChooseOwnCharacter' but text specifies 'your Characters or [Silvers Rayleigh]' — should clarify if Silvers Rayleigh is distinct category or included in Characters."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filters": [
+                "HasCardName:Silvers Rayleigh"
+              ]
+            },
+            "optional": true
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:42.476Z"
+}

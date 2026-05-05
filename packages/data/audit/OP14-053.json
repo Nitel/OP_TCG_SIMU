@@ -1,0 +1,41 @@
+{
+  "id": "OP14-053",
+  "name": "Vista",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant effect text but effects array is empty. Missing effect: Blocker keyword, opponent's turn conditional power boost based on hand size."
+    },
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "effectText field should be populated with the card's ability text for reference."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker]\n[Opponent's Turn] If you have 7 or less cards in your hand, this Character's base power becomes the same as your Leader's base power.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "value": "LeaderBasePower"
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      "Blocker"
+    ]
+  },
+  "auditedAt": "2026-05-05T12:14:13.189Z"
+}

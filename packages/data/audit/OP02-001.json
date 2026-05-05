@@ -1,0 +1,37 @@
+{
+  "id": "OP02-001",
+  "name": "Edward.Newgate",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'Activated'. '[End of Your Turn]' is a passive end-of-turn trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. Should include duration:'DuringYourTurn' or similar context, but 'EndOfTurn' trigger implies this is a turn-end resolution."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'DrawCard' not 'FlipLife'. Text says 'Add 1 card from the top of your Life cards to your hand' — this is drawing from Life pile (FlipLife action), but the full sequence should draw the card to hand, making this DrawCard with source:Life or a combined FlipLife→DrawCard sequence. Standard interpretation: FlipLife with target:Hand or DrawCard."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "target": "Hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:27.155Z"
+}

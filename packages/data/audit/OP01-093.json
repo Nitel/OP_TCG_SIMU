@@ -1,0 +1,41 @@
+{
+  "id": "OP01-093",
+  "name": "Ulti",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'GiveDon' is incorrect. The effect adds a DON!! card from the DON!! deck and rests it. Should use 'AttachDon' (which attaches/adds DON!! in rested state) or a combination that reflects searching from DON!! deck and resting. 'GiveDon' typically means giving DON!! from hand/pool, not from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost/condition for the ① cost requirement. The effect should reflect that you may spend 1 resource (rest 1 DON!! from cost area) to activate this effect."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-093",
+    "effectText": "[On Play] ① (You may rest the specified number of DON!! cards in your cost area.): Add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "deck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:39.667Z"
+}

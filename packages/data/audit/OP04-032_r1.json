@@ -1,0 +1,41 @@
+{
+  "id": "OP04-032_r1",
+  "name": "Baby 5",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a triggered ability with condition and action, but effects array is empty. Should contain: trigger=EndOfTurn, condition=Always, action=GiveDon (or similar) to set DON cards active"
+    },
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "Card has effect text but no corresponding DSL effects defined"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] You may trash this Character: Set up to 2 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveDon",
+            "target": "YourDONCards",
+            "count": 2,
+            "optional": true,
+            "cost": "TrashThisCharacter"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:34:24.164Z"
+}

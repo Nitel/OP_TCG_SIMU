@@ -1,0 +1,41 @@
+{
+  "id": "OP07-015",
+  "name": "Monkey.D.Dragon",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'AttachDon' is incorrect. The card text says 'Give up to 2 rested DON!! cards' which means moving/transferring existing rested DON cards, not attaching new DON. Should use 'GiveDon' to transfer rested DON cards from hand/field to target. Additionally, 'AttachDon' typically means attaching DON to a card, not giving rested DON cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count is 2, but text says 'up to 2', indicating variable/optional amount. DSL should reflect this is a choice of 1 or 2, not always 2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows choosing 1 Character OR Leader, but DSL allows multiple targets. Should be 'ChooseOne' between Leader or one Character, not open choice of multiple."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": "UpTo2",
+            "target": {
+              "scope": "ChooseOneOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:32.937Z"
+}

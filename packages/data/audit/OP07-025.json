@@ -1,0 +1,31 @@
+{
+  "id": "OP07-025",
+  "name": "Coribou",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is missing the 'rested' duration/state. Card text specifies cards are played 'rested', but DSL does not include this instruction."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Caribou",
+              "maxCost": 4
+            },
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:04:18.198Z"
+}

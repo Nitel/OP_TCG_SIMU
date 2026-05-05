@@ -1,0 +1,64 @@
+{
+  "id": "ST27-002",
+  "name": "Catarina Devon",
+  "set": "ST-27",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' but the condition logic is wrong. This is an optional self-trash effect, not checking board state."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasCardOnBoard' with name 'Blackbeard Pirates' is incorrect. Should check if Leader has {Blackbeard Pirates} type using 'LeaderHasType' condition, not board presence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'TrashFromHand' is wrong. Should trash THIS CHARACTER (self), not from hand. Also missing the secondary action: give opponent's Character −1 cost. This effect requires conditional trash-then-powerBoost chain."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing the PowerBoost action targeting opponent's Character with −1 cost during this turn. Needs duration 'DuringYourTurn' because text says 'during this turn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Blackbeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "PlaySelf",
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "target": "OpponentCharacter",
+                "count": 1,
+                "power": -1,
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:44.610Z"
+}

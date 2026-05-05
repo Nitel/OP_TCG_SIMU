@@ -1,0 +1,54 @@
+{
+  "id": "OP10-077",
+  "name": "Bellamy",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is incorrect. Blocker ability auto-rests the card when declared as attack target. The [On Block] trigger should NOT include Rest in its actions—Rest already happened via Blocker mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: effect requires resting 2 DON!! cards as a cost. Must add condition to check HasAttachedDon with count >= 2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is incomplete. Must specify filter to target DON!! cards only (filter should match DON!! card type/kind)."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].destination",
+      "description": "'board' is ambiguous for DON!!. Should be 'active' to match 'set it as active' in card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": -2
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "DON"
+          },
+          "count": 1,
+          "destination": "active"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:36:46.909Z"
+}

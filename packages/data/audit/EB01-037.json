@@ -1,0 +1,54 @@
+{
+  "id": "EB01-037",
+  "name": "Mr. 9",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger: uses 'OnAttacked' but official text says '[On Your Opponent's Attack]' which means when opponent attacks, not when this character is attacked. Should be 'OnAttack' with a condition checking it's opponent's turn.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing '[Once Per Turn]' restriction",
+      "field": "effects[0].oncePerTurn"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing DON!! -1 cost requirement. The effect requires returning 1 DON!! card to activate.",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing 'up to 1' optionality - should specify count: 1 and optional: true",
+      "field": "effects[0].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "oncePerTurn": true,
+        "cost": {
+          "donMinus": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "count": 1,
+              "optional": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:38.301Z"
+}

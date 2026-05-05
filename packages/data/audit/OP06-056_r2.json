@@ -1,0 +1,30 @@
+{
+  "id": "OP06-056_r2",
+  "name": "Ama no Murakumo Sword",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but card text specifies 'at the bottom of the owner's deck' — should be a different action type (likely custom 'PlaceAtBottomOfDeck' or similar deck placement action, not hand return)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type is 'ReturnToHand' but card text specifies 'at the bottom of the owner's deck' — should be a different action type (likely custom 'PlaceAtBottomOfDeck' or similar deck placement action, not hand return)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Text says 'up to 1' (optional) but DSL structure doesn't reflect optionality; maxCost constraint is correct (2) but target scope should allow choosing 0 or 1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Text says 'up to 1' (optional) but DSL structure doesn't reflect optionality; maxCost constraint is correct (1) but target scope should allow choosing 0 or 1"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:43:09.693Z"
+}

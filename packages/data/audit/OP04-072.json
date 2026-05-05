@@ -1,0 +1,59 @@
+{
+  "id": "OP04-072",
+  "name": "Mr.5(Gem)",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (correct) but the duration context is wrong. Text says '[On Your Opponent's Attack]' which means the effect resolves during opponent's turn when this character is attacked. This requires duration:'DuringOpponentTurn' to be properly represented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasRestingDon' is incorrect. The card text shows 'DON!! −2' as a cost/resource mechanic (return 2 DON from field to deck), not a condition check. This should be represented as an action that consumes DON, not a condition. The '[Once Per Turn]' is a frequency limiter, not a HasRestingDon condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Actions structure is incomplete. The card has: (1) optional DON cost of −2 (AttachDon/remove action), (2) optional Rest Self, (3) KO up to 1 opponent character with cost ≤4. Current DSL only shows Rest + KO but misses the DON payment mechanics and doesn't capture the optional nature of the rest action."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Your Opponent's Attack] [Once Per Turn] DON!! −2 (You may return the specified number of DON!! cards from your field to your DON!! deck.) You may rest this Character: K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "RemoveDon",
+            "count": 2,
+            "optional": true
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "optional": true
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1
+            },
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:42:38.152Z"
+}

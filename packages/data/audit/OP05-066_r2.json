@@ -1,0 +1,43 @@
+{
+  "id": "OP05-066_r2",
+  "name": "Jinbe",
+  "set": "ST-26",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (passive effect during opponent's turn), not 'Activated' (player-initiated action). The card text states 'If you have 10 DON!!...' which is a conditional passive effect, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' not 'EndOfTurn'. Card text explicitly states '[Opponent's Turn]', meaning the power boost applies only during opponent's turn, not until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "Condition uses 'HasRestingDon' but should use 'HasAttachedDon'. The effect requires 10 DON!! cards 'on your field' (attached to the character), not resting DON!! cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:21:02.288Z"
+}

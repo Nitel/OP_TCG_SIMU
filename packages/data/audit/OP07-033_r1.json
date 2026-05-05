@@ -1,0 +1,48 @@
+{
+  "id": "OP07-033_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-24",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain OnPlay trigger with condition checking character count and cost, granting protection keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": 3,
+            "comparison": "GreaterThanOrEqual",
+            "filter": {
+              "type": "Character"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOdByOpponentEffects",
+            "target": "YourCharacters",
+            "filter": {
+              "cost": {
+                "comparison": "LessThanOrEqual",
+                "value": 3
+              },
+              "excludeNames": [
+                "Monkey.D.Luffy"
+              ]
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:08.361Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST05-011",
+  "name": "Douglas Bullet",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing maxQuantity parameter. Text says 'up to 2' but current DSL has two separate Rest actions, which forces exactly 2 targets. Should use single Rest action with maxQuantity:2"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text explicitly states 'during this turn' which means the effect lasts only for the current turn, not until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST05-011",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6
+            },
+            "maxQuantity": 2
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:59:28.099Z"
+}

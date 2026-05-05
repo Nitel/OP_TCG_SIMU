@@ -1,0 +1,44 @@
+{
+  "id": "OP05-077_r1",
+  "name": "Gamma Knife",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text says 'during this turn' which means the effect applies for the remainder of the current turn. Should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect ends at end of turn (correct timing), but 'DuringYourTurn' is the correct duration semantic for effects that last 'during this turn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'Activated' not 'Trigger'. The DON!! cost is part of the main effect activation, not a separate trigger condition. Both actions should be under a single Activated trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "The two effects should be consolidated into one Activated trigger with both the GiveDon cost and PowerBoost action in sequence, not split into two separate triggers."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:42:35.540Z"
+}

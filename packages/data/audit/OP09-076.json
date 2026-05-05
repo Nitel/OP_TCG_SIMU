@@ -1,0 +1,58 @@
+{
+  "id": "OP09-076",
+  "name": "Roronoa Zoro",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is completely missing the core mechanic. Card has a conditional action: 'You may return 1 or more DON!! cards from your field to your DON!! deck: Add up to 1 DON!! card from your DON!! deck and set it as active.' The DSL must include: (1) a condition allowing player choice to return DON cards, (2) an action to return those cards to DON deck, and (3) a search/add action to get a DON card from DON deck as active."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "ReturnToHand is incorrect. Cards go to DON!! deck, not hand. This requires a custom action or clarification of card pool mechanics not standard in provided action types."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'Self' is wrong. Should target 'DON cards from field' (opponent's choice), not the card itself."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing the second action: adding up to 1 DON card from DON deck and setting it as active. This is a SearchDeck + activation mechanic."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may return 1 or more DON!! cards from your field to your DON!! deck: Add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "Field",
+              "filter": "CardType:Don",
+              "count": "1+"
+            },
+            "optional": true
+          },
+          {
+            "type": "SearchDeck",
+            "target": {
+              "scope": "DeckZone",
+              "filter": "CardType:Don",
+              "count": "0-1"
+            },
+            "destination": "Active"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:27:35.861Z"
+}

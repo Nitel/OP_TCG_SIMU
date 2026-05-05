@@ -1,0 +1,43 @@
+{
+  "id": "ST12-008",
+  "name": "Roronoa Zoro",
+  "set": "ST-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition type should be 'Always' not 'HasRestingDon'. The card text '[DON!! x1]' is a cost requirement (you must have 1 resting DON to activate), not a condition check. This should be represented in the cost structure, not as a game-state condition in effects[]."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target.maxCount",
+      "description": "Target specifies 'maxCost:6' but missing 'maxCount:1' to enforce 'up to 1' limit. The action should include maxCount:1 to restrict selection to a single character."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST12-008",
+    "cost": {
+      "don": 1
+    },
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:06:54.311Z"
+}

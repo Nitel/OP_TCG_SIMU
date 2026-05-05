@@ -1,0 +1,75 @@
+{
+  "id": "OP09-061",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the second effect entirely. Card has two distinct effects: (1) passive cost boost, and (2) triggered ability when DON!! cards are returned. Only the first effect is partially represented."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "First effect trigger should be 'Activated' only if it represents a cost/passive ability. The '[DON!! x1]' notation indicates this is an activation cost, not a triggered effect. Should use appropriate structure for cost-based passive effects or reconsider trigger model."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "PowerBoost with amount=100 is incorrect. '+1 cost' is not a power boost. This should use a different action type or custom property to represent increased cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing entire second effect: 'When 2 or more DON!! cards on your field are returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active, and add up to 1 additional DON!! card and rest it.' Requires trigger on DON!! return condition, with GiveDon actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] All of your Characters gain +1 cost. [Your Turn] [Once Per Turn] When 2 or more DON!! cards on your field are returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active, and add up to 1 additional DON!! card and rest it.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1,
+            "property": "cost",
+            "target": {
+              "scope": "AllOwnCharacters"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "TurnCount",
+            "limit": 1
+          }
+        ],
+        "description": "When 2 or more DON!! cards on your field are returned to your DON!! deck",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "amount": 1,
+            "max": 1,
+            "state": "active",
+            "source": "DONDeck"
+          },
+          {
+            "type": "GiveDon",
+            "amount": 1,
+            "max": 1,
+            "state": "rested",
+            "source": "DONDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:25:30.354Z"
+}

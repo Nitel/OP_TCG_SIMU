@@ -1,0 +1,62 @@
+{
+  "id": "OP05-037",
+  "name": "Because the Side of Justice Will Be Whichever Side Wins!!",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'OnAttacked'. Counter is a distinct trigger type for trap/interrupt effects."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (conditional/may). Current structure forces discard. Should use conditional logic: 'You may trash 1 card' means the power boost only applies if trash occurs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Rest action on opponent character) has no basis in card text. This effect should not exist. Card only grants +3000 power conditionally on trash, nothing about resting opponent cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify 'Hand' context to clarify trashing from hand, not just 'Any'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any",
+              "location": "Hand"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "ChooseOwnCharacter",
+                  "maxTargets": 1,
+                  "validTargets": [
+                    "Leader",
+                    "Character"
+                  ]
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:03.883Z"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "OP05-079",
+  "name": "Viola",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an [On Play] ability that forces opponent to place 3 cards from trash to bottom of deck, but effects array is empty. Missing entire effect implementation."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "target": "OpponentTrash",
+            "amount": 3,
+            "destination": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:50:17.702Z"
+}

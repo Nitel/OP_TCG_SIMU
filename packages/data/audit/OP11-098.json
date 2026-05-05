@@ -1,0 +1,67 @@
+{
+  "id": "OP11-098",
+  "name": "Blue Hole",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (player choice to trash 3 cards), not 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'KO', not 'PowerBoost'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be opponent's Characters with cost ≤2, not own Characters/Leader"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "KO action should have no duration (immediate effect), not 'EndOfTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing cost action: must trash 3 cards from deck as prerequisite condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "value": 3,
+          "scope": "TopOfDeck"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "amount": 3,
+          "target": {
+            "scope": "TopOfDeck"
+          }
+        },
+        {
+          "type": "KO",
+          "amount": 1,
+          "target": {
+            "scope": "OpponentCharacter",
+            "filter": {
+              "cost": {
+                "max": 2
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:47:40.867Z"
+}

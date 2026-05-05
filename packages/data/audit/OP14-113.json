@@ -1,0 +1,59 @@
+{
+  "id": "OP14-113",
+  "name": "Marguerite",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action missing required parameters: 'count' (should be 5), 'reveal' (should be true), 'filter' should specify {Amazon Lily} or {Kuja Pirates} types, and 'order' parameter for bottom-of-deck placement not supported in standard DSL"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and HasCardOnBoard condition is not supported by card text. This appears to be an unrelated effect that does not match the official card description"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand should be a consequence action, not a separate top-level action. The trash step happens after deck manipulation completes"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing sequential logic: look at 5 cards → reveal up to 1 matching type → add to hand → place rest at bottom in any order → trash 1 from hand. Current DSL does not capture the deck bottom-placement step or proper sequencing"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "reveal": true,
+          "filter": {
+            "type": "Or",
+            "conditions": [
+              {
+                "hasType": "Amazon Lily"
+              },
+              {
+                "hasType": "Kuja Pirates"
+              }
+            ]
+          },
+          "destination": "hand",
+          "maxReveal": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:51.101Z"
+}

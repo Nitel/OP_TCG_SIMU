@@ -1,0 +1,65 @@
+{
+  "id": "OP15-078",
+  "name": "Mamaragan",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].condition",
+      "description": "Condition should check HasAttachedDon (DON!! cards on field) not HasRestingDon. Card text says 'if you have 6 or less DON!! cards on your field' which refers to attached DON!!, not resting DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].condition.count",
+      "description": "Condition count should be maxCount:6 to represent '6 or less' as an upper bound check, not exact count match."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-078",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 5000
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "condition": {
+              "type": "HasAttachedDon",
+              "maxCount": 6
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:27:55.316Z"
+}

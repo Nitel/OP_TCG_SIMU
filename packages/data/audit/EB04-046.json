@@ -1,0 +1,60 @@
+{
+  "id": "EB04-046",
+  "name": "Doll",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect: '[Opponent's Turn] All of your {Navy} type Characters gain +2 cost.' The DSL only captures the Blocker ability but completely omits the static ability that applies during opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Blocker is a special keyword ability, not a standard trigger. Should use 'Trigger' with explicit 'Blocker' reference or be modeled as an Activated ability with condition 'OnAttacked'. Current 'OnBlock' is not a valid trigger in the standard set."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Opponent's Turn] All of your {Navy} type Characters gain +2 cost.",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "optional": true
+      },
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": {
+              "scope": "YourField",
+              "filter": {
+                "cardType": "Character",
+                "hasType": "Navy"
+              }
+            },
+            "amount": 2,
+            "property": "cost"
+          }
+        ],
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:41.552Z"
+}

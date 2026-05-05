@@ -1,0 +1,49 @@
+{
+  "id": "EB02-022",
+  "name": "Usopp",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing condition check for 'you have 2 or less Characters with 5000 power or more'. The effect should only trigger if this condition is met.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing filter requirement 'no base effect' on the Character card to be played. The card must have no base effect text.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing 'count' field limiting the action to 'up to 1' character. Should be count: 1 with optional: true.",
+      "field": "effects[0].actions[0].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "minPower": 5000,
+          "maxCount": 2
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxPower": 6000,
+              "hasNoEffect": true
+            },
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:25.624Z"
+}

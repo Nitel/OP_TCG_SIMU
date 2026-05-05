@@ -1,0 +1,36 @@
+{
+  "id": "OP01-099",
+  "name": "Kurozumi Semimaru",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a continuous protection ability (characters other than Kurozumi Semimaru cannot be K.O.'d in battle), but effects array is empty. This requires at least one effect with trigger, condition, and action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardName": "Kurozumi Semimaru"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKO'd",
+            "target": "AllCharactersExcept",
+            "targetCard": "Kurozumi Semimaru"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:47.937Z"
+}

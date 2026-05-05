@@ -1,0 +1,61 @@
+{
+  "id": "OP01-040",
+  "name": "Kin'emon",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard'. The effect checks if your Leader IS Kouzuki Oden, not if a card exists on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The text says 'Set up to 1...as active' which means making a character active (opposite of resting). Should use a custom action or clarify as 'Activate' mechanic, not 'Rest'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Target scope missing subType filter. Should include 'subType:\"The Akazaya Nine\"' to match the card text restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Kouzuki Oden"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "The Akazaya Nine",
+              "maxCost": 3
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "Activate",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "The Akazaya Nine",
+              "maxCost": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:10.031Z"
+}

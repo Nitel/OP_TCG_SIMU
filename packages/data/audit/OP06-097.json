@@ -1,0 +1,26 @@
+{
+  "id": "OP06-097",
+  "name": "Negative Hollow",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ForceDiscard action missing required 'target' field. Must specify target:'OpponentHand' to trash from opponent's hand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "OpponentHand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:00:36.816Z"
+}

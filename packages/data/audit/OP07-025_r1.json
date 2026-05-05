@@ -1,0 +1,33 @@
+{
+  "id": "OP07-025_r1",
+  "name": "Coribou",
+  "set": "ST-24",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is missing the 'rested' parameter. Card text specifies playing the Caribou 'rested', which requires a state modifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is missing 'quantity' constraint. Card text says 'up to 1', requiring maxQuantity:1 or quantity:1"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "quantity": 1,
+        "rested": true,
+        "filter": {
+          "subType": "Caribou",
+          "maxCost": 4
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:18:59.538Z"
+}

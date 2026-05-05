@@ -1,0 +1,60 @@
+{
+  "id": "OP10-048",
+  "name": "Sai",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure lacks proper condition wrapping. The Rest action is mandatory in the DSL but the card text says 'You may rest' - this should be optional. Additionally, the two actions (Rest and ReturnToHand) should be properly sequenced: Rest is a cost/condition, ReturnToHand is the effect that depends on it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Actions are presented as parallel rather than sequential. The RestAction should be a condition/cost, not a parallel action. The ReturnToHand should only occur if a card is rested."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "subType": "Dressrosa"
+            },
+            "optional": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1,
+              "maxAmount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:31.945Z"
+}

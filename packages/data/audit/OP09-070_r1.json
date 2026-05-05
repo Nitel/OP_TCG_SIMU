@@ -1,0 +1,69 @@
+{
+  "id": "OP09-070_r1",
+  "name": "Nami",
+  "set": "ST-26",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition for optional return of DON!! cards. Text states 'You may return 1 or more DON!! cards from your field to your DON!! deck' - this is a prerequisite/cost that must be modeled as a condition or separate action before the AttachDon occurs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action is incomplete. Must specify that cards being attached are 'rested' (status/state), and the return of DON!! cards from field to deck is missing entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count should be 'up to 2' (variable), not fixed 2. Should use 'upTo' or similar notation if DSL supports it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is correct (Leader or Character), but missing the constraint that only rested DON!! can be selected/attached."
+    }
+  ],
+  "suggestedDsl": {
+    "version": "1.0",
+    "card": "OP09-070",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "count": {
+              "min": 1
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnDonCards",
+              "state": "Resting"
+            },
+            "count": {
+              "min": 1,
+              "variable": true
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": {
+              "upTo": 2
+            },
+            "state": "Resting",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:21:15.456Z"
+}

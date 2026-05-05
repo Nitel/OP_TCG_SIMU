@@ -1,0 +1,39 @@
+{
+  "id": "OP03-038",
+  "name": "Deathly Poison Gas Bomb MH5",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay trigger with two separate Rest actions is incorrect. Should use single Rest action with maxCount:2 to allow choosing 'up to 2' characters in one action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Trigger effect with maxCost:5 contradicts card text which specifies 'cost of 2 or less'. Should be maxCost:2 if this effect were valid, but this entire effect appears to be erroneous and should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect uses generic 'Trigger' which is not a valid trigger for a Main card. Main cards should only have OnPlay trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:47.643Z"
+}

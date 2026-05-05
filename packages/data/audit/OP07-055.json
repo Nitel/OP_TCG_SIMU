@@ -1,0 +1,47 @@
+{
+  "id": "OP07-055",
+  "name": "Snake Dance",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' — text states 'during this battle'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and opponent Character target is completely unsupported by card text. Card only returns UP TO 1 of YOUR Characters, not opponent's. This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "structure",
+      "description": "Card text describes single sequential action chain (PowerBoost THEN ReturnToHand). Should be single effect object with two actions in sequence, not two separate effects."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:06:35.408Z"
+}

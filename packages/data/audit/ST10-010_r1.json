@@ -1,0 +1,36 @@
+{
+  "id": "ST10-010_r1",
+  "name": "Trafalgar Law",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required check: 'If your opponent has 7 or more cards in their hand' should be represented as a condition checking opponent's hand size, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action target is ambiguous: ForceDiscard should specify target as 'OpponentHand' to clarify cards are discarded from opponent's hand"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentHandSize",
+        "operator": "GreaterThanOrEqual",
+        "value": 7
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": "OpponentHand",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:59.794Z"
+}

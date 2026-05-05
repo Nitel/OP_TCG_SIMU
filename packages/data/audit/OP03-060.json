@@ -1,0 +1,39 @@
+{
+  "id": "OP03-060",
+  "name": "Kalifa",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards attached to this card), not 'HasRestingDon' (resting DON!! on field). Card text specifies 'return the specified number of DON!! cards from your field' which refers to attached DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is correct, but the DSL structure shows this as a sequential action. Per card text, both drawing and trashing should occur as part of the same effect resolution (both happen when attacking with the cost paid)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {
+          "zone": "hand"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:25.733Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP03-067",
+  "name": "Peepley Lulu",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'LeaderHasType' with type '{Galley-La Company}', not 'HasRestingDon'. The effect requires the Leader to have the Galley-La Company type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'AttachDon' (attaching/resting DON!! from deck), not 'GiveDon'. The card adds DON!! from deck and rests it (attaches it)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-067",
+    "effectText": "[DON!! x1] [When Attacking] If your Leader has the {Galley-La Company} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Galley-La Company"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "Deck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:36.691Z"
+}

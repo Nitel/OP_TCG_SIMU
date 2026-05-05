@@ -1,0 +1,43 @@
+{
+  "id": "EB01-051",
+  "name": "Finger Pistol",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing the cost requirement to trash 2 cards from the top of your deck. The effect should have a condition or cost that requires trashing 2 cards before the KO action can be performed.",
+      "field": "effects[0].condition or effects[0].cost"
+    },
+    {
+      "severity": "minor",
+      "description": "The target should specify 'up to 1' character, which may need count: 1 or similar constraint to match the official text's 'up to 1'.",
+      "field": "effects[0].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "PayCost",
+          "cost": {
+            "type": "TrashFromDeck",
+            "count": 2
+          }
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "maxCost": 5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:23.291Z"
+}

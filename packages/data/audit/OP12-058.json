@@ -1,0 +1,73 @@
+{
+  "id": "OP12-058",
+  "name": "I Will Make Whitebeard the King of the Pirates",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (correct) but condition type 'HasCardOnBoard' is wrong—should check Leader type, not board state. Use LeaderHasType condition instead."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasCardOnBoard' with name 'Whitebeard Pirates' is invalid. Should use LeaderHasType:'Whitebeard Pirates' to check if Leader's type includes Whitebeard Pirates."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'RevealFromHand' is wrong. Should be 'RevealFromDeck' (reveal from top of deck, not hand). Card is revealed from deck, then optionally played."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Missing 'PlayFromDeck' or equivalent action. After revealing, the card should be playable (conditional play action required). Current structure only gives Rush; does not play the card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'DrawCard' is orphaned and unexplained. This should not exist—original effect text contains no draw action. Remove entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP12-058",
+    "effectText": "[Main] If your Leader's type includes \"Whitebeard Pirates\", reveal 1 card from the top of your deck. If that card is a Character card with a type including \"Whitebeard Pirates\" and a cost of 9 or less, you may play that card. If you do, that Character gains [Rush] during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Whitebeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "RevealFromDeck",
+            "count": 1,
+            "filter": {
+              "cardType": "Character",
+              "subType": "Whitebeard Pirates",
+              "maxCost": 9
+            },
+            "thenActions": [
+              {
+                "type": "PlayFromDeck",
+                "target": "RevealedCard",
+                "optional": true,
+                "onSuccess": [
+                  {
+                    "type": "GiveKeyword",
+                    "keyword": "Rush",
+                    "target": "PlayedCard",
+                    "duration": "DuringYourTurn"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:53:45.448Z"
+}

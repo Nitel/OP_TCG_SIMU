@@ -1,0 +1,48 @@
+{
+  "id": "OP06-106",
+  "name": "Kouzuki Hiyori",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect. The effect allows adding 1 card FROM Life cards TO hand, which is FlipLife. However, the second part ('Add up to 1 card from your hand to the top of your Life cards') requires a separate action to return a card to Life cards. FlipLife should only handle the first part (taking from Life to hand)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "TrashFromHand is incorrect. The effect adds a card to the top of Life cards, not trash. Should use AttachDon or a Life-specific action. TrashFromHand discards to trash, which is wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition logic: 'You may' indicates optional choice between taking from Life or adding to Life. Current DSL executes both actions sequentially without presenting a choice. Should structure as conditional branching or separate optional actions."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-106",
+    "effectText": "[On Play] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "filter": {
+              "location": "Hand"
+            },
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:01:22.281Z"
+}

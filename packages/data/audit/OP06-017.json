@@ -1,0 +1,56 @@
+{
+  "id": "OP06-017",
+  "name": "Meteor-Strike of Love",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "FlipLife action is mandatory in DSL but card text says 'You may add 1 card' — should be optional. Need to wrap in a conditional or use optional flag if DSL supports it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope should include Leader cards explicitly: 'Up to 1 of your Leader or Character cards' — current scope 'ChooseOwnCharacter' may not include Leader. Should be 'ChooseOwnLeaderOrCharacter' or similar."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].duration",
+      "description": "'during this turn' matches 'EndOfTurn' but could be more precisely 'DuringYourTurn' depending on DSL semantics for post-play effects."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP06-017",
+    "effectText": "[Main]/[Counter] You may add 1 card from the top of your Life cards to your hand: Up to 1 of your Leader or Character cards gains +3000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:32.269Z"
+}

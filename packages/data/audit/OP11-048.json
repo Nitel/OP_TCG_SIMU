@@ -1,0 +1,59 @@
+{
+  "id": "OP11-048",
+  "name": "Capone\"Gang\"Bege",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing required parameters: 'count' (4 cards to look at), 'reveal' (up to 1 card), and 'filter' conditions (type: Firetank Pirates OR Straw Hat Crew, cost >= 2). Current filter is 'Any' which doesn't match the card text restrictions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify: HasAnyType with ['Firetank Pirates', 'Straw Hat Crew'] AND cost >= 2. Current 'Any' filter is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action to place remaining cards at bottom of deck in any order. The card effect has two distinct phases: search and hand arrangement, but DSL only captures the search."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 4,
+          "reveal": 1,
+          "filter": {
+            "kind": "And",
+            "conditions": [
+              {
+                "kind": "HasAnyType",
+                "types": [
+                  "Firetank Pirates",
+                  "Straw Hat Crew"
+                ]
+              },
+              {
+                "kind": "Cost",
+                "value": 2,
+                "comparison": ">="
+              }
+            ]
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "ArrangeDeck",
+          "zone": "bottom",
+          "arrangeMode": "anyOrder"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:54.463Z"
+}

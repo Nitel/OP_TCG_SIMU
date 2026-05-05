@@ -1,0 +1,30 @@
+{
+  "id": "OP01-027",
+  "name": "Round Table",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts through your current turn only. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at the end of the turn phase itself, while 'DuringYourTurn' correctly represents an effect active for the remainder of your turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -10000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:47.029Z"
+}

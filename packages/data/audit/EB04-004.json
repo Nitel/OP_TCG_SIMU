@@ -1,0 +1,29 @@
+{
+  "id": "EB04-004",
+  "name": "Zeff",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (opponent's next End Phase = lasts through opponent's turn), not 'EndOfTurn' (your turn end). Text says 'until the end of your opponent's next End Phase' which means the boost persists during the opponent's turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:19:46.329Z"
+}

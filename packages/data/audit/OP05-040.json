@@ -1,0 +1,76 @@
+{
+  "id": "OP05-040",
+  "name": "Birdcage",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' (from '[End of Your Turn]'), not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "First KO action targets both your and opponent's rested Characters. Scope should reflect 'AllCharacters' or be split into two separate actions for clarity"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: trashing this Stage after KO effects. Need to add TrashFromHand/RemoveSelf action"
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Missing first effect: Leader ability stating Characters cost 5 or less do not become active during Refresh Phases (conditional on Leader being Donquixote Doflamingo)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Donquixote Doflamingo"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoesNotBecomeActiveInRefreshPhase",
+          "target": {
+            "scope": "AllCharacters",
+            "maxCost": 5
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllCharacters",
+            "maxCost": 5,
+            "rested": true
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:47:16.651Z"
+}

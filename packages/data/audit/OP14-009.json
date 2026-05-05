@@ -1,0 +1,60 @@
+{
+  "id": "OP14-009",
+  "name": "Trafalgar Law",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (activated during opponent's attack), not 'OnAttacked' (passive trigger when this card is attacked)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence incomplete: TrashFromHand must specify count=2 and then swap mechanics are not represented. The effect requires selecting 2 cards (Leader + 1 Character) and swapping their base powers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PowerBoost with amount=0 cannot represent a power swap. DSL lacks native 'swap' mechanics; this requires two PowerBoost actions with calculated deltas or custom action type. Current implementation does nothing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' constraint - should include turn limiter or 'PerTurn' modifier in condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand filter is empty; must specify count=2 and source='hand'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "Always",
+      "perTurn": true
+    },
+    "cost": {
+      "type": "TrashFromHand",
+      "count": 2,
+      "source": "hand"
+    },
+    "actions": [
+      {
+        "type": "PowerSwap",
+        "targets": [
+          {
+            "scope": "ChooseOwnLeader"
+          },
+          {
+            "scope": "ChooseOwnCharacter"
+          }
+        ],
+        "duration": "DuringBattle"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:10:49.376Z"
+}

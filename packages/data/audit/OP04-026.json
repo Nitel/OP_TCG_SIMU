@@ -1,0 +1,58 @@
+{
+  "id": "OP04-026",
+  "name": "Senor Pink",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing LeaderHasType check for {Donquixote Pirates}. Card text states 'If your Leader has the {Donquixote Pirates} type' as mandatory condition before effect resolves."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'set up to 1 of your DON!! cards as active at the end of this turn'. DSL only contains Rest action, omits the Activate/Flip DON action that occurs after."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest target should allow 'up to 1' (optional), but condition count=1 implies mandatory rest. Target needs maxCount:1 to express 'up to 1'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "And",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        {
+          "type": "LeaderHasType",
+          "value": "DonquixotePirates"
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxCount": 1
+        }
+      },
+      {
+        "type": "AttachDon",
+        "target": {
+          "scope": "YourDON",
+          "maxCount": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:47.456Z"
+}

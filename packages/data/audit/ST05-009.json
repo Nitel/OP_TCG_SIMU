@@ -1,0 +1,20 @@
+{
+  "id": "ST05-009",
+  "name": "Scarlet",
+  "set": "ST-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PlaySelf action is invalid for a card effect. PlaySelf is only valid as a direct card property (playCondition), not as an effect action"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:59:18.889Z"
+}

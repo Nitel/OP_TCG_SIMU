@@ -1,0 +1,45 @@
+{
+  "id": "OP09-033_r1",
+  "name": "Nico Robin",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a clear [On Play] trigger with conditional protection ability that must be encoded."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing entire effect: [On Play] trigger with HasRestingDon condition (2+ rested Characters) and GiveKeyword action granting protection."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CantBeKOdByEffects",
+            "targets": {
+              "cardTypes": [
+                "ODYSSEY",
+                "Straw Hat Crew"
+              ]
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:22.690Z"
+}

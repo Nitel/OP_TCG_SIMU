@@ -1,0 +1,36 @@
+{
+  "id": "OP15-009",
+  "name": "Koby",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Must define OnKO trigger with condition checking base power ≤7000, target replacement action (RemoveLife or PowerBoost to Leader), and duration DuringYourTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Character",
+            "qualifier": "basePower≤7000"
+          }
+        ],
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Leader",
+            "value": -2000
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:36.795Z"
+}

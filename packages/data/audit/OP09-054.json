@@ -1,0 +1,29 @@
+{
+  "id": "OP09-054",
+  "name": "Richie",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from DSL. Card has [Blocker] but effects array is empty. Blocker should be represented as a Counter trigger that activates when opponent declares an attack, allowing this card to be rested to become the new attack target."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:02:53.793Z"
+}

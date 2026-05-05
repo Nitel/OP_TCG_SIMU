@@ -1,0 +1,74 @@
+{
+  "id": "EB02-037",
+  "name": "Franky",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing condition check: 'the number of DON!! cards on your field is equal to or less than the number on your opponent's field'. The DSL should check DON!! card counts before allowing the action.",
+      "field": "effects[0].condition and effects[1].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong condition type: Should use LeaderHasType to check if 'your Leader has the {Straw Hat Crew} type', not HasCardOnBoard which checks for cards on the board.",
+      "field": "effects[0].condition.type and effects[1].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing rested state: The effect explicitly states 'add up to 1 DON!! card from your DON!! deck and rest it', but the DSL does not specify that the DON!! card should be rested.",
+      "field": "effects[0].actions[0] and effects[1].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "cardType": "Straw Hat Crew"
+            },
+            {
+              "type": "DonCountComparison",
+              "comparison": "LessThanOrEqual"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rested": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "cardType": "Straw Hat Crew"
+            },
+            {
+              "type": "DonCountComparison",
+              "comparison": "LessThanOrEqual"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:03:23.688Z"
+}

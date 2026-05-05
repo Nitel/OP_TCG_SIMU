@@ -1,0 +1,31 @@
+{
+  "id": "OP08-024",
+  "name": "Concelot",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a game mechanic but effects[] is empty. Must define OnAttack trigger with condition for opponent's rested Characters (cost ≤4) and action to prevent activation during opponent's next Refresh Phase."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PreventActivation",
+            "target": "OpponentRestingCharactersWithCostOrLess",
+            "value": 4,
+            "count": 1,
+            "duration": "UntilOpponentNextRefreshPhase"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:00.957Z"
+}

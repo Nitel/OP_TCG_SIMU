@@ -1,0 +1,47 @@
+{
+  "id": "OP02-013",
+  "name": "Portgas.D.Ace",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "PowerBoost target must specify count limit. Text says 'up to 2' but target lacks maxCount constraint. Should be {\"scope\":\"ChooseOpponentCharacter\",\"maxCount\":2}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "Second action (Rush keyword) is missing condition. Text states 'if your Leader's type includes \"Whitebeard Pirates\"' but DSL has no condition. Requires condition:{\"type\":\"LeaderHasType\",\"value\":\"Whitebeard Pirates\"}"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 2
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "Whitebeard Pirates"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:45.921Z"
+}

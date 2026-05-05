@@ -1,0 +1,52 @@
+{
+  "id": "OP04-052",
+  "name": "Black Maria",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Trigger should be 'Activated' with proper cost condition. The DSL shows Activated but lacks the cost specification (➁ = rest 2 DON). The activation cost must be represented as a condition or precondition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is not supported by card text. Card text contains only one Activate ability; there is no trigger for playing self."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "Action order: Rest is optional ('You may rest this Character'), so it should be conditional or the structure should reflect optionality. DrawCard is mandatory if rest is chosen."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] ➁ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character: Draw 1 card.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "optional": true
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:37.667Z"
+}

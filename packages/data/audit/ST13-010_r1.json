@@ -1,0 +1,78 @@
+{
+  "id": "ST13-010_r1",
+  "name": "Portgas.D.Ace",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost/condition to trash self, not just bare Activated"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing conditional logic: FlipLife should be followed by conditional check for [Portgas.D.Ace] cost=5, then PlayFromHand, then PowerBoost with duration DuringOpponentTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect - should trash from board (self). Use 'KO' or appropriate self-trash action, or restructure as condition 'you may trash this Character'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife is present but missing subsequent conditional actions (filter for Portgas.D.Ace cost 5, PlayFromHand, PowerBoost)"
+    },
+    {
+      "severity": "major",
+      "field": "missing",
+      "description": "PowerBoost action missing with duration 'DuringOpponentTurn' for '+2000 power until the end of your opponent's next turn'"
+    },
+    {
+      "severity": "major",
+      "field": "missing",
+      "description": "Condition structure missing to check if flipped card is [Portgas.D.Ace] with cost 5 before allowing play"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may trash this Character: Reveal 1 card from the top of your Life cards. If that card is a [Portgas.D.Ace] with a cost of 5, you may play that card. If you do, up to 1 of your Leader gains +2000 power until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "count": 1,
+            "target": "self"
+          },
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "count": 1,
+                "filter": {
+                  "name": "Portgas.D.Ace",
+                  "cost": 5
+                },
+                "thenActions": [
+                  {
+                    "type": "PowerBoost",
+                    "power": 2000,
+                    "count": 1,
+                    "target": "Leader",
+                    "duration": "DuringOpponentTurn"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:52:28.279Z"
+}

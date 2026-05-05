@@ -1,0 +1,61 @@
+{
+  "id": "ST13-015",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'UntilStartOfNextTurn' not 'EndOfTurn'. Card text explicitly states 'until the start of your next turn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "DrawCard action missing condition. Card text states 'if you have 1 or more Life cards' before drawing - this is a conditional action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "RemoveLife action missing condition. Card text states 'if you have 1 or more Life cards' before trashing - this is a conditional action"
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST13-015",
+    "effectText": "[Activate: Main] [Once Per Turn] This Character gains +2000 power until the start of your next turn. Then, if you have 1 or more Life cards, draw 1 card and trash 1 card from the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "UntilStartOfNextTurn"
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "condition": {
+              "type": "TrashCount",
+              "comparison": ">=",
+              "value": 1
+            }
+          },
+          {
+            "type": "RemoveLife",
+            "count": 1,
+            "condition": {
+              "type": "TrashCount",
+              "comparison": ">=",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:08:45.463Z"
+}

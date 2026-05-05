@@ -1,0 +1,53 @@
+{
+  "id": "OP03-120",
+  "name": "Tropical Torment",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (main card ability), not 'Activated' (reserved for activated abilities with costs)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: opponent must have 4 or more Life cards. Requires 'HasCardOnBoard' equivalent for opponent life or custom condition check"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'RemoveLife' is incorrect. Card effect is to 'trash...from...Life cards' (send to trash), not remove life total. Should use 'ForceDiscard' targeting opponent's life deck, or custom trash action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count should reflect 'up to 1' (optional), may need 'optional':true modifier"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] If your opponent has 4 or more Life cards, trash up to 1 card from the top of your opponent's Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 4,
+            "target": "opponent"
+          }
+        ],
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": "opponentLifeDeck",
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:06.494Z"
+}

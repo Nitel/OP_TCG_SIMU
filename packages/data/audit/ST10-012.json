@@ -1,0 +1,64 @@
+{
+  "id": "ST10-012",
+  "name": "Bepo",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If your opponent has more DON!! cards on their field than you' should be a condition, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action incomplete: GiveDon must include rest:true to reflect 'rest it' in card text"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition missing: 'If your opponent has more DON!! cards on their field than you' should be a condition, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action incomplete: GiveDon must include rest:true to reflect 'rest it' in card text"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play]/[When Attacking] If your opponent has more DON!! cards on their field than you, add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "comparison": "less",
+          "value": "opponent"
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rest": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "comparison": "less",
+          "value": "opponent"
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rest": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:28.998Z"
+}

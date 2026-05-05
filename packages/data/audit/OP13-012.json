@@ -1,0 +1,55 @@
+{
+  "id": "OP13-012",
+  "name": "Nefeltari Vivi",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses maxCost:2, but card text states 'cost of 2 or more' (minCost:2, not maxCost). Direction is inverted."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type restriction: must include {Alabasta} or {Straw Hat Crew} card types. Current filter only checks cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action does not account for 'Look at 4 cards from top' and 'place the rest at the bottom in any order' mechanics. Requires custom deckSearch parameters (lookCount:4) and deck arrangement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action only captures reveal-and-add mechanic; missing the mandatory 'place rest at bottom of deck' step which affects game state."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-012",
+    "effectText": "[On Play] Look at 4 cards from the top of your deck; reveal up to 1 {Alabasta} or {Straw Hat Crew} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByTypeAndCost",
+              "types": [
+                "Alabasta",
+                "Straw Hat Crew"
+              ],
+              "minCost": 2
+            },
+            "lookCount": 4,
+            "maxResults": 1,
+            "destination": "hand",
+            "arrangeRest": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:59:19.201Z"
+}

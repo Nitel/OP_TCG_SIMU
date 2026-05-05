@@ -1,0 +1,37 @@
+{
+  "id": "OP05-072",
+  "name": "Hone-Kichi",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon' (resting DON!! specifically). HasRestingDon checks only resting DON!!, not total DON!! on field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'ChooseUpTo' with count:2 to enforce the 'up to 2' limitation. Current scope 'ChooseOpponentCharacter' does not restrict selection count."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "limit": 2
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:44.152Z"
+}

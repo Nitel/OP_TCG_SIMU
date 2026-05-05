@@ -1,0 +1,49 @@
+{
+  "id": "PRB02-005",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has non-empty effect text but effects array is empty. Must define trigger, conditions, and actions."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] in text requires duration:\"DuringYourTurn\", not empty or Permanent"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [On Play] If your Leader is multicolored and your opponent has 7 or less DON!! cards on their field, your opponent rests 1 of their active DON!! cards at the start of their next Main Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "LeaderHasAnyType",
+            "value": [
+              "multicolored"
+            ]
+          },
+          {
+            "type": "HasAttachedDon",
+            "target": "opponent",
+            "value": 7,
+            "comparison": "<="
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "opponentDon",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:50:32.771Z"
+}

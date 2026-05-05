@@ -1,0 +1,30 @@
+{
+  "id": "OP03-091",
+  "name": "Helmeppo",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has clear On Play effect but effects array is empty. Should contain effect that sets opponent character cost to 0 with duration limited to current turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing OnPlay trigger"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to modify cost. No equivalent action exists in DSL; closest would be PowerBoost with negative value, but cost modification is not directly supported. This is a gap in DSL vocabulary."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Effect applies 'during this turn' which requires duration:'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:35:18.756Z"
+}

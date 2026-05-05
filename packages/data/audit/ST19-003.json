@@ -1,0 +1,60 @@
+{
+  "id": "ST19-003",
+  "name": "Tashigi",
+  "set": "ST-19",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'. These are different mechanics—DuringYourTurn means the effect expires when your turn ends, while EndOfTurn persists through opponent's turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely. Card has two separate abilities: [On Play] and [Activate: Main]. DSL only contains the first effect. The second activated ability (trash up to 1 opponent Character with cost 0 if played this turn) is completely absent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Smoker"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1,
+            "filter": "cost=0"
+          }
+        }
+      ],
+      "restrictions": {
+        "activationType": "Main",
+        "oncePerTurn": true,
+        "requiresPlayedThisTurn": true
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T13:14:47.304Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP10-116",
+  "name": "Damned Punk",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' for a Main card effect, not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Effect completely mismatches card text. Should include: FlipLife action (look at and place Life cards), then KO action (up to 1 opponent Character with cost ≤5). Instead has DrawCard and TrashFromHand which are unrelated."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "First action should be 'FlipLife' to handle the Life card manipulation, not 'DrawCard'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Second action should be 'KO' with filter for opponent Characters with cost ≤5, not 'TrashFromHand'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "source": "OpponentOrOwn",
+          "count": 1,
+          "placement": "TopOrBottom"
+        },
+        {
+          "type": "KO",
+          "filter": {
+            "controller": "Opponent",
+            "type": "Character",
+            "maxCost": 5
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:39:51.417Z"
+}

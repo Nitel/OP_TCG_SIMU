@@ -1,0 +1,41 @@
+{
+  "id": "ST21-014",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing Rush keyword in DSL. The official text explicitly grants [Rush] which should be represented in the keywords array, not in effects.",
+      "field": "keywords"
+    },
+    {
+      "severity": "major",
+      "description": "AttachDon action missing the required condition that the DON!! card must be rested. The official text says 'Give up to 1 rested DON!! card', but the DSL has no filter for rested state.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "keywords": [
+      "Rush"
+    ],
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "filter": {
+              "state": "Rested"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:41.771Z"
+}

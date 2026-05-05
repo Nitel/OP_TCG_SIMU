@@ -1,0 +1,49 @@
+{
+  "id": "OP02-018",
+  "name": "Marco",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: 'If you have 2 or less Life cards' must be a condition before the thenActions. Current DSL lacks the life count condition that gates the play effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type should be 'ForceDiscard' (legacy alias for TrashCard), not 'TrashFromHand'. The latter is non-standard; verified legacy alias is TrashCard=ForceDiscard."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but card text says 'type including Whitebeard Pirates'. Should verify if this is a type or subType field in official schema; recommend 'type' for consistency with text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "type": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "PlaySelf",
+              "conditions": [
+                {
+                  "type": "LeaderHasLife",
+                  "value": 2,
+                  "operator": "LTE"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:54.422Z"
+}

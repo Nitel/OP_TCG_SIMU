@@ -1,0 +1,39 @@
+{
+  "id": "ST10-009",
+  "name": "Jean Bart",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition for cost requirement: '➀ (You may rest the specified number of DON!! cards in your cost area)' indicates a cost that must be paid. The DSL should include a condition or cost mechanic to reflect this optional payment."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. The effect searches and adds DON!! from deck, then sets it active. Should use 'SearchDeck' (to fetch from DON!! deck) followed by 'AttachDon' or similar, not 'GiveDon' which typically generates DON!!."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] ➀ (You may rest the specified number of DON!! cards in your cost area.): Add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "cardType": "DON"
+          },
+          {
+            "type": "AttachDon",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:20.123Z"
+}

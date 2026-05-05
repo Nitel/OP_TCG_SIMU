@@ -1,0 +1,62 @@
+{
+  "id": "OP15-074",
+  "name": "Varie",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next End Phase), not 'EndOfTurn'. Text explicitly references opponent's turn phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type should be 'GiveKeyword' or similar for cost modification, not 'PowerBoost'. The text states 'gains +2 cost', which is a cost modification, not a power boost."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-074",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Enel"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CostModifier",
+            "amount": 2,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "max": 1
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Enel",
+              "max": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:27:35.630Z"
+}

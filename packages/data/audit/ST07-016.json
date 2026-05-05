@@ -1,0 +1,44 @@
+{
+  "id": "ST07-016",
+  "name": "Power Mochi",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First action missing: 'Look at up to 1 card from top of Life cards and place at top or bottom' is not represented. Should include a custom action or at minimum acknowledge the Life card manipulation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger labeled 'Trigger' with DrawCard action does not match card text. Card says 'place it at top or bottom of Life cards' (manipulation), not draw. This appears to be completely incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfBattle' but card text says 'during this battle', which should map to 'DuringThisBattle' or equivalent battle scope, not EndOfBattle."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "DSL system lacks native support for 'look at and rearrange Life cards' action. Current suggestion includes PowerBoost only as it is the only standard action present.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ],
+    "customNote": "Life card inspection and repositioning ('place at top or bottom') requires custom action support not in standard DSL"
+  },
+  "auditedAt": "2026-05-05T13:02:21.686Z"
+}

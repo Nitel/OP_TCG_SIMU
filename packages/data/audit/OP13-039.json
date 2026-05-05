@@ -1,0 +1,40 @@
+{
+  "id": "OP13-039",
+  "name": "Gum-Gum Snake Shot",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing 'rested' condition. Card text specifies 'rested Characters' but DSL target has no resting filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should use 'maxCount' to enforce 'up to 1'. Current target allows selecting multiple characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous effect with 'Trigger' trigger and 'PlaySelf' action. Card text contains no instruction to play itself; this effect should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "mustBeResting": true,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:01:20.481Z"
+}

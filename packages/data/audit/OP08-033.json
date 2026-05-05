@@ -1,0 +1,46 @@
+{
+  "id": "OP08-033",
+  "name": "Roddy",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing second condition: 'your opponent has 7 or more rested cards'. Current DSL only checks LeaderHasType. Should be AND condition with RestingCardCount or equivalent."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope incomplete. Must specify target must be 'rested' (RestingStatus). Current scope 'ChooseOpponentCharacter' does not filter for rested cards."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "And",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Minks"
+        },
+        {
+          "type": "OpponentRestingCardCount",
+          "minCount": 7
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "restingStatus": "Resting"
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:38.376Z"
+}

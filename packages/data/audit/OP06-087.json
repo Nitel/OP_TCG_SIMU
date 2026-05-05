@@ -1,0 +1,28 @@
+{
+  "id": "OP06-087",
+  "name": "Cerberus",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from DSL. The card has [Blocker] text that must be represented as a Counter effect with appropriate trigger and action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent",
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T09:59:51.588Z"
+}

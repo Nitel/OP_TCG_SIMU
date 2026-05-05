@@ -1,0 +1,67 @@
+{
+  "id": "OP12-061",
+  "name": "Donquixote Rosinante",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect 1 (OnKO) is incomplete. The card text states 'If your [Trafalgar Law] would be K.O.'d, you may add 1 card from the top of your Life cards to your hand instead.' This requires a conditional prevention mechanism: when Trafalgar Law would be KO'd, FlipLife instead. The DSL must include a cost check or payment gate (DON or similar) and should conditionally prevent KO. Current DSL does not capture the 'instead of being KO'd' mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Effect 2 (Activated) is completely wrong. The card text describes a DON!! −1 activated ability that reduces the cost of the next [Trafalgar Law] with cost 4+ played from hand by 2 during this turn. The DSL instead shows SearchDeck for Trafalgar Law to hand, which is not mentioned in the card text. The effect should apply a cost reduction modifier to future Trafalgar Law plays, not search the deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "HasCardOnBoard is insufficient context. The condition should verify [Trafalgar Law] specifically is on board AND would be KO'd (trigger context). The trigger should be OnKO with a name filter, not just HasCardOnBoard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Activated trigger lacks cost specification. DSL should include DON!! −1 cost as part of the activation constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Trafalgar Law"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "destination": "hand"
+        }
+      ],
+      "duration": "Permanent",
+      "note": "Prevents KO; instead flips 1 Life to hand"
+    },
+    {
+      "trigger": "Activated",
+      "cost": "DON!! -1",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "NextTrafalgarLawPlayedThisTurn",
+          "filter": {
+            "kind": "ByNameAndCost",
+            "name": "Trafalgar Law",
+            "minCost": 4
+          },
+          "costReduction": 2,
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:53:59.769Z"
+}

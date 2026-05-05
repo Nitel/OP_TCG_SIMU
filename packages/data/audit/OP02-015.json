@@ -1,0 +1,36 @@
+{
+  "id": "OP02-015",
+  "name": "Makino",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which indicates the boost lasts only while on your turn, not through end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter missing color restriction. Card text specifies 'red Characters' but DSL only filters by cost. Should include color constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1,
+            "color": "red"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:48.654Z"
+}

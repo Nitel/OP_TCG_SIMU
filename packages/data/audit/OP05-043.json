@@ -1,0 +1,41 @@
+{
+  "id": "OP05-043",
+  "name": "Ulti",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing 'LeaderHasType' check for multicolored requirement. Text states 'If your Leader is multicolored' but DSL uses 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete. Must specify: look at 3 cards, add up to 1 to hand, place rest at top or bottom in any order. Current DSL does not capture the 'look at 3' and 'place rest' mechanics."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Multicolor"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any"
+        },
+        "count": {
+          "min": 0,
+          "max": 1
+        },
+        "destination": "hand",
+        "searchFromTop": 3,
+        "note": "Look at 3 cards from top; add up to 1 to hand; place rest at top or bottom of deck in any order"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:32.941Z"
+}

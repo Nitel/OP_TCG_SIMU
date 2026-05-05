@@ -1,0 +1,32 @@
+{
+  "id": "ST18-003_r1",
+  "name": "San-Gorou",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field = attached to leader), not 'HasRestingDon' (resting DON!! cards). These are distinct mechanics."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] [Once Per Turn] If you have 8 or more DON!! cards on your field, draw 1 card.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:39.798Z"
+}

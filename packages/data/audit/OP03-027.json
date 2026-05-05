@@ -1,0 +1,50 @@
+{
+  "id": "OP03-027",
+  "name": "Sham",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action missing conditional check. Effect text states 'if you don't have [Buchi]' — requires a condition that checks whether player already has Buchi on board before playing from hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action uses 'ChooseOpponentCharacter' scope but should specify maxCount:1 to enforce 'up to 1' limit explicitly in the action parameters"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "East Blue"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
+        }
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "name": "Buchi"
+        },
+        "condition": {
+          "type": "Not",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "cardName": "Buchi"
+          }
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:27.363Z"
+}

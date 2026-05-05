@@ -1,0 +1,57 @@
+{
+  "id": "OP07-021_r1",
+  "name": "Urouge",
+  "set": "ST-24",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker keyword text describes a reactive ability (opponent declares attack → you may rest this card), not a trigger. Should not be separate OnBlock effect. Blocker is implicit game mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "OnAttacked trigger is incorrect. Blocker ability activates after opponent declares attack (OnAttack phase), not when this card is attacked. This misrepresents the mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[2]",
+      "description": "Trigger should be EndOfTurn, not Activated. Text says '[End of Your Turn]' which is a scheduled trigger, not an activated ability. Also missing duration constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[2].actions[0]",
+      "description": "Action is GiveDon but should be PlayFromHand or equivalent to 'set up' (activate) a DON card. GiveDon adds DON counters to a card; 'set as active' means flipping a resting DON to active."
+    },
+    {
+      "severity": "major",
+      "field": "effects[2]",
+      "description": "Missing duration. '[End of Your Turn]' → should have duration constraint, likely 'DuringYourTurn' or conditional on turn phase."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "target": {
+            "scope": "Hand",
+            "filter": {
+              "hasCardOnBoard": {
+                "type": "DON"
+              }
+            }
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:53.080Z"
+}

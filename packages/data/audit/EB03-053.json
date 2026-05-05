@@ -1,0 +1,76 @@
+{
+  "id": "EB03-053",
+  "name": "Nami",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon should target rested DON cards only, not all DON cards. Current DSL lacks 'rested' filter requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife is incorrect action. Text says 'add up to 1 card from opponent's Life cards to owner's hand' — this should be a conditional action that only triggers if opponent has 3+ Life cards, using appropriate action (likely custom or multi-step logic not represented)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "Second action lacks condition 'if your opponent has 3 or more Life cards'. Currently has no conditional wrapper."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "[On K.O.] effect is missing the mandatory 'You may turn 1 card from top of Life face-up' prerequisite action before the conditional Play action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "PlayFromHand filter is incomplete — missing required 'Character' type filter which is present in DSL, but the action should also be conditioned on the preceding life flip (FlipLife action missing)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "filter": {
+            "status": "Resting"
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "Opponent"
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "Own"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:49.888Z"
+}

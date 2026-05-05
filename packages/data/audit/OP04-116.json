@@ -1,0 +1,54 @@
+{
+  "id": "OP04-116",
+  "name": "Diable Jambe Joue Shot",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'OnAttacked'. This is a Counter trap card effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "KO action missing required condition: 'if you and your opponent have a total of 4 or less Life cards'. Current DSL executes unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (DrawCard trigger) is entirely fabricated. No draw effect exists in card text. Remove completely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow Leader OR Character ('ChooseOwnLeaderOrCharacter'), not just Character scope."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringBattle"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          },
+          "condition": "TotalLifeCards4OrLess"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:45:05.248Z"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "PRB02-017",
+  "name": "Boa Hancock",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing duration constraint. Text states 'cannot attack until the end of your opponent's next End Phase' — requires duration:'DuringOpponentTurn' to prevent attacks during opponent's turn only, not permanent Rest."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is incorrect. The card prevents attacks (a conditional lock), not mechanically resting. Should use 'GiveKeyword' with keyword:'CannotAttack' and appropriate duration."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacterOrLeader' is overly broad. Card text specifies 'Your opponent's rested Leader OR up to 1 of your opponent's Characters other than [Monkey.D.Luffy]' — requires conditional target logic (if leader is rested, target leader; else target one character excluding Luffy)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:'Trigger' and action KO is spurious and not in card text. Should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action requires optional flag ('optional':true) since card text says 'You may trash'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 card with a [Trigger] from your hand: Your opponent's rested Leader or up to 1 of your opponent's Characters other than [Monkey.D.Luffy] cannot attack until the end of your opponent's next End Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "optional": true,
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "Trigger"
+            },
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "GiveKeyword",
+                "keyword": "CannotAttack",
+                "duration": "DuringOpponentTurn",
+                "target": {
+                  "scope": "ChooseOpponentCharacterOrLeader",
+                  "conditions": [
+                    {
+                      "type": "HasRestingDon"
+                    }
+                  ],
+                  "excludeName": "Monkey.D.Luffy",
+                  "maxCount": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:51:35.131Z"
+}

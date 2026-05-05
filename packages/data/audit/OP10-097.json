@@ -1,0 +1,68 @@
+{
+  "id": "OP10-097",
+  "name": "Gum-Gum Rhino Schneider",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for {Dressrosa} type Characters. Current target has no type filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second action (GiveKeyword Banish) is missing the condition 'TrashCount >= 10'. The keyword should only be applied if trash count condition is met."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect object is completely unrelated to card text. Card text makes no mention of drawing 2 cards or trashing from hand. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration '[Your Turn]' in text ('during this turn') should map to 'DuringYourTurn', not 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration '[Your Turn]' in text ('during this turn') should map to 'DuringYourTurn', not 'EndOfTurn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            }
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            }
+          },
+          "duration": "DuringYourTurn",
+          "condition": {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 10
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:38:24.610Z"
+}

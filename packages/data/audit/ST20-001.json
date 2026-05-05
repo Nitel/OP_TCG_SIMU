@@ -1,0 +1,48 @@
+{
+  "id": "ST20-001",
+  "name": "Charlotte Katakuri",
+  "set": "ST-20",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but the condition structure is incomplete. '[Activate: Main]' indicates this is a Main phase activated ability, which is correctly captured as 'Activated'. However, the DSL is missing the phase/timing context that distinguishes Main phase activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "AttachDon action is missing the 'optional' flag. Card text says 'You may turn 1 card... Give up to 1 rested DON!!' — the 'may' and 'up to 1' indicate optionality and flexible targeting. Current DSL enforces the action unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is correct, but the action must account for the 'rested DON!!' requirement—only rested DON cards can be given. The current DSL does not filter for resting status."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "max": 1
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": "HasRestingDon"
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:15:43.421Z"
+}

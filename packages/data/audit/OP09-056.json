@@ -1,0 +1,61 @@
+{
+  "id": "OP09-056",
+  "name": "Mr.3(Galdino)",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing filter conditions for {Cross Guild} type OR 'Baroque Works' type (excluding Mr.3). Missing the 'look at 4 cards' mechanic and the 'place rest at bottom in any order' mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is set to 'Any' but should specify: CardType includes 'Cross Guild' OR CardType includes 'Baroque Works' AND CardName is not 'Mr.3(Galdino)'. Maximum 1 card can be selected."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action to handle remaining 3 cards: they must be placed at bottom of deck in any order. This requires a secondary action or extended mechanic not captured."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "kind": "CardType",
+              "value": "Cross Guild"
+            },
+            {
+              "kind": "And",
+              "conditions": [
+                {
+                  "kind": "CardType",
+                  "value": "Baroque Works"
+                },
+                {
+                  "kind": "Not",
+                  "condition": {
+                    "kind": "CardName",
+                    "value": "Mr.3(Galdino)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "destination": "hand",
+        "maxCards": 1,
+        "lookAtCards": 4,
+        "remainderPlacement": "BottomOfDeckInAnyOrder"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:03:03.851Z"
+}

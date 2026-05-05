@@ -1,0 +1,50 @@
+{
+  "id": "OP11-088",
+  "name": "Shu",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check if attacking Character has ＜Slash＞ attribute. The effect should only trigger when opponent's Character with Slash attribute attacks."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's Character attacks) not 'OnAttacked'. OnAttacked typically refers to this card being attacked."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct, but DSL should clarify this is during opponent's turn battle resolution."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "target": {
+            "scope": "Opponent",
+            "filters": {
+              "hasAttribute": "Slash"
+            }
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 5000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:47:00.987Z"
+}

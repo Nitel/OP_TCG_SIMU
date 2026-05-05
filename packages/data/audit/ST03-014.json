@@ -1,0 +1,31 @@
+{
+  "id": "ST03-014",
+  "name": "Marshall.D.Teach",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but card effect text says 'Return up to 1 Character' with no restriction to opponent's field. Should be 'ChooseCharacter' to allow selecting from either player's board."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCount": 1,
+              "maxCost": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:57:16.433Z"
+}

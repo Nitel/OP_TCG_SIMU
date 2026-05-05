@@ -1,0 +1,41 @@
+{
+  "id": "OP14-011",
+  "name": "Bartolomeo",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Blocker keyword grant should be 'Permanent', not 'EndOfTurn'. The card text states 'This Character gains [Blocker]' with no turn-end condition specified."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. The ability activates when the character enters play, not as a manual activated ability."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x2] This Character gains [Blocker].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:10:57.881Z"
+}

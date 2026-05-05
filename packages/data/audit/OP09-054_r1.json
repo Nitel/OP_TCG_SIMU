@@ -1,0 +1,28 @@
+{
+  "id": "OP09-054_r1",
+  "name": "Richie",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has [Blocker] keyword ability but effects array is empty. Blocker is a triggered keyword that should be represented as an effect with trigger OnAttacked, condition Always, and action Rest (or equivalent blocking mechanic)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "Rest"
+          }
+        ],
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:06.660Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP11-014",
+  "name": "Borsalino",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].keyword",
+      "description": "Keyword should be 'AttackActiveCharacters' not 'Unblockable'. The effect grants the ability to attack active Characters, not bypass blockers."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which indicates the effect lasts for the current turn only, not persisting through end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may rest this Character: Up to 1 of your {Navy} type Leader or Character cards can also attack active Characters during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "AttackActiveCharacters",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "subType": "Navy",
+              "maxQuantity": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:41:10.880Z"
+}

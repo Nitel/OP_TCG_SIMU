@@ -1,0 +1,57 @@
+{
+  "id": "OP03-008_r1",
+  "name": "Buggy",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "DSL is missing the passive ability: 'This Character cannot be K.O.'d in battle by <Slash> attribute cards.' This requires a Counter or damage prevention mechanic that is completely absent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay action is incomplete. The effect should: (1) look at 5 cards from deck, (2) reveal up to 1 red Event, (3) add it to hand, (4) place rest at bottom in any order. Current DSL only performs a generic SearchDeck with no filtering for red Events, no deck viewing limit of 5, and no bottom placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify 'red Event' cards only, not 'Any'. Current filter allows searching any card type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: the search is limited to 'up to 1' card, implying a count/quantity limit that is not expressed in the DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Passive",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdBySlashAttribute"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Card",
+            "color": "red",
+            "type": "Event"
+          },
+          "limit": 1,
+          "destination": "hand",
+          "deckViewLimit": 5,
+          "restToBottom": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:25.056Z"
+}

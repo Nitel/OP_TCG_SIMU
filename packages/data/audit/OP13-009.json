@@ -1,0 +1,35 @@
+{
+  "id": "OP13-009",
+  "name": "Curly.Dadan",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional keyword grant effect but effects array is empty. Should have OnPlay trigger that checks for Mountain Bandits character and grants Double Attack keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Mountain Bandits"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Double Attack",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:59:06.962Z"
+}

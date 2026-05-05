@@ -1,0 +1,40 @@
+{
+  "id": "OP04-044",
+  "name": "Kaido",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope should be 'ChooseCharacter' (player's own characters), not 'ChooseOpponentCharacter'. Card returns characters to owner's hand, implying player's own board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "Target scope should be 'ChooseCharacter' (player's own characters), not 'ChooseOpponentCharacter'. Card returns characters to owner's hand, implying player's own board."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 8,
+          "max": 1
+        }
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 3,
+          "max": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:22.383Z"
+}

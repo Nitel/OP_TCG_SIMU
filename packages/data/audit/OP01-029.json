@@ -1,0 +1,55 @@
+{
+  "id": "OP01-029",
+  "name": "Radical Beam!!",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Second PowerBoost action in first effect should be conditional on Life ≤ 2, not separate. Both boosts target the same card and should be in one effect with proper conditional logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (trigger: Trigger) is spurious and incorrect. There is no separate trigger condition for the additional +2000 power—it is conditional within the same Counter effect (if Life ≤ 2). This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Amount should be +2000, not +1000. The card gains an additional +2000 power (not +1000)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duration 'EndOfTurn' is incorrect for a battle effect. Should be 'EndOfBattle' or similar."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "limit": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "limit": 1
+          },
+          "duration": "EndOfBattle",
+          "condition": "HasLifeOrLess2"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:51.329Z"
+}

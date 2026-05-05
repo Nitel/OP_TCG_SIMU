@@ -1,0 +1,63 @@
+{
+  "id": "OP08-056",
+  "name": "Moby Dick",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect has trigger 'Trigger' with action 'PlaySelf' — does not match card text at all. Should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'OnKO' but card text says 'removed from the field by an effect' which includes but is broader than KO. Should use a more general trigger or custom logic if available."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition checking that removed Character has type including 'Whitebeard Pirates'. Condition should verify this."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing duration 'DuringYourTurn' — card text explicitly states '[Your Turn]', which is a major violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions",
+      "description": "Second action missing: 'place 1 card from your hand at the top or bottom of your deck' is not represented. Should have a second action (likely SearchDeck or similar; exact action type depends on DSL vocabulary for deck placement)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing '[Once Per Turn]' constraint — card text specifies this, should be encoded in condition or metadata."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When your Character with a type including \"Whitebeard Pirates\" is removed from the field by an effect, draw 1 card. Then, place 1 card from your hand at the top or bottom of your deck.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Whitebeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "from": "Hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:33.164Z"
+}

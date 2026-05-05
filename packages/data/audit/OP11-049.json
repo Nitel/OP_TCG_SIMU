@@ -1,0 +1,30 @@
+{
+  "id": "OP11-049",
+  "name": "Carrot",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "OnPlay effect incorrectly uses SearchDeck with destination 'hand'. Card text says 'look at 3 cards...and place them at the top or bottom of the deck' — this is a deck manipulation effect, not a search to hand. Should use a custom action or note that SearchDeck doesn't capture the 'place at top/bottom' mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger is 'OnAttacked' but card text says '[On Your Opponent's Attack]' — should be 'OnAttack' (opponent's attack phase), not 'OnAttacked' (when this character is attacked). However, standard DSL uses 'OnAttacked' for 'during opponent's attack'; verify if this is the intended trigger moment."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action uses 'TrashFromHand' but card text says 'you may trash this Character' — trashing the character itself is a self-trash action, not from hand. Should likely be a custom trash-self action or clarification needed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].duration",
+      "description": "Duration is 'EndOfBattle' but card text specifies 'during this battle' — for opponent's turn effects, should be 'DuringOpponentTurn' or similar conditional duration, not a post-battle end state."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:43:58.291Z"
+}

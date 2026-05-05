@@ -1,0 +1,33 @@
+{
+  "id": "OP01-070_r1",
+  "name": "Dracule Mihawk",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but effect text says 'Place at bottom of deck'. Should be 'SearchDeck' or similar deck placement action, not hand return."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'up to 1 Character' with no player restriction specified. Should be 'ChooseCharacter' (player's own characters) or clarify if opponent's."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "target": {
+          "scope": "ChooseCharacterInPlay",
+          "maxCost": 7,
+          "optional": true
+        },
+        "destination": "DeckBottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:31:56.028Z"
+}

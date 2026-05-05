@@ -1,0 +1,51 @@
+{
+  "id": "OP12-115",
+  "name": "I Love You!!",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type should be 'ReturnToHand' not 'PlayFromHand'. The effect adds a card from trash to hand, not plays it from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "Missing condition. Effect requires 'if you have 2 or less Life cards' — should be a condition checking Life count, not 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing 'source' field. Action should specify cards come from 'Trash', not Hand."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "ReturnToHand",
+        "filter": {
+          "name": "Trafalgar Law"
+        },
+        "source": "Trash",
+        "count": 1,
+        "condition": {
+          "type": "LifeCount",
+          "value": 2,
+          "comparison": "LessThanOrEqual"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:58:05.636Z"
+}

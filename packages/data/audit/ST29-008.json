@@ -1,0 +1,45 @@
+{
+  "id": "ST29-008",
+  "name": "Nami",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not valid. Should be 'OnKO' (character would be KO'd)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition does not match card text. Should check for Egghead type Character, not 'HasCardOnBoard' with specific name"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action 'PlaySelf' is incorrect. Should be 'FlipLife' (turn 1 card from Life cards face-up) with target count of 1"
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Effect does not prevent KO; it replaces the KO with a Life card flip. This is a reactive replacement effect triggered by opponent's effect causing KO"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Egghead"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "target": 1
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T13:24:36.682Z"
+}

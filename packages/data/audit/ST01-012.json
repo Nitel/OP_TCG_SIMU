@@ -1,0 +1,30 @@
+{
+  "id": "ST01-012",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is KO (kill character), but card text states 'Your opponent cannot activate [Blocker]' — this is a restriction/prevention effect, not a KO. Should use a negation/restriction mechanism or custom effect type, not KO."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is AllOpponentCharacters, but the effect prevents Blocker activation (a player action), not targeting characters. Target scope is incorrect for the intended effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL lacks mechanism to represent 'cannot activate [Blocker]' — this is a conditional restriction during battle, not a damage/KO action. Current DSL structure does not support blocking prevention effects."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].trigger",
+      "description": "[Rush] keyword is mentioned in card text but not represented in DSL. While Rush is a static ability (card can attack when played), it should be noted separately or via effect structure."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:54:44.296Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP02-121",
+  "name": "Kuzan",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing first effect: '[Your Turn] Give all of your opponent's Characters −5 cost.' This is a permanent/continuous effect that should have trigger 'StartOfTurn' or be modeled as a duration-based effect with 'DuringYourTurn'. The DSL only contains the [On Play] effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action missing 'maxQuantity' constraint. Text says 'up to 1' which requires maxQuantity:1 in the action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "duration": "DuringYourTurn",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "amount": -5
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 0
+          },
+          "maxQuantity": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:43.644Z"
+}

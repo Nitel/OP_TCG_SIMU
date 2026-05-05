@@ -1,0 +1,48 @@
+{
+  "id": "EB01-038_r1",
+  "name": "Oh Come My Way",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The card redirects attack target to a selected Character, not rest. Should be a redirect/change-target action or similar game mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action has no basis in card text. Card text contains no draw effect. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for 'Baroque Works' card on board, but text requires Leader type includes 'Baroque Works'. Should use condition type 'LeaderHasType' with value 'Baroque Works'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should represent selecting one of your own Characters to redirect attack to, not a generic Rest action. The mechanic is attack redirection, not character resting."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Baroque Works"
+        },
+        "actions": [
+          {
+            "type": "RedirectAttack",
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:40:27.027Z"
+}

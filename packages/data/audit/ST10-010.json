@@ -1,0 +1,36 @@
+{
+  "id": "ST10-010",
+  "name": "Trafalgar Law",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required check for opponent's hand size (7+ cards). Current condition is 'Always' but should include HasCardOnBoard or custom condition checking opponent hand count ≥7"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ForceDiscard action missing target specification. Should clarify target is 'opponent' hand, not player's own hand"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentHandCount",
+        "value": 7,
+        "operator": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "target": "opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:05:19.953Z"
+}

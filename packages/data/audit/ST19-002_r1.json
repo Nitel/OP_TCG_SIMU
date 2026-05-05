@@ -1,0 +1,52 @@
+{
+  "id": "ST19-002_r1",
+  "name": "Sengoku",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition check for 'Your Leader has the {Navy} type'. The effect should first check LeaderHasType:Navy, then conditionally execute the trash action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand requires a 'count' parameter to specify '2 cards'. Current filter is incomplete."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action chain is reversed. Should be: IF (leader has Navy) THEN (trash 2 Navy cards) THEN (draw 3). Current structure does not properly gate the trash action on the condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Navy"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "color": "Black",
+            "subType": "Navy"
+          },
+          "count": 2,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:53:47.449Z"
+}

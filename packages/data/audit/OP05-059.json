@@ -1,0 +1,47 @@
+{
+  "id": "OP05-059",
+  "name": "Let Us Begin the World of Violence!!!",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing required condition: LeaderHasType multicolored. Card text states 'If your Leader is multicolored' but DSL has Always."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: ReturnToHand. Card text includes 'Then, return up to 1 Character with a cost of 5 or less to the owner's hand' but only DrawCard is present."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].count",
+      "description": "DrawCard count is 2 but card text specifies 'draw 1 card'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "multicolored"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "ReturnToHand",
+            "target": "Character",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:48.019Z"
+}

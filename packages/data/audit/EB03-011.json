@@ -1,0 +1,41 @@
+{
+  "id": "EB03-011",
+  "name": "But If We Ever See Each Other Again... Will You Call Me Your Shipmate?!!",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition check is wrong. Effect requires 'your Leader is [Nefeltari Vivi]' but DSL uses HasCardOnBoard which checks for any card named 'Nefeltari Vivi' on the board, not specifically the Leader's name.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "Extra spurious effect not present in official text. The second effect (Trigger with -2000 power to opponent character) does not appear anywhere in the official effectText and should not exist.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Nefeltari Vivi"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:22.664Z"
+}

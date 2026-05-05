@@ -1,0 +1,54 @@
+{
+  "id": "OP10-104",
+  "name": "Caribou",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (protection during battle), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should check: LeaderHasType 'Supernovas' AND opponent has 3+ Life cards"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'PowerBoost' with amount 0, but effect prevents K.O. in battle — should use 'GiveKeyword' with 'CannnotBeKOdInBattle' or similar protective keyword"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure does not match card's protective mechanic; card grants battle immunity conditional on Leader type and opponent life threshold"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Supernovas",
+        "additionalCondition": {
+          "type": "TrashCount",
+          "operator": ">=",
+          "value": 3,
+          "player": "opponent"
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:38:53.255Z"
+}

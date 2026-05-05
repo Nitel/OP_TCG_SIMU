@@ -1,0 +1,55 @@
+{
+  "id": "OP09-022",
+  "name": "Lim",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incorrect. Card text states 'Add up to 1 DON!! card from your DON!! deck and rest it' — this requires SearchDeck (to add from deck) + AttachDon (to attach/rest it), not GiveDon (which generates DON!!). GiveDon should only be used for generating new DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should use 'HasAttachedDon' with count:3 to represent 'rest 3 of your DON!! cards', but the trigger context needs clarification: this is an [Activate: Main] ability that consumes 3 DON!! as a cost, not a conditional effect. Consider if cost mechanic is properly represented."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action is correct for playing the Character, but verify filter syntax matches official DSL schema for {ODYSSEY} subType specification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "cardType": "DON"
+          },
+          "count": 1
+        },
+        {
+          "type": "AttachDon",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "ODYSSEY",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:01.461Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP05-016",
+  "name": "Morley",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing power check. Effect should only trigger if Character has 7000+ power, not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect completely unrelated to card text. No mention of trashing or playing self in official text. This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].keyword",
+      "description": "Using 'Unblockable' is acceptable, but the effect should be conditional on power >= 7000 at time of attack"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "scope": "Self",
+            "power": {
+              "min": 7000
+            }
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Unblockable",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:59.449Z"
+}

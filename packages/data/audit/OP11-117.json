@@ -1,0 +1,45 @@
+{
+  "id": "OP11-117",
+  "name": "Fish-Man Island",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition uses 'HasCardOnBoard' but text says 'If your Leader is [Shirahoshi]' — should be 'LeaderIsName' with value 'Shirahoshi', not a board check"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOwnCharacter' lacks type filter — must specify filter for {Neptunian}, {Fish-Man}, or {Merfolk} types with 'types' property"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Shirahoshi"
+    },
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "types": [
+            "Neptunian",
+            "Fish-Man",
+            "Merfolk"
+          ]
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:03.152Z"
+}

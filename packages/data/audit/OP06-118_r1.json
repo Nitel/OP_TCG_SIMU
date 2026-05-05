@@ -1,0 +1,70 @@
+{
+  "id": "OP06-118_r1",
+  "name": "Roronoa Zoro",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' but card text says 'Set this Character as active' — this is already active state, not a rest action. The trigger is OnAttack but the effect doesn't match the described game mechanic of using DON to activate. Need clarification: does 'Set as active' mean remove rest status (unrest)? If so, type should reflect that. Current DSL uses 'Rest' which contradicts 'set as active'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect trigger is 'Activated' but card text specifies '[Activate: Main]' — should be 'Activated' is correct, but the action type 'Rest' again contradicts 'Set this Character as active'. Both effects claim to 'set as active' not 'rest'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: '[Once Per Turn]' should be represented as a condition. First effect should have condition restricting it to once per turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing condition: '[Once Per Turn]' should be represented as a condition. Second effect should have condition restricting it to once per turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] [Once Per Turn] ➀: Set this Character as active. [Activate: Main] [Once Per Turn] ➁: Set this Character as active.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "TurnCount",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "note": "DSL lacks 'Unrest' action type — 'set as active' implies removing rest status, not applying it. Recommend clarifying card intent."
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "TurnCount",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "note": "Same issue: 'set as active' contradicts 'Rest' action."
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:35.154Z"
+}

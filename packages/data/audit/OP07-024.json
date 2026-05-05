@@ -1,0 +1,57 @@
+{
+  "id": "OP07-024",
+  "name": "Koala",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (optional response to opponent's attack), not 'OnAttacked' (automatic when this card is attacked)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].condition",
+      "description": "Missing condition to filter target by {Fish-Man} type. Target should include type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (effect lasts during opponent's turn), not 'EndOfTurn'. Text explicitly states 'during this turn' in context of opponent's attack phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost requirement: This Character must rest as a cost to activate the effect. Should include a cost action or cost specification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 5,
+            "typeFilter": "Fish-Man"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:04:10.389Z"
+}

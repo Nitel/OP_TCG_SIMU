@@ -1,0 +1,38 @@
+{
+  "id": "EB04-005",
+  "name": "Trafalgar Law",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has restriction text but effects array is empty. Must define a Counter or Activated effect that prevents attacks based on opponent's board state."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "target": "opponent",
+            "cardProperty": "basePower",
+            "comparison": ">=",
+            "value": 5000,
+            "count": 2,
+            "comparison_type": "lessThan"
+          }
+        ],
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:19:50.525Z"
+}

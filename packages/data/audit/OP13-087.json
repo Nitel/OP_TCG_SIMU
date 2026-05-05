@@ -1,0 +1,49 @@
+{
+  "id": "OP13-087",
+  "name": "Saint Charlos",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card effect says 'Trash 1 card from the top of your deck' — should be 'ForceDiscard' with source 'Deck', not 'Hand'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty {} but should specify source as 'Deck' (trashing from deck, not hand)"
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Blocker keyword effect — DSL should include a Counter trigger for the blocker ability: 'After your opponent declares an attack, you may rest this card to make it the new target'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "source": "Deck"
+          },
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:59.452Z"
+}

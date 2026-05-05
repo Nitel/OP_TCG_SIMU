@@ -1,0 +1,32 @@
+{
+  "id": "OP09-118",
+  "name": "Gol.D.Roger",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (representing blocking as an interrupting action), not 'OnOpponentBlock'. 'OnOpponentBlock' is not a valid trigger in the OPTCG DSL specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'AnyPlayerHasNoLife' is not valid. Should use 'HasCardOnBoard' with appropriate target, or a custom condition. The text 'if either you or your opponent has 0 Life cards' requires checking life state, which needs proper condition syntax."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Win"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:30:49.416Z"
+}

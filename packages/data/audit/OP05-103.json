@@ -1,0 +1,38 @@
+{
+  "id": "OP05-103",
+  "name": "Kotori",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "conditions",
+      "description": "Missing required condition: 'If you have [Hotori]' is not represented. Must add condition checking for Hotori on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost is hardcoded to 0, but should be dynamic based on opponent's Life cards count. Must use variable reference to opponent's Life total."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "cardName": "Hotori"
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": "OpponentLife"
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:52:07.406Z"
+}

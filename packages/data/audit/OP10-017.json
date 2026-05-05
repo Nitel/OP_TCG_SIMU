@@ -1,0 +1,43 @@
+{
+  "id": "OP10-017",
+  "name": "Rock",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'If you don't have [Scotch]' requires a negated HasCardOnBoard condition for Scotch. Current DSL has no conditions array."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action missing 'count' property. Text specifies 'up to 1', which requires count:1 with optional:true or similar constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "subType": "Scotch"
+          },
+          "negate": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Scotch"
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:32:10.517Z"
+}

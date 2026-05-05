@@ -1,0 +1,52 @@
+{
+  "id": "ST25-004",
+  "name": "Buggy",
+  "set": "ST-25",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks if Buggy is on board, but card text requires Leader to be Buggy. Should use LeaderIsName condition, not HasCardOnBoard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence is incomplete. Card text requires trashing both 1 hand card AND this Character. Current DSL only trashes from hand. Missing KO action for this Character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "PlayFromHand should be conditional on both trash actions succeeding. The structure suggests it only requires the hand trash, not the Character trash completion."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Buggy"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {}
+        },
+        {
+          "type": "KO",
+          "target": "self"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Cross Guild",
+            "cardType": "Character",
+            "maxCost": 6
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:20:49.360Z"
+}

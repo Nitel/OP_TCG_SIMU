@@ -1,0 +1,38 @@
+{
+  "id": "OP04-022",
+  "name": "Eric",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action rests Self (this Character), but card text says 'You may rest this Character' as a cost/option, not a mandatory effect. The primary action is resting opponent's Character. Structure should reflect optional self-rest as condition, not as separate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but 'maxCost' parameter may not be standard. Should use 'maxCost' or 'costLimit' depending on DSL schema. Verify parameter name matches official spec."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'condition' field to express 'may' (optional activation). The effect should include a condition or optional flag to represent that the activation is not mandatory."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1
+        },
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:39.802Z"
+}

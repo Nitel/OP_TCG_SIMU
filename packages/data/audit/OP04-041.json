@@ -1,0 +1,70 @@
+{
+  "id": "OP04-041",
+  "name": "Apis",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action missing 'count' parameter (should be 2)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure incomplete: missing 'optional' property (effect states 'You may trash')"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "SearchDeck filter incomplete: requires 'type' constraint for {East Blue}; 'kind' should be 'Type' with 'value' set to East Blue"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "SearchDeck missing 'lookCount' parameter (should examine 5 cards from top of deck)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "SearchDeck missing 'selectCount' parameter (should reveal up to 1 card)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "SearchDeck missing 'thenActions' to handle placement of remaining cards at bottom of deck in any order"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 2,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "lookCount": 5,
+                "selectCount": 1,
+                "filter": {
+                  "type": "East Blue"
+                },
+                "destination": "hand",
+                "thenActions": [
+                  {
+                    "type": "PlaceAtBottomOfDeck",
+                    "inAnyOrder": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:19.403Z"
+}

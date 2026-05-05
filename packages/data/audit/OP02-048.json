@@ -1,0 +1,50 @@
+{
+  "id": "OP02-048",
+  "name": "Land of Wano",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Card effect includes conditional cost (trash card AND rest stage) but DSL structure chains them incorrectly. The 'thenActions' nesting suggests sequential dependency, but the card text uses 'and' indicating both must occur as part of activation. More critically, the main action (set up DON card as active) is completely missing from DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Primary effect 'Set up to 1 of your DON!! cards as active' is missing entirely. DSL only captures the cost/prerequisite actions (trash + rest) but omits the actual game action outcome."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing action to set DON card as active. No equivalent action type exists in standard OPTCG DSL for 'make active', but this should use a custom action or clarify the mechanic (likely 'GiveDon' or similar depending on implementation)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Land of Wano"
+        },
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "SetDONActive",
+        "target": {
+          "scope": "PlayerBoardDON"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:00.459Z"
+}

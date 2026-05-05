@@ -1,0 +1,61 @@
+{
+  "id": "OP15-071",
+  "name": "Holly",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the [Opponent's Turn] effect that modifies base power to 6000 for all [Ohm] cards and this Character. The card text explicitly states this conditional power modification should occur during opponent's turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is too broad: 'AllOwnCharacters' includes all characters. Should be scoped to only [Ohm] type characters plus this Character (use condition or specify type filter)."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing second effect for [Opponent's Turn] duration with PowerBoost action setting base power to 6000, with condition to target only [Ohm] cards and this Character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "condition": "HasCardType",
+            "conditionValue": "Ohm"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "condition": "HasCardType",
+            "conditionValue": "Ohm"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:27:24.351Z"
+}

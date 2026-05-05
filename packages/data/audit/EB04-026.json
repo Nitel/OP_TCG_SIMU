@@ -1,0 +1,50 @@
+{
+  "id": "EB04-026",
+  "name": "Bluegrass",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but effect text says 'place at the bottom of the owner's deck' — should be a deck placement action, not return to hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'maxCount' or 'maxTargets' constraint — text says 'up to 1' which requires maxTargets:1"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1,
+              "maxTargets": 1
+            },
+            "placement": "BottomOfDeck"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:48.311Z"
+}

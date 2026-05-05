@@ -1,0 +1,43 @@
+{
+  "id": "OP08-067_r1",
+  "name": "Charlotte Pudding",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a triggered ability but effects[] is empty. Must define trigger, condition, and action."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": "DON!!",
+            "destination": "Field"
+          },
+          {
+            "type": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:45:22.547Z"
+}

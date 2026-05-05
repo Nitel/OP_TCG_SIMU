@@ -1,0 +1,42 @@
+{
+  "id": "OP10-045",
+  "name": "Cavendish",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'Once Per Turn' frequency limiter. DSL should include frequency constraint to enforce the effect triggers only once per turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action missing count specification. The card text requires trashing exactly 1 card, but the filter has no count constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] [Once Per Turn] Draw 2 cards and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "frequency": "OncePerTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:19.439Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP10-052",
+  "name": "Bartolomeo",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but effect text says 'Place at the bottom of the owner's deck' - should be a deck placement action, not return to hand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOwnCharacter' but effect says 'with a cost of 1 or less' - needs cost condition in target or as separate condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'maxCost' constraint on target - text specifies 'cost of 1 or less'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1
+          },
+          "placement": "DeckBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:34:49.854Z"
+}

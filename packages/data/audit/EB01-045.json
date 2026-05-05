@@ -1,0 +1,40 @@
+{
+  "id": "EB01-045",
+  "name": "Brook",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition check for opponent having a Character with cost 0. The effect should only trigger if opponent has such a character, but current DSL uses Always condition.",
+      "field": "effects[0].condition.type"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "costFilter": {
+            "operator": "equals",
+            "value": 0
+          },
+          "controller": "Opponent"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:05.545Z"
+}

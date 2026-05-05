@@ -1,0 +1,43 @@
+{
+  "id": "OP12-027",
+  "name": "Koushirou",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Must define Counter trigger with condition for Slash attribute Character cost ≤5, action to Rest this Character, and prevent KO."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your <Slash> attribute Character with a cost of 5 or less other than this Character would be K.O.'d by your opponent's effect, you may rest this Character instead.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "params": {
+              "attribute": "Slash",
+              "maxCost": 5,
+              "excludeSelf": true
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "this"
+          }
+        ],
+        "optional": true,
+        "note": "Prevents KO of target Slash Character"
+      }
+    ],
+    "keywords": [
+      "Blocker"
+    ]
+  },
+  "auditedAt": "2026-05-05T11:51:20.780Z"
+}

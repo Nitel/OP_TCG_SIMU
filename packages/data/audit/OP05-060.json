@@ -1,0 +1,68 @@
+{
+  "id": "OP05-060",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is incomplete. The card has TWO conditional actions: (1) FlipLife with condition on DON count, AND (2) AddDon from DON deck. Current DSL only captures FlipLife and omits the entire second action and its condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'HasAttachedDon' with value 0 OR value 3+ to gate the AddDon action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing second action: AddDon type with count:1, source:DonDeck, and condition HasAttachedDon (0 or 3+)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 0
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "DonDeck"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 3,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "DonDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:48:50.274Z"
+}

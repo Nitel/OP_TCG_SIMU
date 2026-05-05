@@ -1,0 +1,93 @@
+{
+  "id": "EB03-001",
+  "name": "Nefeltari Vivi",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong trigger. The text says 'If your Character...would be K.O.'d, you may trash 1 card from your hand instead' which is a replacement effect preventing KO, not an OnKO trigger that fires after KO happens. This should be a preventative effect that triggers before KO.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "First effect missing condition check for 'Character with a base cost of 4 or more'. The current condition only checks turn count, but the effect only applies to Characters with cost >= 4.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "First effect has wrong action type. The text says 'you may trash 1 card from your hand instead' meaning this prevents the KO from happening. The DSL needs to represent that this is a replacement effect that prevents KO, not just trashing a card after KO.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect missing cost requirement. The text says '[Activate: Main] You may rest this Leader' but the DSL doesn't specify that resting the Leader is the cost.",
+      "field": "effects[1]"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect PowerBoost should specify 'up to 1' in the target, meaning it's optional to choose a target.",
+      "field": "effects[1].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect GiveKeyword is missing filter for 'Characters without a [When Attacking] effect'. The DSL allows choosing any own character, but it should only target characters without OnAttack effects.",
+      "field": "effects[1].actions[1].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "frequency": "OncePerTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "targetFilter": {
+          "scope": "OwnCharacter",
+          "costMin": 4
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "optional": true,
+            "preventsKO": true
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "cost": {
+          "restLeader": true
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "optional": true
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1,
+              "filter": {
+                "hasNoOnAttackEffect": true
+              }
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:47.044Z"
+}

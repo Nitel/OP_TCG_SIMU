@@ -1,0 +1,58 @@
+{
+  "id": "OP08-096",
+  "name": "People's Dreams Don't Ever End!!",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Card text says 'Trash 1 card from the top of your deck' but DSL uses TrashFromHand. Should be TrashFromDeck or equivalent deck-trashing action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition: PowerBoost should only apply IF trashed card has cost ≥6. Current DSL applies boost unconditionally."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with PlayFromHand Black Character ≤3 cost) has no basis in card text. This appears to be from a different card entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfBattle' is correct, but card says 'during this battle' which should map to DuringBattle, not EndOfBattle (semantic distinction)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 5000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "maxCount": 1
+                },
+                "duration": "DuringBattle",
+                "condition": {
+                  "type": "CardCost",
+                  "operator": ">=",
+                  "value": 6
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:31:36.949Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "OP14-048",
+  "name": "Shiryu",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second action: 'trash all cards from your hand'. The DSL only includes ReturnToHand but omits the mandatory ForceDiscard action for your own hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incorrect. Should be 'OpponentCharacter' with 'count':1 to represent 'up to 1', not a mandatory selection."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "OpponentCharacter",
+            "count": 1
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "OwnHand",
+            "count": -1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:49.742Z"
+}

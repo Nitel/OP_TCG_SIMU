@@ -1,0 +1,69 @@
+{
+  "id": "EB02-028",
+  "name": "Portgas.D.Ace",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition uses HasCardOnBoard with name 'Whitebeard Pirates', but the effect text says 'If your Leader's type includes \"Whitebeard Pirates\"'. This should use LeaderHasType or LeaderHasAnyType condition instead.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action is missing the cost filter. Effect text specifies 'Character card with a cost of 2', but DSL only filters by cardType without cost constraint.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action is missing the count specification. Effect text says 'look at 5 cards from the top of your deck' and 'reveal up to 1', but DSL has no count fields.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "PlayFromHand action is missing the 'rested' specification. Effect text explicitly states 'play up to 1 Character card with a cost of 2 from your hand rested', but DSL has no rested property.",
+      "field": "effects[0].actions[1]"
+    },
+    {
+      "severity": "minor",
+      "description": "PlayFromHand uses maxCost: 2, but effect text specifies 'cost of 2' (exact cost). Should use cost: 2 instead.",
+      "field": "effects[0].actions[1].filter.maxCost"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Whitebeard Pirates"
+          ]
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookCount": 5,
+            "revealCount": 1,
+            "filter": {
+              "kind": "ByType",
+              "cardType": "Character",
+              "cost": 2
+            },
+            "destination": "hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "cardType": "Character",
+              "cost": 2
+            },
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:51.249Z"
+}

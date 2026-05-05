@@ -1,0 +1,62 @@
+{
+  "id": "OP10-065",
+  "name": "Sugar",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing required parameters: 'count' (look at 5 cards), 'maxReveal' (reveal up to 1), and 'filter' should specify {Donquixote Pirates} type, not cost-based filtering."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing Rest action for cost: 1 DON!! card + this Character must be rested as activation cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to place remaining 4 cards at bottom of deck in any order (deck ordering mechanic not represented)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'kind':'ByCost' which is incorrect. Should use 'kind':'ByType' with type:'Donquixote Pirates'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "self"
+        },
+        {
+          "type": "Rest",
+          "target": "DON",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "maxReveal": 1,
+          "filter": {
+            "kind": "ByType",
+            "type": "Donquixote Pirates"
+          },
+          "destination": "hand",
+          "remainderDestination": "deckBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:35:54.953Z"
+}

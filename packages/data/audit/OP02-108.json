@@ -1,0 +1,29 @@
+{
+  "id": "OP02-108",
+  "name": "Donquixote Rosinante",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing. The card has an empty effects array but should contain the Blocker mechanic triggering on opponent's attack declaration."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ],
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:21.635Z"
+}

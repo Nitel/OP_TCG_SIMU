@@ -1,0 +1,57 @@
+{
+  "id": "OP06-068_r1",
+  "name": "Vinsmoke Reiju",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost requirement. DSL missing DON!! cost specification (−1). The activation has a cost that must be encoded."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Requires two conditions: (1) Leader has {GERMA 66} type, (2) this Character must be trashed (optional action). Current condition only checks board presence, not Leader type requirement or trash-as-cost mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to trash this Character. The effect requires 'You may trash this Character' as a prerequisite/cost before the play action triggers. Current DSL only has PlayFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "HasCardOnBoard checks for a card named 'GERMA 66' on board, but text requires 'your Leader has the {GERMA 66} type'. Should use 'LeaderHasType' condition instead."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "GERMA 66"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "source": "self"
+          },
+          "optional": true
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "name": "Vinsmoke Reiju",
+            "maxCost": 4
+          },
+          "maxCount": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:37:51.036Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP02-061",
+  "name": "Morley",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing: effect requires 'you have 1 or less cards in your hand' but condition is set to 'Always'. Should be a hand count condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. Effect prevents [Blocker] activation (negates ability), not rests characters. Should use 'GiveKeyword' with 'CannotBlock' or equivalent negation, or a custom blocking prevention mechanic if available."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration missing: effect applies 'during this battle' which is a temporary, battle-scoped duration. Must specify duration scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "Target condition incomplete: maxCost:5 is correct but target should explicitly exclude Characters with Blocker that cannot be activated, or clarify scope as 'opponent's Characters with cost 5 or less'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HandCount",
+          "comparison": "<=",
+          "value": 1
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBlock",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:21.357Z"
+}

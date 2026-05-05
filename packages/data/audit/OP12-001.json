@@ -1,0 +1,54 @@
+{
+  "id": "OP12-001",
+  "name": "Silvers Rayleigh",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand action structure incorrect. Should use a conditional gate (thenActions) at the trigger level, not nested inside RevealFromHand. The reveal is a cost/condition, not a separate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing TurnCount condition. '[Once Per Turn]' activation limit must be encoded as condition with TurnCount constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "PowerBoost action missing required condition check. The boost only applies 'if revealed' — conditional logic must guard the PowerBoost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "limit": 1
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "maxPower": 4000,
+                "maxCount": 1
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:49:21.754Z"
+}

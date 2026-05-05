@@ -1,0 +1,34 @@
+{
+  "id": "ST01-014",
+  "name": "Guard Point",
+  "set": "ST-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extra Trigger effect with +1000 power and EndOfTurn duration not supported by official text. Only Counter trigger effect should exist."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Scope should be 'ChooseOwnCharacter' (Leader included in Character scope), not separate 'ChooseOwnCharacterOrLeader'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:54:52.616Z"
+}

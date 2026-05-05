@@ -1,0 +1,35 @@
+{
+  "id": "EB03-023",
+  "name": "Kaya",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The DSL effects array is empty, but the card has an [On Play] effect that allows looking at 5 cards from the top of the deck and rearranging them. This effect is completely missing.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "fromLocation": "TopOfDeck",
+            "revealToOpponent": false,
+            "selectCount": 5,
+            "toLocation": "TopOrBottomOfDeck",
+            "description": "Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:12:18.124Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "ST21-001",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check for rested DON!! cards available to give, not DON!! attached to the leader. HasAttachedDon is incorrect context."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action attaches DON to target character, but card text says 'Give up to 2 rested DON!! cards' - should detach/remove from leader and attach to chosen character. Current action only attaches without removing source."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].count",
+      "description": "'up to 2' should be represented as variable/optional count, not fixed count:2"
+    }
+  ],
+  "suggestedDsl": {
+    "cardName": "ST21-001",
+    "effectText": "[DON!! x1] [Activate: Main] [Once Per Turn] Give up to 2 rested DON!! cards to 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": {
+              "type": "UpTo",
+              "value": 2
+            },
+            "from": "rested",
+            "source": "self",
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            }
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:16:06.520Z"
+}

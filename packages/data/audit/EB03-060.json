@@ -1,0 +1,45 @@
+{
+  "id": "EB03-060",
+  "name": "Will You Be My Servant?",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard'; the effect checks if your Leader is Nami, not if Nami is on board"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete; must specify minCost:2 and maxCost:8. Current filter only has maxCost:8, missing minCost constraint"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "SearchDeck action does not capture the 'look at 4 cards' mechanic and 'reveal up to 1' (optional reveal). Current DSL lacks parameters for deck search scope and reveal behavior"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Nami"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByCost",
+          "minCost": 2,
+          "maxCost": 8
+        },
+        "destination": "hand",
+        "optional": true,
+        "deckLookSize": 4,
+        "reveal": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:03.709Z"
+}

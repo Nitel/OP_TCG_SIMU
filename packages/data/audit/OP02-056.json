@@ -1,0 +1,43 @@
+{
+  "id": "OP02-056",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "OnPlay effect should allow looking at 3 cards and arranging them (SearchDeck with arrangement), not drawing. Current action SearchDeck implies drawing to hand, but text says 'place at top or bottom' - needs proper deck manipulation, not hand acquisition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "SearchDeck should specify looking at exactly 3 cards from top of deck with arrangement options (top/bottom placement), not generic 'Any' filter to hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "OnAttack effect with DON!! x1 is optional ('You may trash'), but TrashFromHand lacks optional indicator. Additionally, the KO target should be limited to opponent's Characters with cost ≤1, but current implementation uses 'maxCost' which may not properly exclude cost 0 if needed. Target scope and conditional trash+effect chain needs clarification."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].thenActions[0].type",
+      "description": "KO is correct for placing opponent's character at bottom of deck (KO in OPTCG context includes deck placement), but should verify destination is 'bottom of owner's deck' explicitly in action parameters."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any"
+        },
+        "count": 3,
+        "destination": "top_or_bottom",
+        "arrangement": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:11.149Z"
+}

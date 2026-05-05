@@ -1,0 +1,41 @@
+{
+  "id": "EB01-054",
+  "name": "Gan.Fall",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing condition check for opponent's Life cards. The effect should only trigger if opponent has 1 or less Life cards, but the DSL has 'Always' condition.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing 'count: 1' specification in the KO action. The text says 'up to 1' which should be explicitly encoded.",
+      "field": "effects[0].actions[0].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "OpponentLifeCount",
+          "operator": "<=",
+          "value": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:35.615Z"
+}

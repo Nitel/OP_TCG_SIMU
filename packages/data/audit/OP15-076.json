@@ -1,0 +1,73 @@
+{
+  "id": "OP15-076",
+  "name": "Lightning Beast Kiten",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'LeaderIsName' with value 'Enel', not 'HasCardOnBoard'. The effect triggers only if your Leader is Enel, not if you have any Enel card on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action type is 'GiveKeyword' with keyword 'Rush', but the effect grants +2000 power, not a keyword. Should be 'PowerBoost' with amount 2000."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition to filter for [Enel] cards only. Should add condition checking target is Enel character."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "'ChooseOpponentCharacter' scope is correct, but should clarify 'up to 1' is optional choice (already implicit in 'Choose' prefix)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Enel"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Enel"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "name": "Enel"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:27:46.039Z"
+}

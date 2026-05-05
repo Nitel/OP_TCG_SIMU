@@ -1,0 +1,41 @@
+{
+  "id": "OP05-117",
+  "name": "Upper Yard",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the core mechanic: 'Look at 5 cards from top of deck'. The DSL should include a condition or action to examine the top 5 cards before searching."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should be 'Sky Island' type. The card text specifies 'reveal up to 1 {Sky Island} type card'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the 'place the rest at the bottom of your deck in any order' mechanic. Only SearchDeck is present; no action handles returning non-searched cards to bottom of deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Sky Island"
+          },
+          "destination": "hand",
+          "searchCount": 5,
+          "selectCount": "UpTo1"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:53:07.764Z"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP08-102",
+  "name": "Charlotte Opera",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand should trash from hand, not Characters. The filter is incorrect—should trash any card from hand, not filter by cardType"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'optional' flag. Text says 'You may trash' indicating optional action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target missing cost restriction. Should only K.O. opponent Characters with cost ≤ player's Life total. Target needs cost-based filter condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing quantity limit. Text specifies 'up to 1' opponent Character"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCount": 1,
+                  "costCondition": "<=YourLifeTotal"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:32:05.130Z"
+}

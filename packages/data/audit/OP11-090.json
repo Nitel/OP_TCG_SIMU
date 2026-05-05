@@ -1,0 +1,30 @@
+{
+  "id": "OP11-090",
+  "name": "Briscola",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing. DSL effects array is empty but card has explicit Blocker text that must be represented as a triggered effect with Counter trigger type."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "duration": "Permanent",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:04.376Z"
+}

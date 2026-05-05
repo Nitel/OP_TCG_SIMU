@@ -1,0 +1,42 @@
+{
+  "id": "OP03-079",
+  "name": "Vergo",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (activated when card enters play with DON), not 'Activated' (manual ability)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' is incorrect. The effect requires DON!! x1 cost to be paid (already reflected in card header), not a condition check. This should be a passive static effect with no condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action grants 'Blocker' keyword, but card text states 'cannot be K.O.'d in battle' — this is 'Indestructible' or similar damage immunity, not Blocker. Blocker is a different mechanic (forces blocking)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Indestructible",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:00.790Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "OP03-095",
+  "name": "Soap Sheep",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 2' characters, but current DSL uses ChooseOpponentCharacter without a quantity limit. Should be {\"scope\":\"ChooseOpponentCharacter\",\"quantity\":2,\"quantityModifier\":\"UpTo\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be \"DuringYourTurn\" not \"EndOfTurn\". Card text says 'during this turn' which means the effect lasts for the remainder of your turn, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 2,
+            "quantityModifier": "UpTo"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:26.035Z"
+}

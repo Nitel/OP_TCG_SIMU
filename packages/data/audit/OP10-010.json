@@ -1,0 +1,47 @@
+{
+  "id": "OP10-010",
+  "name": "Chadros.Higelyges (Brownbeard)",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check 'If you have 1 or less Characters with 6000 power or more'. DSL requires a condition evaluating character count/power threshold before the power boost applies."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but the condition must be evaluated at trigger time. Current DSL applies boost unconditionally."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "power": {
+              "lessThanOrEqual": 6000
+            }
+          },
+          "count": {
+            "lessThanOrEqual": 1
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:31:40.157Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP04-076",
+  "name": "Weakness...Is an Unforgivable Sin.",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Counter ability should use trigger 'Counter', not 'Activated'. Counter abilities are inherently triggered by incoming damage/effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should include Leader option. Text says 'Up to 1 of your Leader or Character cards' but scope is 'ChooseOwnCharacter' only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (GiveDon) is incorrectly structured as separate trigger. The DON cost is a condition/cost of the Counter ability, not a separate triggered action. Counter syntax should integrate cost into single effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but the overall structure needs revision per Counter ability format."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "cost": {
+        "type": "FlipDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "count": 1
+          },
+          "duration": "DuringThisTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:42:58.402Z"
+}

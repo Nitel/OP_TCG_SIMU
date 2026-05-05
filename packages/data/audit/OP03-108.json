@@ -1,0 +1,51 @@
+{
+  "id": "OP03-108",
+  "name": "Charlotte Cracker",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have less Life cards than your opponent' requires a condition checking life differential, not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely incorrect. Text describes [DON!! x1] cost mechanic (activated ability requiring 1 DON to activate), not a trigger-based trash-and-play effect. The effect should activate when you pay 1 DON"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "'Activated' trigger is incorrect for a static conditional ability. Should be 'Trigger' or 'StartOfTurn' to represent continuous checking of life differential condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "Custom",
+        "description": "You have less Life cards than your opponent"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:46.314Z"
+}

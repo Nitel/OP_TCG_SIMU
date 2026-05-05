@@ -1,0 +1,56 @@
+{
+  "id": "OP15-072",
+  "name": "Hotori",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Card requires BOTH [Kotori] AND [Satori] on board. DSL only checks for Kotori. Must use compound condition with both card names."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incorrect. Card says 'up to 1' opponent character, implying optional selection (0 or 1). Should be 'ChooseOpponentCharacterOptional' or equivalent optional targeting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Activation cost not modeled. Card requires DON!! −2 and may rest this Character. DSL must account for cost constraints (likely in separate cost object or trigger context)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but verify against card text: effect lasts until end of current turn only."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "names": [
+          "Kotori",
+          "Satori"
+        ]
+      },
+      "cost": {
+        "don": 2,
+        "restSelf": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOptional",
+            "amount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:27:26.632Z"
+}

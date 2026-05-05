@@ -1,0 +1,35 @@
+{
+  "id": "OP01-052",
+  "name": "Raizo",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: must check 'HasRestingDon' with count >= 2 for rested Characters. Current condition is 'Always', which ignores the requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'once' field: card text states '[Once Per Turn]', requiring 'once':true to enforce the per-turn limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "once": true,
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:26.662Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP10-103",
+  "name": "Capone\"Gang\"Bege",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect. Card text says 'add 1 card from top or bottom of Life cards to hand' — this is DrawCard from Life pile, not FlipLife (which takes from hand to life). Should be DrawCard with source filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing optionality marker. Text says 'You may' — action should have optional:true"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].count",
+      "description": "Missing count constraint. Action should specify count:1 to match 'up to 1'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "optional": true,
+        "source": "Life"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "subType": "Supernovas"
+        },
+        "count": 1,
+        "destination": "Life"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:38:49.980Z"
+}

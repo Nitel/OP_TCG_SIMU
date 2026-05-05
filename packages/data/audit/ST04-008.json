@@ -1,0 +1,49 @@
+{
+  "id": "ST04-008",
+  "name": "Jack",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have a condition that makes it optional ('You may trash'). The DSL structure uses thenActions but lacks an explicit optional/conditional wrapper. The action should be conditional on player choice."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "GiveDon action is incomplete. It should specify 'fromDonDeck' or equivalent source parameter to indicate DON!! cards come from the DON!! deck (not generic addition). Current implementation does not capture 'from your DON!! deck' requirement."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty. Should specify {'cardZone':'hand'} or equivalent to clarify trashing from hand."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "filter": {
+              "cardZone": "hand"
+            },
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "GiveDon",
+                "count": 1,
+                "source": "donDeck",
+                "setActive": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:58:06.389Z"
+}

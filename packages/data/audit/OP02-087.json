@@ -1,0 +1,35 @@
+{
+  "id": "OP02-087",
+  "name": "Minotaur",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Impel Down} type, not just if Leader exists on board. Should be LeaderHasType:Impel Down"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be AttachDon (attach and rest the DON), not GiveDon. The card explicitly states 'add up to 1 DON!! card from your DON!! deck and rest it'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Impel Down"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:56.551Z"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "OP03-036",
+  "name": "Out-of-the-Bag",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect trigger should be 'Activated' (main card ability), not 'OnPlay'. Main abilities are player-activated, not automatic on play."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing required filter for {East Blue} type Characters. Should include filter with type constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action is incorrect. Card text says 'Set up to 1 of your [Kuro] cards as active' — this means activate an existing card on board, not play from hand. Should use 'Rest' or similar board activation mechanic, not 'PlayFromHand'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action has no basis in provided card text. This effect should not exist."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may rest 1 of your {East Blue} type Characters: Set up to 1 of your [Kuro] cards as active.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "East Blue"
+              },
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "name": "Kuro"
+              },
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:43.751Z"
+}

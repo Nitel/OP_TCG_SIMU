@@ -1,0 +1,47 @@
+{
+  "id": "EB03-043",
+  "name": "Stussy",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for optional cost. Card text states 'You may place 2 cards with a type including \"CP\" from your trash at the bottom of your deck in any order' as a requirement before the KO effect can trigger. This requires a Condition checking TrashCount and a cost action (likely SearchDeck or similar to return cards from trash to deck bottom)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing maxTargets constraint. Card text specifies 'up to 1' opponent Character, but DSL lacks maxTargets field limiting selections to 1."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "minCount": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "target": {
+          "scope": "TrashWithType",
+          "type": "CP",
+          "maxCount": 2
+        },
+        "destination": "DeckBottom"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:28.896Z"
+}

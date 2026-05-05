@@ -1,0 +1,56 @@
+{
+  "id": "OP13-024",
+  "name": "Gordon",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. The effect sets DON!! cards as active (rests them), not gives new DON!!. Should use 'Rest' with a filter targeting DON!! cards on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Missing filter to target 'your DON!! cards' on board. Current action has no board targeting specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'optional: true' to represent 'You may' language in card text."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "optional": true,
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "count": 1,
+            "filter": {
+              "cardTypes": [
+                "Music",
+                "FILM"
+              ]
+            },
+            "thenActions": [
+              {
+                "type": "Rest",
+                "count": 2,
+                "filter": {
+                  "location": "Board",
+                  "controlledBy": "Self",
+                  "hasAttachedDon": true
+                },
+                "duration": "EndOfTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:09.956Z"
+}

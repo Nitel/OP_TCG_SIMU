@@ -1,0 +1,45 @@
+{
+  "id": "OP01-041",
+  "name": "Kouzuki Momonosuke",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) look at top 5 cards, (2) reveal UP TO 1 {Land of Wano} type card, (3) add revealed card to hand, (4) place rest at bottom in any order. Current DSL only has generic SearchDeck with no filter for Land of Wano type and no mechanism for deck reordering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type constraint. Must specify {\"type\":\"Land of Wano\"} or equivalent to match 'reveal up to 1 {Land of Wano} type card'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "SearchDeck does not support the 'place rest at bottom in any order' mechanic. This action is missing or requires a secondary action to handle bottom-deck reordering."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "type": "Land of Wano"
+          },
+          "destination": "hand",
+          "scoutCount": 5,
+          "maxReveal": 1,
+          "restToBottom": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:10.037Z"
+}

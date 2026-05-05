@@ -1,0 +1,56 @@
+{
+  "id": "OP02-083",
+  "name": "Hannyabal",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at top 5 cards, (2) filtering by type 'Impel Down' AND color 'purple', (3) excluding card name 'Hannyabal', (4) revealing up to 1 card, (5) adding to hand, (6) placing rest at bottom in any order. Current DSL only searches by cost, missing all type/color/exclusion logic and deck ordering mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByCost' with maxCost:5, which is completely unrelated to the actual effect. Should filter by type='Impel Down', color='purple', and exclude name='Hannyabal'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to handle placing remaining cards at bottom of deck in any order (a secondary game action after search)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 purple {Impel Down} type card other than [Hannyabal] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "types": [
+                "Impel Down"
+              ],
+              "colors": [
+                "purple"
+              ],
+              "exclude": [
+                "Hannyabal"
+              ]
+            },
+            "maxSearch": 1,
+            "fromTop": 5,
+            "destination": "hand"
+          },
+          {
+            "type": "OrderDeckBottom",
+            "count": 4
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:53.907Z"
+}

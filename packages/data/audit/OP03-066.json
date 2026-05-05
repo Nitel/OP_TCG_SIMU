@@ -1,0 +1,60 @@
+{
+  "id": "OP03-066",
+  "name": "Paulie",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveDon' is incorrect. Card text says 'Add up to 1 DON!! card from your DON!! deck and set it as active', which requires SearchDeck to find a DON!! from deck, then AttachDon to set it active. GiveDon creates a new DON!!, not searches deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO action missing conditional requirement. Text states 'if you have 8 or more DON!! cards on your field', which requires a HasCardOnBoard condition on the field state, not just the trigger condition. Current DSL lacks this gate."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "KO target scope should specify ChooseOpponentCharacter with maxCost:4, but should be conditional on field state (8+ DON!! on field). Current action executes unconditionally."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "target": {
+            "hasType": "DON"
+          },
+          "count": 1
+        },
+        {
+          "type": "AttachDon",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "YourCharacter",
+            "hasType": "DON",
+            "minCount": 8
+          },
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:36.893Z"
+}

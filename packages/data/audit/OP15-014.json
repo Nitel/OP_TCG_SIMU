@@ -1,0 +1,33 @@
+{
+  "id": "OP15-014",
+  "name": "Bartolomeo",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect uses OnKO trigger, but text says 'would be K.O.'d' (conditional prevention). Should use Counter trigger to represent the replacement effect that prevents KO. OnKO fires after KO occurs, too late to prevent it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is TrashFromHand, but the effect is a replacement/prevention mechanic. Should be structured as a Counter with a condition that allows player choice to trash instead of taking KO. Current structure doesn't capture the 'instead of' prevention logic."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "cardType": "Event",
+          "owner": "self"
+        }
+      }
+    ],
+    "notes": "This Counter prevents the KO by discarding an Event from hand instead. The second effect (OnPlay) is correctly structured."
+  },
+  "auditedAt": "2026-05-05T12:23:02.761Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP01-108",
+  "name": "Hitokiri Kamazo",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is missing the DON!! cost condition. Card text states '[On K.O.] DON!! −1' meaning the ability requires paying 1 DON!! to activate. DSL must include a condition or cost mechanism for the DON!! expenditure before the KO action executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to limit targeting. Card text specifies 'up to 1' but DSL has no maxCount or quantity limit on the KO action target selection."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "AttachDon",
+          "target": {
+            "scope": "Self"
+          },
+          "value": -1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:01.219Z"
+}

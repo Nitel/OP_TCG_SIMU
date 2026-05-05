@@ -1,0 +1,35 @@
+{
+  "id": "OP06-099",
+  "name": "Aisa",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has on-play effect text but effects array is empty. Must include effect that allows looking at up to 1 Life card from either player and placing it on top or bottom of Life cards."
+    }
+  ],
+  "suggestedDsl": {
+    "triggers": [
+      "OnPlay"
+    ],
+    "effects": [
+      {
+        "conditions": [
+          "Always"
+        ],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "target": "YourOrOpponentLife",
+            "count": 1,
+            "placement": "TopOrBottom"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:44.871Z"
+}

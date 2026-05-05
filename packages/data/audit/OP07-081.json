@@ -1,0 +1,31 @@
+{
+  "id": "OP07-081",
+  "name": "Kalifa",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "[Your Turn] in card text requires duration \"DuringYourTurn\", not \"EndOfTurn\""
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1,
+            "target": {
+              "scope": "AllOpponentCharacters"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:08:36.252Z"
+}

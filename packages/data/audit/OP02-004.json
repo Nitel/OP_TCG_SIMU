@@ -1,0 +1,64 @@
+{
+  "id": "OP02-004",
+  "name": "Edward.Newgate",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'UntilStartOfNextTurn' not 'EndOfTurn'. Text states 'until the start of your next turn' which is a distinct game phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second action from [On Play] effect: 'you cannot add Life cards to your hand using your own effects during this turn'. This is a separate effect that should be a second action with duration 'DuringYourTurn'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].condition.type",
+      "description": "Condition type 'HasRestingDon' is checking for resting Don, but [DON!! x2] typically means Don cost (attached Don). Should verify if this is checking attached Don (HasAttachedDon with count:2) or resting Don state."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP02-004",
+    "effectText": "[On Play] Up to 1 of your Leader gains +2000 power until the start of your next turn. Then, you cannot add Life cards to your hand using your own effects during this turn.\n[DON!! x2] [When Attacking] K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "UntilStartOfNextTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotAddLifeToHand",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 3000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:33.802Z"
+}

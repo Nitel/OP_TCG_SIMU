@@ -1,0 +1,70 @@
+{
+  "id": "OP11-080",
+  "name": "Gear Two",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Main effect missing condition 'LeaderHasAnyType:blue' and cost constraint (rest 2 DON!!). Should include condition to check leader colors include blue, and the activated ability should have a cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action incomplete: missing 'source' (should be 'DonDeck'), missing 'rest' parameter (card should be rested after adding). Action should attach and rest the DON!!"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is non-standard. Should use 'DuringThisBattle' for counter effects that apply during battle resolution."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP11-080",
+    "name": "[Main/Counter]",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "LeaderHasAnyType",
+            "values": [
+              "blue"
+            ]
+          }
+        ],
+        "cost": {
+          "type": "Rest",
+          "count": 2,
+          "target": {
+            "scope": "OwnDon"
+          }
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "DonDeck",
+            "rest": true
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader",
+              "count": 1
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:46:16.968Z"
+}

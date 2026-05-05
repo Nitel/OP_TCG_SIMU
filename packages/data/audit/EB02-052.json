@@ -1,0 +1,86 @@
+{
+  "id": "EB02-052",
+  "name": "Enel",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong trigger. The Rush keyword is granted as a static ability when the Leader has Sky Island type, not OnPlay. It should use 'Activated' trigger with LeaderHasType condition.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "First effect condition uses HasCardOnBoard checking for name 'Sky Island', but should use LeaderHasType checking for type 'Sky Island'.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect is missing the AddLife action. The text says 'If you have 1 or less Life cards, add up to 1 card from the top of your deck to the top of your Life cards', but this action is completely absent from the DSL.",
+      "field": "effects[1].actions[0].thenActions"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect's TrashFromHand should be optional according to 'You may trash 1 card from your hand', but the DSL doesn't specify optional: true.",
+      "field": "effects[1].actions[0].optional"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect's AddLife action should have a condition checking for 1 or less Life cards before executing.",
+      "field": "effects[1].actions[0].thenActions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "leaderType": "Sky Island"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {
+              "kind": "Any"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "AddLife",
+                "count": 1,
+                "condition": {
+                  "type": "LifeCountAtMost",
+                  "count": 1
+                }
+              },
+              {
+                "type": "PowerBoost",
+                "amount": 1000,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "EndOfTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:55.209Z"
+}

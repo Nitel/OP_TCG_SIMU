@@ -1,0 +1,44 @@
+{
+  "id": "ST12-006",
+  "name": "Yosaku &amp; Johnny",
+  "set": "ST-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Second effect targets rested opponent characters, but DSL scope 'ChooseOpponentCharacter' does not filter for rested state. Should include rested condition in target or use 'ChooseOpponentCharacterRested'."
+    },
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Card presents 'Choose one' mechanic (mutually exclusive options), but DSL models both as independent effects with separate conditions. Should be represented as single effect with multiple action choices or clarified in action structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacterRested",
+            "maxCost": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:06:44.947Z"
+}

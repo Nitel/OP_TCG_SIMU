@@ -1,0 +1,33 @@
+{
+  "id": "OP12-108",
+  "name": "Donquixote Rosinante",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) looking at top 5 cards, (2) revealing up to 1 [Trafalgar Law], (3) adding it to hand, (4) placing rest at bottom in any order. Current DSL only handles the search/add portion and doesn't model the deck manipulation (viewing top 5, ordering rest at bottom)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "SearchDeck with 'ByName' filter lacks 'limit' constraint. Effect specifies 'up to 1' card, which requires limit:1 parameter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByName",
+          "name": "Trafalgar Law"
+        },
+        "limit": 1,
+        "destination": "hand"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:57:32.650Z"
+}

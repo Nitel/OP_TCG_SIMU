@@ -1,0 +1,78 @@
+{
+  "id": "OP10-118",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing first ability: 'Once per turn, this Character cannot be K.O.'d by your opponent's effects' (passive protection effect not represented)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition for second ability: 'If your opponent has 5 or more cards in their hand' – effect should only trigger when opponent hand size ≥ 5"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'You may place 3 cards from your trash at the bottom of your deck in any order' – no SearchDeck or equivalent action present"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Passive",
+      "duration": "Permanent",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByOpponentEffects",
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "from": "Trash",
+          "count": 3,
+          "destination": "BottomOfDeck",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "OpponentHandSize",
+          "value": 5,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "Opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:40:01.014Z"
+}

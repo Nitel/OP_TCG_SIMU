@@ -1,0 +1,54 @@
+{
+  "id": "OP06-090",
+  "name": "Dr. Hogback",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is OnPlay but card text describes optional effect with cost (return 2 cards from trash). Should use Activated trigger for optional effects with costs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is TrashFromHand but effect returns cards FROM trash TO deck, then adds card from trash to hand. TrashFromHand is incorrect. Should be ReturnToHand for the secondary action and a custom return-to-deck action for the cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter.subType",
+      "description": "Filter references 'Thriller Bark Pirates' but excludes Dr. Hogback. The effect should search trash for Thriller Bark Pirates type card excluding Dr. Hogback, not trash from hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "FlipLife is incorrect action. Effect should ReturnToHand the filtered card, not flip life. The cost (return 2 cards from trash to deck) is not represented at all."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing cost representation: player may return 2 cards from trash to deck bottom as a cost to enable the benefit (add 1 Thriller Bark Pirates card from trash to hand, excluding Dr. Hogback)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "ReturnToHand",
+      "zone": "Trash",
+      "count": 2,
+      "destination": "DeckBottom"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "zone": "Trash",
+        "filter": {
+          "subType": "Thriller Bark Pirates",
+          "excludeName": "Dr. Hogback"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:06.710Z"
+}

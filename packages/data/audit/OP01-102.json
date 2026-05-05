@@ -1,0 +1,28 @@
+{
+  "id": "OP01-102",
+  "name": "Jack",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always' not 'HasRestingDon'. The DON!! cost is payment/activation cost (meta-rule), not a trigger condition. The effect triggers 'OnAttack' and automatically resolves if you choose to pay the DON!! cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:52.572Z"
+}

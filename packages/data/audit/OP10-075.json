@@ -1,0 +1,47 @@
+{
+  "id": "OP10-075",
+  "name": "Foxy",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct) but the entire effect structure is missing the condition and draw action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Effect only includes TrashFromHand but is missing: (1) the conditional check comparing DON!! counts between fields, (2) the DrawCard action that follows the condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'HasAttachedDon' or custom condition comparing player's DON count <= opponent's DON count"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": "HasAttachedDon",
+      "conditionValue": "<=OpponentDon",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {
+            "self": true
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:36:36.859Z"
+}

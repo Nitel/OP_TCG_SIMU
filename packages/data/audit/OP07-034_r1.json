@@ -1,0 +1,39 @@
+{
+  "id": "OP07-034_r1",
+  "name": "Roronoa Zoro",
+  "set": "ST-24",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 3 or more Characters' requires a HasCardOnBoard condition checking for 3+ Characters, not 'Always'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn' — text states 'during this turn' which means the boost lasts only while it's your turn, not indefinitely until end of turn"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "count": 3,
+        "scope": "Self"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:19:16.889Z"
+}

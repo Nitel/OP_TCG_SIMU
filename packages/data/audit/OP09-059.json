@@ -1,0 +1,60 @@
+{
+  "id": "OP09-059",
+  "name": "Murder at the Steam Bath",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing action: 'Then, trash up to 2 cards from your hand' requires ForceDiscard with count:2, target:Hand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing final action: 'Trash the same number of cards from the top of your deck as you did from your hand' requires conditional ForceDiscard from deck based on hand trash count"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Erroneous second effect: DrawCard trigger is not in card text; entire second effect block should not exist"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "thenActions array present but empty; conditional logic for deck trashing must be implemented as dependent action chain"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "ForceDiscard",
+            "source": "Hand",
+            "count": 2,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "ForceDiscard",
+                "source": "DeckTop",
+                "countMatchesPreviousDiscard": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:03:13.774Z"
+}

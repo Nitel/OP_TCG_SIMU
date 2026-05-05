@@ -1,0 +1,68 @@
+{
+  "id": "ST13-014",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "DSL is incomplete and incorrect. Missing core logic: conditional check for [Monkey.D.Luffy] cost 5, PlayFromHand action, and PowerBoost with duration for opponent's next turn. Current actions only trash and flip without conditions or the boost effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife is present but has no conditional logic tied to card name/cost check. The play and boost should only occur IF the revealed card matches criteria."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "Missing PowerBoost action. Text states 'up to 1 of your Leader gains +2000 power until the end of your opponent's next turn' — requires duration 'DuringOpponentTurn' (not Permanent or EndOfTurn)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may trash this Character: Reveal 1 card from the top of your Life cards. If that card is a [Monkey.D.Luffy] with a cost of 5, you may play that card. If you do, up to 1 of your Leader gains +2000 power until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {
+              "cardId": "this"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "FlipLife",
+                "count": 1,
+                "thenActions": [
+                  {
+                    "type": "PlayFromHand",
+                    "count": 1,
+                    "filter": {
+                      "hasType": "Monkey.D.Luffy",
+                      "cost": 5
+                    },
+                    "optional": true,
+                    "thenActions": [
+                      {
+                        "type": "PowerBoost",
+                        "count": 1,
+                        "power": 2000,
+                        "target": "YourLeader",
+                        "duration": "DuringOpponentTurn"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:08:42.283Z"
+}

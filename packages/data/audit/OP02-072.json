@@ -1,0 +1,42 @@
+{
+  "id": "OP02-072",
+  "name": "Zephyr",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which indicates the power boost applies for the remainder of your turn, not persisting beyond it or carrying to opponent's turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 4
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:40.792Z"
+}

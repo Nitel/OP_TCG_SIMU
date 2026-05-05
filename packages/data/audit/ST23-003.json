@@ -1,0 +1,47 @@
+{
+  "id": "ST23-003",
+  "name": "Benn.Beckman",
+  "set": "ST-23",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks HasCardOnBoard but card text states 'If your Leader has the {Red-Haired Pirates} type' — should use LeaderHasType condition, not HasCardOnBoard"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action should be optional (preceded by 'You may') — needs optional:true wrapper or conditional structure"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "KO action target should specify 'base power' explicitly in DSL if supported; current target definition lacks power type specification"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "typeName": "Red-Haired Pirates"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxBasePower": 4000,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:18:36.406Z"
+}

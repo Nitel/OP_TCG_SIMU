@@ -1,0 +1,66 @@
+{
+  "id": "OP07-071",
+  "name": "Foxy",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing entire first effect: '[Opponent's Turn] If your Leader has the {Foxy Pirates} type, give all of your opponent's Characters −1000 power.' Only the [Activate: Main] effect is present."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with activation phase 'Main' specified in condition, not just 'Activated'. Current DSL lacks activation context."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveDon' is incorrect. The effect should 'Add up to 1 DON!! card from your DON!! deck' which translates to 'SearchDeck' (search for DON!! from deck), not 'GiveDon' (gain DON!! tokens)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Foxy Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "OpponentCharacters"
+          },
+          "value": -1000
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "activation": {
+        "phase": "Main",
+        "limit": "OncePerTurn"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "cardType": "DON",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:07:49.923Z"
+}

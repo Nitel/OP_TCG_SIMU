@@ -1,0 +1,46 @@
+{
+  "id": "PRB02-003",
+  "name": "Lucky.Roux",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: effect requires trashing 1 Character card with 6000 power or more from hand as a cost/condition. DSL must include condition to check this requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: TrashFromHand action must be included to trash the Character card as part of the effect cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "zone": "hand",
+          "cardType": "Character",
+          "power": 6000
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "power": 6000
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:50:24.227Z"
+}

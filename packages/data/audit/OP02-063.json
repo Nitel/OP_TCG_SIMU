@@ -1,0 +1,44 @@
+{
+  "id": "OP02-063",
+  "name": "Mr.1(Daz.Bonez)",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect searches trash, not deck. Should be 'ReturnToHand' or similar trash-based action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'color' constraint for 'blue Event'. Current filter only checks cost, not card type or color."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "No 'source' field specified. Must indicate source is 'trash', not deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "filter": {
+              "kind": "ByProperties",
+              "color": "blue",
+              "cardType": "Event",
+              "maxCost": 1
+            },
+            "source": "trash",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:25.278Z"
+}

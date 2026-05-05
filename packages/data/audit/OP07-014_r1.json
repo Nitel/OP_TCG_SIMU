@@ -1,0 +1,32 @@
+{
+  "id": "OP07-014_r1",
+  "name": "Moda",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which requires duration 'DuringYourTurn', not 'EndOfTurn'. These have different semantics: DuringYourTurn means the effect lasts only while it is your turn (reverts if opponent takes turn), while EndOfTurn means it expires at end of turn regardless of whose turn it is."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Portgas D. Ace"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "limit": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:01.902Z"
+}

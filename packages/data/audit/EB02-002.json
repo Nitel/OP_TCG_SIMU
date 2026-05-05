@@ -1,0 +1,41 @@
+{
+  "id": "EB02-002",
+  "name": "Sabo",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition to exclude [Sabo] characters from the target. The effect text explicitly states 'other than [Sabo]' but the DSL has no excludeName filter.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing cost specification. The effect requires resting this Character as a cost ('You may rest this Character:'), which should be represented in the DSL.",
+      "field": "effects[0].cost"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestSelf"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Revolutionary Army",
+              "excludeName": "Sabo"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:07.442Z"
+}

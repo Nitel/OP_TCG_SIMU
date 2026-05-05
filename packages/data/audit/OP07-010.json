@@ -1,0 +1,57 @@
+{
+  "id": "OP07-010",
+  "name": "Baccarat",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's attack phase), not 'OnAttacked' (when this card is attacked). The effect activates 'On Your Opponent's Attack', which is the attack declaration/phase trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' condition. The text explicitly states '[Once Per Turn]', which should be represented as a condition (e.g., 'TurnCount' or similar once-per-turn limiter)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence is incorrect. TrashFromHand should be conditional (optional 'You may trash'), not mandatory. The power boost should only apply if a card is trashed. Current structure doesn't reflect the optional nature or the conditional dependency."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The PowerBoost action should be nested inside a conditional/optional structure or placed in thenActions of the trash action, so the boost only occurs when a card is trashed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "optional": true,
+      "limitPerTurn": 1,
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "maxCount": 1
+              },
+              "duration": "DuringBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:03:09.280Z"
+}

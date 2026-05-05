@@ -1,0 +1,47 @@
+{
+  "id": "P-082_r1",
+  "name": "Crocodile",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Cross Guild} type OR a type including 'Baroque Works', not if a Card named 'Cross Guild' is on board. Should use LeaderHasAnyType condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is ReturnToHand but effect text specifies 'place at the bottom of the owner's deck', which requires a different action (no standard action matches this precisely; closest would be a custom/trash-like effect, but ReturnToHand is incorrect)."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Effect text begins with '[Your Turn]' which indicates duration should be 'DuringYourTurn', not Permanent. This is a major violation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "Cross Guild",
+          "Baroque Works"
+        ]
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000,
+            "maxSelect": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:56.203Z"
+}

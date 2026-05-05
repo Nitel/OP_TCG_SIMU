@@ -1,0 +1,31 @@
+{
+  "id": "OP06-053",
+  "name": "Jaguar.D.Saul",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Must define OnKO trigger with SearchDeck action to place Character with cost ≤2 at bottom of deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": "Character",
+            "amount": 1,
+            "restriction": "cost<=2",
+            "placement": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:57:10.290Z"
+}

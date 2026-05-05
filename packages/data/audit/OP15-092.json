@@ -1,0 +1,105 @@
+{
+  "id": "OP15-092",
+  "name": "Monkey.D.Luffy",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing TrashCount condition. Should check 'if 10 or more cards in trash'. Current condition is 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action completely wrong. Text specifies 'base power becomes 9000 AND gains +10 cost'. DSL only has PowerBoost +2000. Need to set base power (not boost) and add cost modifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing TrashCount condition for '20 or more cards'. Current condition is 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during your opponent's turn'. Should be 'DuringOpponentTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "PowerBoost amount is 7000 but text says 'base power becomes 7000' (not a boost). This is a base power modification, not a boost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[2]",
+      "description": "Missing TrashCount condition for '30 or more cards'. Current condition is 'Always'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 10
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 9000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent",
+          "isBasePower": true
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Cost+10",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 20
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn",
+          "isBasePower": true
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 30
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:40.043Z"
+}

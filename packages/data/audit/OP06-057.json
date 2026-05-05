@@ -1,0 +1,57 @@
+{
+  "id": "OP06-057",
+  "name": "But I Will Never Doubt a Woman's Tears!!!!",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include Leader cards: scope should be 'ChooseOwnLeaderOrCharacter' not 'ChooseOwnCharacter'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck action is incorrect. Card text says 'reveal 1 card from top of deck, play up to 1 Character with cost 2' — this is RevealFromHand/deck reveal mechanic followed by PlayFromHand conditional, not a SearchDeck"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' is invalid. The reveal-and-play sequence should be part of the OnPlay effect, not a separate trigger. The placement at top/bottom of deck is missing entirely"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter uses 'maxPower' but should use cost-based filtering: 'maxCost':2 for Characters"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "RevealFromHand",
+          "source": "deck",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 2
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:57:29.021Z"
+}

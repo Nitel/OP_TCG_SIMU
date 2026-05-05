@@ -1,0 +1,60 @@
+{
+  "id": "EB04-043",
+  "name": "Kaku",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing the Counter effect entirely. Card has two abilities: (1) a Counter ability triggered when your black Character with cost ≤5 would be K.O.'d, and (2) an OnPlay ability. Only OnPlay is present."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The OnPlay effect should trash from deck (top of deck), not from hand. Should be TrashFromDeck or similar action targeting deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Counter ability missing entirely. Should include: trigger='Counter', condition checking LeaderHasType or similar for 'black Character with cost ≤5', and actions to place 3 cards from trash at bottom of deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "color": "black",
+            "baseCost": {
+              "max": 5
+            }
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "source": "trash",
+          "count": 3,
+          "destination": "bottomOfDeck",
+          "filter": {}
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "filter": {},
+          "source": "deck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:20:26.065Z"
+}

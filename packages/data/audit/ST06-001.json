@@ -1,0 +1,47 @@
+{
+  "id": "ST06-001",
+  "name": "Sakazuki",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost specification. Card text requires ③ (rest 3 DON!! cards) as activation cost, but DSL has no cost element. Should include cost:3 or equivalent cost structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be conditional/optional ('You may trash'), but current structure treats it as mandatory prerequisite to KO. The KO action should also be optional ('You may...K.O. up to 1'). Current thenActions implies trashing is required to KO."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target uses 'maxCost:0' but should clarify this means opponent's Characters with cost equal to 0 (not max cost 0). Consider using 'costEquals':0 if DSL supports it, or ensure maxCost:0 is the correct syntax for 'cost of 0'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "cost": 3,
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "optional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "costEquals": 0,
+          "maxChoose": 1
+        },
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:00:01.947Z"
+}

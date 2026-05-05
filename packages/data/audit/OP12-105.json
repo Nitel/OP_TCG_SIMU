@@ -1,0 +1,41 @@
+{
+  "id": "OP12-105",
+  "name": "Trafalgar Lammy",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which indicates the effect lasts during your turn only. Duration should be 'DuringYourTurn', not 'EndOfTurn'. Per duration rules, '[Your Turn]' in text → duration:'DuringYourTurn' (not EndOfTurn/Permanent)."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify the card type [Trafalgar Law] in the selection criteria, not just any own character. Current scope 'ChooseOwnCharacter' is too broad."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP12-105",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "hasCardName": "Trafalgar Law"
+              },
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:57:21.302Z"
+}

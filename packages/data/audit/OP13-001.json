@@ -1,0 +1,71 @@
+{
+  "id": "OP13-001",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' (opponent attacks), not 'OnAttacked' (this card is attacked). Text: 'On Your Opponent's Attack'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition logic is inverted. Text says 'If you have 5 or less active DON!! cards' but HasRestingDon checks resting DON cards. Should check active DON cards ≤5, not resting DON cards. Condition type/logic mismatch."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the REST action. The effect requires 'you may rest any number of your DON!! cards' before power boost is applied. Current DSL only has PowerBoost, no Rest action for the DON cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].perTrashedCard",
+      "description": "Should use 'perRestedCard' (counting rested DON cards), not 'perTrashedCard'. Text: 'For every DON!! card rested this way'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow Leader OR one Straw Hat Crew character (not both). Current scope doesn't correctly represent 'this Leader or up to 1 of your {Straw Hat Crew} type Characters'. Should be OrTarget or similar."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnDONCards",
+            "count": "Any"
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "perRestedCard": true,
+          "target": {
+            "scope": "OrTarget",
+            "options": [
+              {
+                "scope": "OwnLeader"
+              },
+              {
+                "scope": "ChooseOwnCharacter",
+                "subType": "Straw Hat Crew",
+                "count": 1
+              }
+            ]
+          },
+          "duration": "DuringBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:58:29.658Z"
+}

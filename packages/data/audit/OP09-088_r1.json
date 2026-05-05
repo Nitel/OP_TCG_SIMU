@@ -1,0 +1,47 @@
+{
+  "id": "OP09-088_r1",
+  "name": "Shiryu",
+  "set": "ST-27",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash 2 cards from your hand' as a cost/choice, not a forced discard. Should use 'ForceDiscard' (legacy alias: TrashCard) or structure as optional cost. However, the conditional nature ('You may') suggests this should be wrapped in a thenActions structure or the entire effect should be optional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "The effect structure does not properly represent 'You may trash 2 cards'. The current DSL treats both actions as sequential but unconditional. The trash action should be optional/conditional, with drawing only occurring if the trash condition is met. This requires either: (1) restructuring as a conditional with thenActions, or (2) using a cost-effect pattern that clarifies the optional nature."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] You may trash 2 cards from your hand: Draw 2 cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "filter": {
+              "source": "Hand"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:06.959Z"
+}

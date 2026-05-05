@@ -1,0 +1,73 @@
+{
+  "id": "EB03-004",
+  "name": "Carina",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing [Blocker] keyword - should be in the keywords array, not in effects",
+      "field": "keywords"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong trigger: should be a static condition with Activated trigger for [Opponent's Turn], not OnAttacked",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong duration: text says [Opponent's Turn] which requires 'DuringOpponentTurn', not 'EndOfTurn'",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition: 'you have no Characters with 6000 base power or more' is not checked",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong condition type: should use LeaderHasAnyType with 'Multicolored' type check, not HasCardOnBoard with name",
+      "field": "effects[0].condition.type"
+    }
+  ],
+  "suggestedDsl": {
+    "keywords": [
+      "Blocker"
+    ],
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasAnyType",
+              "types": [
+                "Multicolored"
+              ]
+            },
+            {
+              "type": "Not",
+              "condition": {
+                "type": "HasCardOnBoard",
+                "cardType": "Character",
+                "basePowerMin": 6000
+              }
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:56.603Z"
+}

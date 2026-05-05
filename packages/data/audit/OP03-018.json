@@ -1,0 +1,74 @@
+{
+  "id": "OP03-018",
+  "name": "Fire Fist",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type. The effect text shows '[Main]' which is an Activated ability (costs trashing 1 Event from hand), not 'OnPlay'. There is no OnPlay effect on this card.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing cost condition. The effect requires trashing 1 Event from hand as a cost ('You may trash 1 Event from your hand:'), which is not encoded in the DSL.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "The Trigger effect only KOs one character with 5000 power or less, but according to the card text pattern for Events, the Trigger effect should match the Main effect and KO both a 5000-or-less AND a 4000-or-less character.",
+      "field": "effects[1].actions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "type": "TrashFromHand",
+          "cardType": "Event",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 5000
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 4000
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 5000
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 4000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:53.637Z"
+}

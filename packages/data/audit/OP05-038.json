@@ -1,0 +1,70 @@
+{
+  "id": "OP05-038",
+  "name": "Charlestone",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Counter ability should use trigger 'Counter', not 'OnAttacked'. Counter is a reactive interrupt mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' or equivalent for battle-scoped effects, not 'EndOfBattle'. Power boost lasts during the battle resolution."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Second action uses 'TrashFromHand' but should be structured as optional conditional. The 'Then, you may trash' indicates optional user choice before the conditional reward triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].thenActions[0].type",
+      "description": "'GiveDon' is incorrect. Setting DON!! cards as active requires 'GiveDon' with proper duration (Permanent) and should target resting DON!! cards on your side. Current implementation conflates giving DON with activating existing DON."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object is entirely extraneous. DSL contains a stray 'Trigger' with opponent character rest action that has no basis in card text. This is a data corruption/copy-paste error."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, you may trash 1 card from your hand. If you do, set up to 3 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxChoose": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "maxChoose": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "GiveDon",
+                "count": 3,
+                "target": {
+                  "scope": "OwnRestingDon"
+                },
+                "duration": "Permanent"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:06.050Z"
+}

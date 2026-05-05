@@ -1,0 +1,42 @@
+{
+  "id": "OP13-116",
+  "name": "The One Who Is the Most Free Is the Pirate King!!!",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is vague. Main effect should use 'OnPlay' (card is played) or 'Activated' (activated ability). Given '[Main]' notation, 'OnPlay' is most appropriate."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but effect specifies 'up to 1 {Supernovas} type Character card'. Filter must include type constraint: {\"type\":\"Supernovas\",\"cardType\":\"Character\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action does not capture the 'look at 5 cards' and 'place rest at bottom in any order' mechanics. The DSL is incomplete—it should reflect the library interaction (5-card window, deck ordering)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "type": "Supernovas",
+              "cardType": "Character"
+            },
+            "destination": "hand",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:11.712Z"
+}

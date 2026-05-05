@@ -1,0 +1,57 @@
+{
+  "id": "OP01-060",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RevealFromHand is incorrect. The effect reveals from the top of the deck, not from hand. Should be a deck reveal mechanic (likely SearchDeck or custom reveal)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "The reveal happens from deck (top card), then conditionally plays it rested. The DSL structure does not properly model revealing from deck before the conditional play action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PlayFromHand is incorrect context. The card is revealed from deck, so it should be played from the revealed state (deck), not hand. Additionally, the play should be rested, but PlayFromHand does not have a 'rested' parameter."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": {
+              "subType": "The Seven Warlords of the Sea",
+              "cardType": "Character",
+              "maxCost": 4
+            },
+            "thenActions": [
+              {
+                "type": "PlayFromDeck",
+                "rested": true,
+                "filter": {
+                  "subType": "The Seven Warlords of the Sea",
+                  "cardType": "Character",
+                  "maxCost": 4
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:43.761Z"
+}

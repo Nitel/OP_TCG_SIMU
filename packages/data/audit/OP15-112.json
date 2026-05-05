@@ -1,0 +1,42 @@
+{
+  "id": "OP15-112",
+  "name": "Raki",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the [Blocker] ability entirely. Blocker is a keyword ability that should be represented as a separate effect with trigger:OnBlock or similar mechanism. The current DSL only captures the [On Play] effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is correct for the [On Play] effect, but the Blocker ability must be modeled separately. Blocker typically triggers when the card becomes the target of an attack (OnAttacked trigger or a custom Blocker trigger), and the action should involve Resting the card."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Shandian Warrior",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:30:36.384Z"
+}

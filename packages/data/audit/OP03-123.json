@@ -1,0 +1,32 @@
+{
+  "id": "OP03-123",
+  "name": "Charlotte Katakuri",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a game action (adding a Character to Life cards) but effects array is empty. DSL must contain at least one effect matching the On Play trigger and the described action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "Permanent",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "target": "CharacterWithCostEqualOrLess",
+            "targetValue": 8,
+            "count": 1,
+            "position": "TopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:09.773Z"
+}

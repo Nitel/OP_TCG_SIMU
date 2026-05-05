@@ -1,0 +1,50 @@
+{
+  "id": "ST06-012",
+  "name": "Monkey.D.Garp",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Card text shows 'You may trash 1 card from your hand AND rest this Character' as prerequisites/costs for the ability, not sequential actions. The KO effect should be conditional on both costs being paid. Current DSL treats all three as independent actions in sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have optional:true since text says 'You may trash'. Currently implied as mandatory."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions structure",
+      "description": "The Rest action (Self) and TrashFromHand are costs that enable the KO, not separate effects. Both should be required conditions/costs before KO executes. Structure should reflect: Pay costs (trash 1 optional + rest self) → Then KO up to 1 opponent character with cost ≤4."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxCount": 1
+        },
+        "costs": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:00:49.091Z"
+}

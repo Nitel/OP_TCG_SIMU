@@ -1,0 +1,38 @@
+{
+  "id": "OP06-035",
+  "name": "Hody Jones",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing count and target specificity. Text says 'up to a total of 2' of Characters OR DON!! cards, but DSL only targets Characters with no count limit specified."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Must allow selection of either opponent Characters OR opponent DON!! cards (not just Characters), with combined limit of 2."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrDon",
+            "count": 2,
+            "upTo": true
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:55:53.788Z"
+}

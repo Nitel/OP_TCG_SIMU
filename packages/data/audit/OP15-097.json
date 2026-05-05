@@ -1,0 +1,44 @@
+{
+  "id": "OP15-097",
+  "name": "I Find It Embarrassing as a Human Being",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing required condition: TrashCount >= 10. Current condition is 'Always' but effect requires checking trash count."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'Rest' is incorrect. The effect prevents attack (temporary restriction), not rests the character. Should use a keyword-granting action or custom duration logic, but 'Rest' alone doesn't capture 'cannot attack until end of opponent's next End Phase'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration specification. Text states 'until the end of your opponent's next End Phase' — this is a conditional temporary effect during opponent's turn, requires duration:'DuringOpponentTurn' or similar timed mechanic."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "TrashCount",
+      "value": 10,
+      "comparison": ">="
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotAttack",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:29:26.166Z"
+}

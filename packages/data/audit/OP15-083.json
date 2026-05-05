@@ -1,0 +1,66 @@
+{
+  "id": "OP15-083",
+  "name": "Spoil",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand, but effect requires trashing from top of deck. Should use TrashFromDeck or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing condition: 'If you have 15 or more cards in your trash' is not represented. Should have condition type TrashCount with threshold >= 15."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action missing prerequisite: 'You may trash this Character' must be a cost/requirement before the DON attachment action can execute."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target must be 'rested DON!! card' (existing DON already on board), not a new DON attachment. Action type and target scope are incorrect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromDeck",
+          "count": 3,
+          "filter": {}
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "threshold": 15,
+        "operator": ">="
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          },
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:28:20.081Z"
+}

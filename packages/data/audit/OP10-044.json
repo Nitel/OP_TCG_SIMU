@@ -1,0 +1,51 @@
+{
+  "id": "OP10-044",
+  "name": "Cub",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for optional cost (rest 1 Dressrosa Leader or Stage card). DSL requires a Condition node to gate the action on paying the cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Must specify 'maxCount':1 to enforce 'up to 1' limit, and should clarify target as opponent's Characters."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "Optional",
+        "cost": {
+          "type": "Rest",
+          "target": {
+            "scope": "YourCards",
+            "hasTypes": [
+              "Dressrosa"
+            ],
+            "cardTypes": [
+              "Leader",
+              "Stage"
+            ]
+          },
+          "maxCount": 1
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 1,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:14.725Z"
+}

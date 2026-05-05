@@ -1,0 +1,48 @@
+{
+  "id": "OP06-051",
+  "name": "Tsuru",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Card text says 'You may trash 2 cards' — this is a conditional optional action with a specific count (2), not an unconditional trash. DSL must use a condition or cost structure to represent 'may trash exactly 2 cards' before triggering the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "'filter' should specify card type constraints if any; 'Any' is acceptable but the structure should clarify this is a cost condition, not a simple action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The 'thenActions' structure is correct in concept, but the cost (trash 2) must be explicitly optional ('may') and counted. Current DSL doesn't enforce the '2 cards' requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 2,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:57:02.494Z"
+}

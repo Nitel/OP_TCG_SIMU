@@ -1,0 +1,54 @@
+{
+  "id": "ST07-009",
+  "name": "Charlotte Mont-d'or",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Trigger should be 'Activated' with condition 'HasRestingDon:false' (requires resting this character as cost), not a bare Activated trigger. The 'Rest' action is a cost, not an effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Rest action should not be in actions array—it is a cost/requirement. Only FlipLife and KO should be in actions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and TrashFromHand is completely unrelated to card text and should not exist. Card has no trash/play mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife should specify 'fromPosition' (top or bottom) and 'toLocation' (hand). Current usage lacks these required parameters."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "fromPosition": "TopOrBottom",
+          "toLocation": "Hand"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
+        }
+      ],
+      "cost": {
+        "restSelf": true
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T13:01:52.745Z"
+}

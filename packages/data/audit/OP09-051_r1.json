@@ -1,0 +1,58 @@
+{
+  "id": "OP09-051_r1",
+  "name": "Buggy",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but card text says 'place at the bottom of the owner's deck' — should be a bottom-deck action, not hand return"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is 'ChooseOpponentCharacter' but text says 'up to 1' — missing optional/max quantity constraint"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second action: conditional self-mill (place this Character at bottom of deck if you don't have 5+ cost-5+ Characters)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing condition on second action: 'if you do not have 5 Characters with a cost of 5 or more' — requires character count condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          },
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "YourCharacters",
+            "comparison": "LessThan",
+            "value": 5,
+            "filter": {
+              "cost": 5
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:19:58.771Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP12-073",
+  "name": "Trafalgar Law",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' should be represented as a condition, not ignored with Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until opponent's next End Phase), not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should filter for '[Donquixote Rosinante] and {Heart Pirates} type Characters', not all own Characters"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "'Add up to 1' suggests optional/conditional count, but DSL specifies exactly 1. Consider if count should be flexible or clarify as mandatory 1"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "compareOperator": "LessThanOrEqual",
+        "opponentComparison": true
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filterType": [
+              "Donquixote Rosinante",
+              "Heart Pirates"
+            ]
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:54:55.220Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP10-047",
+  "name": "Koala",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for {Revolutionary Army} type. Current scope 'ChooseOwnCharacter' lacks type filter. Should be scope with filter or additionalFilters for type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is mandatory in text ('You may') but DSL structure lacks optional/conditional wrapper. Should include condition or optional flag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for '[During this turn]' phrasing. Should be 'DuringYourTurn' to reflect temporary power boost that lasts through current turn only."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "minCost": 3,
+          "filters": [
+            {
+              "attribute": "type",
+              "value": "Revolutionary Army"
+            }
+          ]
+        },
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:28.757Z"
+}

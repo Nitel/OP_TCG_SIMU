@@ -1,0 +1,43 @@
+{
+  "id": "OP01-059",
+  "name": "BE-BENG!!",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence is incorrect. The card text describes a conditional action: 'You may trash... THEN set up to 1 character'. The DSL nests Rest inside thenActions of TrashFromHand, but Rest should target characters with subType 'Land of Wano', which is not specified in the Rest action's filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Rest target filter is incomplete. Must include subType:'Land of Wano' to match card text 'your {Land of Wano} type Character cards'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Land of Wano"
+          },
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "subType": "Land of Wano",
+                "maxCost": 3
+              },
+              "maxTargets": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:39.026Z"
+}

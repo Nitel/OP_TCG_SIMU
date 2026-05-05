@@ -1,0 +1,51 @@
+{
+  "id": "OP10-088",
+  "name": "Nami",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[3].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash 2 cards from the top of your deck', which means trashing from deck, not hand. Should use a deck-trash action or generic 'ForceDiscard' with deck scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[3].target",
+      "description": "Missing target scope specification. Should specify trashing from top of deck, not from hand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "subType": "Dressrosa"
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "target": {
+            "scope": "OwnDeck",
+            "position": "Top"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:40.175Z"
+}

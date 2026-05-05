@@ -1,0 +1,40 @@
+{
+  "id": "OP07-019",
+  "name": "Jewelry Bonney",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's attack), not 'OnAttacked' (when your card is attacked)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope should be 'ChooseOpponentCharacterOrLeader' (rest opponent's cards), not 'ChooseOwnCharacterOrLeader' (rest your own cards)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Your Opponent's Attack] [Once Per Turn] ➀ (You may rest the specified number of DON!! cards in your cost area.): Rest up to 1 of your opponent's Leader or Character cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacterOrLeader",
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:50.443Z"
+}

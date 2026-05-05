@@ -1,0 +1,38 @@
+{
+  "id": "OP15-019",
+  "name": "Barrier Bulls",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely incorrect. Card text says 'your Leader gains +1000 power until the end of your opponent's next End Phase' but DSL shows PowerBoost with amount=-4000 (negative, wrong direction) targeting opponent's character (wrong target) with duration EndOfTurn (wrong duration). Should target your own Leader, boost +1000, and use DuringOpponentTurn duration."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'Trigger' is invalid and unclear. The power boost should either be part of the OnPlay effect chain or have a clear game trigger. Based on card text, it should be part of OnPlay effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "YourLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:23:24.035Z"
+}

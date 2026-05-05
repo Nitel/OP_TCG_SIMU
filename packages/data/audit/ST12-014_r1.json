@@ -1,0 +1,50 @@
+{
+  "id": "ST12-014_r1",
+  "name": "Duval",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is SearchDeck (which draws/adds to hand), but card text says 'Look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order' — this is a deck manipulation/reordering effect, not a search. SearchDeck is incorrect; no standard action properly captures 'look and reorder' without drawing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second effect: [Blocker] keyword and its associated mechanic (opponent declares attack → may rest this card to make it new target) is completely absent from DSL."
+    }
+  ],
+  "suggestedDsl": {
+    "cardName": "ST12-014_r1",
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[On Play] Look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "description": "Blocker effect: rest this card to redirect attack"
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Any"
+            },
+            "destination": "deck",
+            "count": 3,
+            "note": "Look at top 3 and reorder to top or bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:40:03.940Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP08-010",
+  "name": "Hiking Bear",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must specify {Animal} type filter and exclude self. Current target lacks type restriction and exclusion logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'during this turn' which means DuringYourTurn, not EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filters": {
+                "hasType": "Animal",
+                "excludeSelf": true
+              },
+              "maxTargets": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:12:19.588Z"
+}

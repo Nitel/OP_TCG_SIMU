@@ -1,0 +1,46 @@
+{
+  "id": "OP02-051",
+  "name": "Emporio.Ivankov",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "DrawCard action has fixed count of 3, but the effect text says 'Draw card(s) so that you have 3 cards in your hand' which means draw up to 3 cards (variable amount based on current hand size). This is a conditional draw to reach exactly 3 cards, not a fixed draw of 3 cards.",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "minor",
+      "description": "PlayFromHand action is missing the 'upTo' field set to 1, as the text says 'play up to 1' which makes it optional.",
+      "field": "effects[0].actions[1].upTo"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "upTo": 3,
+            "condition": {
+              "type": "HandCount",
+              "targetCount": 3
+            }
+          },
+          {
+            "type": "PlayFromHand",
+            "upTo": 1,
+            "filter": {
+              "color": "Blue",
+              "subType": "Impel Down",
+              "cardType": "Character",
+              "maxCost": 6
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:32.230Z"
+}

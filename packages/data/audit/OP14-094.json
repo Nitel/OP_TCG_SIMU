@@ -1,0 +1,52 @@
+{
+  "id": "OP14-094",
+  "name": "Mr.5(Gem)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'If there is a Character with a cost of 0 or with a cost of 8 or more' should be represented as a condition checking board state. Current DSL has no conditions, making the draw unconditional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'trash 1 card from your hand' is specified in card text but not represented in DSL. Only DrawCard is present."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "type": "Character",
+            "costCondition": "OR",
+            "costs": [
+              0,
+              8,
+              9,
+              10,
+              11,
+              12
+            ]
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "Hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:17:25.312Z"
+}

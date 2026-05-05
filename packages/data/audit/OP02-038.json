@@ -1,0 +1,32 @@
+{
+  "id": "OP02-038",
+  "name": "Nekomamushi",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The card has [Blocker] keyword in effectText but the DSL effects array is empty. The Blocker keyword must be encoded in the DSL.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:28.980Z"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP14-031",
+  "name": "Nami",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'set up to 5 of your DON!! cards as active at the end of this turn' is not represented. Need an action to activate DON!! cards with duration EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should use 'maxCount':2 to represent 'up to 2' targets, not duplicate the action. Current approach lists two separate Rest actions instead of one with a count limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8,
+            "maxCount": 2
+          }
+        },
+        {
+          "type": "ActivateDon",
+          "target": {
+            "scope": "YourDon",
+            "maxCount": 5
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:12:33.363Z"
+}

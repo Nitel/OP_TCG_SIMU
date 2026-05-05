@@ -1,0 +1,53 @@
+{
+  "id": "OP01-041_r1",
+  "name": "Kouzuki Momonosuke",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is incorrect. The card says 'You may rest this Character' as a cost/option, not as an action. The ability should NOT include Rest as an action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck filter is incomplete. Must specify type filter for '{Land of Wano}' type cards, not 'Any'. Should include cardType or similar constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck is missing the 'look' mechanic. Card explicitly states 'Look at 5 cards from the top of your deck; reveal up to 1...' This requires viewing 5 cards and selecting up to 1, then returning others to bottom in any order. Current DSL lacks this nuance."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action for returning non-selected cards to bottom of deck. The card text requires placing the rest at the bottom in any order, which is not represented."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] ➀ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character: Look at 5 cards from the top of your deck; reveal up to 1 {Land of Wano} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "cardType": "Land of Wano"
+            },
+            "count": {
+              "min": 0,
+              "max": 1
+            },
+            "viewCount": 5,
+            "destination": "hand",
+            "remainderDestination": "bottom_of_deck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:31:36.610Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP11-104",
+  "name": "Shirley",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is mandatory in DSL but card text says 'You may' — should be optional/conditional"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck is incomplete: missing filter for {Fish-Man Island} type, missing reveal requirement, missing deck ordering mechanic for remaining 2 cards"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Action sequence incomplete: card text requires (1) flip 1 life (optional), (2) look at top 3, (3) reveal up to 1 Fish-Man Island, (4) add to hand, (5) place remaining cards at top/bottom in any order — DSL only captures partial logic"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Fish-Man Island"
+        },
+        "count": 1,
+        "destination": "hand",
+        "reveal": true,
+        "deckOrdering": "AnyOrder"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:48:08.450Z"
+}

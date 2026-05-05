@@ -1,0 +1,42 @@
+{
+  "id": "OP07-046",
+  "name": "Sengoku",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing specification of deck top position (5 cards), card type filter ({The Seven Warlords of the Sea}), revelation requirement (reveal up to 1), and bottom deck placement logic for remaining cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Action sequence does not capture the multi-step process: (1) look at top 5, (2) reveal up to 1 matching type card to hand, (3) place rest at bottom in any order. Current DSL only attempts a generic SearchDeck."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "The Seven Warlords of the Sea"
+            },
+            "destination": "hand",
+            "deckPosition": "top",
+            "lookQuantity": 5,
+            "revealQuantity": 1,
+            "remaining": "BottomDeck",
+            "remainingOrder": "PlayerChoice"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:50.049Z"
+}

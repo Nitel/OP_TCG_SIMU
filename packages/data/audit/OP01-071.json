@@ -1,0 +1,46 @@
+{
+  "id": "OP01-071",
+  "name": "Jinbe",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' with destination 'hand', but card text says 'place at the bottom of the owner's deck' — should use a deck placement action, not search to hand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination is 'hand' but effect requires placing card at bottom of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' with 'PlaySelf' action is extraneous and not supported by card text — card only has one effect: On Play, search and place"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify 'Character' type, not just cost; text reads 'Character with a cost of 3 or less'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 3,
+            "cardType": "Character"
+          },
+          "destination": "bottomOfDeck",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:03.436Z"
+}

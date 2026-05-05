@@ -1,0 +1,36 @@
+{
+  "id": "OP09-115",
+  "name": "Ice Block Partisan",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action missing required condition filter. KO target must have [Trigger] keyword, but DSL has no condition checking for HasKeyword or similar."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action does not match card text. Official text describes only K.O. effect on play; no draw effect is mentioned."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "hasKeyword": "Trigger"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:30:32.056Z"
+}

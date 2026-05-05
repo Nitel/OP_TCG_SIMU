@@ -1,0 +1,43 @@
+{
+  "id": "EB02-026",
+  "name": "Nefeltari Vivi",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing entire OnPlay effect that should draw 2 cards when leader is multicolored and hand has 5 or less cards",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasAnyType",
+              "types": [
+                "Multicolor"
+              ]
+            },
+            {
+              "type": "HandCount",
+              "operator": "<=",
+              "count": 5
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:37.768Z"
+}

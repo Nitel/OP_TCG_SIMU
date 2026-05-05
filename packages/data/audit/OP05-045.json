@@ -1,0 +1,61 @@
+{
+  "id": "OP05-045",
+  "name": "Stainless",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is incorrect action type. Card text says 'trash 1 card from your hand' as part of activation cost, not an effect action. Should use ForceDiscard or similar, but activation costs should be represented differently in DSL structure."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].type",
+      "description": "PlayFromHand is incorrect. Card effect places a Character 'at the bottom of the owner's deck', not into play. Should be SearchDeck or similar deck-placement action, not PlayFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "Missing condition that this is optional ('up to 1'). Filter should specify maxCost 2 is correct, but action must support optional/0-or-1 targeting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Activation structure incomplete. Should represent 'trash 1 card from hand AND rest this Character' as activation costs, with the deck placement as the effect. Current structure conflates costs with effects."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "maxCost": 2,
+          "type": "Character"
+        },
+        "placement": "BottomOfDeck",
+        "optional": true
+      }
+    ],
+    "costs": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "source": "Hand"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:44.225Z"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "ST23-001",
+  "name": "Uta",
+  "set": "ST-23",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects but DSL effects array is empty. Effect 1: Cost reduction conditional on leader/board state. Effect 2: Blocker keyword. Both must be represented in DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing effect for cost reduction: 'If you have a Character with 10000 power or more, give this card in your hand −4 cost.' Requires condition check and PowerBoost action with negative value."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing Blocker keyword effect. Standard Blocker implementation requires Trigger:OnAttacked, condition to rest card, and action to redirect attack."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have a Character with 10000 power or more, give this card in your hand −4 cost. [Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Character",
+            "power": 10000
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "value": -4,
+            "isMultiplier": false
+          }
+        ],
+        "duration": "Permanent"
+      },
+      {
+        "trigger": "OnAttacked",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:18:27.239Z"
+}

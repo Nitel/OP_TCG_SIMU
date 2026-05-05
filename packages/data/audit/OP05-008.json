@@ -1,0 +1,46 @@
+{
+  "id": "OP05-008",
+  "name": "Chaka",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition requires HasRestingDon count of 1, but card text says 'up to 2 rested DON!!' — condition should check for at least 1 resting DON, or be removed to allow flexibility"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Action specifies count: 2 (fixed), but card text says 'up to 2' — should be variable/optional, not guaranteed 2"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is 'ChooseOwnCharacter' only, but card text permits 'your Leader or 1 of your Characters' — target should allow Leader as an option"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Activate: Main] [Once Per Turn] Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": "UpTo2",
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter"
+            }
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:49.752Z"
+}

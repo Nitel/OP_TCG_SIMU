@@ -1,0 +1,27 @@
+{
+  "id": "OP04-110",
+  "name": "Pound",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'AddLife' is incorrect. The effect adds opponent's Characters to opponent's Life cards (not a life gain). This requires a custom action or should be 'FlipLife' with proper targeting. Standard actions cannot express 'move Character to Life cards face-up'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Missing target specification. Must specify: target opponent's Characters with cost ≤ 3, and specify whether adding to top or bottom of Life cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition. Effect should have condition to limit selection to opponent's Characters with cost 3 or less (e.g., 'HasCost' or custom cost filter)."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "This effect cannot be accurately expressed with standard OPTCG DSL actions. 'AddLife' adds life totals, not Characters to Life cards. A custom action or extension is needed to represent 'move opponent Character to opponent's Life cards (face-up)'. Recommend flagging for manual implementation or DSL expansion."
+  },
+  "auditedAt": "2026-05-05T09:38:40.096Z"
+}

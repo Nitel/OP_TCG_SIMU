@@ -1,0 +1,31 @@
+{
+  "id": "OP08-042",
+  "name": "Edward Weevil",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].target.scope",
+      "description": "Target should be 'ChooseCharacter' (your own characters), not 'ChooseOpponentCharacter'. Card returns a Character to owner's hand, which means your own Character on board."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 3,
+          "maxTargets": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:27:24.690Z"
+}

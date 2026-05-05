@@ -1,0 +1,42 @@
+{
+  "id": "OP14-068",
+  "name": "Trebol",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card text describes a triggered effect with conditions, but effects array is empty. Must include OnPlay/trigger logic for DON!! return interaction."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Text states '[Opponent's Turn]' which requires duration:'DuringOpponentTurn', not Permanent or EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Opponent's Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, if your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Donquixote Pirates"
+        },
+        "duration": "DuringOpponentTurn",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "value": 1,
+            "source": "DonDeck",
+            "modifiers": [
+              "Rest"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:15:22.671Z"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "OP09-085",
+  "name": "Gecko Moria",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an [On Play] trigger with a play action from trash, but effects array is empty. Must include trigger, condition, and action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "target": "Trash",
+          "amount": 1,
+          "restrictions": {
+            "cardType": "Thriller Bark Pirates",
+            "maxCost": 2
+          },
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:28:12.231Z"
+}

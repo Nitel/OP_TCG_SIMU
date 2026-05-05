@@ -1,0 +1,54 @@
+{
+  "id": "OP12-069",
+  "name": "Crocodile",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent attacks you), not 'OnAttacked'. 'OnAttacked' implies your card was attacked."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for 'Baroque Works' card on board, but effect requires Leader's type to include 'Baroque Works'. Should use 'LeaderHasType' condition with value 'Baroque Works'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (opponent's attack), not 'EndOfBattle'. Text states 'during this battle' which occurs on opponent's turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "'Once Per Turn' limiter not encoded in DSL. Should add 'limitation' field if DSL supports it, or note as missing metadata."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP12-069",
+    "effectText": "[On Your Opponent's Attack] [Once Per Turn] DON!! −1: If your Leader's type includes \"Baroque Works\", up to 1 of your Leader or Character cards gains +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Baroque Works"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ],
+        "limitation": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:54:36.265Z"
+}

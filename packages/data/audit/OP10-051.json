@@ -1,0 +1,45 @@
+{
+  "id": "OP10-051",
+  "name": "Hack",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card states '[When Attacking]' which is an attack trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence is incomplete. Should include: (1) look at 3 cards from deck, (2) reveal up to 1 Revolutionary Army Character, (3) add to hand, (4) place rest at bottom in any order. Current DSL only has basic SearchDeck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify 'Revolutionary Army' type Characters. The effect restricts to this type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not capture the 'look at 3 cards' mechanic and the requirement to place non-selected cards at bottom. This needs a more complex action structure or multiple actions to represent the full effect."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Character",
+          "hasType": "Revolutionary Army"
+        },
+        "lookAtAmount": 3,
+        "selectUpTo": 1,
+        "destination": "hand",
+        "restToBottom": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:48.698Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "ST05-005",
+  "name": "Carina",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition check: 'If your opponent has more DON!! cards on their field than you' must be a condition before actions execute. Current DSL has no condition structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is correct, but the conditional logic ('If opponent has more DON') should wrap the entire effect, not just follow the Rest action."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST05-005",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "OpponentHasMoreDon"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "FILM"
+            },
+            "count": 1
+          },
+          {
+            "type": "GiveDon",
+            "count": 2,
+            "rest": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:59:03.549Z"
+}

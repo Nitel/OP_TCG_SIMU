@@ -1,0 +1,44 @@
+{
+  "id": "OP04-034",
+  "name": "Lao.G",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'Activated'. Text says '[End of Your Turn]' which is an end-of-turn trigger, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' not 'HasRestingDon'. The text refers to 'active DON!! cards' (attached to this character), not rested DON cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify that the character must be 'rested'. Current target only filters by cost but misses the rested requirement stated in the text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "isRested": true
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:01.913Z"
+}

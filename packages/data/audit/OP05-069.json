@@ -1,0 +1,50 @@
+{
+  "id": "OP05-069",
+  "name": "Trafalgar Law",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing condition: 'If your opponent has more DON!! cards on their field than you' — should be a comparison condition (not present in DSL spec, but core to effect logic). Current 'Always' is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) look at 5 cards (limit), (2) filter for {Heart Pirates} type, (3) reveal up to 1 card, (4) place rest at bottom of deck in any order. Current filter is 'Any' instead of type-based."
+    },
+    {
+      "severity": "major",
+      "field": "actions",
+      "description": "Action sequence incomplete. Effect requires: SearchDeck (with reveal + filter), then placement of remaining cards. Only single SearchDeck present; no secondary placement action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "OpponentHasMore"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Heart Pirates"
+          },
+          "limit": 1,
+          "destination": "hand",
+          "reveal": true
+        },
+        {
+          "type": "ArrangeDeck",
+          "position": "bottom",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:49:30.932Z"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "ST10-003",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "ST-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing first effect entirely. Card text states '[Your Turn] If you have 4 or more Life cards, give this Leader −1000 power.' This requires a StartOfTurn trigger with condition HasLife (4+) and PowerBoost action of -1000. Currently only OnAttack effect is present."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "OnAttack effect missing cost condition. Card text specifies 'DON!! −1' as a cost (optional activation with 'You may'). This should be represented as a condition or cost modifier, not just a bare power boost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 4,
+          "comparison": ">="
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:53.446Z"
+}

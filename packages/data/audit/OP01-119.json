@@ -1,0 +1,59 @@
+{
+  "id": "OP01-119",
+  "name": "Thunder Bagua",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Counter trigger should have a condition checking Life cards ≤ 2 before executing any actions. Currently, the power boost executes unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect uses 'Trigger' but should be part of the same Counter effect. The GiveDon and Rest actions are conditional consequences of the same counter, not separate triggers."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "GiveDon action is missing the Rest duration/consequence. Card text states 'add... and rest it' — the DON!! must be added in a resting state."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "'EndOfBattle' is acceptable but 'DuringBattle' may be more precise for counter damage mitigation effects."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP01-119",
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, if you have 2 or less Life cards, add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringBattle"
+          },
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "restAfter": true,
+            "condition": {
+              "type": "TrashCount",
+              "operator": "<=",
+              "value": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:20.357Z"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP01-015",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The card effect says 'you may trash 1 card from your hand' as a cost/condition, not a primary action. The primary action is 'Add up to 1 {Straw Hat Crew} type Character card...from your trash to your hand', which should use 'PlayFromHand' or a hand retrieval action targeting trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. The effect retrieves from trash, not deck. Should use a trash-to-hand retrieval action (likely a custom action or 'PlayFromHand' with trash source)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "Filter is incomplete/wrong. Must specify: type='{Straw Hat Crew}', kind='Character', cost≤4, and exclude '[Tony Tony Chopper]'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect structure should reflect optional nature ('may trash'). Current structure doesn't capture the conditional trashing cost properly."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-015",
+    "effectText": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony Chopper] with a cost of 4 or less from your trash to your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "optional": true,
+            "source": "hand",
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "count": 1,
+                "source": "trash",
+                "destination": "hand",
+                "filter": {
+                  "type": "{Straw Hat Crew}",
+                  "kind": "Character",
+                  "maxCost": 4,
+                  "excludeName": "[Tony Tony Chopper]"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:33.461Z"
+}

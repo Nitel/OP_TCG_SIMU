@@ -1,0 +1,33 @@
+{
+  "id": "OP07-040",
+  "name": "Crocodile",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but card text says 'Return up to 1 Character' with no player restriction. Should be 'ChooseCharacter' to allow targeting any character (yours or opponent's)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for the cost requirement. Effect requires '① (You may rest the specified number of DON!! cards in your cost area)' which should be represented as a cost condition or payment mechanic. Current DSL has no representation of the optional DON payment."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 2,
+          "maxAmount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:23.632Z"
+}

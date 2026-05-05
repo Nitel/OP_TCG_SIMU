@@ -1,0 +1,25 @@
+{
+  "id": "OP09-109",
+  "name": "Jaguar.D.Saul",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (when opponent declares an attack), not generic 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' (to rest this card as blocker), not 'PlaySelf'. Blocker keyword means this card can be rested to become attack target—no play involved"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL describes card play, not blocker mechanics. Blocker is a static keyword ability that allows resting during opponent's attack declaration—this should be represented as a keyword grant or ability, not an effect trigger"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:30:08.920Z"
+}

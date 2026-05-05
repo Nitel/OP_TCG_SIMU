@@ -1,0 +1,45 @@
+{
+  "id": "OP08-103",
+  "name": "Charlotte Custard",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but effect text states 'until the end of your opponent's next turn', which means the boost lasts through the opponent's turn. Should be 'DuringOpponentTurn' or equivalent duration spanning opponent's next turn, not just your turn end."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is missing condition 'You may' - the effect should be conditional/optional. Need to add a condition that makes this action optional or use 'Optional' flag if supported."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "amount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:32:07.176Z"
+}

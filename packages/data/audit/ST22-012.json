@@ -1,0 +1,77 @@
+{
+  "id": "ST22-012",
+  "name": "Marco",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect 1 is missing condition check. 'If this Character would be K.O.'d by your opponent's effect' requires a condition that distinguishes opponent-caused KO. Current DSL has no condition to filter for opponent's effect as source."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should prevent KO (conditional replacement effect), not just trash a card. 'instead' indicates this trashes a card AS AN ALTERNATIVE to being KO'd. Current DSL does not model the prevention mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "RevealFromHand is incorrect. Effect states 'Reveal 1 card from the top of your deck', not hand. Should be a Reveal action from deck, not RevealFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "Filter checks 'subType' but text says 'If that card's type includes \"Whitebeard Pirates\"' — this should check for a type/keyword match, not subType specifically. May need type-based filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is wrong. Text says 'until the end of your opponent's next turn', which is during opponent's turn → should be 'DuringOpponentTurn', not 'EndOfTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "Conditional KO prevention requires custom condition logic not fully expressible in current DSL schema. Suggest revision to support 'OnWouldBeKO' with opponent-source condition and replacement effect.",
+    "suggested": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {}
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": [],
+            "preventKO": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "RevealFromDeck",
+            "count": 1,
+            "filter": {
+              "type": "Whitebeard Pirates"
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 1000,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "DuringOpponentTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:17:22.637Z"
+}

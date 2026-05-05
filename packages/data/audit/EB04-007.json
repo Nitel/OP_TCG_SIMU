@@ -1,0 +1,52 @@
+{
+  "id": "EB04-007",
+  "name": "Roronoa Zoro",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next End Phase), not 'EndOfTurn'. Text states 'until the end of your opponent's next End Phase' which is a future opponent turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition is missing. Effect requires 'If your opponent has a Character with 8000 power or more' — needs a condition checking opponent's board state, not 'Always'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "Opponent",
+        "powerThreshold": 8000
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:20:00.015Z"
+}

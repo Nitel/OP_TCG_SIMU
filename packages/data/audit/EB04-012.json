@@ -1,0 +1,35 @@
+{
+  "id": "EB04-012",
+  "name": "Kikunojo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an activated ability that sets a Land of Wano Leader as active, but DSL effects array is empty. Required: Activated trigger with condition checking if Character was played this turn, action to set Leader as active."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "TurnCount",
+          "value": 0
+        },
+        "actions": [
+          {
+            "type": "SetLeaderActive",
+            "leaderType": "Land of Wano"
+          }
+        ],
+        "duration": "Permanent",
+        "limitations": {
+          "oncePerTurn": true
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:39.164Z"
+}

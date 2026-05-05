@@ -1,0 +1,40 @@
+{
+  "id": "OP03-113",
+  "name": "Charlotte Perospero",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "OnKO effect uses wrong action type. Official text requires looking at top 3 cards and revealing up to 1 {Big Mom Pirates} type card to add to hand, then placing the rest at bottom of deck. DSL uses generic SearchDeck without specifying the 3-card look, type filter, or bottom-of-deck placement.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect with Trigger trigger does not exist in the official effect text. The card only has an [On K.O.] effect, not a [Trigger] effect.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookCount": 3,
+            "filter": {
+              "kind": "Type",
+              "value": "Big Mom Pirates"
+            },
+            "revealCount": 1,
+            "selectCount": 1,
+            "destination": "hand",
+            "remainderDestination": "bottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:58.959Z"
+}

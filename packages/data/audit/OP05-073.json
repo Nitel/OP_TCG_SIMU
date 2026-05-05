@@ -1,0 +1,50 @@
+{
+  "id": "OP05-073",
+  "name": "Miss Doublefinger(Zala)",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing 'optional' flag. Text says 'You may trash' indicating optional action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have optional:true since effect is conditional on trashing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "GiveDon action is incomplete. Missing 'rest:true' parameter. Card text explicitly states 'rest it'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is entirely wrong. Text does not describe a trigger condition for playing self. The 'rest it' is part of the same On Play effect, not a separate Trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "optional": true,
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1,
+              "rest": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:49:49.717Z"
+}

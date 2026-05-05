@@ -1,0 +1,48 @@
+{
+  "id": "OP14-082",
+  "name": "Oinkchuck",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect 1: Trigger is 'OnKO' but should be scoped to only {Thriller Bark Pirates} type Characters. The DSL lacks a target filter for card type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'AllOwnCharacters' is too broad. Should filter for type 'Thriller Bark Pirates' only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but card text says 'until the end of your opponent's next End Phase', which requires 'DuringOpponentTurn' (not a simple EndOfTurn). This is a major duration violation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Effect 2: This 'Trigger' with 'SearchDeck' action is completely absent from the card text. Should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "kind": "ByType",
+              "type": "Thriller Bark Pirates"
+            }
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:16:32.169Z"
+}

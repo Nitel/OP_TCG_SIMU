@@ -1,0 +1,70 @@
+{
+  "id": "OP08-079",
+  "name": "Kaido",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'TurnCount' with min:0 does not capture the requirement 'If this Character was played on this turn'. Should use a condition that checks if Character was played this turn, or add a nested condition checking play status."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action should allow optional trashing ('You may trash 1 card'). Current structure forces the trash. Optional actions should be wrapped or flagged as optional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' with maxCost:7 is correct, but the action should be 'up to 1' (optional selection). Current structure treats it as mandatory."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "The sequence should clarify that KO only triggers 'If this Character was played on this turn' - this conditional gate is missing from the second action onwards."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 7
+                },
+                "count": 1,
+                "optional": true,
+                "condition": {
+                  "type": "PlayedThisTurn"
+                }
+              },
+              {
+                "type": "ForceDiscard",
+                "target": {
+                  "scope": "Opponent"
+                },
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:30:17.403Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP14-075",
+  "name": "Lao.G",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is missing the 'rest' effect. Card text specifies 'Add up to 1 DON!! card from your DON!! deck and rest it' — the rest operation must be included as part of or following the GiveDon action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text says 'during this turn' which means the power reduction lasts for the current turn only, not until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP14-075",
+    "effectText": "[On K.O.] Add up to 1 DON!! card from your DON!! deck and rest it. Then, give up to 1 of your opponent's Characters −2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rest": true
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:15:52.317Z"
+}

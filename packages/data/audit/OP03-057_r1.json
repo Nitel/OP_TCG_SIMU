@@ -1,0 +1,33 @@
+{
+  "id": "OP03-057_r1",
+  "name": "Three Thousand Worlds",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a Main card ability but effects array is empty. Should contain an Activated trigger with SearchDeck action to place a Character card with cost ≤5 at bottom of deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": "Character",
+            "cardProperty": "cost",
+            "cardPropertyValue": 5,
+            "cardPropertyCondition": "LessThanOrEqual",
+            "quantity": 1,
+            "placement": "Bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:22.848Z"
+}

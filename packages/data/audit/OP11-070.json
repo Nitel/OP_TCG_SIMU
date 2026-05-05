@@ -1,0 +1,68 @@
+{
+  "id": "OP11-070",
+  "name": "Charlotte Pudding",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing entire second effect: [Activate: Main] DON!! −1, You may rest this Character: Look at 1 card from the top of your opponent's deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is incomplete. Must specify: kind='ByType', type='BigMomPirates' AND kind='ByCost', minCost=2 (not maxCost=2). Current filter only checks cost ≤2, missing type filter and correct cost direction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not reflect 'Look at 5 cards from top' → 'reveal up to 1' → 'place rest at bottom in any order' workflow. Requires condition/optional reveal logic and deck reordering action not present."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "lookCount": 5,
+          "filter": {
+            "kind": "ByType",
+            "type": "BigMomPirates",
+            "minCost": 2
+          },
+          "selectCount": 1,
+          "destination": "hand",
+          "remaining": "bottom_reorder"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": -1
+        },
+        {
+          "type": "Rest",
+          "target": "self"
+        },
+        {
+          "type": "RevealFromDeck",
+          "count": 1,
+          "source": "opponent",
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:45:30.571Z"
+}

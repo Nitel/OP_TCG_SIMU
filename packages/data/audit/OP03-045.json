@@ -1,0 +1,60 @@
+{
+  "id": "OP03-045",
+  "name": "Carne",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Blocker ability uses OnAttacked trigger, but should use Counter trigger with proper Blocker keyword/mechanic. OnAttacked fires after attack is declared; Counter is the correct trigger for blocking mechanics."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect uses 'Trigger' with Always condition, but text states '[Opponent's Turn]'. Should use trigger that respects opponent's turn timing (e.g., StartOfTurn or similar) with duration 'DuringOpponentTurn', not Permanent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition should be 'TrashCount' (checking deck size: 20 or less cards in deck), not 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration 'Permanent' is incorrect for '[Opponent's Turn]' text. Should be 'DuringOpponentTurn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": "<=",
+        "value": 20
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:59.718Z"
+}

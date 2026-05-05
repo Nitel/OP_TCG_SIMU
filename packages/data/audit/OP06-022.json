@@ -1,0 +1,38 @@
+{
+  "id": "OP06-022",
+  "name": "Yamato",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If your opponent has 3 or less Life cards' is not represented. Should include OpponentLifeCount condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action should specify source as 'rested' DON!! cards. DSL does not distinguish between resting state of source DON cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "comparison": "LessThanOrEqual",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:54:51.222Z"
+}

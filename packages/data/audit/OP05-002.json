@@ -1,0 +1,56 @@
+{
+  "id": "OP05-002",
+  "name": "Belo Betty",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope incomplete: must specify 'Up to 3' limit and include both '{Revolutionary Army} type Characters OR Characters with [Trigger]' in filter. Current scope 'ChooseOwnCharacter' lacks quantity constraint and type/keyword filtering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for '[Your Turn]' context. Text states 'during this turn' which maps to 'DuringYourTurn', not EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-002",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "Revolutionary Army"
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "ChooseOwnCharacter",
+                  "quantity": 3,
+                  "filter": {
+                    "anyOf": [
+                      {
+                        "subType": "Revolutionary Army"
+                      },
+                      {
+                        "hasKeyword": "Trigger"
+                      }
+                    ]
+                  }
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:45:31.317Z"
+}

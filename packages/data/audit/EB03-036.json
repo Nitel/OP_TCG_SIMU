@@ -1,0 +1,36 @@
+{
+  "id": "EB03-036",
+  "name": "Baby 5",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "KO action appears twice as separate array elements. Should be consolidated into a single KO action with maxCount:2 to represent 'up to 2' characters. Current DSL forces exactly 2 KOs; effect text allows 0-2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasRestingDon' with count:1 is incorrect. The effect text 'DON!! −1' indicates a cost/resource requirement (returning 1 DON!! to deck), not a conditional check. This should use 'HasAttachedDon' with count:1, or the DSL format may require a different condition structure for optional costs."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 2
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:15.382Z"
+}

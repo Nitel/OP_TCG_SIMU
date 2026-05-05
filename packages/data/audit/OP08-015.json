@@ -1,0 +1,45 @@
+{
+  "id": "OP08-015",
+  "name": "Dr.Kureha",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) look/reveal mechanic for 4 cards from top, (2) filter constraints (Tony Tony.Chopper OR Drum Kingdom type, excluding Dr.Kureha), (3) 'up to 1' limit, (4) bottom deck placement of remaining cards in any order"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify: cardName contains 'Tony Tony.Chopper' OR cardType contains 'Drum Kingdom', AND NOT cardName 'Dr.Kureha'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "NameOrType",
+          "names": [
+            "Tony Tony.Chopper"
+          ],
+          "types": [
+            "Drum Kingdom"
+          ],
+          "exclude": [
+            "Dr.Kureha"
+          ]
+        },
+        "count": {
+          "type": "UpTo",
+          "value": 1
+        },
+        "destination": "hand",
+        "remainingPlacement": "BottomDeckAnyOrder"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:21:00.533Z"
+}

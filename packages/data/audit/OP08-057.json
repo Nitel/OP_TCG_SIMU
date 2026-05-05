@@ -1,0 +1,62 @@
+{
+  "id": "OP08-057",
+  "name": "King",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "First effect missing condition 'HasCardOnBoard' (hand ≤5 cards). Should check hand count before allowing draw."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Second effect uses Rest action, but card text specifies '−2 cost during this turn' which is a PowerBoost (negative modifier), not Rest. Should be PowerBoost with modifier:-2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Missing duration:'DuringYourTurn' for the −2 cost effect ('during this turn' = turn-scoped, not permanent)."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target",
+      "description": "Target specifies 'ChooseOpponentCharacter' but card says 'up to 1', implying optional selection. Confirm target structure supports 'up to' semantics."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "condition": {
+        "type": "TrashCount",
+        "operator": "<=",
+        "value": 5
+      }
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "amount": 1
+          },
+          "modifier": -2,
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T10:28:35.314Z"
+}

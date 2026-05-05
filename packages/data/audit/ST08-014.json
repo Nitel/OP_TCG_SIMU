@@ -1,0 +1,45 @@
+{
+  "id": "ST08-014",
+  "name": "Gum-Gum Bell",
+  "set": "ST-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife should be optional (\"You may add\"), but DSL shows mandatory action. Should use conditional or optional wrapper."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is \"EndOfTurn\" but text says \"during this turn\" — should be \"DuringYourTurn\" per duration rules."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (SearchDeck for Black Character) has no basis in card text. Card only mentions choosing opponent's Characters to reduce cost — this effect should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -7000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:03:28.337Z"
+}

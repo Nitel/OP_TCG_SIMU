@@ -1,0 +1,44 @@
+{
+  "id": "OP04-033",
+  "name": "Machvise",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second action uses 'GiveDon' but card text says 'set up to 1 of your DON!! cards as active at the end of this turn'. This should be 'SetActive' or equivalent action to flip DON cards active, not grant new DON. Also missing duration constraint: 'at the end of this turn' requires duration:'EndOfTurn' or similar delayed timing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Action must execute 'at the end of this turn' per card text. Current DSL lacks timing/duration specification for the SetActive action."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Donquixote Pirates"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      },
+      {
+        "type": "SetActive",
+        "target": {
+          "scope": "YourDONCards",
+          "maxCount": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:01.997Z"
+}

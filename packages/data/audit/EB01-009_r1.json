@@ -1,0 +1,50 @@
+{
+  "id": "EB01-009_r1",
+  "name": "Just Shut Up and Come with Us!!!!",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) looking at top 5 cards, (2) filtering for Animal type AND cost ≤3, (3) playing up to 1 card, (4) placing rest at bottom in any order. Current DSL only searches by cost and lacks type filter, card limit (up to 1), and deck management for remaining cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type constraint. Should filter for {Animal} type characters in addition to cost constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'maxResults' or equivalent to enforce 'up to 1' card limit on play action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action to handle remaining cards (place at bottom of deck in any order). Current DSL only plays cards and doesn't manage non-selected cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByTypeAndCost",
+            "type": "Animal",
+            "maxCost": 3
+          },
+          "maxResults": 1,
+          "destination": "board"
+        },
+        {
+          "type": "OrderDeckBottom",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:40:10.010Z"
+}

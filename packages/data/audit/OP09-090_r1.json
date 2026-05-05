@@ -1,0 +1,47 @@
+{
+  "id": "OP09-090_r1",
+  "name": "Doc Q",
+  "set": "ST-27",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' for Blackbeard Pirates type, but card text says 'If your Leader has the {Blackbeard Pirates} type'. Should use 'LeaderHasType' condition instead."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incomplete. Must specify 'maxCost:1' constraint, but also needs clarity on selection semantics. Should be 'ChooseOpponentCharacter' with explicit cost constraint in target definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:22:15.587Z"
+}

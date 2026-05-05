@@ -1,0 +1,49 @@
+{
+  "id": "OP06-078_r1",
+  "name": "GERMA 66",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete: missing 'count' parameter (should be 5 cards to look at), missing 'filter' logic for type GERMA exclusion of [GERMA 66], and missing the card placement instruction (rest go to bottom in any order)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger + DrawCard) is incorrect and unrelated to card text; effect should not exist. The ability has no trigger condition after the main action—this appears to be erroneous DSL"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck should include detailed filter: type includes 'GERMA' AND card name is not '[GERMA 66]', with count limit of 1 reveal and 'up to' logic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing action for placing remaining 4 cards at bottom of deck in any order (requires secondary action or extended SearchDeck with placement destination)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "filter": {
+            "kind": "Any",
+            "typeIncludes": "GERMA",
+            "excludeName": "[GERMA 66]"
+          },
+          "revealUpTo": 1,
+          "destination": "hand",
+          "restDestination": "bottomOfDeck",
+          "restOrder": "any"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:43:38.661Z"
+}

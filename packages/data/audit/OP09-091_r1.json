@@ -1,0 +1,29 @@
+{
+  "id": "OP09-091_r1",
+  "name": "Vasco Shot",
+  "set": "ST-27",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from DSL. The card has [Blocker] in its text but effects array is empty. Blocker should be represented as a triggered ability (OnAttacked trigger) that allows resting this card to redirect an attack."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:23.501Z"
+}

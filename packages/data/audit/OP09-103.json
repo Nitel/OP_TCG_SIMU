@@ -1,0 +1,47 @@
+{
+  "id": "OP09-103",
+  "name": "Koala",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect. The effect says 'add 1 card from the top or bottom of your Life cards to your hand', which is TakeLifeToHand (legacy alias for FlipLife), but FlipLife means flipping a Life card face-up/down. The correct action should be to retrieve a Life card into hand. However, the DSL uses 'FlipLife' which is a legacy alias—this is acceptable per legacy rules, but the intent here is actually AddToHand from Life cards, not flip. This should be clarified or use proper Life-to-hand mechanic if available."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "The condition 'You may' makes the entire sequence optional. The DSL structure does not reflect the optionality—it should include a condition or optional flag. Additionally, the 'If you do' clause on DrawCard means the draw only happens if a Character was actually played, but the DSL treats it as unconditional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "DrawCard action is unconditional in DSL but card text says 'If you do, draw 1 card'—the draw should only trigger if PlayFromHand actually resolved (i.e., a Character was played). Needs conditional logic or chaining."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Revolutionary Army",
+          "maxCost": 4
+        },
+        "optional": true
+      },
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "condition": "OnlyIfPreviousActionResolved"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:29:43.710Z"
+}

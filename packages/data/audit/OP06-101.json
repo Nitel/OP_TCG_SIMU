@@ -1,0 +1,38 @@
+{
+  "id": "OP06-101",
+  "name": "O-Nami",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'. These are semantically different in OPTCG DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely fabricated. Card text only describes the [Banish] keyword effect. There is no second trigger or KO action in the official text. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Up to 1 of your Leader or Character cards gains [Banish] during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Banish",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:53.610Z"
+}

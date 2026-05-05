@@ -1,0 +1,60 @@
+{
+  "id": "OP06-103_r1",
+  "name": "Kawamatsu",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Trigger should be 'OnAttack' but action logic is fundamentally wrong. The effect requires trashing 2 cards from hand as a cost, then conditionally adding 1 Character with 0 power to Life cards. Current DSL trashes from wrong source and has no Character selection logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand filter is wrong: should trash any card type (not just Characters). The effect says 'trash 2 cards from your hand' with no restriction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "FlipLife is incorrect action. Should be a custom action or sequence that searches for Characters with 0 power on board and adds them to top/bottom of Life cards. 'FlipLife' converts Life cards to hand, not the intended effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing 'optional' flag. Text says 'You may trash 2 cards', indicating this is optional."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (PlaySelf) is spurious and unrelated to card text. Must be removed."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] You may trash 2 cards from your hand: Add up to 1 of your Characters with 0 power to the top or bottom of the owner's Life cards face-up.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "optional": true,
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 2,
+            "thenActions": [
+              {
+                "type": "AddCharacterToLifeCards",
+                "filter": {
+                  "power": 0,
+                  "controlledBy": "self"
+                },
+                "count": 1,
+                "position": "TopOrBottom"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:23:12.212Z"
+}

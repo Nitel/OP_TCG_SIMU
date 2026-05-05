@@ -1,0 +1,52 @@
+{
+  "id": "OP14-077",
+  "name": "Penta-Chromatic String",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL missing second action: conditional DON!! attachment. Card text states 'Then, if your opponent has a Character with 6000 power or more, add up to 1 DON!! card from your DON!! deck and rest it.' Current DSL only contains PowerBoost action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing conditional action with AttachDon type, condition checking opponent's highest character power ≥6000, and rest effect on attached DON!!."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "AttachDon",
+          "amount": 1,
+          "source": "Deck",
+          "condition": {
+            "type": "OpponentHasCharacterWithPowerOrMore",
+            "power": 6000
+          },
+          "effects": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "AttachedDon"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:16:02.923Z"
+}

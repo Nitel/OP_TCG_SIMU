@@ -1,0 +1,48 @@
+{
+  "id": "OP14-087",
+  "name": "Miss.Valentine(Mikita)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check LeaderHasType 'Baroque Works', not HasCardOnBoard 'Leader'. The effect triggers if your Leader's type includes 'Baroque Works'."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "SearchDeck action is incomplete. Must specify: (1) look at top 4 cards, (2) reveal up to 1 'Baroque Works' card excluding 'Miss.Valentine(Mikita)', (3) add to hand, (4) trash the rest. Current DSL only searches by name 'Baroque Works', which is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL structure cannot properly express the complex search: 'look at 4 cards, filter by type containing Baroque Works (excluding Miss.Valentine), choose up to 1, add to hand, trash rest'. Standard SearchDeck action is insufficient for this multi-step conditional logic."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Baroque Works"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Baroque Works",
+          "excludeName": "Miss.Valentine(Mikita)"
+        },
+        "searchCount": 4,
+        "selectCount": {
+          "min": 0,
+          "max": 1
+        },
+        "destination": "hand",
+        "trashRest": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:16:51.259Z"
+}

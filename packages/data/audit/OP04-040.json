@@ -1,0 +1,50 @@
+{
+  "id": "OP04-040",
+  "name": "Queen",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card activates when attacking."
+    },
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing primary requirement: 'total of 4 or less cards in Life area and hand'. Current condition only checks for attached DON, which is not mentioned in the card text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the second conditional action: 'If you have a Character with cost 8 or more, you may add up to 1 card from top of deck to top of Life cards instead of drawing.' Current DSL only includes DrawCard action."
+    },
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "No condition type exists in schema for checking combined card counts across zones (Life area + hand). This requires custom logic or multiple conditions."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardAttribute": "cost",
+      "comparison": ">=",
+      "value": 8
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "source": "DeckTop"
+      }
+    ],
+    "note": "Full implementation requires custom condition for 'total 4 or less in Life+hand' and conditional action selection between DrawCard and FlipLife"
+  },
+  "auditedAt": "2026-05-05T09:37:15.919Z"
+}

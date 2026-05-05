@@ -1,0 +1,55 @@
+{
+  "id": "OP15-109",
+  "name": "Nico Robin",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is missing the source condition. Text states 'You may add 1 card from the top of your Life cards to your hand' — this should be conditional (may), not automatic. Should include condition checking if player chooses to perform this."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck action has wrong destination and filter. Text states 'add up to 1 card from the top of your deck to the top of your Life cards' — destination should be 'lifeCards' not 'hand', and this action should only trigger if leader has {Straw Hat Crew} type. Condition references 'HasCardOnBoard' which is for cards on board; should use 'LeaderHasType' for leader type check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "Condition type is wrong. Should be 'LeaderHasType' with value 'Straw Hat Crew', not 'HasCardOnBoard' with a name parameter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "filter": {
+          "kind": "Any"
+        },
+        "destination": "lifeCards",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Straw Hat Crew"
+        }
+      },
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "filter": {
+          "subType": "Sky Island",
+          "cardType": "Character",
+          "maxCost": 5
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:30:18.431Z"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "EB03-046",
+  "name": "Miss Doublefinger(Zala)",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: '[On Play] If there is a Character with a cost of 0 or with a cost of 8 or more' requires HasCardOnBoard condition with cost filter, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type incorrect: '[On K.O.] Trash 2 cards from the top of your deck' should use ForceDiscard (trash from deck), not TrashFromHand (trash from hand)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If there is a Character with a cost of 0 or with a cost of 8 or more, draw 1 card.\n[On K.O.] Trash 2 cards from the top of your deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cardType": "Character",
+            "costRange": [
+              "0",
+              "8+"
+            ]
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "TopOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:34.321Z"
+}

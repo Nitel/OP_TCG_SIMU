@@ -1,0 +1,50 @@
+{
+  "id": "OP05-094",
+  "name": "Haute Couture Patch★Work",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type is 'Trigger' (undefined); should be 'OnPlay' for Main Phase card"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions are 'DrawCard' and 'TrashFromHand'; card text describes cost reduction and preventing activation. No matching actions present."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing actions: PowerBoost (with cost reduction modifier), Rest or custom action to prevent activation in next Refresh Phase. Current DSL has no relation to card effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Give up to 1 of your opponent's Characters −3 cost during this turn. Then, up to 1 of your opponent's Characters with a cost of 0 will not become active in the next Refresh Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "count": 1,
+            "modifier": -3
+          },
+          {
+            "type": "Rest",
+            "target": "OpponentCharacter",
+            "filter": {
+              "cost": 0
+            },
+            "count": 1,
+            "duration": "UntilNextRefresh"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:51:26.467Z"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "OP13-019",
+  "name": "But Ace Here Said You Deserved It!!",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisTurn' not 'EndOfTurn' — card text says 'during this turn' which means the effect lasts only while resolving this turn's action, not until end of turn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'DuringBattle' — card text specifies 'during this battle' (current battle only)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 4
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringThisTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:59:47.690Z"
+}

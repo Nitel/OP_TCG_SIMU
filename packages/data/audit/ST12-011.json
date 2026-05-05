@@ -1,0 +1,37 @@
+{
+  "id": "ST12-011",
+  "name": "Sanji",
+  "set": "ST-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires 'If you have 5 or less cards in your hand'. Should be TrashCount or hand card count condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the start of your next turn', which means the boost lasts through opponent's turn. Should be 'DuringOpponentTurn' or equivalent persistent duration until next turn starts."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "TrashCount",
+      "comparison": "LessThanOrEqual",
+      "value": 5
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "UntilStartOfNextTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:07:04.974Z"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "EB04-048",
+  "name": "Rob Lucci",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader's type includes 'CP', not if a Character named 'CP' is on board. Should use LeaderHasType:\"CP\" instead of HasCardOnBoard:\"CP\""
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Power boost logic is incomplete. Effect grants +1000 power AND +2 cost per 5 cards in trash. Current DSL only models power; cost modification is missing. Need separate action for cost adjustment or clarify if perTrashedCard represents the 'every 5 cards' scaling"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action type TrashFromHand is incorrect. Card text says 'trash 1 of your Characters' which means trash from board/play area, not from hand. Should be KO or similar board removal, not TrashFromHand"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "CP"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perMultipleCards": {
+            "cardLocation": "Trash",
+            "threshold": 5
+          },
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2,
+          "costModifier": true,
+          "perMultipleCards": {
+            "cardLocation": "Trash",
+            "threshold": 5
+          },
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "filter": {
+            "cardType": "Character",
+            "scope": "Your"
+          },
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:20:52.228Z"
+}

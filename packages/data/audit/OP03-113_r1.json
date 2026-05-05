@@ -1,0 +1,50 @@
+{
+  "id": "OP03-113_r1",
+  "name": "Charlotte Perospero",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete. Card text requires: look at 3 cards, reveal up to 1 Big Mom Pirates type card, add to hand, place rest at bottom in any order. Current DSL only searches for the card without the 'look at 3' mechanic or the 'place rest at bottom' mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (trigger: Trigger) does not match card text at all. Card text contains no discard/trash mechanic or self-play mechanic. This appears to be from a different card entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' with 'Big Mom Pirates' but should filter by card type (ByType). Big Mom Pirates is a card type, not a card name."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-113_r1",
+    "effectText": "[On K.O.] Look at 3 cards from the top of your deck; reveal up to 1 {Big Mom Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "cardTypes": [
+                "Big Mom Pirates"
+              ]
+            },
+            "quantity": {
+              "min": 0,
+              "max": 1
+            },
+            "destination": "hand",
+            "deckLookSize": 3
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:55.236Z"
+}

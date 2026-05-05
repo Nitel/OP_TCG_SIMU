@@ -1,0 +1,20 @@
+{
+  "id": "OP07-103",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "GiveKeyword 'Blocker' with duration 'EndOfTurn' is likely incorrect. Blocker keyword typically should persist until end of opponent's turn or be Permanent. Verify card text for proper duration."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:10:17.954Z"
+}

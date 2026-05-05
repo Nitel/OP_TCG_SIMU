@@ -1,0 +1,81 @@
+{
+  "id": "OP10-112_r1",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect should be optional (You may rest this Character). Rest action should be conditional/optional, not mandatory. Current DSL executes both Rest and RemoveLife unconditionally."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "RemoveLife action is missing the condition that opponent must have 2 or less Life cards. This condition applies only to the second effect, not the first."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger is 'OnAttack' but text states '[End of Your Turn]'. Should be trigger:'EndOfTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].condition",
+      "description": "Second effect needs condition checking opponent Life count (≤2). Current condition is 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First effect structure is wrong. Should be optional ability where resting triggers the discard, not two sequential actions. Needs to model 'You may rest... : Trash...' as a conditional/optional chain."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "thenActions": [
+            {
+              "type": "ForceDiscard",
+              "count": 1,
+              "target": {
+                "scope": "Opponent",
+                "zone": "LifeCards"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "scope": "Opponent",
+        "property": "LifeCount",
+        "comparison": "<=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "Self",
+            "zone": "Hand"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:48:34.284Z"
+}

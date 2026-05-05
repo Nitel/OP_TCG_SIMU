@@ -1,0 +1,31 @@
+{
+  "id": "OP15-091",
+  "name": "Margarita",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Must define [On Play] trigger with action to place opponent's trash card at bottom of owner's deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "OpponentTrash",
+            "quantity": 1,
+            "optional": true,
+            "placement": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:28:56.023Z"
+}

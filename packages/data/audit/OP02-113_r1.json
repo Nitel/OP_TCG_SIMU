@@ -1,0 +1,59 @@
+{
+  "id": "OP02-113_r1",
+  "name": "Helmeppo",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action models cost reduction as PowerBoost with negative amount. DSL has no CostReduction action type; should use a cost mechanic or clarify that −2 cost is being approximated. However, the core issue is that this is not a power boost—it's a cost modifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional logic: the second PowerBoost (−2000 → +2000) is only supposed to trigger IF a Character with cost 0 exists on board after the cost reduction. Current DSL applies it unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Spurious second effect with trigger:'Trigger' and action PlaySelf. Original text contains no recursive play mechanic. This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is 'ChooseOpponentCharacter' but card text says 'up to 1 of your opponent's Characters'—should be explicit that selection is optional (up to 1, not exactly 1). Scope may need clarification or optional flag."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Give up to 1 of your opponent's Characters −2 cost during this turn. Then, if there is a Character with a cost of 0, this Character gains +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "CostReduction",
+            "amount": 2,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "optional": true,
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringBattle",
+            "condition": "HasCardOnBoard(Cost:0)"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:18.141Z"
+}

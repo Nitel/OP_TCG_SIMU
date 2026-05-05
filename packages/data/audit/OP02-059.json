@@ -1,0 +1,43 @@
+{
+  "id": "OP02-059",
+  "name": "Boa Hancock",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action missing 'max' property. Card text says 'trash 1 card' (mandatory), but current structure lacks clarity. Should use 'count':1 for mandatory discard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "TrashFromHand action missing 'max' property. Card text says 'up to 3 cards' (optional), requiring 'max':3 to represent the optional nature of this action."
+    }
+  ],
+  "suggestedDsl": {
+    "id": "OP02-059",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          },
+          {
+            "type": "TrashFromHand",
+            "max": 3,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:18.340Z"
+}

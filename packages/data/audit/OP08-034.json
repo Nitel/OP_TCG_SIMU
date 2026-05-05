@@ -1,0 +1,52 @@
+{
+  "id": "OP08-034",
+  "name": "Wanda",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) condition to look at top 5 cards only, (2) filter for {Minks} type excluding [Wanda], (3) reveal requirement, (4) 'up to 1' quantity limit, (5) action to place remaining cards at bottom of deck in any order. Current DSL captures only partial effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify: type={Minks}, exclude name=[Wanda], and maxCount=1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: placing remaining 4 cards at bottom of deck in any order (requires shuffle/order mechanic not captured)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Minks} type card other than [Wanda] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "deckPosition": "top",
+            "deckPositionCount": 5,
+            "filter": {
+              "kind": "Type",
+              "value": "Minks",
+              "excludeName": "Wanda"
+            },
+            "maxCount": 1,
+            "reveal": true,
+            "destination": "hand"
+          },
+          {
+            "type": "ArrangeBottomOfDeck",
+            "count": 4,
+            "arrangement": "any"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:48.389Z"
+}

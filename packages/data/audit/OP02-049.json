@@ -1,0 +1,39 @@
+{
+  "id": "OP02-049",
+  "name": "Emporio.Ivankov",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn', not 'OnPlay'. Card activates at end of turn, not when played."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing. Should check 'HasCardOnBoard' (to verify card is in play) and hand size equals 0. Current condition 'Always' is incomplete."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration must be 'DuringYourTurn' per text '[End of Your Turn]'. This is a turn-specific trigger, not a permanent effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "HasCardOnBoard"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:02.263Z"
+}

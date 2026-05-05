@@ -1,0 +1,58 @@
+{
+  "id": "OP08-087",
+  "name": "Scratchmen Apoo",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL is missing the Blocker ability entirely. The card has two separate abilities: (1) Blocker passive effect triggered on opponent's attack declaration, and (2) Activate: Main ability. Only the second ability is represented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].amount",
+      "description": "Cost reduction should be represented as -1 (or similar cost unit), not -1000 (power). The effect reduces cost by 1, not power by 1000."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should respect 'up to 1' constraint. Current scope 'ChooseOpponentCharacter' may allow multiple targets. Should include maxTargets: 1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:30:55.705Z"
+}

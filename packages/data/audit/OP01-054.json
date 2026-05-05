@@ -1,0 +1,35 @@
+{
+  "id": "OP01-054",
+  "name": "X.Drake",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope must include 'Rested' condition. Card text specifies 'rested Characters' but DSL only filters by cost. Should use conditional targeting or add rested state requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "conditions": [
+                {
+                  "type": "HasRestingDon"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:31.774Z"
+}

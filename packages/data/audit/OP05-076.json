@@ -1,0 +1,40 @@
+{
+  "id": "OP05-076",
+  "name": "When You're at Sea You Fight against Pirates!!",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) 'count' parameter specifying 'look at 3 cards', (2) 'filter' should specify the three allowed types: {Straw Hat Crew}, {Kid Pirates}, {Heart Pirates}, not 'Any', (3) action sequence missing the 'place rest at bottom' reordering mechanic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL does not capture the full effect: looking at 3 cards, revealing up to 1 matching card to hand, and placing remaining cards at bottom in any order. Current DSL only models the search portion"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": {
+            "kind": "HasAnyType",
+            "types": [
+              "Straw Hat Crew",
+              "Kid Pirates",
+              "Heart Pirates"
+            ]
+          },
+          "destination": "hand",
+          "maxReveal": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:02.972Z"
+}

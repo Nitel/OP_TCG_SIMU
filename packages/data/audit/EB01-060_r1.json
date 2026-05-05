@@ -1,0 +1,52 @@
+{
+  "id": "EB01-060_r1",
+  "name": "Did Someone Say...Kami?",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck is incorrect; should be PlayFromHand or SearchDeck with destination 'hand', then PlayFromHand. The effect plays from hand or trash, not searches deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing cost constraint (≤7). Should include maxCost:7."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "RemoveLife is wrong. Effect says 'trash cards from the top of your Life cards until you have 1 Life card' — this means reduce life to 1, not remove 1 life. Should use FlipLife or equivalent to set life to 1."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with DrawCard and TrashFromHand) has no basis in card text. The Main effect only describes playing Enel and trashing life cards; no draw or discard mechanics exist."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Play up to 1 [Enel] with a cost of 7 or less from your hand or trash. Then, trash cards from the top of your Life cards until you have 1 Life card.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "ByType",
+              "type": "Enel",
+              "maxCost": 7
+            },
+            "count": 1
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:40:50.961Z"
+}

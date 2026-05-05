@@ -1,0 +1,65 @@
+{
+  "id": "OP05-088",
+  "name": "Mansherry",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is SearchDeck but card is fetched from trash, not deck. Should be a hand retrieval action from trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing required constraints: color (black), type (Character), and minCost (3). Current filter only specifies maxCost:5."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing prerequisite actions: Rest this Character AND place 2 cards from trash at bottom of deck. DSL only contains the final search action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for cost payment: costs 1 DON!! to activate (➀)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "minCount": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "self"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "zone": "trash",
+            "count": 2
+          },
+          "destination": "deckBottom"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByCost",
+            "minCost": 3,
+            "maxCost": 5,
+            "color": "black",
+            "type": "Character"
+          },
+          "destination": "hand",
+          "maxCount": 1,
+          "zone": "trash"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:51:00.311Z"
+}

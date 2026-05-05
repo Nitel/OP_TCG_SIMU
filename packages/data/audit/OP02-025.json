@@ -1,0 +1,46 @@
+{
+  "id": "OP02-025",
+  "name": "Kin'emon",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a complex Activate effect that should be represented in DSL with trigger, conditions, and actions for cost reduction mechanic."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": {
+              "count": 1,
+              "comparison": "LessOrEqual",
+              "cardType": "Character"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "NextCharacterPlayedThisTurn",
+            "value": {
+              "keyword": "CostReduction",
+              "amount": 1,
+              "restriction": {
+                "cardType": "Land of Wano",
+                "costMin": 3
+              }
+            }
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:25.342Z"
+}

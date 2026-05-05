@@ -1,0 +1,58 @@
+{
+  "id": "EB02-023",
+  "name": "Crocodile",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger: DSL uses 'OnAttack' but the effect triggers when opponent's Character is returned to hand by your effect, not when attacking",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong action type: DSL uses 'SearchDeck' with destination 'hand', but the effect should look at top 3 cards and reorder them on top/bottom of deck, not add to hand",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition: Effect has '[Your Turn]' timing restriction which should be duration 'DuringYourTurn'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition: Effect has '[Once Per Turn]' restriction which is not present in DSL",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing filter specification: Effect should only trigger when opponent's Character is returned to hand by your effect",
+      "field": "effects[0].actions[0].filter"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "filter": {
+              "kind": "Any"
+            },
+            "destination": "deck",
+            "reorder": true
+          }
+        ],
+        "duration": "DuringYourTurn",
+        "oncePerTurn": true,
+        "activationCondition": "OpponentCharacterReturnedToHandByYourEffect"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:29.089Z"
+}

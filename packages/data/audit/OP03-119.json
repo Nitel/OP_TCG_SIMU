@@ -1,0 +1,42 @@
+{
+  "id": "OP03-119",
+  "name": "Buzz Cut Mochi",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have less Life cards than your opponent' must be encoded as a condition checking Life differential. Current condition is 'Always', which ignores the life requirement entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is 'ChooseOpponentCharacter' but card text says 'K.O. up to 1' — this should use 'maxTargets':1 or similar constraint. Current DSL doesn't express the 'up to 1' limit clearly."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (trigger:'Trigger' with PlayFromHand) has no trigger event specified and no condition. This appears to be fabricated — the card text contains no secondary effect allowing Character plays from hand. Remove this effect entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasFewerLifeThanOpponent"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxTargets": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:02.404Z"
+}

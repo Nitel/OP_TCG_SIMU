@@ -1,0 +1,66 @@
+{
+  "id": "OP10-020",
+  "name": "Gum-Gum UFO",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "First effect should have condition Always (no condition stated for initial power reduction), but second effect requires condition 'HasLifeCount' with value ≤2, not a separate trigger"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second action (conditional +1000 power) is incorrectly placed in same effect; must be separate effect with condition 'HasLifeCount' type with maxCount:2"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and KO action has no basis in card text; should be removed entirely"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for \"during this turn\" effect, but must clarify this is DuringYourTurn context"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasLifeCount",
+        "maxCount": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:32:23.010Z"
+}

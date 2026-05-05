@@ -1,0 +1,43 @@
+{
+  "id": "OP12-079",
+  "name": "Luffy Is the Man Who Will Be King of the Pirates!!!",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' (Sanji in play), but card text says 'If your Leader is [Sanji]' — should use 'LeaderIsName' condition type"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action does not capture the 'look at 3 cards from top' mechanic — must specify lookCount:3 and allow selective placement of remainder at bottom of deck"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'kind:Any' is too broad — should specify 'maxCount:1' to enforce 'up to 1 card' to hand constraint"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Sanji"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookCount": 3,
+        "filter": {
+          "kind": "Any",
+          "maxCount": 1
+        },
+        "destination": "hand",
+        "thenPlaceRest": "bottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:23.299Z"
+}

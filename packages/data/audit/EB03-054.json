@@ -1,0 +1,56 @@
+{
+  "id": "EB03-054",
+  "name": "Nico Robin",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Effect trashes from Life cards, not hand. Should use custom action or clarify target as Life pile."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing conditional logic. Action should only occur if player chooses to trash (optional 'may'). Current DSL shows unconditional trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife is incorrect. Effect adds card from deck to top of Life cards (not flips Life total). Should be custom action or SearchDeck with Life destination."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger with PlaySelf is unexplained and contradicts card text. No self-play mechanic exists in original effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 card from the top of your Life cards: Add up to 1 card from the top of your deck to the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {
+              "source": "Life"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "count": 1,
+                "filter": {},
+                "destination": "LifeTop"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:51.556Z"
+}

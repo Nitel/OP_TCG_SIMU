@@ -1,0 +1,37 @@
+{
+  "id": "OP03-059",
+  "name": "Kaku",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always' not 'HasRestingDon'. The card text shows DON!! cost is optional (You may return...), not a requirement. The HasRestingDon condition makes it mandatory."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is incorrect. Text states 'during this battle' which means the keyword applies for the duration of the battle. Should be 'DuringBattle' or similar battle-scoped duration, not EndOfBattle which implies it expires after battle ends."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:23.275Z"
+}

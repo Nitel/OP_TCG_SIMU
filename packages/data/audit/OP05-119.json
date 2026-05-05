@@ -1,0 +1,78 @@
+{
+  "id": "OP05-119",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second action: 'take an extra turn after this one' is not represented in DSL"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incorrect: should place Characters at bottom of deck, not search deck. Effect text says 'Place all of your Characters except this Character at the bottom of your deck' - this is a KO or ReturnToHand action, not SearchDeck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is wrong: should target 'Characters except this Character', not 'Any'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination wrong: should be 'DeckBottom', not 'board'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect: '[Activate: Main] [Once Per Turn] ➀: Add up to 1 DON!! card from your DON!! deck and set it as active' is completely absent"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "Character",
+            "excludeSelf": true
+          },
+          "destination": "DeckBottom"
+        },
+        {
+          "type": "Trigger",
+          "effect": "ExtraTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "activation": {
+        "cost": "➀",
+        "frequency": "OncePerTurn",
+        "zone": "Main"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "DON",
+            "maxAmount": 1
+          },
+          "destination": "Active"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:21:35.677Z"
+}

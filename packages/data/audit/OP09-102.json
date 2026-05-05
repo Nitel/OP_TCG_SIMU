@@ -1,0 +1,49 @@
+{
+  "id": "OP09-102",
+  "name": "Professor Clover",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing required condition: LeaderIsName 'Nico Robin'. Current condition is 'Always' but effect requires leader check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Effect specifies: look at 3 cards, reveal up to 1 card with [Trigger] keyword, add to hand, then place rest at bottom of deck in any order. Current DSL lacks the complex multi-step logic with card filtering by keyword and deck ordering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify HasKeyword 'Trigger', not 'Any'. Effect explicitly searches for cards with [Trigger] keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP09-102",
+    "effectText": "[On Play] If your Leader is [Nico Robin], look at 3 cards from the top of your deck; reveal up to 1 card with a [Trigger] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "value": "Nico Robin"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "filter": {
+              "kind": "HasKeyword",
+              "value": "Trigger"
+            },
+            "selectCount": "UpTo1",
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:29:38.006Z"
+}

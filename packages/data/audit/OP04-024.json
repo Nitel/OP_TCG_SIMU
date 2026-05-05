@@ -1,0 +1,64 @@
+{
+  "id": "OP04-024",
+  "name": "Sugar",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing first effect entirely. DSL only contains [On Play] effect but card text describes two separate effects: (1) [Opponent's Turn] triggered effect with condition on Leader type, and (2) [On Play] effect. First effect should trigger when opponent plays a Character, check Leader type condition, and rest up to 1 opponent Character, then rest this Character."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Incomplete [On Play] effect. Should rest up to 1 opponent Character with cost 4 or less, but also should rest THIS character after the first effect resolves."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "triggerSource": "Opponent",
+      "triggerCondition": "HasCardType",
+      "triggerConditionParams": {
+        "cardType": "Character"
+      },
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Donquixote Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxAmount": 1
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxAmount": 1,
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:44.075Z"
+}

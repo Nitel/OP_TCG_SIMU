@@ -1,0 +1,35 @@
+{
+  "id": "OP08-114",
+  "name": "S-Hawk",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check 'HasCardOnBoard' or life comparison, not 'HasRestingDon'. Card effect requires 'less Life cards than opponent', which is not directly representable in standard conditions. 'HasRestingDon' with count:1 does not match the life card comparison requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' is incorrect. This is a passive static ability, not an activated ability. Should use 'Trigger' or be represented as a state-based effect. Condition should apply continuously during gameplay."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (TrashFromHand → PlaySelf) does not appear in card text. This effect is extraneous and should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Power boost only addresses one part of the effect. Card also grants protection: 'cannot be K.O.'d in battle by <Slash> attribute cards'. This protection mechanic is completely missing from DSL and requires additional action or keyword to represent."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "The [DON!! x1] cost is present in effect text but not represented in the DSL structure at all. Cost should be documented separately from the effect condition."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:32:57.891Z"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "OP11-116",
+  "name": "Merman Combat Ultramarine",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a Main effect that searches for and adds a Character card to Life cards, but effects array is empty. This is a complete effect implementation missing."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": "Character",
+            "restriction": "cost ≤ 6",
+            "quantity": "up to 1",
+            "destination": "LifeCardsTopOrBottom",
+            "faceUp": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:01.884Z"
+}

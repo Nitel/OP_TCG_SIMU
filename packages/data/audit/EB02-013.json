@@ -1,0 +1,65 @@
+{
+  "id": "EB02-013",
+  "name": "Carrot",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition checks 'HasRestingDon' but should check total DON!! cards on field (resting + active). The text says '3 or more DON!! cards on your field', not specifically resting DON!!.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action missing the 'count' parameter. The effect says 'look at 7 cards from the top of your deck', so it should search/look at 7 cards, not search the entire deck.",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "minor",
+      "description": "SearchDeck filter should be 'ByType' with 'type: Stage' instead of 'ByName'. [Zou] refers to the Stage card type with that name/subtype, and the second action correctly uses subType filter.",
+      "field": "effects[0].actions[0].filter.kind"
+    },
+    {
+      "severity": "minor",
+      "description": "SearchDeck is missing 'revealCount: 1' to encode 'reveal up to 1 [Zou]'",
+      "field": "effects[0].actions[0].revealCount"
+    },
+    {
+      "severity": "minor",
+      "description": "PlayFromHand is missing 'count: 1' to encode 'play up to 1'",
+      "field": "effects[0].actions[1].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 3
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 7,
+            "filter": {
+              "kind": "ByType",
+              "type": "Stage",
+              "subType": "Zou"
+            },
+            "revealCount": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Zou"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:53.205Z"
+}

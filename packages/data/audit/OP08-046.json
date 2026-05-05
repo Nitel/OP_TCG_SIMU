@@ -1,0 +1,66 @@
+{
+  "id": "OP08-046",
+  "name": "Shakuyaku",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (generic/activated effect), not 'OnAttacked'. The card says 'When a Character is removed from the field by your effect' — this is a conditional trigger for character removal, not a direct attack response."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should include 'HasCardOnBoard' to check if opponent has 5+ cards in hand. The condition 'if your opponent has 5 or more cards in their hand' is missing entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'ForceDiscard' but the card text says opponent 'places 1 card from their hand at the bottom of their deck' — this is deck-shuffling behavior, not discard. ForceDiscard implies trash. The correct action should represent returning to deck bottom, which is not a standard action in this DSL. Closest approximation would require custom handling or clarification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Your Turn]' duration constraint. The text begins '[Your Turn]' which means this effect only applies during your turn, requiring duration:'DuringYourTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Once Per Turn]' constraint. The card specifies '[Once Per Turn]' limiting activation frequency."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When a Character is removed from the field by your effect, if your opponent has 5 or more cards in their hand, your opponent places 1 card from their hand at the bottom of their deck. Then, rest this Character.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "count": 5,
+          "player": "opponent",
+          "location": "hand"
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "target": {
+              "scope": "Opponent",
+              "location": "hand"
+            }
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:27:44.991Z"
+}

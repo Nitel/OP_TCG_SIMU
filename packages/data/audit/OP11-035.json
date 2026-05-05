@@ -1,0 +1,87 @@
+{
+  "id": "OP11-035",
+  "name": "Fisher Tiger",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' but the condition 'K.O.'d by your opponent's effect' is missing. Need a condition to filter for opponent-caused KOs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should be 'AttachDon' (rest 1 DON card) with optional/may clause, not 'TrashFromHand'. The sequence is: rest DON → IF you do → play Character."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Structure is wrong. Should be: AttachDon (rest DON) as primary action with conditional, then PlayFromHand only executes if DON was rested. Current structure chains incorrectly."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.subType",
+      "description": "Filter has 'Fish-Man' but card text says '{Fish-Man} or {Merfolk}' — must support both subtypes (union/OR condition)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is non-standard. Should be 'opponent' with appropriate character selection semantics."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "opponent"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "target": {
+            "scope": "self",
+            "filter": {
+              "restingDon": true
+            }
+          },
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "cardType": "Character",
+                "subType": [
+                  "Fish-Man",
+                  "Merfolk"
+                ],
+                "maxCost": 4
+              },
+              "count": 1,
+              "optional": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "opponent",
+            "filter": {
+              "cardType": "Character"
+            }
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:42:50.910Z"
+}

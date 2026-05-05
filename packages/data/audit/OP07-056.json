@@ -1,0 +1,51 @@
+{
+  "id": "OP07-056",
+  "name": "Slave Arrow",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand action is mandatory in DSL but card text says 'You may return' — should be optional. Missing 'optional':true property."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action has no corresponding text in card. Card only describes Counter trigger with conditional return + power boost. This effect is completely fabricated."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope should be 'ChooseOwnLeaderOrCharacter' (1 of your Leader OR Character), not 'ChooseOwnCharacterOrLeader'. Semantics differ in scope naming convention."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] You may return 1 of your Characters with a cost of 2 or more to the owner's hand: Up to 1 of your Leader or Character cards gains +4000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "minCost": 2
+            },
+            "optional": true
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:38.817Z"
+}

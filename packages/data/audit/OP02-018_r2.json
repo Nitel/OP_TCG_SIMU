@@ -1,0 +1,48 @@
+{
+  "id": "OP02-018_r2",
+  "name": "Marco",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence is incorrect. The card text states 'You may trash 1 card... If you have 2 or less Life cards, play this Character card'. This is a conditional chain: trash → then check life condition → then play. Current DSL shows TrashFromHand with thenActions, but missing the life condition check before PlaySelf."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PlaySelf action missing required condition. Must add condition checking 'HasLifeOrLess:2' (you have 2 or less Life cards) before PlaySelf executes."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].type",
+      "description": "PlaySelf should specify 'rested:true' parameter since card is explicitly played rested according to card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "type": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "PlaySelf",
+              "rested": true,
+              "condition": {
+                "type": "LifeCount",
+                "value": 2,
+                "comparison": "LessOrEqual"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:32:33.285Z"
+}

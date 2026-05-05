@@ -1,0 +1,53 @@
+{
+  "id": "OP08-030",
+  "name": "Pedro",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "DSL uses single action array, but card text specifies 'Choose one:' with two mutually exclusive options. Should be two separate effect objects with a choice mechanism, or actions should be wrapped in a choice structure. Current DSL implies both Rest AND KO happen, violating the 'one or the other' logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "First action (Rest) targets 'ChooseOpponentCharacter' but card text specifies 'rest up to 1 of your opponent's DON!! cards' — should target DON cards specifically, not generic characters. Scope/filter is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action (KO) targets 'ChooseOpponentCharacter' but card text specifies 'rested Characters' only. Target must include rested state condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCard",
+            "cardType": "DON",
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "rested": true,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:26:29.468Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP07-031_r1",
+  "name": "Bartolomeo",
+  "set": "ST-24",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'Trigger' (for the conditional effect), not 'OnAttack'. The effect activates when a Character is rested by your effect during your turn, not when you attack."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Missing duration field. Text contains '[Your Turn]', which requires duration:'DuringYourTurn', not a permanent or EndOfTurn effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition is incomplete. Should specify that this is '[Once Per Turn]' and triggers when 'a Character is rested by your effect', not simply 'Always'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "First effect's Rest action is correct mechanically, but the trigger 'OnBlock' with the optional 'may rest' suggests this should allow the player to choose whether to rest. Current DSL doesn't explicitly model the optionality, though OnBlock + Rest is the closest representation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:19:06.540Z"
+}

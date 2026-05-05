@@ -1,0 +1,53 @@
+{
+  "id": "ST17-002",
+  "name": "Trafalgar Law",
+  "set": "ST-17",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks if a card with name 'The Seven Warlords of the Sea' is on board, but the card text specifies 'If your Leader has the {The Seven Warlords of the Sea} type' — this should check the Leader's type, not board presence. Use LeaderHasType condition instead."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "The effect is missing the optional first clause: 'You may return 1 of your Characters to the owner's hand' (without cost restriction). The DSL should represent both the unconditional option and the conditional option with cost restriction."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "The Seven Warlords of the Sea"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:12:43.411Z"
+}

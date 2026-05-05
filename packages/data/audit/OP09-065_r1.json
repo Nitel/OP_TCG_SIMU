@@ -1,0 +1,46 @@
+{
+  "id": "OP09-065_r1",
+  "name": "Sanji",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Rush] during this turn' which indicates duration should be 'DuringYourTurn', not 'EndOfTurn'. These are mechanically different: DuringYourTurn means the effect lasts only while it is your turn, whereas EndOfTurn means it expires at end of turn but persists if somehow your turn isn't ending yet."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing optional cost condition: 'You may return 1 or more DON!! cards from your field to your DON!! deck' is a required precondition for the effect to trigger. This should be represented as a condition or cost structure that is not currently modeled."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action should include optional modifier: 'up to 1' means the player may choose to rest 0 or 1 opponent character, but current DSL does not indicate this is optional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6
+        },
+        "optional": true,
+        "maxTargets": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:46.335Z"
+}

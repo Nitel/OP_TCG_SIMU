@@ -1,0 +1,33 @@
+{
+  "id": "ST03-015",
+  "name": "Sables",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'Trigger' which is incomplete/ambiguous. Main ability should only have OnPlay trigger. If this is meant to be a separate activated ability, it needs a proper trigger (e.g., 'Activated') and should be clearly distinguished in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate effect detected. Both effects perform identical ReturnToHand action with same parameters. The DSL should contain only one effect for this Main ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 7
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:57:22.422Z"
+}

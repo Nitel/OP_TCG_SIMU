@@ -1,0 +1,55 @@
+{
+  "id": "OP07-092",
+  "name": "Joseph",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'RevealFromHand' but card text says 'place 2 cards from your trash at the bottom of your deck' — should be a custom deck placement action or SearchDeck variant, not RevealFromHand. RevealFromHand reveals cards from hand to opponent, not manipulates trash/deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'optional' flag — text says 'You may place', indicating optional effect. Current DSL structure doesn't reflect optionality."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'subType' but should reference cards in trash with type 'CP' (likely a main type or keyword, not subType). Filter scope is also wrong — should target trash, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Conditional action structure is incorrect. The KO should only trigger if player successfully places 2 CP cards; current nesting doesn't clearly enforce this dependency."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "optional": true,
+        "count": 2,
+        "filter": {
+          "scope": "trash",
+          "hasType": "CP"
+        },
+        "placement": "BottomOfDeck",
+        "allowAnyOrder": true,
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxCost": 1
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:09:31.756Z"
+}

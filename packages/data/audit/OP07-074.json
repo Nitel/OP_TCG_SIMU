@@ -1,0 +1,55 @@
+{
+  "id": "OP07-074",
+  "name": "Monda",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is incomplete. Missing condition check for Leader type {Foxy Pirates}, missing GiveDon action, missing Rest action, and missing the conditional logic structure."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Should trash the Character itself (this card on board), not from hand. Should use 'KO' or similar board effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: LeaderHasType with type '{Foxy Pirates}' to gate the entire effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing actions: GiveDon (add up to 1 DON card from DON deck) and Rest (rest the added DON)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Foxy Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "this"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "deck"
+        },
+        {
+          "type": "Rest",
+          "target": "addedCard"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:08:05.928Z"
+}

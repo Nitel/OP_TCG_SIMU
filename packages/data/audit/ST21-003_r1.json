@@ -1,0 +1,59 @@
+{
+  "id": "ST21-003_r1",
+  "name": "Sanji",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'PowerBoost' is incorrect. The effect does not boost power; it prevents opponent's Blocker activation. Should use a custom keyword action or represent as a conditional restriction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxPower",
+      "description": "Condition 'maxPower:6000' is backwards. Effect selects Characters with 6000 power or MORE (≥6000), not maximum 6000. Should be 'minPower:6000'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope missing type filter. Must select only {Straw Hat Crew} type Characters. Should include 'characterType:\"Straw Hat Crew\"' in target."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Effect applies '[Your Turn]' (only during your turn, while selected Character is attacking). Should be 'DuringYourTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional trigger: effect only applies 'If the selected Character attacks during this turn'. Current DSL unconditionally applies effect on play. Needs sub-trigger OnAttack with target condition matching selected Character."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST21-003_r1",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "BlockerCantActivate",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "characterType": "Straw Hat Crew",
+              "minPower": 6000,
+              "maxSelect": 1
+            },
+            "duration": "DuringYourTurn",
+            "condition": {
+              "type": "Trigger",
+              "trigger": "OnAttack"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:59.309Z"
+}

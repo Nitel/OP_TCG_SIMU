@@ -1,0 +1,64 @@
+{
+  "id": "OP14-049",
+  "name": "Jinbe",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is too generic. The effect should trigger specifically 'OnTrash' or similar when a card is trashed from hand by an effect. Current trigger does not match the condition 'When a card is trashed from your hand by an effect'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text says 'during this turn' which should map to 'DuringYourTurn', not 'EndOfTurn'. This is a critical duration distinction per rules."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing cost condition. The [On Play] ability has a cost requirement of 'rest 2 of your DON!! cards' which must be represented as a condition or cost field, not simply an action sequence."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnTrash",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "restDon": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 7
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:56.686Z"
+}

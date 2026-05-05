@@ -1,0 +1,45 @@
+{
+  "id": "OP08-077",
+  "name": "Conquest of the Sea",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing leader type check. Effect requires 'If your Leader has the {Animal Kingdom Pirates} or {Big Mom Pirates} type' which is not represented. Should include LeaderHasAnyType condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Two separate KO actions are listed, but the card text states 'up to 2' Characters—this should be a single action with maxCount:2 to allow choosing 0, 1, or 2 targets, not force exactly 2 KOs."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "Animal Kingdom Pirates",
+          "Big Mom Pirates"
+        ]
+      },
+      "cost": {
+        "type": "AttachDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "maxCount": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:30:07.164Z"
+}

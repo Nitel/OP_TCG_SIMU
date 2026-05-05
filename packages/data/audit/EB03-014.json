@@ -1,0 +1,50 @@
+{
+  "id": "EB03-014",
+  "name": "Kuina",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that Leader must have <Slash> attribute. The effect text says 'Give up to 2 rested DON!! cards to your <Slash> attribute Leader', meaning this only works if your Leader has the Slash attribute.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Missing cost specification. The effect text says '[Activate: Main] You may rest this Character', meaning resting this character is the cost to activate this effect, not just a trigger.",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "minor",
+      "description": "The AttachDon action should specify that the DON!! cards must be rested DON!! cards from your DON!! deck, as stated in 'Give up to 2 rested DON!! cards'.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Slash"
+          ]
+        },
+        "cost": {
+          "type": "RestSelf"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "source": "RestingDon",
+            "target": {
+              "scope": "OwnLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:38.461Z"
+}

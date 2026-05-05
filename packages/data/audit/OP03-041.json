@@ -1,0 +1,49 @@
+{
+  "id": "OP03-041",
+  "name": "Usopp",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (when attack deals damage), not 'OnAttack' (when attack is declared)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Effect trashes from deck (top of deck), not hand. Should be 'ForceDiscard' with source:'Deck' or similar deck-trash mechanism"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition for [DON!! x1] requirement. Should include cost/condition check for DON availability"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'may' optionality. Action should be optional, not mandatory"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 7,
+          "source": "Deck",
+          "optional": true,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:52.265Z"
+}

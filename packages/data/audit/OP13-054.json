@@ -1,0 +1,40 @@
+{
+  "id": "OP13-054",
+  "name": "Yamato",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (checking Life cards in hand/attached to Leader), not 'TurnCount'. TurnCount is for turn number, not Life card count."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'AttachDon' attaches DON from external source. Card text says 'give up to 1 rested DON!! card to your Leader' — this means transferring/moving an existing rested DON card. Should use 'GiveDon' or clarify source. If the rested DON comes from your board, this needs a different action structure or explicit source."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "max": 3
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "restriction": "rested"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:02:24.316Z"
+}

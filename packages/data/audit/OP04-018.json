@@ -1,0 +1,37 @@
+{
+  "id": "OP04-018",
+  "name": "Enchanting Vertigo Dance",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should reflect the temporary nature lasting only through the current turn phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must specify 'up to 2' characters. Current ChooseOpponentCharacter lacks quantity limit. Should include maxTargets:2"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Alabasta"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxTargets": 2
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:29.412Z"
+}

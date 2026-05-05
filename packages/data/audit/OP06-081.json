@@ -1,0 +1,48 @@
+{
+  "id": "OP06-081",
+  "name": "Absalom",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card effect returns cards FROM trash TO deck, not the reverse. Should use 'SearchDeck' or similar recovery action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition structure for 'You may' optional effect with cost (returning 2 cards from trash). Should have conditional logic that checks trash availability before enabling KO action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but cost filter should clarify it applies to opponent's characters (maxCost=2 on opponent side)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "optional": true,
+        "condition": {
+          "type": "TrashCount",
+          "minCount": 2
+        },
+        "details": "Return 2 cards from trash to bottom of deck",
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            },
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:59:25.031Z"
+}

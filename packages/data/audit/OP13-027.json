@@ -1,0 +1,56 @@
+{
+  "id": "OP13-027",
+  "name": "Sanji",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'AttachDon' (set up DON!! cards as active), not 'GiveDon' (gain DON!!). 'Set up' means activate/attach existing DON!!, not create new ones."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'EndOfTurn', not 'Activated'. Card text explicitly states '[End of Your Turn]'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition should check Leader type using 'LeaderHasAnyType' with types [\"FILM\",\"Straw Hat Crew\"], not generic 'HasCardOnBoard' check. Current condition does not enforce the type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type should be 'AttachDon', not 'GiveDon', for the same reason as effect[0]."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "FILM",
+          "Straw Hat Crew"
+        ]
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:00:27.098Z"
+}

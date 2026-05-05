@@ -1,0 +1,31 @@
+{
+  "id": "OP02-108_r1",
+  "name": "Donquixote Rosinante",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is completely missing. DSL effects array is empty but card has [Blocker] mechanic that must be implemented."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "ThisCard",
+            "optional": true
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:06.812Z"
+}

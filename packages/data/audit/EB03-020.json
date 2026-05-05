@@ -1,0 +1,55 @@
+{
+  "id": "EB03-020",
+  "name": "There You Are, Sore Loser!",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The condition for the additional +2000 power boost is incorrect. It should check for 2 or more {FILM} type Characters, but currently only checks for the presence of a FILM card without specifying count >= 2.",
+      "field": "effects[1].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "The two Counter effects should be a single effect with conditional additional boost, not two separate effects. The second boost should target the SAME card chosen in the first boost ('that card'), not allow choosing again.",
+      "field": "effects[0] and effects[1]"
+    },
+    {
+      "severity": "critical",
+      "description": "There is a spurious third effect with trigger 'Trigger' that rests a character. This does not appear anywhere in the official effect text and should be removed entirely.",
+      "field": "effects[2]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "SameAsFirstAction"
+            },
+            "duration": "EndOfBattle",
+            "condition": {
+              "type": "HasCardOnBoard",
+              "cardType": "Character",
+              "trait": "FILM",
+              "count": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:12:07.507Z"
+}

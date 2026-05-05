@@ -1,0 +1,33 @@
+{
+  "id": "ST05-008",
+  "name": "Shiki",
+  "set": "ST-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective ability but effects array is empty. Should contain a Counter effect that prevents K.O. when condition is met."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 8,
+          "comparison": "greaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Cannot be K.O.'d in battle"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:59:16.538Z"
+}

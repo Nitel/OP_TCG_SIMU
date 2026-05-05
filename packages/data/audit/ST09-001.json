@@ -1,0 +1,47 @@
+{
+  "id": "ST09-001",
+  "name": "Yamato",
+  "set": "ST-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (passive effect during opponent's turn), not 'Activated' (costs DON/resources)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: must check 'HasLife' ≤ 2 (currently just 'Always')"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' per card text 'Opponent's Turn', not 'EndOfTurn'"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Opponent's Turn] If you have 2 or less Life cards, this Leader gains +1000 power.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasLife",
+          "operator": "<=",
+          "value": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:03:37.006Z"
+}

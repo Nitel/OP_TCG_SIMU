@@ -1,0 +1,49 @@
+{
+  "id": "OP06-056_r1",
+  "name": "Ama no Murakumo Sword",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is ReturnToHand but card text specifies 'bottom of the owner's deck' - should be a different action or custom implementation. ReturnToHand returns to hand, not deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope ChooseOpponentCharacter is incorrect - should indicate these are optional selections ('up to 1'), not mandatory. Scope should support optionality."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Two separate ReturnToHand actions with different cost restrictions are unclear. The DSL should clarify that first action targets cost ≤2 AND second action targets cost ≤1 as separate optional selections, and both should place cards at bottom of deck (not hand)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Trigger",
+    "actions": [
+      {
+        "type": "ReturnToDeck",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "optional": true,
+          "count": 1
+        },
+        "deckPosition": "bottom"
+      },
+      {
+        "type": "ReturnToDeck",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1,
+          "optional": true,
+          "count": 1
+        },
+        "deckPosition": "bottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:37:20.406Z"
+}

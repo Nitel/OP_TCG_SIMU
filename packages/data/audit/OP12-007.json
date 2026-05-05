@@ -1,0 +1,43 @@
+{
+  "id": "OP12-007",
+  "name": "Shanks",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing type filter 'Roger Pirates' and exclusion of [Shanks]. DSL should specify filtering for Characters with type 'Roger Pirates' excluding Shanks, not generic ChooseOwnCharacter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '[Your Turn]' text (equivalent to 'DuringYourTurn'), but target condition must enforce the type restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "conditions": [
+            {
+              "type": "HasCardType",
+              "cardType": "Roger Pirates"
+            },
+            {
+              "type": "IsNotName",
+              "name": "Shanks"
+            }
+          ],
+          "count": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:45.124Z"
+}

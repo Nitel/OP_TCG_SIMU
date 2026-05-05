@@ -1,0 +1,50 @@
+{
+  "id": "OP12-037",
+  "name": "Demon Aura Nine Sword Style Asura Blades Drawn Dead Man's Game",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action targets only opponent Characters, but card text allows choosing 'up to a total of 2 of your opponent's Characters or DON!! cards'. Target scope should support both character and don types."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing count limit. Card specifies 'up to a total of 2' but action has no quantity constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrDon"
+          },
+          "count": 2
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:52:04.711Z"
+}

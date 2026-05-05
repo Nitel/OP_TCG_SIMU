@@ -1,0 +1,36 @@
+{
+  "id": "OP01-050",
+  "name": "Penguin",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter specifies 'subType: Heart Pirates' but card text says 'play up to 1 [Shachi]' — should filter by name 'Shachi', not subtype. Shachi is a specific card name, not a type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should include 'limit: 1' to represent 'up to 1' in the card text."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Shachi",
+      "negate": true
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "name": "Shachi"
+        },
+        "limit": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:22.747Z"
+}

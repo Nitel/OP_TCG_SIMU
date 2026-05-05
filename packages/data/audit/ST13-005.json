@@ -1,0 +1,64 @@
+{
+  "id": "ST13-005",
+  "name": "Emporio.Ivankov",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Effect requires conditional ordering: must first trash 1 Life card ('You may trash...'), then conditionally reveal and add Character to Life. Current DSL shows RevealFromHand as primary action. Should be: trash Life card first (with 'may' optionality), then reveal Character (conditional on trash), then add to Life."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing the 'add it to the top of your Life cards face-down' action. After revealing Character, must execute action to place it on top of Life pile. Current DSL only reveals, does not complete the effect chain."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.maxCost",
+      "description": "Filter should be exactly cost 5 ('cost of 5'), not 'maxCost'. Use 'cost':5 instead of 'maxCost':5."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "The 'may' optionality is implicit but should be explicitly handled at the Life card trash step, not the reveal step."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST13-005",
+    "effectText": "[On Play] You may trash 1 card from the top or bottom of your Life cards: Reveal up to 1 Character card with a cost of 5 from your hand and add it to the top of your Life cards face-down.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "source": "Life",
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "RevealFromHand",
+                "count": 1,
+                "filter": {
+                  "cardType": "Character",
+                  "cost": 5
+                },
+                "thenActions": [
+                  {
+                    "type": "AddLife",
+                    "count": 1,
+                    "faceDown": true,
+                    "position": "top"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:07:58.267Z"
+}

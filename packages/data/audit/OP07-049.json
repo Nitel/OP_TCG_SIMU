@@ -1,0 +1,29 @@
+{
+  "id": "OP07-049",
+  "name": "Buckin",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is missing the 'rested' state. Card text specifies the played character enters rested, but DSL has no rest/state parameter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Edward Weevil",
+            "maxCost": 4
+          },
+          "state": "rested"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:06:05.614Z"
+}

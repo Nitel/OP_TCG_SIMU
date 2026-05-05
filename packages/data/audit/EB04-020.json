@@ -1,0 +1,58 @@
+{
+  "id": "EB04-020",
+  "name": "Shark Brick Fist",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "PowerBoost target must filter for {Fish-Man} type. Current scope 'ChooseOwnCharacterOrLeader' lacks type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action 'Rest' is incorrect for 'set up to 1 of your {Fish-Man} type Characters as active'. Should use 'PlayFromHand' or similar to set active, not Rest (which exhausts). Clarify intent: does 'set as active' mean switch to active position?"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest target must filter for {Fish-Man} type Characters. Current scope lacks type restriction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (trigger:'Trigger' with RestOpponentCharacter) has no basis in card text. Card text contains only two sequential actions both on Counter trigger. This effect should be removed."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-020",
+    "effectText": "[Counter] Up to 1 of your {Fish-Man} type Leader or Character cards gains +3000 power during this battle. Then, set up to 1 of your {Fish-Man} type Characters as active.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "hasType": "Fish-Man",
+              "maxCount": 1
+            },
+            "duration": "DuringBattle"
+          },
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "hasType": "Fish-Man",
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:19.474Z"
+}

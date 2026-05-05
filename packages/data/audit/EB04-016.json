@@ -1,0 +1,49 @@
+{
+  "id": "EB04-016",
+  "name": "Bird Neptunian",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect missing duration constraint. Text states 'you cannot set DON!! cards as active using Character effects during this turn' — requires duration:\"DuringYourTurn\" to enforce the restriction, not a permanent state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition incomplete. Requires count validation: 'If you have 3 or more {Neptunian} type Characters' needs minCount:3 in HasCardOnBoard condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Neptunian",
+        "minCount": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8,
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:07:58.893Z"
+}

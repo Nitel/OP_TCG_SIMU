@@ -1,0 +1,58 @@
+{
+  "id": "OP14-038",
+  "name": "I Never Bother to Remember the Faces of Trash",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action targets 'AllOwnCharacters' but card text says 'You may rest 2 of your cards' — should be RestCount:2, not all cards. Target scope is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action missing RestCount constraint. Should specify exactly 2 cards to rest, not all."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 2
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 7000,
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:04.131Z"
+}

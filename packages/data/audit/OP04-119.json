@@ -1,0 +1,67 @@
+{
+  "id": "OP04-119",
+  "name": "Donquixote Rosinante",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing entire first effect: '[Opponent's Turn] If this Character is rested, your active Characters with a base cost of 5 cannot be K.O.'d by effects.' This is a conditional passive ability with duration DuringOpponentTurn, not covered in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be optional ('You may rest') - requires condition or optional flag, not automatic."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Opponent's Turn] If this Character is rested, your active Characters with a base cost of 5 cannot be K.O.'d by effects.\n[On Play] You may rest this Character: Play up to 1 green Character card with a cost of 5 from your hand.",
+    "effects": [
+      {
+        "trigger": "OnOpponentTurn",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "HasRestingDon",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOd",
+            "target": {
+              "scope": "YourCharacters",
+              "filter": {
+                "baseCost": 5
+              }
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "optional": true
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "color": "Green",
+              "cardType": "Character",
+              "maxCost": 5
+            },
+            "maxAmount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:45:22.095Z"
+}

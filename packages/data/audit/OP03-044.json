@@ -1,0 +1,35 @@
+{
+  "id": "OP03-044",
+  "name": "Kaya",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[1]",
+      "description": "Missing second action to trash 2 cards from hand. Current DSL only has DrawCard and TrashFromHand, but TrashFromHand lacks count specification and needs count:2"
+    },
+    {
+      "severity": "major",
+      "field": "actions[1].count",
+      "description": "TrashFromHand action missing count:2 parameter"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:57.720Z"
+}

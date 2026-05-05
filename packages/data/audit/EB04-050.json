@@ -1,0 +1,59 @@
+{
+  "id": "EB04-050",
+  "name": "I'll Whip You Into Shape. ♡",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].keyword",
+      "description": "Effect grants ability to attack active Characters, which is 'CanAttackActive' keyword, not 'Unblockable'. 'Unblockable' means cannot be blocked; this card allows attacking active (untapped) characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is too broad. Card specifies 'Up to 1 of your {SWORD} type Leader or Character cards' – requires type filter and count limit (max 1). Current scope 'ChooseOwnCharacterOrLeader' lacks type restriction and selection limit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (card effect activates when played), not 'Activated'. 'Activated' implies an optional cost-based ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackActive",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filters": [
+              {
+                "type": "HasCardType",
+                "cardType": "SWORD"
+              }
+            ],
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:02.158Z"
+}

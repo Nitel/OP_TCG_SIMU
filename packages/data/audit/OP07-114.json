@@ -1,0 +1,47 @@
+{
+  "id": "OP07-114",
+  "name": "He Possesses the World's Most Brilliant Mind",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect completely misrepresents card ability. Card performs a deck search (SearchDeck) with filtering conditions, not a simple DrawCard. Missing: deck look mechanic, Egghead type condition, card name exclusion, hand addition, and bottom deck placement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'SearchDeck' not 'DrawCard'. This is a tutoring effect, not raw card draw."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing conditions array. Must include type filter (Egghead) and exclusion condition for card name 'He Possesses the World's Most Brilliant Mind'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "Egghead",
+          "operator": "is"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "type": "Egghead",
+            "excludeName": "He Possesses the World's Most Brilliant Mind"
+          },
+          "destination": "Hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:11:09.838Z"
+}

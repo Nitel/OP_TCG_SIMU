@@ -1,0 +1,48 @@
+{
+  "id": "OP01-088",
+  "name": "Desert Spada",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect completely wrong. Card text says 'look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order' — this is a deck manipulation action (SearchDeck or similar scrying), NOT DrawCard + TrashFromHand. The DSL describes drawing 2 cards and discarding 1, which contradicts the official text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger type 'Trigger' is incorrect. The second action flows from the Counter trigger as a continuation (implied by 'Then'), so it should be part of the same Counter trigger, not a separate Trigger."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is correct but card says 'Up to 1', implying the choice is optional. Verify target model supports 'up to' semantics."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP01-088",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "max": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "action": "ScryPlaceTopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:31.490Z"
+}

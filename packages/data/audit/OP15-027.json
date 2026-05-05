@@ -1,0 +1,32 @@
+{
+  "id": "OP15-027",
+  "name": "Dracule Mihawk",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target condition missing: must filter for Characters with an attached DON!! card. Current DSL has no condition to match 'a DON!! card given'. Should use a condition like 'HasAttachedDon' or similar filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "conditions": [
+              {
+                "type": "HasAttachedDon"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:24:03.074Z"
+}

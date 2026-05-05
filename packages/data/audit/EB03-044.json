@@ -1,0 +1,73 @@
+{
+  "id": "EB03-044",
+  "name": "Black Maria",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing static ability: 'If your Leader is multicolored, this Character gains [Blocker].' This is a permanent conditional effect that must be represented separately from the On Play trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect specifies 'Look at 5 cards from the top of your deck; reveal up to 1 [Onigashima Island]' but the DSL only searches without specifying the 5-card limitation and reveal mechanic. Should include proper deck look/reveal logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand filter is too broad. Should specify filter by name 'Onigashima Island' and limit to 1 card ('up to 1'). Current filter only checks cardType 'Stage' which is insufficient."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action for 'place the rest at the bottom of your deck in any order' - this deck arrangement step is not represented in the DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Always",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Onigashima Island"
+          },
+          "destination": "hand",
+          "limit": 1,
+          "deckLookCount": 5
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByName",
+            "name": "Onigashima Island"
+          },
+          "limit": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:31.232Z"
+}

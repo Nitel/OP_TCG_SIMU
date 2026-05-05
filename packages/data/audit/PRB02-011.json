@@ -1,0 +1,44 @@
+{
+  "id": "PRB02-011",
+  "name": "Donquixote Doflamingo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasAnyType' (checking if Leader has multicolored property) not 'HasCardOnBoard'. HasCardOnBoard checks for a specific card on the board, not Leader properties."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveDon' is incomplete. The effect requires attaching a DON!! card from deck AND resting it. Should use 'AttachDon' with additional action to 'Rest', or clarify that GiveDon includes the rest mechanic with a duration/modifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'Rest' action. Card text explicitly states 'rest it' — this must be a separate action after attachment."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "types": [
+        "Multicolored"
+      ]
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "source": "Deck"
+      },
+      {
+        "type": "Rest",
+        "target": "AttachedDon"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:51:03.592Z"
+}

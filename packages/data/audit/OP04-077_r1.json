@@ -1,0 +1,29 @@
+{
+  "id": "OP04-077_r1",
+  "name": "Ideo",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from effects array. Card has [Blocker] trait which requires an OnAttacked trigger with Counter duration to redirect attacks."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "duration": "Counter",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:41:51.613Z"
+}

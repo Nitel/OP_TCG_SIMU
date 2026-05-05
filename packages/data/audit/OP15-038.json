@@ -1,0 +1,64 @@
+{
+  "id": "OP15-038",
+  "name": "It's an Order! Do Not Defy Me!!!",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Main effect is completely wrong. Text says 'will not become active in your opponent's next Refresh Phase' (a prevention/lock effect), not Rest. This requires a custom lock/prevention mechanic, not Rest action. Rest action incorrectly applies immediate state change instead of preventing future activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition check for 'has 2 or more DON!! cards given'. The action lacks the HasAttachedDon condition with minAmount:2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Counter effect targets 'ChooseOwnCharacter' but should specify '[Krieg]' type requirement. Target scope should include type filter or use ChooseOwnCardWithType."
+    }
+  ],
+  "suggestedDsl": {
+    "cardName": "OP15-038",
+    "effectText": "[Main] Up to 1 of your opponent's rested Characters with a cost of 8 or less that has 2 or more DON!! cards given will not become active in your opponent's next Refresh Phase.\n[Counter] Up to 1 of your [Krieg] cards gains +4000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "minAmount": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "PreventActivation",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 8,
+              "mustBeRested": true
+            },
+            "duration": "UntilNextRefreshPhase"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "hasType": "Krieg"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:24:52.980Z"
+}

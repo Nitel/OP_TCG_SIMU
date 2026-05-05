@@ -1,0 +1,30 @@
+{
+  "id": "OP12-022",
+  "name": "Inuarashi",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'Rest' is incorrect. The effect prevents a rested Character from becoming active, which is not a Rest action. This requires a custom effect or keyword application. The DSL cannot accurately represent 'will not become active in your opponent's next Refresh Phase' with standard actions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' with maxCost:5 is partially correct (cost ≤5, opponent's character), but the effect applies only to rested Characters. Condition needed: target must be rested. Standard DSL lacks 'maxCost' parameter; should use condition filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition constraint: target must already be rested ('rested Characters'). The current DSL does not enforce this prerequisite."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "No standard OPTCG DSL action represents 'prevent active in next Refresh Phase'. This is a delayed/conditional lock effect outside core action vocabulary. Would need custom implementation or clarification on how this state is tracked."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:51:01.336Z"
+}

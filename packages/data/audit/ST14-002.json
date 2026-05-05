@@ -1,0 +1,47 @@
+{
+  "id": "ST14-002",
+  "name": "Usopp",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (card attacks), not 'Activated' (manual ability)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Must check for Character with cost ≥ 8 on your board, not just any Character. Should be: {\"type\":\"HasCardOnBoard\",\"name\":\"Character\",\"minCost\":8}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should allow choosing 0 or 1 target (up to 1), not force selection. Should include 'optional':true or 'maxTargets':1"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] If you have a Character with a cost of 8 or more, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Character",
+          "minCost": 8
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxCost": 4,
+              "maxTargets": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:09:14.353Z"
+}

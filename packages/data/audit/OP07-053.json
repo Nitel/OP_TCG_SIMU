@@ -1,0 +1,41 @@
+{
+  "id": "OP07-053",
+  "name": "Portgas.D.Ace",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'PlayFromHand' is incorrect. The card effect requires placing 2 cards from hand at top/bottom of deck, which should use 'SearchDeck' or a similar deck-manipulation action. 'PlayFromHand' implies playing cards onto the board, not returning them to deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter 'cardType:Character' is unfounded. The effect places any 2 cards from hand to deck, with no card type restriction mentioned in the official text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second action or parameters to specify 'top or bottom of deck in any order'. The DSL should clarify the placement mechanics (2 cards, flexible positioning)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "destination": "TopOrBottomOfDeck",
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:06:26.248Z"
+}

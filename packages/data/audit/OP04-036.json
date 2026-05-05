@@ -1,0 +1,50 @@
+{
+  "id": "OP04-036",
+  "name": "Donquixote Family",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'Counter' not 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action is SearchDeck but effect requires looking at 5 cards, revealing up to 1 {Donquixote Pirates} card, and placing rest at bottom of deck. Current DSL does not capture the full sequence: reveal condition, hand addition, and bottom deck placement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to {Donquixote Pirates} type cards only"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing step: place remaining cards at bottom of deck in any order after hand selection"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Donquixote Pirates"
+          },
+          "destination": "hand",
+          "limit": 1,
+          "deckLookCount": 5
+        },
+        {
+          "type": "PlayFromHand",
+          "destination": "bottom_of_deck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:05.885Z"
+}

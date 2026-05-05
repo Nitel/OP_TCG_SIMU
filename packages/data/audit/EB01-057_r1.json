@@ -1,0 +1,46 @@
+{
+  "id": "EB01-057_r1",
+  "name": "Shirahoshi",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' but requires a condition to specify 'K.O.'d by your opponent's effect' — currently missing the opponent causality check"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type should be 'FlipLife' (add to top of Life cards), not 'SearchDeck' which draws to hand. Card text says 'add up to 1 card from the top of your deck to the top of your Life cards'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'Any' is imprecise; should specify max 1 card ('maxCount':1) to match 'up to 1 card'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to restrict KO source to 'opponent's effect' — need a condition like OpponentEffect or similar causality check"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "KOByOpponentEffect"
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "source": "deck",
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:40:45.764Z"
+}

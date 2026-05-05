@@ -1,0 +1,51 @@
+{
+  "id": "EB01-060",
+  "name": "Did Someone Say...Kami?",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Trigger is wrong. This is an event card with [Main] effect, not OnPlay. Event cards should use 'Activated' trigger for [Main] timing.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "PlayFromHand action is incomplete. The effect allows playing from 'hand or trash', but the action only covers playing from hand. Need to add ability to play from trash as well.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "RemoveLife action is incorrect. The effect says 'trash cards from the top of your Life cards until you have 1 Life card', which means reducing life to exactly 1, not removing 1 life. The action should specify reducing to 1 life card total.",
+      "field": "effects[0].actions[1]"
+    },
+    {
+      "severity": "critical",
+      "description": "Spurious Trigger effect. The card has no [Trigger] effect in the official text, but effects[1] defines a Trigger with DrawCard and TrashFromHand actions that don't exist on this card.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Enel",
+              "maxCost": 7
+            },
+            "fromTrash": true,
+            "upTo": 1
+          },
+          {
+            "type": "RemoveLife",
+            "reduceToCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:57.869Z"
+}

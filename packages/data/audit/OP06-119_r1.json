@@ -1,0 +1,52 @@
+{
+  "id": "OP06-119_r1",
+  "name": "Sanji",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RevealFromHand is incorrect. Card text says 'Reveal 1 card from the top of your deck' — this is RevealFromDeck, not RevealFromHand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing filter for 'other than [Sanji]'. The PlayFromHand action must exclude Sanji cards via filter"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to place remaining cards at bottom of deck. DSL must include a placement mechanic for unrevealed cards"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "PlayFromHand is semantically incorrect when card is revealed from deck. Should be PlaySelf or equivalent deck-reveal-play mechanism"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromDeck",
+        "count": 1,
+        "filter": {},
+        "thenActions": [
+          {
+            "type": "PlaySelf",
+            "filter": {
+              "maxCost": 9,
+              "excludeName": "Sanji"
+            }
+          },
+          {
+            "type": "PlaceAtBottomOfDeck",
+            "source": "revealed"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:43:57.703Z"
+}

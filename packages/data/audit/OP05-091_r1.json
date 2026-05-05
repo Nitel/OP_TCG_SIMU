@@ -1,0 +1,63 @@
+{
+  "id": "OP05-091_r1",
+  "name": "Rebecca",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is SearchDeck but card text says 'from your trash' — should be a trash retrieval action, not deck search"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'color':'Black' and 'cardType':'Character' requirements; also missing exclusion for [Rebecca]"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter.maxCost",
+      "description": "maxCost is 7 but text specifies 'cost of 3 to 7' — minCost:3 required"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action missing 'rested' status keyword — card must be played in rested state"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter missing 'color':'Black' and 'cardType':'Character' in action-level filter"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "minCost": 3,
+            "maxCost": 7,
+            "excludeName": "Rebecca"
+          },
+          "source": "trash",
+          "maxTargets": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "maxCost": 3
+          },
+          "rested": true,
+          "maxTargets": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:42:36.183Z"
+}

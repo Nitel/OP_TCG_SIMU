@@ -1,0 +1,38 @@
+{
+  "id": "ST04-017",
+  "name": "Onigashima Island",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' (checks Leader type), not 'HasCardOnBoard' (checks board state). Text says 'your Leader has the {Animal Kingdom Pirates} type'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition structure incorrect. Should use 'type':'LeaderHasType' with 'value':'Animal Kingdom Pirates', not 'name' field"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incomplete. Must include 'rested':true since text explicitly states 'rest it'. Current action missing rest behavior"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Animal Kingdom Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "rested": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:58:43.070Z"
+}

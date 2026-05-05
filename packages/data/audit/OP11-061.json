@@ -1,0 +1,30 @@
+{
+  "id": "OP11-061",
+  "name": "Gum-Gum Jet Culverin",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has game text but effects array is empty. Must define effect with trigger OnPlay, condition to target opponent's Characters with base cost ≤4, and action to return them to bottom of deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "targets": "OpponentCharactersWithBaseCostUpTo4",
+            "count": 1,
+            "destination": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:44:51.351Z"
+}

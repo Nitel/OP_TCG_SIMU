@@ -1,0 +1,69 @@
+{
+  "id": "OP15-118",
+  "name": "Enel",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasRestingDon' with count:1 (cost DON!! −1), but the passive ability 'If you have 6 or less DON!! cards on your field' is completely missing. This requires a separate passive effect with condition HasRestingDon count:6 (≤6 DON!!) that grants protection and +2000 power."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action sequence is incomplete. The effect should: (1) look at top 5 cards, (2) add up to 1 to hand, (3) place rest at bottom in any order, (4) trash 1 from hand. Current DSL only has SearchDeck + TrashFromHand with no logic for viewing 5 cards, selecting 1, reordering the rest, or the conditional trash."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Missing passive effect for the static ability: 'If you have 6 or less DON!! cards on your field, this Character cannot be removed from the field by your opponent's effects and gains +2000 power.' This should be a separate effect with trigger 'Trigger' (or no trigger, permanent), condition HasRestingDon count:6, and actions: GiveKeyword (Protect/Unremovable) + PowerBoost +2000."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Unremovable",
+          "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1,
+          "destination": "hand",
+          "viewCount": 5
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:06.594Z"
+}

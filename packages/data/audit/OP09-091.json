@@ -1,0 +1,27 @@
+{
+  "id": "OP09-091",
+  "name": "Vasco Shot",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has [Blocker] keyword ability but effects array is empty. Blocker is a Counter trigger that allows resting this card to redirect an attack. This requires at least one effect definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "description": "After opponent declares an attack, you may rest this card to make it the new target of the attack"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:28:42.084Z"
+}

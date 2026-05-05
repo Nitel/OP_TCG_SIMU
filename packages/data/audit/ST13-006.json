@@ -1,0 +1,40 @@
+{
+  "id": "ST13-006",
+  "name": "Curly.Dadan",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is missing the critical constraint: 'up to 1 each of [Sabo], [Portgas.D.Ace], and [Monkey.D.Luffy]'. The filter only specifies maxCost:2 but does not enforce the specific character names and the '1 each' limit (max 1 copy per name, max 3 total)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 2,
+              "cardNames": [
+                "Sabo",
+                "Portgas.D.Ace",
+                "Monkey.D.Luffy"
+              ]
+            },
+            "count": {
+              "mode": "UpToOneEachNamed",
+              "maxPerName": 1,
+              "maxTotal": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:07:58.920Z"
+}

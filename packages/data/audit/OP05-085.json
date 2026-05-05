@@ -1,0 +1,33 @@
+{
+  "id": "OP05-085",
+  "name": "Nefeltari Cobra",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'Trash 1 card from the top of your deck' — should be 'ForceDiscard' with source 'Deck', not hand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'source' parameter to specify cards are trashed from deck (top), not from hand"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "Deck",
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:41.492Z"
+}

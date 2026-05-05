@@ -1,0 +1,40 @@
+{
+  "id": "EB02-033",
+  "name": "Klabautermann",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type. The effect text 'If you have [Merry Go] on your field, this Character gains [Blocker]' describes a continuous static ability that applies while the condition is met, not an OnPlay triggered effect. This should use an 'Activated' trigger with no specific timing, or the condition should be checked continuously.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "The OnPlay trigger means Blocker is only granted once when played, and persists even if Merry Go leaves the field. The card text implies the Blocker keyword should only be active while Merry Go is on the field (continuous condition), not permanently after playing.",
+      "field": "effects[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Merry Go"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:03:08.002Z"
+}

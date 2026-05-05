@@ -1,0 +1,59 @@
+{
+  "id": "OP10-080",
+  "name": "Little Black Bears",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "DrawCard action missing required condition: 'if you have 7 or more DON!! cards on your field and 5 or less cards in your hand'. Current condition is 'Always' which applies to the entire effect, but the draw should only trigger if both conditions are met."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Orphaned second effect with trigger 'Trigger' and GiveDon action has no basis in card text. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for the power boost, but the overall condition structure is incorrect due to the missing conditional logic on the draw action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "condition": {
+        "type": "All",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 7,
+            "comparison": "GreaterThanOrEqual"
+          },
+          {
+            "type": "HandCount",
+            "value": 5,
+            "comparison": "LessThanOrEqual"
+          }
+        ]
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:04.202Z"
+}

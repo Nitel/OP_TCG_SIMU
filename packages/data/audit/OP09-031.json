@@ -1,0 +1,61 @@
+{
+  "id": "OP09-031",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker keyword effect is missing. The card text '[Blocker]' indicates this is a static keyword ability, not a triggered action. Blocker should be a permanent keyword on the card, not granted via Activated trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second ability '[End of Your Turn]' is completely missing from DSL. Card text states 'If you have 2 or more rested Characters, set this Character as active' — this requires trigger:EndOfTurn, condition checking rested character count, and action to set active (Rest with duration:Permanent or equivalent)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "OnBlock is incorrect trigger type. Blocker is a static keyword ability that allows you to rest this card when opponent declares attack — it should not be a triggered effect with Rest action. The DSL structure fundamentally misrepresents the card mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Activated trigger is incorrect. The '[End of Your Turn]' ability should use trigger:EndOfTurn, not Activated."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "value": 2,
+        "filter": {
+          "property": "IsRested"
+        }
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:44.513Z"
+}

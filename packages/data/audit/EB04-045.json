@@ -1,0 +1,51 @@
+{
+  "id": "EB04-045",
+  "name": "Ginny",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing requirement: must check for 2+ Characters with cost 8+. Current condition is 'Always' but should verify board state before allowing effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope too broad. Should be 'ChooseOwnRevolutionaryArmyCharacterOrLeader' or similar to enforce {Revolutionary Army} type restriction, not generic 'ChooseOwnCharacterOrLeader'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for '[Your Turn]' text. Should be 'DuringYourTurn' per duration rules."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "cost": "8+"
+      },
+      "count": "2+"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnRevolutionaryArmyCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:35.424Z"
+}

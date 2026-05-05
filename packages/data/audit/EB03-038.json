@@ -1,0 +1,54 @@
+{
+  "id": "EB03-038",
+  "name": "Thanks for the Treat. ♡",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Main ability text describes a complex conditional action (rest DON, check field counts, check character types, add DON from deck) but DSL only shows Rest on all characters. Missing: conditional logic for DON count comparison, GERMA type check, AddDon action, SearchDeck/PlayFromDeck action, and proper targeting of DON cards specifically."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be OwnDon (DON deck or field DON cards), not AllOwnCharactersAndLeader. Text specifies 'rest 1 of your DON!! cards' and 'add up to 2 DON!! cards from your DON!! deck'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing conditions: TurnCount (implied 'equal to or less than'), HasCardOnBoard (opponent DON count check), LeaderHasAnyType (GERMA type requirement). DSL should include conditional structure with these checks."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "scope": "OpponentField",
+        "cardType": "Don"
+      },
+      {
+        "type": "LeaderHasAnyType",
+        "value": "GERMA"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnDon"
+        },
+        "amount": 1
+      },
+      {
+        "type": "AddLife",
+        "amount": 2,
+        "target": {
+          "scope": "OwnDon"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:20.175Z"
+}

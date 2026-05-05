@@ -1,0 +1,63 @@
+{
+  "id": "OP12-096",
+  "name": "Ursa Shock",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Second KO action is unconditional, but card text states it should only occur 'If you have a Character with a cost of 8 or more'. Missing condition: HasCardOnBoard with costFilter >= 8"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with DrawCard/TrashFromHand) has no basis in card text. Card effect is a single Main effect with conditional KO options only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second KO action should be mutually exclusive with first (select 'instead'), not both executed. Structure should use conditional logic: if HasCardOnBoard(cost>=8), allow maxCost:6 option; otherwise use maxCost:4 option."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4
+            },
+            "condition": {
+              "type": "Not",
+              "condition": {
+                "type": "HasCardOnBoard",
+                "filter": {
+                  "minCost": 8
+                }
+              }
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6
+            },
+            "condition": {
+              "type": "HasCardOnBoard",
+              "filter": {
+                "minCost": 8
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:56:38.881Z"
+}

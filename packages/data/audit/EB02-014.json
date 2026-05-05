@@ -1,0 +1,31 @@
+{
+  "id": "EB02-014",
+  "name": "Sarfunkel",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing 'count' field in PlayFromHand action. The effect text says 'up to 1' which means a maximum of 1 card, but the DSL doesn't specify this limit.",
+      "field": "effects[0].actions[0].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "cardType": "Character",
+              "subType": "Gaimon"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:52.344Z"
+}

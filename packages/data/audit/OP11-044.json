@@ -1,0 +1,49 @@
+{
+  "id": "OP11-044",
+  "name": "Vinsmoke Judge",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target should filter for {GERMA 66} type Characters only, not all own Characters. Current target lacks type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which indicates the effect lasts through your current turn, not just until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "cardTypes": [
+            "Character",
+            "Event",
+            "Stage"
+          ]
+        },
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "typeFilter": {
+                "types": [
+                  "GERMA 66"
+                ]
+              }
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:43:33.086Z"
+}

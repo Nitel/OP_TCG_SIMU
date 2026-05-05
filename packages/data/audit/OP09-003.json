@@ -1,0 +1,38 @@
+{
+  "id": "OP09-003",
+  "name": "Shachi &amp; Penguin",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which means the effect lasts for the current turn only. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at end of turn, but 'during this turn' indicates it persists through the turn's duration."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'UpTo1' to match 'up to 1' in the card text. Current scope 'ChooseOpponentCharacter' lacks the quantity constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Give up to 1 of your opponent's Characters −2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": "UpTo1"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:33:36.344Z"
+}

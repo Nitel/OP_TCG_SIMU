@@ -1,0 +1,56 @@
+{
+  "id": "PRB02-014",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects but effects array is empty. First effect: cost reduction conditional on trash count (should trigger on play or hand evaluation). Second effect: Blocker keyword with associated trigger. Both must be represented in DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing effect for cost reduction: 'If you have 15 or more cards in your trash, give this card in your hand −3 cost.' Requires Trigger (likely OnPlay or Activated), condition TrashCount >= 15, action PowerBoost with -3 modifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing Blocker keyword effect. Should include trigger OnAttacked, condition Always, action Rest with blocker mechanic, or represent as GiveKeyword 'Blocker'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 15
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "modifier": -3,
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:51:20.673Z"
+}

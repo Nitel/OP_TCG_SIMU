@@ -1,0 +1,58 @@
+{
+  "id": "OP09-056_r1",
+  "name": "Mr.3(Galdino)",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Action SearchDeck is incomplete and incorrect. The effect requires: (1) looking at 4 cards from top of deck, (2) conditional reveal of up to 1 card matching specific type filters (Cross Guild OR Baroque Works, excluding Mr.3), (3) adding that card to hand, (4) placing remaining cards at bottom in any order. Current DSL lacks the multi-step sequence, filtering logic, and the mandatory bottom-deck placement of remaining cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is set to 'Any' but should specify: Cross Guild type OR (card with type including 'Baroque Works' AND NOT named 'Mr.3(Galdino)'). This is a complex conditional filter that SearchDeck alone cannot express properly."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action to handle the mandatory placement of non-selected cards at the bottom of the deck in any order. This is a required part of the card's effect, not optional."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "Standard OPTCG DSL lacks native support for multi-step conditional searches with card ordering. Recommended approach: implement as custom effect or extend DSL with 'SearchDeckAdvanced' that supports: quantity=4, top=true, filter with OR conditions and exclusions, and mandatory bottom-deck placement. Alternative: split into SearchDeck (conditional) + custom 'OrderCards' action.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "quantity": 4,
+            "maxResults": 1,
+            "filter": {
+              "kind": "Or",
+              "conditions": [
+                {
+                  "hasType": "Cross Guild"
+                },
+                {
+                  "hasTypeIncluding": "Baroque Works",
+                  "excludeName": "Mr.3(Galdino)"
+                }
+              ]
+            },
+            "destination": "hand"
+          },
+          {
+            "type": "OrderCards",
+            "source": "deckRemainder",
+            "destination": "deckBottom",
+            "mode": "playerChoice"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:19.706Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST16-001",
+  "name": "Uta",
+  "set": "ST-16",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should use 'cardType' not 'subType'. FILM is a card type, not a subtype."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.cardType",
+      "description": "Value should be 'FILM' (string), not 'subType':'FILM'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with explicit activation context (Activate: Main, Once Per Turn). Current DSL is correct but missing activation metadata if strict validation required."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "FILM"
+          },
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:11:39.324Z"
+}

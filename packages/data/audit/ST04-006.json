@@ -1,0 +1,31 @@
+{
+  "id": "ST04-006",
+  "name": "Sasaki",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing the cost condition. The card has a DON!! cost of −1 that must be represented as a condition before the Draw action can resolve. The DSL should include a condition checking for the ability to pay 1 DON!! (via AttachDon or equivalent cost mechanism)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:57:56.888Z"
+}

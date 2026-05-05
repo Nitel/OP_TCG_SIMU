@@ -1,0 +1,63 @@
+{
+  "id": "OP03-051",
+  "name": "Bell-mère",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' with a condition checking that attack deals damage to opponent's Life, not just HasRestingDon. The current DSL only checks for DON!! presence, not damage dealt."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash 7 cards from the top of your deck' — this should be 'ForceDiscard' or a deck-trash action, not hand-trash. TrashFromHand targets hand; the effect targets deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect for same reason — should trash from deck, not hand."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Both actions are marked optional ('you may') but DSL has no 'optional' flag indicated. Verify DSL format supports optionality markers if needed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 7,
+          "filter": {
+            "source": "Deck",
+            "position": "Top"
+          },
+          "optional": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 3,
+          "filter": {
+            "source": "Deck",
+            "position": "Top"
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:09.142Z"
+}

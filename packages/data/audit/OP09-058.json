@@ -1,0 +1,36 @@
+{
+  "id": "OP09-058",
+  "name": "Special Muggy Ball",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'Trigger' which is incomplete/ambiguous. Official text shows only one effect (OnPlay). If this represents a second mode, the trigger condition is missing from card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxCost",
+      "description": "Second effect maxCost is 3, but official text states 'cost of 6 or less'. Both effects should have maxCost:6."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Return up to 1 of your opponent's Characters with a cost of 6 or less to the owner's hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:03:11.781Z"
+}

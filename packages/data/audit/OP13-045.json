@@ -1,0 +1,33 @@
+{
+  "id": "OP13-045",
+  "name": "Haruta",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check hand size (4 or less cards), not 'Always'. Missing condition type for card count check."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] If you have 4 or less cards in your hand, draw 1 card.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HandCount",
+          "value": 4,
+          "comparison": "LessOrEqual"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:01:44.088Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "ST03-004",
+  "name": "Gecko Moria",
+  "set": "ST-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect searches from trash, not deck. Should be 'ReturnToHand' or a trash-specific action."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].filter",
+      "description": "Filter is missing type requirements. Must include both {The Seven Warlords of the Sea} AND {Thriller Bark Pirates} as alternative type conditions, plus exclude [Gecko Moria]."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Missing 'source' property to specify search originates from trash, not deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "The Seven Warlords of the Sea",
+              "Thriller Bark Pirates"
+            ],
+            "typeMatchMode": "any"
+          },
+          "additionalFilters": [
+            {
+              "kind": "ByCost",
+              "maxCost": 4
+            },
+            {
+              "kind": "ExcludeByName",
+              "names": [
+                "Gecko Moria"
+              ]
+            }
+          ],
+          "source": "trash",
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:56:37.509Z"
+}

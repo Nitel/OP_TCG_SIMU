@@ -1,0 +1,86 @@
+{
+  "id": "OP10-078",
+  "name": "I Do Not Forgive Those Who Laugh at My Family!!!",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing required filter constraints: must specify CardType='Donquixote Pirates', exclude self-reference, and limit to 1 card max"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action to place remaining 2 cards at bottom of deck in any order (card arrangement mechanic not captured)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck scope undefined: effect states 'look at 3 cards from top' but filter lacks deckPosition/limit constraints to reflect this 3-card window"
+    },
+    {
+      "severity": "minor",
+      "field": "effects",
+      "description": "Counter trigger should conditionally apply same logic as Main trigger; both triggers execute identical SearchDeck but lack differentiation in cost/effect timing"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 3 cards from the top of your deck; reveal up to 1 {Donquixote Pirates} type card other than [I Do Not Forgive Those Who Laugh at My Family!!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "CardType",
+              "value": "Donquixote Pirates",
+              "excludeCardName": "I Do Not Forgive Those Who Laugh at My Family!!!",
+              "deckPosition": "top3",
+              "maxCount": 1
+            },
+            "destination": "hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "Remaining",
+              "source": "deck",
+              "count": 2
+            },
+            "destination": "bottomOfDeck",
+            "note": "arrange in any order"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "CardType",
+              "value": "Donquixote Pirates",
+              "excludeCardName": "I Do Not Forgive Those Who Laugh at My Family!!!",
+              "deckPosition": "top3",
+              "maxCount": 1
+            },
+            "destination": "hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "Remaining",
+              "source": "deck",
+              "count": 2
+            },
+            "destination": "bottomOfDeck",
+            "note": "arrange in any order"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:36:54.097Z"
+}

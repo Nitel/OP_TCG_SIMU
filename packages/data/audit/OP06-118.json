@@ -1,0 +1,75 @@
+{
+  "id": "OP06-118",
+  "name": "Roronoa Zoro",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects (OnAttack and Activated Main), but effects array is empty. Both effects must be represented in DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing OnAttack effect: When Attacking, Once Per Turn, cost ➀ (1 DON), action is Rest self and set as active"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing Activated Main effect: Once Per Turn, cost ➁ (2 DON), action is Rest self and set as active"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "Once",
+            "id": "1"
+          }
+        ],
+        "cost": {
+          "don": 1
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          },
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "Active"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "zone": "Main",
+        "conditions": [
+          {
+            "type": "Once",
+            "id": "2"
+          }
+        ],
+        "cost": {
+          "don": 2
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          },
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "Active"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:02:19.924Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP06-086_r1",
+  "name": "Gecko Moria",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'PlayFromTrash' or similar, not 'PlayFromHand'. Card text specifies playing from trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type should be 'PlayFromTrash' or similar, not 'PlayFromHand'. Card text specifies playing from trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'rested' property. First card should be played normally; second card should have rested:true."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing rested:true property. Second card must be played rested per card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'optional' or 'count' constraint. Text says 'up to 1' for each, indicating player choice of 0-1 cards per category."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "optional": true,
+          "rested": false
+        },
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 2
+          },
+          "optional": true,
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:38:04.950Z"
+}

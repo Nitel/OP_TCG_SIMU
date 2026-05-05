@@ -1,0 +1,57 @@
+{
+  "id": "OP11-060",
+  "name": "Let's Crash This Wedding!!!",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnPlay' (Main phase activation), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing condition 'LeaderHasAnyType' to check if Leader is multicolored"
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) look at 5 cards from top, (2) reveal up to 1 {Straw Hat Crew} type card, (3) exclude [Let's Crash This Wedding!!!], (4) place rest at bottom in any order"
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].filter",
+      "description": "Filter should specify {Straw Hat Crew} type and exclude [Let's Crash This Wedding!!!], not 'Any'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "value": [
+          "multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Straw Hat Crew",
+            "exclude": [
+              "Let's Crash This Wedding!!!"
+            ]
+          },
+          "destination": "hand",
+          "maxCount": 1,
+          "deckPosition": "top",
+          "deckLookCount": 5,
+          "remainderPlacement": "bottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:45.976Z"
+}

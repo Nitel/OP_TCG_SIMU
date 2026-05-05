@@ -1,0 +1,30 @@
+{
+  "id": "OP04-031",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Effect uses 'Rest' action, but the card text describes preventing cards from becoming active (a refresh prevention mechanic), not resting them. This is a fundamentally different game mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "No DSL action type exists for 'prevent refresh' or 'skip next activation'. The 'Rest' action is incorrect for this effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 3' cards total, not unlimited. Current DSL lacks quantity constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect requires a duration or condition tied to opponent's next Refresh Phase, but DSL only specifies OnPlay trigger with no temporal scope."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:36:58.407Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP04-016_r1",
+  "name": "Bad Manners Kick Course",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with negative PowerBoost to opponent) has no basis in card text. Card only describes a single counter effect with optional trash action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be conditional (\"may trash\"), not mandatory. The thenActions structure is correct for optional cost, but verify optional cost handling in DSL parser."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringBattle' not 'EndOfBattle'. The boost applies 'during this battle' which is a limited battle scope, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "amount": 1
+              },
+              "duration": "DuringBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:48.176Z"
+}

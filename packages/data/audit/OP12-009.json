@@ -1,0 +1,49 @@
+{
+  "id": "OP12-009",
+  "name": "Jinbe",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Rush keyword should have duration 'DuringYourTurn' per '[Your Turn]' language in card text, not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].duration",
+      "description": "PowerBoost should have duration 'DuringOpponentTurn' per 'until the end of your opponent's next End Phase' language, not 'EndOfTurn'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 2,
+        "filter": {
+          "cardType": "Event"
+        },
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:53.466Z"
+}

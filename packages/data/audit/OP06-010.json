@@ -1,0 +1,45 @@
+{
+  "id": "OP06-010",
+  "name": "Douglas Bullet",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'OnAttacked'. This is a static ability that grants Blocker when the card enters play, not a reactive effect to being attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is missing the {FILM} type check. Should be LeaderHasType with value 'FILM', not 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfBattle'. Blocker is a static keyword ability that persists for the card's lifetime on the board."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "FILM"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:53:55.785Z"
+}

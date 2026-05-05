@@ -1,0 +1,46 @@
+{
+  "id": "EB03-007",
+  "name": "Baccarat",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing filter for 'no base effect' requirement. The official text specifies 'no base effect' but the DSL filter only checks maxPower.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing optional count specification 'up to 1'. While PlayFromHand may default to 1, explicitly specifying count: 1 and optional: true would be clearer.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing [Blocker] keyword in DSL. The card has the Blocker keyword which should be encoded separately.",
+      "field": "keywords"
+    }
+  ],
+  "suggestedDsl": {
+    "keywords": [
+      "Blocker"
+    ],
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "optional": true,
+            "filter": {
+              "type": "Character",
+              "maxPower": 6000,
+              "noBaseEffect": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:09.608Z"
+}

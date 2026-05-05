@@ -1,0 +1,35 @@
+{
+  "id": "OP13-050",
+  "name": "Boa Sandersonia",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' to check if Leader is Boa Hancock, not 'HasCardOnBoard' which checks for a card on the board"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Boa Hancock"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 3,
+              "subType": "Boa Hancock"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:02:06.758Z"
+}

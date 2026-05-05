@@ -1,0 +1,63 @@
+{
+  "id": "OP06-064",
+  "name": "Vinsmoke Niji",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing mandatory DON!! cost action. Card text specifies 'DON!! −1' which must be represented as GiveDon action with value -1 before conditional trash/play logic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "First action should be GiveDon (cost payment), not TrashFromHand. The trash is a condition ('You may trash this Character'), not the primary action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Trash action lacks condition checking Leader type {GERMA 66}. Condition 'LeaderHasType' must wrap the conditional play logic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "PlayFromHand should accept both 'from your hand OR trash' sources, but filter only specifies hand. Need alternate source handling or clarification in DSL structure"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter.excludeSelf",
+      "description": "excludeSelf:true is correct for self-trash, but structure doesn't clearly represent 'You may trash this Character' as optional prerequisite"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "value": -1
+      },
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "excludeSelf": true
+        },
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "GERMA 66"
+        },
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "name": "Vinsmoke Niji",
+              "maxCost": 5
+            },
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:57:59.327Z"
+}

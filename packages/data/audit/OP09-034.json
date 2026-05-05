@@ -1,0 +1,61 @@
+{
+  "id": "OP09-034",
+  "name": "Perona",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete: missing 'count' parameter (should look at 5 cards), missing 'optional' flag (up to 1), and missing support for type-based filtering (currently only supports ByName for 'Dracule Mihawk' OR {Thriller Bark Pirates} type)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter only specifies ByName 'Dracule Mihawk' but must also include {Thriller Bark Pirates} type cards as alternative reveal options"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action sequence: card placement step (place rest at bottom of deck in any order) is not represented before the trash action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand filter is empty and should specify count:1; also execution order is wrong - trash should occur after deck ordering, and thenActions array should be empty"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "optional": true,
+          "filter": {
+            "kind": "ByTypeOrName",
+            "typeOrName": [
+              "Dracule Mihawk",
+              "Thriller Bark Pirates"
+            ]
+          },
+          "destination": "hand",
+          "maxReveal": 1
+        },
+        {
+          "type": "OrderDeckBottom",
+          "count": "remaining"
+        },
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:58.856Z"
+}

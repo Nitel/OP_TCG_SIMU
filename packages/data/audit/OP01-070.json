@@ -1,0 +1,37 @@
+{
+  "id": "OP01-070",
+  "name": "Dracule Mihawk",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but effect text says 'place at the bottom of the owner's deck' — should be a deck placement action, not hand return"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'Character' without specifying opponent — should target 'ChooseCharacter' (any character on board)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Place up to 1 Character with a cost of 7 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 7,
+              "placement": "BottomOfDeck"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:58.811Z"
+}

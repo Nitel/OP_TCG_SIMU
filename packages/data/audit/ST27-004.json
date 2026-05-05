@@ -1,0 +1,65 @@
+{
+  "id": "ST27-004",
+  "name": "Sanjuan.Wolf",
+  "set": "ST-27",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Blackbeard Pirates} type using LeaderHasType, not HasCardOnBoard. HasCardOnBoard checks for cards on the board, not leader type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing passive effects: Character gains [Blocker] keyword and +1 cost for every 4 cards in trash. Only the [On Play] Trash action is implemented."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Blocker keyword grant effect that should be conditional on Leader type and scale with trash count. This requires a separate passive/static effect with PowerBoost action based on TrashCount condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": "TrashCount/4"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:22:54.392Z"
+}

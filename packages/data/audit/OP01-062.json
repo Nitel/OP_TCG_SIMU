@@ -1,0 +1,50 @@
+{
+  "id": "OP01-062",
+  "name": "Crocodile",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with target 'Event', not just 'Activated'. Current DSL does not specify that this triggers on Event activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires two conditions: (1) hand size ≤ 4 cards AND (2) hasn't drawn a card using this Leader's effect during this turn. These conditions are missing entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action is mandatory (DrawCard) but card text says 'you may draw', indicating optional action. DSL does not reflect optionality."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "triggerTarget": "Event",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          {
+            "type": "HandSize",
+            "comparison": "LessOrEqual",
+            "value": 4
+          },
+          {
+            "type": "NotDrawnThisTurnByLeader"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:47.251Z"
+}

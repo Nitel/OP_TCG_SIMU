@@ -1,0 +1,47 @@
+{
+  "id": "ST06-014_r1",
+  "name": "Shockwave",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' for counter effects that explicitly state 'during this battle'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO with maxCost:4 has no basis in card text. The card only describes one sequence: PowerBoost then KO (cost ≤3). This extra effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should specify 'active' Characters as stated in text (\"active Characters with a cost of 3 or less\"). Current scope lacks this qualifier."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "active": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:44.129Z"
+}

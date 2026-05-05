@@ -1,0 +1,51 @@
+{
+  "id": "OP04-030",
+  "name": "Trebol",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Effect text specifies 'rested Characters' but DSL target has no 'rested' filter. Should add 'rested':true to target object."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Text says '[On Your Opponent's Attack]' which is opponent's turn action, not 'OnAttacked'. Should be 'Trigger' or a custom opponent attack trigger, not the defender's OnAttacked trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "rested": true
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:54.605Z"
+}

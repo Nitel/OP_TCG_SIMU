@@ -1,0 +1,53 @@
+{
+  "id": "EB04-047",
+  "name": "Helmeppo",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'TrashFromHand' targeting the Character itself (this card), not searching for other cards to trash. The effect is '[Activate: Main] You may trash this Character' — the card itself must be trashed as the cost/condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should target 'this card' (the Character being activated), not other SWORD-type Characters. The 'excludeSelf:true' contradicts the intent to trash this card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The 'thenActions' structure is incorrect. Should be a single conditional action sequence: if this card is trashed, then play up to 1 SWORD-type Character from hand OR trash. Current DSL chains PlayFromHand only after the trash, but does not properly express 'from your hand or trash' as alternative sources."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "The DSL does not express that the player may trash this card (optional). The effect requires a condition that allows the player to choose whether to pay the cost."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "target": "self",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "subType": "SWORD",
+              "maxCost": 3,
+              "excludeName": "Helmeppo"
+            },
+            "amount": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:46.151Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "EB04-024",
+  "name": "Terracotta",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text explicitly states 'during this turn' which indicates the effect lasts only during your turn, not permanently until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be conditional/optional ('You may rest'). Current structure shows Rest as mandatory first action, but the card text uses 'You may rest' indicating it's optional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Unblockable",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Alabasta",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:39.222Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP06-073",
+  "name": "Shiki",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon' (resting DON!! cards). 'HasRestingDon' checks for resting DON!!, but the card text specifies 'on your field' which means attached DON!! counters."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "'TrashFromHand' should not have 'thenActions' array (empty or present). This is a standard action without conditional chaining."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:58:45.568Z"
+}

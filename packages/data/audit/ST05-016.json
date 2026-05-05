@@ -1,0 +1,43 @@
+{
+  "id": "ST05-016",
+  "name": "Lion's Threat Imperial Earth Bind",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect has trigger 'Activated' but should be 'Trigger' — the card text describes a triggered effect (DON!! cost payment mechanic), not a player-activated ability. The DON!! return cost is part of the activation cost, not a separate effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and GiveDon action is incorrect. The card grants DON!! as part of its cost payment mechanic (returning DON!! to deck), not as an output action. This effect should not exist in the DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO target is missing the required 'maxCount' constraint. Card text specifies 'up to 1', so maxCount should be 1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "cost": {
+        "type": "GiveDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:59:51.893Z"
+}

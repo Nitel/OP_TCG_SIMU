@@ -1,0 +1,49 @@
+{
+  "id": "OP01-044",
+  "name": "Shachi",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' for Penguin, but card text says 'If you don't have [Penguin]' which typically means in hand or general possession, not specifically on board. The condition logic appears incorrect for the intended meaning."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter specifies 'subType:Heart Pirates' but card text says 'play up to 1 [Penguin]'. The filter should target cards with name 'Penguin', not a subtype. Penguin is a creature name, not a subtype classification."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Action should include quantity limit 'up to 1' in the action parameters."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-044",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Penguin",
+          "negate": true
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "name": "Penguin"
+            },
+            "quantity": {
+              "type": "UpTo",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:15.392Z"
+}

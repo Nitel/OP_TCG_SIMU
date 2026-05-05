@@ -1,0 +1,49 @@
+{
+  "id": "EB02-008",
+  "name": "The Peak",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is inverted: the card specifies 'cost of 4 or more' but DSL has maxCost: 4, which means cost ≤ 4. Should use minCost: 4 instead.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing lookCount parameter: effect should look at exactly 4 cards from top of deck, but DSL doesn't specify this.",
+      "field": "effects[0].actions[0].lookCount"
+    },
+    {
+      "severity": "major",
+      "description": "Missing upTo parameter: effect says 'up to 1 card', meaning it's optional. DSL should include upTo: 1 to indicate this.",
+      "field": "effects[0].actions[0].upTo"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing restDestination: the effect specifies 'place the rest at the bottom of your deck in any order', which should be encoded in the DSL.",
+      "field": "effects[0].actions[0].restDestination"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookCount": 4,
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 4
+            },
+            "destination": "hand",
+            "upTo": 1,
+            "restDestination": "bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:30.840Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP05-006_r1",
+  "name": "Koala",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Revolutionary Army} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.name",
+      "description": "Condition parameter should be 'type' not 'name'. Format: {\"type\":\"LeaderHasType\",\"value\":\"Revolutionary Army\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which indicates the effect lasts for the remainder of your turn, not until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target should specify 'up to 1' limit. Consider using 'ChooseOpponentCharacter' with a count limit of 1."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Revolutionary Army"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -3000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:13.167Z"
+}

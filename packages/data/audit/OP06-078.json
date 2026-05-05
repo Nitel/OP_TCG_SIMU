@@ -1,0 +1,49 @@
+{
+  "id": "OP06-078",
+  "name": "GERMA 66",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is missing required condition to look at exactly 5 cards from top of deck before filtering"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter does not specify 'GERMA' type requirement or exclusion of [GERMA 66]"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with Trigger and DrawCard is incorrect; card text describes placing remaining cards at bottom of deck, not drawing a card"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL completely misrepresents the card effect. Should be single OnPlay trigger with SearchDeck (filtered for GERMA type excluding GERMA 66, max 1 card, from top 5) followed by deck reordering mechanic not captured in DSL"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "HasType",
+            "value": "GERMA",
+            "exclusions": [
+              "GERMA 66"
+            ]
+          },
+          "count": 1,
+          "destination": "hand",
+          "deckPosition": "top5"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:59:10.084Z"
+}

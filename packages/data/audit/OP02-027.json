@@ -1,0 +1,32 @@
+{
+  "id": "OP02-027",
+  "name": "Inuarashi",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain a Counter effect that prevents removal when all DON!! cards are rested."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "HasRestingDon",
+          "value": "all"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeRemoved",
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:27.757Z"
+}

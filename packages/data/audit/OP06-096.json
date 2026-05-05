@@ -1,0 +1,40 @@
+{
+  "id": "OP06-096",
+  "name": "...Nothing...at All!!!",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is incomplete. DSL only implements the FlipLife action but omits the conditional protection effect. The card grants immunity to K.O. in battle for Characters with cost ≤7 during this turn, which requires a GiveKeyword action with duration DuringYourTurn or a custom protection mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition to filter target Characters by cost (cost ≤7). DSL lacks ability to express cost-based targeting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is optional per card text ('You may add 1 card...'), but DSL does not express optionality. Should be conditional or marked as optional:true."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "optional": true,
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOedInBattle",
+        "target": "YourCharactersWithCostLessOrEqual7",
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:33.432Z"
+}

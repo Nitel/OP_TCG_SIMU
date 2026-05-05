@@ -1,0 +1,50 @@
+{
+  "id": "OP05-037_r1",
+  "name": "Because the Side of Justice Will Be Whichever Side Wins!!",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with Trigger has no basis in card text. Card only describes a Counter effect with conditional power boost. The Rest action targeting opponent characters is entirely fabricated."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is mandatory (uses 'trash'), but DSL wraps it in thenActions suggesting optionality. Card text says 'You may trash', making the entire effect optional, not just the trash action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringBattle' not 'EndOfBattle'. Text says 'during this battle' which is a current-turn limited scope, not extending to end."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "maxCount": 1
+                },
+                "duration": "DuringBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:26.701Z"
+}

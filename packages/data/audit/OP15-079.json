@@ -1,0 +1,34 @@
+{
+  "id": "OP15-079",
+  "name": "Absalom",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'PlayFromHand' but card text says 'Add up to 1 {Thriller Bark Pirates} type card from your trash to your hand' – this is a retrieval from trash, not playing from hand. Should be 'ReturnToHand' with source filter for trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'subType' but should specify the source as trash. Missing 'source' parameter to indicate cards are retrieved from trash, not hand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates"
+          },
+          "source": "Trash",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:28:00.700Z"
+}

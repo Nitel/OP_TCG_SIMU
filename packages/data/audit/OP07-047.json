@@ -1,0 +1,56 @@
+{
+  "id": "OP07-047",
+  "name": "Trafalgar Law",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand should be conditional—only occurs if cost is paid. Current DSL treats it as an unconditional action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition checking opponent hand size (6+ cards). Activation is conditional on this state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "ForceDiscard is incorrect—opponent places card at bottom of deck (not trash). Should use a different action or clarify as deck manipulation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Missing target scope—should specify opponent's hand as source."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "comparison": ">=",
+        "count": 6,
+        "scope": "OpponentHand"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "OpponentHand"
+          },
+          "destination": "DeckBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:05:57.626Z"
+}

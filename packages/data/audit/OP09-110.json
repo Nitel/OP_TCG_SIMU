@@ -1,0 +1,38 @@
+{
+  "id": "OP09-110",
+  "name": "Pierre",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "DrawCard action missing count specification for the second part: 'trash 2 cards from your hand' requires TrashFromHand with count:2, but current DSL has empty filter and no count parameter"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger:'Trigger' and action PlaySelf is not supported by card text. Only [On Play] Draw 2 cards and trash 2 cards from your hand is described; no self-play mechanic exists"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Draw 2 cards and trash 2 cards from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 2,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:30:13.620Z"
+}

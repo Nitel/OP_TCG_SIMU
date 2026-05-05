@@ -1,0 +1,44 @@
+{
+  "id": "OP11-096",
+  "name": "Ripper",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check for presence of a black Navy type Character other than [Ripper] on board. Current condition is 'Always', which ignores the deck-building requirement. Should use 'HasCardOnBoard' with appropriate filters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (continuous effect) or 'StartOfTurn', not 'OnPlay'. The Blocker is granted as a static ability based on board state, not a one-time play effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have a black {Navy} type Character other than [Ripper], this Character gains [Blocker].",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "cardColor": "Black",
+          "cardSubType": "Navy",
+          "excludeCard": "[Ripper]"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:31.426Z"
+}

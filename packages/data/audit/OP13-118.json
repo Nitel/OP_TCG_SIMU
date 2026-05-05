@@ -1,0 +1,57 @@
+{
+  "id": "OP13-118",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasAnyType' (checking if Leader is multicolored), not 'HasCardOnBoard'. LeaderHasAnyType is the correct DSL condition for checking Leader properties."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'GiveDon' is incorrect. The effect 'set up to 4 of your DON!! cards as active' means activating (resting) existing DON!!, not giving new DON!!. Should use 'Rest' or similar activation mechanic. Current DSL creates DON!! instead of activating them."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect: 'you cannot play Character cards with a base cost of 5 or more during this turn' is a restriction that must be encoded as a separate effect with duration 'DuringYourTurn' and appropriate blocking logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "values": [
+          "Multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "YourDON",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "BlockPlay",
+          "target": "CharacterCards",
+          "condition": {
+            "baseCost": {
+              "min": 5
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:07:22.053Z"
+}

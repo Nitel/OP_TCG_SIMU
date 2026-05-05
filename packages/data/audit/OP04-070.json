@@ -1,0 +1,40 @@
+{
+  "id": "OP04-070",
+  "name": "Mr.3(Galdino)",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration is 'EndOfTurn' but effect text states 'during this turn'. Per duration rules, opponent turn effects with 'during' language should use 'DuringOpponentTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is 'ChooseOpponentCharacter' (allows choosing) but effect text says 'Give up to 1' which implies optional selection. Should be 'ChooseUpToOneOpponentCharacter' or equivalent optional-scoped target"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP04-070",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseUpToOneOpponentCharacter"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:14.829Z"
+}

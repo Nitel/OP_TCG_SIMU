@@ -1,0 +1,50 @@
+{
+  "id": "OP04-050",
+  "name": "Hanger",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Card text states 'You may trash 1 card from your hand AND rest this Character' as dual costs for a single effect. DSL presents them as sequential mandatory actions. The 'may' qualifier indicates both actions are optional together, not mandatory. Structure should use a conditional or 'optional' flag to reflect that the player chooses whether to perform both actions to draw."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'duration' field. Activated abilities default to 'Permanent' but should be explicit. The action occurs and resolves immediately during Main phase."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "duration": "Permanent",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "conditions": [
+          {
+            "type": "HasCardInHand",
+            "scope": "Self"
+          }
+        ],
+        "optional": true,
+        "costs": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:33.197Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP10-115",
+  "name": "Let's Meet Again in the New World",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Second action (DrawCard) is missing the condition 'HasLife' with value 0. Card text states 'if you have 0 Life cards, draw 1 card' — this is a conditional draw, not an unconditional one."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (KO action with maxCost 0) does not match card text. The card text contains no KO effect or mention of opponent characters with cost 0. This appears to be completely extraneous and incorrectly added."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for a Counter effect during battle, but verify against official OPTCG battle timing (should last through current battle resolution)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "value": 0
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:39:46.713Z"
+}

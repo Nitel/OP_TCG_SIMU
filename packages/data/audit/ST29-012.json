@@ -1,0 +1,55 @@
+{
+  "id": "ST29-012",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-29",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' restriction. Condition should include turn-count limiter or effects should specify frequency constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action should specify source as 'rested DON!!' cards (not generic attachment). Current DSL does not distinguish resting state of source DON."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Must restrict to '[Monkey.D.Luffy]' character cards, not generic 'ChooseOwnCharacter'. Target should include character type filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger:'Trigger' and PlaySelf action has no basis in card text. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to 1 of your [Monkey.D.Luffy] cards.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": {
+              "scope": "OwnRested",
+              "type": "Don"
+            },
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "characterType": "Monkey.D.Luffy"
+            }
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:24:54.889Z"
+}

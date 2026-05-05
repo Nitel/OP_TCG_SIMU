@@ -1,0 +1,35 @@
+{
+  "id": "OP10-096",
+  "name": "There’s No Longer Any Need for the Seven Warlords of the Sea!!!",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'Trigger' which is incomplete/vague. Should specify actual trigger type (OnPlay, OnAttack, etc.) or be removed if not part of official text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxCost",
+      "description": "Second effect has maxCost 4, but official text specifies 'cost of 8 or less'. Both effects should have maxCost: 8."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8,
+            "subType": "The Seven Warlords of the Sea",
+            "maxTargets": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:38:15.258Z"
+}

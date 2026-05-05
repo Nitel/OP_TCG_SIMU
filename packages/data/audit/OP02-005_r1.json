@@ -1,0 +1,53 @@
+{
+  "id": "OP02-005_r1",
+  "name": "Curly.Dadan",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires looking at up to 5 cards from top of deck, revealing up to 1 red Character with cost 1, adding it to hand, and placing the rest at the bottom in any order. Current DSL only captures the search portion and lacks the filtering for red Characters and the mandatory deck bottom placement step."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is missing color constraint (red) and character type constraint. Should filter for red Characters only, not all cards with maxCost 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "DSL lacks representation of the 'look at up to 5 cards' scope and the 'place rest at bottom of deck in any order' mechanic. SearchDeck alone does not capture the full effect."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "topCards": 5,
+        "filter": {
+          "kind": "ByMultiple",
+          "criteria": [
+            {
+              "kind": "ByColor",
+              "color": "red"
+            },
+            {
+              "kind": "ByType",
+              "type": "Character"
+            },
+            {
+              "kind": "ByCost",
+              "maxCost": 1
+            }
+          ]
+        },
+        "maxSearch": 1,
+        "destination": "hand",
+        "restPlacement": "DeckBottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:41:14.426Z"
+}

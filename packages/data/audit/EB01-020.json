@@ -1,0 +1,46 @@
+{
+  "id": "EB01-020",
+  "name": "Chambres",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition type is wrong. The text says 'If your Leader has the {Supernovas} type', which requires LeaderHasType condition, not HasCardOnBoard (which checks for characters on board).",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing color constraint on PlayFromHand action. The text specifies 'a different color than the returned Character', but the DSL filter does not include this restriction.",
+      "field": "effects[0].actions[1].filter"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "typeName": "Supernovas"
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            }
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 2,
+              "differentColorThanReturned": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:14.336Z"
+}

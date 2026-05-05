@@ -1,0 +1,79 @@
+{
+  "id": "OP11-031",
+  "name": "Jinbe",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect uses 'Activated' but should be 'StartOfTurn' or similar game phase trigger, as '[Activate: Main]' is a cost/timing restriction, not a trigger type. The DSL structure doesn't properly capture the '[Once Per Turn]' activation cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action 'GiveKeyword' with 'Unblockable' is incorrect. The card grants the ability to 'attack Characters' (bypass normal blocking rules), not a generic Unblockable keyword. This should be a special targeting rule or custom keyword specific to attacking characters rather than blockers."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition to filter for {Fish-Man} or {Merfolk} type Characters. The target scope should enforce type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should specify {Fish-Man} or {Merfolk} type characters only, not generic 'ChooseOwnCharacter'."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-031",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "subTypes": [
+            "Fish-Man",
+            "Merfolk"
+          ]
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxCount": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "subTypes": [
+            "Fish-Man",
+            "Merfolk"
+          ]
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackCharacters",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subTypes": [
+                "Fish-Man",
+                "Merfolk"
+              ],
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:42:33.018Z"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "OP12-116",
+  "name": "We'll Ring the Bell Waiting for You!!",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck action is incorrect. Effect requires looking at 5 cards from top of deck, revealing up to 2 specific cards (Shandian Warrior type OR Mont Blanc Noland), and adding them to hand. Current DSL uses generic SearchDeck with no filtering logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing the core mechanic: examine top 5 cards, filter by card type/name (Shandian Warrior OR Mont Blanc Noland), select up to 2, add to hand, then place remaining cards at bottom of deck in any order."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger + DrawCard) is completely unrelated to card text. Effect has no draw component. This appears to be erroneous DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (correct), but action structure does not match effect requirements."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 5 cards from the top of your deck; reveal a total of up to 2 {Shandian Warrior} type Character cards or [Mont Blanc Noland] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Or",
+              "conditions": [
+                {
+                  "kind": "HasType",
+                  "type": "Shandian Warrior"
+                },
+                {
+                  "kind": "IsName",
+                  "name": "Mont Blanc Noland"
+                }
+              ]
+            },
+            "count": 2,
+            "from": "top",
+            "deckSize": 5,
+            "destination": "hand",
+            "remaining": "bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:58:07.169Z"
+}

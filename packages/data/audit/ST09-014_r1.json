@@ -1,0 +1,50 @@
+{
+  "id": "ST09-014_r1",
+  "name": "Narikabura Arrow",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'TrashCount' (checking Life cards in trash = 2 or less), not 'HasRestingDon'. The card text 'If you have 2 or less Life cards' refers to Life cards remaining, which is expressed as TrashCount (cards moved to trash)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object is completely extraneous and unrelated to card text. There is no trigger for trashing cards or flipping life in the official text. This entire effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'OpponentCharacterOrLeader' (singular, chosen card), not 'ChooseOpponentCharacterOrLeader'. The scope 'Choose' is implicit in selection; should use 'count':1 to enforce 'up to 1'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for a Counter effect that applies during the current turn only."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "TrashCount",
+        "operator": "<=",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "OpponentCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:54.109Z"
+}

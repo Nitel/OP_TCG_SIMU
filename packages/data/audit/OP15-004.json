@@ -1,0 +1,43 @@
+{
+  "id": "OP15-004",
+  "name": "Sea Cat",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition checks 'HasCardOnBoard' for Leader, but effect requires checking if Leader has 0 power or less. Should use a power/stat check condition, not board presence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'OpponentCharacter' with optional selection (up to 1), but current scope 'ChooseOpponentCharacter' may not properly enforce the 'up to 1' limit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn'. Should be 'DuringYourTurn' to indicate the effect lasts for the remainder of your turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderPowerComparison",
+      "operator": "<=",
+      "value": 0
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:11.718Z"
+}

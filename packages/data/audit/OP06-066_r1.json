@@ -1,0 +1,66 @@
+{
+  "id": "OP06-066_r1",
+  "name": "Vinsmoke Yonji",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {GERMA 66} type, not just HasCardOnBoard. Should be: {\"type\":\"LeaderHasType\",\"value\":\"GERMA 66\"}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should be TrashFromHand targeting this Character (self), not a generic trash. The card text says 'You may trash this Character' as a condition/cost for the play effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand should search both hand AND trash (\"or trash\" in text). Current DSL only targets hand. Should include trash as valid source."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be \"Activated\" with cost/resource specification. The DON!! −1 cost and the optional trash of this character are separate from the main effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] DON!! −1: You may trash this Character: If your Leader has the {GERMA 66} type, play up to 1 [Vinsmoke Yonji] with a cost of 4 from your hand or trash.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "GERMA 66"
+        },
+        "cost": {
+          "don": 1
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "cardName": "OP06-066_r1"
+            },
+            "optional": true
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "name": "Vinsmoke Yonji",
+              "maxCost": 4
+            },
+            "sources": [
+              "hand",
+              "trash"
+            ],
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:37:40.339Z"
+}

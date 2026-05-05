@@ -1,0 +1,37 @@
+{
+  "id": "OP05-067_r1",
+  "name": "Zoro-Juurou",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 3 or less Life cards' requires condition type 'LifeCount' with comparison <=3, not 'Always'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveDon' should clarify 'count':1 represents 'up to 1' (optional/conditional add), which is acceptable but context suggests it may need optional flag if implementation supports it"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LifeCount",
+          "comparison": "<=",
+          "value": 3
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:13:17.003Z"
+}

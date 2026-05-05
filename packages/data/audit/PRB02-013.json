@@ -1,0 +1,63 @@
+{
+  "id": "PRB02-013",
+  "name": "Gecko Moria",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Thriller Bark Pirates} type, not whether a card exists on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'PlayFromHand' or similar card play action, not 'SearchDeck'. The effect plays a Character from trash (not deck), so destination should be 'trash' with a play/revive action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'ByCost' which implies searching deck. Should specify 'CardType:Character' AND cost filter, and source should be 'trash' not deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "AttachDon action assumes rested DON!! are being attached. The action should specify that the DON!! cards must be rested, and the count is 'up to 1' which requires optional logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "typeValue": "Thriller Bark Pirates"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByCardType",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "source": "trash",
+          "count": 1,
+          "optional": true,
+          "restState": "rested"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "restState": "rested"
+          },
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:51:14.439Z"
+}

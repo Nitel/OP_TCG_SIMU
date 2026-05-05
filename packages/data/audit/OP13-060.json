@@ -1,0 +1,39 @@
+{
+  "id": "OP13-060",
+  "name": "Amatsuki Toki",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain OnKO trigger with condition checking opponent's effect, action to trash this Character instead of being KO'd"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "params": {
+              "filter": "HasType",
+              "value": "Roger Pirates"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "params": {
+              "target": "ThisCharacter"
+            }
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:02:50.966Z"
+}

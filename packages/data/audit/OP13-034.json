@@ -1,0 +1,36 @@
+{
+  "id": "OP13-034",
+  "name": "Brook",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check if Leader has {FILM} or {Straw Hat Crew} type, not just if Leader exists on board. Should use LeaderHasAnyType with types: ['FILM', 'Straw Hat Crew']"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. 'Set up to 1 of your DON!! cards as active' means activating resting DON cards, which requires 'Rest' action (to flip them active) or a custom activation mechanic. GiveDon adds new DON cards. Should clarify intent: if activating existing resting DON, use Rest; if adding DON, GiveDon is closer but still imprecise."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "types": [
+        "FILM",
+        "Straw Hat Crew"
+      ]
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "YourDonCards",
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:56.401Z"
+}

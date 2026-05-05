@@ -1,0 +1,65 @@
+{
+  "id": "ST22-015",
+  "name": "I Am Whitebeard!!",
+  "set": "ST-22",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check Leader type includes 'Whitebeard Pirates', not if [Edward.Newgate] is on board. Should be: {\"type\":\"LeaderHasType\",\"value\":\"Whitebeard Pirates\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife action is missing optional gating. The text says 'you may add 1 card...Then, you may...' indicating the power boost is conditional on choosing to flip life. Need conditional execution or separate effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until opponent's next turn ends), not 'EndOfTurn'. Text states 'until the end of your opponent's next turn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand should specify 'up to 1', not exactly 1. Filter should use 'count' or 'maxCount' constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "name": "Edward.Newgate"
+          },
+          "maxCount": 1
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn",
+          "condition": {
+            "type": "PreviousActionResolved",
+            "action": "FlipLife"
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:17:36.676Z"
+}

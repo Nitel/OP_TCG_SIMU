@@ -1,0 +1,48 @@
+{
+  "id": "OP01-034",
+  "name": "Inuarashi",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text states '[When Attacking]' which is an attack trigger, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "condition.type",
+      "description": "Condition should be 'HasRestingDon' with count 2, which is correct, but the logic is incomplete: the effect requires you to HAVE at least 2 resting DON!! to trigger, not spend them."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "Action type is wrong. 'GiveDon' with count 1 does not match the effect. 'Set up to 1 of your DON!! cards as active' means REST (flip from resting to active), not give/gain DON. Should use 'Rest' action targeting a resting DON card."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].target",
+      "description": "Target scope 'Self' is incorrect. The action should target up to 1 resting DON card on your board, not the card itself."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "count": 1,
+          "target": {
+            "scope": "Board",
+            "filter": "RestingDon"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:00.655Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "EB01-046_r1",
+  "name": "Brook",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "PowerBoost with negative amount (-1000) is semantically incorrect for cost reduction. Should use a dedicated cost-reduction action or clarify that -1000 power ≠ -1 cost. Cost and power are distinct mechanics in OPTCG."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action KO target uses 'ChooseOpponentCharacter' with maxCost filter, but the character to K.O. should be limited to those that NOW have cost 0 (after the -1 cost reduction). Current DSL does not enforce dependency: KO only targets those with cost ≤0 at resolution, not necessarily the same character reduced in action[0]."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:40:31.037Z"
+}

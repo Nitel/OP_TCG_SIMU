@@ -1,0 +1,90 @@
+{
+  "id": "OP15-008",
+  "name": "Krieg",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing entire first action: 'Give up to 3 of your opponent's rested DON!! cards to 1 of your opponent's Characters' is not represented in DSL"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'PlayFromHand' is incorrect; this is an [On Play] trigger effect, not a play action. Should be 'AttachDon' to attach opponent's rested DON to opponent's Character"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'cardType:Character' but the action is about moving DON cards from opponent's field, not playing Characters"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect: [Activate: Main] ability is completely absent from DSL. Must add separate effect with trigger 'Activated' and condition checking if Character was played this turn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for [Rush] grant during this turn, but the second ability's power reduction should also be 'DuringYourTurn', not persistent"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": {
+            "type": "UpTo",
+            "value": 3
+          },
+          "filter": {
+            "scope": "Opponent",
+            "status": "Resting"
+          },
+          "target": {
+            "scope": "OpponentCharacter",
+            "count": 1
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "PlayedThisTurn",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "value": -1000,
+          "multiplier": {
+            "type": "DonAttachedCount",
+            "target": {
+              "scope": "OpponentCharacter"
+            }
+          },
+          "target": {
+            "scope": "OpponentCharacter",
+            "count": "All"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:22:33.542Z"
+}

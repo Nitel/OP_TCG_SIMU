@@ -1,0 +1,27 @@
+{
+  "id": "OP01-100",
+  "name": "Kurozumi Higurashi",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability completely missing from DSL. Card has [Blocker] text that must be represented as a Counter trigger effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "description": "Blocker: After opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:50.111Z"
+}

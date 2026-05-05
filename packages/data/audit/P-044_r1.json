@@ -1,0 +1,44 @@
+{
+  "id": "P-044_r1",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 4 or less cards in your hand' should be a condition type like 'HandCount' or similar, not 'Always'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (passive effect when character enters play), not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' (continuous passive power boost while on board), not 'EndOfTurn'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HandCount",
+        "operator": "<=",
+        "value": 4
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:48:52.665Z"
+}

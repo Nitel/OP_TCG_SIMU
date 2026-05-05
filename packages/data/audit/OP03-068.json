@@ -1,0 +1,37 @@
+{
+  "id": "OP03-068",
+  "name": "Minozebra",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'LeaderHasType' with type 'Impel Down'. The effect only activates if the Leader has the {Impel Down} type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incomplete. Must include 'rest: true' to reflect 'rest it' in the card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Impel Down"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:39.570Z"
+}

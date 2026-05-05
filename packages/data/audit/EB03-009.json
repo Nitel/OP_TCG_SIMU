@@ -1,0 +1,51 @@
+{
+  "id": "EB03-009",
+  "name": "Makino",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that requires resting this Character to activate the effect",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Missing target restriction: the Character must have 'no base effect' (vanilla)",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "minor",
+      "description": "Target scope should specify 'up to 1' limit explicitly",
+      "field": "effects[0].actions[0].target.count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "type": "RestSelf"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1,
+              "filter": {
+                "vanilla": true
+              }
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:16.012Z"
+}

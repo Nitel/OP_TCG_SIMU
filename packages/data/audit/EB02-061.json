@@ -1,0 +1,83 @@
+{
+  "id": "EB02-061",
+  "name": "Monkey.D.Luffy",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the conditional Rush keyword effect that applies when leader is multicolored and opponent has 5+ DON!! cards",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the cost requirement to return 2 active DON!! cards to DON!! deck",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the action to set this Character as active (untap/stand effect)",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "major",
+      "description": "Missing the [Once Per Turn] restriction on the OnAttack trigger",
+      "field": "effects[0].condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "leaderType": "Multicolor"
+            },
+            {
+              "type": "OpponentHasDonCount",
+              "minCount": 5
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "type": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "OncePerTurn"
+        },
+        "cost": {
+          "type": "ReturnDonToDeck",
+          "count": 2,
+          "restingOnly": false
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "type": "Self"
+            },
+            "active": true
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:37.375Z"
+}

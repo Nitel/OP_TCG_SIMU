@@ -1,0 +1,41 @@
+{
+  "id": "EB04-038",
+  "name": "Rosinante &amp; Law",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' requires HasAttachedDon comparison logic. Current condition is 'Always', which ignores the if-clause entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Action 'GiveDon' with count:1 should specify 'upTo':true to match 'up to 1 DON!!' in card text. Current DSL assumes mandatory addition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "lessThanOrEqual",
+        "targetPlayer": "self",
+        "comparisonPlayer": "opponent"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "upTo": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:09:53.477Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP05-078",
+  "name": "Punk Rotten",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' for a DON!! cost ability, but the DSL shows two separate effects. The DON!! cost mechanic (returning DON!! cards) should be represented as a cost condition, not a separate 'Trigger' effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and GiveDon action is incorrect. The ability returns DON!! cards (cost) rather than giving them. This effect should not exist or should represent the cost differently."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify {Kid Pirates} type filtering. Current 'ChooseOwnCharacter' lacks the type restriction 'LeaderOrCharacter with Kid Pirates type'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '+5000 power during this turn', but should clarify this is 'DuringYourTurn' scope if needed for clarity."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "DonCost",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 5000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasType",
+              "value": "Kid Pirates"
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:13.517Z"
+}

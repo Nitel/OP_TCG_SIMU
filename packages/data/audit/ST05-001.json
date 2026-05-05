@@ -1,0 +1,50 @@
+{
+  "id": "ST05-001",
+  "name": "Shanks",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should filter for {FILM} type Characters only. Current target 'AllOwnCharacters' applies boost to all Characters regardless of type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to filter Characters by type. Should include a type filter for {FILM}."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cardTypes": [
+              "FILM"
+            ],
+            "isCharacter": true
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "cardTypes": [
+                "FILM"
+              ]
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:58:46.361Z"
+}

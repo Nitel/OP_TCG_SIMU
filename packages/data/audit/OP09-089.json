@@ -1,0 +1,72 @@
+{
+  "id": "OP09-089",
+  "name": "Stronger",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (\"You may trash\"), but DSL structure doesn't reflect the optional nature with a conditional check. The action needs to be wrapped in a condition or use optional semantics."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: \"If your Leader has the {Blackbeard Pirates} type\" must be enforced. Condition should be LeaderHasType with type 'Blackbeard Pirates'. Currently thenActions execute unconditionally after trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "DrawCard should only execute if the Leader type condition is met. Currently structured as automatic consequence of trash action, not gated by Leader type check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].target",
+      "description": "PowerBoost target should limit to 1 Character (\"up to 1\"), but ChooseOpponentCharacter without maxCount constraint. Should include maxCount: 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].duration",
+      "description": "Duration \"during this turn\" should map to \"DuringYourTurn\", not \"EndOfTurn\". These have different mechanical meanings."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "optional": true
+      },
+      {
+        "type": "TrashCard",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true
+      }
+    ],
+    "thenActions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -2,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:28:34.178Z"
+}

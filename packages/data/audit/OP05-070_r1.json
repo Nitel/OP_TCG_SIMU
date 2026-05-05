@@ -1,0 +1,41 @@
+{
+  "id": "OP05-070_r1",
+  "name": "Fra-Nosuke",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. This is a passive static ability that checks a condition when the card enters play, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. The card text states 'this Character gains [Rush]' with no time limit specified, indicating a permanent effect as long as the condition is met."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] If you have 8 or more DON!! cards on your field, this Character gains [Rush].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:13:25.854Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP05-063_r1",
+  "name": "O-Robi",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' checks for Resting DON!! cards. Card text says '8 or more DON!! cards on your field' which includes all DON!! (resting and attached). Should use 'HasAttachedDon' to represent total DON!! on field, or clarify intent. If strictly attached DON!!, use HasAttachedDon; if total including resting, a custom condition or different approach needed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' with 'maxCost:3' is unclear. DSL should specify 'maxCost' as a filter within the target scope. Verify target format matches official schema: likely should be {\"scope\":\"OpponentCharacter\",\"filter\":{\"maxCost\":3}} or similar."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "OpponentCharacter",
+          "filter": {
+            "maxCost": 3
+          },
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:13:08.366Z"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "EB01-009",
+  "name": "Just Shut Up and Come with Us!!!!",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck action is missing the required 'count' parameter to look at top 5 cards. The current filter only checks cost ≤3 but doesn't specify looking at exactly 5 cards from deck top.",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is missing the type requirement for {Animal} type Character cards. Only the cost constraint is present.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action is missing the 'limit' parameter to enforce 'up to 1' card can be played (optional play).",
+      "field": "effects[0].actions[0].limit"
+    },
+    {
+      "severity": "major",
+      "description": "The action doesn't specify that remaining cards should be placed at bottom of deck in any order. This is a mandatory part of the effect that affects game state.",
+      "field": "effects[0].actions[0].remainingCardsDestination"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "filter": {
+              "kind": "ByTypeAndCost",
+              "types": [
+                "Animal"
+              ],
+              "cardType": "Character",
+              "maxCost": 3
+            },
+            "limit": 1,
+            "destination": "board",
+            "optional": true,
+            "remainingCardsDestination": "bottomOfDeck",
+            "remainingCardsOrder": "anyOrder"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:37.801Z"
+}

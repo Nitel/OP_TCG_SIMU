@@ -1,0 +1,56 @@
+{
+  "id": "OP05-074_r1",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the Blocker keyword and the condition that triggers the DON!! return effect. The card has two distinct abilities: (1) Blocker—a static/Counter ability, not represented; (2) [Your Turn] [Once Per Turn] trigger on DON!! card return—requires OnTrigger/OnPlay condition tracking DON!! deck returns, not just Activated. Current DSL only captures a generic GiveDon action without context."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnTrigger' or similar event-based trigger for 'When a DON!! card on your field is returned to your DON!! deck', not 'Activated'. Activated implies manual player action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: [Your Turn] should map to duration or condition. Missing [Once Per Turn] constraint. Missing condition checking that a DON!! was returned to deck."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Blocker keyword ability is completely absent from DSL. Must include a Counter or static block-related effect structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    },
+    {
+      "trigger": "OnTrigger",
+      "conditions": [
+        {
+          "type": "HasRestingDon"
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:35:58.746Z"
+}

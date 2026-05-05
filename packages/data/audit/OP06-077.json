@@ -1,0 +1,52 @@
+{
+  "id": "OP06-077",
+  "name": "Black Bug",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' must be encoded as a condition comparing field DON counts. Current condition is 'Always', which ignores the DON comparison requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'KO' but card text says 'place at the bottom of the owner's deck', which is 'ReturnToHand' or similar deck-return action, not destruction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost is 5, but text specifies 'cost of 5 or less' which should be maxCost: 5. However, the primary issue is the action type is wrong."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and maxCost: 4 has no basis in card text. Card describes a single conditional effect, not two separate triggers. This is spurious."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] If the number of DON!! cards on your field is equal to or less than the number on your opponent's field, place up to 1 of your opponent's Characters with a cost of 5 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "comparison": "LessThanOrEqual",
+          "opponentHasMoreDon": true
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxAmount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:59:04.052Z"
+}

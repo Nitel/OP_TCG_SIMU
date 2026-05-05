@@ -1,0 +1,32 @@
+{
+  "id": "OP04-015",
+  "name": "Roronoa Zoro",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which means the effect lasts only during your turn, not until end of turn. Should be duration:'DuringYourTurn' not 'EndOfTurn'"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:25.993Z"
+}

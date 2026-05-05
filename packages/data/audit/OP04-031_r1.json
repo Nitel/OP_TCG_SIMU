@@ -1,0 +1,25 @@
+{
+  "id": "OP04-031_r1",
+  "name": "Donquixote Doflamingo",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is incorrect. The card prevents cards from becoming active during opponent's next Refresh Phase, which requires a conditional duration effect, not a Rest action. This is a prevention mechanic, not a standard action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacterOrLeader' is incomplete. Effect specifies 'up to a total of 3' and only affects 'rested' cards, which requires a count condition and a 'HasRestingDon' or similar state filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect completely missing duration logic. The card prevents activation during 'your opponent's next Refresh Phase' which requires duration:'DuringOpponentTurn' or a similar phase-specific duration mechanic not present in current DSL structure."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:34:24.120Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP13-113",
+  "name": "Lilith",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and missing required parameters. The effect requires: (1) looking at top 4 cards, (2) filtering for cards with [Trigger] keyword excluding [Lilith], (3) revealing and adding up to 1 to hand, (4) placing rest at bottom in any order. Current DSL lacks filter conditions, count limit (maxCount:1), and the reordering mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is set to 'Any' but should specify: HasKeyword 'Trigger' AND NOT HasCardName containing 'Lilith' or similar exclusion logic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second action to handle placement of non-selected cards at bottom of deck in any order. Current DSL only captures the 'add to hand' portion."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "And",
+            "conditions": [
+              {
+                "kind": "HasKeyword",
+                "keyword": "Trigger"
+              },
+              {
+                "kind": "Not",
+                "condition": {
+                  "kind": "HasCardName",
+                  "name": "Lilith"
+                }
+              }
+            ]
+          },
+          "maxCount": 1,
+          "searchCount": 4,
+          "destination": "hand",
+          "reveal": true
+        },
+        {
+          "type": "ReorderDeck",
+          "position": "bottom",
+          "count": 3
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:06:55.176Z"
+}

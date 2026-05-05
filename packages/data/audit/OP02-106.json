@@ -1,0 +1,31 @@
+{
+  "id": "OP02-106",
+  "name": "Tsuru",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has On Play trigger with cost reduction effect that must be DSL encoded."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "targetCount": 1,
+            "amount": -2,
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:19.066Z"
+}

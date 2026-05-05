@@ -1,0 +1,60 @@
+{
+  "id": "OP01-038",
+  "name": "Kanjuro",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be HasAttachedDon (character has DON!! attached), not HasRestingDon. HasRestingDon checks if leader is resting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type should be ForceDiscard, not TrashFromHand. TrashFromHand is for self-initiated trash; ForceDiscard is for opponent choosing and discarding."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0]",
+      "description": "Missing target specification - should explicitly state opponent chooses from your hand with target scope"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "condition": {
+                "type": "IsResting"
+              },
+              "maxCost": 2
+            },
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": {
+              "scope": "OpponentChoosesFromHand"
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:05.972Z"
+}

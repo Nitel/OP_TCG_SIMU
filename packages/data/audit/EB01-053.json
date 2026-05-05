@@ -1,0 +1,38 @@
+{
+  "id": "EB01-053",
+  "name": "Gastino",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "OnPlay effect uses wrong action type 'ReturnToHand' instead of 'AddLife'. The official text says to place the Character at top or bottom of opponent's Life cards face-up, not return to hand.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Spurious Trigger effect with PowerBoost action that does not exist in the official effect text. This card has no Trigger ability.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "AddLife",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "position": "TopOrBottom",
+            "faceUp": true,
+            "toOpponent": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:29.782Z"
+}

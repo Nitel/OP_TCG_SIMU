@@ -1,0 +1,44 @@
+{
+  "id": "OP02-032",
+  "name": "Shishilian",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is 'Rest' but card effect requires setting a Character as active (opposite of rest). Should be a custom action or clarified as activating/unrest action. 'Rest' would exhaust the character, contradicting 'set up as active'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter missing type requirement '{Minks}'. Current scope only filters by maxCost:5, but should also include type filter for Minks Characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost condition: effect requires ② (resting 2 DON!! cards). Should include condition checking HasAttachedDon >= 2 or similar cost validation before action executes."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "amount": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "Activate",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "type": "Minks",
+          "maxCost": 5,
+          "maxSelect": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:39.836Z"
+}

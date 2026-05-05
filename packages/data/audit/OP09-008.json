@@ -1,0 +1,51 @@
+{
+  "id": "OP09-008",
+  "name": "Building Snake",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand is incorrect. Card text says 'place this Character at the bottom of the owner's deck' which is ReturnToHand (or similar deck placement), not PlayFromHand. The action should reflect returning to deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "filter.subType 'Red-Haired Pirates' is not justified by card text. The placement action should apply to 'this Character' only, not filtered by type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "duration 'EndOfTurn' is correct for 'during this turn', but condition is missing. The power reduction should only apply during the current turn with proper duration specification."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "Target correctly uses 'ChooseOpponentCharacter' but text specifies 'up to 1' which should be enforced in the target limit/quantity."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "limit": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:33:57.112Z"
+}

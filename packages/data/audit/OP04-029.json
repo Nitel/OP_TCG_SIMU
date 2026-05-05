@@ -1,0 +1,30 @@
+{
+  "id": "OP04-029",
+  "name": "Dellinger",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a game action but effects array is empty. Should contain trigger, condition, and action for setting DON!! cards as active."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourDONCards",
+            "amount": 1
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:51.298Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP11-072",
+  "name": "Charlotte Mont-d'or",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing opponent action: card effect requires opponent to place 2 cards from their trash at bottom of deck before player flips life. DSL only includes Rest and FlipLife, omitting the opponent's mandatory action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be conditional (\"You may rest\"). Current DSL shows Rest as mandatory without condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost representation: DON!! −1 cost not encoded in DSL. While costs may be metadata, the conditional nature of \"may rest\" suggests optional trigger resolution."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Opponent",
+            "zone": "Trash"
+          },
+          "count": 2,
+          "destination": "DeckBottom"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:45:40.078Z"
+}

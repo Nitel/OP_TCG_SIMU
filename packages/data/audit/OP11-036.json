@@ -1,0 +1,49 @@
+{
+  "id": "OP11-036",
+  "name": "Spotted Neptunian",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing: must check 'LeaderIsName' with value 'Shirahoshi'. Current condition is 'Always', which makes the leader check ineffective."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Must specify: (1) look at top 5 cards, (2) filter allows EITHER {Neptunian} type OR [Shirahoshi] name, (3) reveal up to 1 card, (4) add to hand. Current DSL only searches by name 'Shirahoshi'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: after SearchDeck, must add action to place remaining cards at bottom of deck in any order. This is a distinct step not captured."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Shirahoshi"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByTypeOrName",
+          "type": "Neptunian",
+          "name": "Shirahoshi"
+        },
+        "limit": 1,
+        "destination": "hand",
+        "deckSize": 5
+      },
+      {
+        "type": "ReorderDeck",
+        "destination": "bottom",
+        "count": "remaining"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:42:57.970Z"
+}

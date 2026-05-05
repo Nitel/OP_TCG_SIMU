@@ -1,0 +1,31 @@
+{
+  "id": "OP05-007",
+  "name": "Sabo",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows unlimited opponent characters with power ≤4000, but card text specifies 'up to 2' characters. The DSL target object lacks a 'maxCount' or 'count' property to enforce the 2-character limit."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "AllOpponentCharacters",
+              "maxPower": 4000,
+              "maxCount": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:48.602Z"
+}

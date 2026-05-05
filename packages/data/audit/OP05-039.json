@@ -1,0 +1,57 @@
+{
+  "id": "OP05-039",
+  "name": "Stick-Stickem Meteora",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "PowerBoost target should specify 'Leader or Character' with scope 'ChooseOwnLeaderOrCharacter', not just 'ChooseOwnCharacter'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target missing required condition: must target 'rested Characters'. Current DSL lacks 'HasRestingDon' or equivalent rested state condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and KO action with maxCost:5 has no basis in card text. Counter ability should be single effect with OnAttacked trigger only"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-039",
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter",
+              "quantity": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": 1,
+              "maxCost": 3,
+              "conditions": [
+                {
+                  "type": "HasRestingDon"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:14.296Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "OP01-120",
+  "name": "Shanks",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The card prevents opponent from activating Blockers (a restriction/condition), not resting characters. This should use a conditional blocker prevention mechanic or 'GiveKeyword' with a negation, but 'Rest' fundamentally misrepresents the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is wrong. The effect prevents activation of Blockers, not targets characters for resting. The scope should reflect 'opponent's blocking characters with ≤2000 power' but the action type itself is incorrect for this prevention effect."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:21:23.085Z"
+}

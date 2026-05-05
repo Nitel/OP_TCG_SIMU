@@ -1,0 +1,41 @@
+{
+  "id": "OP03-005",
+  "name": "Thatch",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: card must be trashed at end of turn. Current DSL only includes PowerBoost but omits the KO/trash effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "KO action missing. Text states 'trash this Character at the end of this turn' but DSL has no corresponding action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:51.224Z"
+}

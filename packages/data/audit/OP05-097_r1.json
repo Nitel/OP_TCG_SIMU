@@ -1,0 +1,41 @@
+{
+  "id": "OP05-097_r1",
+  "name": "Mary Geoise",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has non-empty effect text but effects array is empty. '[Your Turn]' trigger with cost reduction for Celestial Dragons characters needs to be implemented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "[Your Turn] text requires duration: 'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] The cost of playing {Celestial Dragons} type Character cards with a cost of 2 or more from your hand will be reduced by 1.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "CelestialDragonsCharactersInHand",
+            "value": -1,
+            "restriction": "CostOf2OrMore"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:44.434Z"
+}

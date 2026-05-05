@@ -1,0 +1,69 @@
+{
+  "id": "EB03-016",
+  "name": "Kouzuki Hiyori",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "OnPlay condition checks for 'Kouzuki Oden' card on board, but should check if Leader's name is 'Kouzuki Oden' using LeaderIsName condition",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Activated effect missing cost requirement to trash this Character",
+      "field": "effects[1].cost"
+    },
+    {
+      "severity": "major",
+      "description": "Activated effect missing condition that the DON!! must be rested",
+      "field": "effects[1].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Activated effect target should specify Leader must have {Land of Wano} type",
+      "field": "effects[1].actions[0].target.condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Kouzuki Oden"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "TrashSelf"
+        },
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "OwnLeader",
+              "condition": {
+                "type": "HasType",
+                "value": "Land of Wano"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:50.402Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP14-054",
+  "name": "Fisher Tiger",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if your Leader has the {Fish-Man} type, not if a card with that name is on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely. DSL must include the [End of Your Turn] Trash effect that reduces hand to 5 cards maximum."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Fish-Man"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "source": "Hand",
+          "count": "ExcessOver5"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:14:16.247Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP01-011",
+  "name": "Gordon",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'place 1 card from your hand at the bottom of your deck'. This is a return-to-deck action, not a trash action. Should use 'ReturnToHand' with a deck placement modifier, or a custom 'PlaceAtBottomOfDeck' action if supported."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'optional:true' to reflect 'You may' in the card text. The action should be optional."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "filter": {
+              "source": "Hand"
+            },
+            "count": 1,
+            "optional": true,
+            "placement": "BottomOfDeck",
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:26.648Z"
+}

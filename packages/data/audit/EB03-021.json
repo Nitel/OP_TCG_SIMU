@@ -1,0 +1,76 @@
+{
+  "id": "EB03-021",
+  "name": "Alvida",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Action type is KO but effect text says 'Place at the bottom of the owner's deck', which should be ReturnToHand with bottomOfDeck parameter or a deck-bottom action type",
+      "field": "effects[0].actions[0].thenActions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Action type is KO but effect text says 'Place at the bottom of the owner's deck', which should be ReturnToHand with bottomOfDeck parameter or a deck-bottom action type",
+      "field": "effects[0].actions[0].thenActions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "TrashFromHand filter restricts to Character cards only, but official text says 'trash 1 card from your hand' without card type restriction",
+      "field": "effects[0].actions[0].filter.cardType"
+    },
+    {
+      "severity": "major",
+      "description": "First target should allow choosing 'your opponent's Characters' (controller: opponent) but currently uses ChooseOpponentCharacter which may not properly encode ownership",
+      "field": "effects[0].actions[0].thenActions[0].target.scope"
+    },
+    {
+      "severity": "major",
+      "description": "Second target should allow choosing any Character with cost 3 or less (not just opponent's), but uses ChooseOpponentCharacter",
+      "field": "effects[0].actions[0].thenActions[1].target.scope"
+    },
+    {
+      "severity": "major",
+      "description": "Effect should specify 'up to 1' for each target, requiring optional or max count of 1",
+      "field": "effects[0].actions[0].thenActions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "count": 1,
+                  "optional": true,
+                  "maxPower": 4000,
+                  "basePower": true
+                },
+                "bottomOfDeck": true
+              },
+              {
+                "type": "ReturnToHand",
+                "target": {
+                  "scope": "ChooseCharacter",
+                  "count": 1,
+                  "optional": true,
+                  "maxCost": 3,
+                  "baseCost": true
+                },
+                "bottomOfDeck": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:12:11.253Z"
+}

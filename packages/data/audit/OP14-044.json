@@ -1,0 +1,56 @@
+{
+  "id": "OP14-044",
+  "name": "Edward.Newgate",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional logic. Effect has a condition ('If that card's type includes \"Whitebeard Pirates\"') but DSL contains no conditions array. Must include condition to check revealed card type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Incomplete action sequence. Card text specifies two actions: draw 2 cards AND trash 1 card from hand. DSL only includes DrawCard; missing TrashFromHand action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing reveal mechanic. Effect requires revealing top deck card first, but no RevealFromHand or search/reveal action is present in DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "source": "TopOfDeck",
+          "count": 1
+        },
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "conditions": [
+            {
+              "type": "HasCardOnBoard",
+              "value": "Whitebeard Pirates"
+            }
+          ]
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "conditions": [
+            {
+              "type": "HasCardOnBoard",
+              "value": "Whitebeard Pirates"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:31.277Z"
+}

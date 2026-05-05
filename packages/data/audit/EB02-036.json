@@ -1,0 +1,58 @@
+{
+  "id": "EB02-036",
+  "name": "Nico Robin",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck action missing required 'count' field - should look at 3 cards from top of deck",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is 'Any' but should filter for {Straw Hat Crew} type cards only",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing 'reveal up to 1' constraint - should only be able to add up to 1 card to hand",
+      "field": "effects[0].actions[0].revealCount"
+    },
+    {
+      "severity": "major",
+      "description": "Missing instruction to place remaining cards at bottom of deck in any order",
+      "field": "effects[0].actions[0].remainingDestination"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing [Blocker] keyword in DSL - should be present in card keywords",
+      "field": "keywords"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "filter": {
+              "kind": "Type",
+              "value": "Straw Hat Crew"
+            },
+            "revealCount": 1,
+            "destination": "hand",
+            "remainingDestination": "bottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:03:16.414Z"
+}

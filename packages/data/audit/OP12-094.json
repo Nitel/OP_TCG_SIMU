@@ -1,0 +1,64 @@
+{
+  "id": "OP12-094",
+  "name": "Monkey.D.Dragon",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'OnPlay' but missing the optional placement action (3 Revolutionary Army cards from trash to bottom of deck). The effect has two distinct parts: (1) optional placement, (2) conditional play."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' for 'Revolutionary Army' but should check 'LeaderHasType' for 'Revolutionary Army' — the condition is 'If your Leader has the {Revolutionary Army} type', not a card on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'PlayFromHand' but should be 'PlayFromTrash' (or equivalent) — the card is being played from trash, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the optional placement action that allows placing up to 3 Revolutionary Army cards from trash to bottom of deck. This is the first conditional action and should be separate or structured as part of the effect chain."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "cardType": "type",
+            "name": "Revolutionary Army"
+          },
+          "count": 3,
+          "optional": true,
+          "destination": "BottomOfDeck"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 6
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:56:28.374Z"
+}

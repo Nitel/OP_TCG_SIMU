@@ -1,0 +1,50 @@
+{
+  "id": "EB04-018",
+  "name": "Megalo",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be optional (\"You may rest\"). DSL structure doesn't express optionality. Current DSL treats rest as mandatory before KO."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should specify 'rested' as a condition. Current scope 'ChooseOpponentCharacter' with maxPower is insufficient; must filter for rested state only."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-018",
+    "effectText": "[On Play] You may rest this Character: K.O. up to 1 of your opponent's rested Characters with 8000 power or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "optional": true,
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 8000,
+              "conditions": [
+                {
+                  "type": "HasRestingDon"
+                }
+              ]
+            },
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:08.072Z"
+}

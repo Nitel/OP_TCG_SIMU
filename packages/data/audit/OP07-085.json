@@ -1,0 +1,51 @@
+{
+  "id": "OP07-085",
+  "name": "Stussy",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The effect should trash a Character already on board (in play), not from hand. Should be ForceDiscard or equivalent board-state action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.excludeSelf",
+      "description": "excludeSelf is not a standard filter property. Should use appropriate board scope/ownership filters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure implies mandatory trash then KO. The card text says 'You may trash' and 'up to 1', indicating both actions are optional/conditional."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "filter": {
+              "cardType": "Character",
+              "scope": "YourCharacters"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "OpponentCharacters"
+                },
+                "count": 1,
+                "optional": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:08:57.233Z"
+}

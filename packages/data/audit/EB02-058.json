@@ -1,0 +1,43 @@
+{
+  "id": "EB02-058",
+  "name": "UUUUUS!",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is inverted: should be 'minCost: 4' (cost of 4 or more), not 'maxCost: 4' (cost of 4 or less)",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing 'count' parameter for looking at 4 cards from top of deck",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "major",
+      "description": "Missing 'revealCount' or 'maxReveal' parameter to limit revealing up to 1 card",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 4,
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 4
+            },
+            "maxReveal": 1,
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:22.195Z"
+}

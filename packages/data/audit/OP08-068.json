@@ -1,0 +1,44 @@
+{
+  "id": "OP08-068",
+  "name": "Charlotte Perospero",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incorrect for this effect. The card effect states 'Add up to 1 DON!! card from your DON!! deck' which means searching/adding a DON card from deck to hand/board, not giving DON counters. Should use SearchDeck or similar mechanism to add DON card from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest action targets 'Self' but should target the DON card that was just added/searched. Target scope should reference the added DON card, not the card with this effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and PlaySelf action. No such mechanic exists in the official card text. This should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "cardFilter": {
+            "type": "DON"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "LastSearched"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:29:28.765Z"
+}

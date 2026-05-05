@@ -1,0 +1,64 @@
+{
+  "id": "OP07-080",
+  "name": "Kaku",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'place 2 cards with type CP from your trash' — this is a SearchDeck/retrieval action, not a trash action. Direction is reversed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'subType' but 'CP' is a type descriptor, not a subtype. Should filter by type containing 'CP'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'amount' parameter: card specifies '2 cards' must be placed. Action should specify count=2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action does not specify destination. Text says 'at the bottom of your deck' — should include destination parameter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing optional flag: text says 'You may' — action should include optional:true."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target allows choosing opponent character, but text specifies 'up to 1' — should enforce max:1 on selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "type": "CP"
+        },
+        "amount": 2,
+        "destination": "BottomOfDeck",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": -3,
+            "target": {
+              "scope": "OpponentCharacter",
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:08:35.526Z"
+}

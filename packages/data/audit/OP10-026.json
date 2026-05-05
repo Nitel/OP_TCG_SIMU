@@ -1,0 +1,50 @@
+{
+  "id": "OP10-026",
+  "name": "Kin'emon",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for card placement requirement. The effect requires placing 'this Character and 1 [Kin'emon] with 0 power from your trash at the bottom of your deck' as a cost before playing the Kin'emon. This is not captured in the DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'maxCost' but should use 'cost' with exact value of 6, not a range. The card specifies 'cost of 6', not 'up to 6'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is missing quantity constraint 'up to 1'. The filter should include a quantity limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "name": "Kin'emon",
+            "power": 0,
+            "zone": "trash"
+          },
+          "quantity": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Kin'emon",
+            "cost": 6
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:32:51.988Z"
+}

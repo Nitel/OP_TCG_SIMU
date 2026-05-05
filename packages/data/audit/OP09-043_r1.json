@@ -1,0 +1,47 @@
+{
+  "id": "OP09-043_r1",
+  "name": "Alvida",
+  "set": "ST-25",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Cross Guild} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "condition.name",
+      "description": "Should be 'condition.type' with value 'Cross Guild'. The 'name' field is incorrect for type checking."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].filter.excludeSelf",
+      "description": "'excludeSelf' is not a valid filter property. Should use 'excludeName' or similar to exclude [Alvida]."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].filter",
+      "description": "Missing explicit exclusion of 'Alvida'. Should be 'excludeName':'Alvida' or equivalent."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Cross Guild"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 5,
+          "excludeName": "Alvida"
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:49.080Z"
+}

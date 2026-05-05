@@ -1,0 +1,35 @@
+{
+  "id": "OP02-100",
+  "name": "Jango",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective ability text but effects array is empty. Should contain OnAttacked trigger with condition checking for [Fullbody] and action to prevent K.O."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Fullbody"
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": "self",
+            "negate": true
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:10.139Z"
+}

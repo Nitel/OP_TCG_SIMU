@@ -1,0 +1,68 @@
+{
+  "id": "OP14-027",
+  "name": "Shanks",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (passive/when becomes rested), not 'OnBlock'. 'When this Character becomes rested' is a passive trigger, not tied to blocking."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringYourTurn' — text '[Your Turn]' requires this duration constraint, not permanent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'Trigger' (passive conditional), not 'Activated'. This is a passive ability that checks if rested during opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition should check 'HasRestingDon' or similar state (rested status), not 'Always'. The effect only applies 'If this Character is rested'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn', not 'EndOfTurn'. Text '[Opponent's Turn]' indicates the effect applies during opponent's turn phase."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 7000
+          }
+        }
+      ],
+      "duration": "DuringYourTurn"
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasRestingDon"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          }
+        }
+      ],
+      "duration": "DuringOpponentTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:12:13.089Z"
+}

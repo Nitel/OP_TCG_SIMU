@@ -1,0 +1,40 @@
+{
+  "id": "OP11-065",
+  "name": "Charlotte Anana",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing required check. Card text states 'If you have a purple {Big Mom Pirates} type Character other than [Charlotte Anana]' — requires HasCardOnBoard condition with type filter (Purple + Big Mom Pirates + excluding Charlotte Anana), not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' (correct) but the conditional logic is broken. The Blocker keyword should only apply when the HasCardOnBoard condition is met. Restructure needed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Purple",
+        "hasType": "Big Mom Pirates",
+        "excludeName": "Charlotte Anana"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:45:08.167Z"
+}

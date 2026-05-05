@@ -1,0 +1,50 @@
+{
+  "id": "OP15-116",
+  "name": "Gum-Gum Golden Rifle",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Straw Hat Crew} type, not if a card is on the board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action should be 'FlipLife' but the intent is to add a card from deck to Life cards. The correct action type should represent 'add up to 1 card from top of deck to top of Life cards' - this appears to need a custom action or clarification, as FlipLife typically flips Life cards, not adds from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].type",
+      "description": "TrashFromHand should specify a count of 1 and clarify it's from hand, but the syntax appears correct. However, verify the sequence: the effect says 'trash 1 card from top of Life' (RemoveLife), then 'add up to 1 from deck to Life', then 'trash 1 from hand'. The FlipLife action is semantically incorrect for 'add from deck to Life'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "typeFilter": [
+        "Straw Hat Crew"
+      ]
+    },
+    "actions": [
+      {
+        "type": "RemoveLife",
+        "count": 1
+      },
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "filter": {},
+        "destination": "TopOfLifeCards"
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:30:55.038Z"
+}

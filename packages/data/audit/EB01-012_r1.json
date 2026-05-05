@@ -1,0 +1,62 @@
+{
+  "id": "EB01-012_r1",
+  "name": "Cavendish",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks HasCardOnBoard for 'Supernovas' type, but should check LeaderHasType for {Supernovas}. HasCardOnBoard is for characters on board, not leader type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'you have no other [Cavendish] Characters' — requires additional condition to check board state for absence of other Cavendish characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'GiveDon' but text says 'set up to 2 of your DON!! cards as active' — should be 'AttachDon' to attach/activate DON cards, not give them."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Same issues as effects[0]: LeaderHasType needed instead of HasCardOnBoard, and missing Cavendish check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Same action type issue as effects[0]: should be 'AttachDon' not 'GiveDon'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "name": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "name": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:40:15.014Z"
+}

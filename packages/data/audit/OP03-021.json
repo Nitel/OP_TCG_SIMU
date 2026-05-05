@@ -1,0 +1,50 @@
+{
+  "id": "OP03-021",
+  "name": "Kuro",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'Set this Leader as active' requires Rest action on self (Leader). Current DSL only rests opponent's character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing prerequisite condition: 'You may rest 2 of your {East Blue} type Characters' is a cost/condition that should be enforced before the ability resolves, not part of the DSL action sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action target incomplete: 'rest up to 1' means optional (maxCount=1, minCount=0), but current syntax lacks minCount specification for optional targeting."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "minCount": 0,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:16.931Z"
+}

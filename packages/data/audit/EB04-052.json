@@ -1,0 +1,57 @@
+{
+  "id": "EB04-052",
+  "name": "Sanji",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost with amount:0 is meaningless. The effect should dynamically set base power to opponent's Leader power, not boost by 0. This requires a custom action or different structure to represent 'becomes equal to opponent Leader power'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition uses TurnCount with max:2, but the card text says 'If you have 2 or less Life cards' — this is a Life condition, not a turn count. Should use a HasLife or LifeCount condition checking your current Life ≤ 2."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-052",
+    "effectText": "[When Attacking] This Character's base power becomes the same as your opponent's Leader during this turn.\n[On K.O.] If you have 2 or less Life cards, play up to 1 yellow Character card with 6000 power or less from your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 0,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn",
+            "note": "DSL limitation: amount:0 is placeholder. Intent is base power = opponent Leader power. Requires custom implementation."
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "HasLife",
+          "max": 2
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "color": "Yellow",
+              "cardType": "Character",
+              "maxPower": 6000
+            },
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:21:12.243Z"
+}

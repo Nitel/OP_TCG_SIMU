@@ -1,0 +1,76 @@
+{
+  "id": "OP06-118_r2",
+  "name": "Roronoa Zoro",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect 1 is missing the DON!! cost condition. Card text requires 'rest 1 of your DON!! cards' as a cost/condition before the Rest action executes."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Effect 2 is missing the DON!! cost condition. Card text requires 'rest 2 of your DON!! cards' as a cost/condition before the Rest action executes."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Both effects Rest the wrong target. Card text says 'Set this Character as active', which means the character becomes active (typically unrest/flip from rested to active state), not Rest itself. The action should reflect setting the character to active state, not resting it."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "SelfDon",
+            "count": 1
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "Self"
+          },
+          "keyword": "Active"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "SelfDon",
+            "count": 2
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "Self"
+          },
+          "keyword": "Active"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:43:53.610Z"
+}

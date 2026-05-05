@@ -1,0 +1,46 @@
+{
+  "id": "OP02-009",
+  "name": "Squard",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader's type includes 'Whitebeard Pirates', not if a card with that name is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which indicates the effect lasts for the current turn phase, not until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Should be 'OpponentCharacter' (singular) to match 'up to 1' in the text, though 'ChooseOpponentCharacter' likely handles this correctly depending on implementation."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Whitebeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -4000,
+        "target": {
+          "scope": "OpponentCharacter",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:38.961Z"
+}

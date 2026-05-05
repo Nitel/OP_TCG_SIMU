@@ -1,0 +1,39 @@
+{
+  "id": "OP03-063",
+  "name": "Zambai",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'LeaderHasType' checking for 'Water Seven', not 'HasRestingDon'. The card draws when the leader has Water Seven type, not based on resting DON."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Missing condition type specification. Should be 'LeaderHasType' with parameter 'Water Seven'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DON!! cost (−1) is a payment mechanic, not a trigger condition. The actual trigger is [On Play], which is correctly identified, but the condition must reflect the leader type requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Water Seven"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:29.316Z"
+}

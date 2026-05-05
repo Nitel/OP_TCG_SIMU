@@ -1,0 +1,36 @@
+{
+  "id": "OP08-021",
+  "name": "Carrot",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required check: 'If you have a {Minks} type Character' → condition should include HasCardOnBoard with type filter for Minks"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete: 'up to 1' specifies maxCount limit not captured. Target should include maxCount:1 or equivalent quantity constraint"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardType": "Minks"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:25:46.769Z"
+}

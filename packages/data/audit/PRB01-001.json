@@ -1,0 +1,47 @@
+{
+  "id": "PRB01-001",
+  "name": "Sanji",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text explicitly states 'during this turn' which indicates the effect lasts only while it's your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing critical conditions: must filter for Characters without [On Play] effect AND with cost ≤ 8. Current target scope is too broad and lacks these restrictions."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "cardType": "Character",
+          "hasOnPlayEffect": false,
+          "maxCost": 8
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "hasOnPlayEffect": false,
+            "maxCost": 8
+          },
+          "quantity": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:57.939Z"
+}

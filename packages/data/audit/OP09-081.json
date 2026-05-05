@@ -1,0 +1,74 @@
+{
+  "id": "OP09-081",
+  "name": "Marshall.D.Teach",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing first effect: '[On Play] effects are negated' (permanent negation of user's On Play effects)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Should be 'OnPlay' not 'Activated' for the primary card effect"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "No action defined for negating On Play effects; needs custom negation action or clarification"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration specification; first effect should be 'Permanent'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second [Activate: Main] effect not captured; should negate opponent's [On Play] effects with duration 'DuringOpponentTurn' (until end of opponent's next turn)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Your [On Play] effects are negated. [Activate: Main] You may trash 1 card from your hand: Your opponent's [On Play] effects are negated until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "NegateOnPlay",
+            "target": "Self"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "GiveKeyword",
+                "keyword": "NegateOnPlay",
+                "target": "Opponent",
+                "duration": "DuringOpponentTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:27:55.849Z"
+}

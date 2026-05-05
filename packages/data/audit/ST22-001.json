@@ -1,0 +1,56 @@
+{
+  "id": "ST22-001",
+  "name": "Ace &amp; Newgate",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to check for card reveal requirement. DSL must include condition checking for 'Whitebeard Pirates' type card in hand before allowing activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to return revealed card to top of deck. Official text requires 'place the revealed card at the top of your deck' which should be a SearchDeck or equivalent action targeting the revealed card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should include cost/condition context. The activation requires revealing a card as a cost, which must be modeled before DrawCard executes."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST22-001",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "property": "HasType",
+            "value": "Whitebeard Pirates",
+            "location": "Hand"
+          }
+        ],
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "filter": "HasType:Whitebeard Pirates",
+            "count": 1
+          },
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "SearchDeck",
+            "target": "RevealedCard",
+            "placement": "TopOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:16:32.943Z"
+}

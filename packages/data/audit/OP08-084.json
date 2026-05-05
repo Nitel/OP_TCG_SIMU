@@ -1,0 +1,65 @@
+{
+  "id": "OP08-084",
+  "name": "Jack",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing initial +4 cost effect. Card text states 'This Character gains +4 cost' which should be a separate effect triggered OnPlay or Permanent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost specification. DSL lacks activation cost details (rest this Character). Should clarify activation cost/requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target scope is incomplete. Should specify opponent's Characters: target should use scope like 'OpponentCharacter' with maxCost filter of 3."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "cost": "Rest",
+      "window": "Main",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "OwnHand"
+          },
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 3
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:30:39.929Z"
+}

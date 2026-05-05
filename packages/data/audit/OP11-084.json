@@ -1,0 +1,60 @@
+{
+  "id": "OP11-084",
+  "name": "Kuzan",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but effect text says 'Trash 3 cards from the top of your deck' — should be 'TrashFromDeck' or equivalent deck-trashing action, not hand-trashing"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'GiveKeyword' with 'Unblockable', but effect text says 'can also attack active Characters' — this grants ability to attack active Characters (ignoring rest status), not Unblockable. Should use a different keyword or custom action representing 'CanAttackActive' or similar"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope is 'ChooseOwnCharacterOrLeader' with no filter for {Navy} type — condition must specify 'HasType' filter for Navy, and should be limited to 'Up to 1' via count constraint"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn' — should be 'DuringYourTurn' to reflect the scope of the current attack turn"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-084",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackActive",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1,
+              "filter": {
+                "hasType": "Navy"
+              }
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:46:38.451Z"
+}

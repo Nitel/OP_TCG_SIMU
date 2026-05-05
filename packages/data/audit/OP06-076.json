@@ -1,0 +1,54 @@
+{
+  "id": "OP06-076",
+  "name": "Hitokiri Kamazo",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (automatic when DON!! returned to deck), not 'Activated' (manual ability). The effect activates when a game action occurs, not when player chooses."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to track '[Once Per Turn]' limit. Should include turn count condition to enforce once-per-turn restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing trigger condition for 'DON!! card on your field is returned to your DON!! deck'. Current DSL lacks the specific event condition that activates this effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration constraint '[Your Turn]'. Effect text explicitly states '[Your Turn]' which means this only applies during your turn phase, not opponent's turn. Should set duration:'DuringYourTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "TurnCount",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:59:00.555Z"
+}

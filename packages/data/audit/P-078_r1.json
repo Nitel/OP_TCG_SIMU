@@ -1,0 +1,38 @@
+{
+  "id": "P-078_r1",
+  "name": "Adio",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is empty. Card has a conditional power boost effect that should be defined: 'If you have 2 or more rested {ODYSSEY} type Characters, this Character gains +1000 power.' This requires a Trigger (likely OnPlay or Permanent passive), a Condition checking rested ODYSSEY characters, and a PowerBoost action."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have 2 or more rested {ODYSSEY} type Characters, this Character gains +1000 power.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "Permanent",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "value": 2,
+          "filter": {
+            "hasType": "ODYSSEY",
+            "isResting": true
+          }
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "value": 1000
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:49:44.678Z"
+}

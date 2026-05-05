@@ -1,0 +1,54 @@
+{
+  "id": "OP04-069",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (correct) but the condition is missing: this effect requires a cost condition (DON!! −1) which must be represented. Current DSL lacks cost representation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PowerBoost action is incomplete. The effect states 'This Character's base power becomes the same as the power of your opponent's attacking Leader or Character' — this requires a dynamic value equal to opponent's attacking unit power, not a fixed amount of 0."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but card text says 'during this turn' — should be 'DuringYourTurn' to correctly represent the temporary boost lasting through the current turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is spurious and has no basis in card text. Card does not instruct self to be played. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Card text indicates an optional DON!! cost (−1) but DSL contains no cost field. A proper DSL should include cost representation for the optional payment mechanic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "cost": {
+        "type": "AttachDon",
+        "amount": 1,
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": "OpponentAttackingUnitPower",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:14.803Z"
+}

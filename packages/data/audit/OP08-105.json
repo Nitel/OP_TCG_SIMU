@@ -1,0 +1,55 @@
+{
+  "id": "OP08-105",
+  "name": "Jewelry Bonney",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing trigger condition for 'When a card is removed from your opponent's Life cards'. Current triggers (Activated, Trigger) do not capture the actual game event. Requires a custom trigger or OnLifeRemoved equivalent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'duration' field. Text states '[Your Turn]' which requires duration:'DuringYourTurn' to restrict effect to your turn only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate effect structure. Two separate trigger objects should be consolidated into one with proper conditions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[].conditions",
+      "description": "Missing 'Once Per Turn' condition. Should include a condition to enforce once-per-turn limitation."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Your Turn] [Once Per Turn] When a card is removed from your opponent's Life cards, draw 2 cards and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:32:17.104Z"
+}

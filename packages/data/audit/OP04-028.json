@@ -1,0 +1,65 @@
+{
+  "id": "OP04-028",
+  "name": "Diamante",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL completely missing the second effect. Card has two distinct effects: (1) Blocker keyword (inherent/static), and (2) End of Your Turn trigger with DON!! condition that sets character active."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "First effect should not have trigger='Activated'. Blocker is a static keyword ability, not activated. Should be trigger='OnAttacked' or be represented as a static keyword without trigger wrapper."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' is incorrect for Blocker ability. Blocker has no DON!! cost condition in the card text. The DON!! cost applies only to the second effect (End of Your Turn trigger)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveKeyword' with duration='EndOfTurn' is wrong. Blocker is a permanent keyword ability on this character, not a temporary buff. Should not use GiveKeyword action."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Missing second effect entirely: '[End of Your Turn] If you have 2 or more active DON!! cards, set this Character as active.' This requires trigger='EndOfTurn', condition checking active DON cards, and Rest/active action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "isActive": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:53.599Z"
+}

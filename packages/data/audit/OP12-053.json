@@ -1,0 +1,76 @@
+{
+  "id": "OP12-053",
+  "name": "Borsalino",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "First effect triggers on removal by opponent's effect, not OnAttacked. Should be Counter or custom trigger for 'would be removed'. OnAttacked does not capture the protective replacement effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be conditional: trash 1 card 'instead' of being removed. Current DSL does not express the replacement/prevention mechanic (you may trash to prevent removal)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be automatic during opponent's turn (e.g., StartOfOpponentTurn or Trigger), not Activated. Activated implies manual activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (persistent while opponent's turn is active), not 'EndOfTurn'. Text states '[Opponent's Turn]' which is a permanent conditional state during that phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition uses invalid check 'HasCardOnBoard with name'. Should use LeaderHasType or LeaderHasAnyType with type='Navy'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "preventRemoval": true,
+          "description": "Instead of being removed from field, trash 1 card from hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Navy"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:53:22.543Z"
+}

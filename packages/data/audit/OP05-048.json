@@ -1,0 +1,44 @@
+{
+  "id": "OP05-048",
+  "name": "Bastille",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but card effect places character at bottom of deck, not onto board. Should use 'ReturnToHand' or similar deck-placement action, or clarify the destination as deck bottom."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination is 'board' but effect text states 'at the bottom of the owner's deck'. Destination should be 'deck' with position 'bottom'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter requires 'Character' type specification. Current filter only specifies cost; must add 'cardType':'Character' to match 'Character with a cost of 2 or less'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByCost",
+          "maxCost": 2,
+          "cardType": "Character"
+        },
+        "destination": "deck",
+        "position": "bottom",
+        "maxResults": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:54.772Z"
+}

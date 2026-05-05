@@ -1,0 +1,82 @@
+{
+  "id": "EB03-008",
+  "name": "Hibari",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "The first two effects use keyword 'Unblockable' but the official text says 'can also attack active Characters', which is not the same as Unblockable. This should use a different keyword or action type to represent the ability to attack active characters.",
+      "field": "effects[0].actions[0].keyword"
+    },
+    {
+      "severity": "major",
+      "description": "Missing type filter {SWORD} on the target. The official text specifies 'Up to 1 of your {SWORD} type Leader or Character cards'.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Missing type filter {SWORD} on the target. The official text specifies 'Up to 1 of your {SWORD} type Leader or Character cards'.",
+      "field": "effects[1].actions[0].target"
+    },
+    {
+      "severity": "minor",
+      "description": "The Activated effect is missing the 'oncePerTurn: true' property as stated in the official text '[Once Per Turn]'.",
+      "field": "effects[2].oncePerTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackActive",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1,
+              "filter": {
+                "type": "SWORD"
+              }
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackActive",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1,
+              "filter": {
+                "type": "SWORD"
+              }
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "oncePerTurn": true,
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:14.319Z"
+}

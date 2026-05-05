@@ -1,0 +1,34 @@
+{
+  "id": "OP14-065",
+  "name": "Senor Pink",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but card text says 'returns 1 DON!! card from their field to their DON!! deck'. Should be 'ReturnToHand' or similar return mechanic, not Rest. Rest only untaps/unexhausts cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is 'OpponentLeader' but text specifies '1 DON!! card from their field'. Should target opponent's DON cards on field, not the leader itself."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "OpponentField",
+            "cardType": "DON"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:15:06.971Z"
+}

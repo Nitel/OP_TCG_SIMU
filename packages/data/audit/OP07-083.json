@@ -1,0 +1,62 @@
+{
+  "id": "OP07-083",
+  "name": "Gecko Moria",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but effect text says 'place 4 cards from your trash at the bottom of your deck' — should be 'SearchDeck' or similar deck-placement action, not trash removal"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter specifies source as hand/trash, but effect retrieves from trash specifically — filter should target trash, not hand. Also, filter includes 'Character','Event','Stage' but only {Thriller Bark Pirates} type (subType) should match; cardTypes restriction may be overly broad"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing count constraint: effect requires 'You may place 4' cards — action must include count validation (exactly 4 cards or up to 4)"
+    },
+    {
+      "severity": "minor",
+      "field": "trigger",
+      "description": "Trigger is 'Activated' but should specify '[Activate: Main]' context if DSL supports activation phases — minor if DSL assumes Main phase for Activated"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "subType": "Thriller Bark Pirates",
+          "location": "trash"
+        },
+        "count": 4,
+        "destination": "bottom_of_deck",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Banish",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:08:46.893Z"
+}

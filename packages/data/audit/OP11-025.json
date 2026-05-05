@@ -1,0 +1,64 @@
+{
+  "id": "OP11-025",
+  "name": "Ishilly",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent attacks you), not 'OnAttacked'. 'OnAttacked' typically means when this card is attacked."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' condition. Should include OncePerTurn or similar turn-limiting condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing cost actions: must rest 1 DON!! card AND rest this Character before power boost can be applied. Actions should include Rest effects with conditions."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "'during this battle' is correct as EndOfBattle, but context suggests this is a cost-based conditional effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Your Opponent's Attack] [Once Per Turn] You may rest 1 of your DON!! cards and this Character: Up to 1 of your Leader or Character cards gains +1000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnDon",
+              "count": 1
+            }
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ThisCharacter"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:42:03.274Z"
+}

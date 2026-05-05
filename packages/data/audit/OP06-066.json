@@ -1,0 +1,51 @@
+{
+  "id": "OP06-066",
+  "name": "Vinsmoke Yonji",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost/payment mechanic, not just Activated. The effect requires DON!! −1 payment and optional trashing of this Character as activation costs."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: LeaderHasType with value 'GERMA 66'. The effect explicitly states 'If your Leader has the {GERMA 66} type' which is a required condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence is incorrect. The card text says 'You may trash this Character: If [condition], play...' — this means trashing is optional and conditional on the GERMA 66 check. Current DSL shows TrashFromHand (trashing from hand) instead of trashing the card itself, and the logic flow is backwards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Should not start with TrashFromHand. The effect allows trashing 'this Character' (the card itself), and conditionally plays a card from hand or trash. The structure should reflect: optional self-trash triggers a conditional play action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "GERMA 66"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "name": "Vinsmoke Yonji",
+            "maxCost": 4
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:58:09.564Z"
+}

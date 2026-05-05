@@ -1,0 +1,29 @@
+{
+  "id": "OP10-012",
+  "name": "Dragon Number Thirteen",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker ability is missing from effects array. Card has '[Blocker]' keyword which requires an OnAttack trigger with conditional logic to redirect attack target."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:31:48.064Z"
+}

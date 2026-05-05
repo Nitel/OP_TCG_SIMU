@@ -1,0 +1,51 @@
+{
+  "id": "OP14-112",
+  "name": "Boa Hancock",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {The Seven Warlords of the Sea} type, not if a card is on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action is wrong. Should add up to 1 card from TOP of deck to TOP of Life cards (FlipLife destination), not to hand (SearchDeck)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second action missing. Must add up to 1 card from opponent's Life cards to owner's hand. Current FlipLife only handles your own Life."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely unrelated to card text. '[Trigger] Play a card with power 6000 or less' does not appear in the official effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "name": "The Seven Warlords of the Sea"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "YourDeck"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "OpponentLife",
+          "destination": "OpponentHand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:49.084Z"
+}

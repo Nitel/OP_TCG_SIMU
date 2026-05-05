@@ -1,0 +1,45 @@
+{
+  "id": "OP06-011",
+  "name": "Tot Musica",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should have a cost indicator. The effect text says 'You may rest 1 of your [Uta] cards' which is a cost (conditional requirement), not a direct action. This should be represented as a cost property or restructured to show the Rest as a prerequisite condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' text, but the structure conflates the cost (rest a Uta card) with the effect (power boost). The Rest should be a cost, not an action in the same sequence."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] You may rest 1 of your [Uta] cards: This Character gains +5000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Uta"
+          },
+          "optional": true
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 5000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:01.321Z"
+}

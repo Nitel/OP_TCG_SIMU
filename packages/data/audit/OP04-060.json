@@ -1,0 +1,77 @@
+{
+  "id": "OP04-060",
+  "name": "Crocodile",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect missing cost condition: requires DON!! −2 cost and conditional check for Leader type 'Baroque Works'. Should include condition on LeaderHasType and cost deduction not represented in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incorrect: should search top of deck and add to Life cards (FlipLife destination), not to hand. Text says 'add up to 1 card from the top of your deck to the top of your Life cards'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's attack on you), not 'OnAttacked'. Trigger alias mismatch."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing: [Once Per Turn] restriction and DON!! −1 cost condition not represented in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1]",
+      "description": "TrashFromHand action present but should specify it's from hand and properly formatted with filter for any card."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Baroque Works"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1,
+          "destination": "life"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "kind": "Any"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:53.687Z"
+}

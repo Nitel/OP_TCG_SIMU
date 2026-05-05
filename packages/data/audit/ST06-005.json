@@ -1,0 +1,29 @@
+{
+  "id": "ST06-005",
+  "name": "Sengoku",
+  "set": "ST-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has clear triggered ability: [When Attacking] should create OnAttack trigger with PowerBoost action targeting opponent's character with −4 cost modifier during this turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "OpponentCharacter",
+          "maxTargets": 1,
+          "modifier": -4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:00:17.448Z"
+}

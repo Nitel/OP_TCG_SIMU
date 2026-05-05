@@ -1,0 +1,44 @@
+{
+  "id": "ST02-016",
+  "name": "Repel",
+  "set": "ST-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'set up to 1 of your DON!! cards as active' should be an AttachDon or equivalent action. Current DSL only includes PowerBoost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is imprecise. Should be 'ChooseOwnCharacterOrLeaderUpTo1' or similar to reflect 'up to 1' explicitly."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeaderUpTo1"
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "AttachDon",
+            "amount": 1,
+            "target": {
+              "scope": "ChooseOwnDonCardsUpTo1"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:56:13.559Z"
+}

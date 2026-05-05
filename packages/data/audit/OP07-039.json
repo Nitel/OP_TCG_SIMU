@@ -1,0 +1,30 @@
+{
+  "id": "OP07-039",
+  "name": "Edward Weevil",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has official effect text but DSL effects array is empty. Should contain OnAttack trigger with SearchDeck action to look at and rearrange top 3 deck cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "destination": "TopOrBottom",
+            "rearrange": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:21.785Z"
+}

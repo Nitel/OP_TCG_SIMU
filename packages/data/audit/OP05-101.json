@@ -1,0 +1,70 @@
+{
+  "id": "OP05-101",
+  "name": "Ohm",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing static ability condition: 'If you have 2 or less Life cards, this Character gains +1000 power' is not represented in DSL. Requires a separate effect with condition HasLifeCards≤2 and PowerBoost action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete: Card text specifies 'Look at 5 cards from the top of your deck; reveal up to 1 [Holly]' but DSL lacks searchCount:5 parameter and reveal mechanics. The 'up to 1' means maxResults should be 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "SearchDeck destination should handle card ordering: text states 'place the rest at the bottom of your deck in any order' which requires deckOrdering or similar mechanic not present in current action structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand filter incomplete: should specify 'up to 1' [Holly] card, not all Holly cards. Needs maxPlay:1 constraint and filter should target subType Holly specifically."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Always",
+      "condition": {
+        "type": "HasLifeCards",
+        "value": 2,
+        "operator": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "power": 1000
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "searchCount": 5,
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Holly"
+          },
+          "maxResults": 1,
+          "destination": "hand",
+          "reveal": true
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Holly"
+          },
+          "maxPlay": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:52:01.354Z"
+}

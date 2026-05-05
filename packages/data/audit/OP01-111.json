@@ -1,0 +1,47 @@
+{
+  "id": "OP01-111",
+  "name": "Black Maria",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing mandatory cost action. [On Block] DON!! −1 requires a cost that allows returning 1 DON!! card from field to DON!! deck before the power boost resolves. Current DSL omits the cost entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Power boost effect is unconditional. Card text states 'You may return...': the power boost should only apply if the player chooses to and successfully pays the DON!! cost. Add condition or restructure to reflect optional cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "amount": -1,
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:05.983Z"
+}

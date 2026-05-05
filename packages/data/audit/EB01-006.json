@@ -1,0 +1,44 @@
+{
+  "id": "EB01-006",
+  "name": "Tony Tony.Chopper",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing Blocker keyword - card has [Blocker] in effect text but no keyword in DSL",
+      "field": "keywords"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing [DON!! x2] [When Attacking] effect that gives opponent's Character -3000 power",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB01-006",
+    "name": "Tony Tony.Chopper",
+    "keywords": [
+      "Blocker"
+    ],
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "amount": -3000,
+            "duration": "EndOfTurn",
+            "upTo": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:26.820Z"
+}

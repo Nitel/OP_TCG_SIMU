@@ -1,0 +1,39 @@
+{
+  "id": "ST05-004",
+  "name": "Uta",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing cost requirement for DON!! payment. Card text states 'DON!! −1' as a cost condition before the effect. DSL must include a condition or cost modifier to reflect that player may only use this effect if they return 1 DON!! to deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specification incomplete. Should include 'maxCount:1' to reflect 'up to 1' limitation in effect text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "cost": {
+        "type": "ReturnDon",
+        "amount": 1,
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:59:00.596Z"
+}

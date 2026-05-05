@@ -1,0 +1,73 @@
+{
+  "id": "OP03-025",
+  "name": "Krieg",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action missing optional constraint. Text says 'You may trash' indicating optional action, but DSL does not specify optional:true"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "KO target incomplete. Must specify maxCount:2 and filter for rested Characters. Current target only has maxCost:4, missing filter for rested state and maxCount"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "DON!! ability should use trigger 'Activated' with proper DON cost condition. Verify condition structure matches 'HasRestingDon' with count:1 semantics"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "DoubleAttack duration set to 'EndOfTurn' but 'DON!!' abilities typically have Permanent duration unless text specifies temporary effect. Clarify if this is per-turn or permanent"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "filter": {
+                    "rested": true
+                  },
+                  "maxCost": 4,
+                  "maxCount": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:24.812Z"
+}

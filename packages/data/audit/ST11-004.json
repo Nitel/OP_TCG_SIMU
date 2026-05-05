@@ -1,0 +1,52 @@
+{
+  "id": "ST11-004",
+  "name": "New Genesis",
+  "set": "ST-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard'. The effect requires the Leader to be Uta, not just any card named Uta on board."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "SearchDeck action is incomplete. Missing filter for {FILM} type cards and exclusion of [New Genesis]. Missing the second action to set up DON!! cards as active. The effect has two distinct actions: search/reveal and DON!! setup."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Only one action present. The card text describes two separate effects: (1) search up to 1 FILM card from top 3, (2) set up to 1 DON!! cards as active. Both should be in the actions array."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].filter",
+      "description": "Filter uses 'kind':'Any' but should specify type FILM and exclude [New Genesis]. Should be something like {'type':'FILM','excludeName':'New Genesis'} or similar structure."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Uta"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "type": "FILM",
+          "excludeName": "New Genesis"
+        },
+        "maxResults": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "Rest",
+        "target": "DON!!",
+        "maxResults": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:06:16.783Z"
+}

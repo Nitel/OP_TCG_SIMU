@@ -1,0 +1,31 @@
+{
+  "id": "OP03-107",
+  "name": "Charlotte Galette",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability completely missing from DSL. The card has [Blocker] text that must be represented as an effect with trigger OnAttacked, condition Always, and action GiveKeyword or equivalent game rule implementation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:43.834Z"
+}

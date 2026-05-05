@@ -1,0 +1,62 @@
+{
+  "id": "EB04-044",
+  "name": "Koby",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect misses the core prevention mechanic. Text says 'this Character would be removed from the field, you may trash 1 card from your hand instead' — this is a replacement effect that prevents removal, not a triggered draw on OnAttacked. Should use a Counter trigger with a condition checking if this card would be removed, and action should prevent removal while allowing trash as alternative."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks board state but doesn't validate Leader type. Should be 'LeaderHasType':'Navy' not 'HasCardOnBoard':'Navy'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Text specifies '[Your Turn] [Once Per Turn] When your opponent's Character is K.O.'d' — the trigger should be OnKO but requires duration constraint. Missing duration:'DuringYourTurn' (not just a simple OnKO which would also trigger during opponent's turn)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition to specify 'opponent's Character' is K.O.'d (not your own). Needs clarification in effect scope."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Navy"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ],
+        "duration": "Permanent"
+      },
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:30.841Z"
+}

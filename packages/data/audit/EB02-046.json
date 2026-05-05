@@ -1,0 +1,25 @@
+{
+  "id": "EB02-046",
+  "name": "Hildon",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong action type: uses 'TrashFromHand' but effect text says 'Trash 2 cards from the top of your deck' - should trash from deck, not hand",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong action type: uses 'PowerBoost' but effect text says 'give ... −1 cost' - this is a cost reduction, not a power boost. There is no DSL action for cost modification currently",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong amount: uses -1000 for power but the effect reduces cost by 1, not power by 1000",
+      "field": "effects[0].actions[1].amount"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:09:33.136Z"
+}

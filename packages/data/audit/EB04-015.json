@@ -1,0 +1,52 @@
+{
+  "id": "EB04-015",
+  "name": "Jinbe",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should use LeaderHasAnyType with types [\"Fish-Man\",\"Merfolk\"] instead of HasCardOnBoard. The effect checks the Leader's type, not board presence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is optional (\"You may rest\") but DSL does not express optionality. Should wrap in conditional or use optional flag if supported."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "PlayFromHand action missing optional/conditional wrapping. The play is contingent on the rest being performed (\"If your Leader...\"). Current structure implies play always happens."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "types": [
+        "Fish-Man",
+        "Merfolk"
+      ]
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter"
+        },
+        "optional": true
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "color": "Green",
+          "cardType": "Character",
+          "maxCost": 6
+        },
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:58.413Z"
+}

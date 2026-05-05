@@ -1,0 +1,50 @@
+{
+  "id": "OP14-019",
+  "name": "I Have a Plan to Take Down One of the Four Emperors!!",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete: missing 'count' parameter (should be 4 cards looked at), missing 'filter' conditions (should filter for {Supernovas} or {Straw Hat Crew} type Characters), missing 'reveal' boolean (should reveal up to 1)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Incorrect trigger 'Trigger' and incorrect action 'DrawCard': this effect should not exist. The card effect ends with placing cards at bottom of deck; there is no separate draw or trigger action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck should allow revealing up to 1 card matching type filter {Supernovas} or {Straw Hat Crew}, not drawing. 'Reveal' parameter missing"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action to handle placement of non-selected cards at bottom of deck (should include instruction for card ordering/placement)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 4,
+          "filter": {
+            "kind": "Character",
+            "types": [
+              "Supernovas",
+              "Straw Hat Crew"
+            ]
+          },
+          "reveal": true,
+          "revealCount": 1,
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:11:35.598Z"
+}

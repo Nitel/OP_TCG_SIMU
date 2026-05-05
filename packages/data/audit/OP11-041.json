@@ -1,0 +1,84 @@
+{
+  "id": "OP11-041",
+  "name": "Nami",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "First effect triggers on life card removal, not generic 'Activated'. Should be 'OnLifeRemoved' or similar custom trigger for life card events."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'If you have 7 or less cards in your hand' must be represented as a hand count condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].duration",
+      "description": "First effect has '[Your Turn]' in text, requiring duration:'DuringYourTurn', not omitted/Permanent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect states '[On Your Opponent's Attack]', trigger should be 'OnAttack' with opponent scope, not 'Activated'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action uses legacy alias 'TrashFromHand' which maps to 'ForceDiscard'; however, context is optional ('You may trash'), requiring conditional/optional action structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' correct for 'during this turn', but second effect lacks '[Your Turn]' scope marker in original text—verify scope is opponent attack context."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnLifeRemoved",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "HandCount",
+          "operator": "LessOrEqual",
+          "count": 7
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "triggerScope": "Opponent",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "filter": "FromHand",
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 2000,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "EndOfTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:43:21.445Z"
+}

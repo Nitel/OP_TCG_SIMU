@@ -1,0 +1,45 @@
+{
+  "id": "OP04-032",
+  "name": "Baby 5",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'Activated'. This is an automatic end-of-turn effect, not a player-activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'GiveDon' is incorrect. The effect sets DON!! cards as active (rests them), which should use 'Rest' or a similar mechanic. 'GiveDon' adds DON!! to the pool, not activates existing ones."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO is optional ('You may trash this Character'), but DSL shows no optionality. Effect should reflect the optional nature of the self-trash."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "YourDon",
+            "count": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:58.207Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "OP15-035",
+  "name": "Laboon",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant effect text but effects array is empty. Should contain a Counter effect that triggers when opponent tries to remove a character with ≤7000 base power, allowing player to rest 2 cards instead."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "params": {
+              "filter": "basePower <= 7000",
+              "type": "Character"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "params": {
+              "target": "YourCards",
+              "count": 2
+            }
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:24:39.181Z"
+}

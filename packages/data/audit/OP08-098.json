@@ -1,0 +1,47 @@
+{
+  "id": "OP08-098",
+  "name": "Kalgara",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action is missing the cost constraint. Effect text specifies 'with a cost equal to or less than the number of DON!! cards on your field' — DSL must include maxCost parameter based on HasRestingDon count, not just play up to 1 card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand is missing the conditional 'If you do' logic. The second action (FlipLife) should only trigger if a card was successfully played. DSL should use conditional chaining or conditional action structure."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-098",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Shandian Warrior",
+              "cardType": "Character"
+            },
+            "maxCost": "donOnField",
+            "count": 1
+          },
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "condition": "onlyIfPreviousActionResolved"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:31:46.592Z"
+}

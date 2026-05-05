@@ -1,0 +1,61 @@
+{
+  "id": "OP06-006",
+  "name": "Saga",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text explicitly says '[When Attacking]'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'UntilStartOfNextTurn' not 'EndOfTurn'. Card text says 'until the start of your next turn' which is a longer duration than end-of-turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type should be 'TrashFromBoard' or similar board-based trash, not 'TrashFromHand'. Card says 'trash 1 of your {FILM} type Characters' (board characters), not hand cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Second action needs explicit duration 'EndOfTurn' to match 'at the end of this turn'. Currently missing duration specification."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] This Character gains +1000 power until the start of your next turn. Then, trash 1 of your {FILM} type Characters at the end of this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "UntilStartOfNextTurn"
+          },
+          {
+            "type": "ForceDiscard",
+            "filter": {
+              "scope": "Board",
+              "type": "Character",
+              "subType": "FILM"
+            },
+            "count": 1,
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:53:39.257Z"
+}

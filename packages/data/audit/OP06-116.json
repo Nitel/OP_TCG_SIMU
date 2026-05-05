@@ -1,0 +1,70 @@
+{
+  "id": "OP06-116",
+  "name": "Reject",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Card has 'Choose one' mechanic with two distinct paths. DSL includes three separate effects without proper mutual exclusion logic. First effect with 'Trigger' (no OnPlay) is orphaned and semantically incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect has trigger:'Trigger' with DrawCard action - this appears to be residual/incorrect. Should be removed or integrated into the choose-one structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[2].condition",
+      "description": "Third effect uses condition:'Always' but should be mutually exclusive with second effect. Card text specifies 'If your opponent has 1 Life card' - this condition is missing. Should be: {\"type\":\"HasLifeCount\",\"count\":1,\"target\":\"opponent\"} or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects structure - choose one",
+      "description": "DSL does not properly express 'Choose one' mechanics. Current structure treats both paths as independently triggerable. Recommend using choice/alternative action grouping if DSL supports it, or restructure as conditional branching."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Choice",
+          "options": [
+            {
+              "actions": [
+                {
+                  "type": "KO",
+                  "target": {
+                    "scope": "ChooseOpponentCharacter",
+                    "maxCost": 5
+                  }
+                }
+              ]
+            },
+            {
+              "condition": {
+                "type": "HasLifeCount",
+                "count": 1,
+                "target": "opponent"
+              },
+              "actions": [
+                {
+                  "type": "RemoveLife",
+                  "target": "opponent",
+                  "count": 1
+                },
+                {
+                  "type": "FlipLife",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:02:10.203Z"
+}

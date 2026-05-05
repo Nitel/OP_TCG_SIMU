@@ -1,0 +1,39 @@
+{
+  "id": "OP01-055_r1",
+  "name": "You Can Be My Samurai!!",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the cost condition. Card text states 'You may rest 2 of your Characters' which is a cost/condition that must be satisfied before DrawCard action. DSL should include a condition checking for ability to rest 2 Characters, or this should be modeled as an Activated ability with a Rest cost, not a simple OnPlay trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (optional/manual ability introduced by 'You may') rather than 'OnPlay'. This is a player-activated effect, not automatic on play."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may rest 2 of your Characters: Draw 2 cards.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 2,
+            "target": "YourCharacters"
+          },
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:41:11.357Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP03-092",
+  "name": "Rob Lucci",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'RevealFromHand' but card text says 'place 2 cards from your trash' — should be 'SearchDeck' or similar trash retrieval action, not reveal from hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but card says type 'including CP' — should be 'type' field, not 'subType'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should retrieve from trash and place at bottom of deck, not reveal from hand. Current structure does not match the 'place at bottom of deck' mechanic"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "filter": {
+            "type": "CP"
+          },
+          "source": "Trash",
+          "placement": "BottomOfDeck",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:21.232Z"
+}

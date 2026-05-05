@@ -1,0 +1,47 @@
+{
+  "id": "OP03-070",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.maxPower",
+      "description": "Filter uses 'maxPower' but card text specifies 'cost of 5', which should be 'cost' not 'power'. Should be 'cost':5 to match exact cost requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing optional 'optional':true modifier. Card text says 'You may trash', indicating this action is optional, not mandatory."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Card text explicitly states 'during this turn', which should map to 'DuringYourTurn' per DSL rules. 'EndOfTurn' implies effect ends at turn end, but 'during this turn' means the duration spans the turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "optional": true,
+        "filter": {
+          "cardType": "Character",
+          "cost": 5
+        },
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:43.656Z"
+}

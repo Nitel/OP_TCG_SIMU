@@ -1,0 +1,64 @@
+{
+  "id": "OP15-022",
+  "name": "Brook",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but the DSL is missing the activation context '[Activate: Main] [Once Per Turn]'. The card requires tracking activation restrictions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect trashes from deck (top of deck), not hand. Should be 'ForceDiscard' with source specification, or a custom 'TrashFromDeck' action. 'TrashFromHand' alias for 'ForceDiscard' applies only to hand discards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The conditional 'Then, if your deck has 0 cards, set up to 1 of your Characters as active' is missing. Requires a condition check (TrashCount or equivalent deck state) followed by a Rest action to set a Character active."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count is 4, which matches 'Trash 4 cards', but there is no source specification indicating these are from the top of the deck, not the hand."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-022",
+    "effectText": "[Activate: Main] [Once Per Turn] Trash 4 cards from the top of your deck. Then, if your deck has 0 cards, set up to 1 of your Characters as active.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 4,
+            "source": "top"
+          }
+        ],
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": "Character",
+            "count": 1,
+            "filter": {
+              "controlledBy": "you"
+            },
+            "condition": {
+              "type": "TrashCount",
+              "equals": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:23:39.636Z"
+}

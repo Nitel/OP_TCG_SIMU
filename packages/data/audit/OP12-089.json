@@ -1,0 +1,60 @@
+{
+  "id": "OP12-089",
+  "name": "Hack",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing static effect for passive ability: 'If your Leader has the {Revolutionary Army} type, this Character gains [Blocker] and +4 cost.' This should be a separate effect with trigger 'Trigger' (or similar passive), condition checking Leader type, and actions applying [Blocker] keyword and cost boost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition type 'HasCardOnBoard' is incorrect. Should be 'LeaderHasType' to check if Leader has {Revolutionary Army} type."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope uses 'ChooseOpponentCharacter' which may need clarification on the 'up to 1' limit enforcement; verify if this properly enforces the optional targeting."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        },
+        {
+          "type": "PowerBoost",
+          "costBoost": 4
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:56:07.633Z"
+}

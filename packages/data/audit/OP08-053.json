@@ -1,0 +1,60 @@
+{
+  "id": "OP08-053",
+  "name": "Thank You...for Loving Me!!",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (Main effect activates when card is played), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition must check 'LeaderHasAnyType' with value 'Whitebeard Pirates', not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete: missing 'count' (should be 3 cards to look at), missing proper filter for card types ('Whitebeard Pirates' OR 'Monkey.D.Luffy'), and should reveal up to 1 card, not all"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with DrawCard is extraneous and incorrect; the card effect does not grant a draw. Effect should handle placement of remaining cards at top/bottom of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects structure",
+      "description": "Missing action to place remaining cards back on deck (top or bottom). The full effect requires SearchDeck with reveal/add to hand, then placement of rest"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "value": "Whitebeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "filter": {
+              "kind": "Any",
+              "cardTypes": [
+                "Whitebeard Pirates",
+                "Monkey.D.Luffy"
+              ]
+            },
+            "maxReveal": 1,
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:15.244Z"
+}

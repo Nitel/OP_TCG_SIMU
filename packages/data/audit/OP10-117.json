@@ -1,0 +1,52 @@
+{
+  "id": "OP10-117",
+  "name": "ROOM",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 1 or less Life cards' requires condition type 'HasRestingDon' or custom life threshold check. Current 'Always' ignores the life requirement entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Spurious effect: Second effect with trigger 'Trigger' and DrawCard action has no basis in card text. This should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'Rest' is incorrect for 'set up to 1 of your Characters with a cost of 5 or less as active'. Should use 'Activate' or equivalent (not 'Rest', which means the opposite)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "HasRestingDon",
+      "amount": {
+        "max": 1
+      }
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxCount": 1
+        },
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "Activate",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:39:56.213Z"
+}

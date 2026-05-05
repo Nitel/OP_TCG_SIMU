@@ -1,0 +1,45 @@
+{
+  "id": "OP02-068_r1",
+  "name": "Gum-Gum Rain",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Second effect (Trigger with ReturnToHand) is completely extraneous and not present in card text. This appears to be from a different card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be optional (conditional 'may trash'). Current structure forces trash; needs optional wrapper or costAction pattern."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for 'during this battle', but the optional trash must be properly gated so power boost only applies if trash occurs."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle",
+          "cost": {
+            "type": "TrashFromHand",
+            "filter": {},
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:20.627Z"
+}

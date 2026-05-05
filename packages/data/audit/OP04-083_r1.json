@@ -1,0 +1,46 @@
+{
+  "id": "OP04-083_r1",
+  "name": "Sabo",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing protection effect: 'None of your Characters can be K.O.'d by effects until the start of your next turn' must be represented as a separate effect with duration DuringYourTurn and appropriate condition/action logic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Draw and Trash actions are sequential but lack explicit sequencing; the trash should occur after draw completes"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKO",
+          "target": "AllYourCharacters"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:34:42.869Z"
+}

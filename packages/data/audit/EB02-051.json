@@ -1,0 +1,54 @@
+{
+  "id": "EB02-051",
+  "name": "Three-Pace Hum Soul Notch Slash",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Trigger should be 'Activated' for [Main] timing events, not 'OnPlay'. This is an Event card that activates during Main phase, not a Character that plays.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Trigger should be 'Activated' for [Main] timing events, not 'OnPlay'. This is an Event card that activates during Main phase, not a Character that plays.",
+      "field": "effects[1].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "The two effects should be combined into a single effect with mode: 'ChooseOne' to represent the 'Choose one:' option in the official text, not two separate OnPlay effects.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Second action should reduce cost, not power. The text says '−4 cost', but the DSL uses PowerBoost with -4000 which affects power, not cost.",
+      "field": "effects[1].actions[0].type"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "mode": "ChooseOne",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            }
+          },
+          {
+            "type": "CostReduction",
+            "amount": -4,
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:52.844Z"
+}

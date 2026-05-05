@@ -1,0 +1,34 @@
+{
+  "id": "ST03-001",
+  "name": "Crocodile",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but card text says 'Return up to 1 Character' with no restriction to opponent's characters. Should be 'ChooseCharacter' to allow targeting any character on board (yours or opponent's)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Missing 'upTo' property. Text specifies 'up to 1 Character' which requires upTo:1 to be optional."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseCharacter",
+            "maxCost": 5,
+            "upTo": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:56:22.102Z"
+}

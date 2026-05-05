@@ -1,0 +1,40 @@
+{
+  "id": "EB03-058",
+  "name": "Lilith",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringYourTurn' for '[Your Turn]' text. Must include duration property."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'TurnCount' is incorrect. Should be a Life check condition (no standard condition exists for '2 or less Life cards' - this requires custom logic or clarification of intended condition type)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and Vegapunk condition does not match card text. This appears to be incorrectly added and should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "LifeCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:59.616Z"
+}

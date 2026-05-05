@@ -1,0 +1,58 @@
+{
+  "id": "OP10-119_r1",
+  "name": "Trafalgar Law",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "FlipLife is incorrect for 'add it to the top of your Life cards face-down'. Should be AddLife (add card to life pile), not FlipLife (flip life total). FlipLife converts life cards to don or vice versa."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "AttachDon action targets wrong scope. Text specifies 'give up to 1 rested DON!! card to 1 of your {Supernovas} type Leader' — must filter target by subType Supernovas and scope Leader only, not ChooseOwnCharacterOrLeader."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].condition",
+      "description": "Missing condition to restrict AttachDon to rested DON!! cards only. Should add condition HasRestingDon or similar to ensure only rested don are eligible."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Supernovas",
+              "cardType": "Character"
+            },
+            "thenActions": [
+              {
+                "type": "AddLife",
+                "count": 1
+              },
+              {
+                "type": "AttachDon",
+                "count": 1,
+                "target": {
+                  "scope": "ChooseOwnLeader",
+                  "filter": {
+                    "subType": "Supernovas"
+                  }
+                },
+                "condition": "HasRestingDon"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:48:44.038Z"
+}

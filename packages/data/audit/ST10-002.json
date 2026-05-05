@@ -1,0 +1,42 @@
+{
+  "id": "ST10-002",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing: must check 'HasAttachedDon' with value 0 OR value 8+. Current condition is 'Always', which ignores the card's core requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "Action type incorrect: 'GiveDon' adds DON!! to your pool. Should be 'AttachDon' to set DON!! as active on your field."
+    },
+    {
+      "severity": "major",
+      "field": "trigger",
+      "description": "Trigger should specify '[Activate: Main]' context; 'Activated' alone is correct trigger type but condition must enforce the DON!! count restriction."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "value": [
+          0,
+          8
+        ]
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:45.340Z"
+}

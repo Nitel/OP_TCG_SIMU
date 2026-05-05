@@ -1,0 +1,62 @@
+{
+  "id": "ST27-005",
+  "name": "Marshall.D.Teach",
+  "set": "ST-27",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Activated effect missing required condition: must specify 'Rest' action as cost before KO action. Current DSL shows only KO, but card text states 'You may rest this Character' as the activation cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'PlayFromHand' is incorrect. Card effect adds card from trash to hand, not plays from hand. Should be 'ReturnToHand' or similar retrieve action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Missing source specification: action should specify retrieving from trash, not from hand. Current filter lacks trash source context."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseFromTrash",
+            "filter": {
+              "color": "Black"
+            },
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:23:01.147Z"
+}

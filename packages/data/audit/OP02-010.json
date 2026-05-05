@@ -1,0 +1,47 @@
+{
+  "id": "OP02-010",
+  "name": "Dogura",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be a condition (cost) of the activation, not an action. The ability is '[Activate: Main] You may rest this Character' — resting is optional and required to use the ability, not a consequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Filter excludes self generically, but card text specifically excludes '[Dogura]' by name. Should use 'excludeCardName' or similar instead of 'excludeSelf'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may rest this Character: Play up to 1 red Character other than [Dogura] with a cost of 1 from your hand.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "color": "Red",
+              "cardType": "Character",
+              "maxCost": 1,
+              "excludeCardName": "Dogura"
+            },
+            "maxAmount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:42.540Z"
+}

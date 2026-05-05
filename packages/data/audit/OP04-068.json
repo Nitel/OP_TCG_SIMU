@@ -1,0 +1,43 @@
+{
+  "id": "OP04-068",
+  "name": "Yokozuna",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' for Blocker mechanics, not 'OnAttacked'. Blocker is a reactive ability that activates when opponent declares an attack."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition references 'HasRestingDon' but the effect requires paying DON!! cost (−1). The cost should be represented as an action to spend DON!!, not a condition to have them resting. This is a cost mechanism, not a conditional check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing the DON!! payment action. The effect requires 'DON!! −1' as a cost before the ReturnToHand effect can resolve. Need to add action to consume/return DON!! to deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": -1
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxAmount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:11.630Z"
+}

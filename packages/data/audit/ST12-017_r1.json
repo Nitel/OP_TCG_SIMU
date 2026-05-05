@@ -1,0 +1,59 @@
+{
+  "id": "ST12-017_r1",
+  "name": "Plastic Surgery Shot",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "RevealFromHand is incorrect. Card text says 'reveal 1 card from the top of your deck' — this is a deck reveal, not a hand reveal. Should use a deck reveal action or SearchDeck variant."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].thenActions[0]",
+      "description": "PlayFromHand is incorrect context. After revealing from deck, the card is not in hand. The action should allow playing the revealed card if it matches the filter, not playing from hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing deck ordering action. Card text requires 'place the rest at the top or bottom of your deck' — the DSL must capture this choice to return non-matching revealed cards."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "RevealFromDeck",
+        "count": 1,
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 2
+        },
+        "thenActions": [
+          {
+            "type": "PlayFromDeck",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 2
+            }
+          },
+          {
+            "type": "PlaceDeckCard",
+            "placement": "ChooseTopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:52:12.534Z"
+}

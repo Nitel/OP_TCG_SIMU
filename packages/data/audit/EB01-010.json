@@ -1,0 +1,42 @@
+{
+  "id": "EB01-010",
+  "name": "There's No Way You Could Defeat Me!!",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing power restriction on KO target. The effect should only target Characters with 6000 base power or less, but no basePowerLimit is specified in the target.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing 'up to 1' targeting specification. The target should be optional (upTo: true) and limited to count: 1.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "critical",
+      "description": "Spurious Trigger effect at effects[1]. The card only has a [Counter] effect, not a [Trigger] effect. This extra effect should not exist.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "upTo": true,
+              "basePowerLimit": 6000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:45.151Z"
+}

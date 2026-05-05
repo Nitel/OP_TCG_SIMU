@@ -1,0 +1,67 @@
+{
+  "id": "OP14-013",
+  "name": "Monkey.D.Luffy",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete. Missing filter logic for '{Supernovas} type card other than [Monkey.D.Luffy]' and missing the 'look at 5 cards' + 'place rest at bottom' mechanics. Current filter is 'Any' which does not restrict by type or exclude card name."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not capture the 'look at 5 cards from top of deck, reveal up to 1' conditional selection. DSL should use a more precise filter with type='Supernovas' and exclude=[Monkey.D.Luffy], and specify searchCount:5."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should clarify 'up to 1' opponent character (optional selection), not mandatory. Current ChooseOpponentCharacter may imply mandatory selection."
+    }
+  ],
+  "suggestedDsl": {
+    "id": "OP14-013",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "searchCount": 5,
+            "filter": {
+              "type": "Supernovas",
+              "exclude": [
+                "Monkey.D.Luffy"
+              ]
+            },
+            "maxResults": 1,
+            "destination": "hand",
+            "thenAction": {
+              "type": "ReturnToHand",
+              "source": "SearchRemainder",
+              "destination": "DeckBottom",
+              "allowReorder": true
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxTargets": 1,
+              "optional": true
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:11:08.726Z"
+}

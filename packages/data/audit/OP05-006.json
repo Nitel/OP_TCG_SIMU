@@ -1,0 +1,36 @@
+{
+  "id": "OP05-006",
+  "name": "Koala",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Card text says 'during this turn' which indicates the effect applies only during your turn. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' would remove the effect at end of your turn, but 'during this turn' means it persists through opponent's turn as well until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' character. Current scope 'ChooseOpponentCharacter' does not enforce the 'up to 1' limit. Should be 'ChooseUpTo1OpponentCharacter' or similar."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseUpTo1OpponentCharacter"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:45:49.473Z"
+}

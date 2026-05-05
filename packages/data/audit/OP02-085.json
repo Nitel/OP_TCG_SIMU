@@ -1,0 +1,53 @@
+{
+  "id": "OP02-085",
+  "name": "Magellan",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing OnPlay effect that returns 1 DON!! from opponent's field (with DON!! -1 cost)",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing OnKO effect during opponent's turn that returns 2 DON!! from opponent's field",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "ReturnDonToOpponentDeck",
+            "count": 1,
+            "target": "Opponent"
+          }
+        ],
+        "cost": {
+          "type": "ReturnDon",
+          "count": 1
+        }
+      },
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "DuringOpponentTurn"
+        },
+        "actions": [
+          {
+            "type": "ReturnDonToOpponentDeck",
+            "count": 2,
+            "target": "Opponent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:38.102Z"
+}

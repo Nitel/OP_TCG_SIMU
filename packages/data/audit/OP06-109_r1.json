@@ -1,0 +1,50 @@
+{
+  "id": "OP06-109_r1",
+  "name": "Denjiro",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL missing the core protective effect. Card text states 'this Character cannot be K.O.'d by effects' when opponent has ≤3 Life — requires a condition check and a protective keyword/action, not a GiveDon action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' is incorrect. The cost '[DON!! x2]' is a play cost, not an activated ability. Should use 'OnPlay' trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' and 'PlaySelf' is nonsensical and does not correspond to card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "GiveDon action does not match card effect. The DON cost is paid to play the card, not an effect action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'Always' is incorrect. Should check 'OpponentLifeCount ≤ 3' or equivalent condition type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentHasLifeOrLess",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByEffects",
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:23:22.796Z"
+}

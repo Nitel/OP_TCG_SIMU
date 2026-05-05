@@ -1,0 +1,42 @@
+{
+  "id": "OP03-057",
+  "name": "Three Thousand Worlds",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck with destination='board' is incorrect. The card effect places Character at the BOTTOM OF DECK, not on the board. Should use destination='deck' with position='bottom'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter.maxCost",
+      "description": "maxCost should be 5 (matches 'cost of 5 or less'), but destination is wrong."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger='Trigger' and maxCost=3 has no basis in card text. Only one Main effect exists: place up to 1 Character (cost ≤5) at bottom of deck. This extra effect should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "destination": "deck",
+          "position": "bottom",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:18.466Z"
+}

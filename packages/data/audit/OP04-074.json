@@ -1,0 +1,48 @@
+{
+  "id": "OP04-074",
+  "name": "Colors Trap",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'Activated'. This is a Counter ability activated during battle."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle'. Card text says 'during this battle'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and GiveDon action is incorrect. The DON!! cost is part of the Counter activation cost, not a separate effect. Should be removed or merged into activation cost specification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:42:47.366Z"
+}

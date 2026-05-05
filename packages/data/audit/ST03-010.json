@@ -1,0 +1,43 @@
+{
+  "id": "ST03-010",
+  "name": "Bartholomew Kuma",
+  "set": "ST-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' with destination 'hand' is incorrect. Card text says 'look at 3 cards from top of deck and return them to top or bottom' — this is a library manipulation effect, not a search-to-hand. Should use a custom action or represent as viewing/reordering deck cards, not drawing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is not mentioned in card text and should not be present. This appears to be erroneous data."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter specifies 'Any' but text explicitly limits to '3 cards from the top of your deck' — count constraint missing."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 3 cards from the top of your deck and return them to the top or bottom of the deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Any",
+              "count": 3,
+              "source": "top"
+            },
+            "destination": "topOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:57:01.173Z"
+}

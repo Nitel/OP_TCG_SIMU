@@ -1,0 +1,52 @@
+{
+  "id": "OP15-024",
+  "name": "Usopp",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing first effect: '[Opponent's Turn] This Character cannot be rested by your opponent's Leader and Character effects and gains [Blocker].' requires a Permanent/DuringOpponentTurn effect with condition blocking rest and giving Blocker keyword. Current DSL only captures the [On K.O.] trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "[On K.O.] action should include maxCount:1 to match 'Rest up to 1' in the text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Permanent",
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "maxCost": 7
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:23:48.678Z"
+}

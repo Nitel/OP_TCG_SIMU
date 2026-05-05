@@ -1,0 +1,76 @@
+{
+  "id": "EB04-057",
+  "name": "Vegapunk",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing primary effect: 'If you have 2 or less Life cards, all of your yellow {Scientist} type Characters cannot be removed from the field by your opponent's effects.' This is a conditional protection effect that should be present as a separate effect triggered OnPlay or as a static condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' is incorrect for [DON!! x1] cost effect. Should be 'OnPlay' or similar permanent/activated ability trigger, not 'Activated' which suggests manual activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type 'TurnCount' with min:0, max:0 is nonsensical. [DON!! x1] is a cost condition, not a turn count. Should use a cost-related condition or remove this condition entirely if effect is unconditional on play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. [Blocker] keyword grant should be 'Permanent' duration, not limited to end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardProperty": "hasType",
+        "value": "Scientist",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects",
+          "target": {
+            "scope": "AllCharactersControlled",
+            "filter": {
+              "types": [
+                "Scientist"
+              ],
+              "colors": [
+                "Yellow"
+              ]
+            }
+          },
+          "duration": "Permanent",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "cardProperty": "lifeCards",
+            "max": 2
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:33.525Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "ST20-003",
+  "name": "Charlotte Brulee",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PlaySelf action is illogical in this context—a card cannot play itself without a valid trigger event (OnPlay, OnAttack, etc.). Trigger must be specified correctly first."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:15:51.326Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "ST12-017",
+  "name": "Plastic Surgery Shot",
+  "set": "ST-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action should be 'RevealFromDeck', not 'RevealFromHand'. Card text says 'reveal 1 card from the top of your deck', not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing action to place revealed card at top or bottom of deck. DSL must include a placement action after reveal."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "'PlayFromHand' is incorrect context. Should play the revealed Character card from deck (if cost ≤2), not from hand. Conditional play should apply only to revealed card."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "RevealFromDeck",
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "PlayFromDeck",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 2
+            },
+            "count": 1
+          },
+          {
+            "type": "PlaceOnDeck",
+            "position": "TopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:07:30.625Z"
+}

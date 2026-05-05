@@ -1,0 +1,32 @@
+{
+  "id": "OP10-035",
+  "name": "Brook",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].target.scope",
+      "description": "Target scope should include both Leader and Character. 'ChooseOpponentCharacter' only targets Characters. Should be 'ChooseOpponentCharacterOrLeader' or equivalent multi-type selector."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Missing 'maxCount' property to enforce 'up to 1'. Current structure implies maxCost but doesn't limit quantity selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacterOrLeader",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:29.672Z"
+}

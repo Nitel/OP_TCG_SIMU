@@ -1,0 +1,36 @@
+{
+  "id": "OP09-035",
+  "name": "Portgas.D.Ace",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: requires 2 or more rested Characters. Current condition is 'Always' but should check your rested Character count."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope incomplete: should specify 'up to 1' (maxCount=1) and include resting condition filter. Current target allows any opponent Character with cost ≤5, missing the quantity limit."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:36:02.842Z"
+}

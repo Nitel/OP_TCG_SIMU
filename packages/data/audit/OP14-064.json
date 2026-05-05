@@ -1,0 +1,48 @@
+{
+  "id": "OP14-064",
+  "name": "Giolla",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incomplete. Should specify target scope for where DON!! is added (e.g., 'OwnLeader'). Current action lacks target definition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action targets 'OwnLeader', but effect text says 'rest it' referring to the DON!! card that was just added, not the leader. Target should be the newly added DON!! card or clarify the mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target.maxPower",
+      "description": "Condition uses 'maxPower' but should use 'basePower' to match card text 'base power of 0'."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP14-064",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "target": {
+              "scope": "OwnLeader"
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "basePower": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:15:06.982Z"
+}

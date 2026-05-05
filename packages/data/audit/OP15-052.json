@@ -1,0 +1,36 @@
+{
+  "id": "OP15-052",
+  "name": "Leo",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but empty effects array. Must define trigger, condition, and action for the replacement/prevention effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "value": {
+            "power": "≤7000"
+          }
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "YourCharacter",
+            "placement": "DeckBottom"
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:25:52.557Z"
+}

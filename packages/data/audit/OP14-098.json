@@ -1,0 +1,78 @@
+{
+  "id": "OP14-098",
+  "name": "Crescent Cutlass",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Main effect trigger should be 'OnPlay' not 'Activated'. This is a passive main effect that triggers when the card enters play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is missing. Must check 'HasCardOnBoard' with parameters: type includes 'Character', cost is 0 OR cost is 8+. Current condition 'Always' is incomplete."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'GiveKeyword' with keyword '+3cost', not 'PowerBoost'. Cost modification is a keyword effect, not power boost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the end of your opponent's next End Phase' which means duration should be 'DuringOpponentTurn' (opponent's turn only)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP14-098",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "costCheck": {
+            "operator": "OR",
+            "values": [
+              {
+                "equals": 0
+              },
+              {
+                "greaterThanOrEqual": 8
+              }
+            ]
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "+3cost",
+            "target": {
+              "scope": "AllOwnCharacters",
+              "subType": "Baroque Works"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:17:45.617Z"
+}

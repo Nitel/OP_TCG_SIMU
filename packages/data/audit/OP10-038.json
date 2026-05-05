@@ -1,0 +1,44 @@
+{
+  "id": "OP10-038",
+  "name": "Roronoa Zoro",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has conditional passive ability that should trigger during opponent's turn."
+    },
+    {
+      "severity": "critical",
+      "field": "duration",
+      "description": "[Opponent's Turn] text requires duration: 'DuringOpponentTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "DuringOpponentTurn",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": 2,
+            "comparison": ">=",
+            "filters": {
+              "status": "Resting"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "value": 2000,
+            "target": "Self"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:46.650Z"
+}

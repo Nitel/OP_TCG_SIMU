@@ -1,0 +1,48 @@
+{
+  "id": "OP09-087",
+  "name": "Charlotte Pudding",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: should check if opponent has 5+ cards in hand. Current condition is 'Always' which ignores the hand size requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'DrawCard' should not be present. Card text contains no draw effect. Only TrashFromHand should exist."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Should be 'ForceDiscard' (opponent discards, not player). Legacy alias 'TrashCard' maps to ForceDiscard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action targets opponent, but no target specification in filter. Should clarify opponent is subject."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardInHand",
+          "count": 5,
+          "operator": ">="
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:28:23.291Z"
+}

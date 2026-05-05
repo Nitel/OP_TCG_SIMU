@@ -1,0 +1,63 @@
+{
+  "id": "OP07-059",
+  "name": "Foxy",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check for {Foxy Pirates} type Characters (HasCardOnBoard with type filter), not HasRestingDon. HasRestingDon checks DON!! cards, not character types."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.count",
+      "description": "Condition requires '3 or more' Foxy Pirates characters, not 3 DON!! cards. Structure should use HasCardOnBoard with type:'FoxyPirates' and count:3."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Rest action targets only opponent's Leader and 1 Character, but the effect requires selection of 'opponent's rested Leader AND up to 1 Character' — the Leader must already be rested. Additionally, the duration is wrong: 'will not become active in your opponent's next Refresh Phase' indicates a duration-based effect (cards remain rested through next refresh), not a simple Rest action. Should use duration:'UntilOpponentRefresh' or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Opponent's Leader selection should be conditional on it being rested. Current DSL does not verify this precondition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Should allow selection of 'up to 1 Character card' (optional), but DSL forces selection of ChooseOpponentCharacter without making it optional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardType": "FoxyPirates",
+      "scope": "YourField",
+      "count": 3,
+      "comparison": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OpponentLeader",
+          "filter": "IsRested"
+        },
+        "duration": "UntilOpponentRefresh"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1,
+          "optional": true
+        },
+        "duration": "UntilOpponentRefresh"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:56.875Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP01-086",
+  "name": "Overheat",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "ReturnToHand target should be 'ChooseOpponentCharacter' but must respect 'active' status; current scope is correct but card text says 'active Character' — scope needs qualifier for active state"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and ReturnToHand with maxCost:4 has no basis in card text. Card only describes two sequential actions within a single Counter trigger, not a separate Trigger effect. This entire effect array entry is spurious."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for Counter card effects (power boost during battle), but verify this matches OPTCG standard. If correct, this is acceptable."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "quantity": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "quantity": 1,
+              "isActive": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:28.403Z"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP05-089",
+  "name": "Saint Mjosgard",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is SearchDeck but effect searches from trash, not deck. Should be a trash-specific action or custom logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing color constraint. Effect requires 'black Character card' but filter only specifies cost. Must include color:'Black' and type:'Character'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect does not model the cost/activation requirements: resting this Character and 1 other Character to pay for the ability. This is a payment condition that should be represented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect allows 'up to 1' card (optional) but DSL action does not reflect optionality. Should include a count/limit parameter indicating 0-1 cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] ➀ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character and 1 of your Characters: Add up to 1 black Character card with a cost of 1 from your trash to your hand.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "filter": {
+              "location": "trash",
+              "color": "Black",
+              "kind": "Character",
+              "maxCost": 1
+            },
+            "count": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:51:01.113Z"
+}

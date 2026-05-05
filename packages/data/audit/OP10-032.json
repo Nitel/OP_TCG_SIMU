@@ -1,0 +1,39 @@
+{
+  "id": "OP10-032",
+  "name": "Tashigi",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a conditional replacement effect (prevent removal by resting instead), but effects[] is empty. This should contain a Counter trigger with condition checking for green Character on board and opponent's removal effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "params": {
+              "cardType": "Character",
+              "cardColor": "green",
+              "excludeName": "Tashigi"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "self"
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:21.073Z"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "ST10-004",
+  "name": "Sanji",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If your opponent has a Character with 5000 or more power' is not represented. Current condition is 'Always', but should check opponent's board state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Card text states 'during this turn' which maps to 'DuringYourTurn', not a temporary effect that expires at end of turn. Since Rush persists for the remainder of the turn, duration should be 'DuringYourTurn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "Opponent",
+        "filter": {
+          "cardType": "Character",
+          "powerThreshold": 5000
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:54.352Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP12-006",
+  "name": "Shakuyaku",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and inaccurate. Missing: (1) look at top 5 cards (count/limit), (2) filter for '[Monkey.D.Luffy] or red Event' (currently 'Any'), (3) reveal requirement, (4) ability to add up to 1 card, (5) placement of remaining cards at bottom in any order."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to '[Monkey.D.Luffy]' card name OR 'red Event' card type, with max 1 card selected."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Or",
+            "conditions": [
+              {
+                "kind": "CardName",
+                "value": "Monkey.D.Luffy"
+              },
+              {
+                "kind": "CardType",
+                "value": "Event",
+                "color": "red"
+              }
+            ]
+          },
+          "count": 5,
+          "maxSelect": 1,
+          "destination": "hand",
+          "reveal": true,
+          "remaining": "BottomOfDeckInAnyOrder"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:49:39.779Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP09-043",
+  "name": "Alvida",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to check if Leader has {Cross Guild} type. DSL requires 'condition' field with 'LeaderHasType' or 'LeaderHasAnyType' before the action can execute."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but should use 'type' to match {Cross Guild} type requirement. Also, 'excludeSelf' is not a valid filter property for PlayFromHand; card exclusion should use 'excludeNames' with card name array."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "PlayFromHand filter should include 'cardType':'Character' to explicitly match 'Character card' in effect text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Cross Guild"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5,
+            "excludeNames": [
+              "Alvida"
+            ]
+          },
+          "maxAmount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:46:33.965Z"
+}

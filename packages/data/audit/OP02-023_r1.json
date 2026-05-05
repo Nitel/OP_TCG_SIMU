@@ -1,0 +1,54 @@
+{
+  "id": "OP02-023_r1",
+  "name": "You May Be a Fool...but I Still Love You",
+  "set": "ST-15",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type is incorrect. Should be 'StartOfTurn' to check life count at turn start, not a generic 'Trigger'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check 'If you have 3 or less Life cards'. Should include condition checking life total ≤ 3."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action is completely wrong. Card prevents adding Life cards during turn, not a PowerBoost. Should use a restrictive effect or GiveKeyword with appropriate restriction logic, not offensive boost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for a turn-long restriction. Should be 'DuringYourTurn' since effect lasts 'during this turn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have 3 or less Life cards, you cannot add Life cards to your hand using your own effects during this turn.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "amount": 3,
+            "comparison": "LessThanOrEqual"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotAddLifeToHand",
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:10:41.803Z"
+}

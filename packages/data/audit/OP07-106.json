@@ -1,0 +1,47 @@
+{
+  "id": "OP07-106",
+  "name": "Fuza",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition checks 'HasRestingDon' (Don!! attached to card), but effect text requires 'If you have 1 or less Life cards' — should use LeaderHasRestingDon or check life count, not card Don state"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows multiple selections ('up to 1') but scope 'ChooseOpponentCharacter' needs maxCount property to enforce 'up to 1' limit"
+    }
+  ],
+  "suggestedDsl": {
+    "cost": [
+      {
+        "type": "Don",
+        "count": 1
+      }
+    ],
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LeaderHasRestingDon",
+          "count": 1,
+          "comparison": "LessOrEqual"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:10:31.908Z"
+}

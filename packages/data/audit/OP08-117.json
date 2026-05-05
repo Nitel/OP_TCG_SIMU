@@ -1,0 +1,49 @@
+{
+  "id": "OP08-117",
+  "name": "Burn Blade",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'RemoveLife' but card text says 'trash 1 card from the top of your Life cards', which is FlipLife (converting Life to hand), not RemoveLife (permanent removal)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and FlipLife action has no clear trigger source or condition; this appears to be duplicate/incorrect logic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Card text uses 'may' indicating optional action, but DSL does not reflect this optionality via 'optional' flag"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct but should verify maxCost:7 matches 'cost of 7 or less' condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "optional": true,
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:33:11.731Z"
+}

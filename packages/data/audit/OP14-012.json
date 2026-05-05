@@ -1,0 +1,40 @@
+{
+  "id": "OP14-012",
+  "name": "Bepo",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: effect should only trigger if this Character has 5000 power or more. Current condition is 'Always' but should check power threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should specify that DON cards being attached must be rested DON cards (from the pool/in rest state), not just any DON cards. The mechanic of 'giving up to 2 rested DON cards' implies selecting from available rested DON cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] If this Character has 5000 power or more, give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "sourceFilter": "RestedDon"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:11:03.249Z"
+}

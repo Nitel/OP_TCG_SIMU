@@ -1,0 +1,30 @@
+{
+  "id": "ST08-009",
+  "name": "Makino",
+  "set": "ST-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'If there is a Character with a cost of 0' must be expressed as a condition. The DSL requires a condition to check for a 0-cost Character on board before DrawCard executes."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": "HasCardOnBoard",
+      "conditionParams": {
+        "cost": 0,
+        "cardType": "Character"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:03:05.543Z"
+}

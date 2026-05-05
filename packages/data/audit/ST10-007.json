@@ -1,0 +1,47 @@
+{
+  "id": "ST10-007",
+  "name": "Killer",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' not 'Activated'. The effect activates when a DON!! card is returned to deck (automatic trigger), not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition for '[Your Turn]'. Must include duration constraint 'DuringYourTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Must specify 'rested' Characters with cost ≤3. Current scope 'ChooseOpponentCharacter' lacks rested state filter and cost condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "DuringYourTurn"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "filters": {
+              "isRested": true,
+              "maxCost": 3
+            },
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:05:10.938Z"
+}

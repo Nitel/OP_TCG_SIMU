@@ -1,0 +1,37 @@
+{
+  "id": "OP10-011_r1",
+  "name": "Tony Tony.Chopper",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Text states '[Opponent's Turn] This Character gains +2000 power.' Duration should be 'DuringOpponentTurn', not 'EndOfTurn'. Per duration rules, 'opponent's turn' in text requires duration:'DuringOpponentTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Blocker ability text '(After your opponent declares an attack, you may rest this card to make it the new target of the attack.)' is a static ability, not a triggered action. OnBlock trigger with Rest action misrepresents the mechanic—Blocker is a keyword that grants the ability to intercept attacks, not an action that fires. This effect should be removed or restructured as a keyword grant, not an action trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:47:53.865Z"
+}

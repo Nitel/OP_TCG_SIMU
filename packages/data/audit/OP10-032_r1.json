@@ -1,0 +1,55 @@
+{
+  "id": "OP10-032_r1",
+  "name": "Tashigi",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a replacement effect that prevents removal, but effects[] is empty. Must define: trigger=OnKO (or card removal context), condition checking for green Character on board (not Tashigi), action to Rest this character instead of being removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger. Text indicates 'would be removed...by your opponent's effect' — this is a replacement/prevention mechanic, typically modeled as OnKO or Counter. Trigger required."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: must verify player has a green Character on field (HasCardOnBoard with type filter) AND that Character is not named Tashigi."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: Rest this Character (Rest action type). The effect allows resting this Character as a replacement for removal."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardType": "Character",
+            "colors": [
+              "Green"
+            ],
+            "excludeNames": [
+              "Tashigi"
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:48:03.898Z"
+}

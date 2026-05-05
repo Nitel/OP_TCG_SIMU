@@ -1,0 +1,58 @@
+{
+  "id": "OP02-035",
+  "name": "Trafalgar Law",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand should be conditional (You may return...). Current DSL makes it mandatory. Should use a condition or restructure as optional action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost specification. Trigger is Activated but no cost condition (➀ = 1 DON rest cost) is captured in DSL."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter should specify 'count' or 'maxCount' to enforce 'up to 1'. Current filter lacks quantifier."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "count": 1
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 3
+        },
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:43.570Z"
+}

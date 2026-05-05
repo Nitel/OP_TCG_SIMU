@@ -1,0 +1,20 @@
+{
+  "id": "OP06-065_r1",
+  "name": "Vinsmoke Niji",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[].condition",
+      "description": "Condition 'HasRestingDon' with count:0 means 'you have 0 or fewer DON!!'. The card text requires 'number of DON!! on your field ≤ opponent's DON!!', which is a comparison condition, not a fixed count. This should use a custom comparison or 'HasAttachedDon' with proper logic, but neither exists in standard conditions. The current DSL misrepresents the triggering condition entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[].actions",
+      "description": "The DSL presents two separate effects with identical conditions, creating a mandatory choice between them. The card text explicitly states 'choose one' (singular choice), so both options should be in a single effect with a choice mechanism, not two parallel effects."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:37:36.999Z"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP11-099",
+  "name": "I'm Gonna Be a Navy Officer!!!",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing deck look mechanic. DSL must first look at 3 cards from top of deck before selecting. Current DSL only searches deck without the 'look at 3' constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify Navy type cards (excluding [I'm Gonna Be a Navy Officer!!!]). Must use type-based filtering with exclusion."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing second action to trash remaining cards. After selecting up to 1 card, the rest must be trashed from the looked cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (activated when card is played), not generic 'Trigger'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Look at 3 cards from the top of your deck; reveal up to 1 {Navy} type card other than [I'm Gonna Be a Navy Officer!!!] and add it to your hand. Then, trash the rest.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "Navy",
+              "exclude": "[I'm Gonna Be a Navy Officer!!!]"
+            },
+            "searchCount": 3,
+            "selectCount": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "ForceDiscard",
+            "source": "SearchRemainder"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:46.866Z"
+}

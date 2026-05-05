@@ -1,0 +1,42 @@
+{
+  "id": "EB04-006",
+  "name": "Moda",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) looking at 7 cards from top of deck, (2) revealing up to 1 [Lulucia Kingdom] card, (3) adding it to hand, (4) placing the REST at the bottom of deck in any order. Current DSL only searches for and adds a card, missing the 'look at 7' constraint, the 'up to 1' limit specification, and the 'place rest at bottom in any order' step."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition or filter to restrict the search to only the top 7 cards of the deck (not the entire deck)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to handle the remaining 6 cards (place them at bottom of deck in any order). This is a material part of the card effect."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByName",
+          "name": "Lulucia Kingdom"
+        },
+        "deckZone": "top",
+        "deckZoneCount": 7,
+        "maxSearch": 1,
+        "destination": "hand",
+        "restPlacement": "bottom",
+        "restOrder": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:19:55.785Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "OP08-004",
+  "name": "Kuromarimo",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing required check for [Chess]. Should be HasCardOnBoard with cardName or type check for Chess, not Always."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope should specify quantity limit 'up to 1'. Current target lacks maxCount specification."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardName": "Chess"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:11:51.720Z"
+}

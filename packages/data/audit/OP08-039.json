@@ -1,0 +1,72 @@
+{
+  "id": "OP08-039",
+  "name": "Zou",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the primary effect. The card has two distinct effects: (1) Activate: Main with conditional DON!! activation, and (2) End of Your Turn with Minks character activation. Current DSL only includes a Rest action with no conditional logic or DON/character activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "First effect requires condition 'LeaderHasType' with type 'Minks', not 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to activate DON!! cards. Should include action type for setting DON cards as active (likely a custom action or state change, not just Rest)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely: '[End of Your Turn] Set up to 1 of your {Minks} type Characters as active.' Should be a separate effect with trigger 'EndOfTurn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Minks"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "ActivateDon",
+          "target": {
+            "scope": "YourDon",
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "YourCharacters",
+            "filter": {
+              "type": "Minks"
+            },
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:27:08.487Z"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP01-031",
+  "name": "Kouzuki Oden",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "Action should be 'Rest' (set up = rest/activate), not 'GiveDon'. 'Set up' means to flip DON!! cards from resting to active state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "Target filter is missing. Must specify 'target' with type 'OwnDon' or 'OwnActive' to target player's DON!! cards, not just reference them without a target."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Land of Wano"
+        },
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": "OwnDon",
+            "count": 2,
+            "restType": "Activate"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:54.911Z"
+}

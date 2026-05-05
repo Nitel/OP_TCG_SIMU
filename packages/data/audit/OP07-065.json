@@ -1,0 +1,45 @@
+{
+  "id": "OP07-065",
+  "name": "Gina",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing required checks: LeaderHasType 'Foxy Pirates' and DON comparison (your DON count ≤ opponent's DON count). Current condition is 'Always', which ignores both gating requirements."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action GiveDon should include conditional logic: only execute if conditions are met. The effect is gated by two conditions (leader type AND DON comparison), not unconditional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "AND",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Foxy Pirates"
+        },
+        {
+          "type": "DonComparison",
+          "operator": "LessOrEqual",
+          "yourDon": "fieldCount",
+          "opponentDon": "fieldCount"
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "DonDeck",
+        "state": "Active"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:07:23.949Z"
+}

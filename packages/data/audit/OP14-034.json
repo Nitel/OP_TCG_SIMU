@@ -1,0 +1,80 @@
+{
+  "id": "OP14-034",
+  "name": "Monkey.D.Luffy",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing entire second effect: '[Once Per Turn] If your {Straw Hat Crew} type Character would be K.O.'d by your opponent's effect, you may rest 1 of your Characters instead.' This is a counter/prevention ability that should trigger OnKO with condition checks."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' not 'OnPlay'. Card text '[Your Turn]' indicates a continuous passive during your turn, not on card play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text explicitly states '[Your Turn]' meaning effect is active only during your turn phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing conditions: must filter for 'green', 'Straw Hat Crew' type, and 'base cost 4 or more'. Currently targets all own characters."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "color": "green",
+            "types": [
+              "Straw Hat Crew"
+            ],
+            "baseCostMin": 4
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "color": "green",
+              "types": [
+                "Straw Hat Crew"
+              ],
+              "baseCostMin": 4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnCharacters",
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:12:45.346Z"
+}

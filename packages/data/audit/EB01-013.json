@@ -1,0 +1,53 @@
+{
+  "id": "EB01-013",
+  "name": "Kouzuki Hiyori",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The action sequence is completely wrong. The effect should: (1) trash this Character as a cost, (2) play a character from hand, (3) draw a card. Currently it only trashes from hand without playing anything.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the cost mechanism - 'You may trash this Character' means trashing the card itself (on board) as an activation cost, not trashing from hand.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing PlayFromHand action to play the {Land of Wano} character card from hand.",
+      "field": "effects[0].actions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "TrashSelf"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "subType": "Land of Wano",
+              "maxCost": 5,
+              "excludeName": "Kouzuki Hiyori"
+            },
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:53.652Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP12-056",
+  "name": "Monkey.D.Garp",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action missing 'optional: true' flag. Card text states 'You may trash', indicating this is optional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Should specify 'maxCount: 1' to match 'trash 1 card'. Current filter lacks quantity constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "Filter missing exclusion for [Monkey.D.Garp]. Card text explicitly excludes this character. Need 'excludeCardNames: [\"Monkey.D.Garp\"]' or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PlayFromHand action missing 'optional: true' flag. Card text states 'Play up to 1', indicating optional play after successful trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "Filter missing 'maxCount: 1' to match 'up to 1 blue {Navy} type Character card'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "optional": true,
+          "maxCount": 1,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "optional": true,
+              "maxCount": 1,
+              "filter": {
+                "color": "Blue",
+                "cardType": "Character",
+                "subType": "Navy",
+                "maxPower": 8000,
+                "excludeCardNames": [
+                  "Monkey.D.Garp"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:53:33.988Z"
+}

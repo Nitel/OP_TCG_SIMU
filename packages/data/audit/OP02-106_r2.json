@@ -1,0 +1,31 @@
+{
+  "id": "OP02-106_r2",
+  "name": "Tsuru",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an On Play trigger with a cost reduction action, but effects[] is empty. DSL must contain the trigger and action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": "Always",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "amount": -2,
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:49.118Z"
+}

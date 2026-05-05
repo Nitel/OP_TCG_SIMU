@@ -1,0 +1,29 @@
+{
+  "id": "OP09-048_r1",
+  "name": "Dracule Mihawk",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing [On Play] action: 'trash 1 card from your hand' is not represented. The effect should include both DrawCard and ForceDiscard actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:46:30.155Z"
+}

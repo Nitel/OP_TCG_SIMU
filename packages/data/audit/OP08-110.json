@@ -1,0 +1,47 @@
+{
+  "id": "OP08-110",
+  "name": "Wyper",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "DSL is missing the SearchDeck action. Card text requires: (1) look at 5 cards from deck, (2) reveal up to 1 Upper Yard and ADD TO HAND, (3) place rest at bottom in any order, (4) then play up to 1 Upper Yard from hand. Current DSL only covers reveal+play, omitting the search/draw phase entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RevealFromHand is incorrect action type. The card reveals from deck (SearchDeck), not from hand. After revealing and adding to hand, THEN play from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing proper sequencing: SearchDeck (look at 5, add 1 Upper Yard to hand, arrange rest) must complete before PlayFromHand can execute. Current structure does not establish this dependency."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "filter": {
+            "subType": "Upper Yard"
+          },
+          "revealCount": 1,
+          "addToHand": true
+        },
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Upper Yard"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:32:37.587Z"
+}

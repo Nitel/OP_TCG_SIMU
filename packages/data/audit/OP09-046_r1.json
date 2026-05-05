@@ -1,0 +1,45 @@
+{
+  "id": "OP09-046_r1",
+  "name": "Crocodile",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Effect should be consolidated into single trigger with OR condition on filters. Current DSL uses two separate OnPlay triggers which could execute sequentially rather than representing 'up to 1' across both options. Should use single effect with OR logic or clarify mutual exclusivity."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].filter and effects[1].filter",
+      "description": "Filter logic does not capture 'Character card with a type including Baroque Works'. Current filters treat subType as exact match. The card text specifies 'Character card with a type including Baroque Works' which should check if Baroque Works is among the card's types, not replace the subType filter entirely."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter.subType",
+      "description": "Cross Guild should likely be checked as a type/subType inclusion, not as the sole subType value. Clarify if 'Cross Guild type Character' means subType='Cross Guild' or if type array should include 'Cross Guild'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 5,
+          "OR": [
+            {
+              "subType": "Cross Guild"
+            },
+            {
+              "typeIncludes": "Baroque Works"
+            }
+          ]
+        },
+        "count": "UpTo1"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:26.275Z"
+}

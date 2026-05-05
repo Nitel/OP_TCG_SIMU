@@ -1,0 +1,39 @@
+{
+  "id": "OP15-108",
+  "name": "Nami",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Effect requires: (1) looking at top 3 cards, (2) filtering for up to 1 Sky Island type card, (3) revealing the selected card, (4) placing remaining cards at bottom of deck in any order. Current DSL only captures basic search without the specific filter, reveal mechanic, or bottom placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify {Sky Island} type requirement, not {Any}. Should be {\"type\":\"Sky Island\"} or equivalent type filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "type": "Sky Island"
+          },
+          "maxResults": 1,
+          "destination": "hand",
+          "reveal": true
+        },
+        {
+          "type": "OrderDeckBottom",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:30:18.204Z"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP03-112",
+  "name": "Charlotte Pudding",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing filter specifications: must specify card type conditions ([Sanji] OR {Big Mom Pirates}), exclude [Charlotte Pudding], and specify 'look at 4 cards from top' as the search scope. Current filter has kind:'Any' with no actual filtering logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter does not reflect the dual-type requirement: [Sanji] type OR {Big Mom Pirates} type, excluding [Charlotte Pudding]."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action for the second part of the effect: 'place the rest at the bottom of your deck in any order'. This requires a separate action or clarification in the DSL structure for deck ordering."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Or",
+            "conditions": [
+              {
+                "hasType": "Sanji"
+              },
+              {
+                "hasType": "Big Mom Pirates"
+              }
+            ],
+            "exclude": [
+              {
+                "cardName": "Charlotte Pudding"
+              }
+            ]
+          },
+          "destination": "hand",
+          "count": 1,
+          "lookAtTop": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:55.031Z"
+}

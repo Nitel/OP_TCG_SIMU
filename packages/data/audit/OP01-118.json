@@ -1,0 +1,47 @@
+{
+  "id": "OP01-118",
+  "name": "Ulti-Mortar",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' with cost specification, not split into separate Counter and Trigger effects. The DON!! cost is metadata, not a separate effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with GiveDon) is invalid. The card text describes a cost (DON!! −2), not an additional triggered ability. This effect should be removed."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify 'max 1' constraint more explicitly, though 'ChooseOwnCharacterOrLeader' with implicit singular selection is acceptable."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "cost": {
+        "donRequired": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:18.334Z"
+}

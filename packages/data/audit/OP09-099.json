@@ -1,0 +1,55 @@
+{
+  "id": "OP09-099",
+  "name": "Fullalead",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at top 3 cards, (2) revealing up to 1 Blackbeard Pirates card, (3) adding it to hand, (4) placing rest at bottom of deck in any order. Current DSL only searches deck generically without the 'look at 3' constraint, reveal logic, or bottom-placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (conditional). Text says 'You may trash 1 card' — this should be wrapped in a conditional or the action itself should support optional execution. Current DSL treats it as mandatory."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action placement is incorrect. The resting should only occur if the player chooses to trash (i.e., conditional on the optional trash action being executed)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "amount": 3,
+        "revealUp": 1,
+        "filter": {
+          "kind": "ByType",
+          "type": "Blackbeard Pirates"
+        },
+        "destination": "hand",
+        "remaining": "bottom",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:29:22.173Z"
+}

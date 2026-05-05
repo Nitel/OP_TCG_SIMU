@@ -1,0 +1,51 @@
+{
+  "id": "OP07-052",
+  "name": "Boa Marigold",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing: must check for 2+ Characters with Amazon Lily or Kuja Pirates types on your field. Current condition is 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "Action type is 'KO' but effect text says 'place at the bottom of the owner's deck' — this is a return/reorder effect, not destruction. Should use 'ReturnToHand' or similar deck placement mechanism, or custom action if system supports deck positioning."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect allows choosing your own Character or opponent's Character (it says 'owner's deck'). Should be 'ChooseCharacter' or clarify scope."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Effect says 'up to 1' (optional), but DSL structure doesn't reflect optionality. May need quantity modifier."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardTypes": [
+        "Amazon Lily",
+        "Kuja Pirates"
+      ],
+      "minCount": 2
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 2
+        },
+        "optional": true,
+        "quantity": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:20.665Z"
+}

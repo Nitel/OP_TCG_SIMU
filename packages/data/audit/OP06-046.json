@@ -1,0 +1,37 @@
+{
+  "id": "OP06-046",
+  "name": "Sakazuki",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Card should be placed at bottom of deck, not played to board. Destination should be 'deck' with placement 'bottom', not 'board'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify cardType 'Character' in addition to cost constraint. Current filter only checks cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 2,
+            "cardType": "Character"
+          },
+          "destination": "deck",
+          "placement": "bottom",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:56:40.193Z"
+}

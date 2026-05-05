@@ -1,0 +1,32 @@
+{
+  "id": "OP11-013",
+  "name": "Prince Grus",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a [When Attacking] trigger that should prevent opponent's Characters with ≤2000 power from activating [Blocker] during this turn. This requires: trigger OnAttack, condition checking power, action applying blocking restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] All of your opponent's Characters with 2000 power or less cannot activate [Blocker] during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringYourTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "OpponentCharactersWithPowerLessOrEqual",
+            "targetValue": 2000,
+            "keyword": "CannotActivateBlocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:41:05.669Z"
+}

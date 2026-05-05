@@ -1,0 +1,33 @@
+{
+  "id": "OP02-117_r1",
+  "name": "Ice Age",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a cost reduction action during opponent's turn, but effects array is empty. Should contain a trigger with condition and cost reduction action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": "Always",
+      "duration": "DuringYourTurn",
+      "effects": [
+        {
+          "target": "OpponentCharacter",
+          "targetCount": 1,
+          "actions": [
+            {
+              "type": "PowerBoost",
+              "amount": -5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:14:26.072Z"
+}

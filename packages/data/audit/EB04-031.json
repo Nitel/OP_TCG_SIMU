@@ -1,0 +1,80 @@
+{
+  "id": "EB04-031",
+  "name": "King",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect completely wrong. Trigger should be OnKO with optional player choice (may return). Action should ReturnToHand targeting a DON!! card from field, not the Character itself. Current DSL targets Self and has no optionality."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger is Activated but missing scope context. Should be Activated with proper Main phase timing and 'Once Per Turn' constraint encoded in condition or metadata."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].condition",
+      "description": "Condition only checks Leader type but misses critical constraint: 'you have no other [King] Characters'. This is a major conditional requirement that must be included."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions",
+      "description": "Action count wrong and targets incorrect. Should add 1 active DON!! (GiveDon count:1 with active state) AND 1 additional rested DON!! (separate action or structured target). Current DSL only has GiveDon with count:2 which doesn't match the setup (1 active, 1 rested)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing optionality marker. 'you may' indicates conditional player choice that should be represented in DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "optional": true,
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Field",
+            "type": "DON!!"
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "All",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Animal Kingdom Pirates"
+          },
+          {
+            "type": "HasCardOnBoard",
+            "name": "[King]",
+            "count": 0
+          }
+        ]
+      },
+      "limit": "OncePerTurn",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "state": "active"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "state": "rested"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:09:21.056Z"
+}

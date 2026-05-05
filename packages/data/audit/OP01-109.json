@@ -1,0 +1,46 @@
+{
+  "id": "OP01-109",
+  "name": "Who's.Who",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which indicates the effect lasts during your turn only, not until end of turn. Duration should be 'DuringYourTurn', not 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' (effect applies at start of your turn when condition is met), not 'Activated' (which implies a player-triggered activation)."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition.type",
+      "description": "Condition references 'HasRestingDon' but card text says 'DON!! cards on your field' which typically means attached DON!!. Should likely be 'HasAttachedDon' unless 'resting' is intentional."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Your Turn] If you have 8 or more DON!! cards on your field, this Character gains +1000 power.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:04.259Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP03-121",
+  "name": "Thunder Bolt",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The effect requires trashing from Life cards (top of deck), not hand. Should use TrashFromLife or similar mechanism for Life card trashing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty. Must specify that 1 card is trashed from top of Life cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure is incorrect. This is a conditional action (conditional on trashing a Life card). Should use a condition like 'IfTrashSucceeded' or restructure as optional payment."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is redundant and incorrect. The card has only one effect triggered on play, not two separate triggers."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "'You may' indicates the trash action is optional. The KO should only execute if the trash succeeds, not as an automatic secondary effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromLife",
+          "count": 1,
+          "maxCount": 1,
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5,
+                "maxCount": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:07.010Z"
+}

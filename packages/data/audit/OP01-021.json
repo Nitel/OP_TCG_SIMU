@@ -1,0 +1,34 @@
+{
+  "id": "OP01-021",
+  "name": "Franky",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has ability text but effects array is empty. '[DON!! x1] This Character can also attack your opponent's active Characters.' requires at least one effect to grant the ability to attack active Characters."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackActiveCharacters",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:39.449Z"
+}

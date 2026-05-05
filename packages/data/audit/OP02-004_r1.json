@@ -1,0 +1,70 @@
+{
+  "id": "OP02-004_r1",
+  "name": "Edward.Newgate",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'UntilStartOfNextTurn' not 'EndOfTurn'. Text says 'until the start of your next turn' which is a specific game phase boundary, not end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second effect: 'you cannot add Life cards to your hand using your own effects during this turn' should be a separate effect with trigger OnPlay, action RestrictAction or similar constraint for this turn only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition type 'HasRestingDon' is incorrect. Should be 'HasAttachedDon' (DON!! cost refers to attached Don cards, not resting Don)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP02-004_r1",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "OwnLeader",
+              "maxTargets": 1
+            },
+            "duration": "UntilStartOfNextTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "RestrictAction",
+            "restriction": "CannotAddLifeFromOwnEffects",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 3000,
+              "maxTargets": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:18.474Z"
+}

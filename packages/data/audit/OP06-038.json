@@ -1,0 +1,63 @@
+{
+  "id": "OP06-038",
+  "name": "The Billion-fold World Trichiliocosm",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'OnAttacked'. This is a Counter trap card effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should be 'ChooseOwnLeaderOrCharacter' to match 'your Leader or Character cards', not just 'ChooseOwnCharacter'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].condition",
+      "description": "Second action condition must check 'TrashCount >= 8' (has 8 or more rested cards), not 'Always'. This is a conditional power boost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action is completely extraneous and not present in card text. Should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action should target the same card chosen in first action (via reference/same scope), not create a new independent choice."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "LastChosenCard"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 8
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:56:04.527Z"
+}

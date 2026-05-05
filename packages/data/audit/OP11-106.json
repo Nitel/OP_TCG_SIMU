@@ -1,0 +1,41 @@
+{
+  "id": "OP11-106",
+  "name": "Zeus",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing the conditional life card retrieval action. Card text requires 'You may add 1 card from the top or bottom of your Life cards to your hand' as a prerequisite or optional action before the KO effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action is missing condition that it only triggers if life card was added. The 'may' phrasing and colon indicate the life card addition enables/triggers the KO effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "target": {
+            "scope": "YourLifeCards",
+            "count": 1
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:48:19.431Z"
+}

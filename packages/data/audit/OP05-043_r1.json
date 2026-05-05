@@ -1,0 +1,54 @@
+{
+  "id": "OP05-043_r1",
+  "name": "Ulti",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing required check: 'If your Leader is multicolored' → condition should be {\"type\":\"LeaderHasAnyType\",\"types\":[\"Multicolor\"]} or similar multicolor check, not \"Always\""
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete: must specify viewing 3 cards from top of deck before selecting up to 1 card. Current DSL lacks the 'look at 3 cards' mechanic and card placement options (top or bottom of deck)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter set to 'Any' but effect allows selection of 'up to 1 card' — filter should constrain count to max 1, and placement logic (top/bottom) is missing from action"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "Multicolor"
+        ]
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any",
+            "count": 3,
+            "reveal": true
+          },
+          "selectCount": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "deckTopOrBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:35:37.645Z"
+}

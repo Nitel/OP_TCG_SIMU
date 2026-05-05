@@ -1,0 +1,42 @@
+{
+  "id": "ST20-002",
+  "name": "Charlotte Cracker",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect triggers OnKO but should prevent KO entirely via a Counter mechanic. The card text says 'would be K.O.'d... you may trash 1 card from the top of your Life cards instead' — this is a replacement/prevention effect, not a reactive KO action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely incorrect. Trigger type and actions do not match card text. Card has no mention of trashing from hand or playing self."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "RemoveLife is incorrect action. Card says 'trash 1 card from the top of your Life cards' — should be FlipLife (the standard action for moving cards from Life deck to trash)."
+    },
+    {
+      "severity": "major",
+      "field": "missing condition",
+      "description": "No condition enforces 'Once Per Turn' limit on the effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": "Always",
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:15:47.050Z"
+}

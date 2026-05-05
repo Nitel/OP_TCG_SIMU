@@ -1,0 +1,44 @@
+{
+  "id": "OP13-026",
+  "name": "Sunny-Kun",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next turn), not 'EndOfTurn'. Text states 'until the end of your opponent's next turn' which indicates the effect lasts through opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is missing the cost constraint. The ability has a mandatory cost: 'rest 1 of your DON!! cards'. This should be represented in condition or as a separate cost field."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-026",
+    "effectText": "[Activate: Main] [Once Per Turn] You may rest 1 of your DON!! cards: This Character gains +2000 power until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "restDon": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:18.652Z"
+}

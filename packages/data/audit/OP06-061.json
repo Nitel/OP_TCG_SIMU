@@ -1,0 +1,54 @@
+{
+  "id": "OP06-061",
+  "name": "Vinsmoke Ichiji",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' requires a HasAttachedDon comparison condition, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should be 'OpponentCharacter' (single target with 'up to 1'), not 'ChooseOpponentCharacter'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].duration",
+      "description": "Rush keyword should have duration 'Permanent' (card gains Rush as permanent effect, not just this turn)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "scope": "Self",
+        "opponent": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:57:46.728Z"
+}

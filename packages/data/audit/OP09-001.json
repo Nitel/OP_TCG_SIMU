@@ -1,0 +1,43 @@
+{
+  "id": "OP09-001",
+  "name": "Shanks",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOwnCharacterOrLeader' but effect text specifies 'opponent's Leader or Character cards'. Should be 'ChooseOpponentCharacterOrLeader'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'Activated' but text states 'can be activated when your opponent attacks'. Should be 'OnAttack' with condition that opponent is attacking, or use 'Counter' trigger if this is a reactive ability during opponent's attack."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Once Per Turn] This effect can be activated when your opponent attacks. Give up to 1 of your opponent's Leader or Character cards −1000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:33:27.456Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP04-104_r1",
+  "name": "Sanji",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is invalid. Blocker keyword should use 'OnAttacked' trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions completely wrong. Blocker effect should Rest this card and redirect attack target, not TrashFromHand or PlaySelf."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to check if this is an optional/may effect. Blocker requires player choice to activate."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "optional": true,
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:35:02.906Z"
+}

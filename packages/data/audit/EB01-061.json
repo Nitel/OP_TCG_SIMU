@@ -1,0 +1,56 @@
+{
+  "id": "EB01-061",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "OnAttack effect uses PowerBoost with amount 0, but the effect should set this character's base power equal to a selected opponent character's power. This is a copy-power mechanic, not a simple power boost.",
+      "field": "effects[1].actions[0].type"
+    },
+    {
+      "severity": "major",
+      "description": "OnAttack effect is missing the target selection of opponent's character. The action should reference selecting an opponent's character and copying their power value.",
+      "field": "effects[1].actions[0]"
+    },
+    {
+      "severity": "minor",
+      "description": "GiveDon action should specify that the DON!! is set as active, not just given. This may need an 'active: true' property.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "active": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": "CopyPower",
+            "target": {
+              "scope": "Self"
+            },
+            "copyFrom": {
+              "scope": "OpponentCharacter",
+              "count": 1,
+              "optional": true
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:02.416Z"
+}

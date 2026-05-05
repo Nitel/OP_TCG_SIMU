@@ -1,0 +1,33 @@
+{
+  "id": "OP03-002",
+  "name": "Adio",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has significant game text that must be encoded: 'When Attacking' trigger with condition preventing opponent from activating low-power blockers during battle."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "OpponentBlockerRestriction",
+            "params": {
+              "maxPower": 2000,
+              "scope": "ThisBattle"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:45.650Z"
+}

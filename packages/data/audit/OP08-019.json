@@ -1,0 +1,47 @@
+{
+  "id": "OP08-019",
+  "name": "Munch-Munch Mutation",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringTurn' not 'EndOfTurn' — text says 'during this turn' which means the effect lasts for the current turn phase, not until end of turn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringTurn' not 'EndOfTurn' — text says 'during this turn' which means the effect lasts for the current turn phase, not until end of turn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (KO with maxPower 5000) does not match card text — the card text only describes power reduction and power boost, with no KO effect. This effect should be removed entirely"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:25:38.254Z"
+}

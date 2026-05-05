@@ -1,0 +1,44 @@
+{
+  "id": "ST10-014",
+  "name": "Wire",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Blocker ability is a passive keyword, not an activated effect. Should not appear in effects[] DSL; it's a card mechanic already represented by the [Blocker] keyword itself. The OnBlock trigger with Rest action is redundant and misleading."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'OnPlay' or a custom trigger representing 'when a DON!! card on field is returned to DON!! deck'. 'Activated' implies a cost-based activation, but this is a passive triggered effect (no cost stated). The actual trigger is not in the standard trigger list and requires clarification or a custom event type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition to filter for DON!! cards being returned to DON!! deck. Current DSL has no condition restricting this to DON!! cards or tracking the return-to-deck event."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:05:39.033Z"
+}

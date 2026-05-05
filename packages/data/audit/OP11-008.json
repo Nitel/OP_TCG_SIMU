@@ -1,0 +1,53 @@
+{
+  "id": "OP11-008",
+  "name": "Doll",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target should include condition that Leader has {Navy} type. Current target lacks the LeaderHasType condition check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Trashing a card is optional ('You may trash'), but current DSL structure makes PowerBoost trigger only after trash. Should be conditional: if trash occurs AND Leader is Navy type, then apply PowerBoost. Needs proper condition gating."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Navy"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -6000,
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "quantity": 1
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:40:46.410Z"
+}

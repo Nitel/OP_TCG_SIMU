@@ -1,0 +1,47 @@
+{
+  "id": "OP08-113",
+  "name": "S-Bear",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Legacy alias 'TrashFromHand' is not recognized in current DSL. Should use 'ForceDiscard' with appropriate target scope. If this is a self-discard effect, clarify target scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action lacks target specification. Confirm if effect discards from own hand (target scope should be 'OwnHand' or similar) or opponent's hand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "OwnHand"
+          },
+          "thenActions": []
+        },
+        {
+          "type": "PlaySelf"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:32:53.590Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP03-072_r1",
+  "name": "Gum-Gum Jet Gatling",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (conditional). DSL structure does not properly express 'You may trash 1 card' — the action should be wrapped in a conditional or optional modifier, not a hard requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger + GiveDon) has no basis in card text. The card text does not mention gaining Don tokens. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope is correct (ChooseOwnCharacterOrLeader) but the thenActions structure implies the PowerBoost only happens if trash occurs. The card text 'You may trash 1 card: [effect]' means the power boost is conditional on the optional trash action, which is correctly modeled by thenActions, but the first effect's overall structure needs clarification that trash is optional."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-072_r1",
+    "effectText": "[Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "maxCount": 1
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:41:38.826Z"
+}

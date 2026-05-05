@@ -1,0 +1,34 @@
+{
+  "id": "ST21-007",
+  "name": "Sentomaru",
+  "set": "ST-21",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Card has [Blocker] keyword in effectText but DSL effects array is empty. The Blocker keyword must be encoded in the DSL.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "type": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:36.593Z"
+}

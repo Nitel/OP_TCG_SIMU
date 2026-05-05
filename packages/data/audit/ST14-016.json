@@ -1,0 +1,44 @@
+{
+  "id": "ST14-016",
+  "name": "I Have My Crew!!",
+  "set": "ST-14",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but card text states 'until the end of your opponent's next turn' — should be 'DuringOpponentTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "OnKO trigger with KO action is not present in card text. Card only describes Main play effect (Draw + PowerBoost). This entire effect block should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should specify 'maxCount':1 to match 'up to 1 of your Characters' in text"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:10:15.278Z"
+}

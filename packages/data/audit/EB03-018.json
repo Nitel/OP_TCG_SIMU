@@ -1,0 +1,91 @@
+{
+  "id": "EB03-018",
+  "name": "Tashigi",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong trigger: should be a passive effect during opponent's turn, not OnAttacked. The '[Opponent's Turn]' text indicates duration, not a trigger.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "First effect missing the KO protection: 'This Character cannot be K.O.'d by your opponent's effects' is completely absent from DSL",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "major",
+      "description": "First effect has wrong duration: '[Opponent's Turn]' requires duration 'DuringOpponentTurn', not 'EndOfTurn'",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect has wrong trigger: '[End of Your Turn]' should be 'EndOfTurn' trigger, not 'Activated'",
+      "field": "effects[1].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect is missing the cost of resting 1 DON!! card. Only trash from hand is present, but resting DON is also required.",
+      "field": "effects[1].actions"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect is missing the main action: 'Set this Character as active' (unrest/activate self) is not present in DSL",
+      "field": "effects[1].actions"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect should be optional ('You may'), but there's no condition or optional flag indicated",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOdByOpponentEffects",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "optional": true,
+        "costs": [
+          {
+            "type": "RestDon",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "Activate",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:59.586Z"
+}

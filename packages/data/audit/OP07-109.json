@@ -1,0 +1,68 @@
+{
+  "id": "OP07-109",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Trigger should be 'Activated' with zone context 'Board' (this is an activate ability on a Character in play), not 'Activated' from hand. The action should trash THIS character (self), not exclude self."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is 'TrashFromHand' but card is on board being activated. Should be 'TrashFromBoard' or similar self-trash action. Also excludeSelf:true contradicts 'trash this Character'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'HasLife' with value 2 or less. The effect requires 'If you have 2 or less Life cards' as a mandatory condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect trigger 'Trigger' is vague and disconnected. Should be part of single Activated effect with chained/conditional actions. Missing DrawCard action for 'Then, draw 1 card'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions",
+      "description": "Missing second action: DrawCard (for 'Then, draw 1 card'). KO action appears standalone without proper sequencing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "thenActions array is empty but should contain conditional logic: if trashed, then perform KO and draw. Structure should chain properly."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasLife",
+        "value": 2,
+        "comparison": "LessOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromBoard",
+        "target": "Self",
+        "optional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4
+        },
+        "maxCount": 1
+      },
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:10:49.043Z"
+}

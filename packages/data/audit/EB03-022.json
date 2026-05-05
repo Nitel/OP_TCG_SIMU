@@ -1,0 +1,45 @@
+{
+  "id": "EB03-022",
+  "name": "Isuka",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Effect completely wrong. Official text says 'Place up to 1 Character with a cost of 4 or less at the bottom of the owner's deck' which means returning an opponent's Character from board to bottom of deck. DSL has SearchDeck with destination 'board' which would play a card from deck, not remove one from board.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing [Blocker] keyword effect entirely",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "kind": "Character",
+              "controller": "any",
+              "filter": {
+                "kind": "ByCost",
+                "maxCost": 4
+              }
+            },
+            "count": 1,
+            "optional": true,
+            "destination": "BottomOfDeck"
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      "Blocker"
+    ]
+  },
+  "auditedAt": "2026-05-05T09:12:14.937Z"
+}

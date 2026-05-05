@@ -1,0 +1,30 @@
+{
+  "id": "OP09-097",
+  "name": "Black Vortex",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action to negate the effect of opponent's card. DSL has only PowerBoost but card text requires effect negation mechanic (not currently represented in action types)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with PowerBoost amount=0 is nonsensical and does not correspond to card text"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn' which should be 'DuringYourTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow Leader OR Character (scope should be 'ChooseOpponentCharacterOrLeader' or similar), currently only 'ChooseOpponentCharacter'"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:29:12.341Z"
+}

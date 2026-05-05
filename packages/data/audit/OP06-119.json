@@ -1,0 +1,41 @@
+{
+  "id": "OP06-119",
+  "name": "Sanji",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck is incorrect for this effect. The card reveals from top of deck (not searching), then conditionally plays a Character. Should use RevealFromHand or a reveal+play pattern, not SearchDeck which implies deck searching."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must exclude [Sanji] by name. Current filter only checks cost; missing exclusion condition for character name."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect does not capture the 'reveal 1 card from top of deck' action followed by conditional play. The DSL must represent: (1) reveal top card, (2) if it's a Character cost ≤9 and not Sanji, play it; (3) otherwise return to bottom of deck."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 1,
+        "filter": {
+          "kind": "ByCost",
+          "maxCost": 9,
+          "excludeNames": [
+            "Sanji"
+          ]
+        },
+        "destination": "board"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:02:21.872Z"
+}

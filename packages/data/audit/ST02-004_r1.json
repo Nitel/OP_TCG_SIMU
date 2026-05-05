@@ -1,0 +1,28 @@
+{
+  "id": "ST02-004_r1",
+  "name": "Capone\"Gang\"Bege",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is completely missing. DSL effects array is empty but card has explicit Blocker mechanic that must be encoded."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:39:11.364Z"
+}

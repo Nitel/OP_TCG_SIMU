@@ -1,0 +1,58 @@
+{
+  "id": "OP12-044",
+  "name": "Sakazuki",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Navy} type, not if a Navy card exists on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should use 'type' parameter with value 'Navy', not 'name' parameter. LeaderHasType checks Leader's type attribute."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "TrashFromHand requires 'maxCount' or 'count' constraint in filter. Should specify exactly 1 card to trash."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Navy"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "count": 1
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:52:40.930Z"
+}

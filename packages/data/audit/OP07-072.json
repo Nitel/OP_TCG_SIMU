@@ -1,0 +1,56 @@
+{
+  "id": "OP07-072",
+  "name": "Porche",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Must specify: (1) look at 5 cards from top of deck, (2) reveal up to 1 Foxy Pirates type card, (3) add to hand, (4) place rest at bottom in any order. Current DSL only searches for name; does not capture the 'look at 5' and 'place rest at bottom' sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand filter incomplete. Must specify: purple Character with 4000 power or less. Current filter missing 'maxPower' constraint (should be 4000)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Cost notation missing. DSL does not reflect DON!! −1 cost. While OnPlay trigger captures activation, cost structure (GiveDon −1 or similar mechanism) not represented."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "GiveDon",
+        "amount": -1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "mode": "LookAtTop",
+          "amount": 5,
+          "filter": {
+            "type": "ByType",
+            "value": "Foxy Pirates"
+          },
+          "maxReveal": 1,
+          "destination": "hand",
+          "remaining": "BottomOfDeck"
+        },
+        {
+          "type": "PlayFromHand",
+          "maxPlay": 1,
+          "filter": {
+            "color": "Purple",
+            "cardType": "Character",
+            "maxPower": 4000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:07:56.306Z"
+}

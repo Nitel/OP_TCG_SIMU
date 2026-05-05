@@ -1,0 +1,74 @@
+{
+  "id": "OP13-075",
+  "name": "Guess We'll Have Another Scrap. You Can Only Risk Death While You're Still Alive!!",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "First effect should Rest a DON!! card before AttachDon. DSL is missing the Rest action as a prerequisite. Text says 'You may rest 1 of your DON!! cards' followed by conditional 'If..., add up to 1 DON!!'. The Rest action must occur first."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Text requires both 'Leader is Gol.D.Roger' AND 'you have any DON!! cards given' (attached to leader). Current DSL only checks for leader name, missing the HasAttachedDon check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action is incorrect. Text says 'add up to 1 DON!! card from your DON!! deck and rest it' — this should SearchDeck (find from deck) then AttachDon and Rest, not just AttachDon alone."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Gol.D.Roger"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnField",
+            "cardType": "Don"
+          },
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "cardType": "Don",
+          "count": 1
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:00.088Z"
+}

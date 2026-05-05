@@ -1,0 +1,52 @@
+{
+  "id": "OP07-118_r1",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have optional:true to reflect 'You may trash' phrasing. Current structure forces trash before KO."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Both KO actions should be independent choices, not sequential thenActions. Card allows choosing 'up to 1' of each cost tier separately, not conditionally on trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "Second KO targets cost 3 or less, but first KO already targets cost 5 or less. No overlap restriction specified in text—both can target same character or different ones. Current structure doesn't allow independent selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "optional": true,
+        "filter": {
+          "excludeSelf": true
+        }
+      },
+      {
+        "type": "KO",
+        "optional": true,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5
+        }
+      },
+      {
+        "type": "KO",
+        "optional": true,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:45:10.140Z"
+}

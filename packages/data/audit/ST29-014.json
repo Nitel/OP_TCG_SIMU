@@ -1,0 +1,53 @@
+{
+  "id": "ST29-014",
+  "name": "Roronoa Zoro",
+  "set": "ST-29",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'TurnCount' with min:1 is incorrect. '[Once Per Turn]' is a frequency limiter, not a turn count gate. Should use 'Always' or remove condition entirely; frequency is enforced by game rules, not DSL condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'AttachDon' with count:1 is imprecise. Card text says 'give up to 1 rested DON!! card', implying the DON must already be rested. AttachDon typically attaches new DON. Should clarify this attaches existing rested DON, or use a different action/filter to specify rested status."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "Trigger"
+            },
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 1
+              },
+              {
+                "type": "AttachDon",
+                "count": 1,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader"
+                },
+                "filter": {
+                  "status": "Rested"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:25:04.443Z"
+}

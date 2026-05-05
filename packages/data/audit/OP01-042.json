@@ -1,0 +1,55 @@
+{
+  "id": "OP01-042",
+  "name": "Komurasaki",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. Card explicitly states '[On Play]' activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check LeaderIsName 'Kouzuki Oden', not HasCardOnBoard. The effect requires the Leader to be a specific character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'Rest' (to rest DON cards as cost) followed by the search effect, or the primary action should reflect the actual game action. SearchDeck is incomplete—missing the Rest action for the ③ cost mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must specify type filter for '{Land of Wano}' type Characters AND cost limit (≤3). Current filter only checks cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Kouzuki Oden"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "count": 3,
+          "source": "cost"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByTypeAndCost",
+            "type": "Land of Wano",
+            "maxCost": 3
+          },
+          "destination": "board",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:14.471Z"
+}

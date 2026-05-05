@@ -1,0 +1,20 @@
+{
+  "id": "ST29-013",
+  "name": "Rob Lucci",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is invalid. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "KO action requires a valid condition to determine when it activates. Raw 'Trigger' without specificity cannot execute a KO effect. Need proper trigger event (e.g., OnPlay, OnAttack, etc.)"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:24:59.211Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP12-097",
+  "name": "Captains Assembled",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action uses SearchDeck but should use a sequence: look at 3 cards (peek/reveal), filter for Revolutionary Army type (excluding Captains Assembled), add up to 1 to hand, then trash the rest. Current DSL does not capture the 'look at 3' constraint, the exclusion filter, the 'up to 1' limit, or the trash action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to {Revolutionary Army} type cards, excluding [Captains Assembled] by name."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing trash action for cards not added to hand. Effect requires two distinct outcomes: add 1 card to hand and trash the remaining viewed cards."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Revolutionary Army",
+          "excludeNames": [
+            "Captains Assembled"
+          ]
+        },
+        "destination": "hand",
+        "limit": 1,
+        "searchCount": 3
+      },
+      {
+        "type": "ForceDiscard",
+        "target": "RemainingViewedCards",
+        "destination": "trash"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:56:42.601Z"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP10-033",
+  "name": "Nami",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant On Play effect but effects array is empty. Should contain trigger, condition, and action to prevent opponent's DON from activating."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": {
+              "count": 2,
+              "property": "HasRestingDon",
+              "type": "ODYSSEY"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "Custom",
+            "description": "Up to 1 of opponent's rested DON!! cards will not become active during opponent's next Refresh Phase"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:21.352Z"
+}

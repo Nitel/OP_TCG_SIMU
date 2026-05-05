@@ -1,0 +1,43 @@
+{
+  "id": "OP05-017",
+  "name": "Lindbergh",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition checking if this Character has 7000 power or more. Condition should be HasPower >= 7000, not Always."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incomplete. Should specify maxCount:1 to enforce 'up to 1' limit."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with TrashFromHand and PlaySelf) has no corresponding text in the card effect. This appears to be erroneous and should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasPower",
+        "minPower": 7000
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:39:01.389Z"
+}

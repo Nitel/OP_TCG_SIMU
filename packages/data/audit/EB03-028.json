@@ -1,0 +1,41 @@
+{
+  "id": "EB03-028",
+  "name": "Yu",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing second effect: [Activate: Main] You may trash this Character: If you have 4 or less cards in your hand, draw 2 cards. Current DSL only contains the OnPlay effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": "TrashCount",
+      "conditionValue": {
+        "operator": "<=",
+        "value": 4
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:16:59.302Z"
+}

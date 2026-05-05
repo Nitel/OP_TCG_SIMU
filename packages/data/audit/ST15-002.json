@@ -1,0 +1,58 @@
+{
+  "id": "ST15-002",
+  "name": "Edward.Newgate",
+  "set": "ST-15",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action missing required 'condition' field. Card text states 'Give up to 1 rested DON!! card' — this requires a condition checking that the DON card is rested. Should include condition: {\"type\":\"HasRestingDon\",\"count\":1}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Activated ability missing 'cost' field. Card text '[Activate: Main] You may rest this Character' indicates resting this character is a cost, not an action. The Rest should be moved to a 'cost' object, not 'actions'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "condition": {
+            "type": "HasRestingDon",
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 5000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:11:09.552Z"
+}

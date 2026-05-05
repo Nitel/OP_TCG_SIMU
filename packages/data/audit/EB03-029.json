@@ -1,0 +1,66 @@
+{
+  "id": "EB03-029",
+  "name": "Insolent Fool!! Stand Down!!",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required LeaderIsName check. Main effect requires 'Your Leader is [Boa Hancock]' but DSL only checks HasRestingDon. Must add LeaderIsName condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Two separate PlayFromHand actions should be consolidated into one action with OR logic in filter, or condition should clarify up to 1 card total across both subtypes. Current DSL implies 2 cards can be played."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is too broad. Effect specifies 'Up to 1 of your [Boa Hancock] cards' — target must filter for Boa Hancock name specifically."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 4
+      },
+      "leaderCondition": {
+        "type": "LeaderIsName",
+        "name": "Boa Hancock"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": [
+              "Amazon Lily",
+              "Kuja Pirates"
+            ],
+            "maxCost": 6,
+            "cardType": "Character"
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnCharacterOrLeader",
+            "name": "Boa Hancock"
+          },
+          "count": 1,
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:01.415Z"
+}

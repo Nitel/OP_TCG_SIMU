@@ -1,0 +1,44 @@
+{
+  "id": "OP10-113",
+  "name": "Roronoa Zoro",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is incorrect. This is a static ability that checks a condition at play time, should use 'OnPlay' or be a passive condition check, not a generic 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions describe trashing Supernovas and playing self, which is completely unrelated to card text. Card text requires: GiveKeyword action with keyword 'Rush' when life condition is met"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always'. Should be a life comparison condition: opponent's Life > your Life (no direct condition type exists for this; requires custom or workaround). Current condition does not match 'less Life cards than opponent'"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have less Life cards than your opponent, this Character gains [Rush].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Custom",
+          "description": "Your Life < Opponent's Life"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": "Self",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:39:36.774Z"
+}

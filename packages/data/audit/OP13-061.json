@@ -1,0 +1,50 @@
+{
+  "id": "OP13-061",
+  "name": "Inuarashi",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should be 'HasAttachedDon' (you have DON!! cards given/attached), not 'HasRestingDon' (resting DON!! on board)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing 'rest' effect after adding DON!! from deck. Text says 'add up to 1 DON!! card from your DON!! deck and rest it' — requires Rest action or rest parameter on SearchDeck"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "SearchDeck filter should specify 'Don' card kind, not 'Any'"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Don"
+        },
+        "destination": "board",
+        "rest": true,
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1,
+          "count": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:02:57.037Z"
+}

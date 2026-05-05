@@ -1,0 +1,34 @@
+{
+  "id": "OP04-101",
+  "name": "Carmel",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringYourTurn' for '[Your Turn]' text. Effect text states '[Your Turn] [On Play] Draw 1 card' but DSL has no duration specified."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with PlaySelf + KO) does not appear in official card effect text. This action is unexplained by the provided card text."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [On Play] Draw 1 card.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:44:23.724Z"
+}

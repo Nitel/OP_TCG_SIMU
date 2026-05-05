@@ -1,0 +1,80 @@
+{
+  "id": "OP03-028",
+  "name": "Jango",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveKeyword' with Rush is incorrect. Card text says 'Set up to 1 of your {East Blue} type Leader or Character cards with a cost of 6 or less as active' — this means setting a card to active (i.e., resting it if resting, or activating if rested). Should use 'Rest' or equivalent activation action, not GiveKeyword."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter missing type constraint. Card specifies '{East Blue} type' — target should include 'leaderTypes' or 'cardTypes' filter for 'East Blue', not just cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL structure violates 'Choose one' mechanic. Card presents two mutually exclusive options; DSL must model this as either multiple effects with separate triggers OR a choice structure. Current flat action list implies all actions execute simultaneously."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Redundant 'Rest' on Self. If first option is chosen, Self should not be rested. Second option only rests Self and opponent character."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-028",
+    "effectText": "[On Play] Choose one:\n• Set up to 1 of your {East Blue} type Leader or Character cards with a cost of 6 or less as active.\n• Rest this Character and up to 1 of your opponent's Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ChoiceAction",
+            "choices": [
+              {
+                "description": "Set active",
+                "actions": [
+                  {
+                    "type": "Rest",
+                    "target": {
+                      "scope": "ChooseOwnCharacter",
+                      "maxCost": 6,
+                      "cardTypes": [
+                        "East Blue"
+                      ],
+                      "maxCount": 1
+                    }
+                  }
+                ]
+              },
+              {
+                "description": "Rest self and opponent character",
+                "actions": [
+                  {
+                    "type": "Rest",
+                    "target": {
+                      "scope": "Self"
+                    }
+                  },
+                  {
+                    "type": "Rest",
+                    "target": {
+                      "scope": "ChooseOpponentCharacter",
+                      "maxCount": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:30.950Z"
+}

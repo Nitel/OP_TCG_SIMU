@@ -1,0 +1,37 @@
+{
+  "id": "OP13-051",
+  "name": "Boa Hancock",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check if Leader IS [Boa Hancock] or IS multicolored, not if card is on board. Should use LeaderIsName OR LeaderHasType. Current condition uses HasCardOnBoard which checks board state, not leader identity."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "OR",
+        "conditions": [
+          {
+            "type": "LeaderIsName",
+            "name": "Boa Hancock"
+          },
+          {
+            "type": "Multicolored"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:02:08.703Z"
+}

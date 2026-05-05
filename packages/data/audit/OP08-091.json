@@ -1,0 +1,53 @@
+{
+  "id": "OP08-091",
+  "name": "Who's.Who",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be a condition (allows optional trash), not an action. The DSL structure should use a condition to gate the KO action, not nest it in thenActions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Duplicate/malformed Trigger effect with no clear purpose. The second effect with trigger 'Trigger' and identical KO action is incorrect and should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand filter specifies cardType:'Character' and excludeSelf:true, but the effect should allow trashing ANY card from hand (not just Characters). The filter should be broader or use optional targeting."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "scope": "Hand",
+            "count": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "count": 1
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:31:12.194Z"
+}

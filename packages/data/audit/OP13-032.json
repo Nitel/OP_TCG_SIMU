@@ -1,0 +1,45 @@
+{
+  "id": "OP13-032",
+  "name": "Nico Robin",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'GiveKeyword' to grant 'Cannot be Rested' status, not 'Rest' which actively rests the character"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration specification. Text 'until the end of your opponent's next End Phase' indicates a timed effect that should have duration:'UntilEndOfOpponentNextTurn' or similar time-bound duration, not a permanent effect"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect should grant keyword 'CannotBeRested' with duration constraint, not perform an immediate Rest action"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-032",
+    "effectText": "[On Play] Up to 1 of your opponent's Characters with a cost of 8 or less cannot be rested until the end of your opponent's next End Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeRested",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 8,
+              "maxCount": 1
+            },
+            "duration": "UntilEndOfOpponentNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:46.507Z"
+}

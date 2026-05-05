@@ -1,0 +1,44 @@
+{
+  "id": "ST04-010",
+  "name": "Who's.Who",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost condition: 'DON!! −1' indicates a cost requirement (returning 1 DON!! card from field to deck). Should include condition with AttachDon or cost mechanic, not just OnPlay trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Target specification incomplete: 'up to 1' means optional selection. 'ChooseOpponentCharacter' should specify maxCount:1 and isOptional:true to match 'up to 1'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with Trigger→PlaySelf is orphaned and incorrect. Card text contains only one effect (conditional KO on play with cost). PlaySelf does not match card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1,
+            "isOptional": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:58:15.981Z"
+}

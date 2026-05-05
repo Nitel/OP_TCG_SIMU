@@ -1,0 +1,70 @@
+{
+  "id": "OP07-094",
+  "name": "Shave",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "PowerBoost target should be limited to 'up to 1' card. Current scope allows selection but lacks explicit quantity limit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing condition: requires 'TrashCount >= 10' to execute. Current DSL has no condition block."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "ReturnToHand target must filter for Characters with type including 'CP'. Current scope lacks type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "ReturnToHand target should be limited to 'up to 1' card. Current scope lacks quantity limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "quantity": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 10
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "quantity": 1,
+            "filters": [
+              {
+                "type": "HasType",
+                "value": "CP"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:41.675Z"
+}

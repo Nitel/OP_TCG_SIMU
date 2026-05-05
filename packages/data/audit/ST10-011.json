@@ -1,0 +1,36 @@
+{
+  "id": "ST10-011",
+  "name": "Heat",
+  "set": "ST-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a triggered ability with condition and action, but effects[] is empty. Should contain trigger, condition, and actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": "Self"
+          }
+        ],
+        "duration": "DuringYourTurn",
+        "description": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, this Character gains +2000 power until the start of your next turn."
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:28.247Z"
+}

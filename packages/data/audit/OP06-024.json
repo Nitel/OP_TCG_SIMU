@@ -1,0 +1,41 @@
+{
+  "id": "OP06-024",
+  "name": "Ikaros Much",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing required check: 'If your Leader has the {New Fish-Man Pirates} type' must be represented as condition type 'LeaderHasType' with value 'New Fish-Man Pirates', not 'Always'"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "PlayFromHand action should include 'count':1 to reflect 'up to 1' card limit"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "New Fish-Man Pirates"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "filter": {
+          "cardType": "Character",
+          "subType": "Fish-Man",
+          "maxCost": 4
+        }
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:59.725Z"
+}

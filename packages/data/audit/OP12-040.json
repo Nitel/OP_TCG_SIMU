@@ -1,0 +1,34 @@
+{
+  "id": "OP12-040",
+  "name": "Kuzan",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a functional effect triggered when cards are trashed from hand by Navy type cards, which should draw cards equal to the number trashed. This requires at least one effect object with trigger, condition, and action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Navy"
+          }
+        ],
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": "TrashCount"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:52:22.220Z"
+}

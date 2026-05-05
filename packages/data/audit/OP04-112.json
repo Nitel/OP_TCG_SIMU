@@ -1,0 +1,44 @@
+{
+  "id": "OP04-112",
+  "name": "Yamato",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action missing condition on maxCost. Should be dynamic: maxCost = (your Life cards + opponent's Life cards). Current static maxCost:20 is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife action missing conditional check. Should only trigger 'if you have 1 or less Life cards'. Current DSL has no condition branch."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Second action (FlipLife) requires condition 'HasAttachedDon' with value ≤1 to represent 'if you have 1 or less Life cards'. Missing from DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCostDynamic": "YourLifeCards+OpponentLifeCards"
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "condition": "HasAttachedDon",
+          "conditionValue": "≤1"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:43.782Z"
+}

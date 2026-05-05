@@ -1,0 +1,58 @@
+{
+  "id": "OP04-075",
+  "name": "Nez-Palm Cannon",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'OnAttacked'. This is a Counter card effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'Leader or Character' (LeaderOrCharacter scope), not just ChooseOwnCharacter"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action missing condition. Should only trigger 'if you have 2 or less Life cards' (condition: LifeCount <= 2)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Duplicate/malformed second effect with trigger 'Trigger'. The entire effect should be single trigger with conditional action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action missing 'rest' property. Card text says 'rest it' - should include rest:true"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true,
+          "condition": "LifeCount",
+          "conditionValue": 2,
+          "conditionOperator": "<="
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:42:57.300Z"
+}

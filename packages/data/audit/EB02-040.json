@@ -1,0 +1,49 @@
+{
+  "id": "EB02-040",
+  "name": "BRAND NEW WORLD",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter uses maxCost=4, but the effect text requires 'cost of 4 or more' which means minCost=4, not maxCost=4. This is the opposite condition.",
+      "field": "effects[0].actions[0].filter.maxCost"
+    },
+    {
+      "severity": "major",
+      "description": "Missing the reveal action. The effect text states 'reveal up to 1 card' which is a game action that should be represented in the DSL.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action is missing the count parameter. The effect specifies 'Look at 4 cards from the top of your deck', so count should be 4.",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "minor",
+      "description": "SearchDeck action is missing the upTo parameter. The effect says 'up to 1 card', indicating it's optional (upTo: 1).",
+      "field": "effects[0].actions[0].upTo"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 4,
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 4
+            },
+            "upTo": 1,
+            "destination": "hand",
+            "reveal": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:07:39.041Z"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP03-016",
+  "name": "Flame Emperor",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with KO) is unexplained in card text. The '(This card deals 2 damage.)' is flavor text, not a separate KO effect. Remove spurious second effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxPower",
+      "description": "Second effect maxPower is 6000, but card text does not mention a 6000 power threshold. This effect should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Portgas.D.Ace"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 8000
+          },
+          "maxTargets": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:10.162Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP10-040",
+  "name": "The Weak Do Not Have the Right to Choose How They Die",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: target must be rested. Card text specifies 'rested Characters' but DSL has no HasRestingDon condition to filter for rested state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].conditions",
+      "description": "Missing condition: target must be rested. Card text specifies 'rested Characters' but DSL has no HasRestingDon condition to filter for rested state."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "scope": "ChooseOpponentCharacter"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "rested": true
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "scope": "ChooseOpponentCharacter"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "rested": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:33:55.365Z"
+}

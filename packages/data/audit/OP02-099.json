@@ -1,0 +1,45 @@
+{
+  "id": "OP02-099",
+  "name": "Sakazuki",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand should not have a cardType filter. The effect says 'trash 1 card from your hand' (any card), not specifically Characters. The filter should be removed or be empty."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The structure uses thenActions as if trashing is conditional, but the effect text says 'You may trash 1 card' making the entire action optional. The DSL should use a conditional wrapper or optional flag at the action level, not nest KO as a thenAction of trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The effect is optional ('You may trash'). The DSL needs to reflect this optionality, likely through an optional property or conditional structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5,
+                "maxAmount": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:11.157Z"
+}

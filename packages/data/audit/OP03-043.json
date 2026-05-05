@@ -1,0 +1,36 @@
+{
+  "id": "OP03-043",
+  "name": "Gaimon",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Empty effects array. Card has a clear triggered ability: 'When you deal damage to your opponent's Life' (OnAttack trigger) → trash 3 cards from deck → trash this Character. No DSL encoded."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": "OwnDeckTop",
+            "amount": 3,
+            "optional": true
+          },
+          {
+            "type": "KO",
+            "target": "Self",
+            "condition": "IfPreviousActionResolved"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:55.131Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST09-008",
+  "name": "Shimotsuki Ushimaru",
+  "set": "ST-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is incorrect. Card text says 'add 1 card from the top or bottom of your Life cards to your hand' — this is a DrawCard action (drawing from Life pile), not FlipLife (which converts Life to Don). Should be DrawCard with source:'Life' and count:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action sequencing error: FlipLife should not precede PlayFromHand. The correct sequence is: DrawCard (conditional), then PlayFromHand (conditional on having valid target). Current DSL implies both actions always execute."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] You may add 1 card from the top or bottom of your Life cards to your hand: Play up to 1 yellow {Land of Wano} type Character card with a cost of 4 or less from your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "source": "Life",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "color": "Yellow",
+              "cardType": "Character",
+              "subType": "Land of Wano",
+              "maxCost": 4
+            },
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:04:07.868Z"
+}

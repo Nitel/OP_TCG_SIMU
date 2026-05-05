@@ -1,0 +1,91 @@
+{
+  "id": "OP10-087",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is missing target specification for 'this Character and 1 of your {Dressrosa} type Leader or Stage cards' — should Rest both this card and the selected Dressrosa card"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasCardOnBoard' with filter for {Dressrosa} type Leader or Stage cards, not 'Always'. The effect requires a valid target to exist."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "ForceDiscard action missing conditional check — should only execute 'If your opponent has 5 or more cards in their hand'. Condition must gate this action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2]",
+      "description": "TrashFromHand is incorrect — should be 'TrashFromDeck' or similar. Effect says 'trash 2 cards from the top of your deck', not opponent's hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence is wrong — RestSelf should apply to both this Character AND the selected Dressrosa card (2 Rest actions needed)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Dressrosa",
+          "cardType": [
+            "Leader",
+            "Stage"
+          ]
+        }
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Board",
+            "filter": {
+              "type": "Dressrosa",
+              "cardType": [
+                "Leader",
+                "Stage"
+              ]
+            },
+            "count": 1
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Opponent"
+          },
+          "count": 1,
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {},
+            "comparison": ">=",
+            "value": 5
+          }
+        },
+        {
+          "type": "TrashFromDeck",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:36.356Z"
+}

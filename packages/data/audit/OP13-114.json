@@ -1,0 +1,64 @@
+{
+  "id": "OP13-114",
+  "name": "S-Snake",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife should have condition 'You may' indicating optional action. DSL missing optional flag or condition wrapping."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but should be 'DuringYourTurn' per duration rules since text explicitly says 'during this turn' (your turn context)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[2]",
+      "description": "Third effect (Trigger → TrashFromHand → PlaySelf) is completely absent from card text. This effect should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:07:02.014Z"
+}

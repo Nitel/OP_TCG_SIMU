@@ -1,0 +1,43 @@
+{
+  "id": "OP01-085",
+  "name": "Mr.3(Galdino)",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Baroque Works} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is incorrect. The card prevents attack, which requires a duration-based restriction, not a Rest action. Should use 'GiveKeyword' with keyword 'CannotAttack' and duration 'DuringOpponentTurn' (until end of opponent's next turn)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration specification. Text 'cannot attack until the end of your opponent's next turn' requires duration:'DuringOpponentTurn' to indicate the restriction applies during opponent's turn phases."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Baroque Works"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotAttack",
+        "duration": "DuringOpponentTurn",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxSelect": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:23.965Z"
+}

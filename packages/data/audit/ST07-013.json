@@ -1,0 +1,59 @@
+{
+  "id": "ST07-013",
+  "name": "Prometheus",
+  "set": "ST-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost specification, not bare 'Activated'. The cost 'rest this Character' must be encoded in the effect structure or as a precondition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is a cost, not an effect action. It should be represented as a cost field on the Activated trigger, not as an action in the effects array."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should specify '[Charlotte Linlin]' card name restriction. Current 'ChooseOwnCharacter' lacks the card name filter. Should be target with cardName='Charlotte Linlin' constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but text says 'during this turn' which is '[Your Turn]' scope - should be 'DuringYourTurn', not 'EndOfTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained and does not match card text. Card text only describes the activated ability; there is no self-play trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "cardName": "Charlotte Linlin",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:02:11.651Z"
+}

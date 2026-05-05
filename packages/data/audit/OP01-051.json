@@ -1,0 +1,73 @@
+{
+  "id": "OP01-051",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing entire first effect: '[Opponent's Turn] If this Character is rested, your opponent cannot attack any card other than the Character [Eustass\"Captain\"Kid].' This is a passive ability during opponent's turn, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Second effect trigger should be 'Activated' with duration 'DuringYourTurn' and cost constraint, not just raw trigger. Needs proper action structure for resting and playing character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "HasRestingDon is checked as condition, but activation cost is '[Rest this Character]' - should be a cost/requirement in the action, not a pre-condition for playing the card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action missing 'Rest' action as prerequisite. The ability requires you to rest the character to activate it. Should have Rest action first."
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP01-051",
+    "effects": [
+      {
+        "trigger": "DuringOpponentTurn",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "BlockAttack",
+            "filter": {
+              "cardName": "Eustass\"Captain\"Kid",
+              "restrictOpponentAttackTo": true
+            }
+          }
+        ],
+        "duration": "DuringOpponentTurn"
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 3
+            },
+            "quantity": 1
+          }
+        ],
+        "limitation": "OncePerTurn",
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:27.918Z"
+}

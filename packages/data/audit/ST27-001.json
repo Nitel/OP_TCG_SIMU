@@ -1,0 +1,67 @@
+{
+  "id": "ST27-001",
+  "name": "Avalo Pizarro",
+  "set": "ST-27",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing LeaderHasType check for {Blackbeard Pirates}. Current condition only checks for Fullalead on board but does not verify Leader type requirement stated in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action targets Self, but card text specifies 'rest 1 of your [Fullalead] cards' — target should be a Fullalead card, not Self. The character gaining power is Self, but the Rest action applies to a Fullalead."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST27-001",
+    "effectText": "[Activate: Main] [Once Per Turn] You may rest 1 of your [Fullalead] cards: If your Leader has the {Blackbeard Pirates} type, this Character gains +4000 power during this turn.\n[On K.O.] Draw 1 card.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "HasCardOnBoard",
+              "name": "Fullalead"
+            },
+            {
+              "type": "LeaderHasType",
+              "value": "Blackbeard Pirates"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Board",
+              "name": "Fullalead"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:42.654Z"
+}

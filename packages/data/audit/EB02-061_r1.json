@@ -1,0 +1,71 @@
+{
+  "id": "EB02-061_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the entire passive effect: 'If your Leader is multicolored and your opponent has 5 or more DON!! cards on their field, this Character gains [Rush].' This requires a static effect with conditions LeaderHasAnyType (multicolored) and opponent DON count check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnAttack trigger is incomplete. The effect should require 2 conditions: (1) 'Once Per Turn' state check, (2) ability to return 2 active DON cards. Current DSL only shows FlipLife action without the prerequisite DON return action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions sequence is wrong. Should be: (1) ForceDiscard 2 active DON cards to DON deck (cost), (2) Rest/set active state action, (3) FlipLife 1 card. Current DSL skips steps 1-2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should include TurnCount or similar 'Once Per Turn' mechanism; 'Always' is incorrect for a once-per-turn activated ability."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your Leader is multicolored and your opponent has 5 or more DON!! cards on their field, this Character gains [Rush]. [When Attacking] [Once Per Turn] You may return 2 of your active DON!! cards to your DON!! deck: Set this Character as active. Then, add 1 card from the top of your Life cards to your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "multicolored"
+          ]
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush"
+          }
+        ],
+        "duration": "Permanent"
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "TurnCount",
+          "limit": 1
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "Field"
+          },
+          {
+            "type": "Rest"
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:41:01.720Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP04-096_r1",
+  "name": "Corrida Coliseum",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Must check that Leader has {Dressrosa} type, not just that Leader exists on board. Should be: {\"type\":\"LeaderHasType\",\"value\":\"Dressrosa\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is too broad. Should only affect {Dressrosa} type Characters, not all own Characters. Should be: {\"scope\":\"AllOwnCharacters\",\"filter\":{\"type\":\"Dressrosa\"}}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is incorrect. Rush keyword should apply for the turn the character is played (permanent effect during that turn's actions), not just EndOfTurn. Should be: \"Permanent\""
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your Leader has the {Dressrosa} type, your {Dressrosa} type Characters can attack Characters on the turn in which they are played.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Dressrosa"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "AllOwnCharacters",
+              "filter": {
+                "type": "Dressrosa"
+              }
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:00.735Z"
+}

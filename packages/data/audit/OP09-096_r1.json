@@ -1,0 +1,54 @@
+{
+  "id": "OP09-096_r1",
+  "name": "My Era...Begins!!",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is vague and incorrect. Should be 'OnPlay' since this is a Main card effect that activates when played."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) filter specification for {Blackbeard Pirates} type AND exclusion of [My Era...Begins!!], (2) limit of 'up to 1' card, (3) reveal requirement, (4) trash remainder action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: ForceDiscard (trash) for remaining cards after SearchDeck completes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'Any' is incorrect. Must specify type filter '{Blackbeard Pirates}' and exclude card name '[My Era...Begins!!]'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Blackbeard Pirates",
+            "excludeNames": [
+              "My Era...Begins!!"
+            ]
+          },
+          "limit": 1,
+          "reveal": true,
+          "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "DeckTop",
+          "count": "remaining"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:47:36.335Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "P-029_r2",
+  "name": "Bartolomeo",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Text says '[End of Your Turn]' but DSL uses 'Activated'. Should be 'EndOfTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Effect rests 'this Character' but card text does not mention resting this Character. Action should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action uses 'GiveKeyword' with 'Rush' but text says 'set up to 1 Character as active' (activate/flip to active state). Should use 'Rest' with inverted logic or a custom 'Activate' action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Target filter uses 'maxCost:2' but text specifies '{FILM} type Characters other than [Bartolomeo]'. Should filter by type and exclude Bartolomeo."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is inappropriate. Activating a Character is a permanent state change, not temporary. Should be 'Permanent'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "EndOfTurn",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "FILM",
+            "excludeName": "Bartolomeo"
+          },
+          "maxCount": 1
+        },
+        "duration": "Permanent",
+        "effect": "Activate"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:46.220Z"
+}

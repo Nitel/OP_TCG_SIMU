@@ -1,0 +1,41 @@
+{
+  "id": "ST27-003",
+  "name": "Kuzan",
+  "set": "ST-27",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'PlayFromHand' but card text says 'from your trash' — should be 'PlayFromTrash' or equivalent zone-specific action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'rested' state in action — card text specifies the Character should be played 'rested', but DSL does not apply Rest effect"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'up to 1' quantifier — DSL should include maxCount:1 to enforce 'up to 1' limit"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "subType": "Blackbeard Pirates",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "maxCount": 1,
+          "state": "Rested"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:22:51.362Z"
+}

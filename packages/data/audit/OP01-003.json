@@ -1,0 +1,64 @@
+{
+  "id": "OP01-003",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'Rest' action for the cost requirement (➃ costs 4 DON!!). The DSL only includes PowerBoost but omits the Rest action that must occur when activating."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incomplete. Must filter for {Supernovas} OR {Straw Hat Crew} type characters AND cost ≤5. Current target lacks type filtering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action to set character as active. The card text states 'Set up to 1 of your... Character cards as active' but DSL has no action for this state change."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 4
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnCostArea",
+            "maxDon": 4
+          }
+        },
+        {
+          "type": "PlaySelf",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 5,
+            "types": [
+              "Supernovas",
+              "Straw Hat Crew"
+            ]
+          },
+          "setActive": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "LastTargetedCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:14.770Z"
+}

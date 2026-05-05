@@ -1,0 +1,59 @@
+{
+  "id": "EB03-024",
+  "name": "Nefeltari Vivi",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Effect is split into two separate OnPlay triggers instead of one. The official text says 'Play up to 1 {Alabasta} or {Straw Hat Crew}' which should be a single action with OR logic, not two separate effects.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the restriction 'Then, you cannot play any Character cards on your field during this turn' which is a significant gameplay constraint.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing the Blocker keyword in the DSL representation.",
+      "field": "keywords"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "optional": true,
+            "filter": {
+              "anyOf": [
+                {
+                  "subType": "Alabasta",
+                  "maxCost": 5,
+                  "cardType": "Character"
+                },
+                {
+                  "subType": "Straw Hat Crew",
+                  "maxCost": 5,
+                  "cardType": "Character"
+                }
+              ]
+            }
+          }
+        ],
+        "restriction": {
+          "type": "CannotPlayCharacters",
+          "duration": "EndOfTurn"
+        }
+      }
+    ],
+    "keywords": [
+      "Blocker"
+    ]
+  },
+  "auditedAt": "2026-05-05T09:12:22.724Z"
+}

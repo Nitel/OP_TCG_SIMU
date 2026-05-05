@@ -1,0 +1,44 @@
+{
+  "id": "OP06-110_r2",
+  "name": "Nekomamushi",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. This is a static/passive ability that grants a permanent keyword, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].keyword",
+      "description": "Keyword should be 'CanAttackActiveCharacters' not 'Unblockable'. The card text explicitly states the character 'can also attack your opponent's active Characters', which is a distinct targeting keyword."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. This is a static ability that persists for the entire game, not a temporary effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and 'PlaySelf' action is erroneous and should be removed. The card text contains no such effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackActiveCharacters",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:23:22.907Z"
+}

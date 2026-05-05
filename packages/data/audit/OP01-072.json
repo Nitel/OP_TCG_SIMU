@@ -1,0 +1,46 @@
+{
+  "id": "OP01-072",
+  "name": "Smiley",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which requires duration:'DuringYourTurn', not 'EndOfTurn'. Duration must persist throughout your turn, not end immediately."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].amount",
+      "description": "Power boost amount is static (1000), but text specifies 'for every card in your hand' — amount must be dynamic, calculated as cardCount × 1000. Current DSL does not support variable multiplier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' suggests manual activation, but text describes a passive conditional effect ('This Character gains'). Should be 'Trigger' with appropriate condition, or restructured as a state-based effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Your Turn] This Character gains +1000 power for every card in your hand.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": "cardsInHand × 1000",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:02.863Z"
+}

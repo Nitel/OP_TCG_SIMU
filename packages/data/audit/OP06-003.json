@@ -1,0 +1,64 @@
+{
+  "id": "OP06-003",
+  "name": "Emporio.Ivankov",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. The effect describes looking at cards and playing one, which requires 'PlayFromHand' or similar play action, not SearchDeck. Additionally, the action must support filtering by type and power."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].count",
+      "description": "Count is 5, but card text specifies looking at 3 cards from the top of the deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but must specify {Revolutionary Army} type Characters with 5000 power or less."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination 'board' is vague. The effect plays up to 1 card to the field and returns the rest to the bottom of the deck in any order—this requires two distinct actions: PlayFromHand (with deck filter and type/power constraint) and then a return-to-deck action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": {
+            "kind": "Character",
+            "type": "RevolutionaryArmy",
+            "maxPower": 5000
+          },
+          "destination": "hand",
+          "reveal": true
+        },
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "kind": "Character",
+            "type": "RevolutionaryArmy",
+            "maxPower": 5000
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "destination": "deckBottom",
+          "inAnyOrder": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:53:26.634Z"
+}

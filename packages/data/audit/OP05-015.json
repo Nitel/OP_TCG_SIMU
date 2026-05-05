@@ -1,0 +1,42 @@
+{
+  "id": "OP05-015",
+  "name": "Belo Betty",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and inaccurate. Missing: (1) filter specification for {Revolutionary Army} type AND exclusion of [Belo Betty], (2) 'reveal' parameter to specify revealing cards, (3) 'count' constraint limiting to up to 1 card, (4) 'remainingDestination' to place rest at bottom of deck in any order"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter set to 'Any' but should specify type={Revolutionary Army} with exclusion of card name [Belo Betty]"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "RevolutionaryArmy",
+          "exclusions": [
+            "Belo Betty"
+          ]
+        },
+        "count": {
+          "min": 0,
+          "max": 1
+        },
+        "reveal": true,
+        "destination": "hand",
+        "remainingDestination": "deckBottom",
+        "remainingOrder": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:57.811Z"
+}

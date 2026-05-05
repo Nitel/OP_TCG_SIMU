@@ -1,0 +1,45 @@
+{
+  "id": "OP07-060",
+  "name": "Itomimizu",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a clear Activated ability that must be translated to DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Foxy Pirates"
+        },
+        {
+          "type": "HasCardOnBoard",
+          "value": "Itomimizu",
+          "negate": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DONDeck",
+          "then": [
+            {
+              "type": "Rest",
+              "target": "AttachedDon"
+            }
+          ]
+        }
+      ],
+      "duration": "Permanent",
+      "frequency": "OncePerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T10:06:57.117Z"
+}

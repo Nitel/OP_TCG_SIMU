@@ -1,0 +1,32 @@
+{
+  "id": "OP05-007_r1",
+  "name": "Sabo",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action missing quantity constraint. Card text specifies 'up to 2' characters, but DSL has no count/limit parameter. Target should include maxCount:2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Must specify that selected characters have a combined/total power of 4000 or less, not individual maxPower. Current implementation treats each character independently."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 2,
+          "totalMaxPower": 4000
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:16.042Z"
+}

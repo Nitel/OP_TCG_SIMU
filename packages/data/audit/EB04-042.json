@@ -1,0 +1,53 @@
+{
+  "id": "EB04-042",
+  "name": "Alpha",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Card text says 'trash 3 cards from the top of your deck', which means trashing from deck, not hand. Should use appropriate deck-trashing action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Missing the conditional effect: 'Give up to 1 of your opponent's Characters −1 cost during this turn'. This should be a secondary action triggered after trashing 3 cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringYourTurn' on the cost reduction effect. Text says 'during this turn' which requires duration:DuringYourTurn, not Permanent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect structure incomplete. Should be optional (you may trash), with thenActions containing PowerBoost with negative value and proper target filtering for opponent's Characters."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 3 cards from the top of your deck: Give up to 1 of your opponent's Characters −1 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 3,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "value": -1,
+                "target": "OpponentCharacter",
+                "maxTargets": 1,
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:19.838Z"
+}

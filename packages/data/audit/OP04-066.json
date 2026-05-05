@@ -1,0 +1,54 @@
+{
+  "id": "OP04-066",
+  "name": "Miss.Valentine(Mikita)",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action missing required filter condition for 'Baroque Works' type. DSL uses generic filter:{kind:Any} instead of filtering for cards with type 'Baroque Works'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action does not capture the 'look at 5 cards' mechanic - missing explicit deck peek/reveal limit of 5 cards"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:Trigger and action PlaySelf has no basis in card text. Card effect ends after placing cards at bottom of deck - no self-play mechanic exists"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to place non-selected cards at bottom of deck in any order. Card text explicitly requires this sequencing"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "HasType",
+            "value": "Baroque Works"
+          },
+          "limit": 1,
+          "peekCount": 5,
+          "destination": "hand"
+        },
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "Remaining"
+          },
+          "placement": "Bottom",
+          "order": "Any"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:07.148Z"
+}

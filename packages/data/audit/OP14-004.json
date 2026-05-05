@@ -1,0 +1,34 @@
+{
+  "id": "OP14-004",
+  "name": "Cavendish",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always', but card text specifies 'If this Character has 5000 power or more'. Should be a power check condition (e.g., 'HasPower' or equivalent), not Always."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasPower",
+        "value": 5000,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:10:27.528Z"
+}

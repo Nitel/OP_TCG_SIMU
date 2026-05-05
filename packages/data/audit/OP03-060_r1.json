@@ -1,0 +1,44 @@
+{
+  "id": "OP03-060_r1",
+  "name": "Kalifa",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards attached to this card) not 'HasRestingDon' (resting DON!! on field). Card text refers to 'DON!! cards from your field' being returned to deck, which is the cost mechanic for attached DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is correct but legacy alias 'TrashCard' should not be used. 'TrashFromHand' is the proper canonical name."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-060_r1",
+    "effectText": "[When Attacking] DON!! −1: Draw 2 cards and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:24.920Z"
+}

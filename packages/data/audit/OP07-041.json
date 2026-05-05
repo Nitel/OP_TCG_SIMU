@@ -1,0 +1,59 @@
+{
+  "id": "OP07-041",
+  "name": "Gloriosa (Grandma Nyon)",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and inaccurate. Missing: (1) 'look at 5 cards' mechanic (searchFromTop parameter), (2) filter for {Amazon Lily} OR {Kuja Pirates} types, (3) exclusion of [Gloriosa (Grandma Nyon)], (4) 'up to 1' quantity limit, (5) ordering mechanic for remaining cards to bottom of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing secondary action to place remaining cards at bottom of deck in any order. This requires a separate action or extended SearchDeck with reordering capability"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP07-041",
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Amazon Lily} or {Kuja Pirates} type card other than [Gloriosa (Grandma Nyon)] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "searchFromTop": 5,
+            "filter": {
+              "kind": "Or",
+              "conditions": [
+                {
+                  "type": "HasType",
+                  "value": "Amazon Lily"
+                },
+                {
+                  "type": "HasType",
+                  "value": "Kuja Pirates"
+                }
+              ],
+              "excludeNames": [
+                "Gloriosa (Grandma Nyon)"
+              ]
+            },
+            "quantity": {
+              "min": 0,
+              "max": 1
+            },
+            "destination": "hand",
+            "remainingCards": {
+              "destination": "deckBottom",
+              "playerChoice": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:31.514Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP07-032",
+  "name": "Fisher Tiger",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing 'count' parameter. Text states 'rest up to 1' — requires count:1 to enforce the limit."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "subTypes": [
+            "Fish-Man",
+            "Merfolk"
+          ]
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:04:44.307Z"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "ST08-004",
+  "name": "Koby",
+  "set": "ST-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with activation cost specification. DSL missing the activation condition that this is a Main phase activated ability requiring rest."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action missing the prerequisite condition 'rest this Character'. The ability requires resting this card as activation cost, not just choosing to rest it."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should clarify 'maxCount: 1' explicitly (up to 1). Current DSL only specifies maxCost."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may rest this Character: K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "value": false,
+            "description": "Can only activate if not already resting"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:02:47.557Z"
+}

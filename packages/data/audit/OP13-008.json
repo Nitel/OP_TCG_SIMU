@@ -1,0 +1,33 @@
+{
+  "id": "OP13-008",
+  "name": "Emporio.Ivankov",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain Counter trigger with condition checking for opponent's KO effect, preventing KO by trashing this character instead."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Revolutionary Army"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "ThisCharacter"
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ],
+  "auditedAt": "2026-05-05T11:59:01.794Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP14-081",
+  "name": "Spider Mice",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand; card text says 'from the top of your deck'. Should use TrashFromDeck or equivalent that targets deck, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope ChooseOpponentCharacter is correct, but maxCost:1 filters by cost. Card text specifies 'base cost of 1', which may require baseMaxCost or clarification that maxCost refers to base cost in this context. Assuming maxCost correctly interprets as base cost, this is acceptable; if maxCost refers to current cost, this is wrong."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP14-081",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 3
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1,
+              "maxCost": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:16:24.534Z"
+}

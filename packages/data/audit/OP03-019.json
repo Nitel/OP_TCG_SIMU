@@ -1,0 +1,34 @@
+{
+  "id": "OP03-019",
+  "name": "Fiery Doll",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and -10000 power debuff to opponent character is not mentioned in official card text. This effect appears to be fabricated and has no basis in the card's stated effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text states 'during this turn' which indicates the boost applies only while it is your turn, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:13.349Z"
+}

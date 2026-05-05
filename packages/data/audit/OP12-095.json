@@ -1,0 +1,52 @@
+{
+  "id": "OP12-095",
+  "name": "Lindbergh",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition uses 'HasCardOnBoard' but should check Leader type. Correct condition type is 'LeaderHasType' with value 'Revolutionary Army'"
+    },
+    {
+      "severity": "minor",
+      "field": "root",
+      "description": "Static ability '+4 cost if Leader has {Revolutionary Army}' is missing from DSL. Only the [On Play] triggered effect is present. Should include a separate static effect for the cost boost"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "count": 4
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:56:32.955Z"
+}

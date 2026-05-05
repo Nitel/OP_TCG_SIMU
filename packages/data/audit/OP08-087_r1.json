@@ -1,0 +1,62 @@
+{
+  "id": "OP08-087_r1",
+  "name": "Scratchmen Apoo",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL completely omits the [Blocker] keyword effect. The card has two separate effects: (1) Blocker keyword with Counter trigger, and (2) Activate: Main effect. Only the second effect is partially captured."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct for Main activation), but the Blocker effect requires a separate entry with trigger:'Counter' to handle the attack redirection mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition uses TurnCount which is incorrect for '[Activate: Main] [Once Per Turn]'. Should use 'OncePerTurn' or similar restriction, not TurnCount min:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct for selecting opponent's Character, but 'up to 1' should be enforced in target limits (max:1 or similar)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "effect": "Make this card the new target of the attack"
+    },
+    {
+      "trigger": "Activated",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "activationZone": "Field",
+      "activationType": "Main",
+      "oncePerTurn": true
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:40.993Z"
+}

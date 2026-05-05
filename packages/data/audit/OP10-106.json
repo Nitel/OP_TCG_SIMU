@@ -1,0 +1,48 @@
+{
+  "id": "OP10-106",
+  "name": "Killer",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing required check: must verify Leader has {Supernovas} type. Current condition is 'Always' but should be 'LeaderHasType' with type 'Supernovas'"
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "SearchDeck action incomplete: missing deck look count (3 cards), missing card type filter ({Supernovas} or {Kid Pirates}), missing reveal constraint (up to 1 card), and missing bottom deck placement instruction for remaining cards"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Supernovas"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Or",
+          "filters": [
+            {
+              "kind": "Type",
+              "value": "Supernovas"
+            },
+            {
+              "kind": "Type",
+              "value": "Kid Pirates"
+            }
+          ]
+        },
+        "deckLookCount": 3,
+        "maxReveal": 1,
+        "destination": "hand",
+        "remainingDestination": "bottomOfDeck"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:39:02.371Z"
+}

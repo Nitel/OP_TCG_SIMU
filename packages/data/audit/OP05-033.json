@@ -1,0 +1,44 @@
+{
+  "id": "OP05-033",
+  "name": "Baby 5",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' but requires cost specification. The card text shows '➀' cost (rest 1 DON!!), which must be encoded in the cost field of the effect, not just the trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'cost' field. Activated abilities require cost specification: cost should include the rest/DON mechanic (Rest this Character + 1 DON)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action missing 'max' constraint. Card text says 'up to 1', which must be encoded as max:1 in the action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "RestSelf",
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "max": 1,
+          "filter": {
+            "subType": "Donquixote Pirates",
+            "maxCost": 2,
+            "cardType": "Character"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:46:46.776Z"
+}

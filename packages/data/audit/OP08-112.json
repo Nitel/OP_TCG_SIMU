@@ -1,0 +1,44 @@
+{
+  "id": "OP08-112",
+  "name": "S-Snake",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type should be a conditional/gating mechanic that prevents attacks, not 'Rest'. The effect prevents attacking until end of opponent's next turn, which requires a duration-based prevention, not a Rest action. Should use a condition-based approach or a custom prevention mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter is incomplete. Must exclude [Monkey.D.Luffy] characters explicitly. Current DSL has no exclusion condition for the character name."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration specification. Effect lasts 'until the end of your opponent's next turn', which requires duration:'DuringOpponentTurn' or similar temporal constraint. Current DSL has no duration field."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "duration": "UntilEndOfOpponentNextTurn",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "excludeNames": [
+              "Monkey.D.Luffy"
+            ]
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:32:47.312Z"
+}

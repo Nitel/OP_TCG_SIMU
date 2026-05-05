@@ -1,0 +1,37 @@
+{
+  "id": "OP02-076",
+  "name": "Shiryu",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always', not 'HasRestingDon'. The DON!! cost is a payment mechanic (optional return of DON!!), not a conditional requirement. The effect triggers On Play regardless of DON!! availability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'maxCount':1 to represent 'up to 1'. Current DSL lacks maxCount parameter for the KO action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:43.843Z"
+}

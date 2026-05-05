@@ -1,0 +1,68 @@
+{
+  "id": "EB02-025",
+  "name": "Donquixote Rosinante",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition checks for any card named 'Donquixote Rosinante' on board, but should check if the Leader is specifically 'Donquixote Rosinante'",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing cost specification - must rest 1 DON!! card and this Character to activate",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action missing the count of cards to look at (5 cards from top of deck)",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "major",
+      "description": "Missing specification that the Character card should be played rested",
+      "field": "effects[0].actions[0].state"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck filter should specify 'Character' card type, not just cost",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing specification that only up to 1 card can be played",
+      "field": "effects[0].actions[0].upTo"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "restDon": 1,
+          "restSelf": true
+        },
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Donquixote Rosinante"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "filter": {
+              "cardType": "Character",
+              "kind": "ByCost",
+              "maxCost": 2
+            },
+            "upTo": 1,
+            "destination": "board",
+            "state": "rested"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:41.087Z"
+}

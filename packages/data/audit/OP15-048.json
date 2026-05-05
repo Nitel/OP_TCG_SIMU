@@ -1,0 +1,55 @@
+{
+  "id": "OP15-048",
+  "name": "Chinjao",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'OnKO' but text states '[Opponent's Turn] [On K.O.]' — this is a conditional duration, not a simple trigger. Should use 'OnKO' with duration constraint or clarify if this only applies during opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action is 'ForceDiscard' but text says 'places 1 card from their hand at the bottom of their deck' — this is returning to deck, not discarding. Should use 'ReturnToHand' or similar deck-bottom placement, not ForceDiscard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing duration constraint. Text '[Opponent's Turn]' indicates this effect only triggers during opponent's turn, but DSL has no duration field to enforce this."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "opponent",
+          "placement": "BottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:25:39.872Z"
+}

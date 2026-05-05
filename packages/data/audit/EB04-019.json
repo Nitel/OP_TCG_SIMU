@@ -1,0 +1,67 @@
+{
+  "id": "EB04-019",
+  "name": "Eleclaw",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Main ability structure incorrect. Should be a single Activated effect with Rest action as cost, followed by conditional power reduction on opponent's character. Current DSL only rests own card but missing the core effect: cost reduction on opponent's character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Minks} type, not if card exists on board. Should be LeaderHasType:Minks"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing ForceDiscard action for opponent's character cost reduction. The Rest is a cost (not an action), and the actual effect is giving −3 cost to opponent's character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ],
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Minks"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "amount": 3,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "limit": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "type": "Minks",
+            "limit": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:08:17.975Z"
+}

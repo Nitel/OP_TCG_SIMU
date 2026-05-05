@@ -1,0 +1,53 @@
+{
+  "id": "OP11-034",
+  "name": "Hatchan",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'Rest' is incorrect. The effect prevents opponent's Characters from being rested, not rests them. This requires a 'GiveKeyword' action with keyword 'CannotBeRested' or similar restriction keyword, with duration 'DuringOpponentTurn' to match 'until the end of your opponent's next turn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Missing duration specification. Text 'until the end of your opponent's next turn' indicates duration should be 'DuringOpponentTurn', not permanent."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "The 'Rest' action for Self should have 'optional':true since text says 'You may rest'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "subTypes": [
+        "Fish-Man",
+        "Merfolk"
+      ]
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeRested",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:42:48.158Z"
+}

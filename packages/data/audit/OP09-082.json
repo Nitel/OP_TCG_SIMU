@@ -1,0 +1,20 @@
+{
+  "id": "OP09-082",
+  "name": "Avalo Pizarro",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PowerBoost with negative amount (-1000) is not a valid action type. Should use 'RemoveLife' or similar appropriate action for reducing opponent resources. PowerBoost is for increasing power values only."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' with maxCost parameter is invalid. Should use appropriate target scope like 'OpponentCharacter' with proper selection criteria if needed."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:28:01.687Z"
+}

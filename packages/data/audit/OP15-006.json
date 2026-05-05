@@ -1,0 +1,40 @@
+{
+  "id": "OP15-006",
+  "name": "Cavendish",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'TrashCount' with operator 'gte' and value 4, not 'Always'. The effect only applies when trash has 4+ Events."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (static ability that checks state), not 'Activated'. This is a passive condition-based power boost, not a manually activated ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "operator": "gte",
+        "value": 4,
+        "cardType": "Event"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:22:22.031Z"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP08-029",
+  "name": "Pekoms",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain OnPlay/Permanent trigger with condition checking if this Character is active, filtering for Minks type with cost ≤3 excluding Pekoms, and action preventing KO by effects."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Permanent",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardId": "OP08-029"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOdByEffects",
+            "targets": {
+              "filter": {
+                "type": "Minks",
+                "maxCost": 3,
+                "excludeNames": [
+                  "Pekoms"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:20.355Z"
+}

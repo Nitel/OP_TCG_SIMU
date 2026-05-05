@@ -1,0 +1,31 @@
+{
+  "id": "OP14-028",
+  "name": "Johnny",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has clear triggered ability: '[Your Turn] When this Character becomes rested, K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.' This requires at least one effect object."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnRest",
+        "duration": "DuringYourTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "count": 1,
+            "target": "OpponentRested",
+            "restriction": "HasCost2OrLess"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:12:19.628Z"
+}

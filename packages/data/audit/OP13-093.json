@@ -1,0 +1,34 @@
+{
+  "id": "OP13-093",
+  "name": "Morgans",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the [On Play] trash action. Card text states 'Draw 2 cards and trash 2 cards from your hand' but only DrawCard is present. TrashFromHand action with count:2 is required."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL completely omits the [Blocker] ability. Card has an intrinsic Blocker mechanic that should be represented, though this may be a keyword/mechanic tracked separately depending on system design."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:05:26.096Z"
+}

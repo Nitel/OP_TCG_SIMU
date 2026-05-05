@@ -1,0 +1,63 @@
+{
+  "id": "OP02-092",
+  "name": "Impel Down",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (\"may trash\"), but DSL structure makes it mandatory. Should use conditional/optional wrapper or restructure to make Rest dependent on trash choice."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "SearchDeck filter is incomplete. Should search top 3 cards, reveal up to 1 {Impel Down} card, add to hand, then place rest at bottom in any order. Current DSL only searches and adds without showing the deck look/placement mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "Missing action sequence: (1) Look at top 3 cards, (2) reveal up to 1 {Impel Down}, (3) add revealed card to hand, (4) place remaining cards at bottom in any order. DSL conflates these into single SearchDeck action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action should only trigger if a card was trashed. Currently appears to execute regardless due to thenActions structure not being properly conditional on the trash."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "kind": "Any"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "SearchDeck",
+            "lookAtCount": 3,
+            "filter": {
+              "kind": "ByType",
+              "type": "Impel Down"
+            },
+            "maxReveal": 1,
+            "destination": "hand",
+            "thenPlaceRest": {
+              "destination": "bottomOfDeck",
+              "order": "any"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:04.523Z"
+}

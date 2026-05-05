@@ -1,0 +1,40 @@
+{
+  "id": "OP09-092",
+  "name": "Marshall.D.Teach",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing hand size comparison. Card text requires: 'If the number of cards in your hand is at least 3 less than the number in your opponent's hand'. DSL condition is 'Always' but should check hand differential."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost specification. The DSL shows 'Activated' correctly but lacks the cost constraint that this is a [Main] activation requiring the character to rest first."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "cost": "Rest",
+    "condition": {
+      "type": "HandSizeDifference",
+      "operator": ">=",
+      "value": 3,
+      "perspective": "opponent"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:28:48.852Z"
+}

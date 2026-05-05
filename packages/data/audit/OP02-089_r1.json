@@ -1,0 +1,33 @@
+{
+  "id": "OP02-089_r1",
+  "name": "Judgment of Hell",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incorrect. Text says 'up to a total of 2 of your opponent's Leader or Character cards' which means up to 2 cards total, not cards with maxCost 2. Should be maxCards:2, not maxCost:2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Scope should be 'OpponentLeaderOrCharacter' (standard scope for opponent's cards), not 'ChooseOpponentCharacterOrLeader'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "OpponentLeaderOrCharacter",
+          "maxCards": 2
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:35.916Z"
+}

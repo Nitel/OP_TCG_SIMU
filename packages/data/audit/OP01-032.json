@@ -1,0 +1,36 @@
+{
+  "id": "OP01-032",
+  "name": "Ashura Doji",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Should contain a PowerBoost effect triggered OnPlay with condition checking opponent's rested Characters count."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "target": "OpponentCharacters",
+          "comparison": ">=",
+          "value": 2,
+          "state": "Rested"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": 2000,
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:56.554Z"
+}

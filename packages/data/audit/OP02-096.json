@@ -1,0 +1,45 @@
+{
+  "id": "OP02-096",
+  "name": "Kuzan",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The effect text says 'Give up to 1 of your opponent's Characters −4 cost' but the DSL uses PowerBoost with amount -4000. This is a COST reduction, not a power reduction. The correct action type should be CostReduction or a similar mechanic that affects the card's cost value, not its power.",
+      "field": "effects[1].actions[0].type"
+    },
+    {
+      "severity": "major",
+      "description": "The target scope should allow choosing 'up to 1' (optional target), but 'ChooseOpponentCharacter' typically requires a target. The effect should indicate optional=true or use a different scope that allows choosing 0 or 1 character.",
+      "field": "effects[1].actions[0].target"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "CostReduction",
+          "amount": -4,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "optional": true,
+            "count": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T08:53:44.817Z"
+}

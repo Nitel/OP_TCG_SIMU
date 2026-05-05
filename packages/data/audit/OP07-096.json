@@ -1,0 +1,54 @@
+{
+  "id": "OP07-096",
+  "name": "Tempest Kick",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect missing condition: requires 'TrashCount' >= 10. Currently has no condition check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'KO' but effect text says 'give up to 1 of your opponent's Characters −3 cost during this turn'. Should be 'PowerBoost' with negative value, not KO."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger is 'Trigger' (generic) but should be linked to the same OnPlay trigger as the draw. Should follow DrawCard action within same effect chain or use conditional trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Missing duration constraint. Text states 'during this turn' → duration should be 'DuringOpponentTurn' (cost reduction applies when opponent tries to play/use the Character)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "power": -3,
+          "duration": "DuringOpponentTurn",
+          "condition": {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 10
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:51.637Z"
+}

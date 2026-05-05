@@ -1,0 +1,27 @@
+{
+  "id": "ST21-004",
+  "name": "Jewelry Bonney",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should be on the cost/activation requirement (DON!! x2), not a trigger condition. The DSL structure places HasRestingDon as a condition on the effect, but [DON!! x2] is a payment cost that should be represented differently in DSL structure—typically as a cost field or the condition should trigger only when the card has 2+ resting DON available at time of KO."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:16:09.696Z"
+}

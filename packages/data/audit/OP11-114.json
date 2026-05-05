@@ -1,0 +1,65 @@
+{
+  "id": "OP11-114",
+  "name": "Gum-Gum Fire-Fist Pistol Red Hawk",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for total Life check. Card text states 'If you and your opponent have a total of 5 or more Life cards' but DSL only checks HasRestingDon. Requires additional condition checking combined Life totals."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Should specify maxCost applies only when condition is met; current structure doesn't properly gate the K.O. action on the life total check."
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP11-114",
+    "effectText": "[Main] You may rest 3 of your DON!! cards: If you and your opponent have a total of 5 or more Life cards, K.O. up to 1 of your opponent's Characters with a base cost of 5 or less.\n[Counter] Up to 1 of your Leader gains +3000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "HasRestingDon",
+              "count": 3
+            },
+            {
+              "type": "TotalLifeCheck",
+              "minTotal": 5
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5
+            },
+            "maxCount": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:48:54.669Z"
+}

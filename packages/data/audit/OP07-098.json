@@ -1,0 +1,47 @@
+{
+  "id": "OP07-098",
+  "name": "Atlas",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect structure is completely wrong. Card text describes a passive battle protection (cannot be KO'd in battle if you have less Life than opponent), but DSL only contains a PlaySelf trigger. Should use OnAttacked trigger with condition checking Life differential and action preventing KO."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' not 'Trigger'. This protection activates when character is attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should check life card comparison: your Life < opponent's Life."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action is 'PlaySelf' which is incorrect. Should prevent KO (no KO action available in standard schema; typically handled via conditional negation or special battle protection logic)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have less Life cards than your opponent, this Character cannot be K.O.'d in battle.",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKO'd"
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:10:01.634Z"
+}

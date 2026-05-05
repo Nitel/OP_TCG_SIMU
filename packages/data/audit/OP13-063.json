@@ -1,0 +1,47 @@
+{
+  "id": "OP13-063",
+  "name": "Kouzuki Oden",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards given/attached to this card), not 'HasRestingDon' (resting DON!! cards on board). The effect triggers if you have ANY attached DON!!, so count should be ≥1 or omitted."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "SearchDeck filter must specify card type. Should be {\"kind\":\"DON\"} to search DON!! cards from DON!! deck, not 'Any'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].destination",
+      "description": "DON!! cards searched should be placed in rest state directly. Destination 'board' is correct, but Rest action afterward is redundant—DON!! cards are typically searched and rested in one action or the search destination should specify rested state."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "DON"
+        },
+        "destination": "board",
+        "maxCount": 1
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "LastSearched"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:03:06.497Z"
+}

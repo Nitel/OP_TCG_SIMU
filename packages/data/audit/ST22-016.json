@@ -1,0 +1,63 @@
+{
+  "id": "ST22-016",
+  "name": "Take That Back!! Take Back What You Said!!",
+  "set": "ST-22",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "PowerBoost action is missing the conditional check for 'Whitebeard Pirates' type. The effect should only boost if the revealed card includes that type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'Trigger' is unclear/invalid. The reveal action should be part of the Counter resolution sequence, not a separate triggered effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "DrawCard should be RevealFromDeck or similar (reveal, not draw). Card is revealed from top of deck, not added to hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition structure to check revealed card type before executing PowerBoost. DSL requires conditional logic linking reveal → type check → power boost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "RevealFromDeck",
+          "count": 1,
+          "position": "top"
+        }
+      ],
+      "condition": {
+        "type": "RevealedCardHasType",
+        "value": "Whitebeard Pirates"
+      }
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "RevealedCardHasType",
+        "value": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:17:39.304Z"
+}

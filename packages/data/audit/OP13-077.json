@@ -1,0 +1,82 @@
+{
+  "id": "OP13-077",
+  "name": "Go All the Way to the Top!!",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action must specify exactly 3 DON!! cards, not all own characters. Target should be {\"scope\":\"OwnDonCards\",\"count\":3} or similar, not AllOwnCharactersAndLeader"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition check: effect should only execute if player has any DON!! cards given (HasAttachedDon condition required)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1] and effects[0].actions[2]",
+      "description": "KO targets cannot both be satisfied simultaneously with current DSL structure. The effect allows 'up to 1' of each power bracket, but both actions will attempt execution. Should use conditional logic or separate targeting: one KO of max 4000 power, one KO of max 3000 power (different targets)"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for Counter effects, but should verify this aligns with official DSL duration naming convention (may be 'DuringBattle' depending on card database standard)"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-077",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "comparison": "GreaterThan",
+            "value": 0
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "OwnDonCards",
+              "count": 3
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxBasePower": 4000,
+              "maxTargets": 1
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxBasePower": 3000,
+              "maxTargets": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:04:11.490Z"
+}

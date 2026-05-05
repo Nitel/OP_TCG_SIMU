@@ -1,0 +1,20 @@
+{
+  "id": "OP15-106",
+  "name": "Octoballoon",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger value 'Trigger' is not valid. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "PlayFromHand action requires a 'condition' field specifying when the card is playable (e.g., cost requirements). Current definition lacks necessary conditional context."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:30:08.929Z"
+}

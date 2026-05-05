@@ -1,0 +1,45 @@
+{
+  "id": "ST29-016",
+  "name": "Kizaru!! Compared to Two Years Ago We're a Hundred Times Stronger Now!!",
+  "set": "ST-29",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Main effect text says 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'. '[Your Turn]' in card text → DuringYourTurn is mandatory."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST29-016",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Unblockable",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:25:12.446Z"
+}

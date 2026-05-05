@@ -1,0 +1,65 @@
+{
+  "id": "OP05-096",
+  "name": "I Bid 500 Million!!",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing third option: 'Place up to 1 of your opponent's Characters with a cost of 1 or less at the top or bottom of their Life cards face-up.' No DSL action type exists for placing characters on Life cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[2] and effects[3]",
+      "description": "Invalid entries with trigger:'Trigger' and maxCost:6. These do not correspond to the card text and appear to be erroneous data."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1] and effects[1].actions[1]",
+      "description": "DrawCard is unconditional in DSL, but card text states 'Then, if you have a {Celestial Dragons} type Character, draw 1 card.' Requires condition: LeaderHasType or HasCardOnBoard with type filter."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "Third option (Place on Life cards) cannot be represented with current DSL action types. Recommended DSL for first two options with conditional draw:",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1
+            }
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "condition": "HasCardOnBoard",
+            "cardType": "Celestial Dragons"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1
+            }
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "condition": "HasCardOnBoard",
+            "cardType": "Celestial Dragons"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:21:39.228Z"
+}

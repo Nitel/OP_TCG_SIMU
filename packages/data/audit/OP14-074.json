@@ -1,0 +1,72 @@
+{
+  "id": "OP14-074",
+  "name": "Monet",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Donquixote Pirates} type, not if a card is on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing 'type' parameter in condition. Should be: {\"type\":\"LeaderHasType\",\"value\":\"Donquixote Pirates\"}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveDon' is incomplete. Missing 'setActive' parameter. Should include setActive:true to set DON!! as active per card text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions",
+      "description": "Second effect is incomplete. Missing second GiveDon action for 'add up to 2 DON!! cards from your DON!! deck and rest them'. Current DSL only has DrawCard and TrashFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1]",
+      "description": "TrashFromHand action missing 'rest' parameter or separate Rest action after. Card text says 'rest them' referring to the added DON!! cards, not the trashed card."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Donquixote Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "setActive": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1
+        },
+        {
+          "type": "GiveDon",
+          "count": 2,
+          "setActive": false
+        },
+        {
+          "type": "Rest",
+          "target": "LastAddedDon"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:15:53.668Z"
+}

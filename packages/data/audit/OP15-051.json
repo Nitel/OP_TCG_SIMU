@@ -1,0 +1,46 @@
+{
+  "id": "OP15-051",
+  "name": "Monkey.D.Luffy",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says '[Opponent's Turn]' which requires duration 'DuringOpponentTurn', not 'EndOfTurn'. This is a duration rule violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for a Card on board named 'Dressrosa', but text requires Leader to have {Dressrosa} type. Should use 'LeaderHasType' condition with value 'Dressrosa'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'OnAttacked' but text describes a passive static effect tied to a turn phase, not an attack action. Should use 'Trigger' or remove trigger for passive conditional effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Opponent's Turn] If your Leader has the {Dressrosa} type, this Character gains +3000 power.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Dressrosa"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:25:48.921Z"
+}

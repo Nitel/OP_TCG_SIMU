@@ -1,0 +1,41 @@
+{
+  "id": "OP06-104_r1",
+  "name": "Kikunojo",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition check 'OpponentLifeCount <= 3'. Current condition is 'Always', but card text requires opponent to have 3 or less Life cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'FlipLife' is incorrect. Card text says 'add up to 1 card from the top of your deck to the top of your Life cards', which requires 'SearchDeck' or 'DrawCard' followed by placement logic, not 'FlipLife'. FlipLife converts Life cards to hand; this action should draw/search and add to Life."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is extraneous and incorrect. The card text contains no self-play mechanic; this effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "operator": "<="
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "addToLife": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:23:13.234Z"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP02-114_r1",
+  "name": "Borsalino",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states '[Opponent's Turn]' which requires duration:'DuringOpponentTurn', not 'EndOfTurn'. This is a critical duration violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'cannot be K.O.'d by effects' requires an additional action to grant immunity to KO effects. Current DSL only has PowerBoost."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "[Blocker] keyword ability is completely missing from DSL. This is a core keyword that must be represented."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByEffects",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:32:54.769Z"
+}

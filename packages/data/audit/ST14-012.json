@@ -1,0 +1,34 @@
+{
+  "id": "ST14-012",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for 'Character' existence but does not verify cost ≥10 requirement. Official text: 'If you have a Character with a cost of 10 or more'. Current condition is incomplete."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 10
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:56.956Z"
+}

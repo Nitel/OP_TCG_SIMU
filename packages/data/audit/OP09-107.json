@@ -1,0 +1,41 @@
+{
+  "id": "OP09-107",
+  "name": "Nico Robin",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: must check 'opponent has 3 or more Life cards' — condition should be a Life count check (not 'Always')"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type incorrect: 'RemoveLife' removes opponent's life total; effect requires 'ForceDiscard' to trash from opponent's Life deck (top card)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely unrelated to card text — no mention of playing Yellow Characters with cost ≤3 in official effect"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "OpponentLifeDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:29:59.815Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP07-082",
+  "name": "Captain John",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand, but effect text says 'from the top of your deck'. Should use ForceDiscard with appropriate filter, or a deck-specific trash action. If no deck-trash action exists in DSL, this is a significant deviation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn', but text explicitly states 'during this turn'. Per duration rules, '[Your Turn]' phrasing requires duration:'DuringYourTurn', not EndOfTurn. This is a critical timing distinction."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "Target allows 'ChooseOpponentCharacter' but effect says 'up to 1', meaning zero is also valid. Confirm target scope permits selection of 0 characters; if not, may need adjustment."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP07-082",
+    "effectText": "[On Play] Trash 2 cards from the top of your deck and give up to 1 of your opponent's Characters −1 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "TopOfDeck",
+            "filter": {}
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:08:45.355Z"
+}

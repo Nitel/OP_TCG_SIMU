@@ -1,0 +1,32 @@
+{
+  "id": "EB01-050",
+  "name": "...I Want to Live!!",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition check for 30 or more cards in trash. The effect requires TrashCount >= 30 but DSL has Always condition.",
+      "field": "effects[0].condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "TrashCount",
+          "count": 30,
+          "operator": "gte"
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:19.210Z"
+}

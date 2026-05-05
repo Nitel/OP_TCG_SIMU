@@ -1,0 +1,55 @@
+{
+  "id": "OP09-051",
+  "name": "Buggy",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'ReturnToHand' is incorrect. Card effect places opponent's Character 'at the bottom of the owner's deck', not to hand. Should use a custom action or clarify as deck-bottom placement, not ReturnToHand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second conditional action: 'if you do not have 5 Characters with cost 5 or more, place this Character at the bottom of the owner's deck.' Current DSL only represents the first part of the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is missing 'up to 1' quantifier. Should clarify max selection is 1 character."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToBottomOfDeck",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "max": 1
+        }
+      },
+      {
+        "type": "ConditionalAction",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "cost": 5,
+          "count": {
+            "lessThan": 5
+          }
+        },
+        "actions": [
+          {
+            "type": "ReturnToBottomOfDeck",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:02:35.424Z"
+}

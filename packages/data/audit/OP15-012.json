@@ -1,0 +1,53 @@
+{
+  "id": "OP15-012",
+  "name": "Buggy",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'AttachDon' is incorrect. Card text says 'Give up to 1 rested DON!! card' which means transferring a rested DON from this card to opponent's Leader or Character. This should use 'GiveDon' with a condition checking for rested DON availability, or a custom transfer mechanic. 'AttachDon' adds DON to this card, not transfers rested DON away."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacterOrLeader' is correct for destination, but the action fundamentally misrepresents the mechanic—it should reflect giving away (removing) a rested DON from this card first."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Give up to 1 rested DON!! card to its owner's Leader or 1 of their Characters.\n[On K.O.] Draw 1 card.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "comparison": ">=",
+            "value": 1,
+            "rested": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacterOrLeader"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:52.749Z"
+}

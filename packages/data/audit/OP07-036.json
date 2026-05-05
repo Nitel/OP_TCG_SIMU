@@ -1,0 +1,60 @@
+{
+  "id": "OP07-036",
+  "name": "Demonic Aura Nine-Sword Style Asura Demon Nine Flash",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action has incorrect minCost constraint. Card text requires 'cost of 3 or more' (minCost: 3), not maxCost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "Rest action targeting opponent's character should be conditional ('If you do'). Current structure does not reflect the conditional chain: rest own character → IF successful, then rest opponent's character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger block with 'Trigger' is unexplained and does not match card text. Card describes a single sequence of actions, not a separate triggered effect. This appears to be erroneous."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].maxCost",
+      "description": "Opponent character rest has maxCost: 5, but DSL shows maxCost: 4 in effects[1]. Inconsistency—card text clearly states '5 or less'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 3
+          },
+          "conditional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          },
+          "conditionalOnPrevious": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:05:05.457Z"
+}

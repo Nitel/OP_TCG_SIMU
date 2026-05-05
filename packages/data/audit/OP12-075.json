@@ -1,0 +1,51 @@
+{
+  "id": "OP12-075",
+  "name": "Ms. All Sunday",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second action: after KO effect, opponent gets choice to add 1 DON!! from their DON!! deck and set it as active. Current DSL only includes KO action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely wrong. Should describe opponent's optional DON!! activation, not a self-play trigger based on HasRestingDon condition. This appears to be unrelated card logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should allow 0-1 selection (up to 1), but 'ChooseOpponentCharacter' with maxCost:3 may not properly represent 'up to' semantics. Should clarify maximum selection is 1 optional."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] K.O. up to 1 of your opponent's Characters with a cost of 3 or less. Then, your opponent may add 1 DON!! card from their DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "maxSelection": 1
+            }
+          },
+          {
+            "type": "GiveDon",
+            "target": {
+              "scope": "Opponent"
+            },
+            "amount": 1,
+            "optional": true,
+            "source": "DONDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:05.348Z"
+}

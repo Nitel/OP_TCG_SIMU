@@ -1,0 +1,52 @@
+{
+  "id": "OP04-021",
+  "name": "Viola",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent attacking you), not 'OnAttacked'. 'OnAttacked' means when your character is attacked, which is the same event, but 'OnAttack' is the correct nomenclature for 'On Your Opponent's Attack'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify DON!! cards ('ChooseOpponentDon'), not opponent characters. The effect rests opponent's DON!! cards specifically, not characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing cost specification. The effect requires resting up to 1 of YOUR OWN DON!! cards as a cost (➁). Current DSL only shows the effect, not the cost requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP04-021",
+    "effectText": "[On Your Opponent's Attack] ➁ (You may rest the specified number of DON!! cards in your cost area.): Rest up to 1 of your opponent's DON!! cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "type": "Rest",
+          "target": {
+            "scope": "YourDon"
+          },
+          "amount": 1
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentDon"
+            },
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:37.829Z"
+}

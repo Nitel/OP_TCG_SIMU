@@ -1,0 +1,49 @@
+{
+  "id": "OP13-028",
+  "name": "Shanks",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has official effect text but DSL effects array is empty. Missing two effects: (1) Rest all of your DON!! cards as active, (2) Apply restriction preventing card plays from hand during this turn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing effect to set DON!! cards as active (Rest action on player's DON cards)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing duration-limited restriction effect for 'cannot play cards from your hand during this turn' — requires DuringYourTurn duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "PlayerDON"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "AddRestriction",
+            "restriction": "CannotPlayFromHand",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:28.659Z"
+}

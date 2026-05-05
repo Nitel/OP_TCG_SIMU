@@ -1,0 +1,54 @@
+{
+  "id": "ST29-002",
+  "name": "Usopp",
+  "set": "ST-29",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the second trigger 'OnAttack'. Card text states '[On Play]/[When Attacking]' which requires two separate effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action target is missing the condition that restricts it to Characters with cost ≤ opponent's Life card count. Target should include a condition filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should specify 'upTo':1 to indicate 'up to 1' Character can be selected."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "filter": "CostLessOrEqual",
+            "filterValue": "OpponentLifeCount",
+            "upTo": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "filter": "CostLessOrEqual",
+            "filterValue": "OpponentLifeCount",
+            "upTo": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:24:10.478Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "EB02-047",
+  "name": "Blueno",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Effect is completely missing. Card has an [Activate: Main] ability that allows trashing a card from hand and this Character to play a CP-type Character (cost 5 or less, not Blueno) from trash, but DSL effects array is empty.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "trashFromHand": 1,
+          "trashSelf": true
+        },
+        "actions": [
+          {
+            "type": "PlayFromTrash",
+            "target": {
+              "type": "Character",
+              "filter": {
+                "hasType": "CP",
+                "maxCost": 5,
+                "notName": "Blueno"
+              }
+            },
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:30.996Z"
+}

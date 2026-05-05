@@ -1,0 +1,51 @@
+{
+  "id": "OP14-099",
+  "name": "Disappointed?",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is invalid; should be 'OnPlay' for a Main card effect"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete; missing filter for card type 'Baroque Works' and exclusion of '[Disappointed?]'; missing trash action for remaining cards"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify type='Baroque Works' and exclude name='[Disappointed?]'; 'Any' is too broad and ignores the 3-card deck look constraint"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing secondary action to trash remaining cards after search; the effect requires both a conditional search/add and mandatory trash of non-selected cards"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any",
+            "type": "Baroque Works",
+            "excludeName": "[Disappointed?]"
+          },
+          "deckLookSize": 3,
+          "destination": "hand",
+          "maxAmount": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "target": "RemainingDeckLookCards"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:17:46.210Z"
+}

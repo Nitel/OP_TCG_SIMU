@@ -1,0 +1,45 @@
+{
+  "id": "OP15-033",
+  "name": "Hody Jones",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'Set your {Fish-Man} type Leader as active' is not represented. Requires a leader activation action (not currently in standard action types, but effect is incomplete without it)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action order wrong: FlipLife should be second action, not first. Leader activation must happen before life flip."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'your {Fish-Man} type Leader' requires condition checking leader type. Should include condition: {\"type\":\"LeaderHasType\",\"value\":\"Fish-Man\"}"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Fish-Man"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Leader"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:24:30.912Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP05-081_r1",
+  "name": "One-Legged Toy Soldier",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The ability says 'trash this Character' (the card itself being activated), not trash from hand. Should be a self-trash condition or part of cost, not an action in sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Trashing 'this Character' should be a condition/cost of activation, not a separate action. The activation ability is '[Activate: Main] You may trash this Character'. The 'may' makes it optional, but it's a prerequisite, not a chained effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text says 'during this turn', which means the effect lasts for the remainder of the current turn. Should be 'DuringYourTurn' or equivalent temporary duration, not 'EndOfTurn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn",
+          "cost": {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:36:08.377Z"
+}

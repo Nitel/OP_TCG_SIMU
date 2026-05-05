@@ -1,0 +1,43 @@
+{
+  "id": "OP06-104",
+  "name": "Kikunojo",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: should check if opponent has 3 or less Life cards. Current condition is 'Always' but card text requires 'OpponentLifeCount ≤ 3' or equivalent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type wrong: should be 'FlipLife' (add card from top of deck to top of Life cards), not 'SearchDeck' to hand. SearchDeck puts card in hand; this effect adds to Life pile."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extra effect present: second effect with trigger 'Trigger' and action 'PlaySelf' has no basis in card text and should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "operator": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "filter": {
+            "kind": "Any"
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:01:12.245Z"
+}

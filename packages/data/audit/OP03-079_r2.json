@@ -1,0 +1,29 @@
+{
+  "id": "OP03-079_r2",
+  "name": "Vergo",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain trigger and action for damage prevention/KO prevention."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOedInBattle",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:30.818Z"
+}

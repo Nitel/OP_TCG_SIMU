@@ -1,0 +1,25 @@
+{
+  "id": "OP08-023_r1",
+  "name": "Carrot",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The card prevents a rested character from becoming active during the opponent's next Refresh Phase. This is a conditional effect that requires a custom action or a duration-based condition, not a simple Rest action. The DSL lacks the mechanism to prevent activation during a future Refresh Phase."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to target only RESTED characters. The card specifies 'rested Characters' but the DSL has no condition to filter for resting state."
+    },
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "The effect's scope and duration are fundamentally misrepresented. The card applies a persistent effect (preventing activation during next Refresh Phase) rather than immediately resting a character. This requires a duration-based modifier, not an instant Rest action."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:45:19.233Z"
+}

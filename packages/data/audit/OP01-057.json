@@ -1,0 +1,45 @@
+{
+  "id": "OP01-057",
+  "name": "Paradise Waterfall",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action is completely absent from card text. Card only describes power boost and character setup—no KO effect exists."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type is 'Rest' but card text says 'set up to 1 of your Characters as active', which means Activate/Untap, not Rest. Rest would put a character into resting state, opposite of the intended effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCost": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Active",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:35.670Z"
+}

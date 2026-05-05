@@ -1,0 +1,50 @@
+{
+  "id": "OP05-074",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' or a custom trigger for 'when a DON!! card on your field is returned to your DON!! deck', not 'Activated'. The card effect is triggered by a game state change (DON returned to deck), not by player activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition 'DuringYourTurn' and 'Once Per Turn' restriction. Text states '[Your Turn]' which requires duration:'DuringYourTurn' and 'Once Per Turn' must be enforced."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action 'GiveDon' is incomplete. The effect should 'add up to 1 DON!! card from your DON!! deck and set it as active', which requires specifying source (DON deck), count (up to 1), and potentially a 'set as active' state modifier not captured by GiveDon alone."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing target specification. The effect modifies cards from 'your DON!! deck', which should be explicitly targeted."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "DuringYourTurn"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "source": "DonDeck",
+            "oncePerTurn": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:54.065Z"
+}

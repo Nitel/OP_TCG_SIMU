@@ -1,0 +1,57 @@
+{
+  "id": "OP11-102",
+  "name": "Camie",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effects[] is empty but card has complex counter/triggered ability text. Missing entire effect definition for counter ability that triggers on opponent's Event/Trigger activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "[Your Turn] indicates this is a Counter ability that can only be activated during your turn, but the effect must also trigger on 'opponent activates an Event or [Trigger]'. Should use trigger type 'Counter' with condition checking opponent's action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition for 'If your opponent has 2 or more Life cards' - should include HasLifeCards or similar condition on opponent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn' to indicate this counter can only activate during your turn."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-102",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "OpponentHasMinimumLife",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromTop",
+            "target": "YourLife",
+            "count": 1
+          },
+          {
+            "type": "TrashFromTop",
+            "target": "OpponentLife",
+            "count": 1
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:59.169Z"
+}

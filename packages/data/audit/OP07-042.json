@@ -1,0 +1,51 @@
+{
+  "id": "OP07-042",
+  "name": "Gecko Moria",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has complex conditional effect text but effects array is empty. Should contain: Trigger=OnAttacked (or removal effect context), Condition=LeaderHasType{The Seven Warlords of the Sea}, Action=ReturnToHand or custom return-to-deck mechanic with character selection restriction"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing trigger for 'would be removed from the field by opponent's effect' - likely Counter or defensive trigger needed"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should return a character (other than Gecko Moria) to bottom of deck - ReturnToHand exists but 'bottom of deck' placement is non-standard and requires special handling"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: LeaderHasType with value 'The Seven Warlords of the Sea'"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Once Per Turn] If your Leader has the {The Seven Warlords of the Sea} type and this Character would be removed from the field by your opponent's effect, you may place 1 of your Characters other than [Gecko Moria] at the bottom of the owner's deck instead.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "The Seven Warlords of the Sea"
+          }
+        ],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "CharacterOtherThan[Gecko Moria]",
+            "placement": "BottomOfDeck"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:33.971Z"
+}

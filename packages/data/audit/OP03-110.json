@@ -1,0 +1,45 @@
+{
+  "id": "OP03-110",
+  "name": "Charlotte Smoothie",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect structure is incorrect. 'When Attacking' should trigger OnAttack with a single action: FlipLife (add 1 from Life cards to hand). The PowerBoost is conditional on the FlipLife happening and should be a thenAction, not a separate action at the same level."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (trigger: 'Trigger') is completely extraneous and has no basis in card text. No card text mentions trashing from hand or playing self. This effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife action is present but the card says 'add 1 card from top or bottom of Life cards to hand' — this is correct use of FlipLife. However, the PowerBoost should be conditional (thenAction) on performing the FlipLife, not a separate action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:50.150Z"
+}

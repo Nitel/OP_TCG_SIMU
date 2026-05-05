@@ -1,0 +1,71 @@
+{
+  "id": "ST14-007_r1",
+  "name": "Nico Robin",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check for Character with cost ≥8, not just any Character on board. Current condition lacks cost threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition should check for Character with cost ≥8, not just any Character on board. Current condition lacks cost threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow choosing 0 or 1 opponent Character (up to 1), not mandatory selection. Scope should reflect optional targeting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should allow choosing 0 or 1 opponent Character (up to 1), not mandatory selection. Scope should reflect optional targeting."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 1,
+            "optional": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 1,
+            "optional": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:52:43.226Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP08-080",
+  "name": "Queen",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Must specify: (1) look at exactly 5 cards from top of deck, (2) filter excludes [Queen] cards, (3) reveal up to 1 card matching filter, (4) add to hand, (5) place remaining cards at bottom of deck in any order. Current DSL only searches by type name without the 5-card limitation, exclusion of Queen, or bottom-deck placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses ByName but should use type-based filtering for {Animal Kingdom Pirates}. Must also exclude [Queen] cards from selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Animal Kingdom Pirates",
+          "exclude": [
+            "Queen"
+          ]
+        },
+        "amount": 5,
+        "revealAmount": 1,
+        "destination": "hand",
+        "remainingDestination": "bottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:30:21.807Z"
+}

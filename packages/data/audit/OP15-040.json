@@ -1,0 +1,36 @@
+{
+  "id": "OP15-040",
+  "name": "Viola",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) depth parameter to specify 'top 3 cards', (2) filter for {Dressrosa} type, (3) reveal mechanic, (4) placement of remaining cards at bottom of deck in any order. Current DSL only searches deck without these essential parameters."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure does not capture the multi-step sequence: look at 3 cards → reveal up to 1 Dressrosa → add to hand → place rest at bottom in any order. Requires proper depth, filtering, reveal condition, and reordering logic."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "depth": 3,
+        "filter": {
+          "type": "Dressrosa"
+        },
+        "maxCount": 1,
+        "reveal": true,
+        "destination": "hand",
+        "remaining": "bottomOfDeck",
+        "remainingOrder": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:25:01.935Z"
+}

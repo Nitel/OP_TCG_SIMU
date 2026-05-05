@@ -1,0 +1,51 @@
+{
+  "id": "OP02-014",
+  "name": "Whitey Bay",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. This is a static/passive ability that grants a permanent keyword, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' is incorrect. The effect requires DON!! x1 attached to this character (HasAttachedDon:1), not resting DON!!."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. The ability to attack active characters is a continuous keyword ability, not a temporary effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].keyword",
+      "description": "'Unblockable' is not the correct keyword. The ability to attack active characters is typically 'CanAttackActive' or similar direct pierce mechanic, not unblockable."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] This Character can also attack your opponent's active Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackActive",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:47.056Z"
+}

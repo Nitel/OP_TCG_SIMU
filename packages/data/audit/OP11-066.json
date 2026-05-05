@@ -1,0 +1,59 @@
+{
+  "id": "OP11-066",
+  "name": "Charlotte Oven",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition check: effect must verify that revealed card matches the chosen cost before executing KO and GiveDon actions. Current DSL has no conditional logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "KO action is missing maxCount constraint. Text says 'up to 1' which requires maxCount:1 in the action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action incomplete: missing 'rest' effect. Text explicitly states 'rest it', requiring an additional Rest action or rest parameter on GiveDon."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing deck reveal mechanic: DSL lacks mechanism to reveal top card from opponent's deck and compare its cost to chosen cost. This is central to the card's effect."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-066",
+    "effectText": "[Activate: Main] You may rest this Character: Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, K.O. up to 1 of your opponent's Characters with a base cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "RevealedCardCostMatch"
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "maxCount": 1
+          },
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "source": "DonDeck",
+            "rest": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:45:12.721Z"
+}

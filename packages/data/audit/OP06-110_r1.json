@@ -1,0 +1,47 @@
+{
+  "id": "OP06-110_r1",
+  "name": "Nekomamushi",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally wrong. '[DON!! x2]' is a cost, not a trigger condition. The card text describes a permanent ability ('can also attack'), not an activated ability with Unblockable duration."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "'Activated' trigger is incorrect. This is a passive/permanent ability, not player-activated. Should use 'Trigger' with 'Always' condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "'GiveKeyword' with 'Unblockable' and 'EndOfTurn' duration is wrong. The ability is permanent, not temporary. The effect should use 'GiveKeyword' with duration 'Permanent'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "'PlaySelf' action is spurious. The card text contains no instruction to play this card; it only grants an ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Unblockable",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:38:23.671Z"
+}

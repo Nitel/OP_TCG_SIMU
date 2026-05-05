@@ -1,0 +1,42 @@
+{
+  "id": "ST01-017",
+  "name": "Thousand Sunny",
+  "set": "ST-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the boost applies only during the current turn. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' would remove the effect at end of turn, but 'DuringYourTurn' is the correct duration keyword for effects that last only through the active player's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter is incomplete. Card text specifies 'Up to 1 {Straw Hat Crew} type Leader or Character card' but target only has 'maxPower:1000'. Must include type filter for 'Straw Hat Crew' and scope should reflect choosing from eligible cards."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "Missing condition field. Should include 'Always' or other applicable condition if none specified."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "hasType": "Straw Hat Crew",
+            "maxAmount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:55:04.611Z"
+}

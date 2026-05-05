@@ -1,0 +1,27 @@
+{
+  "id": "OP10-064",
+  "name": "Clone Soldier",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is missing. The card text describes the Blocker mechanic which should be represented as a GiveKeyword action with keyword 'Blocker', triggered OnAttack with appropriate condition and duration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:35:43.822Z"
+}

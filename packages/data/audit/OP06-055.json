@@ -1,0 +1,35 @@
+{
+  "id": "OP06-055",
+  "name": "Monkey.D.Garp",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has active effect text but effects array is empty. Effect should be parsed: OnAttack trigger, condition on hand size, action preventing opponent Blocker activation during battle."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HandSize",
+            "value": 4,
+            "operator": "LessThanOrEqual"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PreventBlocker",
+            "target": "OpponentOnly",
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:57:18.569Z"
+}

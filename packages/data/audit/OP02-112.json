@@ -1,0 +1,20 @@
+{
+  "id": "OP02-112",
+  "name": "Bell-mère",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PowerBoost with negative amount (-1) is incorrect for cost reduction. Cost reduction is a distinct mechanic from power modification and should use a separate action type or be represented differently. Current DSL conflates power and cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' temporal scope, but the action type itself is fundamentally wrong for a cost reduction effect."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:32:26.969Z"
+}

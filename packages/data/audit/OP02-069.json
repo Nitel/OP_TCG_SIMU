@@ -1,0 +1,42 @@
+{
+  "id": "OP02-069",
+  "name": "DEATH WINK",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Card text describes only ONE effect (Counter with power boost and draw), but DSL contains TWO separate effects. The second effect with trigger 'Trigger' and ReturnToHand action is not mentioned in the card text and should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].count",
+      "description": "DrawCard action has count:2, but card text says 'draw cards so that you have 2 cards in your hand' — this is a conditional draw to reach 2 total, not draw exactly 2 cards. Should use conditional logic or clarify as draw-to-total mechanic, not fixed count."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 6000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "DrawCard",
+            "count": "DrawToTotal",
+            "total": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:35.697Z"
+}

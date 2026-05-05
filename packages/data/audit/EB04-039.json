@@ -1,0 +1,63 @@
+{
+  "id": "EB04-039",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incorrect for 'Add up to 1 DON!! card from your DON!! deck'. Should use SearchDeck to find a DON card, then AttachDon to set it as active. GiveDon generates new DON tokens; this effect retrieves from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Activated trigger missing cost specification. Text states 'Activate: Main' with 'trash this Character' as condition/cost. DSL should include a condition or cost parameter indicating this is a trash-self activation, or clarify via separate condition structure."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-039",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "cardType": "DON"
+            },
+            "count": 1
+          },
+          {
+            "type": "AttachDon",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": "Self"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Kid Pirates",
+              "maxCost": 5,
+              "cardType": "Character"
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:10:00.010Z"
+}

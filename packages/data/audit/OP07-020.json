@@ -1,0 +1,44 @@
+{
+  "id": "OP07-020",
+  "name": "Aladine",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: LeaderHasType Fish-Man. The effect only triggers if your Leader has the {Fish-Man} type, but no condition is specified in the DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must allow both {Fish-Man} OR {Merfolk} type characters. Current filter only checks Fish-Man subtype. Should use OR logic for subType."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Fish-Man"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardTypes": [
+              "Character"
+            ],
+            "subType": [
+              "Fish-Man",
+              "Merfolk"
+            ],
+            "maxCost": 3
+          },
+          "maxQuantity": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:03:50.538Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP06-021",
+  "name": "Perona",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL only implements first option (Rest). Card text shows 'Choose one' with two distinct options: Rest OR give −1 cost. Second option (Give −1 cost) is completely missing from effects array."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'Once Per Turn' restriction. Trigger 'Activated' requires duration constraint or maxUses to enforce once-per-turn limit."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-021",
+    "effectText": "[Activate: Main] [Once Per Turn] Choose one: • Rest up to 1 of your opponent's Characters with a cost of 4 or less. • Give up to 1 of your opponent's Characters −1 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "duration": "DuringYourTurn",
+        "maxUses": 1,
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "value": -1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:49.892Z"
+}

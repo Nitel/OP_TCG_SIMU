@@ -1,0 +1,59 @@
+{
+  "id": "EB01-031",
+  "name": "Kalifa",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong action type: uses SearchDeck but should retrieve from trash, not deck",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing DON!! -1 cost mechanism entirely",
+      "field": "effects[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong condition type: uses HasCardOnBoard checking for name 'Water Seven', but should check if Leader has the {Water Seven} type using LeaderHasType",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong filter: should specify cardType 'Character' and count limit of 2",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong source location: should be 'trash' not 'deck'",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "leaderType": "Water Seven"
+        },
+        "cost": {
+          "don": -1
+        },
+        "actions": [
+          {
+            "type": "SearchTrash",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 4
+            },
+            "count": 2,
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:07.272Z"
+}

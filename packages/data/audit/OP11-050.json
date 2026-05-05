@@ -1,0 +1,55 @@
+{
+  "id": "OP11-050",
+  "name": "Gotti",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is a cost (optional 'may'), not a primary action. Should be structured as a cost condition, not the main action. The ReturnToHand should be the primary action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "ReturnToHand target scope incomplete: card text allows 'return to hand OR place at bottom of deck' but DSL only includes ReturnToHand option. Missing alternative action for deck placement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target.scope",
+      "description": "Target should be 'OpponentCharacter' not 'ChooseOpponentCharacter' (scope handles selection semantics)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "cost": {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Firetank Pirates"
+        },
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1,
+            "placement": "BottomOfDeck"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:03.969Z"
+}

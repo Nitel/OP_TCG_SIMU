@@ -1,0 +1,56 @@
+{
+  "id": "OP06-025",
+  "name": "Camie",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at 4 cards from top of deck, (2) filtering for {Fish-Man} or {Merfolk} type cards excluding [Camie], (3) revealing up to 1 card to add to hand, (4) placing remaining 3 cards at bottom of deck in any order. Current DSL only performs a basic search with no filter specification."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is set to 'kind: Any' but should specify type requirement: {Fish-Man} OR {Merfolk}, with exclusion of card name [Camie]"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to handle placement of non-selected cards at bottom of deck. The effect requires both a hand addition AND a deck reorder step."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookAtCount": 4,
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "type": "HasCardType",
+              "cardType": "Fish-Man"
+            },
+            {
+              "type": "HasCardType",
+              "cardType": "Merfolk"
+            }
+          ],
+          "excludeCards": [
+            "Camie"
+          ]
+        },
+        "selectCount": {
+          "min": 0,
+          "max": 1
+        },
+        "destination": "hand",
+        "remainingDestination": "deck-bottom",
+        "remainingOrder": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:55:09.862Z"
+}

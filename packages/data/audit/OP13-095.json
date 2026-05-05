@@ -1,0 +1,54 @@
+{
+  "id": "OP13-095",
+  "name": "Saint Rosward",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing conditional check 'If you only have {Celestial Dragons} type Characters' – should be wrapped in a condition with LeaderHasAnyType or character filter, not unconditional"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "'You may trash 1 card' should use maxCount:1 on TrashFromHand filter to enforce exactly 1 card, and the entire action should be optional (conditional branch)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "K.O. up to 2 characters should be a single KO action with maxCount:2, not two separate KO actions"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Celestial Dragons"
+        },
+        "scope": "YourCharacters"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "maxCount": 1
+        },
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "maxCount": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:05:35.452Z"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "OP11-022",
+  "name": "Shirahoshi",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but condition 'Activate: Main' and 'Once Per Turn' are missing. Requires 'conditions' array with timing constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect plays from hand ('Play up to 1 {Neptunian} type Character card or [Megalo]... from your hand'). Should be 'PlayFromHand', not 'SearchDeck'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify {Neptunian} type OR [Megalo] archetype. Requires proper type/archetype filtering."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing prerequisite actions: Rest 1 DON!! card and flip 1 Life card face-up. Must include 'Rest' and 'FlipLife' actions before 'PlayFromHand'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing cost constraint: 'cost equal to or less than the number of DON!! cards on your field'. Requires condition or cost-based filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always",
+          "timing": "Main"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "card",
+          "filter": {
+            "keyword": "Don"
+          },
+          "count": 1
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Neptunian",
+            "archetype": "Megalo"
+          },
+          "maxCount": 1,
+          "costConstraint": "<=DonCardsOnField"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:25:40.944Z"
+}

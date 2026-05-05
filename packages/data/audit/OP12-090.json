@@ -1,0 +1,48 @@
+{
+  "id": "OP12-090",
+  "name": "Belo Betty",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "TrashFromHand is incorrect. Effect trashes from deck (top), not hand. Should use appropriate deck-trash action or custom implementation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: action is optional ('You may'). Requires condition or choice mechanism."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing power boost action: 'Give up to 1 of your opponent's Characters −2 cost during this turn' is not implemented. Requires PowerBoost or equivalent with target selection and duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Duration missing: 'during this turn' indicates DuringYourTurn scope for the cost reduction effect."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "TrashFromDeck",
+        "count": 2,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "maxTargets": 1,
+            "power": -2,
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:56:09.302Z"
+}

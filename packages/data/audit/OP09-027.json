@@ -1,0 +1,38 @@
+{
+  "id": "OP09-027",
+  "name": "Sabo",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check for 3 or more rested Characters. The DSL must include a condition that verifies rested character count before allowing the draw."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].metadata",
+      "description": "Missing 'Once Per Turn' limitation. The DSL should include oncePerTurn:true to enforce the per-turn restriction."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 3,
+          "comparison": "atleast"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "oncePerTurn": true
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:24.987Z"
+}

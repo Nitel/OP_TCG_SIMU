@@ -1,0 +1,80 @@
+{
+  "id": "OP14-120",
+  "name": "Crocodile",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing duration. Text states 'cannot attack until the end of your opponent's next End Phase' → requires duration:'UntilEndOfOpponentNextTurn' or similar. Current Rest has no duration specified."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "DrawCard is unconditional but effect text requires condition: 'if your opponent has a Character with a cost of 0 or with a cost of 8 or more'. Needs conditional logic checking opponent's board state before drawing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0].type",
+      "description": "PlayFromHand is incorrect. Effect states 'Play this Character card from your trash' — should be PlaySelf or similar that plays from trash, not from hand. Also filter restricts to 'Black' color with no justification from card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "OnKO trigger should allow optional trashing ('You may trash'). Current structure treats it as mandatory. Needs optional wrapping or conditional structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 9
+          },
+          "duration": "UntilEndOfOpponentNextTurn"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "OpponentBoard",
+            "filter": {
+              "cardType": "Character",
+              "costCondition": "OR",
+              "costs": [
+                0,
+                8,
+                9,
+                10
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlaySelf",
+              "source": "Trash"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:19:28.995Z"
+}

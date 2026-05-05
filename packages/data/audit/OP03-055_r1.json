@@ -1,0 +1,60 @@
+{
+  "id": "OP03-055_r1",
+  "name": "Gum-Gum Giant Gavel",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should be conditional (optional trash from hand). DSL structure does not properly represent 'You may trash 1 card from your hand' as optional. Should use a conditional wrapper or optional flag."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "Second action 'trash 2 cards from the top of your deck' uses TrashFromHand but should trash from deck (top deck), not hand. Incorrect action type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and ReturnToHand action is completely absent from card text. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for 'during this battle', but the overall structure needs proper optional conditional handling for 'You may'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "optional": true,
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 4000,
+              "target": {
+                "scope": "OwnLeader",
+                "maxCount": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "position": "top",
+          "optional": true,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:33:14.490Z"
+}

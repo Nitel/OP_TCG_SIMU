@@ -1,0 +1,77 @@
+{
+  "id": "EB03-010",
+  "name": "Monet",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck action is missing the 'count' field specifying to look at 5 cards from the top of the deck",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is incorrect - should filter for Character cards with 1000 power or less OR Event cards, not 'Any'",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the requirement to place remaining cards at the bottom of the deck in any order after searching",
+      "field": "effects[0].actions[0].remainingCardsDestination"
+    },
+    {
+      "severity": "major",
+      "description": "Missing the limit of 'up to 1' card to add to hand",
+      "field": "effects[0].actions[0].amount"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing [Blocker] keyword effect",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "self",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "filter": {
+              "kind": "Or",
+              "filters": [
+                {
+                  "kind": "Character",
+                  "power": {
+                    "operator": "<=",
+                    "value": 1000
+                  }
+                },
+                {
+                  "kind": "Event"
+                }
+              ]
+            },
+            "amount": 1,
+            "destination": "hand",
+            "remainingCardsDestination": "bottomOfDeck",
+            "reveal": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:23.076Z"
+}

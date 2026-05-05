@@ -1,0 +1,59 @@
+{
+  "id": "EB03-031",
+  "name": "Vinsmoke Reiju",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (card is played), not 'Activated' (manual ability activation). The DSL describes a DON!! cost ability, which is triggered when the card enters play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader 'is' or 'has type' Sanji, not search board for a card named Sanji. Use 'LeaderIsName' or 'LeaderHasAnyType' with value 'Sanji'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'PlayFromHand' or 'ActivateEffect' (to activate the Main effect of an Event in trash), not 'SearchDeck'. The effect activates an Event card already in trash, not searching deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incorrect. Should target Event cards in trash with cost ≤7, not deck cards by cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text contains '[Your Turn]' prefix, indicating the effect is only usable during your turn. Duration should be 'DuringYourTurn', not Permanent."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [On Play] DON!! −1: If your Leader is [Sanji], activate the [Main] effect of up to 1 Event card with a cost of 7 or less in your trash.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "LeaderIsName",
+          "value": "Sanji"
+        },
+        "actions": [
+          {
+            "type": "ActivateEffect",
+            "filter": {
+              "kind": "Card",
+              "cardType": "Event",
+              "maxCost": 7
+            },
+            "source": "trash",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:05.961Z"
+}

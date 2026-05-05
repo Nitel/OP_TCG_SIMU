@@ -1,0 +1,47 @@
+{
+  "id": "EB04-058",
+  "name": "Borsalino",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasCardOnBoard' or a life count check, not 'TurnCount'. The effect triggers based on current Life card count (2 or less), not turn count."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'FlipLife' (add cards to Life cards), not 'SearchDeck'. The effect adds cards to Life, not to hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination should reflect Life cards, not 'hand'. Per DSL spec, FlipLife adds cards to Life cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing proper life count condition. Should check if controlling player has 2 or fewer Life cards (likely requires custom condition or max life parameter)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Custom",
+        "description": "You have 2 or less Life cards"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:39.941Z"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OP01-098",
+  "name": "Kurozumi Orochi",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' but should use 'ByType' or 'ByCardName' to match card type 'Artificial Devil Fruit SMILE'. The current filter treats it as a single card name rather than a card type/category."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing 'limit' constraint. Card text says 'up to 1', which requires limit:1 to be explicitly set."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Artificial Devil Fruit SMILE"
+          },
+          "destination": "hand",
+          "limit": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:47.417Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP07-064",
+  "name": "Sanji",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects but effects array is empty. Effect 1: Conditional cost reduction (−3 cost) when DON!! imbalance condition is met. Effect 2: Blocker keyword with Counter trigger. DSL must include both effects."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing first effect: cost reduction trigger. Should activate during hand state when DON count difference meets condition (opponent's DON - your DON >= 2). Action: PowerBoost with −3 cost modifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing second effect: Blocker mechanic. Should trigger on Counter when opponent attacks, allowing this card to rest and become new attack target."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasAttachedDon",
+          "comparison": "<=",
+          "value": 0,
+          "offset": -2,
+          "against": "opponent"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "modifier": -3
+          }
+        ],
+        "duration": "Permanent"
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:07:15.948Z"
+}

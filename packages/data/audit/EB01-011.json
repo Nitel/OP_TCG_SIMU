@@ -1,0 +1,45 @@
+{
+  "id": "EB01-011",
+  "name": "Mini-Merry",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing cost requirement to rest this card before drawing",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing cost requirement to place a Character with 1000 base power at the bottom of deck",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "major",
+      "description": "The Character placement requirement specifies '1000 base power' constraint which is not encoded",
+      "field": "effects[0].cost.powerRequirement"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "restSelf": true,
+          "placeCharacterAtBottomOfDeck": {
+            "count": 1,
+            "basePowerRequirement": 1000,
+            "controller": "Self"
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:43.925Z"
+}

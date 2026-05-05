@@ -1,0 +1,40 @@
+{
+  "id": "ST14-006",
+  "name": "Nami",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Effect requires TWO conditions: (1) 6 or fewer cards in hand AND (2) have a Character with cost 8+. Current DSL only has 'Always'. Should use compound condition checking HandCount ≤6 AND HasCardOnBoard with cost constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          {
+            "type": "HandCount",
+            "comparison": "LessOrEqual",
+            "value": 6
+          },
+          {
+            "type": "HasCardOnBoard",
+            "cardType": "Character",
+            "minCost": 8
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:31.886Z"
+}

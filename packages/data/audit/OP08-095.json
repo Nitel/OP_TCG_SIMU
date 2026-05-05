@@ -1,0 +1,55 @@
+{
+  "id": "OP08-095",
+  "name": "Iron Body Fang Flash",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing TrashCount condition. Card requires 'If you have 10 or more cards in your trash' but DSL has Always condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (main ability activated by player), not 'OnPlay'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' for 'until the end of your opponent's next turn', not 'EndOfBattle'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Secondary effect with Trigger and no condition should not exist. Card has only one effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'ChooseOwnCharacter' only (up to 1 Character), not include Leader"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 10
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "amount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:31:29.603Z"
+}

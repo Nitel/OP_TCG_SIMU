@@ -1,0 +1,61 @@
+{
+  "id": "OP15-099",
+  "name": "Urouge",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which means the effect lasts only while it's your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Second effect is missing the condition that a card must be flipped from Life cards. Current DSL only gives DON without the FlipLife cost/condition. Should include FlipLife action as prerequisite."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Supernovas",
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:29:35.459Z"
+}

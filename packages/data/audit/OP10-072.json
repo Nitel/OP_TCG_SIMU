@@ -1,0 +1,56 @@
+{
+  "id": "OP10-072",
+  "name": "Donquixote Rosinante",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'EndOfTurn' for '[End of Your Turn]' text, not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action should be 'Rest' to set DON!! cards as active (flipping from resting state), not 'GiveDon'. 'GiveDon' adds new DON!!, but the effect manipulates existing resting DON!! on field."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "cardType": "Event"
+            },
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 7
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 2,
+            "filter": {
+              "cardType": "DON!!"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:36:23.959Z"
+}

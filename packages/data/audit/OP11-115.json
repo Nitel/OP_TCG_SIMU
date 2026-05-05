@@ -1,0 +1,44 @@
+{
+  "id": "OP11-115",
+  "name": "You're Just Not My Type!",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard'. The card checks if your Leader IS Shirahoshi, not if Shirahoshi is on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition structure incorrect. Should be {\"type\":\"LeaderIsName\",\"name\":\"Shirahoshi\"} not {\"type\":\"HasCardOnBoard\",\"name\":\"Shirahoshi\"}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action is completely extraneous and not in card text. This effect should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Shirahoshi"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:48:53.751Z"
+}

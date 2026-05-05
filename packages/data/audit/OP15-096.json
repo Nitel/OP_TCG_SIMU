@@ -1,0 +1,69 @@
+{
+  "id": "OP15-096",
+  "name": "Swallow Bond en Avant",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Main ability trigger should be 'Activated' (correct), but the condition is wrong. Condition checks for {Straw Hat Crew} type on board, but text says 'If your Leader has the {Straw Hat Crew} type' — should use LeaderHasType condition, not HasCardOnBoard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type should be 'LeaderHasType' with value 'Straw Hat Crew', not 'HasCardOnBoard' with name 'Straw Hat Crew'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action trashes 5 cards from deck, but uses TrashFromHand type. Should be generic trash/discard from deck. The text says 'trash 5 cards from the top of your deck' — this is not a hand discard."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0]",
+      "description": "Counter ability allows trashing 1 card from hand as cost (optional 'You may'), but DSL shows it as mandatory action. Should indicate this is optional/cost action."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-096",
+    "effectText": "[Main] You may rest 1 of your DON!! cards: If your Leader has the {Straw Hat Crew} type, trash 5 cards from the top of your deck. [Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Straw Hat Crew"
+        },
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 5,
+            "fromTop": true
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "filter": {},
+            "optional": true
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:29:24.170Z"
+}

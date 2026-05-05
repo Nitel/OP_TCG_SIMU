@@ -1,0 +1,53 @@
+{
+  "id": "OP10-081",
+  "name": "Usopp",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].type",
+      "description": "TrashFromHand is incorrect. Text states 'trash 2 cards from the top of your deck', which means trash from deck, not hand. Should be a deck trash action or similar mechanism."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is mandatory in DSL but text says 'You may rest' — condition should reflect optional nature or action should have optional flag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "KO action is presented as mandatory but follows optional 'may rest' — sequencing logic unclear. If rest is declined, KO should not trigger."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "subType": "Dressrosa"
+            },
+            "optional": true
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            },
+            "maxCount": 1
+          },
+          {
+            "type": "TrashFromDeck",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:37:06.043Z"
+}

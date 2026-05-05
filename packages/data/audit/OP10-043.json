@@ -1,0 +1,62 @@
+{
+  "id": "OP10-043",
+  "name": "Moocy",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'Rest' not 'RevealFromHand'. The effect requires resting a Dressrosa Leader or Stage card as a cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should include both 'Leader' and 'Stage' cardTypes: [\"Leader\", \"Stage\"]. Currently only specifies Stage."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope should be 'YourCharacters' not 'ChooseOwnCharacter'. Also subType filter should be 'Monkey.D.Luffy'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Duration 'EndOfTurn' is correct for '[during this turn]' phrasing, but confirm this is your turn context."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 1,
+            "filter": {
+              "cardTypes": [
+                "Leader",
+                "Stage"
+              ],
+              "subType": "Dressrosa"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "GiveKeyword",
+                "count": 1,
+                "keyword": "Banish",
+                "target": {
+                  "scope": "YourCharacters",
+                  "subType": "Monkey.D.Luffy"
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:10.740Z"
+}

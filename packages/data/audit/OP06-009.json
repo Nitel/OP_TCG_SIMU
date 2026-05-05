@@ -1,0 +1,74 @@
+{
+  "id": "OP06-009",
+  "name": "Shuraiya",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost with amount=0 does not represent 'base power becomes same as opponent's Leader'. Requires custom action type or metadata to track opponent Leader power dynamically."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the start of your next turn', which should be 'UntilStartOfNextTurn' (or equivalent). 'EndOfTurn' ends too early."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing Blocker passive effect entirely. Card text begins with '[Blocker]' passive ability (after opponent declares attack, rest to redirect), which is not modeled in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Once Per Turn]' restriction. Both triggers should include condition or metadata enforcing this limit per turn."
+    }
+  ],
+  "suggestedDsl": {
+    "blocker": true,
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 0,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "UntilStartOfNextTurn",
+            "metadata": {
+              "baseMatchesOpponentLeaderPower": true,
+              "oncePerTurn": true
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnBlock",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 0,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "UntilStartOfNextTurn",
+            "metadata": {
+              "baseMatchesOpponentLeaderPower": true,
+              "oncePerTurn": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:53:51.814Z"
+}

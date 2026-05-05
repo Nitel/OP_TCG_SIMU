@@ -1,0 +1,56 @@
+{
+  "id": "OP03-117",
+  "name": "Napoleon",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'UntilStartOfYourNextTurn' not 'EndOfTurn'. Card text says 'until the start of your next turn', which is a specific duration different from end-of-turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should specify 'HasCardName: Charlotte Linlin' condition. Card text restricts to '[Charlotte Linlin]' cards only, not any character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained and appears erroneous. No card text supports automatic self-play. This effect should be removed."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may rest this Character: Up to 1 of your [Charlotte Linlin] cards gains +1000 power until the start of your next turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "conditions": [
+                {
+                  "type": "HasCardName",
+                  "value": "Charlotte Linlin"
+                }
+              ],
+              "maxTargets": 1
+            },
+            "duration": "UntilStartOfYourNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:01.786Z"
+}

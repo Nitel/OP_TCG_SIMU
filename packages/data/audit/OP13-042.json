@@ -1,0 +1,61 @@
+{
+  "id": "OP13-042",
+  "name": "Edward.Newgate",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "AttachDon for Leader should specify 'up to 2' via optional count or maxCount field; current structure unclear if mandatory or optional"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[3]",
+      "description": "Second AttachDon action targets 'ChooseOwnCharacter' but should target exactly 1 Character (not Leader). Scope may be imprecise; should clarify exclusion of Leader from character selection"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[2] & effects[0].actions[3]",
+      "description": "Both AttachDon actions use 'count':2 but card text says 'up to 2'. Should use optional/maxCount semantics to reflect optional nature"
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP13-042",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          },
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "optional": true,
+            "target": {
+              "scope": "OwnLeader"
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "optional": true,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "excludeLeader": true,
+              "maxTargets": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:01:33.742Z"
+}

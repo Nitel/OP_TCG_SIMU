@@ -1,0 +1,49 @@
+{
+  "id": "OP07-006",
+  "name": "Sterry",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which means the effect lasts only while it's your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing optional condition. 'You may' indicates this should be optional/conditional. Current DSL shows all actions as mandatory."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP07-006",
+    "effectText": "[On Play] You may give your 1 active Leader −5000 power during this turn: Draw 1 card and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "optional": true,
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -5000,
+            "target": {
+              "scope": "OwnLeader",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:02:49.239Z"
+}

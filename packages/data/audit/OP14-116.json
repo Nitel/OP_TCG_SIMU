@@ -1,0 +1,45 @@
+{
+  "id": "OP14-116",
+  "name": "Salamander",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter must allow both {Amazon Lily} OR {Kuja Pirates} types, but only specifies 'Amazon Lily'. Should use 'subTypes' (array) or separate condition logic to match 'Amazon Lily' OR 'Kuja Pirates'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action has no basis in card text. The effect should only contain the PowerBoost and PlayFromHand actions. This DrawCard is erroneous and must be removed."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxCount": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PlayFromHand",
+        "maxCount": 1,
+        "filter": {
+          "cardType": "Character",
+          "subTypes": [
+            "Amazon Lily",
+            "Kuja Pirates"
+          ],
+          "maxCost": 4
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:19:09.181Z"
+}

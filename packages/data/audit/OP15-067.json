@@ -1,0 +1,56 @@
+{
+  "id": "OP15-067",
+  "name": "Shura",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' with count ≤6, not 'HasRestingDon' with count 0. The card text says 'if you have 6 or less DON!! cards on your field' which refers to attached DON!!, not resting DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent', not 'EndOfTurn'. The Rush effect is a passive static ability (no turn-based expiration stated in text), not a temporary one-turn effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Second effect is missing the 'DON!! −1' cost condition. The '[On Play]' ability requires paying 1 DON!! to activate, which should be represented as a condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 6
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:27:06.038Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "OP14-025",
+  "name": "Kuro",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard'. The effect checks if your Leader IS Kuro, not if Kuro is on board."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Kuro"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "East Blue",
+          "cardType": "Character",
+          "maxCost": 6
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:12:02.848Z"
+}

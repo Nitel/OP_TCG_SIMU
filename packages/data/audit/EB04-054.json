@@ -1,0 +1,20 @@
+{
+  "id": "EB04-054",
+  "name": "Bartholomew Kuma",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'TurnCount' is incorrect. Text says 'If you have 2 or less Life cards' which checks your current Life card count, not turn count. Should use a condition that checks Life total (no standard condition matches this exactly, but this is a static check, not a trigger condition). The DSL structure doesn't support life-count conditions; this requires clarification of intent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action type 'FlipLife' is incorrect for [On K.O.]. The effect states 'Add up to 1 card from the top of your opponent's Life cards to the owner's hand'. This should be a card draw/retrieval from opponent's Life zone to owner's hand. FlipLife is the wrong action type entirely. This should likely be a custom action or clarified as there is no standard action for 'steal from opponent Life pile to hand'."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:21:21.669Z"
+}

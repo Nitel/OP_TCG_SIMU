@@ -1,0 +1,46 @@
+{
+  "id": "OP09-078",
+  "name": "Gum-Gum Giant",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have a condition checking if Leader has {Straw Hat Crew} type before the PowerBoost is applied. The condition 'If your Leader has the {Straw Hat Crew} type' must gate the power boost, not be implicit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PowerBoost target scope is incorrect. The card states 'up to 1 of your Leader or Character cards', meaning the player chooses which single card (Leader OR one Character), not that all can be boosted. Target should reflect this choice constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrOneCharacter"
+            },
+            "duration": "EndOfBattle",
+            "condition": {
+              "type": "LeaderHasType",
+              "value": "Straw Hat Crew"
+            }
+          },
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:27:43.565Z"
+}

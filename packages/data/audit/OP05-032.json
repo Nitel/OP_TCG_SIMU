@@ -1,0 +1,68 @@
+{
+  "id": "OP05-032",
+  "name": "Pica",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "[End of Your Turn] trigger should be 'EndOfTurn', not 'Activated'. 'Activated' is for cost-based abilities (①)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect: the replacement/prevention ability '[Once Per Turn] If this Character would be K.O.'d, you may rest up to 1 of your Characters with a cost of 3 or more other than [Pica] instead.' This is a Counter trigger, not covered by the single Rest effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'Rest' should target the Character itself to 'set active' — clarify whether this means Rest (flip to active) or another state change. Current DSL only shows one Rest action without cost payment mechanism."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing cost (①) in the first effect definition. The ability has a pay cost that should be represented."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] ①: Set this Character as active.\n[Once Per Turn] If this Character would be K.O.'d, you may rest up to 1 of your Characters with a cost of 3 or more other than [Pica] instead.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "cost": 1,
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "YourCharacters",
+              "filter": {
+                "costMin": 3,
+                "excludeNames": [
+                  "Pica"
+                ]
+              },
+              "count": 1,
+              "optional": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:46:37.685Z"
+}

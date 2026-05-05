@@ -1,0 +1,69 @@
+{
+  "id": "OP15-026",
+  "name": "Jango",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete. Must specify: (1) look at 3 cards from top of deck, (2) filter for {East Blue} type, (3) reveal up to 1 card, (4) add to hand, (5) place rest at bottom in any order. Current DSL lacks the 'look' mechanic, proper filtering, the 'reveal' step, and the 'place at bottom' step."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Activated action is completely wrong. Text says 'trash this Character' as cost (condition), then 'Give up to 1 of your opponent's rested DON!! cards to 1 of your opponent's Characters'. DSL uses AttachDon which adds DON to own cards, not gives opponent's rested DON to opponent's characters. Should use GiveDon or similar action targeting opponent's rested DON cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Activated trigger needs a cost condition: trashing this Character is a payment, not just an activation. DSL should reflect the trash cost."
+    }
+  ],
+  "suggestedDsl": {
+    "cardName": "OP15-026",
+    "effectText": "[On Play] Look at 3 cards from the top of your deck; reveal up to 1 {East Blue} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Activate: Main] You may trash this Character: Give up to 1 of your opponent's rested DON!! cards to 1 of your opponent's Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "filter": {
+              "kind": "Type",
+              "value": "East Blue"
+            },
+            "reveal": 1,
+            "destination": "hand",
+            "remainderDestination": "bottom",
+            "remainderOrder": "any"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "cost": {
+          "type": "TrashSelf"
+        },
+        "optional": true,
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "source": "OpponentRestingDon",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:24:00.145Z"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ST03-013_r1",
+  "name": "Boa Hancock",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not a valid trigger type. Blocker activates on 'OnAttacked' (after opponent declares attack)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker requires 'Rest' action (rest this card to redirect attack). No card play occurs."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to check if card is on board and unblocked. Missing targetType specification (should target this card for resting)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "targetType": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:23.789Z"
+}

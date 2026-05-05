@@ -1,0 +1,50 @@
+{
+  "id": "OP06-034",
+  "name": "Hyouzou",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing 'count' property. Should be 'count':1 to represent 'up to 1'. Current DSL allows unlimited Rests."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest target should include 'maxCount':1 to enforce 'up to 1' limit on selection."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-034",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:55:46.313Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "ST01-004",
+  "name": "Sanji",
+  "set": "ST-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. This is a passive effect that occurs when the card enters play, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. Rush keyword persists for the lifetime of the character, not just until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' is incorrect. The cost '[DON!! x2]' is a play cost, not an ongoing condition. This should be removed; the cost is handled separately in card metadata, not in the DSL effect condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:54:13.231Z"
+}

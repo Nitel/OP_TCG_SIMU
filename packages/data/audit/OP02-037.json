@@ -1,0 +1,33 @@
+{
+  "id": "OP02-037",
+  "name": "Nico Robin",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Effect allows playing up to 1 card that is EITHER {FILM} OR {Straw Hat Crew} type, but DSL only includes FILM subtype. Missing OR condition for 'Straw Hat Crew' type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 2,
+            "subType": [
+              "FILM",
+              "Straw Hat Crew"
+            ]
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:30:46.968Z"
+}

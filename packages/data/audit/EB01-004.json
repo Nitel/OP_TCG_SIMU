@@ -1,0 +1,49 @@
+{
+  "id": "EB01-004",
+  "name": "Koza",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition on Leader being active. The effect text says 'You may give your 1 active Leader −5000 power', which means the Leader must be active to use this effect. The DSL should have a condition checking that the Leader is active.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Missing optional/cost structure. The effect uses 'You may... : Give' syntax which indicates the first power reduction is a cost to activate the second effect. The DSL should represent this as an optional cost-effect relationship, not two simultaneous actions.",
+      "field": "effects[0].actions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LeaderIsActive"
+        },
+        "cost": {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -3000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          }
+        ],
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:21.293Z"
+}

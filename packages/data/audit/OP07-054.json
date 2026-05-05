@@ -1,0 +1,35 @@
+{
+  "id": "OP07-054",
+  "name": "Marguerite",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Blocker keyword effect. The card has [Blocker] which is a static keyword ability that should be represented as a GiveKeyword action, not just in the ability text. Blocker must be encoded as a separate effect or included in the DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:06:28.850Z"
+}

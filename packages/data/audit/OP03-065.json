@@ -1,0 +1,26 @@
+{
+  "id": "OP03-065",
+  "name": "Chimney &amp; Gonbe",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from DSL. The card has Blocker text that should be represented as an effect with Counter trigger and appropriate mechanics."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:31.641Z"
+}

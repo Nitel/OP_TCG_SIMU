@@ -1,0 +1,68 @@
+{
+  "id": "ST05-017",
+  "name": "Union Armada",
+  "set": "ST-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Target scope incorrect: should be {FILM} type Leader or Character only, not all own characters. Current scope 'ChooseOwnCharacterOrLeader' has no type filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (GiveDon) is completely unrelated to card text. Card text contains no Don mechanic. This appears to be erroneous data."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing conditional effect: 'If that card is a Character, that Character cannot be K.O.'d during this turn' is not represented in DSL. Requires second effect with condition checking if target is Character type, then preventing KO during turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for power boost, but the protection effect should have duration 'DuringYourTurn' (cannot be KO'd during this turn)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filters": [
+              {
+                "type": "HasCardType",
+                "value": "FILM"
+              }
+            ]
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "LastTargetIsCharacter"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOd",
+          "target": {
+            "scope": "LastTargetedCard"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:59:53.851Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP10-079",
+  "name": "God Thread",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action is incomplete. 'add up to 1 DON!! card from your DON!! deck and set it as active' requires specifying source='Deck' and the action should reflect adding/setting active, not just giving DON. Standard practice: use GiveDon with source context or clarify the mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate 'Trigger' effect with identical GiveDon action appears to be erroneous. The card text describes a single effect chain (K.O., then add DON), not two separate triggers. The second effect should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "Deck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:36:56.666Z"
+}

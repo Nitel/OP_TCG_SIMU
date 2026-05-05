@@ -1,0 +1,40 @@
+{
+  "id": "OP03-083",
+  "name": "Corgy",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant On Play effect but effects array is empty. Must include: Look at 5 cards from deck, trash up to 2, place rest at bottom in any order."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "reveal": true,
+            "destination": "Hand"
+          },
+          {
+            "type": "ForceDiscard",
+            "count": "up to 2",
+            "source": "Hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "destination": "DeckBottom",
+            "order": "any"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:07.200Z"
+}

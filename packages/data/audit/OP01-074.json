@@ -1,0 +1,37 @@
+{
+  "id": "OP01-074",
+  "name": "Bartholomew Kuma",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing Blocker keyword effect. Card text states '[Blocker]' which must be represented as a separate effect with trigger 'Trigger' and action 'GiveKeyword' with value 'Blocker', not omitted entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Pacifista",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:06.594Z"
+}

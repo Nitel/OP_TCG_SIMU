@@ -1,0 +1,39 @@
+{
+  "id": "OP15-090",
+  "name": "Perona",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a conditional replacement effect that should prevent removal and trash a hand card instead. Missing trigger, condition, and actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": {
+            "basePower": "≤7000"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": "OwnHand",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemoved"
+        }
+      ],
+      "duration": "DuringOpponentTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:28:53.561Z"
+}

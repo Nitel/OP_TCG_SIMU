@@ -1,0 +1,37 @@
+{
+  "id": "ST10-008",
+  "name": "Shachi &amp; Penguin",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: effect requires 'HasAttachedDon' with count ≤3 to trigger. Current condition is 'Always', which ignores the 3-or-less DON requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type incorrect: 'GiveDon' adds DON to leader. Effect requires 'AttachDon' to attach DON from deck to field. Also missing 'Rest' action applied to attached DON."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 3,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 2,
+        "source": "DONDeck"
+      },
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:11.356Z"
+}

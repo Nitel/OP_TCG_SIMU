@@ -1,0 +1,45 @@
+{
+  "id": "OP08-115",
+  "name": "The Earth Will Not Lose!",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second action 'PlayFromHand' lacks required 'count' field. Should be count:1 to match 'up to 1 [Upper Yard]'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Spurious second effect with trigger 'Trigger' and unrelated actions (DrawCard, TrashFromHand). No such effect exists in card text. This entire effect must be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Shandian Warrior"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Upper Yard"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:33:02.283Z"
+}

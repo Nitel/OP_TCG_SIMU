@@ -1,0 +1,52 @@
+{
+  "id": "OP10-074",
+  "name": "Pica",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty but card has significant text describing a Counter effect that prevents K.O. and rests DON cards instead"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing Counter trigger for 'If this Character would be K.O.'d'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to verify opponent's effect is causing the K.O."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing Rest action targeting 2 active DON cards; missing implicit prevention of K.O."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].limit",
+      "description": "Missing 'Once Per Turn' frequency limit"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Once Per Turn] If this Character would be K.O.'d by your opponent's effect, you may rest 2 of your active DON!! cards instead.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "ActiveDONCards",
+            "count": 2
+          }
+        ],
+        "limit": "OncePerTurn",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:36:33.167Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "OP01-035",
+  "name": "Okiku",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition uses 'HasRestingDon' but card text states '[DON!! x1]' which means the card itself requires 1 DON attached. Should use 'HasAttachedDon' with count:1 on the card itself, not a resting DON check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incomplete. The card text specifies 'up to 1', so maxCount:1 must be added to the target object to enforce the 'up to 1' limit."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] [Once Per Turn] Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:00.094Z"
+}

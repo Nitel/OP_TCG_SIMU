@@ -1,0 +1,51 @@
+{
+  "id": "EB03-017",
+  "name": "Jewelry Bonney",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The condition 'HasCardOnBoard' with name 'Supernovas' is incorrect. It should use 'LeaderHasType' to check if the leader has the {Supernovas} type.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "The second action is 'Rest' but the effect text says 'cannot be rested until the end of your opponent's next End Phase', which means it should give a keyword/status that prevents resting, not rest the character itself.",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing target count specification. The effect says 'up to 1 of your opponent's Characters', so the target should have count: 1.",
+      "field": "effects[0].actions[1].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "leaderType": "Supernovas"
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeRested",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 8,
+              "count": 1
+            },
+            "duration": "UntilEndOfOpponentNextEndPhase"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:46.680Z"
+}

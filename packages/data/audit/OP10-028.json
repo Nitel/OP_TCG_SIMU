@@ -1,0 +1,50 @@
+{
+  "id": "OP10-028",
+  "name": "Kouzuki Momonosuke",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition for cost requirement: Must rest 2 DON!! cards and trash this Character. DSL lacks cost modeling."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) Look at top 5 cards (not generic deck search), (2) Filter for {The Akazaya Nine} type, (3) Reveal up to 2 cards, (4) Add to hand, (5) Place rest at bottom in any order. Current filter 'Any' is wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck is insufficient for this multi-step effect. Requires custom DSL structure to model: peek top 5, filter type, reveal up to 2, hand, reorder remainder to bottom."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP10-028",
+    "effectText": "[Activate: Main] You may rest 2 of your DON!! cards and trash this Character: Look at 5 cards from the top of your deck; reveal up to 2 {The Akazaya Nine} type cards and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "restDon": 2,
+          "trashSelf": true
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookAtCount": 5,
+            "filter": {
+              "kind": "Type",
+              "value": "The Akazaya Nine"
+            },
+            "maxReveal": 2,
+            "destination": "hand",
+            "remainderPlacement": "bottom_any_order"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:02.230Z"
+}

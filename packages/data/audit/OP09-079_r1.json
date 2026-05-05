@@ -1,0 +1,47 @@
+{
+  "id": "OP09-079_r1",
+  "name": "Gum-Gum Jump Rope",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect trigger should be 'Activated' (correct) but is missing the cost specification. The DSL does not encode the 'DON!! −2' cost mechanism. The card uses Main phase activation with DON cost, which should be represented in the cost field, not as a separate Trigger action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'GiveDon' is not supported by the card text. There is no effect that grants DON!!. This appears to be erroneous."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action target uses 'ChooseOpponentCharacter' but the card specifies 'up to 1', meaning this is optional. The maxCost constraint of 5 is correct, but optionality may not be properly encoded."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "DON",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "max": 1
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:47:16.362Z"
+}

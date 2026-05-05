@@ -1,0 +1,53 @@
+{
+  "id": "OP04-084",
+  "name": "Stussy",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing filter conditions: must specify Character type requirement (includes 'CP'), must exclude [Stussy], and must specify 'look at 3 cards' mechanic with trash remainder. Current filter only checks cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter lacks type constraint. Must include condition for Character cards with type including 'CP' AND exclusion of [Stussy]."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action to trash remaining cards after selection. The effect requires viewing top 3, playing up to 1 qualifying card, then trashing the rest."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "Character"
+            ],
+            "includesType": "CP",
+            "excludesName": [
+              "Stussy"
+            ],
+            "maxCost": 2
+          },
+          "destination": "board",
+          "maxCount": 1,
+          "lookAtCount": 3
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "deck",
+          "count": "remaining"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:20.977Z"
+}

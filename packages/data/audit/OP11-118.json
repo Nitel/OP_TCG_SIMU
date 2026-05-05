@@ -1,0 +1,59 @@
+{
+  "id": "OP11-118",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have 'optional:true' — card text says 'You may trash 1 card', making this a player choice"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target.scope",
+      "description": "Target scope 'ChooseOpponentCharacter' is incorrect — effect returns opponent's Character to owner's hand, not your own. Should be 'ChooseOpponentCharacter' but the maxCost filter applies to opponent's board. Scope is correct but semantically the action ReturnToHand on opponent character needs clarification in target definition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].target",
+      "description": "Target filter incomplete — effect specifies 'rested DON!! card', but current target lacks filter for rested state. Should include condition or filter: {'hasRestingDon':true} or similar state check"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "count": 1,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "count": 1,
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 4
+                }
+              },
+              {
+                "type": "AttachDon",
+                "count": 1,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "filter": {
+                    "isResting": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:12.511Z"
+}

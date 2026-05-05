@@ -1,0 +1,63 @@
+{
+  "id": "OP08-054",
+  "name": "You Can't Take Our King This Early in the Game.",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) reveal 1 card from top of deck, (2) play up to 1 Character with type 'Whitebeard Pirates' and cost ≤3, (3) place rest at top or bottom of deck. Current DSL lacks filter for type and cost, lacks the reveal mechanic, and lacks placement choice for non-played cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' or 'UntilEndOfBattle', not 'EndOfBattle'. The power boost applies specifically during the current battle resolution."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specification incomplete. Should clarify 'up to 1' with proper targeting constraints (max 1 target)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-054",
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +3000 power during this battle. Then, reveal 1 card from the top of your deck and play up to 1 Character card with a type including \"Whitebeard Pirates\" and a cost of 3 or less. Then, place the rest at the top or bottom of your deck.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "max": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "RevealFromDeck",
+            "amount": 1,
+            "then": {
+              "type": "PlayFromHand",
+              "filter": {
+                "type": "Whitebeard Pirates",
+                "maxCost": 3,
+                "cardType": "Character"
+              },
+              "max": 1,
+              "destination": "board"
+            }
+          },
+          {
+            "type": "PlaceOnDeck",
+            "source": "revealed",
+            "position": "TopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:22.208Z"
+}

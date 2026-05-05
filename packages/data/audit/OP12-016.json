@@ -1,0 +1,65 @@
+{
+  "id": "OP12-016",
+  "name": "To Never Doubt--That Is Power!",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Main effect missing conditional action. Text states 'Your opponent cannot activate [Blocker]' during attack, but DSL only attaches DON. Requires second action with GiveKeyword or custom mechanic to prevent Blocker activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action lacks required condition/duration link. Text implies DON attachment grants the Blocker-prevention effect for 'during this turn' when that card attacks—duration should be 'DuringYourTurn' or conditional on attack trigger."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is non-standard; should be 'ChooseOwnCharacter' with subType filter, or clarify if leader can gain power. Text says 'Characters or [Silvers Rayleigh]' (implies character type only)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may give 2 active DON!! cards to 1 of your [Silvers Rayleigh]: Your opponent cannot activate [Blocker] when the card given these DON!! cards attacks during this turn.\n[Counter] Up to 1 of your Characters or [Silvers Rayleigh] gains +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Silvers Rayleigh"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "BlockerCantActivate",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Silvers Rayleigh"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Silvers Rayleigh"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:28.583Z"
+}

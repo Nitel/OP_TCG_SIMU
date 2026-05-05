@@ -1,0 +1,49 @@
+{
+  "id": "OP07-017_r1",
+  "name": "Dragon Breath",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "First KO action targets Character with 3000 power or less, but DSL missing 'maxPower':3000 constraint OR constraint is present but second action is wrong"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second KO action targets opponent Character, but card text specifies opponent's Stage with cost 1 or less. Wrong card type entirely (Stage ≠ Character)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "Should target Stage, not Character. Scope should be 'ChooseOpponentStage' with 'maxCost':1"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 3000,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentStage",
+              "maxCost": 1,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:11.108Z"
+}

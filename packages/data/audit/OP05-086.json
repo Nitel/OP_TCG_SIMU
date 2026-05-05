@@ -1,0 +1,39 @@
+{
+  "id": "OP05-086",
+  "name": "Nefeltari Vivi",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (static ability), not 'OnBlock'. This is a conditional static effect that checks trash count at start of game/when trash changes, not an event trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'TrashCount' with a value check (>= 10), not 'Always'. The effect only applies when trash has 10+ cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "value": 10,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:50.175Z"
+}

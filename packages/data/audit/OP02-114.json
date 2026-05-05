@@ -1,0 +1,79 @@
+{
+  "id": "OP02-114",
+  "name": "Borsalino",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing effect for 'cannot be K.O.'d by effects' protection. DSL only includes PowerBoost but card has two distinct effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (when opponent attacks during opponent's turn), not 'Activated'. '[Opponent's Turn]' modifier indicates conditional timing during opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'Permanent' is incorrect. Text '[Opponent's Turn]' indicates effect applies only during opponent's turn, should be duration:'DuringOpponentTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing [Blocker] keyword effect. Card grants Blocker keyword which must be represented as a separate effect with GiveKeyword action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOByEffects",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:31.883Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP09-039",
+  "name": "Gum-Gum Cuatro Jet Cross Shock Bazooka",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing required condition: 'you have 2 or more rested Characters' is not represented. Current condition only checks LeaderHasType ODYSSEY."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous effect detected: second trigger with KO action has no basis in card text. Card only describes one effect (power boost). This entire effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incorrect: 'ChooseOwnCharacterOrLeader' allows selection of any owned character/leader, but text specifies 'up to 1 of your Leader or Character cards' — should be 'ChooseOwnLeaderOrCharacter' with maxTargets:1 constraint explicitly applied."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "ODYSSEY",
+        "all": [
+          {
+            "type": "HasCardOnBoard",
+            "cardType": "Character",
+            "status": "Rested",
+            "minCount": 2
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringThisTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:28:23.696Z"
+}

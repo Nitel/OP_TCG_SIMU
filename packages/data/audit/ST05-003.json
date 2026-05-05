@@ -1,0 +1,31 @@
+{
+  "id": "ST05-003",
+  "name": "Ann",
+  "set": "ST-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is missing. Card text describes the Blocker mechanic which must be represented as an effect with trigger OnAttacked, condition Always, and action GiveKeyword with 'Blocker' value."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:58:54.458Z"
+}

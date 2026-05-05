@@ -1,0 +1,53 @@
+{
+  "id": "OP13-044",
+  "name": "Curiel",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action missing condition to filter for rested DON!! cards. Card text specifies 'Give up to 1 rested DON!! card' but DSL has no condition checking card state. Also missing type filter for 'Whitebeard Pirates'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is incomplete. Card text specifies Leader with type including 'Whitebeard Pirates' OR Character with type including 'Whitebeard Pirates'. Current target doesn't restrict by type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "conditions": [
+            {
+              "type": "HasRestingDon"
+            }
+          ],
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": {
+              "type": "HasAnyType",
+              "values": [
+                "Whitebeard Pirates"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:01:42.947Z"
+}

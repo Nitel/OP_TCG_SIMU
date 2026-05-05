@@ -1,0 +1,41 @@
+{
+  "id": "OP06-064_r1",
+  "name": "Vinsmoke Niji",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' with name 'GERMA 66', but should check if Leader has {GERMA 66} type using 'LeaderHasType' condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is 'PlayFromHand' only, but card text includes 'You may trash this Character' as a cost/requirement and allows playing from 'hand or trash' — should include both PlayFromHand and ability to play from trash, or use more specific action"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'maxCost' but card says 'with a cost of 5' (exact cost); should clarify if this means cost ≤5 or exactly 5"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "GERMA 66"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "name": "Vinsmoke Niji",
+          "maxCost": 5
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:37:29.480Z"
+}

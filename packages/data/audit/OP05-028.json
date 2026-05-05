@@ -1,0 +1,50 @@
+{
+  "id": "OP05-028",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The card effect states 'trash this Character' (the card itself on board), not from hand. Should be a self-trash action or condition, not TrashFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target missing 'rested' condition filter. Effect specifies 'rested Characters' but target only filters by maxCost. Must add rested state requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Activation cost/condition missing. '[Activate: Main]' with 'You may trash this Character' indicates conditional activation—should structure as optional self-trash triggering the KO, or add explicit cost condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may trash this Character: K.O. up to 1 of your opponent's rested Characters with a cost of 2 or less.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "hasKeyword": "Rested"
+            },
+            "optional": true,
+            "cost": [
+              {
+                "type": "TrashSelf"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:46:26.018Z"
+}

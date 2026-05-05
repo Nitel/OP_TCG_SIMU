@@ -1,0 +1,59 @@
+{
+  "id": "ST12-013",
+  "name": "Zeff",
+  "set": "ST-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects ([On Play] and [When Attacking]) but effects array is empty. Both effects must be defined in DSL."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "[On Play] effect missing: Should trigger on play, allow viewing 3 cards from top of deck, and allow placement at top or bottom in any order."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "[When Attacking] effect missing: Should trigger on attack, reveal 1 card from top of deck, play up to 1 Character with cost 2 rested, and place remainder at top or bottom."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "filter": "top",
+            "description": "Look at 3 cards from top of deck and arrange in any order at top or bottom"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "count": 1,
+            "filter": "top",
+            "description": "Reveal 1 card from top of deck"
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": "Character with cost 2",
+            "restCondition": true,
+            "description": "Play up to 1 Character card with cost 2 rested"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:07:14.368Z"
+}

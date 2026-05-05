@@ -1,0 +1,77 @@
+{
+  "id": "ST11-002",
+  "name": "Uta",
+  "set": "ST-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Blocker ability trigger should be 'Counter' (activated in response to opponent's attack declaration), not 'OnBlock'. OnBlock is a passive state descriptor, not a trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second ability triggers at end of your turn, not on play. Trigger should be 'EndOfTurn', not 'OnPlay'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action should be 'ForceDiscard' (trashing from hand), not 'Rest'. Rest is applied to the character, not the event card being discarded."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0]",
+      "description": "The thenAction should set a character as active (likely 'GiveKeyword' with 'active' or a state change), not 'Rest'. Resting and activating are opposite states."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[0].target",
+      "description": "Target filter should specify FILM type characters with 'filter:{\"characterType\":\"FILM\"}', not maxCost constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "active",
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "filter": {
+                  "characterType": "FILM"
+                },
+                "maxCount": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:06:06.441Z"
+}

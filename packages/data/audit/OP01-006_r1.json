@@ -1,0 +1,37 @@
+{
+  "id": "OP01-006_r1",
+  "name": "Otama",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates duration should be 'DuringYourTurn', not 'EndOfTurn'. 'During this turn' means the effect lasts through the current turn phase; 'EndOfTurn' would clear it at end of turn but doesn't capture the 'during' semantics correctly."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target should specify 'up to 1' character. Current scope 'ChooseOpponentCharacter' does not enforce the 'up to 1' limit; should be 'ChooseUpTo1OpponentCharacter' or equivalent."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-006_r1",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseUpTo1OpponentCharacter"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:31:15.780Z"
+}

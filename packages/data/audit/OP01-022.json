@@ -1,0 +1,37 @@
+{
+  "id": "OP01-022",
+  "name": "Brook",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be limited to 'up to 2' opponent Characters, but DSL targets all opponent Characters with AllOpponentCharacters scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Card text states 'during this turn', which requires duration:'DuringYourTurn' to represent the active effect window (not carry-over to end)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentCharacters",
+          "count": 2
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:40.364Z"
+}

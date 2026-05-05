@@ -1,0 +1,53 @@
+{
+  "id": "OP07-114_r1",
+  "name": "He Possesses the World's Most Brilliant Mind",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action missing required filter for card type (Egghead) and card name exclusion (He Possesses the World's Most Brilliant Mind)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck should specify max 1 card revealed from top 5 of deck; filter.kind should be 'Type' with value 'Egghead' and exclusion for specific card name"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard is incorrect; card text describes placing remaining cards at bottom of deck in any order, not drawing a card"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "DrawCard action should not exist; remaining cards should be returned to bottom of deck via ReturnToHand or equivalent ordering mechanic"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Egghead",
+            "exclude": "He Possesses the World's Most Brilliant Mind"
+          },
+          "destination": "hand",
+          "count": 1,
+          "searchScope": 5
+        },
+        {
+          "type": "ReturnToHand",
+          "source": "deck",
+          "position": "bottom",
+          "orderableByPlayer": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:05.229Z"
+}

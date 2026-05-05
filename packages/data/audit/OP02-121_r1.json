@@ -1,0 +1,50 @@
+{
+  "id": "OP02-121_r1",
+  "name": "Kuzan",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing entire first effect: '[Your Turn] Give all of your opponent's Characters −5 cost.' DSL only contains OnPlay effect, lacks the persistent duration effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'maxCount':1 to represent 'up to 1', but more critically the first effect is completely missing."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] Give all of your opponent's Characters −5 cost. [On Play] K.O. up to 1 of your opponent's Characters with a cost of 0.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": {
+              "scope": "AllOpponentCharacters"
+            },
+            "power": -5
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 0
+            },
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:03.941Z"
+}

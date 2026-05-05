@@ -1,0 +1,64 @@
+{
+  "id": "OP09-104",
+  "name": "Sabo",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'PlayFromHand' is incorrect. The effect adds a card to the top of Life cards face-up, which is 'AttachDon' (not playing it). Should attach to Life pile, not play to board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'FlipLife' with count 1 is incorrect. This action flips Life cards; the effect requires adding a card FROM Life cards TO hand. Should be a custom Life-to-hand action or documented differently."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect trigger 'Trigger' is vague and unconditional. Should be conditional on 'HasCardOnBoard' or similar check for '2 or more Life cards' condition. The DrawCard action also uses count:2 but effect says 'add 1 card'—count should be 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].count",
+      "description": "DrawCard count is 2, but effect text specifies 'add 1 card from...Life cards to your hand'. Should be count:1."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Add up to 1 {Revolutionary Army} type Character card from your hand to the top of your Life cards face-up. Then, if you have 2 or more Life cards, add 1 card from the top or bottom of your Life cards to your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "subType": "Revolutionary Army",
+              "cardType": "Character"
+            },
+            "count": 1,
+            "location": "hand",
+            "destination": "lifeCards"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 2
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "location": "lifeCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:29:48.876Z"
+}

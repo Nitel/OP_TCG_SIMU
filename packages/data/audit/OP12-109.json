@@ -1,0 +1,20 @@
+{
+  "id": "OP12-109",
+  "name": "Pacifista",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not valid. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Trigger, Activated, StartOfTurn, EndOfTurn. If 'Trigger' is intended as a generic trigger, the actual trigger type (e.g., OnPlay, Activated) must be specified based on card effect text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'FlipLife' requires clarification: FlipLife typically means converting life to hand. Verify this matches the official card text. If the effect is to gain/lose life, use AddLife or RemoveLife instead."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:57:39.445Z"
+}

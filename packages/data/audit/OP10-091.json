@@ -1,0 +1,66 @@
+{
+  "id": "OP10-091",
+  "name": "Brook",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is missing required target specification. Should rest both 'this Character' AND '1 of your {Dressrosa} type Leader or Stage cards' — currently only targets Self implicitly"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash 2 cards from the top of your deck' — should be 'TrashDeck' or similar deck-trash action, not hand trash"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost/condition: activation requires resting both 'this Character' and '1 of your {Dressrosa} type Leader or Stage cards' as a prerequisite condition, not just as an action result"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "scope": "OwnLeaderOrStage",
+            "hasType": "Dressrosa"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeaderOrStage",
+            "hasType": "Dressrosa",
+            "count": 1
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "count": 1
+          }
+        },
+        {
+          "type": "TrashDeck",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:54.487Z"
+}

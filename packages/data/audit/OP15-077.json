@@ -1,0 +1,25 @@
+{
+  "id": "OP15-077",
+  "name": "Lightning Dragon",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'Rest' is incorrect. The card prevents rested Characters from becoming active during opponent's next Refresh Phase, which requires a conditional effect that blocks activation. 'Rest' would put active Characters to rest, not prevent rested ones from activating. Should use a conditional action or keyword-blocking mechanism not currently available in standard DSL, or the effect needs restructuring to represent this as a duration-based prevention."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope is incomplete. The effect specifies 'up to 1 of your opponent's RESTED Characters' but the DSL target only filters by maxPower. Must add condition that target must already be rested: scope should be 'ChooseOpponentCharacter' with an additional requirement for rested state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration specification. Effect states 'will not become active in your opponent's next Refresh Phase' — this is a temporary duration effect lasting until opponent's next Refresh Phase, not a permanent or immediate effect. Requires duration field specifying the timeline."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:27:52.199Z"
+}

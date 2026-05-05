@@ -1,0 +1,43 @@
+{
+  "id": "OP01-120_r1",
+  "name": "Shanks",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect prevents opponent from activating Blockers, not resting them. Should use a blocking/prevention mechanic or condition-based approach. 'Rest' does not match the card text which states 'cannot activate'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration specification. The effect applies 'during this battle' only, which should be duration:'DuringThisBattle' or similar battle-scoped duration, not permanent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target incorrectly specified as generic opponent characters. Should target specifically [Blocker] type characters with 2000 or less power (needs type condition)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Your opponent cannot activate a [Blocker] Character that has 2000 or less power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringThisBattle",
+        "actions": [
+          {
+            "type": "PreventBlockerActivation",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "hasType": "Blocker",
+              "maxPower": 2000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:05.784Z"
+}

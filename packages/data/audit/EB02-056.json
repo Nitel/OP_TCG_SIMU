@@ -1,0 +1,66 @@
+{
+  "id": "EB02-056",
+  "name": "Vegapunk",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is incomplete: missing type filter for {Scientist} and exclusion of [Vegapunk]. The filter only checks cost ≤5 but should also require type=Scientist and name≠Vegapunk.",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck is missing the look at 5 cards mechanic and placing rest at bottom of deck in any order. Current action implies searching entire deck.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "TrashFromHand action is missing the conditional requirement 'if your opponent has 2 or less Characters'. This should be wrapped in a condition or part of a conditional action.",
+      "field": "effects[0].actions[1]"
+    },
+    {
+      "severity": "critical",
+      "description": "Spurious effect with trigger 'Trigger' that draws 1 card. The official text mentions [Blocker] keyword but no trigger effect that draws cards. This entire effect should not exist.",
+      "field": "effects[1]"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing [Blocker] keyword encoding. While this is typically a card attribute rather than an effect, it should be represented if the DSL schema supports it.",
+      "field": "keywords or card attributes"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "filter": {
+              "kind": "ByTypeAndCost",
+              "type": "Scientist",
+              "maxCost": 5,
+              "excludeName": "Vegapunk"
+            },
+            "destination": "board",
+            "optional": true,
+            "limit": 1,
+            "restToBottom": true
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "condition": {
+              "type": "OpponentCharacterCount",
+              "maxCount": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:16.080Z"
+}

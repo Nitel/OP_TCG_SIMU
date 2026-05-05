@@ -1,0 +1,35 @@
+{
+  "id": "ST04-001",
+  "name": "Kaido",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type should be 'ForceDiscard' (trash opponent's Life cards from hand), not 'RemoveLife' (damage). 'Trash' in card text refers to discarding from hand/board, not reducing life total."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing target specification: action must target opponent with 'target' field set to indicate opponent's cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 7
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:57:34.458Z"
+}

@@ -1,0 +1,81 @@
+{
+  "id": "PRB02-002",
+  "name": "Trafalgar Law",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the first effect entirely. Card has two distinct effects: (1) a reactive once-per-turn effect triggered when this Character would be removed by opponent's effect, and (2) a When Attacking effect. Only the second effect is partially represented."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "The first effect should have trigger='Counter' (reactive effect preventing removal), not 'OnAttack'. This is a replacement effect, not an attack trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to enforce 'Once Per Turn' restriction. Should include a TurnCount or equivalent mechanism to limit activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "First effect should target 'Self' (this Character receives −2000 power), not opponent's Character. Target scope is wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "First effect duration should be 'DuringYourTurn' (during this turn), not 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Second effect specifies 'up to 1' opponent Character, but target scope lacks quantity constraint. Should be 'ChooseOpponentCharacter' with maxCount:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Second effect duration should be 'DuringYourTurn' (during this turn), not 'EndOfTurn', per the text 'during this turn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "TurnCount",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:50:23.956Z"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "OP13-059",
+  "name": "Brilliant Punk",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First ReturnToHand action targets own Character but card text says 'You may return 1 of your Characters' as a cost/condition, not an effect. This should be a condition, not an action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second ReturnToHand targets opponent Character, but card text says 'Return up to 1 Character' without specifying opponent. In OPTCG context, this should target opponent's Character. However, the structure is wrong: the first return should be optional cost, second should be the main effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "DrawCard action with Trigger trigger has no justification in card text. No draw effect is mentioned in the official text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' should specify this is a Main Phase effect. Card explicitly states '[Main]' which indicates timing constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may return 1 of your Characters to the owner's hand: Return up to 1 Character with a cost of 6 or less to the owner's hand.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6,
+              "maxCount": 1
+            }
+          }
+        ],
+        "cost": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCount": 1,
+              "optional": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:02:48.016Z"
+}

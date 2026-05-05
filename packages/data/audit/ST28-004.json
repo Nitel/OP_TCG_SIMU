@@ -1,0 +1,73 @@
+{
+  "id": "ST28-004",
+  "name": "Kouzuki Momonosuke",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the first effect entirely. '[Your Turn] If you have 2 or less Life cards, your Leader gains +1000 power.' must be included as a separate effect with trigger:OnStartOfTurn, condition:LifeCount<=2, action:PowerBoost on Leader"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Activated effect requires cost specification. DSL shows only 'Activated' without cost context (returning 2 DON!! cards to cost area). Cost/payment mechanism not modeled in current DSL structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' limiting condition on the Activated ability. Condition should reflect turn-once restriction."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "LifeCount",
+        "value": 2,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Leader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "type": "ReturnDon",
+        "amount": 2
+      },
+      "limitPerTurn": 1,
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:27:02.210Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP14-091",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Action missing dual-source capability. Card text specifies 'from your hand or trash' but DSL only includes PlayFromHand. Requires two separate actions: PlayFromHand and PlayFromTrash with identical filters."
+    },
+    {
+      "severity": "minor",
+      "field": "actions[0].filter.excludeSelf",
+      "description": "excludeSelf property is non-standard. Should use explicit exclusion: excludeCards with card name/id for [Mr.2.Bon.Kurei(Bentham)]"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "subType": "Baroque Works",
+          "maxCost": 5,
+          "excludeCards": [
+            "Mr.2.Bon.Kurei(Bentham)"
+          ]
+        },
+        "amount": 1
+      },
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "cardType": "Character",
+          "subType": "Baroque Works",
+          "maxCost": 5,
+          "excludeCards": [
+            "Mr.2.Bon.Kurei(Bentham)"
+          ]
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:17:07.598Z"
+}

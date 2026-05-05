@@ -1,0 +1,63 @@
+{
+  "id": "OP05-114",
+  "name": "El Thor",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Counter effects trigger on 'Counter', not 'OnAttacked'. This is a Counter card that should respond to an attack."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing conditional check for opponent's Life cards (condition should evaluate 'if your opponent has 2 or less Life cards' before applying the second +2000 power boost)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second action is completely wrong: KO of opponent character is not mentioned in card text. This effect should be a conditional PowerBoost (+2000 additional) when opponent has ≤2 Life, not a KO."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringThisBattle' (or equivalent battle-specific duration), not 'EndOfBattle'. The power boost applies 'during this battle', which is a temporary duration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "comparison": "LessOrEqual",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "LastTargetedCharacter"
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:52:51.287Z"
+}

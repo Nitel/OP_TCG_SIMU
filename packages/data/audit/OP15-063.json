@@ -1,0 +1,52 @@
+{
+  "id": "OP15-063",
+  "name": "Gedatsu",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards attached to this card), not 'HasRestingDon' (resting DON!! on field). The effect requires spending 1 DON!! to activate."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "OnKO effect has condition 'Always', but card text specifies 'If you have 6 or less DON!! cards on your field'. Condition should check field DON!! count ≤6."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6,
+        "comparison": "<="
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000,
+            "maxTargets": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:46.610Z"
+}

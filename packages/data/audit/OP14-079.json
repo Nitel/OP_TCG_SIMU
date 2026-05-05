@@ -1,0 +1,56 @@
+{
+  "id": "OP14-079",
+  "name": "Crocodile",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PowerBoost target should be filtered to opponent's Characters only (not choice-based). Current scope 'ChooseOpponentCharacter' is correct, but the condition requiring the KO'd Character to have type 'Baroque Works' is missing entirely. The KO action has no filter for this type requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO target must filter for Characters with type 'Baroque Works'. Current scope lacks the type filter: should include {\"hasType\":\"Baroque Works\"} or equivalent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "TrashFromHand is incorrect. The effect states 'trash 2 cards from the top of your deck', which is a deck operation, not hand. Should use a different action type (e.g., TrashFromDeck or equivalent deck-mill mechanic), not TrashFromHand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "Baroque Works"
+            }
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -10,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringThisTurn"
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:23.773Z"
+}

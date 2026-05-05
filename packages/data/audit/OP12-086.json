@@ -1,0 +1,55 @@
+{
+  "id": "OP12-086",
+  "name": "Koala",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderHasType' (checking Leader type), not 'HasCardOnBoard' (checking board state)"
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) look at 3 cards mechanic, (2) filter to reveal 'up to 1 Revolutionary Army (not Koala) OR up to 1 Nico Robin', (3) trash remaining cards action"
+    },
+    {
+      "severity": "critical",
+      "field": "actions",
+      "description": "Missing ForceDiscard action to trash the remaining cards after selection"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByTypeOrName",
+          "value": [
+            {
+              "type": "Revolutionary Army",
+              "excludeName": "Koala"
+            },
+            {
+              "name": "Nico Robin"
+            }
+          ]
+        },
+        "max": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "ForceDiscard",
+        "source": "DeckTop",
+        "quantity": 2
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:52.475Z"
+}

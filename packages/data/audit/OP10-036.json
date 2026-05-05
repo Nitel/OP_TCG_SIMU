@@ -1,0 +1,40 @@
+{
+  "id": "OP10-036",
+  "name": "Perona",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText contains game mechanic but effects[] is empty. Must define trigger (OnPlay or Activated), condition (HasRestingDon), and action (GiveDon with active state). '[Your Turn]' indicates duration should be 'DuringYourTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn', not EndOfTurn or Permanent"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "HasRestingDon"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveDon",
+            "target": "YourDonCards",
+            "count": 1,
+            "state": "active"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:38.274Z"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP09-037",
+  "name": "Lim",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay effect missing SearchDeck parameters: should specify looking at 5 cards from top, filtering for {ODYSSEY} type (not [Lim]), revealing up to 1, and placing rest at bottom in any order. Current DSL has no filter logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect completely wrong: trigger is 'Activated' but text states '[End of Your Turn]' which should be 'EndOfTurn' with duration 'DuringYourTurn'. Action should be setting character as active (likely Rest=false or Active state), not Rest. Condition should check 'HasRestingDon' or character count, not 'Always'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'EndOfTurn', not 'Activated'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Missing duration 'DuringYourTurn' for end-of-turn effect that references 'your turn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "filter": {
+            "kind": "Type",
+            "value": "ODYSSEY",
+            "exclude": "Lim"
+          },
+          "revealCount": 1,
+          "destination": "hand",
+          "restToBottom": true
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3,
+        "operator": "GreaterEqual"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "setActive": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:46:01.844Z"
+}

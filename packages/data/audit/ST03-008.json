@@ -1,0 +1,29 @@
+{
+  "id": "ST03-008",
+  "name": "Trafalgar Law",
+  "set": "ST-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is missing. Card text describes the Blocker mechanic but effects array is empty."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:56:51.928Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP09-011_r1",
+  "name": "Hongo",
+  "set": "ST-23",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The text checks if your Leader has the {Red-Haired Pirates} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.name",
+      "description": "Condition field should be 'type' not 'name' for LeaderHasType. Should reference the type {Red-Haired Pirates}."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope should be 'OpponentCharacter' not 'ChooseOpponentCharacter'. The 'Choose' prefix is implicit in targeted actions; scope describes the category only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text explicitly states 'during this turn' which means the effect applies only while it's your turn, not until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Red-Haired Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentCharacter",
+          "quantity": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:17:57.649Z"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "OP11-082",
+  "name": "Aramaki",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should trash THIS CHARACTER (the card being activated), not a card from hand. Should use a different action type or clarify target as 'self'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "PowerBoost with amount 0 is meaningless. The effect grants ability to attack active Characters (not a power boost). Should use GiveKeyword or custom ability mechanism. Duration 'DuringYourTurn' is correct but action type is wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn' — text says 'during this turn' which is current turn only."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should filter for {Navy} type Characters, not all Characters. Missing type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'LeaderHasType' with type '{Navy}' — effect only works if Leader has Navy type."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Navy"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {
+          "self": true
+        }
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "CanAttackActiveCharacters",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "Navy"
+          }
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "filter": {
+          "fromTop": true
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:46:27.688Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP03-072",
+  "name": "Gum-Gum Jet Gatling",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Counter cards use trigger 'Counter', not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (cost), not mandatory action. Use 'cost' field instead"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "PowerBoost should be conditional on trash occurring; structure incorrect for optional cost"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' and GiveDon is not in official text and should be removed"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'Leader or Character' cards (currently only 'Character'), and allow selecting up to 1"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "cost": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwn",
+            "cardType": [
+              "Leader",
+              "Character"
+            ],
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:47.747Z"
+}

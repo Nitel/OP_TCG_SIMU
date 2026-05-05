@@ -1,0 +1,44 @@
+{
+  "id": "ST13-008",
+  "name": "Sabo",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'ForceDiscard' (trash from Life cards), not 'RemoveLife'. RemoveLife is for damage/life loss, not trashing Life cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing optional condition. Effect text states 'You may trash...' indicating an optional/conditional action, not mandatory. Should include a condition or make action optional."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is reasonable but should verify maxCost constraint is properly enforced. 'up to 1' suggests optional targeting which may need explicit cardinality."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "YourLife"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxTargets": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:08:09.533Z"
+}

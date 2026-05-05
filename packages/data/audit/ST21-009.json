@@ -1,0 +1,46 @@
+{
+  "id": "ST21-009",
+  "name": "Nami",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that DON!! cards must be rested before attaching",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Missing target restriction: target must have {Straw Hat Crew} type",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing 'once per turn' frequency restriction",
+      "field": "effects[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "frequency": "OncePerTurn",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "fromRested": true,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "filter": {
+                "type": "HasType",
+                "value": "Straw Hat Crew"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:36.925Z"
+}

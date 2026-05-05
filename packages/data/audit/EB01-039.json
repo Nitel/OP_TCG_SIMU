@@ -1,0 +1,45 @@
+{
+  "id": "EB01-039",
+  "name": "Conquerer of Three Worlds Ragnaraku",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The [Main] effect is mapped to 'Activated' trigger, but there is no cost representation for 'DON!! −1'. The DSL should include a cost field to represent returning 1 DON!! card.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "The KO action target is missing the 'count' field. The text says 'up to 1', which should be explicitly encoded as count: 1.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "critical",
+      "description": "The second effect with 'Trigger' trigger appears to be spurious. The official text only mentions a [Main] effect with DON!! -1 cost, not a separate Trigger effect that gives DON!!.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "ReturnDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 8,
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:46.133Z"
+}

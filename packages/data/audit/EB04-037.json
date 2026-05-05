@@ -1,0 +1,39 @@
+{
+  "id": "EB04-037",
+  "name": "Porche",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Foxy Pirates} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing 'amount' parameter (look at 5 cards, reveal up to 1). The current DSL does not capture the 'look at 5' mechanic or the 'place rest at bottom in any order' instruction."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Foxy Pirates"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "amount": 5,
+        "filter": {
+          "kind": "ByType",
+          "value": "Foxy Pirates"
+        },
+        "maxReveal": 1,
+        "destination": "hand",
+        "restToBottom": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:09:49.980Z"
+}

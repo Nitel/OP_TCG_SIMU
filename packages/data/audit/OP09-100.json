@@ -1,0 +1,38 @@
+{
+  "id": "OP09-100",
+  "name": "Karasu",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type 'Trigger' is invalid. Blocker keyword ability should use 'OnAttacked' trigger (when opponent declares attack)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker rests the card and redirects attack target; no 'PlaySelf' action exists. Should use 'Rest' action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL completely misrepresents Blocker mechanics. Blocker is a static keyword ability, not a triggered effect that plays the card. The mechanic allows resting this card to become the attack target instead of the intended target."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:29:25.997Z"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "OP05-072_r1",
+  "name": "Hone-Kichi",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon' (resting DON!! cards). 'HasRestingDon' refers to resting state, not presence on field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must specify 'upTo:2' to reflect 'up to 2' limit in card text. Current target lacks quantity constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for 'during this turn' text. Should be 'DuringYourTurn' to match the scope of the effect within the current turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "upTo": 2
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:13:31.912Z"
+}

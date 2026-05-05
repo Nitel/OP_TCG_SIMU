@@ -1,0 +1,78 @@
+{
+  "id": "OP08-094",
+  "name": "Imperial Flame",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for cost requirement. Card text states 'You may place 3 cards from your trash at the bottom of your deck' as a prerequisite action before the K.O. effect can resolve. This should be a condition or separate action sequence, not just the K.O. alone."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incomplete. Should include maxCost constraint in target definition. Current maxCost:2 is correct but needs proper targeting syntax."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing action for the cost payment condition: placing 3 cards from trash to bottom of deck. The card has a cost requirement ('You may place 3 cards from your trash...') that must be represented in the DSL before the K.O. can execute."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "value": 3,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "source": "Trash",
+          "destination": "DeckBottom",
+          "count": 3
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "value": 3,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "source": "Trash",
+          "destination": "DeckBottom",
+          "count": 3
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:31:27.171Z"
+}

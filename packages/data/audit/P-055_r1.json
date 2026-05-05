@@ -1,0 +1,30 @@
+{
+  "id": "P-055_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is correct for trashing cards, but the condition 'You may trash 2 cards' is not encoded. Missing optional cost mechanism and card count (2)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "ReturnToHand is incorrect. Card text says 'places 1 of their Characters at the bottom of the owner's deck' — this is not a hand return. Should be a KO or similar effect that places card at bottom of deck, not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "No DSL action type exists for 'place at bottom of deck'. ReturnToHand returns to hand, not deck bottom. The intended effect cannot be accurately represented with current action set."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand filter is empty. Must specify count=2 for 'trash 2 cards from your hand'."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:38:55.650Z"
+}

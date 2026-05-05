@@ -1,0 +1,52 @@
+{
+  "id": "OP06-100_r2",
+  "name": "Inuarashi",
+  "set": "ST-28",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' for 'When Attacking' effect, not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].target.maxCost",
+      "description": "maxCost is hardcoded as 3, but should be dynamic based on opponent's Life card count. Must use 'opponentLifeCount' variable or equivalent dynamic reference"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is incorrect and should be removed. This card is not self-playing; it's a normal Character"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": "opponentLifeCount"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:23:03.931Z"
+}

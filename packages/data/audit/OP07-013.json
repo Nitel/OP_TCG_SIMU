@@ -1,0 +1,60 @@
+{
+  "id": "OP07-013",
+  "name": "Masked Deuce",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing required LeaderIsName check for 'Portgas.D.Ace'. Current condition is 'Always' but effect explicitly states 'If your Leader is [Portgas.D.Ace]'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete. Missing critical parameters: 'from' (top 5 cards), 'filter' (must specify '[Portgas.D.Ace] or red Event'), 'count' (up to 1), and 'remainder' ('bottom' of deck in any order)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should be restricted to card types: Portgas.D.Ace or red Event cards only."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Portgas.D.Ace"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "from": 5,
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "kind": "Name",
+              "value": "Portgas.D.Ace"
+            },
+            {
+              "kind": "Color",
+              "value": "red"
+            },
+            {
+              "kind": "Type",
+              "value": "Event"
+            }
+          ]
+        },
+        "count": 1,
+        "destination": "hand",
+        "remainder": {
+          "destination": "bottom",
+          "order": "any"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:23.006Z"
+}

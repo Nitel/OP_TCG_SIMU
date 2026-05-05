@@ -1,0 +1,49 @@
+{
+  "id": "OP10-027",
+  "name": "Kin'emon",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the core condition and setup actions. The card requires placing this Character AND 1 Kin'emon (1000 power) from trash to bottom of deck as a cost/condition before playing a Kin'emon. DSL must include: (1) condition checking trash for valid Kin'emon, (2) action to place cards at bottom of deck, (3) then conditional PlayFromHand action. Current DSL only shows the final play action without the prerequisite."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must specify cardName:'Kin'emon' (not just cardType). Current filter only checks maxCost:6 but allows any Character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to verify a Kin'emon with 1000 power exists in trash before activation is possible."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "filter": {
+            "cardName": "Kin'emon",
+            "power": 1000
+          },
+          "minCount": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardName": "Kin'emon",
+            "maxCost": 6
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:32:56.394Z"
+}

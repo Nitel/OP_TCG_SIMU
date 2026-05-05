@@ -1,0 +1,51 @@
+{
+  "id": "ST07-005_r1",
+  "name": "Charlotte Daifuku",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' (When Attacking), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action sequence is reversed. Should first SearchDeck (add card from deck to Life cards), then FlipLife (add from Life cards to hand). Current DSL has them backwards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].destination",
+      "description": "SearchDeck destination should be 'life' (top of Life cards), not 'hand'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife should specify source as 'lifeToHand' or similar to clarify direction (Life → Hand)"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Any"
+        },
+        "count": 1,
+        "destination": "life"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "destination": "hand"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:15:32.832Z"
+}

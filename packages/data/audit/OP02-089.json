@@ -1,0 +1,40 @@
+{
+  "id": "OP02-089",
+  "name": "Judgment of Hell",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost action is missing required 'count' property to limit selection to 'up to 2' cards. Should have count:2"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with Rest action is completely extraneous and contradicts card text. Card only grants power reduction, no resting mechanic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn' — card text states 'during this turn' indicating active phase duration"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "count": 2,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:59.632Z"
+}

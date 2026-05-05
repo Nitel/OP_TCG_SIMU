@@ -1,0 +1,54 @@
+{
+  "id": "OP06-095",
+  "name": "Shadows Asgard",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target missing type filter '{Thriller Bark Pirates}'. Should include cardType filter to match 'any number of your {Thriller Bark Pirates} type Characters'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with DrawCard + TrashFromHand) is not present in the card text. This appears to be extraneous data not matching the official card."
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP06-095",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 2,
+              "cardType": "{Thriller Bark Pirates}"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfTurn",
+            "perTrashedCard": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:29.259Z"
+}

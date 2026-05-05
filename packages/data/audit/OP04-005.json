@@ -1,0 +1,35 @@
+{
+  "id": "OP04-005",
+  "name": "Kung Fu Jugon",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional [Blocker] keyword effect but effects[] is empty. Should contain condition check for other [Kung Fu Jugon] on board and GiveKeyword action for Blocker."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardName": "Kung Fu Jugon",
+            "exclude": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:18.411Z"
+}

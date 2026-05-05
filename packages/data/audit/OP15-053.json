@@ -1,0 +1,54 @@
+{
+  "id": "OP15-053",
+  "name": "Rebecca",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' for the DON!! cost effect, not 'Activated'. The DON!! cost is a static ability that applies when the card is played."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent', not 'EndOfTurn'. Blocker is a static keyword that lasts as long as the character is on board, not just until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: looking at 3 cards, revealing up to 1 Dressrosa type card, adding it to hand, and placing the rest at the bottom of deck in any order. Current DSL only searches deck without specifying the filter (Dressrosa type), the look count (3), or the reordering mechanic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Dressrosa"
+          },
+          "destination": "hand",
+          "lookCount": 3,
+          "selectCount": "UpTo1"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:25:58.677Z"
+}

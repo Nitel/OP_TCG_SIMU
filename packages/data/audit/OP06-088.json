@@ -1,0 +1,31 @@
+{
+  "id": "OP06-088",
+  "name": "Sai",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional passive effect but effects array is empty. Should contain a Trigger effect with condition checking Leader type and active status."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "duration": "Permanent",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Dressrosa"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": 2000
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:59:55.849Z"
+}

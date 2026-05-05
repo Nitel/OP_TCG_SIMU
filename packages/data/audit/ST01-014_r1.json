@@ -1,0 +1,35 @@
+{
+  "id": "ST01-014_r1",
+  "name": "Guard Point",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with Trigger trigger and +1000 power has no basis in card text. Card only describes one effect: Counter trigger granting +3000 power during this battle."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'ChooseOwnCharacterOrLeader' with maxCount:1 to match 'Up to 1 of your Leader or Character cards'. Current scope is correct but maxCount constraint missing."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:06.578Z"
+}

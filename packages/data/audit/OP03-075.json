@@ -1,0 +1,44 @@
+{
+  "id": "OP03-075",
+  "name": "Galley-La Company",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing required condition: LeaderIsName 'Iceburg'. Current condition is 'Always', but effect text specifies 'If your Leader is [Iceburg]'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action is incomplete. Missing 'source' field specifying 'DON!! deck' as the source. Current DSL does not indicate DON!! cards come from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action order/logic unclear. Text says 'You may rest this Stage' (optional), then conditional 'If your Leader is [Iceburg], add up to 1 DON!! card'. DSL should reflect that resting is a cost, and the DON!! addition is conditional on Leader check, not just always triggered."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Iceburg"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "DON!!Deck"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:51.949Z"
+}

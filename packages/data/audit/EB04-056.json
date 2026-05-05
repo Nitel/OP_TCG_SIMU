@@ -1,0 +1,42 @@
+{
+  "id": "EB04-056",
+  "name": "Pacifista",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for '0 Life cards'. DSL has only HasCardOnBoard for Jewelry Bonney but ignores the life total requirement. Should be a compound condition checking both HasCardOnBoard AND life state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' or 'Trigger' (constant check), not 'OnPlay'. The effect is a static ability that checks conditions continuously, not a one-time play effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Jewelry Bonney",
+        "and": {
+          "type": "LeaderLife",
+          "value": 0
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:30.571Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "OP15-110",
+  "name": "Braham",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition should check if Leader has {Shandian Warrior} type, not just if Leader exists on board. Should be LeaderHasType:Shandian Warrior"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type FlipLife is incorrect. Effect requires SearchDeck (to add card from top of deck) followed by AttachDon or similar to add to Life cards. FlipLife flips Life cards to Don, which is wrong mechanic here"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count should be 'up to 1' meaning optional selection, not fixed 1"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Shandian Warrior"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "optional": true,
+        "destination": "TopOfLife"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:30:27.072Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP05-068",
+  "name": "Chopa-Emon",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' checks for resting DON!! cards. Card text says '8 or more DON!! cards on your field' (attached DON!!), which requires 'HasAttachedDon' condition instead."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'Rest' is incorrect. Card text says 'set up to 1 of your purple {Straw Hat Crew} type Characters... as active', meaning set to active state. Should use 'GiveKeyword' with keyword 'Active' or equivalent active-setting action, not 'Rest' (which sets to resting)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is missing type filter. Card specifies 'purple {Straw Hat Crew} type Characters', but DSL only filters by maxPower. Must add type/color restrictions to scope."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-068",
+    "effectText": "[On Play] If you have 8 or more DON!! cards on your field, set up to 1 of your purple {Straw Hat Crew} type Characters with 6000 power or less as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Active",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "color": "Purple",
+              "type": "StrawHatCrew",
+              "maxPower": 6000,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:26.490Z"
+}

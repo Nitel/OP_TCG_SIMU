@@ -1,0 +1,48 @@
+{
+  "id": "OP08-109",
+  "name": "Mont Blanc Noland",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing required conditions: LeaderHasType check for {Shandian Warrior} and HasCardOnBoard check for [Kalgara] Character. Current condition is 'Always' but effect requires both conditions to be true."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "Action type 'FlipLife' is incorrect. Effect describes adding a card from top of deck to top of Life cards, which should be 'DrawCard' (or searchDeck variant), not FlipLife. FlipLife converts Life to hand, not draws from deck to Life."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].count",
+      "description": "Count should reflect 'up to 1' (optional draw). Current count=1 does not capture 'up to' optionality."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "AllOf",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Shandian Warrior"
+        },
+        {
+          "type": "HasCardOnBoard",
+          "cardName": "Kalgara",
+          "cardType": "Character"
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:32:35.645Z"
+}

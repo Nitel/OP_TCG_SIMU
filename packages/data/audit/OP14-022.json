@@ -1,0 +1,52 @@
+{
+  "id": "OP14-022",
+  "name": "Usopp",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Must define trigger, condition, and action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger. Text indicates 'End of Your Turn' → trigger should be 'EndOfTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition. Text requires 'your Leader has {FILM} or {Straw Hat Crew} type' → condition should be 'LeaderHasAnyType' with types ['FILM', 'Straw Hat Crew']"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action. Text requires setting up to 2 DON!! cards as active → action type should be 'Rest' (inverse: set active = unrest) targeting up to 2 DON cards on board"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] If your Leader has the {FILM} or {Straw Hat Crew} type, set up to 2 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "FILM",
+            "Straw Hat Crew"
+          ]
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourDonCards",
+            "maxCount": 2
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:11:52.588Z"
+}

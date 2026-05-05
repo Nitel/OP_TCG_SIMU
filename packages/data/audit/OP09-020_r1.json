@@ -1,0 +1,47 @@
+{
+  "id": "OP09-020_r1",
+  "name": "Come On!! We'll Fight You!!",
+  "set": "ST-23",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck filter is completely wrong. Should filter by type {Red-Haired Pirates}, exclude card name [Come On!! We'll Fight You!!], and search top 5 cards only—not by cost. Current filter uses maxCost which is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be SearchDeck with proper type filter, not cost-based. Must specify: kind='ByType', type='{Red-Haired Pirates}', excludeName='[Come On!! We'll Fight You!!]', searchCount=5, maxResults=1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger → DrawCard) is spurious and not in card text. Card only has one effect: the search action on play. Remove entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to handle remaining 4 cards: they must be placed at bottom of deck in any order. Current DSL does not reflect this ordering mechanic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "{Red-Haired Pirates}",
+            "excludeName": "[Come On!! We'll Fight You!!]"
+          },
+          "searchCount": 5,
+          "maxResults": 1,
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:23.614Z"
+}

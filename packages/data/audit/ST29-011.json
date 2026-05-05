@@ -1,0 +1,29 @@
+{
+  "id": "ST29-011",
+  "name": "Brook",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability completely missing from DSL. Card has [Blocker] text requiring effects array with Counter trigger and Rest action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:24:51.127Z"
+}

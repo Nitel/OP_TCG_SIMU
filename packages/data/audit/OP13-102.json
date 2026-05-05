@@ -1,0 +1,53 @@
+{
+  "id": "OP13-102",
+  "name": "Edison",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If the number of your Life cards is equal to or less than the number of your opponent's Life cards' must be encoded as a condition. Current condition is 'Always' which ignores the life card comparison requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "DrawCard is conditional on life comparison, but no conditional branch exists in the DSL. The draw should only occur if the life condition is met."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is invalid and has no justification in the card text. The ability is a single Activate: Main action, not two separate triggers."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action missing 'upTo' modifier. Card text states 'rest up to 1' (optional), but DSL does not reflect optionality."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LifeComparison",
+        "operator": "LessOrEqual",
+        "yourSide": true
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          },
+          "upTo": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:06:09.130Z"
+}

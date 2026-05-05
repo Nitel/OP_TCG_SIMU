@@ -1,0 +1,37 @@
+{
+  "id": "OP15-105",
+  "name": "Jewelry Bonney",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant effect text but effects array is empty. Should contain a Counter trigger that prevents character removal and converts it to flipping life."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Character",
+            "qualifier": "basePower<=7000"
+          }
+        ],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "target": "TopOfLifeCards",
+            "count": 1
+          }
+        ],
+        "duration": "Permanent",
+        "description": "If your Character with 7000 base power or less would be removed from the field by your opponent's effect, you may add 1 card from the top of your Life cards to your hand instead"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:30:01.014Z"
+}

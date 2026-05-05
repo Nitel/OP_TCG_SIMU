@@ -1,0 +1,67 @@
+{
+  "id": "EB01-046",
+  "name": "Brook",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The effect text says 'give up to 1 of your opponent's Characters −1 cost' but the DSL uses PowerBoost with amount -1000. This should be a cost reduction action, not a power reduction. Cost and power are completely different mechanics in One Piece TCG.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Same issue in the OnAttack trigger: cost reduction is encoded as PowerBoost instead of the appropriate cost modification action.",
+      "field": "effects[1].actions[0].type"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "CostReduction",
+            "amount": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "maxCost": 0
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "CostReduction",
+            "amount": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "maxCost": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:08.654Z"
+}

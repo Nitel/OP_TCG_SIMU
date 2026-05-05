@@ -1,0 +1,33 @@
+{
+  "id": "OP02-103",
+  "name": "Sengoku",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be limited to 1 character max. Current scope 'ChooseOpponentCharacter' allows selecting multiple. Should use 'ChooseOpponentCharacter' with maxTargets:1 or equivalent constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' with count:1 is incorrect. Effect requires [DON!! x1] as cost/payment, not a board state condition. Should use cost-based trigger or remove condition entirely if DON cost is represented separately."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxTargets": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:16.195Z"
+}

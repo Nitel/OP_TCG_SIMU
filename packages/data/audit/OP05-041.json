@@ -1,0 +1,59 @@
+{
+  "id": "OP05-041",
+  "name": "Sakazuki",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Trash action should be conditional (thenActions). Current structure treats trash and draw as sequential independent actions, but card text shows 'You may trash...Draw' indicating draw is conditional on trashing. Should use thenActions on trash action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].amount",
+      "description": "PowerBoost amount is -1000 (representing -1000 power). For a −1 cost effect, amount should be -1 (cost reduction), not -1000 (power reduction). These are different mechanics."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type should reflect cost reduction, not PowerBoost. Cost reduction is a distinct mechanic from power reduction. PowerBoost modifies attack power; cost reduction modifies play cost."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "ReduceCost",
+            "amount": -1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:24.156Z"
+}

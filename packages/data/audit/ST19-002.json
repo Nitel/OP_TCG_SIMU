@@ -1,0 +1,47 @@
+{
+  "id": "ST19-002",
+  "name": "Sengoku",
+  "set": "ST-19",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition check for 'If your Leader has the {Navy} type'. The effect should include a condition that validates LeaderHasType:Navy before executing the draw action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action is missing 'count':2 parameter. Effect states 'trash 2 black {Navy} type cards' but the count constraint is not specified."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action structure is incorrect. The conditional draw (thenActions) should be nested within a condition, not directly on the trash action. The draw should only occur if the leader has Navy type AND cards were trashed."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "filter": {
+          "color": "Black",
+          "subType": "Navy"
+        }
+      }
+    ],
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Navy"
+    },
+    "thenActions": [
+      {
+        "type": "DrawCard",
+        "count": 3
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:44.907Z"
+}

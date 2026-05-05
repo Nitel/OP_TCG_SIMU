@@ -1,0 +1,51 @@
+{
+  "id": "OP01-004",
+  "name": "Usopp",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Should contain trigger (OnPlay or Activated), condition (Once Per Turn), and action (DrawCard)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger. Text describes activation of opponent's Event, should use 'Trigger' or similar event listener"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' condition constraint"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "'[Your Turn]' in text indicates duration should be 'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "Always"
+        },
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ],
+        "constraints": [
+          {
+            "type": "OncePerTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:16.199Z"
+}

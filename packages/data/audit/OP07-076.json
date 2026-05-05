@@ -1,0 +1,45 @@
+{
+  "id": "OP07-076",
+  "name": "Slow-Slow Beam Sword",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "PowerBoost duration should be 'DuringThisBattle' not 'EndOfBattle'. Text says 'during this battle'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and GiveDon action is incorrect. The DON!! cost (−1) is part of the Counter cost, not a separate triggered effect. This should not be a separate effect entry."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:08:14.844Z"
+}

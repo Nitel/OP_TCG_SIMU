@@ -1,0 +1,39 @@
+{
+  "id": "OP10-108",
+  "name": "Scratchmen Apoo",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional ability text but effects array is empty. Should contain a condition checking for yellow Supernovas character (excluding Scratchmen Apoo) on board, triggering a GiveKeyword action to grant Blocker."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": {
+              "type": "yellow",
+              "cardType": "Supernovas",
+              "excludeName": "Scratchmen Apoo"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "Blocker"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:39:10.792Z"
+}

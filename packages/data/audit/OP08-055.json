@@ -1,0 +1,53 @@
+{
+  "id": "OP08-055",
+  "name": "Phoenix Brand",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand is a cost/requirement, not the main action. The primary effect is placing a Character at the bottom of deck, which requires SearchDeck or a custom placement action. Current DSL is missing the core effect entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "thenActions array is empty. Must contain the action to place up to 1 Character (cost ≤6) at bottom of deck after revealing 2 Whitebeard Pirates cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but card text says 'type including Whitebeard Pirates'. Should be 'type' not 'subType' for broader type matching."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may reveal 2 cards with a type including \"Whitebeard Pirates\" from your hand: Place up to 1 Character with a cost of 6 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "count": 2,
+            "filter": {
+              "type": "Whitebeard Pirates"
+            },
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "count": 1,
+                "filter": {
+                  "cardType": "Character",
+                  "maxCost": 6
+                },
+                "placement": "BottomOfDeck",
+                "targetOwner": "self"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:25.168Z"
+}

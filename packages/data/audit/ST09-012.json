@@ -1,0 +1,43 @@
+{
+  "id": "ST09-012",
+  "name": "Yamato",
+  "set": "ST-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing FlipLife action. Card text states 'You may add 1 card from the top or bottom of your Life cards to your hand' which must be modeled as FlipLife action before PowerBoost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'until the start of your next turn'. This should be 'DuringYourTurn' (lasts through opponent's turn and ends at start of your next turn)."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Card says 'You may' indicating optional effect, but DSL does not capture optionality. This is a minor notation issue but functionally the effect should proceed as written."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "amount": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:26.260Z"
+}

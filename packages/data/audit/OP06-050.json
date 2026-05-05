@@ -1,0 +1,57 @@
+{
+  "id": "OP06-050",
+  "name": "Tashigi",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the 'Look at 5 cards' mechanic. DSL should include a viewing/searching action limited to top 5 cards, not arbitrary deck search."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to {Navy} type cards, excluding [Tashigi] by name."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to place remaining cards at bottom of deck in any order. Current DSL only searches and adds to hand, ignoring the deck ordering requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action does not support the 'up to 1' constraint (optional reveal mechanic). DSL lacks proper quantification for optional selection."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Tashigi] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Navy",
+              "excludeName": [
+                "Tashigi"
+              ]
+            },
+            "quantity": "upTo1",
+            "destination": "hand",
+            "searchDepth": 5
+          },
+          {
+            "type": "PlayFromHand",
+            "target": "remainingCards",
+            "destination": "deckBottom",
+            "order": "any"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:56:58.604Z"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "OP10-086",
+  "name": "Shiryu",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Text says '[Opponent's Turn]' (duration-based trigger), not 'OnAttacked'. Should use trigger:'Trigger' with duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (opponent's turn, not just end of turn) per text '[Opponent's Turn]'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition check: 'this Character was played on this turn' (PlayedThisTurn or equivalent turn-count condition)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:31.382Z"
+}

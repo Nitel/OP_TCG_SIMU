@@ -1,0 +1,41 @@
+{
+  "id": "OP05-063",
+  "name": "O-Robi",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards attached to field) not 'HasRestingDon' (resting DON!! cards). 'HasRestingDon' refers to resting state, not total count on field."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but 'maxCost' property should clarify it targets opponent's characters with cost ≤3. Current structure is acceptable but verbose; consider 'maxCost':3 is standard."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-063",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 8
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:05.224Z"
+}

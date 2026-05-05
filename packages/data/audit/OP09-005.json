@@ -1,0 +1,44 @@
+{
+  "id": "OP09-005",
+  "name": "Silvers Rayleigh",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: '[On Play] If your opponent has 2 or more Characters with a base power of 5000 or more' requires a condition to check opponent's board state. Current condition is 'Always', which ignores the 'If' clause entirely. Should include a condition checking opponent board for characters meeting power threshold."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If your opponent has 2 or more Characters with a base power of 5000 or more, draw 2 cards and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "side": "opponent",
+          "filter": {
+            "basePower": {
+              "minInclusive": 5000
+            }
+          },
+          "countComparison": {
+            "min": 2
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:33:45.479Z"
+}

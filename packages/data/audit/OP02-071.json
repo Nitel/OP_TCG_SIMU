@@ -1,0 +1,42 @@
+{
+  "id": "OP02-071",
+  "name": "Magellan",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a trigger-based effect: '[Your Turn] [Once Per Turn] When a DON!! card on the field is returned to your DON!! deck, this Leader gains +1000 power during this turn.' This requires at least one effect object with Trigger, conditions, and PowerBoost action."
+    },
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "effectText is missing or empty. Official text should be provided."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on the field is returned to your DON!! deck, this Leader gains +1000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "this",
+            "value": 1000,
+            "duration": "DuringYourTurn"
+          }
+        ],
+        "triggerDescription": "When a DON!! card on the field is returned to your DON!! deck",
+        "oncePerTurn": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:39.025Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP07-003",
+  "name": "Outlook III",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The card is a Character being trashed from the board via Activate ability, not from hand. Should be KO (or equivalent board removal)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should specify 'up to 2' Characters, not unlimited. ChooseOpponentCharacter lacks count constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' effect, but the text implies DuringYourTurn scope. Should verify: does debuff persist only during your turn or through end of turn? 'during this turn' typically means DuringYourTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 2,
+          "maxCount": true
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:02:35.906Z"
+}

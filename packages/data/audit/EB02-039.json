@@ -1,0 +1,61 @@
+{
+  "id": "EB02-039",
+  "name": "GERMA 66",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing condition check for DON!! cards: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' is not encoded",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong source for PlayFromHand action: should be from trash, not from hand. The text says 'play up to 1 Character card [...] from your trash'",
+      "field": "effects[0].actions[0].thenActions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing same card name requirement: the played card must have 'the same card name as the trashed card'",
+      "field": "effects[0].actions[0].thenActions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong power filter: should be minPower: 5000 and maxPower: 7000, not power: 5000 and maxPower: 7000",
+      "field": "effects[0].actions[0].thenActions[0].filter.power"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "DonCountComparison",
+          "comparison": "lessOrEqual"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "GERMA 66",
+              "cardType": "Character",
+              "maxPower": 4000
+            },
+            "thenActions": [
+              {
+                "type": "PlayFromTrash",
+                "filter": {
+                  "minPower": 5000,
+                  "maxPower": 7000,
+                  "sameName": true
+                },
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:07:35.631Z"
+}

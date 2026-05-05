@@ -1,0 +1,27 @@
+{
+  "id": "ST06-007",
+  "name": "Tsuru",
+  "set": "ST-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is missing. Card text describes a blocking mechanic that should be represented as an effect triggered when opponent declares an attack."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T13:00:25.187Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "EB02-012",
+  "name": "Gaimon",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type. The effect text 'If you have a [Sarfunkel], this Character gains [Blocker]' is a continuous conditional effect that applies while the condition is true, not a triggered OnPlay effect. This should use the 'Activated' trigger which represents continuous/static abilities.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong duration. Since this is a continuous conditional effect (gains Blocker while you control Sarfunkel), the duration should be 'WhileConditionMet' or similar continuous duration, not 'Permanent'. The keyword should be lost when Sarfunkel leaves the board.",
+      "field": "effects[0].actions[0].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Sarfunkel"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "WhileConditionMet"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:47.634Z"
+}

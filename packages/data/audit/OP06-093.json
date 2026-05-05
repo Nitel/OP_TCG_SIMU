@@ -1,0 +1,63 @@
+{
+  "id": "OP06-093",
+  "name": "Perona",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: 'If your opponent has 5 or more cards in their hand' → condition should be {\"type\":\"HandCount\",\"player\":\"opponent\",\"value\":5,\"comparison\":\">=\" } or similar. Currently uses Always, which ignores the hand size requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "DSL only implements one choice ('trash 1 card') but card text offers two distinct choices connected by OR. Must represent both options, typically as separate effect objects or with a choice mechanism. Second option 'Give up to 1 of your opponent's Characters −3 cost during this turn' is completely missing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Second choice requires PowerBoost action with negative value and duration constraint: {\"type\":\"PowerBoost\",\"target\":\"opponentCharacter\",\"count\":1,\"value\":-3,\"duration\":\"DuringThisTurn\"}"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your opponent has 5 or more cards in their hand, choose one: • Your opponent trashes 1 card from their hand. • Give up to 1 of your opponent's Characters −3 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HandCount",
+          "player": "opponent",
+          "value": 5,
+          "comparison": ">="
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "player": "opponent",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HandCount",
+          "player": "opponent",
+          "value": 5,
+          "comparison": ">="
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "opponentCharacter",
+            "count": 1,
+            "value": -3,
+            "duration": "DuringThisTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:19.507Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP13-017",
+  "name": "Monkey.D.Dragon",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has complex conditional effect text but effects array is empty. Should contain: trigger=Counter (opponent's effect attempting removal), condition=LeaderHasType or similar for Revolutionary Army context, action=PowerBoost with −2000 value and duration=DuringYourTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger. Should be 'Counter' (activated when opponent's effect would remove this character)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].duration",
+      "description": "Text states 'during this turn' which requires duration='DuringYourTurn', not Permanent or EndOfTurn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing PowerBoost action for −2000 power. Should use type='PowerBoost' with value=-2000"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "duration": "DuringYourTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "value": -2000
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:59:38.779Z"
+}

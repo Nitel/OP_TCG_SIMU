@@ -1,0 +1,45 @@
+{
+  "id": "OP01-106",
+  "name": "Basil Hawkins",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is incomplete. 'GiveDon' action is present but the effect is missing a condition to specify 'from your DON!! deck'. The trigger should include a condition or the action should clarify the source."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "'GiveDon' with count:1 adds a DON!! card to your DON!! pool, not adds from deck and rests it. Correct action should be 'AttachDon' or a custom action that represents 'add from DON!! deck and rest'. Current DSL does not match card text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is extraneous and not supported by card text. Card has only one effect: [On Play] add up to 1 DON!! card from DON!! deck and rest it."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'rest it' action. After adding the DON!! card, it must be rested. Current DSL only has GiveDon with no Rest action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DONDeck"
+        },
+        {
+          "type": "Rest",
+          "target": "LastAttachedDon"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:00.658Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP06-112_r1",
+  "name": "Raizo",
+  "set": "ST-28",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure missing 'condition' field. Card text says 'You may trash 1 card' indicating optional action with conditional trigger. Current structure implies mandatory trash then rest sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest action target is incorrect. Should filter for opponent's DON!! cards specifically (has DON keyword/type), not generic ChooseOpponentCharacter. Target should be {\"scope\":\"ChooseOpponentCard\",\"filter\":{\"hasKeyword\":\"DON\"}}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action count missing. Card says 'up to 1' but no count/max specification in action. Should include \"count\":1,\"max\":1 or \"maxCount\":1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous trigger present. Second effect with trigger:\"Trigger\" and condition:\"Always\" with PlaySelf action should not exist. This card is a character that should not have auto-play logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOpponentCard",
+                "filter": {
+                  "hasKeyword": "DON"
+                }
+              },
+              "max": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:23:33.204Z"
+}

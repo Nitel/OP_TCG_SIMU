@@ -1,0 +1,64 @@
+{
+  "id": "OP14-058",
+  "name": "Ocean Current Shoulder Throw",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Main ability requires 3 DON!! cards to be rested as a cost. DSL missing cost specification. Should include cost or condition reflecting DON requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].duration",
+      "description": "Counter ability states power boost is 'during this battle'. Duration 'EndOfBattle' is acceptable but 'DuringBattle' would be more precise. However, this is minor semantic difference. Main issue: Counter trigger with power boost should clarify scope (Leader only during battle)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestDon",
+          "amount": 3
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Fish-Man",
+              "cardType": "Character",
+              "maxCost": 3
+            }
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxPower": 6000
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:14:35.429Z"
+}

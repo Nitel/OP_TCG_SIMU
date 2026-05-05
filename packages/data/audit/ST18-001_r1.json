@@ -1,0 +1,36 @@
+{
+  "id": "ST18-001_r1",
+  "name": "Uso-Hachi",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' checks for resting DON!! cards. Card text says 'If you have 8 or more DON!! cards on your field' which means attached DON!! (not resting). Should be 'HasAttachedDon' with count:8"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include 'maxCount':1 to reflect 'up to 1' limitation. Current target only specifies maxCost but not maxCount"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:31.773Z"
+}

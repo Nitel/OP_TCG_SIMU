@@ -1,0 +1,45 @@
+{
+  "id": "OP01-096",
+  "name": "King",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Two separate KO actions with different cost thresholds should be represented as a single action with multiple targets or clarified as independent choices. Current DSL executes both sequentially; the card text suggests up to 1 of each category (two separate K.O.s, not two independent selections from the same pool)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second KO action targets characters with cost ≤2, but first action already includes cost ≤2 characters. This creates ambiguity: can the same character be targeted twice, or should the second action exclude characters already targeted? Card text '1 with cost 3 or less AND 1 with cost 2 or less' implies distinct selections, likely needing exclusion logic or clarification that cost 2 characters can only be K.O.'d once."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        }
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1,
+          "excludePreviouslyTargeted": true
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:44.421Z"
+}

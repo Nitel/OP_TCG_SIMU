@@ -1,0 +1,47 @@
+{
+  "id": "OP08-063",
+  "name": "Charlotte Katakuri",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: effect is optional ('You may'), requires Optional condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "FlipLife and GiveDon are sequential with dependency: FlipLife is a cost (optional choice to flip 1), GiveDon is the effect (add up to 1 DON). Current structure treats both as independent actions. Should clarify cost vs effect or use conditional logic"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon description mentions 'set it as active' but action type only covers adding DON; activation state may be implicit"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may turn 1 card from the top of your Life cards face-down: Add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "Optional"
+          }
+        ],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1
+          },
+          {
+            "type": "GiveDon",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:29:03.679Z"
+}

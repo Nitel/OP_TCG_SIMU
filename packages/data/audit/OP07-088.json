@@ -1,0 +1,46 @@
+{
+  "id": "OP07-088",
+  "name": "Hattori",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "[Your Turn] in effect text requires duration:\"DuringYourTurn\", not \"EndOfTurn\". Duration must be DuringYourTurn since the effect explicitly states 'during this turn' with [Your Turn] tag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify character type restriction for [Rob Lucci] cards. Current scope \"ChooseOwnCharacter\" lacks the type filter. Should be target with type condition or filtered selection."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP07-088",
+    "effectText": "[Your Turn] [On Play] Up to 1 of your [Rob Lucci] cards gains +2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Rob Lucci"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "typeFilter": "Rob Lucci",
+              "maxTargets": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:09:12.083Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP11-051",
+  "name": "Sanji",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' with condition checking opponent caused it, not raw OnKO. The effect only triggers 'When this Character is K.O.'d by your opponent's effect' — needs condition to verify opponent as source."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incomplete: missing filter for {Straw Hat Crew} type. Current filter only checks cost; must also filter by type 'Straw Hat Crew'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].destination",
+      "description": "Action says 'play up to 1' but DSL uses destination 'board'. Should clarify if this means play (auto-deploy) or just search-to-board. Likely correct but ambiguous."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Missing mechanic: 'place the rest at the bottom of your deck in any order' — no action specified for reordering/placing remaining cards. SearchDeck typically handles this, but should be explicit."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "OpponentCausedKO"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByTypeAndCost",
+          "type": "Straw Hat Crew",
+          "maxCost": 5
+        },
+        "maxResults": 1,
+        "destination": "board",
+        "remainderPlacement": "BottomOfDeckInAnyOrder"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:44:08.941Z"
+}

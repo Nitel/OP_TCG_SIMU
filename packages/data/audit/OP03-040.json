@@ -1,0 +1,48 @@
+{
+  "id": "OP03-040",
+  "name": "Nami",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (when DON!! is activated), not 'OnAttack'. The effect activates when paying DON!!, not when the leader attacks."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Should be 'TrashFromDeck' (trash from top of deck, not hand). 'TrashFromHand' does not exist in valid action types."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition for DON!! cost. Should include 'HasAttachedDon' with value 1 to represent the [DON!! x1] requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing the trigger condition that this occurs when 'this Leader's attack deals damage to your opponent's Life'. Current structure does not capture the damage-dealing requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromDeck",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:51.636Z"
+}

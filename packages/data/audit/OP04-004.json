@@ -1,0 +1,50 @@
+{
+  "id": "OP04-004",
+  "name": "Karoo",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "AttachDon target must filter for {Alabasta} type Characters only. Current target 'AllOwnCharacters' ignores the type restriction stated in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is mandatory ('this Character'), but should be a condition/cost, not a sequential action. The structure should reflect: 'You may rest this Character' as a cost before the AttachDon effect triggers."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "hasType": "Alabasta"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:17.760Z"
+}

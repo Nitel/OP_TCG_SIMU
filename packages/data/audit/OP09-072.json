@@ -1,0 +1,50 @@
+{
+  "id": "OP09-072",
+  "name": "Franky",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing DON!! cost condition. Card requires DON!! −2 payment before the optional trash/draw effect. DSL must include condition checking for sufficient attached Don before allowing the trash/draw chain."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Trash is optional ('You may trash'), but DSL structure treats it as mandatory. Effect should be conditional with optional flag or restructured to allow skipping the trash."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP09-072",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": -2
+          },
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:27:15.228Z"
+}

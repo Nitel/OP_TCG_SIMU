@@ -1,0 +1,51 @@
+{
+  "id": "OP15-065",
+  "name": "Goro",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RevealFromHand is incorrect. Card text states 'Reveal 1 card from the top of your deck' — should be RevealFromDeck, not RevealFromHand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "GiveDon action is incomplete. Card text requires two outcomes: (1) add DON!! card, and (2) rest it. Current DSL only adds DON but does not rest it. Missing Rest action in thenActions"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Conditional logic missing. Effect should only trigger GiveDon + Rest IF revealed card has cost ≤2. Current structure applies filter to reveal but doesn't gate the subsequent actions properly on that condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "RevealFromDeck",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "GiveDon",
+                "count": 1,
+                "condition": "HasCostOrLess",
+                "conditionValue": 2
+              },
+              {
+                "type": "Rest",
+                "target": "AddedDon",
+                "condition": "HasCostOrLess",
+                "conditionValue": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:26:56.523Z"
+}

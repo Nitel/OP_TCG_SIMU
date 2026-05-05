@@ -1,0 +1,47 @@
+{
+  "id": "OP14-111",
+  "name": "Perona",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Effect text states 'cannot attack until the end of your opponent's next End Phase' which indicates a duration constraint, not a permanent Rest. Should include duration:'UntilEndOfOpponentNextEndPhase' or similar. Current DSL applies Rest without duration, implying permanent effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Effect text states 'cannot attack until the end of your opponent's next End Phase' which indicates a duration constraint, not a permanent Rest. Should include duration:'UntilEndOfOpponentNextEndPhase' or similar. Current DSL applies Rest without duration, implying permanent effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:40.565Z"
+}

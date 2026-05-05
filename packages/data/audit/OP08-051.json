@@ -1,0 +1,32 @@
+{
+  "id": "OP08-051",
+  "name": "Buckin",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which requires duration 'DuringYourTurn', not 'EndOfTurn'. The effect must persist only during your turn, not until end of turn (which could extend into opponent's turn)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Edward Weevil"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:04.696Z"
+}

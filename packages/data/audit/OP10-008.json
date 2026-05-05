@@ -1,0 +1,40 @@
+{
+  "id": "OP10-008",
+  "name": "Scotch",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing [On Play] condition: 'If you don't have [Rock]' requires a HasCardOnBoard condition checking for Rock in play. Current DSL unconditionally plays Rock without verifying absence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "maxCost: 0 is incorrect. The effect should play 'up to 1 [Rock]' with no cost restriction. maxCost should be removed or set to a high value to allow any Rock card."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "subType": "Rock"
+        },
+        "negate": true
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Rock"
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:31:31.298Z"
+}

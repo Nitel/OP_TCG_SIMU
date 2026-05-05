@@ -1,0 +1,60 @@
+{
+  "id": "OP06-109",
+  "name": "Denjiro",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' or 'Activated', not 'Activated' with HasRestingDon condition. The cost '[DON!! x2]' indicates a passive/static ability that activates when conditions are met, not an activated ability requiring manual activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should grant protection from KO by effects, not 'Banish' keyword. The card text states 'cannot be K.O.'d by effects' — this requires a protective keyword like 'Protected' or similar effect, not Banish."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is wrong. Should check opponent's Life count (<=3), not your own HasRestingDon. Condition type should be something like checking opponent Life, not HasRestingDon."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous effect. 'Trigger' with 'Always' and 'PlaySelf' action has no basis in card text and should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'Permanent' (this is a static ability), but the condition logic itself is fundamentally wrong — it should check opponent Life during gameplay, not DON cost."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x2] If your opponent has 3 or less Life cards, this Character cannot be K.O.'d by effects.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Protected",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent",
+            "conditionalCheck": {
+              "type": "OpponentLifeCount",
+              "value": 3,
+              "comparison": "<="
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:01:33.437Z"
+}

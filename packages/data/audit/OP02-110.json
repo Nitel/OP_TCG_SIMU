@@ -1,0 +1,41 @@
+{
+  "id": "OP02-110",
+  "name": "Hina",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but the card text says 'cannot attack during this turn' — this is a restriction/debuff, not a Rest action. Should use 'GiveKeyword' with keyword 'CannotAttack' or similar restriction mechanism."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is wrong. Text says 'Select up to 1 of your opponent's Characters' — target should be the opponent's Character, not 'this' card. Scope should be 'OpponentCharacter' or 'ChooseOpponentCharacter', maxCost constraint is correct but action is fundamentally wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration missing. Text specifies 'during this turn' — must include duration:'DuringOpponentTurn' to indicate the restriction lasts only until end of opponent's turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "maxTargets": 1
+          },
+          "keyword": "CannotAttack",
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:25.823Z"
+}

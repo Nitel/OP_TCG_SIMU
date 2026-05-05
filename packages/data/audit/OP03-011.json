@@ -1,0 +1,47 @@
+{
+  "id": "OP03-011",
+  "name": "Blamenco",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (when this card attacks), not 'Activated' (manual activation)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always' or removed; 'HasRestingDon' checks board state but card effect only requires DON!! cost in cost line, not a condition"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'count':1 to match 'up to 1' in text; current ChooseOpponentCharacter lacks count constraint"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-011",
+    "effectText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters −2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:01.457Z"
+}

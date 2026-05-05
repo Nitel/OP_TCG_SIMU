@@ -1,0 +1,58 @@
+{
+  "id": "OP14-024",
+  "name": "Kin'emon",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'GiveDon' is incorrect. Text says 'Set up to 3 of your DON!! cards as active', which means activating/resting existing DON cards, not giving new ones. Should use 'Rest' with target scope for your own DON cards, or a similar mechanic. 'GiveDon' adds DON to a card/leader, not activates existing DON."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition/action for 'you cannot play Character cards during this turn'. This is a restriction that should be represented as a condition or separate action limiting play during the turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target 'ChooseOpponentCharacter' is incorrect. Text specifies 'up to 1 of your opponent's cards' (any card type, not just Characters). Should be 'ChooseOpponentCard' or similar broader scope."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Set up to 3 of your DON!! cards as active. Then, you cannot play Character cards during this turn.\n[On K.O.] Rest up to 1 of your opponent's cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ActivateDon",
+            "count": 3,
+            "target": {
+              "scope": "YourDONCards"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotPlayCharacters",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCard"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:12:03.156Z"
+}

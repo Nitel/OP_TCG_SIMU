@@ -1,0 +1,68 @@
+{
+  "id": "EB04-010",
+  "name": "Lulucia Kingdom",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect describes opponent's turn passive ability ('[Opponent's Turn]'), but DSL uses OnPlay trigger with EndOfTurn duration. Should be Trigger with duration:'DuringOpponentTurn' and condition on base cost = 1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should filter for Characters with base cost of 1 only, not all Characters. Current target lacks cost condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "Setting power to 0 should use action type that represents 'set to 0' (likely PowerBoost with special semantics or dedicated action), not negative power boost. Additionally, 'during this turn' = DuringYourTurn, not EndOfTurn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "'during this turn' indicates DuringYourTurn duration, not EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "scope": "AllOwnCharacters",
+            "baseCost": 1
+          }
+        ],
+        "duration": "DuringOpponentTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 5000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "baseCost": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -99999,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:16.455Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "ST29-015",
+  "name": "Raw Heat Strike",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Second action applies −2000 power unconditionally, but card text requires condition 'if you have 1 or less Life cards'. Condition must gate this action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'TurnCount' with max:0 is incorrect and nonsensical. The conditional 'if you have 1 or less Life cards' requires condition type 'LifeCount' or equivalent, not TurnCount."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action has no basis in card text. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for the conditional −2000 power action per 'during this turn', but structure is broken due to condition placement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "LifeCount",
+            "comparison": "<=",
+            "value": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:25:09.153Z"
+}

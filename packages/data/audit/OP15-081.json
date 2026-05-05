@@ -1,0 +1,43 @@
+{
+  "id": "OP15-081",
+  "name": "Sanji",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' (checking leader type), not 'HasCardOnBoard' (checks board for card name)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition structure incorrect. Should use 'type' and 'value' for LeaderHasType, not 'name'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'ForceDiscard' (trash from deck), not 'TrashFromHand' (trash from hand). Card text specifies 'trash 5 cards from the top of your deck'"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-081",
+    "effectText": "[On Play] If your Leader has the {Straw Hat Crew} type, trash 5 cards from the top of your deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Straw Hat Crew"
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 5
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:28:09.433Z"
+}

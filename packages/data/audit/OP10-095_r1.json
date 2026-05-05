@@ -1,0 +1,51 @@
+{
+  "id": "OP10-095_r1",
+  "name": "Roronoa Zoro",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].type",
+      "description": "TrashFromHand is incorrect. Text says 'trash 2 cards from the top of your deck', which means trashing from deck, not hand. Should use a deck-trash action or equivalent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is mandatory ('You may rest') but DSL structure does not reflect optionality. The Rest should be conditional/optional, making the subsequent KO and trash conditional on resting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "KO target should reflect 'up to 1', meaning it is optional. Current scope does not capture optionality (0 or 1 selection)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "subType": "Dressrosa"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4
+            },
+            "optional": true
+          },
+          {
+            "type": "TrashFromDeck",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:48:13.921Z"
+}

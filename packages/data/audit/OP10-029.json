@@ -1,0 +1,48 @@
+{
+  "id": "OP10-029",
+  "name": "Dracule Mihawk",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing required condition: 'HasRestingCharacters' or equivalent to check '2 or more rested Characters'. The effect should only activate if this condition is met."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but effect text says 'set up to 1...as active' (meaning unrest/activate). Should be a custom action like 'Unrest' or 'SetActive', not 'Rest'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter is incomplete. Must include: scope='ChooseOwnCharacter', hasType='ODYSSEY', maxCost=5, AND filter for rested characters only (hasRestingStatus or similar)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP10-029",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasRestingCharacters",
+          "minCount": 2
+        },
+        "actions": [
+          {
+            "type": "Unrest",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 5,
+              "hasType": "ODYSSEY",
+              "isResting": true,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:06.013Z"
+}

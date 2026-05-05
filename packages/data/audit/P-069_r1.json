@@ -1,0 +1,37 @@
+{
+  "id": "P-069_r1",
+  "name": "Koala",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type should be 'GiveDon' not 'AttachDon'. 'AttachDon' is for attaching DON cards to other cards; 'GiveDon' is for giving rested DON cards to Leader or Characters. Card text says 'Give up to 1 rested DON!! card' which indicates transfer of ownership, not attachment."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition 'Always' to represent the 'Once Per Turn' restriction on the activation. The DSL should include a condition to enforce the once-per-turn limit if that is tracked separately, or this should be implicit in the Activated trigger with turn tracking."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:49:08.758Z"
+}

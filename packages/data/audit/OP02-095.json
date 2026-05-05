@@ -1,0 +1,36 @@
+{
+  "id": "OP02-095",
+  "name": "Onigumo",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Effect is completely missing. Card grants [Banish] keyword when there is a Character with cost 0, but DSL effects array is empty.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "cost": 0
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Banish",
+            "target": {
+              "type": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:38.145Z"
+}

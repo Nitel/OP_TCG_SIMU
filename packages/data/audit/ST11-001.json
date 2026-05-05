@@ -1,0 +1,67 @@
+{
+  "id": "ST11-001",
+  "name": "Uta",
+  "set": "ST-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card effect triggers when attacking, not via activation cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'RevealFromHand' is incorrect. Should 'RevealFromDeck' (reveal from top of deck, not hand). RevealFromHand reveals cards already in hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter logic is inverted. Should reveal ANY card from deck top, then add up to 1 FILM-type card to hand. Current DSL only reveals FILM cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Missing action to place non-FILM cards at bottom of deck. DSL only has SearchDeck but lacks the return-to-bottom-of-deck action."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "'Once Per Turn' restriction not encoded in DSL. Should add turn-limit tracking or condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "RevealFromDeck",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "count": 1,
+                "filter": {
+                  "subType": "FILM"
+                },
+                "destination": "hand"
+              },
+              {
+                "type": "PlaceAtBottomOfDeck",
+                "source": "revealed"
+              }
+            ]
+          }
+        ],
+        "limitation": {
+          "type": "OncePerTurn"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:57.223Z"
+}

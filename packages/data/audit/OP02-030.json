@@ -1,0 +1,60 @@
+{
+  "id": "OP02-030",
+  "name": "Kouzuki Oden",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' targeting 'Self' to set Character as active, but the DSL incorrectly has Rest action. The activate cost requires resting 3 DON cards in cost area (not the character). Should use 'AttachDon' or similar for cost payment, or clarify that HasRestingDon is the condition check. Current implementation conflates cost payment with character rest."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "Filter is missing required criteria: must specify card type 'Land of Wano' and color 'green'. Current filter only checks cost (maxCost:3). Should include type and color constraints."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].destination",
+      "description": "Destination should likely be 'hand' then 'PlayFromHand' or direct 'board' play. Text says 'Play' which typically means direct play to board. Current 'board' is acceptable but 'play' could also mean hand depending on game rules."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP02-030",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 3
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Land of Wano",
+              "color": "green",
+              "maxCost": 3
+            },
+            "maxCount": 1,
+            "destination": "board"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:34.567Z"
+}

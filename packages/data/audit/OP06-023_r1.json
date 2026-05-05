@@ -1,0 +1,66 @@
+{
+  "id": "OP06-023_r1",
+  "name": "Arlong",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is not a valid action type for this effect. The card should use a conditional structure to trash from hand, then apply Rest with proper duration."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "Rest action is missing duration constraint. Card text states 'cannot attack until the end of your opponent's next turn' which requires duration:'DuringOpponentTurn' (or equivalent constraint), not a simple Rest."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:'Trigger' is invalid. The card has a single [On Play] effect with a conditional (You may trash). There should not be a separate Trigger effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Card text says 'Up to 1 of your opponent's rested Leader' — effect should only target an already-rested opponent Leader, not rest one. The condition should check LeaderIsRested or similar, not unconditionally Rest."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Duration 'until the end of your opponent's next turn' indicates a timed lockdown, not a permanent Rest. This requires proper duration modeling (DuringOpponentTurn or similar) to prevent the opponent from attacking that turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 card from your hand: Up to 1 of your opponent's rested Leader cannot attack until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "maxCount": 1,
+            "thenActions": [
+              {
+                "type": "Rest",
+                "target": {
+                  "scope": "OpponentLeader",
+                  "conditions": [
+                    {
+                      "type": "IsRested"
+                    }
+                  ]
+                },
+                "maxCount": 1,
+                "duration": "DuringOpponentTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:37:07.290Z"
+}

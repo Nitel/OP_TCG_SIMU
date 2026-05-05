@@ -1,0 +1,42 @@
+{
+  "id": "OP09-117",
+  "name": "Dereshi!",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect completely misrepresents card ability. Card performs a conditional search/reveal of up to 2 specific cards from top 5 of deck, not a simple draw. Missing conditions for [Trigger] keyword filtering and [Dereshi!] exclusion, missing SearchDeck or equivalent action with proper filtering logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is invalid. Should be 'OnPlay' (Main card effect triggered on play) or another valid trigger from spec. 'Trigger' is a keyword type, not a trigger event."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action is DrawCard with count 1, but effect requires SearchDeck action with up to 2 cards selected from top 5 by keyword filter ([Trigger] but not [Dereshi!]), plus deck ordering logic."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Look at 5 cards from the top of your deck; reveal up to 2 cards with a [Trigger] other than [Dereshi!] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 2,
+            "fromTop": 5,
+            "filter": "HasKeyword:Trigger;NotName:Dereshi!",
+            "destination": "Hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:30:45.026Z"
+}

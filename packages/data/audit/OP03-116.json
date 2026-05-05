@@ -1,0 +1,35 @@
+{
+  "id": "OP03-116",
+  "name": "Shirahoshi",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action missing required 'count' parameter. Card text specifies 'trash 2 cards' but DSL does not specify count:2"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger:Trigger and PlaySelf action. Card text contains only [On Play] trigger with draw/trash actions. Second effect is not supported by card text"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:57.892Z"
+}

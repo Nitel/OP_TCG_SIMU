@@ -1,0 +1,53 @@
+{
+  "id": "ST17-005_r1",
+  "name": "Marshall.D.Teach",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'place 1 card from your hand at the top of your deck', which is a deck manipulation action, not trash. Should use 'PlayFromHand' or similar deck-placement action, or a custom 'PlaceOnTopOfDeck' if available."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].count",
+      "description": "Count is 2, but card text specifies 'up to 2 rested DON!!' cards. The action should include a 'filter' to ensure only rested DON cards are targeted, and count should reflect 'up to' (variable 1-2)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Missing filter on AttachDon action. Must filter for rested DON cards only (filter with HasRestingDon or similar)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "count": 1,
+            "destination": "TopOfDeck",
+            "thenActions": [
+              {
+                "type": "AttachDon",
+                "count": 2,
+                "filter": {
+                  "hasRestingDon": true
+                },
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:30.107Z"
+}

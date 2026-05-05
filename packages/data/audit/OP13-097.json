@@ -1,0 +1,68 @@
+{
+  "id": "OP13-097",
+  "name": "The World's Equilibrium Cannot Be Maintained Forever",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with a cost requirement (rest 5 DON!!), not a standalone condition. The DSL needs to represent the activation cost of resting 5 DON!! cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. It checks for Celestial Dragons on board but does not verify that ONLY Celestial Dragons are on your field. Should be 'OnlyCharacterType' or equivalent to enforce the exclusivity requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action target scope is incorrect. 'ChooseOpponentCharacter' allows choosing any opponent character. The action should specify 'up to 1' as a maxCount/limit parameter, and the cost restriction (6 or less) must be clearly enforced in the target."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].duration",
+      "description": "Duration 'EndOfBattle' is acceptable for Counter effects, but verify it matches official card text intent (typically lasts until battle ends)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestDon",
+          "amount": 5
+        },
+        "condition": {
+          "type": "OnlyCharacterType",
+          "characterType": "Celestial Dragons",
+          "scope": "OwnField"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6
+            },
+            "maxCount": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:05:46.154Z"
+}

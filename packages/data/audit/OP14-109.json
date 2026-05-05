@@ -1,0 +1,20 @@
+{
+  "id": "OP14-109",
+  "name": "Victoria Cindry",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not valid. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "SearchDeck action cannot have destination 'board'. Valid destinations for SearchDeck: hand only. To play a card, use PlayFromHand or PlaySelf action instead"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:18:31.776Z"
+}

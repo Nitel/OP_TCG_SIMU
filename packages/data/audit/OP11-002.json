@@ -1,0 +1,36 @@
+{
+  "id": "OP11-002",
+  "name": "Ain",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'. 'During this turn' means the effect applies only while the current turn is active, not persisting to end."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxAmount": 1
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxAmount": 1,
+          "maxPower": 0
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:40:14.445Z"
+}

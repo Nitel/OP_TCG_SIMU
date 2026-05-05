@@ -1,0 +1,76 @@
+{
+  "id": "OP15-057",
+  "name": "Dressrosa Kingdom",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The text checks if the Leader has {Dressrosa} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'OnAttack' not 'OnAttacked'. Text says 'On Your Opponent's Attack', which is the opponent attacking (OnAttack), not this card being attacked."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Missing 'Rest' action. Text requires resting this Stage as a cost before trashing and gaining power. Current DSL only has trash, missing the rest action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn' not 'EndOfBattle'. Text explicitly states 'during this battle' which occurs on opponent's turn and should use DuringOpponentTurn duration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "typeValue": "Dressrosa"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Event",
+              "Stage"
+            ]
+          },
+          "count": 1
+        }
+      ],
+      "thenActions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:18.770Z"
+}

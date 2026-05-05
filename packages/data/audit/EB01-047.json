@@ -1,0 +1,34 @@
+{
+  "id": "EB01-047",
+  "name": "Laboon",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing [Once Per Turn] restriction. The effect should only trigger once per turn, but there is no maxPerTurn constraint in the DSL.",
+      "field": "effects[0].maxPerTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "maxPerTurn": 1,
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:10.440Z"
+}

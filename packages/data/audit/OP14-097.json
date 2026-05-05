@@ -1,0 +1,46 @@
+{
+  "id": "OP14-097",
+  "name": "Hurry Up and Make Me the Pirate King!",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and does not match card effect. The effect requires: (1) look at 3 cards from top of deck, (2) reveal up to 1 Thriller Bark Pirates type card (excluding card name itself), (3) add to hand, (4) trash the rest. Current DSL has no filter for card type, no quantity limit, and no trash action for remaining cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing trash action. After searching, remaining cards must be trashed. Current DSL has only SearchDeck with no follow-up ForceDiscard/trash action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify: type='Thriller Bark Pirates', exclude card name 'Hurry Up and Make Me the Pirate King!', and limit to top 3 cards. Current filter is 'Any' with no constraints."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Thriller Bark Pirates",
+            "excludeCardName": "Hurry Up and Make Me the Pirate King!",
+            "quantity": 1,
+            "searchRange": 3
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "SearchRemaining"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:17:35.147Z"
+}

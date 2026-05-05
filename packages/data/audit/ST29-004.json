@@ -1,0 +1,30 @@
+{
+  "id": "ST29-004",
+  "name": "Sanji",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incorrect. The card effect requires looking at 4 cards from top of deck, revealing up to 1 {Straw Hat Crew} card, and adding it to hand. SearchDeck does not capture the 'look at 4 cards' mechanic or the conditional reveal/add logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify {Straw Hat Crew} type requirement"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger='Trigger' and PlaySelf action is spurious and not supported by card text. There is no secondary trigger or self-play mechanic in the effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "No mechanism to represent 'place the rest at the bottom of your deck in any order'. The DSL lacks an action type to handle deck reordering/arrangement of non-selected cards."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:24:20.410Z"
+}

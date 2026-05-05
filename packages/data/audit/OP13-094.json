@@ -1,0 +1,36 @@
+{
+  "id": "OP13-094",
+  "name": "York",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for {Celestial Dragons} type. Current scope 'ChooseOwnCharacter' lacks type restriction. Should be 'ChooseOwnCharacter' with condition/filter for type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "hasType": "CelestialDragons"
+          },
+          "maxTargets": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:05:28.285Z"
+}

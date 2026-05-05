@@ -1,0 +1,56 @@
+{
+  "id": "OP03-077",
+  "name": "Charlotte Linlin",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is a cost/payment action, not the main effect. The card text shows 'You may trash 1 card from your hand:' as a conditional cost, followed by the actual effect 'If you have 1 or less Life cards, add up to 1 card from the top of your deck to the top of your Life cards.' The condition 'you have 1 or less Life cards' is missing from the DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "FlipLife is used incorrectly. The effect should use SearchDeck to search top of deck, then add to Life cards (which is a form of SearchDeck with specific destination). FlipLife is for converting deck cards to Life cards via a different mechanic. The correct structure should check life count condition first, then SearchDeck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing the life count condition. The effect only triggers if 'you have 1 or less Life cards' – this should be a nested condition inside thenActions after the TrashFromHand cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "trigger": "Trigger",
+              "condition": {
+                "type": "LifeCount",
+                "count": 1,
+                "comparison": "LessOrEqual"
+              },
+              "actions": [
+                {
+                  "type": "SearchDeck",
+                  "count": 1,
+                  "destination": "LifeCards"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:56.862Z"
+}

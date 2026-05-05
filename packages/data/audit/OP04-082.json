@@ -1,0 +1,72 @@
+{
+  "id": "OP04-082",
+  "name": "Kyros",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect is a replacement/prevention effect ('would be K.O.'d'), not a triggered action. Should use trigger 'Counter' or 'Trigger' with conditional logic to rest Leader OR [Corrida Coliseum], not OnAttacked. Current DSL misses the conditional choice and the [Corrida Coliseum] alternative."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Effect states 'trash 1 card from the top of your deck', not from hand. Should be 'ForceDiscard' with source 'Deck' or a deck-specific trash action. Also, thenActions array should be empty or omitted."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1]",
+      "description": "Missing detail: 'from the top of your deck' requires specifying deck as source, not hand. Standard action should target deck, not hand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "description": "If this Character would be K.O.'d",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Choice",
+            "options": [
+              {
+                "scope": "OwnLeader"
+              },
+              {
+                "scope": "OwnCharacter",
+                "filter": {
+                  "cardName": "Corrida Coliseum"
+                },
+                "maxCount": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Rebecca"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "Deck",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:43:25.532Z"
+}

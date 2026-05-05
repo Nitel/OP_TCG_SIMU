@@ -1,0 +1,56 @@
+{
+  "id": "EB03-057",
+  "name": "Yamato",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action is incorrect. Card text says 'Give up to 3 rested DON!! cards' which means the Leader must already have rested DON cards available to give/transfer. AttachDon implies adding DON from outside. Should be clarified or use a different action. Additionally, the condition 'to your {Land of Wano} type Leader' is not represented in the DSL—there should be a LeaderHasType condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: LeaderHasType with type '{Land of Wano}'. The effect only applies if Leader has this type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "ForceDiscard without target specification. Text says 'from the top of your opponent's Life cards', which is a specific source (opponent's life deck), not a standard hand discard. Current DSL is ambiguous about source."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "{Land of Wano}"
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 3,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "OpponentLifeDeck"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:00.023Z"
+}

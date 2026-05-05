@@ -1,0 +1,57 @@
+{
+  "id": "OP12-051",
+  "name": "Hina",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].keyword",
+      "description": "Effect prevents opponent Character from activating [Blocker], not grants it. Should use negative keyword logic or 'DisableKeyword' action, not 'GiveKeyword'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration should be 'DuringYourTurn' (effect lasts 'during this turn'), not 'EndOfTurn'. Text explicitly states 'during this turn' which is a [Your Turn] duration."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand uses 'thenActions' array but has no conditional logic; consider if this should be conditional (trash only if player chooses to proceed)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may rest this Character and trash 1 card from your hand: Up to 1 of your opponent's Characters with a base cost of 4 or less cannot activate [Blocker] during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "DisableKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:53:10.008Z"
+}

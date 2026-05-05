@@ -1,0 +1,53 @@
+{
+  "id": "OP03-121_r1",
+  "name": "Thunder Bolt",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Card text says 'trash 1 card from the top of your Life cards', which means trashing from Life zone, not hand. Should use FlipLife (which trashes from Life) or a Life-specific trash action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand filter is empty. Should specify trashing from Life zone, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and standalone KO action is redundant and incorrect. The KO should only occur after the Life card trash is resolved, via thenActions in the first effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target should include 'count:1' or 'maxCount:1' to enforce 'up to 1' limitation."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may trash 1 card from the top of your Life cards: K.O. up to 1 of your opponent's Characters with a cost of 5 or less.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 5,
+                  "maxCount": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:15:30.349Z"
+}

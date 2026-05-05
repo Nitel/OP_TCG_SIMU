@@ -1,0 +1,66 @@
+{
+  "id": "EB04-060",
+  "name": "Gum-Gum Hawk Gatling",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect for 'add 1 card from top or bottom of Life cards to hand'. Should be DrawCard or equivalent action that specifies life card source, not FlipLife (which moves hand cards to life)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "PlayFromHand is incorrect for 'add up to 1 Egghead Character to top of Life cards face-up'. This should be AttachDon or a life-add action, not PlayFromHand (which plays to board)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for 'during this turn'. Should be 'DuringYourTurn' per duration rules."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger effect (DrawCard + TrashFromHand) has no basis in card text. Card contains only one main effect with three sub-actions, not two separate triggers."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB04-060",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "filter": {
+              "source": "LifeCards"
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "filter": {
+              "subType": "Egghead",
+              "cardType": "Character"
+            },
+            "target": {
+              "scope": "YourLifeCards"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:21:50.471Z"
+}

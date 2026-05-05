@@ -1,0 +1,59 @@
+{
+  "id": "OP10-119",
+  "name": "Trafalgar Law",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].target",
+      "description": "AttachDon target must specify {Supernovas} type Leader constraint. Current target allows any Leader; should be {\"scope\":\"ChooseOwnLeader\",\"filter\":{\"type\":\"Supernovas\"}}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].condition",
+      "description": "AttachDon should only execute if a rested DON!! is available to attach. Needs condition checking for HasRestingDon or equivalent state verification"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "AddLife action should clarify face-down placement; current DSL lacks face-down modifier though intent is clear from card text"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Supernovas",
+              "cardType": "Character"
+            },
+            "thenActions": [
+              {
+                "type": "AddLife",
+                "count": 1,
+                "faceDown": true
+              },
+              {
+                "type": "AttachDon",
+                "count": 1,
+                "target": {
+                  "scope": "ChooseOwnLeader",
+                  "filter": {
+                    "type": "Supernovas"
+                  }
+                },
+                "condition": "HasRestingDon"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:40:05.859Z"
+}

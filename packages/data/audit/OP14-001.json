@@ -1,0 +1,47 @@
+{
+  "id": "OP14-001",
+  "name": "Trafalgar Law",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has activation text but effects array is empty. Missing complete DSL implementation for: Activate Main phase ability that swaps base power between 2 selected Supernovas or Heart Pirates Characters during this turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing trigger: Activated (for Activate: Main). Missing condition: Once Per Turn. Missing actions: SelectTarget (2 Characters with type filter) and PowerSwap or equivalent mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "'during this turn' → duration must be 'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] Select 2 of your {Supernovas} or {Heart Pirates} type Characters. Swap the base power of the selected Characters with each other during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": "Always",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "SelectTarget",
+            "count": 2,
+            "selector": "YourCharacters",
+            "filter": "HasAnyType|Supernovas,HeartPirates"
+          },
+          {
+            "type": "PowerSwap",
+            "targets": "selected"
+          }
+        ],
+        "onceTrigger": "PerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:10:15.103Z"
+}

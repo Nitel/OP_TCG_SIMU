@@ -1,0 +1,20 @@
+{
+  "id": "OP06-031",
+  "name": "Hatchan",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is invalid. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action requires a 'target' field specifying where card is played from (e.g., 'Hand', 'Deck'). Current DSL only has filter."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:55:34.130Z"
+}

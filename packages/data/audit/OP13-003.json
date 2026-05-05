@@ -1,0 +1,65 @@
+{
+  "id": "OP13-003",
+  "name": "Gol.D.Roger",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should check 'HasCardOnBoard' with cardType DON, not 'HasAttachedDon'. 'HasAttachedDon' checks attached DON on Leader; text requires DON cards anywhere on field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition logic is inverted. Text says 'If you have 9 or less DON!! cards' (≤9), but 'HasAttachedDon' with count:9 checks for exactly 9 or more attached to Leader. Should use field-wide count check with ≤9 operator."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'Activated' only once per turn during DON Phase setup, not repeated. Current structure may trigger multiple times."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].duration",
+      "description": "Debuff of −2000 power should likely be 'Permanent' (ongoing penalty while ≤9 DON exist), not 'EndOfTurn'. Clarification needed from official text, but power penalty typically persists."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "DON"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "count": 9,
+        "operator": "LessThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:58:40.409Z"
+}

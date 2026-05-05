@@ -1,0 +1,76 @@
+{
+  "id": "ST14-008",
+  "name": "Haredas",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next turn), not 'EndOfTurn'. Text explicitly states 'until the end of your opponent's next turn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target filter missing: should specify black {Straw Hat Crew} type Characters only, not all Characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "DrawCard and TrashFromHand actions are conditional on 'if you have a Character with a cost of 8 or more' but no condition is specified in the DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "PowerBoost action should be optional ('You may') but DSL does not reflect optional behavior."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "StrawHatCrew",
+              "color": "black"
+            },
+            "maxCount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cost": {
+              "min": 8
+            }
+          }
+        }
+      ],
+      "thenActions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:42.106Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "EB03-045",
+  "name": "Perona",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "SearchDeck is incorrect for this effect. The card searches trash, not deck. Should be a custom action or PlayFromTrash equivalent that targets trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].condition",
+      "description": "Condition logic is inverted. Should check TrashCount >= 10 as a prerequisite for the second action, not HasCardOnBoard. The condition HasCardOnBoard with name filter doesn't match the card text 'if you have 10 or more cards in your trash'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter missing type constraint. Must filter by type 'Thriller Bark Pirates' AND cost <= 2, not just cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon should specify 'rested' state. The text says 'rested DON!!' cards must be given."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].destination",
+      "description": "Destination should indicate 'rested' state. Text specifies characters are played 'rested'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
+        },
+        "state": "rested"
+      },
+      {
+        "type": "PlayFromTrash",
+        "count": 1,
+        "filter": {
+          "type": "Thriller Bark Pirates",
+          "kind": "ByCost",
+          "maxCost": 2
+        },
+        "destination": "board",
+        "state": "rested",
+        "condition": {
+          "type": "TrashCount",
+          "minCount": 10
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:34.012Z"
+}

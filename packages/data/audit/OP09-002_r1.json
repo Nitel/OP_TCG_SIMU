@@ -1,0 +1,37 @@
+{
+  "id": "OP09-002_r1",
+  "name": "Uta",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The card effect requires: (1) looking at top 5 cards, (2) revealing up to 1 Red-Haired Pirates card, (3) adding it to hand, (4) placing rest at bottom in any order. Current DSL uses generic SearchDeck with no depth limit, no type filter, and omits the deck ordering mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify 'Red-Haired Pirates' type only."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "CardType",
+            "value": "Red-Haired Pirates"
+          },
+          "destination": "hand",
+          "limit": 1,
+          "depth": 5,
+          "restToBottom": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:49.601Z"
+}

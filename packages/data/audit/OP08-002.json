@@ -1,0 +1,57 @@
+{
+  "id": "OP08-002",
+  "name": "Marco",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'place 1 card from your hand at the top or bottom of your deck' is not represented. Need to add SearchDeck or similar action to model deck placement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "PowerBoost target should be optional (up to 1). Current scope 'ChooseOpponentCharacter' does not indicate optionality. Should use 'optional:true' or equivalent."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' enforcement. The condition object lacks a once-per-turn restriction mechanism (typically handled by a flag or activation limit, not shown in current DSL)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-002",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "PlayFromHand",
+            "zone": "Deck",
+            "position": "TopOrBottom"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "optional": true,
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:11:43.326Z"
+}

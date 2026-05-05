@@ -1,0 +1,43 @@
+{
+  "id": "OP02-099_r1",
+  "name": "Sakazuki",
+  "set": "PRB-01",
+  "verdict": "minor",
+  "issues": [
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action uses legacy alias 'TrashFromHand' which is correct per schema, but the conditional structure suggests this is optional ('You may trash'). The thenActions should be wrapped in a condition or the action should use optional:true to reflect the optional nature of the trash."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "filter object is empty; should specify count:1 to indicate 'up to 1 card from hand' if this is meant to be explicit."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 5
+                },
+                "count": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:45.028Z"
+}

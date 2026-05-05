@@ -1,0 +1,44 @@
+{
+  "id": "OP09-048",
+  "name": "Dracule Mihawk",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing trash action. DSL has DrawCard but is missing the 'trash 1 card from your hand' action. Should include ForceDiscard or TrashFromHand with count:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Blocker keyword effect. The card text states '[Blocker]' which should be represented as a separate effect (likely a GiveKeyword action or similar keyword grant on trigger)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "Hand"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:02:24.921Z"
+}

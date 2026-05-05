@@ -1,0 +1,48 @@
+{
+  "id": "OP08-085",
+  "name": "Jinbe",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text says '[When Attacking]' which is an attack trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check for a Character with cost 8 or more on your board. Current condition only checks for resting DON. Should use 'HasCardOnBoard' with cost constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target action missing 'maxCount' constraint. Card says 'up to 1' opponent Character, but target only specifies maxCost. Should include 'maxCount':1 to enforce 'up to 1' selection."
+    }
+  ],
+  "suggestedDsl": {
+    "cost": 1,
+    "costType": "Don",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "scope": "YourCharacters",
+          "minCost": 8
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:30:45.361Z"
+}

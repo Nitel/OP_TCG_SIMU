@@ -1,0 +1,33 @@
+{
+  "id": "ST05-002",
+  "name": "Ain",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action does not capture the 'rest it' requirement. The card effect requires the DON!! to be rested after being added, but the DSL only adds DON!! without the Rest action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing Rest action. Effect text states 'rest it' which requires a second action to rest the attached DON!!."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:58:51.478Z"
+}

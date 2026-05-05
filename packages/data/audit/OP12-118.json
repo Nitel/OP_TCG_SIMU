@@ -1,0 +1,44 @@
+{
+  "id": "OP12-118",
+  "name": "Jewelry Bonney",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'TrashCount' (checking rested cards) not 'HasRestingDon'. HasRestingDon checks for attached DON!!, not rested cards on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing final action: 'set up to 1 of your DON!! cards as active' should be Rest action (or equivalent to set DON as active). Current DSL only has DrawCard and TrashFromHand."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "TrashCount",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "filter": {}
+      },
+      {
+        "type": "Rest",
+        "count": 1,
+        "filter": {
+          "cardType": "DON"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:58:16.147Z"
+}

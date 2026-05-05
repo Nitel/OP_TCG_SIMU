@@ -1,0 +1,54 @@
+{
+  "id": "OP04-011",
+  "name": "Nami",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Action type is 'RevealFromHand' but effect text says 'Reveal 1 card from the top of your deck', not from hand. Should be 'SearchDeck' with reveal=true or similar deck-reveal action.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Filter uses 'maxPower: 6000' but effect text requires 'a Character card with 6000 power or more' (minimum, not maximum). Should be 'minPower: 6000'.",
+      "field": "effects[0].actions[0].filter.maxPower"
+    },
+    {
+      "severity": "major",
+      "description": "Missing the action to place the revealed card at the bottom of the deck after the reveal, as stated in 'Then, place the revealed card at the bottom of your deck.'",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "reveal": true,
+            "fromTop": true,
+            "filter": {
+              "cardType": "Character",
+              "minPower": 6000
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "EndOfTurn"
+              }
+            ],
+            "placeLocation": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:54:06.761Z"
+}

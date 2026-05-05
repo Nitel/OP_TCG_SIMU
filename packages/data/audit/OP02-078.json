@@ -1,0 +1,57 @@
+{
+  "id": "OP02-078",
+  "name": "Daifugo",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type. '[On Play]' indicates this effect triggers when the card is played, not an activated ability. Should be 'OnPlay' not 'Activated'.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong condition type. 'DON!! −2' is a cost that returns DON!! cards, not a check for resting DON!!. The condition should verify you have 2 DON!! to return, but the actual return action is missing from the actions array.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing GiveDon action with amount: -2. The 'DON!! −2' cost means returning 2 DON!! cards from field to DON!! deck, which should be represented as a GiveDon action with negative amount.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "minor",
+      "description": "Filter should specify excludeName: 'Daifugo' instead of excludeSelf: true, as the text says 'other than [Daifugo]' which could include other copies of Daifugo.",
+      "field": "effects[0].actions[0].filter.excludeSelf"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "amount": -2,
+            "target": "self"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "SMILE",
+              "cardType": "Character",
+              "maxCost": 3,
+              "excludeName": "Daifugo"
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:38.521Z"
+}

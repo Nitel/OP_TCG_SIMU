@@ -1,0 +1,72 @@
+{
+  "id": "ST24-002",
+  "name": "Kid &amp; Killer",
+  "set": "ST-24",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second effect entirely. Card has two abilities: [On Play] and [On Your Opponent's Attack]. DSL only contains the first effect and implements it incorrectly."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "[On Play] effect is incomplete. Should include: look at 5 cards, reveal up to 1 {Supernovas} card, add to hand, then place rest at bottom in any order. Current DSL only has generic SearchDeck with no filter specification or deck ordering logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing [On Your Opponent's Attack] effect entirely: trash this Character to set up to 1 DON!! as active. This is a significant game mechanic and must be included."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify {Supernovas} type, not {Any}. Should be type-based filter."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST24-002",
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[On Your Opponent's Attack] You may trash this Character: Set up to 1 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "Supernovas"
+            },
+            "destination": "hand",
+            "maxCount": 1,
+            "deckViewCount": 5,
+            "orderRest": "BottomInAnyOrder"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": "SelfCharacter",
+            "condition": "optional"
+          },
+          {
+            "type": "Rest",
+            "target": "YourDONCards",
+            "maxCount": 1,
+            "setAsActive": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:29.771Z"
+}

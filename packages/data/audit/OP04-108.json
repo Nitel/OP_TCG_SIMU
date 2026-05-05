@@ -1,0 +1,39 @@
+{
+  "id": "OP04-108",
+  "name": "Charlotte Moscato",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Trigger should be 'OnPlay' not 'Activated'. The card gains Banish when played (DON!! cost activation), not on an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. Banish keyword is a permanent ability, not temporary."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely wrong. Card text only describes the Banish keyword effect—there is no triggered trash/play effect. This entire effect should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:35.799Z"
+}

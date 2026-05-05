@@ -1,0 +1,55 @@
+{
+  "id": "OP05-057_r1",
+  "name": "Hound Blaze",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which indicates the effect lasts for the current turn only, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but card text says 'place at the bottom of the owner's deck'. Correct action should be a deck placement action (no standard action exists; this requires custom handling or clarification of intent)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxCost",
+      "description": "maxCost is 3 but card text specifies 'cost of 2 or less', so maxCost should be 2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger is 'Trigger' which is vague. This should chain from the first effect (likely 'OnPlay' with chaining, or be part of a single multi-action effect)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Up to 1 of your Leader or Character cards gains +3000 power during this turn. Then, place up to 1 Character with a cost of 2 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 2
+            },
+            "note": "DSL lacks 'PlaceAtBottomOfDeck' action; ReturnToHand used as placeholder. Requires action type extension or clarification."
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:40.299Z"
+}

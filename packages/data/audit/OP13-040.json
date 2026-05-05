@@ -1,0 +1,70 @@
+{
+  "id": "OP13-040",
+  "name": "I Know You're Strong... So I'll Go All Out from the Very Start!!!",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Main effect fundamentally misrepresents card mechanics. Text states 'You may rest 2 of your DON!! cards' (cost) to prevent opponent's characters from becoming active next Refresh Phase. DSL incorrectly shows resting opponent's characters instead of own DON cards, and missing the prevention effect entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "No action models the core effect: preventing up to 2 opponent rested Characters (cost ≤7) from becoming active during opponent's next Refresh Phase. Current Rest actions target wrong scope (opponent instead of self DON cards)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with a cost condition requiring 2 rested DON cards. Current structure lacks the resource cost requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP13-040",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "amount": 2
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "OwnDonCards"
+            },
+            "amount": 2
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotActivateNextRefresh",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 7,
+              "maxAmount": 2
+            },
+            "duration": "UntilNextOpponentRefresh"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:01:23.975Z"
+}

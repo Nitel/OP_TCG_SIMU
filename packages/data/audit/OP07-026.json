@@ -1,0 +1,30 @@
+{
+  "id": "OP07-026",
+  "name": "Jewelry Bonney",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a triggered ability on play that prevents up to 1 opponent's rested card from becoming active, but effects[] is empty. This effect must be represented in DSL."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "effects": [
+      {
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "OpponentRestingCharacterOrDon",
+            "count": 1,
+            "duration": "UntilNextOpponentRefresh"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:04:21.066Z"
+}

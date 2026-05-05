@@ -1,0 +1,46 @@
+{
+  "id": "OP09-076_r2",
+  "name": "Roronoa Zoro",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Effect completely missing the core mechanic: returning DON!! cards from field to DON!! deck and adding a DON!! from deck. Current action only returns to hand (ReturnToHand), which is incorrect. Should include conditional return of DON!! cards and attachment of DON!! from deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "ReturnToHand is wrong action type. Should be a custom action or sequence: return DON!! to deck (not hand), then AttachDon from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition that return is optional ('You may') and the exchange mechanic (return N cards, add up to 1 back). DSL does not capture the conditional/optional nature or the deck search component."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Self",
+          "filter": "HasType:DON",
+          "count": "1+"
+        },
+        "optional": true
+      },
+      {
+        "type": "AttachDon",
+        "target": {
+          "scope": "Self",
+          "source": "DONDeck"
+        },
+        "count": "0-1"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:47:04.786Z"
+}

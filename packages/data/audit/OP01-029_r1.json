@@ -1,0 +1,53 @@
+{
+  "id": "OP01-029_r1",
+  "name": "Radical Beam!!",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition.type",
+      "description": "Condition should be 'TrashCount' (checking Life cards ≤2), not 'HasRestingDon'. Life cards in hand are tracked via TrashCount in OPTCG DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and PowerBoost +1000 has no basis in card text. Card only grants +2000 twice conditionally; no additional +1000 boost exists. This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0] and effects[0].actions[1]",
+      "description": "Both PowerBoost actions target 'ChooseOwnCharacterOrLeader' separately. DSL should target the same card once (chose in first action), then conditionally boost it again. Current structure allows two different targets."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "amount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "SameAsLastTarget"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "TrashCount",
+            "operator": "<=",
+            "count": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:26.108Z"
+}

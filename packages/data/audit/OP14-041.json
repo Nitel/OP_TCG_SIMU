@@ -1,0 +1,71 @@
+{
+  "id": "OP14-041",
+  "name": "Boa Hancock",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing duration constraint. Text states '[Opponent's Turn]' which requires duration: 'DuringOpponentTurn'. Current DSL has no duration specified."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect completely wrong. Trigger should be 'OnKO' (not 'Activated'), with conditions checking for Amazon Lily/Kuja Pirates type AND base power ≥5000. Action should be 'FlipLife' with count 1, but trigger and conditions are incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'Activated' is wrong. Should be 'OnKO' since effect triggers when a Character is K.O.'d."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].condition",
+      "description": "Condition incomplete. Must check: HasCardOnBoard with type filters for {Amazon Lily} OR {Kuja Pirates} AND base power ≥5000. Current condition only checks HasAttachedDon."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing 'once per turn' enforcement. DSL should include mechanism to enforce the '[Once Per Turn]' restriction."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "typeFilter": [
+          "Amazon Lily",
+          "Kuja Pirates"
+        ],
+        "minBasePower": 5000
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ],
+      "oncePerTurn": true,
+      "costRequirement": {
+        "type": "HasAttachedDon",
+        "count": 1
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:21.369Z"
+}

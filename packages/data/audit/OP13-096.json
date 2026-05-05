@@ -1,0 +1,59 @@
+{
+  "id": "OP13-096",
+  "name": "The Five Elders Are at Your Service!!!",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect completely misses the core mechanic: must look at 3 cards from top of deck, reveal up to 1 Celestial Dragons type card (excluding The Five Elders Are at Your Service!!!), add to hand, then trash the rest"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty/generic (kind:Any). Must specify: cardType=Celestial Dragons AND cardName!=The Five Elders Are at Your Service!!!"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing trash action for remaining 2 cards after selection"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck scope incorrect: should look at top 3 cards only (not full deck search), reveal UP TO 1 card (optional reveal mechanic not captured)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 3 cards from the top of your deck; reveal up to 1 {Celestial Dragons} type card other than [The Five Elders Are at Your Service!!!] and add it to your hand. Then, trash the rest.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "cardType": "Celestial Dragons",
+              "excludeByName": "The Five Elders Are at Your Service!!!"
+            },
+            "destination": "hand",
+            "amount": {
+              "min": 0,
+              "max": 1
+            },
+            "deckPosition": "top",
+            "deckPositionCount": 3
+          },
+          {
+            "type": "ForceDiscard",
+            "target": "RemainingFromSearched",
+            "destination": "trash"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:05:38.780Z"
+}

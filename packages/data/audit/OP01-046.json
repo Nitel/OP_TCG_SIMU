@@ -1,0 +1,37 @@
+{
+  "id": "OP01-046",
+  "name": "Denjiro",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' (checking if Leader is a specific card), not 'HasCardOnBoard' (which checks for cards on the board)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'AttachDon' (attach/set DON!! cards as active), not 'GiveDon' (which adds DON!! to pool)"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] If your Leader is [Kouzuki Oden], set up to 2 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Kouzuki Oden"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:18.362Z"
+}

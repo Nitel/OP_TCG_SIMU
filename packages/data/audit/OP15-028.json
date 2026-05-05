@@ -1,0 +1,46 @@
+{
+  "id": "OP15-028",
+  "name": "Meowban Brothers",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {East Blue} type, not if a card with that name is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.name",
+      "description": "For LeaderHasType condition, use 'type' field not 'name'. Should reference the type value 'East Blue'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'GiveDon' not 'AttachDon'. The effect gives DON!! from opponent's cost area to opponent's Characters, not attaching to your own board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope should be 'OpponentCharacter' not 'ChooseOpponentCharacter'. The action selects up to 1 opponent Character to give DON to."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "East Blue"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OpponentCharacter"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:24:09.344Z"
+}

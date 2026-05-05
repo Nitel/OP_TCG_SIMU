@@ -1,0 +1,54 @@
+{
+  "id": "OP10-004",
+  "name": "Vergo",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to limit search to top 5 cards of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is incomplete: must specify CardType filter for 'Punk Hazard' and exclude 'Vergo'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to place remaining 4 cards at bottom of deck in any order"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck should be limited to 1 card revealed from the 5 examined ('up to 1')"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Punk Hazard} type card other than [Vergo] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "CardType",
+              "value": "Punk Hazard",
+              "exclude": "Vergo"
+            },
+            "limit": 5,
+            "revealLimit": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "ArrangeBottom",
+            "count": 4
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:31:12.278Z"
+}

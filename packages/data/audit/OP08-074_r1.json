@@ -1,0 +1,58 @@
+{
+  "id": "OP08-074_r1",
+  "name": "Black Maria",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL completely omits the core mechanics: (1) condition checking 'no other Black Maria Characters' is missing; (2) 'rest them' action after GiveDon is missing; (3) delayed end-of-turn effect that returns DON cards to match opponent's count is entirely absent; (4) GiveDon action should specify source as DON deck; (5) second action (return DON cards) requires separate effect with EndOfTurn trigger"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'If you have no other [Black Maria] Characters' is not captured; requires custom condition logic or HasCardOnBoard negation"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing 'Rest' action after GiveDon; missing entire second effect for end-of-turn return mechanic"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 5,
+          "source": "DONDeck"
+        },
+        {
+          "type": "Rest",
+          "target": "self"
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": "YourField",
+          "count": "DifferenceFromOpponent",
+          "destination": "DONDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:29.780Z"
+}

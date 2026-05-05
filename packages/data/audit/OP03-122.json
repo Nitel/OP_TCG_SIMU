@@ -1,0 +1,44 @@
+{
+  "id": "OP03-122",
+  "name": "Sogeking",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target should be 'ChooseCharacter' (your own board), not 'ChooseOpponentCharacter'. Card effect returns a Character to owner's hand, implying you choose from any Character on board (typically your own or opponent's depending on context, but 'owner's hand' suggests flexible targeting). However, standard OPTCG phrasing 'Character with a cost of 6 or less' without 'opponent's' modifier typically means you choose any eligible Character. Scope should be 'ChooseCharacter' with maxCost:6."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "TrashFromHand action should not have 'thenActions' field. The sequence is: Return (1) → Draw 2 (2) → Trash 2 (3). These are sequential actions in the same effect, not conditional chains. Remove the 'thenActions' wrapper."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Also treat this card's name as [Usopp] according to the rules. [On Play] Return up to 1 Character with a cost of 6 or less to the owner's hand. Then, draw 2 cards and trash 2 cards from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 6
+            }
+          },
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:11.308Z"
+}

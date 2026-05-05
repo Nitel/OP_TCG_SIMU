@@ -1,0 +1,70 @@
+{
+  "id": "OP09-028",
+  "name": "Sanji",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand is incorrect; effect says 'Play... from your trash rested', not from hand. Should be custom action or PlayFromTrash with rested=true state"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter uses 'subType' but ODYSSEY and Straw Hat Crew are types, not subtypes. Should use 'type' with array: [\"ODYSSEY\", \"Straw Hat Crew\"]"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife does not capture the 'may' optionality or the 'top or bottom' choice. Should be optional with choice parameter"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Action sequence is wrong: FlipLife should be prerequisite/condition, then conditional Play action only if life was flipped. Currently structured as sequential guaranteed actions"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true,
+          "choice": "TopOrBottom"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "type": [
+              "ODYSSEY",
+              "Straw Hat Crew"
+            ],
+            "maxCost": 4
+          },
+          "state": "rested"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:35:27.978Z"
+}

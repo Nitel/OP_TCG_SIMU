@@ -1,0 +1,54 @@
+{
+  "id": "EB03-051",
+  "name": "Charlotte Smoothie",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should check for face-up Life cards, not just any Life card on board. 'HasCardOnBoard' does not specify face-up status."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Second action should flip Life cards face-down, not remove them. 'RemoveLife' is incorrect; should use a flip/face-down action or custom action type."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "KO action targets 'up to 1' opponent Character, but target definition lacks explicit 'maxCount' or 'optional' flag to indicate 'up to' semantics."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If you have a face-up Life card, K.O. up to 1 of your opponent's Characters with a cost of 2 or less. Then, turn all of your Life cards face-down.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Life",
+          "faceUp": true
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "maxCount": 1,
+              "optional": true
+            }
+          },
+          {
+            "type": "FlipLife",
+            "target": {
+              "scope": "YourLifeCards"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:44.564Z"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "OP12-026",
+  "name": "Kuina",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action rests Self (this Character), but effect text says 'You may rest this Character' as a cost/requirement, not as part of the effect chain. The actual effect is to rest opponent's Character and attach DON. The self-rest should be a cost notation, not an action in sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action should allow choosing 0 or 1 opponent Character (\"up to 1\"), but Rest action does not naturally support optional targeting. Should be conditional or use a different structure to represent 'may'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].count",
+      "description": "AttachDon specifies count:3, but effect says 'give up to 3 rested DON!! cards'. This means 0-3 DON cards (optional/variable), not fixed 3. Count should reflect optional/variable nature or be represented differently."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target",
+      "description": "Target scope 'OwnLeader' is generic. Effect specifically requires attaching to '[Roronoa Zoro] Leader', which is a conditional requirement that should be validated or noted in target specification."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP12-026",
+    "effectText": "[Activate: Main] You may rest this Character: Rest up to 1 of your opponent's Characters with a base cost of 4 or less. Then, give up to 3 rested DON!! cards to your [Roronoa Zoro] Leader.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": "Rest Self",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "optional": true,
+              "maxTargets": 1
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": {
+              "value": 3,
+              "optional": true
+            },
+            "target": {
+              "scope": "OwnLeader",
+              "condition": "LeaderIsName",
+              "leaderName": "Roronoa Zoro"
+            },
+            "cardSource": "rested DON cards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:51:19.653Z"
+}

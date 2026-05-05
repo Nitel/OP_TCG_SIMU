@@ -1,0 +1,64 @@
+{
+  "id": "OP12-038",
+  "name": "Two-Sword Style Rashomon",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Main ability requires resting 2 DON!! cards as a cost, but DSL has no cost definition. Must include 'cost' field with AttachDon or similar mechanism to represent the resource payment."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for rested Characters only. Current scope 'ChooseOpponentCharacter' does not enforce the 'rested' condition. Should add 'hasResting':true or equivalent state filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "DSL shows 2 separate KO actions but should represent 'up to 2' as a single action with maxTargets/variableCount. Current structure implies mandatory 2 KOs."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP12-038",
+    "name": "[Main] Activated Ability",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "Rest",
+          "count": 2,
+          "target": {
+            "scope": "OwnDon"
+          }
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "count": "UpTo2",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "hasResting": true
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:52:13.981Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP11-007",
+  "name": "Tashigi",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should not be mandatory in the actions array. The card text states 'You may rest this Character' — resting is optional, not a guaranteed action. The condition check for Leader type should gate the entire effect, but the Rest itself should be represented as part of the activation cost/requirement, not as an action that always executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. The card text explicitly states 'during this turn', which means the power boost applies only while it is your turn, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Navy"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Navy",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T11:40:37.707Z"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "OP13-057",
+  "name": "If I Bowed Down to Power, What's the Point in Living?",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Main effect is missing the conditional logic and the Blocker prevention action. The effect should check 'If you have 1 or less Life cards' and prevent opponent from activating [Blocker] during this turn when Leader attacks. Current DSL only has Rest action without the condition or blocker prevention."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasLifeCards' (1 or less) not 'Always'. The effect only applies when life ≤ 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing the core action that prevents opponent's [Blocker] activation. Only 'Rest' is present; need to add action preventing opponent blocker during this turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Duration context missing: effect applies 'during this turn' which means it should apply DuringYourTurn, not a permanent or end-of-turn effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasLifeCards",
+        "amount": 1,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": "HasDon"
+          }
+        },
+        {
+          "type": "PreventBlocker",
+          "target": {
+            "scope": "Opponent"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:02:37.469Z"
+}

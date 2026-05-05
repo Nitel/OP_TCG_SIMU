@@ -1,0 +1,52 @@
+{
+  "id": "OP14-104",
+  "name": "Gecko Moria",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck is incorrect; action should be PlayFromHand or similar to play from trash. SearchDeck searches deck, not trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing filter constraint for {Thriller Bark Pirates} type. Current filter only checks cost, ignores card type requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination should support both 'board' (play) and 'life' (add to life cards face-up). Current DSL only targets board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' is invalid and unexplained. Effect should have single OnPlay trigger only, not two separate triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Action should search trash, not deck. Card text specifies 'from your trash'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "type": "Thriller Bark Pirates",
+            "maxCost": 4
+          },
+          "source": "trash",
+          "destination": "board|life",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:10.477Z"
+}

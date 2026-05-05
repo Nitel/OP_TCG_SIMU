@@ -1,0 +1,47 @@
+{
+  "id": "OP04-036_r1",
+  "name": "Donquixote Family",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing core mechanics: effect does not implement the 'look at 5 cards' step, the reveal condition, the selective add-to-hand (up to 1 {Donquixote Pirates}), or the bottom-deck placement of remaining cards. Current DSL only searches deck without these constraints."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to {Donquixote Pirates} type cards (up to 1 card revealed and added)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to place remaining 4 cards at bottom of deck in any order. Current DSL has only SearchDeck; needs additional logic for deck reordering."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "Donquixote Pirates"
+            },
+            "destination": "hand",
+            "amount": 1,
+            "lookAtAmount": 5
+          },
+          {
+            "type": "PlaySelf",
+            "notes": "Remaining 4 cards returned to bottom of deck in any order"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:34:33.876Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP05-090",
+  "name": "Riku Doldo III",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should filter for {Dressrosa} type Characters. Current scope 'ChooseOwnCharacter' with maxPower constraint is incorrect. Should be 'ChooseOwnCharacter' with type filter: {\"type\":\"Dressrosa\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should filter for {Dressrosa} type Characters. Current scope 'ChooseOwnCharacter' with maxPower constraint is incorrect. Should be 'ChooseOwnCharacter' with type filter: {\"type\":\"Dressrosa\"}"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxAmount": 1,
+            "type": "Dressrosa"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxAmount": 1,
+            "type": "Dressrosa"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:51:09.024Z"
+}

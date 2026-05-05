@@ -1,0 +1,53 @@
+{
+  "id": "OP14-115",
+  "name": "Rindo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].duration",
+      "description": "Text states '[Opponent's Turn]' but DSL has no duration field. Must include duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be SearchDeck (add up to 1 card from top of deck), not FlipLife. FlipLife is incorrect for this effect"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and PlaySelf action is not supported by card text and appears to be erroneous data"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasCardOnBoard:Kuja Pirates' not mentioned in card text. This appears to be incorrect restriction"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP14-115",
+    "effectText": "[Opponent's Turn] [On K.O.] Add up to 1 card from the top of your deck to the top of your Life cards. Then, you take 1 damage.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "destination": "LifeCards"
+          },
+          {
+            "type": "RemoveLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:19:00.756Z"
+}

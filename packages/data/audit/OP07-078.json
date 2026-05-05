@@ -1,0 +1,53 @@
+{
+  "id": "OP07-078",
+  "name": "Megaton Nine-Tails Rush",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' for a main deck card effect, not 'Activated'. Main effects trigger when the card is played."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition to check if DON count on your field ≤ opponent's DON count. Should include 'HasAttachedDon' comparison condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' (to set a card active means to rest it), not 'SearchDeck'. The card is already on the field and needs to be rested."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify type 'Foxy', not 'Any'. Action must target up to 1 [Foxy] card on the field."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination should not be 'board' for a Rest action. Rest affects cards already on the field."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "targetPlayer": "opponent"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "filter": {
+            "type": "Foxy"
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:08:24.772Z"
+}

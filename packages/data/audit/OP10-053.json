@@ -1,0 +1,35 @@
+{
+  "id": "OP10-053",
+  "name": "Bian",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a conditional keyword grant ([Blocker]), but effects array is empty. Should contain a trigger with condition checking for {The Tontattas} type Character and action granting [Blocker] keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardType": "The Tontattas",
+            "excludeName": "Bian"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:56.712Z"
+}

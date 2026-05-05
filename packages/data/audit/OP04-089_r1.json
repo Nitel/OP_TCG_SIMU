@@ -1,0 +1,27 @@
+{
+  "id": "OP04-089_r1",
+  "name": "Bartolomeo",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability completely missing. Card text describes a triggered passive ability (OnAttacked trigger) that should grant the Blocker keyword or implement equivalent logic. Effects array is empty."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:34:50.031Z"
+}

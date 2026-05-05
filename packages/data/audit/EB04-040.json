@@ -1,0 +1,69 @@
+{
+  "id": "EB04-040",
+  "name": "Flame Dragon Torch",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be restricted to [Kaido] cards only. Current scope 'ChooseOwnCharacter' allows any character. Should use target filter for card name/type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '[Your Turn]' text, but DSL structure should clarify this is during your turn only, not a permanent effect. Consider 'DuringYourTurn' if system supports it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for 'You may rest 6 of your DON!! cards'. Activation requires cost payment (rest 6 DON cards). Current DSL shows no cost/condition check."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].condition",
+      "description": "Missing cost specification 'DON!! −1'. Counter action should include cost deduction condition."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "EB04-040",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": "HasAttachedDon:6",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": "HasCardType:Kaido"
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": "HasAttachedDon:1",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:10:05.256Z"
+}

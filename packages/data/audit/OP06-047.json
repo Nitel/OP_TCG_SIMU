@@ -1,0 +1,43 @@
+{
+  "id": "OP06-047",
+  "name": "Charlotte Pudding",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "ReturnToHand is incorrect action. Cards are returned to deck and deck is shuffled, not returned to hand. Should use a custom action or sequence representing: return cards to deck + shuffle."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'AllOpponentCharacters' is wrong. Effect targets opponent's hand (all cards in hand), not characters on board. Should target opponent's hand cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "DrawCard action missing explicit target. Should specify 'OpponentPlayer' or similar to clarify opponent draws, not controller."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToDeck",
+        "target": {
+          "scope": "AllOpponentHand"
+        },
+        "thenShuffle": true
+      },
+      {
+        "type": "DrawCard",
+        "count": 5,
+        "target": {
+          "scope": "OpponentPlayer"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:56:45.592Z"
+}

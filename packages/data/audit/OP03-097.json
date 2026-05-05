@@ -1,0 +1,57 @@
+{
+  "id": "OP03-097",
+  "name": "Six King Pistol",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "[Counter] should trigger on 'Counter', not 'OnAttacked'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action is correct, but should be optional (conditional). Needs 'optional': true or wrapped in condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (DrawCard + KO) has no basis in card text. This entire effect should be removed - card only grants power boost during battle"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target should allow Leader OR Character (ChooseOwnCharacterOrLeader), not just ChooseOwnCharacter"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "'EndOfBattle' is correct for 'during this battle', but verify this is the proper duration constant"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "maxCount": 1
+              },
+              "duration": "DuringThisBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:30.520Z"
+}

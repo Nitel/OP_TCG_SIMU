@@ -1,0 +1,65 @@
+{
+  "id": "OP11-010",
+  "name": "Hibari",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First effect missing target specification. Text says 'Give up to 1 of your opponent's Characters' but DSL has generic ChooseOpponentCharacter. Should clarify: is this 1 specific character (ChooseOpponentCharacter with count:1) or all opponent characters (AllOpponentCharacters)? Based on 'up to 1', should be count:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second [When Attacking] effect is incomplete. Text states 'up to 1 of your {Navy} type Leader can also attack active Characters during this turn' but this secondary effect is entirely missing from DSL. This is a second action that needs to be added."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "First action targets Self correctly, but the second action (Navy leader attacking) needs to be a separate action in the same effect with proper targeting and mechanics."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackActiveCharacters",
+          "target": {
+            "scope": "ChooseLeader",
+            "count": 1,
+            "filter": {
+              "type": "Navy"
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:40:56.956Z"
+}

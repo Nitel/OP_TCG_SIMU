@@ -1,0 +1,50 @@
+{
+  "id": "OP14-067",
+  "name": "Dellinger",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action GiveDon missing 'rest' parameter. Card text specifies 'rest it' after adding DON!!. Should include rest:true or equivalent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck filter incomplete. Text specifies 'look at 5 cards from top' and 'reveal up to 1 {Donquixote Pirates} type card'. Filter should reflect type-based search, not ByName. Also missing logic for placing rest at bottom in any order."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action for deck manipulation: 'place the rest at the bottom of your deck in any order' is not represented in DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true
+        },
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "filter": {
+            "kind": "ByType",
+            "type": "Donquixote Pirates"
+          },
+          "maxReveal": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "OrderDeckBottom",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:15:16.493Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP09-017",
+  "name": "Wire",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing required condition: Leader power check (7000+). DSL only checks for resting DON but ignores the 'Leader has 7000 power or more' requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing required condition: Leader type check for {Kid Pirates}. DSL does not verify leader has the Kid Pirates type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn'. The card text grants Rush as a static ability, not a temporary effect lasting only until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "count": 1
+          },
+          {
+            "type": "LeaderHasType",
+            "typeValue": "Kid Pirates"
+          },
+          {
+            "type": "LeaderPower",
+            "minPower": 7000
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:34:37.835Z"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "OP10-058",
+  "name": "Rebecca",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing initial condition check: 'If there is a Character with a cost of 8 or more' must be a condition before any actions execute"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing DrawCard action. Text states 'draw 1 card' before reveal/play sequence"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Reveal action should have 2 sequential play actions, not a single PlayFromHand. First play is unrested, second play is rested if cost ≤4. Current structure cannot express this branching logic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing excludeName:'Rebecca' constraint; text explicitly excludes [Rebecca]"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "cardType": "Character",
+        "minCost": 8
+      }
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "RevealFromHand",
+        "count": 2,
+        "filter": {
+          "subType": "Dressrosa",
+          "cardType": "Character",
+          "maxCost": 7,
+          "excludeName": "Rebecca"
+        },
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Dressrosa",
+              "cardType": "Character",
+              "maxCost": 7,
+              "excludeName": "Rebecca"
+            }
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Dressrosa",
+              "cardType": "Character",
+              "maxCost": 4,
+              "excludeName": "Rebecca"
+            },
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:35:15.371Z"
+}

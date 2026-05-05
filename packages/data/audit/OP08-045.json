@@ -1,0 +1,35 @@
+{
+  "id": "OP08-045",
+  "name": "Thatch",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective/replacement effect text but effects array is empty. Should contain Counter trigger for removal/KO prevention with TrashFromHand and DrawCard actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "targets": [
+              "Self"
+            ]
+          },
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:27:36.982Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP05-034_r1",
+  "name": "Baby 5",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost specification. Current DSL lacks cost definition (➀ and rest requirement)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: filter for {Donquixote Pirates} type, deck depth limit (5 cards), reveal mechanic, and bottom placement logic for remaining cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action sequence incomplete. Effect requires: (1) look at top 5 cards, (2) reveal up to 1 {Donquixote Pirates} card, (3) add to hand, (4) place rest at bottom in any order. Current DSL only has a basic SearchDeck."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "cost": "RestCharacter",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "type": "Donquixote Pirates",
+          "kind": "Character"
+        },
+        "deckDepth": 5,
+        "revealCount": "upTo1",
+        "destination": "hand"
+      },
+      {
+        "type": "PlayFromHand",
+        "destination": "bottom",
+        "action": "placeInAnyOrder"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:29.785Z"
+}

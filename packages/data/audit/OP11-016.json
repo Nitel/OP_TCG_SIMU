@@ -1,0 +1,44 @@
+{
+  "id": "OP11-016",
+  "name": "Roronoa Zoro",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'AttachDon' is incorrect. The card effect gives (transfers) a rested DON!! card that already exists on board to Leader/Character, not attaches a new DON!!. Should use 'GiveDon' with a source scope for rested DON!! cards, or clarify this is a special transfer mechanic. Current DSL implies creating/attaching DON!!, not moving existing rested ones."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'Once Per Turn' limitation in DSL. Card text specifies '[Once Per Turn]' which should be reflected in the effect structure (e.g., via a frequency/limit constraint)."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-016",
+    "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "source": {
+              "scope": "OwnRestedDon"
+            },
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:41:20.602Z"
+}

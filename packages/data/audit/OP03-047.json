@@ -1,0 +1,75 @@
+{
+  "id": "OP03-047",
+  "name": "Zeff",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' but the condition is checking HasRestingDon, which doesn't make sense for 'When this Character's attack deals damage'. The actual trigger should be when attack damage is dealt to opponent's Life, not just OnAttack with a DON condition. The DON requirement is a separate prerequisite."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect says 'trash 7 cards from the top of your deck', not from hand. Should be a deck trash action (likely a custom action or different type needed)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition that this is optional ('you may trash'). The action should have optional:true or similar flag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope is 'ChooseOpponentCharacter' but should be 'ChooseYourCharacter' or similar - you return YOUR characters, not opponent's."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1]",
+      "description": "Second action should be marked optional ('you may trash 2 cards'). Missing optional flag."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Should trash from deck top, not from hand."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 7,
+            "optional": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseYourCharacter",
+              "maxCost": 3,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "TrashFromDeck",
+            "count": 2,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:04.534Z"
+}

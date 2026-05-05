@@ -1,0 +1,56 @@
+{
+  "id": "OP01-121_r1",
+  "name": "Yamato",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant effects (name alias, Double Attack, Banish) but effects array is empty. DSL must capture: (1) name treat-as rule for Kouzuki Oden, (2) Double Attack keyword/behavior, (3) Banish effect triggering on damage dealing"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-121_r1",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "TreatsNameAs",
+            "target": "Self",
+            "value": "Kouzuki Oden"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": "Self"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": "Always",
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "KO",
+            "target": "TargetCard",
+            "skipTriggers": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:14.914Z"
+}

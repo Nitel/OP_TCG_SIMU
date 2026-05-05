@@ -1,0 +1,46 @@
+{
+  "id": "OP05-004",
+  "name": "Emporio.Ivankov",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required power check. Text states 'If this Character has 7000 power or more' but DSL uses Always condition. Should include a power threshold check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses generic 'excludeSelf' but text specifically excludes '[Emporio.Ivankov]' by name. Should use exclusionList or cardName-based exclusion, not excludeSelf."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action should include quantity constraint 'up to 1' explicitly in the action or as a limit parameter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasPower",
+        "minPower": 7000
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "quantity": "up to 1",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxPower": 5000,
+            "exclusionList": [
+              "Emporio.Ivankov"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:45:40.436Z"
+}

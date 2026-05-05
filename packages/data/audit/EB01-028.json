@@ -1,0 +1,48 @@
+{
+  "id": "EB01-028",
+  "name": "Gum-Gum Champion Rifle",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the second part of the effect: 'Then, your opponent returns 1 of their active Characters to the owner's hand.' This is a mandatory action that should occur after the power boost.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "major",
+      "description": "The condition should use LeaderHasType to check for {Impel Down} type on the Leader, not HasCardOnBoard with a name-based check.",
+      "field": "effects[0].condition.type"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "LeaderHasType",
+          "typeValue": "Impel Down"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "ReturnToHand",
+            "count": 1,
+            "target": {
+              "scope": "OpponentActiveCharacter"
+            },
+            "performer": "Opponent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:16.487Z"
+}

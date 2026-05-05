@@ -1,0 +1,54 @@
+{
+  "id": "OP09-042",
+  "name": "Buggy",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost conditions: effect requires resting 5 DON!! cards and trashing 1 hand card as activation costs, but DSL has no conditions to enforce these prerequisites"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action missing quantity constraint: effect states 'up to 1' but action has no limit specified"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self",
+          "filter": {
+            "hasAttachedDon": true
+          },
+          "quantity": 5
+        },
+        {
+          "type": "ForceDiscard",
+          "target": "Self",
+          "quantity": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Cross Guild",
+            "cardType": "Character"
+          },
+          "quantity": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:46:24.452Z"
+}

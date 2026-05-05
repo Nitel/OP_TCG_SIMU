@@ -1,0 +1,49 @@
+{
+  "id": "OP03-093",
+  "name": "Wanze",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition check for Leader type 'CP'. The card text states 'If your Leader's type includes \"CP\"' but the DSL has no condition. Should add condition: LeaderHasType:CP"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (\"You may trash\"). Current structure makes trashing mandatory before KO can occur. Should use optional:true or restructure logic."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "KO target should specify 'up to 1' opponent character, but maxCost alone doesn't restrict count. Should include maxCount:1 parameter."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": "LeaderHasType:CP",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 1,
+                  "maxCount": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:22.715Z"
+}

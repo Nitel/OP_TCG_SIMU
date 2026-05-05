@@ -1,0 +1,62 @@
+{
+  "id": "OP03-094_r1",
+  "name": "Air Door",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks HasCardOnBoard with name 'CP', but text requires checking Leader's type includes 'CP'. Should be LeaderHasType condition, not HasCardOnBoard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing filter specifics: must filter for Character cards with type including 'CP' and cost ≤5. Current filter is 'Any' with no type/cost constraints."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Action plays 1 card to board but doesn't trash remaining 4 cards. Need second action: ForceDiscard to trash rest of looked-at cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with PlayFromHand) is spurious and contradicts main effect. No second trigger exists in card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.maxCost",
+      "description": "Card text specifies cost ≤5, but DSL shows maxCost:3. Should be maxCost:5."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "CP"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Character",
+            "hasType": "CP",
+            "maxCost": 5
+          },
+          "destination": "board",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "source": "SearchResults",
+            "remaining": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:33:41.511Z"
+}

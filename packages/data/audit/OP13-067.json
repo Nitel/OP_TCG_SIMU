@@ -1,0 +1,57 @@
+{
+  "id": "OP13-067",
+  "name": "Scopper Gaban",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderHasType' (checking Leader's type), not 'HasCardOnBoard' (checking board state). Card text: 'If your Leader's type includes \"Roger Pirates\"'"
+    },
+    {
+      "severity": "major",
+      "field": "condition.name",
+      "description": "Condition parameter should be 'type' not 'name' for LeaderHasType. Value should be 'Roger Pirates'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[2]",
+      "description": "Missing action to 'rest' the DON!! card after adding it. Card text: 'add up to 1 DON!! card from your DON!! deck and rest it'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].filter",
+      "description": "TrashFromHand should specify target filter if applicable, though 'any' may be implied"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Roger Pirates"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "thenActions": []
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": "self"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:03:25.807Z"
+}

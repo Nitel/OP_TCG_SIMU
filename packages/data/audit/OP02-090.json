@@ -1,0 +1,34 @@
+{
+  "id": "OP02-090",
+  "name": "Hydra",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn' to match the temporal scope of the effect."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target uses 'ChooseOpponentCharacter' but effect specifies 'up to 1', suggesting optional selection. Consider clarifying if this is optional or mandatory selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -3000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1,
+          "optional": true
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:59.401Z"
+}

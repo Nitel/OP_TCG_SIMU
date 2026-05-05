@@ -1,0 +1,33 @@
+{
+  "id": "OP02-034",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Card text '[DON!! x1]' indicates a cost requirement (1 DON required to activate), not a condition check. Should use cost property, not HasRestingDon condition. HasRestingDon checks for resting DON on the card, which is not what the text describes."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope should include 'maxCount' to limit to 'up to 1' character. Current target only specifies maxCost but not maxCount restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "cost": 1,
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:39.020Z"
+}

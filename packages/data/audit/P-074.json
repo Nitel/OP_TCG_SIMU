@@ -1,0 +1,31 @@
+{
+  "id": "P-074",
+  "name": "Portgas.D.Ace",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has active ability text but effects array is empty. Must include Activated trigger with ReturnToHand condition and SearchDeck action for deck manipulation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": "Self"
+        },
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "arrangement": "TopOrBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:25.379Z"
+}

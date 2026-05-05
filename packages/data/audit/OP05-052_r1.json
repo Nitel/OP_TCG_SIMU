@@ -1,0 +1,29 @@
+{
+  "id": "OP05-052_r1",
+  "name": "Maynard",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from DSL. Card has [Blocker] mechanic but effects array is empty. Blocker should trigger OnAttack with a Counter action to redirect attacks."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:26.025Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "EB01-003",
+  "name": "Kid &amp; Killer",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing [Rush] keyword entirely. Card should have Rush keyword but DSL effects array is empty.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing [When Attacking] trigger effect that gives +2000 power when opponent has 2 or less Life cards.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": {
+              "type": "Self"
+            },
+            "keyword": "Rush",
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "OpponentLifeCount",
+          "operator": "<=",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": {
+              "type": "Self"
+            },
+            "amount": 2000,
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:18.015Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP12-071",
+  "name": "Charlotte Pudding",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) 'limit' property should be 1, (2) 'filter' should specify '[Sanji] or Event' not 'Any', (3) missing 'lookCount' to indicate looking at top 4 cards, (4) missing action to place remaining cards at bottom of deck in any order"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect requires two separate actions: SearchDeck (with limit and filter) followed by an action to reorder remaining cards at bottom of deck. DSL currently contains only incomplete SearchDeck."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookCount": 4,
+        "filter": {
+          "kind": "Or",
+          "filters": [
+            {
+              "kind": "HasType",
+              "value": "Sanji"
+            },
+            {
+              "kind": "HasType",
+              "value": "Event"
+            }
+          ]
+        },
+        "limit": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "ReorderDeck",
+        "zone": "bottom",
+        "count": 3
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:54:45.494Z"
+}

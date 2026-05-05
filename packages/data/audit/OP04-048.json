@@ -1,0 +1,32 @@
+{
+  "id": "OP04-048",
+  "name": "Sasaki",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes multi-step On Play effect but effects[] is empty. Should contain: (1) ReturnToHand action for all cards in hand, (2) shuffle operation, (3) DrawCard action with count equal to returned cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "AllInHand"
+          },
+          {
+            "type": "DrawCard",
+            "count": "CountReturned"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:29.235Z"
+}

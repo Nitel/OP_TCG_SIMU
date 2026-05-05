@@ -1,0 +1,46 @@
+{
+  "id": "OP08-020",
+  "name": "Drum Kingdom",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (passive/static effect), not 'OnAttack'. This is a continuous passive ability, not an attack-triggered effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (text says '[Opponent's Turn]'), not 'EndOfTurn'. This is a major violation of duration rules."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.filter",
+      "description": "Target should filter for {Drum Kingdom} type Characters. Current target lacks type filter condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "type": "HasType",
+              "value": "Drum Kingdom"
+            }
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:25:42.726Z"
+}

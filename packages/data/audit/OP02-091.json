@@ -1,0 +1,33 @@
+{
+  "id": "OP02-091",
+  "name": "Venom Road",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type. Effect text says '[Main]' which means it's an Activated ability usable during Main phase, but DSL uses 'OnPlay' trigger. This fundamentally changes when the effect can be used.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing 'asActive: true' specification. The effect text explicitly states 'set it as active', but the DSL GiveDon action doesn't specify this parameter.",
+      "field": "effects[0].actions[0].asActive"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "asActive": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:39.376Z"
+}

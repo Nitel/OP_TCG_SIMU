@@ -1,0 +1,80 @@
+{
+  "id": "OP02-113",
+  "name": "Helmeppo",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'ForceDiscard' or a cost-reduction mechanic, not 'PowerBoost'. The card reduces opponent character cost by 2, not power."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is correct (ChooseOpponentCharacter, up to 1) but action type is wrong for cost reduction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisTurn' not 'EndOfTurn' — the effect applies 'during this turn' specifically."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely wrong. Should be a conditional PowerBoost (+2000 power during this battle) IF there exists a Character with cost 0 on board. Trigger should be 'Trigger' with condition checking board state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "'PlaySelf' is incorrect — should be 'PowerBoost' with +2000 amount and duration 'DuringThisBattle'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].conditions",
+      "description": "Missing condition to check if a Character with cost 0 exists on board (HasCardOnBoard with cost filter or equivalent)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "amount": 2,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "scope": "AnyCharacter",
+            "filter": {
+              "cost": 0
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:31.296Z"
+}

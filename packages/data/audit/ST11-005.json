@@ -1,0 +1,38 @@
+{
+  "id": "ST11-005",
+  "name": "I'm invincible",
+  "set": "ST-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect uses 'PlayFromHand' action, but card text says 'Set up to 1 of your [Uta] Leader as active' — this is a Leader setup mechanic, not playing from hand. Should use 'PlaySelf' or a Leader-specific setup action. Current DSL does not match the card effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and PowerBoost action has no basis in card text. Card text contains no mention of power boosts or conditional triggered abilities. This effect should be removed entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card text describes a single Leader setup effect. DSL contains two unrelated effects with no clear correspondence to the stated card ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlaySelf",
+          "filter": {
+            "name": "Uta"
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:06:15.762Z"
+}

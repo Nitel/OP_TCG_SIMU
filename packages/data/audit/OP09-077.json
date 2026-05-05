@@ -1,0 +1,39 @@
+{
+  "id": "OP09-077",
+  "name": "Gum-Gum Lightning",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Main ability trigger should be 'Activated' with cost condition, not separate 'Trigger' effect. The DON!! cost (−2) must be represented as a condition or integrated into the Activated trigger, not as a standalone GiveDon action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action missing 'count' field. Should specify 'count':1 to match 'up to 1' in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Incorrect second effect. 'GiveDon' action is backwards – the card costs DON!! (player loses DON!!), not gains them. This effect should be removed or restructured as a cost mechanic within the Activated trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:27:34.570Z"
+}

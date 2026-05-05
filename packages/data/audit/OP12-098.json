@@ -1,0 +1,57 @@
+{
+  "id": "OP12-098",
+  "name": "Hair Removal Fist",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].condition",
+      "description": "Condition is incomplete. Should specify type='Revolutionary Army' AND cost>=8, not just name. Current condition only checks for any Revolutionary Army character on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (DrawCard + TrashFromHand) does not exist in official card text. This entire effect block should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should reference the same card that received the first boost (the chosen Character/Leader), not 'ChooseOwnCharacter'. Use 'SelectedTarget' or tie to first action's target."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "SelectedTarget"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "type": "Revolutionary Army",
+              "cost": {
+                "min": 8
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:56:48.763Z"
+}

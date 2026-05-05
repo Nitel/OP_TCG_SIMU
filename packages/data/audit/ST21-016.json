@@ -1,0 +1,52 @@
+{
+  "id": "ST21-016",
+  "name": "Gum-Gum Dawn Whip",
+  "set": "ST-21",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong trigger. Card type is 'Event' with [Main] timing, should not use 'OnPlay' trigger. Events with [Main] timing use 'Activated' trigger.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect in official text is missing from DSL. The text says 'Then, up to 1 of your opponent's Characters with 4000 power or less cannot activate [Blocker] during this turn.' This should be an action that removes the Blocker keyword, not a KO effect.",
+      "field": "effects[0].actions[1]"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect (Trigger effect) does not exist in the official text. The card has no [Trigger] effect, only a [Main] effect with two sequential actions.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "RemoveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "maxPower": 4000
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:46.116Z"
+}

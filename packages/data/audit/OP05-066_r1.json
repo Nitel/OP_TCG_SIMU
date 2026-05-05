@@ -1,0 +1,49 @@
+{
+  "id": "OP05-066_r1",
+  "name": "Jinbe",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Second effect has text '[Opponent's Turn]' which indicates the power boost applies during opponent's turn only, not just until end of turn. Duration should be 'DuringOpponentTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect (Blocker) should include action to change attack target, not just rest the card. Current DSL only rests; missing target change action"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:13:13.667Z"
+}

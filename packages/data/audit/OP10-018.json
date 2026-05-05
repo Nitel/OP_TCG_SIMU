@@ -1,0 +1,42 @@
+{
+  "id": "OP10-018",
+  "name": "Ten-Layer Igloo",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Second action states 'during this turn' but DSL uses 'EndOfTurn'. Should be 'DuringThisTurn' to reflect the active duration constraint within the turn, not expiring at turn end."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Spurious second effect with trigger 'Trigger' and PowerBoost +1000 has no basis in card text. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringThisTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:32:12.667Z"
+}

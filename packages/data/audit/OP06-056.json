@@ -1,0 +1,30 @@
+{
+  "id": "OP06-056",
+  "name": "Ama no Murakumo Sword",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but card text says 'at the bottom of the owner's deck'. Should be a custom action or 'ReturnToDeck' with placement specification, not 'ReturnToHand'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type is 'ReturnToHand' but card text says 'at the bottom of the owner's deck'. Should be a custom action or 'ReturnToDeck' with placement specification, not 'ReturnToHand'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Target logic is incorrect. Should select up to 1 character with cost ≤2, not use maxCost constraint alone. Needs proper cost filtering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Target logic is incorrect. Should select up to 1 character with cost ≤1, but the two selections are independent choices, not sequential filtering from the same pool."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:57:24.567Z"
+}

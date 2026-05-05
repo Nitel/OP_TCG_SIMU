@@ -1,0 +1,75 @@
+{
+  "id": "EB04-036",
+  "name": "Foxy",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Foxy Pirates} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition structure incorrect. Should use 'LeaderHasType' with type value, not 'HasCardOnBoard' with name. Correct: {\"type\":\"LeaderHasType\",\"value\":\"Foxy Pirates\"}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Second effect missing cost requirement. DSL must include 'cost':1 to represent the DON!! −1 payment. Also missing 'Rest' action after GiveDon."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Activate: Main) is incomplete. Should include both GiveDon and Rest actions. Current DSL only has GiveDon without the Rest action that follows 'add and rest it'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Foxy Pirates"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 9,
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "cost": 1,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:13.676Z"
+}

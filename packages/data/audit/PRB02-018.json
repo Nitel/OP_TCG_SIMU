@@ -1,0 +1,64 @@
+{
+  "id": "PRB02-018",
+  "name": "Portgas.D.Ace",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition checks 'HasCardOnBoard' (board presence) but text says 'have a face-up Life card' which refers to Life zone. Should be a Life-specific condition or clarified differently."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Three separate SearchDeck actions implies playing all three characters if available. Text says 'play up to 1' (singular, one card total from the three options). Should be a single action with OR filter or consolidated multi-name filter with limit=1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[*].filter.kind",
+      "description": "SearchDeck with 'ByName' searches deck only, but text says 'from your hand or trash'. Should use a filter that includes hand and trash sources, or use PlayFromHand/TrashFromHand actions instead."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[*].filter",
+      "description": "No cost filter applied. Text specifies 'cost of 2' but DSL does not restrict to that cost."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Life"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "ByNames",
+          "names": [
+            "Sabo",
+            "Portgas.D.Ace",
+            "Monkey.D.Luffy"
+          ],
+          "cost": 2
+        },
+        "limit": 1
+      },
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "kind": "ByNames",
+          "names": [
+            "Sabo",
+            "Portgas.D.Ace",
+            "Monkey.D.Luffy"
+          ],
+          "cost": 2
+        },
+        "limit": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:51:41.911Z"
+}

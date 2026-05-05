@@ -1,0 +1,67 @@
+{
+  "id": "OP07-112",
+  "name": "Lucy",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife should flip 1 card from top OR bottom of Life cards to hand (choice), not a generic flip. Current action doesn't capture the 'top or bottom' optionality."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action target should be optional ('may rest'). Current DSL doesn't express optionality."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "SearchDeck should be conditional: only trigger if Life cards ≤ 1 after the flip. Current DSL has no condition for this third action. Also destination should be 'topOfLife' not 'hand'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing [Once Per Turn] limiter on the trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "limit": "OncePerTurn",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "TopOrBottom",
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "optional": true
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "TopOfLife",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "value": 1,
+            "comparison": "LessOrEqual"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:10:59.702Z"
+}

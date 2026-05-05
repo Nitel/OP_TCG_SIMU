@@ -1,0 +1,61 @@
+{
+  "id": "ST02-013",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "ST-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the primary effect entirely. Card has two distinct effects: (1) Blocker ability triggered by opponent's attack declaration, and (2) DON!! x1 activated ability that sets character active at end of turn. Current DSL only captures a Rest action without proper trigger or context."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (for Blocker mechanic during opponent's attack declaration), not 'Activated'. Blocker is a reactive counter-trigger, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing the core Blocker effect action. Should include action to make this card the new target of the declared attack, not just Rest."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Missing second effect entirely: the DON!! x1 activated ability with trigger 'EndOfTurn' that performs 'Rest' action (sets character active)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "DuringOpponentTurn"
+    },
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:56:03.420Z"
+}

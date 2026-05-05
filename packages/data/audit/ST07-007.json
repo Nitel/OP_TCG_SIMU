@@ -1,0 +1,34 @@
+{
+  "id": "ST07-007",
+  "name": "Charlotte Brulee",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is incorrect. Blocker is a static ability that activates on OnAttacked (when opponent declares attack), not a generic Trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action PlaySelf is incorrect. Blocker does not play the card; it rests the card to redirect the attack. Should be Rest action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition that this is optional ('you may rest this card'). Should include a condition or note that the effect is optional/activated."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:01:42.719Z"
+}

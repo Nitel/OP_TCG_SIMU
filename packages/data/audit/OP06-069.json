@@ -1,0 +1,40 @@
+{
+  "id": "OP06-069",
+  "name": "Vinsmoke Reiju",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has On Play trigger with conditional draw action that must be implemented."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "operator": "LessThanOrEqual",
+            "value": "OpponentAttachedDon"
+          },
+          {
+            "type": "HandCount",
+            "operator": "LessThanOrEqual",
+            "value": 5
+          }
+        ],
+        "actions": [
+          {
+            "type": "DrawCard",
+            "value": 2
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:58:26.075Z"
+}

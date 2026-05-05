@@ -1,0 +1,66 @@
+{
+  "id": "EB03-041",
+  "name": "Kujyaku",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (passive effect during opponent's turn), not 'Activated'. The text '[Opponent's Turn]' indicates a continuous passive effect that triggers during the opponent's turn, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn', not 'EndOfTurn'. The effect text explicitly states '[Opponent's Turn]', which means the power boost applies specifically during the opponent's turn phase, not until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should explicitly include type filter for {SWORD}. Current target only filters by cost; should add type:'Sword' to the filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Sword"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "type": "Sword",
+            "maxCost": 6
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Navy"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:24.803Z"
+}

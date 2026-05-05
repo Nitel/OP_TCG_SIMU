@@ -1,0 +1,36 @@
+{
+  "id": "OP07-070",
+  "name": "Big Bun",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires conditional logic: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field'. This should use a HasAttachedDon comparison condition, not Always."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "operator": "LessOrEqual",
+          "compareToOpponent": true
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Foxy Pirates",
+              "maxCost": 4
+            },
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:07:46.240Z"
+}

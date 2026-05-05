@@ -1,0 +1,39 @@
+{
+  "id": "PRB02-006",
+  "name": "Roronoa Zoro",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a conditional ability that should trigger when opponent tries to rest this character, but effects[] is empty. Missing Counter trigger with condition for opponent's turn and action to rest alternative character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "[Opponent's Turn] in text requires duration: 'DuringOpponentTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Opponent's Turn] If this Character would be rested by your opponent's Character's effect, you may rest 1 of your other Characters instead.\n[Blocker]",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "duration": "DuringOpponentTurn",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "OtherCharacter"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:50:41.394Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "EB04-011",
+  "name": "Scaled Neptunian",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "DrawCard count should be dynamic based on number of {Neptunian} type Characters on board, not fixed to 1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand count should match the number of cards drawn (dynamic), not fixed to 1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to count {Neptunian} type Characters and use that as variable for both draw and trash counts"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "type": "Neptunian"
+      }
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": {
+          "countCardOnBoard": {
+            "type": "Neptunian"
+          }
+        }
+      },
+      {
+        "type": "ForceDiscard",
+        "source": "Hand",
+        "count": {
+          "countCardOnBoard": {
+            "type": "Neptunian"
+          }
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:34.472Z"
+}

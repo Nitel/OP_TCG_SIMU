@@ -1,0 +1,32 @@
+{
+  "id": "OP11-091",
+  "name": "Berry Good",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty but card has On Play ability text. DSL is missing the entire effect implementation."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "target": "OpponentTrash",
+            "cardType": "Event",
+            "count": 3,
+            "destination": "BottomOfDeck",
+            "player": "Opponent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:08.736Z"
+}

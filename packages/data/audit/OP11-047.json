@@ -1,0 +1,46 @@
+{
+  "id": "OP11-047",
+  "name": "Vinsmoke Reiju",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition must check 'LeaderHasType' for {The Vinsmoke Family}, not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete: missing the deck peek mechanic (look at 5 cards), missing type filter for 'GERMA', missing reveal requirement, and missing trash logic for non-matching cards"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify card type includes 'GERMA' and limit to 1 card selection"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "The Vinsmoke Family"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "HasType",
+            "value": "GERMA"
+          },
+          "limit": 1,
+          "destination": "hand",
+          "peek": 5,
+          "trashRest": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:48.315Z"
+}

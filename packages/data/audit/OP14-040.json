@@ -1,0 +1,52 @@
+{
+  "id": "OP14-040",
+  "name": "Jinbe",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'TrashFromHand' is correct, but missing 'optional' flag. Card text says 'You may trash' indicating optional cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target filter incomplete. Must restrict to {Fish-Man} or {Merfolk} type Leader or Character cards only. Current 'ChooseOwnCharacterOrLeader' has no type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Action 'AttachDon' should specify 'rested' state. Card text says 'Give up to 2 rested DON!!' cards, implying cards must be in rested state before attachment."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "excludeSelf": true
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "requireRested": true,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "typeFilter": {
+                "anyOf": [
+                  "Fish-Man",
+                  "Merfolk"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:13:13.201Z"
+}

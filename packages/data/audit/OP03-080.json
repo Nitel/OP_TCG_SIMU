@@ -1,0 +1,58 @@
+{
+  "id": "OP03-080",
+  "name": "Kaku",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but effect text describes placing cards FROM trash (retrieving from trash), not discarding to trash. Should use 'SearchDeck' or similar retrieve action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter references 'subType' but effect specifies cards with type including 'CP'. Filtering should target card type, not subType. Also, cards are being selected FROM trash, not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing quantifier for 'up to 2 cards' - action does not specify selecting/placing exactly 2 cards from trash as required by text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Conditional action structure is incorrect. The K.O. effect should be optional (You may) and dependent on successfully placing 2 cards, but current nesting does not properly model 'You may place 2... : K.O. up to 1'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'optional: true' flag - effect text begins with 'You may' indicating this entire effect is optional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "optional": true,
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "type": "CP"
+        },
+        "quantity": 2,
+        "placement": "BottomOfDeck",
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:03.142Z"
+}

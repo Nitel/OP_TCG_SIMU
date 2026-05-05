@@ -1,0 +1,42 @@
+{
+  "id": "OP01-069",
+  "name": "Caesar Clown",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'PlayFromHand' or 'PlaySelf' (to play from deck onto board), not 'SearchDeck'. SearchDeck typically means tutoring to hand. The card text says 'Play up to 1 [Smiley] from your deck' which means directly playing it onto the board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "'destination' field is not standard for Play actions. Use 'amount' constraint instead (up to 1). The play action implicitly puts the card on board."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Missing shuffle deck action. Card text includes 'then shuffle your deck' but DSL has no corresponding action to shuffle."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "ByName",
+              "name": "Smiley"
+            },
+            "amount": 1,
+            "source": "deck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:58.910Z"
+}

@@ -1,0 +1,77 @@
+{
+  "id": "EB04-041",
+  "name": "Stealth Black",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader IS Sanji (LeaderIsName), not if Sanji card is on board (HasCardOnBoard). These are different game states."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: must have 4 or more DON!! cards attached. Should be HasAttachedDon with count >= 4."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type SearchDeck is incorrect. Should be PlayFromHand (or PlaySelf if self-referential). Text says 'play up to 1 [Sanji]' from hand or trash, not search deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing power filter. Must restrict to Sanji with 6000 power or less."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination should allow play from 'hand' or 'trash', not only one source."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with DrawCard + TrashFromHand) has no basis in card text. This entire effect should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Missing 'count' constraint: 'up to 1' means max 1 card can be played."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          {
+            "type": "LeaderIsName",
+            "name": "Sanji"
+          },
+          {
+            "type": "HasAttachedDon",
+            "count": 4
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByName",
+            "name": "Sanji",
+            "maxPower": 6000
+          },
+          "source": [
+            "hand",
+            "trash"
+          ],
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:10:11.072Z"
+}

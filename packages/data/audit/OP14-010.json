@@ -1,0 +1,61 @@
+{
+  "id": "OP14-010",
+  "name": "Basil Hawkins",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the 'look at 5 cards' mechanic. DSL must include a ViewDeck or similar action to examine top 5 cards before playing one."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must specify: type='Supernovas', power≤2000, AND exclude card name 'Basil Hawkins'. Current filter only checks cost (which is not the same as power)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incorrect for this effect. The card text requires viewing 5 cards from top of deck, then conditionally playing 1, then placing rest at bottom in any order. This requires a multi-step sequence not captured by a single SearchDeck action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.kind",
+      "description": "Filter uses 'ByCost' but effect references 'power'. These are different attributes. Should use power-based filtering."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP14-010",
+    "effectText": "[On K.O.] Look at 5 cards from the top of your deck; play up to 1 {Supernovas} type Character card with 2000 power or less other than [Basil Hawkins]. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "ViewDeck",
+            "count": 5,
+            "source": "top"
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "optional": true,
+            "filter": {
+              "type": "Supernovas",
+              "maxPower": 2000,
+              "excludeName": "Basil Hawkins"
+            },
+            "destination": "board"
+          },
+          {
+            "type": "PlaceAtBottom",
+            "source": "viewed",
+            "orderChoice": "player"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:10:54.133Z"
+}

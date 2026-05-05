@@ -1,0 +1,25 @@
+{
+  "id": "ST17-005",
+  "name": "Marshall.D.Teach",
+  "set": "ST-17",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Card text says 'place 1 card from your hand at the top of your deck' which is a deck placement action, not trash. Should use a custom action or clarify intent—likely ReturnToHand or a deck-top placement mechanic not represented in standard actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].count",
+      "description": "AttachDon count=2 is incorrect. Text says 'Give up to 2 rested DON!! cards' meaning the cards must already be rested. The action should target rested DON cards only and allow selecting 1 or 2, not automatically giving 2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target.scope",
+      "description": "Target scope is incomplete. Text specifies 'to your Leader or 1 of your Characters'—this means DON cards are moved from their current location (likely on a card) to Leader or a chosen Character. Current DSL does not capture source of DON cards being moved."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:12:58.813Z"
+}

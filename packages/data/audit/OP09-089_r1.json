@@ -1,0 +1,69 @@
+{
+  "id": "OP09-089_r1",
+  "name": "Stronger",
+  "set": "ST-27",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with activation type 'Main' (not captured in current DSL structure)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks Leader type incorrectly. Should use 'LeaderHasType' with value 'Blackbeard Pirates', not 'HasCardOnBoard'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: trash this Character. Current DSL only includes TrashFromHand and DrawCard. Missing PowerBoost action for opponent's Characters (−2 cost)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing second effect: 'give up to 1 of your opponent's Characters −2 cost during this turn' requires PowerBoost action with target type 'OpponentCharacter', count 1, power -2, and duration 'DuringYourTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be conditional (optional 'You may'). Current DSL doesn't reflect optional cost."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may trash 1 card from your hand and trash this Character: If your Leader has the {Blackbeard Pirates} type, draw 1 card. Then, give up to 1 of your opponent's Characters −2 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "activationType": "Main",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Blackbeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "KO",
+            "target": "Self"
+          },
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "count": 1,
+            "power": -2,
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:15.378Z"
+}

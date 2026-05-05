@@ -1,0 +1,33 @@
+{
+  "id": "OP01-006",
+  "name": "Otama",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts only during your turn (DuringYourTurn), not until end of turn (EndOfTurn). Duration should be 'DuringYourTurn' to match the official text."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Give up to 1 of your opponent's Characters −2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxTargets": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:18.562Z"
+}

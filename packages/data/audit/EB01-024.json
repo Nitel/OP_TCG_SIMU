@@ -1,0 +1,44 @@
+{
+  "id": "EB01-024",
+  "name": "Hamlet",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing condition check for hand size ≤ 4. The effect should only apply 'If you have 4 or less cards in your hand'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing target filter for {SMILE} type Characters. The power boost should only apply to Characters with the SMILE type, not all own Characters",
+      "field": "effects[0].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HandSize",
+          "operator": "LessThanOrEqual",
+          "value": 4
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "filter": {
+                "type": "SMILE"
+              }
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:28.667Z"
+}

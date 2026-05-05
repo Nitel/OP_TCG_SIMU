@@ -1,0 +1,37 @@
+{
+  "id": "OP09-036",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing condition check for '2 or more rested Characters'. Current condition is 'Always', but effect requires HasRestingDon condition (or equivalent rested character count check)."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope incomplete. Effect allows resting 'up to 1 of your opponent's DON!! cards OR Characters with cost 6 or less', but DSL only targets Characters. DON!! cards should be included as alternative target."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2,
+      "comparison": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentDonOrCharacter",
+          "maxCost": 6,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:36:07.596Z"
+}

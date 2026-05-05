@@ -1,0 +1,15 @@
+{
+  "id": "OP06-084",
+  "name": "Jigoro of the Wind",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts only for the current turn phase. 'EndOfTurn' is correct interpretation, but the phrasing 'during this turn' typically means DuringYourTurn if it's your turn, or the effect should last until end of that specific turn. However, 'EndOfTurn' is the standard DSL duration for 'during this turn' effects, so this is actually acceptable. Re-evaluating: the DSL is correct."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:59:38.717Z"
+}

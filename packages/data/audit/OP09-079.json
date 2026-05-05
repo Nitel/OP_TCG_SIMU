@@ -1,0 +1,47 @@
+{
+  "id": "OP09-079",
+  "name": "Gum-Gum Jump Rope",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing DON cost specification. Card text indicates 'DON!! −2' cost mechanic that should be represented in the DSL structure. The Activated trigger should include cost information."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with Trigger/GiveDon. The card text only describes the Activated effect (rest + draw). There is no trigger-based DON generation described in the official text. This effect should be removed."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is acceptable but verbose. 'OpponentCharacter' with maxCost filter is clearer, though current form is not technically incorrect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "ReturnDonToDeck",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 5
+          },
+          "count": 1
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:27:45.600Z"
+}

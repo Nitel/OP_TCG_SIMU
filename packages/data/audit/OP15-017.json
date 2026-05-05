@@ -1,0 +1,46 @@
+{
+  "id": "OP15-017",
+  "name": "Morgan",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to verify target is rested. The card text specifies 'rested DON!! cards' as the source, requiring a condition check before the action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Card allows giving to opponent's Leader OR opponent's Characters, but DSL only specifies ChooseOpponentCharacter. Should allow Leader as alternative target."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'OncePerTurn' constraint. Card text explicitly states '[Once Per Turn]' which must be encoded in the DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "scope": "OpponentCharacters",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentLeaderOrCharacter"
+          }
+        }
+      ],
+      "oncePerTurn": true
+    }
+  ],
+  "auditedAt": "2026-05-05T12:23:14.876Z"
+}

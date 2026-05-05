@@ -1,0 +1,62 @@
+{
+  "id": "OP09-053",
+  "name": "Mohji",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Effect starts with 'Look at 5 cards from top of deck' but DSL omits SearchDeck/deck inspection action entirely. Must first search/look at 5 cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "RevealFromHand is incorrect. Card text says 'reveal up to 1 [Richie]' from the deck inspection, not from hand. Should be structured as SearchDeck or similar deck-lookup action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: 'place the rest at the bottom of your deck in any order'. This reordering step is mandatory and must be represented in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "PlayFromHand is conditional on RevealFromHand, but the reveal happens during deck search, not from hand. The play action should be independent conditional on 'up to 1 [Richie] is in hand'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "filter": {},
+            "reveal": true,
+            "thenActions": [
+              {
+                "type": "RevealFromHand",
+                "count": 1,
+                "filter": {
+                  "subType": "Richie"
+                },
+                "thenActions": [
+                  {
+                    "type": "PlayFromHand",
+                    "count": 1,
+                    "filter": {
+                      "subType": "Richie"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:02:46.119Z"
+}

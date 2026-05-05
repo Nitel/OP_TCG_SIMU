@@ -1,0 +1,45 @@
+{
+  "id": "EB04-025",
+  "name": "Nefeltari Vivi",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "ForceDiscard is incorrect. The effect states opponent places a card 'at the bottom of their deck', which is a return/shuffle action, not a discard. Should use a custom action or clarify intent; ForceDiscard typically means trash/discard to discard pile."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter.excludeSelf",
+      "description": "Filter uses 'excludeSelf' but the card name restriction is [Nefeltari Vivi]. Should use 'excludeCardNames' or similar explicit exclusion instead of generic excludeSelf."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "subType": "Alabasta",
+              "cardType": "Character",
+              "maxCost": 8,
+              "excludeCardNames": [
+                "Nefeltari Vivi"
+              ]
+            }
+          },
+          {
+            "type": "ReturnToBottom",
+            "count": 1,
+            "target": "OpponentHand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:47.058Z"
+}

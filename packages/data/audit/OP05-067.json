@@ -1,0 +1,35 @@
+{
+  "id": "OP05-067",
+  "name": "Zoro-Juurou",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition missing: card requires 'Life cards ≤ 3' but DSL has 'Always'. Should use a life count condition (LeaderHasLife or similar)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action incomplete: GiveDon specifies adding DON!! from DON!! deck and setting as active. DSL lacks 'fromDeck' and 'setActive' parameters required by official text."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "LifeCount",
+      "value": 3,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "fromDeck": true,
+        "setActive": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:20.991Z"
+}

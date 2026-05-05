@@ -1,0 +1,49 @@
+{
+  "id": "EB03-003",
+  "name": "Uta",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition checks for any card named 'Uta' on board instead of specifically checking if the Leader is Uta",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "PlayFromHand action missing the 'noBaseEffect' constraint - the card must have no base effect",
+      "field": "effects[0].actions[1].filter"
+    },
+    {
+      "severity": "minor",
+      "description": "PlayFromHand action missing 'count: 1' to indicate 'up to 1' card can be played",
+      "field": "effects[0].actions[1].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Uta"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "maxPower": 6000,
+              "noBaseEffect": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:47.229Z"
+}

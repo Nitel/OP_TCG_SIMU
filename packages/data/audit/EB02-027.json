@@ -1,0 +1,15 @@
+{
+  "id": "EB02-027",
+  "name": "Vista",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong action type: DSL uses 'ReturnToHand' but the effect text says 'Place...at the bottom of the owner's deck', which is not the same as returning to hand. There is no 'ReturnToDeck' or 'PlaceBottomOfDeck' action defined in the DSL schema, indicating this effect cannot be properly encoded with current action types.",
+      "field": "effects[0].actions[0].type"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:02:43.031Z"
+}

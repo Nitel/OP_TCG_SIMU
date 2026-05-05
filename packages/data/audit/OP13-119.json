@@ -1,0 +1,83 @@
+{
+  "id": "OP13-119",
+  "name": "Portgas.D.Ace",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon should target rested DON cards only. DSL missing filter for rested status. Should include \"rested\":true in target definition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "ReturnToHand action is conditional on the previous action (\"Then, you may\"). DSL treats it as mandatory. Should be wrapped in conditional or marked as optional with proper chaining."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "PlayFromHand action is conditional: \"If you do, your opponent plays...\" This is only triggered if ReturnToHand succeeds. DSL treats as unconditional. Requires conditional logic or separate effect chain."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition should be \"HasAttachedDon\" not \"TurnCount\". The text \"If you have 3 or less Life cards\" refers to Life card count, not turn count. Should use \"HasLifeCardsMax\":3 or equivalent Life condition type."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "OwnLeader",
+              "rested": true
+            }
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5
+            },
+            "optional": true
+          },
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "OpponentHand",
+              "cardType": "Character",
+              "maxCost": 4
+            },
+            "conditional": {
+              "type": "PreviousActionResolved",
+              "actionIndex": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasAttachedDon",
+          "max": 3
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:25.920Z"
+}

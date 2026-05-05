@@ -1,0 +1,43 @@
+{
+  "id": "OP01-120_r2",
+  "name": "Shanks",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect prevents opponent from activating Blockers (a restriction/denial effect), not resting cards. Should use a condition-based prevention mechanic or custom action that represents 'cannot activate as Blocker'. Current DSL does not match the card text which states 'Your opponent cannot activate a [Blocker] Character'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration constraint. Effect text '[When Attacking]' indicates this applies 'during this battle' only, which should be reflected as duration:'DuringThisBattle' or similar temporary scope, not permanent board state change."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxPower",
+      "description": "Target scope is incomplete. Should specify 'BlockerCharacter' or 'CharacterWithBlockerKeyword' to match 'Blocker Character' in text, not just any character with power ≤2000."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] Your opponent cannot activate a [Blocker] Character that has 2000 or less power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringThisBattle",
+        "actions": [
+          {
+            "type": "PreventActivation",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "hasKeyword": "Blocker",
+              "maxPower": 2000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:32:08.396Z"
+}

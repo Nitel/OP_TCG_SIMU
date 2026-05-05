@@ -1,0 +1,46 @@
+{
+  "id": "EB03-050",
+  "name": "Conis",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text states 'during this turn', which means the effect applies only while it's your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should filter for {Sky Island} type Characters only. Current target 'ChooseOwnCharacterOrLeader' includes Leader and lacks type restriction."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "'Up to 1' means optional selection. Target should reflect this optionality if DSL supports it."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "EB03-050",
+    "effectText": "[On Play] Up to 1 of your {Sky Island} type Characters gains [Double Attack] during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": "HasType:SkyIsland",
+              "maxCount": 1,
+              "optional": true
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:43.130Z"
+}

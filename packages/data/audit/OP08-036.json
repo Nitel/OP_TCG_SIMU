@@ -1,0 +1,59 @@
+{
+  "id": "OP08-036",
+  "name": "Electrical Luna",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay trigger is incorrect. The card effect does not activate when played; it describes a conditional state that applies during opponent's next Refresh Phase. Should use a Trigger or similar mechanism tied to game state, not OnPlay."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect prevents characters from becoming active (restocking), not resting them. This requires a custom keyword or condition preventing active state during refresh, not a Rest action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with Trigger is vague and lacks proper condition. Should specify when this trigger fires (during opponent's Refresh Phase). Current DSL does not capture the temporal logic of 'next Refresh Phase'."
+    },
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Duration is missing. The effect applies '[During opponent's turn]' context (specifically Refresh Phase). This should be captured as duration:\"DuringOpponentTurn\" or similar refresh-phase-specific qualifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "Target condition 'maxCost:7' is correctly applied, but the scope 'ChooseOpponentCharacter' should filter to 'AllOpponentCharacters' or 'OpponentCharactersWithCostLTE7' to match 'All of your opponent's rested Characters'. The word 'Choose' implies player selection, which is not in the original text."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] All of your opponent's rested Characters with a cost of 7 or less will not become active in your opponent's next Refresh Phase.",
+    "effects": [
+      {
+        "trigger": "StartOfOpponentTurn",
+        "duration": "DuringOpponentTurn",
+        "conditions": [
+          {
+            "type": "HasRestingDon",
+            "scope": "OpponentCharacter"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PreventActive",
+            "target": {
+              "scope": "AllOpponentCharacters",
+              "maxCost": 7,
+              "status": "Resting"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:58.100Z"
+}

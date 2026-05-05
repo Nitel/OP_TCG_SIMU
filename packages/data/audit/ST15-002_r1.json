@@ -1,0 +1,57 @@
+{
+  "id": "ST15-002_r1",
+  "name": "Edward.Newgate",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon should have condition restingDon:true to match 'rested DON!!' requirement in card text"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Activated trigger requires cost specification. Rest action should be modeled as a cost (condition) not an action, or trigger should include cost metadata"
+    }
+  ],
+  "suggestedDsl": {
+    "version": "1.0",
+    "card": "ST15-002_r1",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "restingDon": true,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 5000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:03.062Z"
+}

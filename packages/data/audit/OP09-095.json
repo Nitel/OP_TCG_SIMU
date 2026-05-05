@@ -1,0 +1,46 @@
+{
+  "id": "OP09-095",
+  "name": "Laffitte",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "SearchDeck action is incomplete. The effect requires looking at 5 cards from top of deck, revealing up to 1 {Blackbeard Pirates} type card, adding it to hand, then placing rest at bottom in any order. Current DSL only covers the search portion and uses 'ByName' filter instead of type-based filter. Missing: deck inspection (5 cards), type filtering (not name), and bottom deck placement logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition incomplete. Effect requires resting 1 DON!! card AND this Character as a cost. Current condition only checks HasRestingDon but does not specify resting this Character is part of the activation cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' with name 'Blackbeard Pirates', but the card text specifies {Blackbeard Pirates} type. Should use type-based filtering, not name-based."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Blackbeard Pirates"
+          },
+          "destination": "hand",
+          "maxCount": 1,
+          "deckInspection": 5,
+          "restCharacter": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:29:03.213Z"
+}

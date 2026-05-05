@@ -1,0 +1,61 @@
+{
+  "id": "ST28-005",
+  "name": "Yamato",
+  "set": "ST-28",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn', not 'EndOfTurn'. This is a duration scope violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter.kind",
+      "description": "Filter should use 'BySubtypeAndCost' or similar to match both 'Land of Wano' subtype AND cost >= 2. Current 'ByCost' with maxCost:2 is backwards (allows cost 0-2, not >=2). Should be minCost:2 or cost range."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0]",
+      "description": "SearchDeck action doesn't capture the 'reveal up to 1' constraint and 'place rest at bottom in any order' mechanic. DSL may need enhanced syntax for selective reveal + reorder functionality, or this requires a custom action structure."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x2] [Your Turn] This Character gains +3000 power.\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Land of Wano} type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "BySubtypeAndCost",
+              "subType": "Land of Wano",
+              "minCost": 2
+            },
+            "selectLimit": 1,
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:24:00.807Z"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "EB04-014",
+  "name": "Kozuki Sukiyaki",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the [Activate: Main] trigger entirely. Should use trigger:'Activated' with activationType:'Main' and activationLimit:'OncePerTurn'. Current DSL only has generic 'Activated' trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'AttachDon' is incorrect. The ability GIVEs (transfers) up to 1 rested DON!! card TO the Leader, not attaches DON from hand. Should be 'GiveDon' with a condition checking the card is rested (HasRestingDon) and targeting the Leader."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to restrict target to rested DON!! cards only. Needs condition checking HasRestingDon on the card being given."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Blocker text is completely absent from DSL. The card has a [Blocker] ability that should be a separate effect triggered 'OnAttacked' allowing this card to be rested to redirect an attack."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "description": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "activationType": "Main",
+      "activationLimit": "OncePerTurn",
+      "description": "Give up to 1 rested DON!! card to your {Land of Wano} type Leader.",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 1
+        },
+        {
+          "type": "LeaderHasType",
+          "value": "Land of Wano"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:07:50.022Z"
+}

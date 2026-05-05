@@ -1,0 +1,57 @@
+{
+  "id": "OP06-114_r1",
+  "name": "Wyper",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: effect has optional cost ('You may place 1 Stage with a cost of 1 at the bottom of the owner's deck') that must be represented as a condition or prerequisite"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is incomplete: must specify filter for '[Upper Yard] or {Shandian Warrior}' type cards, not 'Any'. Should filter by type matching Upper Yard OR Shandian Warrior"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck scope is wrong: should look at 5 cards from top of deck, then reveal up to 1 matching card. Current DSL does not capture the 'look at 5 cards' scope limit or the 'up to 1' reveal limit"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action: after revealing and adding card to hand, remaining 4 cards must be placed 'at the bottom of your deck in any order' - this ordering step is not represented"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-114_r1",
+    "effectText": "[On Play] You may place 1 Stage with a cost of 1 at the bottom of the owner's deck: Look at 5 cards from the top of your deck; reveal up to 1 [Upper Yard] or {Shandian Warrior} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "types": [
+                "Upper Yard",
+                "Shandian Warrior"
+              ]
+            },
+            "scope": 5,
+            "limit": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "description": "Place remaining cards at bottom of deck in any order"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:31.335Z"
+}

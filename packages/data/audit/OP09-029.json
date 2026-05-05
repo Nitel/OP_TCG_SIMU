@@ -1,0 +1,45 @@
+{
+  "id": "OP09-029",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'Activated'. '[End of Your Turn]' is an end-of-turn trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be a setup/ready action (opposite of Rest). 'Set up' means to make active/ready, not to rest a character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.filters",
+      "description": "Target missing type filter for {ODYSSEY}. Should include 'hasType:ODYSSEY' in filters."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] Set up to 1 of your {ODYSSEY} type Characters with a cost of 4 or less as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 4,
+              "filters": [
+                "hasType:ODYSSEY"
+              ]
+            },
+            "isActive": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:35:33.877Z"
+}

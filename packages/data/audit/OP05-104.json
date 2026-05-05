@@ -1,0 +1,39 @@
+{
+  "id": "OP05-104",
+  "name": "Conis",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has clear [On Play] effect that must be implemented: trigger OnPlay with conditional Stage placement, then DrawCard and ForceDiscard actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "source": "Hand"
+          }
+        ],
+        "optionalAction": true,
+        "cost": {
+          "type": "PlaceCardAtBottomOfDeck",
+          "cardType": "Stage",
+          "count": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:52:10.414Z"
+}

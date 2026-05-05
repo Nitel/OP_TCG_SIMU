@@ -1,0 +1,71 @@
+{
+  "id": "EB04-017",
+  "name": "Mystoms",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (passive effect during turn), not 'Activated' (player-initiated). Text '[Your Turn]' indicates a passive ongoing effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringYourTurn', not 'EndOfTurn'. Text '[Your Turn]' explicitly requires duration restriction to your turn only, per DSL rules."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasCardOnBoard' with count/type filter for '3 or more Minks type Characters', not 'Always'. Current condition ignores the 3+ Minks requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition type should be 'LeaderHasType' (checking Leader type), not 'HasCardOnBoard'. Current condition checks board presence instead of Leader type."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].condition.name",
+      "description": "When using 'LeaderHasType', condition should have 'type' field (e.g., 'type': 'Minks'), not 'name'. Adjust field key for Leader type checks."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "subType": "Minks",
+        "minCount": 3
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Minks"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Minks",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:08:08.965Z"
+}

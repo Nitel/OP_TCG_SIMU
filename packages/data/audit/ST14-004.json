@@ -1,0 +1,49 @@
+{
+  "id": "ST14-004",
+  "name": "Jinbe",
+  "set": "ST-14",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but card text states 'until the end of your opponent's next turn' — should be 'DuringOpponentTurn' or equivalent multi-turn duration"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing type filter for black {Straw Hat Crew} Characters — should specify these constraints in target condition"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "[Once Per Turn] activation limit not encoded in DSL condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasType",
+              "value": [
+                "Black",
+                "StrawHatCrew"
+              ]
+            }
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:23.263Z"
+}

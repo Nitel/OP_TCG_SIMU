@@ -1,0 +1,77 @@
+{
+  "id": "OP01-051_r1",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the first effect entirely. Card has two effects: (1) a passive/trigger effect during opponent's turn that restricts opponent attacks when this Character is rested, and (2) an activated main phase effect. Only the second effect is present."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "The activated effect uses trigger 'Activated' but should specify the phase context. The text '[Activate: Main]' indicates this is a Main phase activation, not a generic trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The action sequence is wrong. The card says 'You may rest this Character: Play up to 1 Character'. The rest action should be a cost/condition, not an action that must execute. The primary action is PlayFromHand; rest is optional and conditional."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringOpponentTurn",
+      "effects": [
+        {
+          "description": "If this Character is rested, opponent cannot attack any card other than this Character",
+          "condition": {
+            "type": "HasRestingDon",
+            "target": "Self"
+          },
+          "restrictions": [
+            {
+              "type": "OpponentAttackRestriction",
+              "allowedTargets": [
+                "Self"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "activation": {
+        "type": "Main",
+        "frequency": "OncePerTurn",
+        "cost": [
+          {
+            "type": "Rest",
+            "target": "Self",
+            "optional": true
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3
+          },
+          "amount": "UpTo1"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:47.397Z"
+}

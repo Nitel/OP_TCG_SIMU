@@ -1,0 +1,47 @@
+{
+  "id": "OP03-105",
+  "name": "Charlotte Oven",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always' (optional trigger), not 'HasRestingDon'. The [DON!! x1] cost is not a condition—it's a cost resource check. The 'You may' indicates the action is optional, making it Always-triggered."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].structure",
+      "description": "'You may trash 1 card' should be wrapped in a conditional action (optional), not a mandatory TrashFromHand. The structure needs to represent the optional nature of the trash."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "subType": "Trigger"
+          },
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:41.917Z"
+}

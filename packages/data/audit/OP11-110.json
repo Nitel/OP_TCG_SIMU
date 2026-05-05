@@ -1,0 +1,76 @@
+{
+  "id": "OP11-110",
+  "name": "Fukaboshi",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'OnAttacked'. This is a replacement effect ('would be K.O.'d') that prevents damage, not a reaction to being attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is wrong. Should filter for characters with type 'Fish-Man Island' OR leader 'Shirahoshi', not just any character with maxCost 3. Current DSL allows any character to be rested."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "First action should be 'FlipLife' (correct) but the flow is wrong: FlipLife happens optionally ('may add'), and only if it happens, the KO effect triggers. DSL treats them as sequential guaranteed actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "The [On Play] effect should use a condition or conditional structure: the KO effect only resolves if you perform the FlipLife action. Current DSL makes both actions mandatory."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "types": [
+              "Fish-Man Island"
+            ]
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "types": [
+                "Fish-Man Island"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:48:37.336Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "OP09-027_r1",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 3 or more rested Characters' is not represented. Should use a condition checking rested character count (e.g., HasRestingDon or similar rested character count condition)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Once Per Turn limitation not encoded in DSL. The '[Once Per Turn]' clause should be represented (typically via a frequency limiter or per-turn flag, depending on DSL implementation)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "value": 3,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "frequency": "OncePerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:46:16.338Z"
+}

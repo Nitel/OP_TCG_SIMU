@@ -1,0 +1,40 @@
+{
+  "id": "OP01-083",
+  "name": "Mr.1(Daz.Bonez)",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has non-empty effect text but empty effects array. Must define trigger, condition, and action for the DON!! cost ability with [Your Turn] duration."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Baroque Works"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "value": "TrashCount('Event') / 2 * 1000",
+            "target": "Self"
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:20.217Z"
+}

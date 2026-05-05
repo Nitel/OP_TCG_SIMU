@@ -1,0 +1,49 @@
+{
+  "id": "P-081_r1",
+  "name": "Dracule Mihawk",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for 'HasCardOnBoard' with name 'Cross Guild', but card text requires '3 or more blue {Cross Guild} type Characters'. Should use HasCardOnBoard with count>=3 and type filter for Cross Guild, not name-based matching."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand is listed as an action, but the card text says 'You may return this Character to the owner's hand' — this is optional/conditional on the play succeeding. The structure should reflect that returning to hand is a cost/option before the play action, not an independent action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "PlayFromHand filter uses 'maxCost:5' but card text specifies 'cost of 5' (exact cost, not maximum). Should be 'cost':5 not 'maxCost':5."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Cross Guild",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Cross Guild",
+            "cost": 5
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:54.437Z"
+}

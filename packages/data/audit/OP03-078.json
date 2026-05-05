@@ -1,0 +1,55 @@
+{
+  "id": "OP03-078",
+  "name": "Issho",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states '[Your Turn]' which requires duration 'DuringYourTurn', not 'EndOfTurn'. This is a critical timing difference."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Effect requires checking 'opponent has 6 or more cards in hand' before executing. Condition should be a hand count check, not 'Always'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentHandCount",
+        "count": 6,
+        "comparison": "GreaterOrEqual"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "target": {
+            "scope": "OpponentHand"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:57.990Z"
+}

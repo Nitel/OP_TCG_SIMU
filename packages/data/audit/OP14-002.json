@@ -1,0 +1,46 @@
+{
+  "id": "OP14-002",
+  "name": "Urouge",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: Character must have 5000 power or more. Current DSL has no condition to check power threshold."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: K.O. up to 1 opponent Character with 3000 base power or less. DSL only includes DrawCard, omits the KO action entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasPower",
+          "value": 5000,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": "OpponentCharacter",
+          "count": 1,
+          "filter": {
+            "basePower": 3000,
+            "comparison": "LessThanOrEqual"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:10:19.405Z"
+}

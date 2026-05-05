@@ -1,0 +1,51 @@
+{
+  "id": "OP03-086",
+  "name": "Spandam",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing required check: 'LeaderHasType' with type 'CP' is mandatory but DSL has 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "SearchDeck action incomplete: missing 'count' (3), missing filter logic for 'type includes CP AND name not Spandam', missing trash destination for remaining cards"
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].destination",
+      "description": "Action flow broken: should reveal up to 1 card to hand, then trash remaining cards—requires two sequential actions (SearchDeck then ForceDiscard/trash)"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "CP"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 3,
+        "filter": {
+          "kind": "TypeIncludes",
+          "value": "CP",
+          "excludeNames": [
+            "Spandam"
+          ]
+        },
+        "selectUpTo": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "ForceDiscard",
+        "source": "deck",
+        "description": "Trash remaining cards from the 3 looked at"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:10.789Z"
+}

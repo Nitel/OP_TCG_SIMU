@@ -1,0 +1,35 @@
+{
+  "id": "OP01-056",
+  "name": "Demon Face",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action specifies single target KO, but card text states 'up to 2' characters. Need to add quantity parameter or duplicate action to allow selecting up to 2 targets."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target condition missing 'rested' state requirement. Text specifies 'rested Characters' but DSL has no HasRestingDon or similar condition filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "hasRestingDon": true,
+            "maxAmount": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:34.746Z"
+}

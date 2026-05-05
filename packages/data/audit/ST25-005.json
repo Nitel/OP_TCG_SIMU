@@ -1,0 +1,77 @@
+{
+  "id": "ST25-005",
+  "name": "Mohji",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect uses trigger OnBlock but should use a conditional permanent effect. The ability 'If you have 2 or more Characters with base cost 5+, gain Blocker and +1 cost' is a static condition, not triggered by blocking. Blocker keyword and cost modification should apply at all times when condition is met, not on block event."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type is 'Always' but should be 'HasCardOnBoard' checking for 2+ Characters with base cost 5 or more. Current DSL does not represent the 'base cost 5 or more' requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing +1 cost action. The effect should grant both [Blocker] keyword AND +1 cost, but only Blocker is listed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition only checks if Leader is Buggy but misses the second condition: 'you have 3 or less cards in your hand'. Current condition is incomplete."
+    }
+  ],
+  "suggestedDsl": {
+    "staticAbilities": [
+      {
+        "condition": {
+          "type": "HasCardOnBoard",
+          "count": 2,
+          "baseCost": 5,
+          "cardType": "Character"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          },
+          {
+            "type": "PowerBoost",
+            "cost": 1,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ],
+    "triggeredAbilities": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Buggy",
+          "handCount": {
+            "max": 3
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:53.380Z"
+}

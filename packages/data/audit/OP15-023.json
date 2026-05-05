@@ -1,0 +1,40 @@
+{
+  "id": "OP15-023",
+  "name": "Arlong",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect 1 (OnKO): Text says 'will not become active in your opponent's next Refresh Phase' — this is a prevention/lock effect, not a Rest action. DSL incorrectly uses Rest action. Should prevent activation during next Refresh Phase, not rest cards immediately."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Rest action is incorrect. The effect prevents cards from becoming active (a passive lock during next Refresh), not actively rests them. Current DSL has wrong semantic meaning."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: effect targets 'up to 2' opponent's rested cards only. Condition should filter for HasRestingDon and limit to 2 targets, not all opponent characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "AttachDon is incorrect. The second effect allows moving a DON!! from one character's cost area to another character/Leader's cost area. This is a transfer mechanic, not a simple AttachDon. DSL lacks the 'from' source specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].conditions",
+      "description": "Missing activation limit condition: 'Once Per Turn' should be encoded as a condition or constraint, not implicit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope is incomplete. Effect requires selecting a rested DON!! card first, then choosing a target character/Leader. Current DSL only targets the destination."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:23:44.665Z"
+}

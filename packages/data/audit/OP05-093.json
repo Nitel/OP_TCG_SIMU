@@ -1,0 +1,65 @@
+{
+  "id": "OP05-093",
+  "name": "Rob Lucci",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect places cards FROM trash back to deck, not FROM hand to trash. Should use 'SearchDeck' or similar mechanic to return trash cards to bottom of deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the core mechanic: placing 3 cards from trash at bottom of deck. Current DSL only models trashing from hand, which is backwards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The KO actions should not be conditional on 'TrashFromHand'. The effect states 'You may place 3 cards... : K.O. up to 1...' — the KO is a separate optional action, not dependent on successful trashing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second KO target allows maxCost:1, but should specify it targets a different character than the first KO (up to 1 of each cost threshold)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "source": "Trash",
+            "count": 3
+          },
+          "destination": "DeckBottom"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:51:21.519Z"
+}

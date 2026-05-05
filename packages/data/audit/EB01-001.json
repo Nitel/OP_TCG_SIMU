@@ -1,0 +1,94 @@
+{
+  "id": "EB01-001",
+  "name": "Kouzuki Oden",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the first effect entirely: 'All of your {Land of Wano} type Character cards without a Counter have a +1000 Counter' - this is a passive effect that gives Counter +1000 to specific characters",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type - should be 'OnAttack' (triggered when attacking), not 'Activated'",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Missing DON!! cost requirement - effect requires [DON!! x1]",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong condition - should check for {Land of Wano} type Character with cost 5 or more, not just any {Land of Wano} card on board",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong duration - text says 'until the start of your next turn', which means the effect persists through opponent's turn and expires at start of your next turn. This is not 'EndOfTurn' (which expires at end of current turn)",
+      "field": "effects[0].actions[0].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Passive",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Counter",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnCharacters",
+              "filters": [
+                {
+                  "type": "HasType",
+                  "value": "Land of Wano"
+                },
+                {
+                  "type": "LacksKeyword",
+                  "value": "Counter"
+                }
+              ]
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "cost": {
+          "don": 1
+        },
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filters": [
+            {
+              "type": "HasType",
+              "value": "Land of Wano"
+            },
+            {
+              "type": "CostAtLeast",
+              "value": 5
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "UntilStartOfYourNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:13.821Z"
+}

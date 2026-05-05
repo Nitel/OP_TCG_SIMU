@@ -1,0 +1,20 @@
+{
+  "id": "OP01-037",
+  "name": "Kawamatsu",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PlaySelf action requires a condition to determine when/if the card can be played. Missing required 'condition' field"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:19:02.999Z"
+}

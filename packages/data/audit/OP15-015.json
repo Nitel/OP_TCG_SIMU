@@ -1,0 +1,48 @@
+{
+  "id": "OP15-015",
+  "name": "Higuma",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "First action should 'GiveDon' (transfer opponent's rested DON!! to their character), not 'AttachDon' (which attaches to your own characters). The card takes opponent's rested DON!! and gives them to opponent's characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action must filter for rested DON!! cards only with condition or source specification. Current DSL has no mechanism to select from opponent's rested DON!! pool."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action's target should be conditional: only Characters that received a DON!! card in the first action. Current DSL allows choosing any opponent character independently."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "OpponentRestingDon",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "condition": "HasAttachedDon"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:23:05.623Z"
+}

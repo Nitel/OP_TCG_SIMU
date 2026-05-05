@@ -1,0 +1,27 @@
+{
+  "id": "OP11-027",
+  "name": "Bulge-Eyed Neptunian",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card text describes a conditional ability that should grant a keyword (ability to attack the turn played). Missing: trigger, condition, and action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": "LeaderIsName:Shirahoshi",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackSameTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:42:12.307Z"
+}

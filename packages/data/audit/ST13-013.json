@@ -1,0 +1,48 @@
+{
+  "id": "ST13-013",
+  "name": "Monkey.D.Garp",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing cost restriction (≤5) in filter. Official text requires 'cost of 5 or less' as a condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not capture the 'look at 5 cards' mechanic. Action should specify depth:5 or similar parameter to limit deck inspection scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action for placing remaining cards at bottom of deck. Official text requires: reveal up to 1 card AND place rest at bottom in any order. Current DSL omits deck ordering instruction."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST13-013",
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 [Sabo], [Portgas.D.Ace], or [Monkey.D.Luffy] with a cost of 5 or less and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByName",
+              "name": "Sabo|Portgas.D.Ace|Monkey.D.Luffy",
+              "maxCost": 5
+            },
+            "depth": 5,
+            "destination": "hand",
+            "count": "UpTo1",
+            "orderRemaining": "AnyOrder",
+            "placeRemaining": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:08:36.211Z"
+}

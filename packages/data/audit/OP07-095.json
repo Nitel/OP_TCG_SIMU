@@ -1,0 +1,59 @@
+{
+  "id": "OP07-095",
+  "name": "Iron Body",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Counter trigger should have single conditional action sequence. First PowerBoost (+4000) is correct, but second PowerBoost (+2000) must be conditional on TrashCount >= 10, not unconditional. Current structure applies both boosts always."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with Trigger and +1000 PowerBoost has no basis in card text. Should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing condition: TrashCount >= 10 required before applying second +2000 boost. Condition must gate this action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Both PowerBoost actions target same card (ChooseOwnCharacterOrLeader) but second boost should only apply if condition met. Needs conditional logic structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "TrashCount",
+            "value": 10,
+            "comparison": ">="
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:42.603Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP15-086",
+  "name": "Nami",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check if Leader has {Straw Hat Crew} type, not just if Leader exists on board. Should be LeaderHasType:Straw Hat Crew"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be PlayFromHand or similar that plays from trash, not SearchDeck which searches deck. Should target trash as source, not deck"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type requirement {Straw Hat Crew}. Should filter by both type AND cost ≤7"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "GiveKeyword target scope should be LastPlayedCard or the character played by previous action, not Self (which refers to the card with this effect)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Straw Hat Crew"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "type": "Straw Hat Crew",
+            "maxCost": 7
+          },
+          "source": "trash",
+          "destination": "board",
+          "maxAmount": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "LastPlayedCard"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:28:34.314Z"
+}

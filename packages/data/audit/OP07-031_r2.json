@@ -1,0 +1,62 @@
+{
+  "id": "OP07-031_r2",
+  "name": "Bartolomeo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'Trigger' (not 'OnPlay') for the conditional effect that activates when a Character is rested by your effect"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition missing: should check 'HasRestingDon' or similar state indicating a Character was rested by your effect this turn. Current condition 'Always' is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration missing: text states '[Your Turn]' which requires duration:'DuringYourTurn', not permanent/no duration"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "'[Once Per Turn]' restriction not represented in DSL condition object"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "source": "Hand"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:44:30.778Z"
+}

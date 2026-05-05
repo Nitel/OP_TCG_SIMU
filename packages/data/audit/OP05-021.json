@@ -1,0 +1,69 @@
+{
+  "id": "OP05-021",
+  "name": "Revolutionary Army HQ",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is optional ('You may trash') but DSL structure makes it mandatory. Should use conditional logic or optional flag."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Rest action should not be nested in thenActions of TrashFromHand. Rest is a separate requirement of the activation cost, not conditional on trashing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "SearchDeck filter is 'Any' but should be restricted to {Revolutionary Army} type cards only. Also missing 'look at 3 cards' mechanic and 'place rest at bottom in any order' action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "SearchDeck only reveals/draws 1 card but does not handle the remaining 2 cards from the 3-card look. Missing explicit action to return non-chosen cards to bottom of deck in any order."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "kind": "Any"
+        },
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "types": [
+            "Revolutionary Army"
+          ]
+        },
+        "maxResults": 1,
+        "destination": "hand",
+        "revealBeforeAdding": true,
+        "lookAhead": 3,
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "target": "remaining",
+            "destination": "bottomOfDeck",
+            "allowReorder": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:39:08.769Z"
+}

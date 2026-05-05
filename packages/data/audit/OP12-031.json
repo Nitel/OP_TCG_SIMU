@@ -1,0 +1,42 @@
+{
+  "id": "OP12-031",
+  "name": "Tashigi",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "AttachDon action missing condition to target only rested DON!! cards. Card text specifies 'give up to 3 rested DON!! cards' — requires a condition filter for rested DON cards, not all DON cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should target up to 1 opponent character with cost ≤6, but lacks explicit 'maxCount':1 constraint in target specification. Current DSL implies singular but should be explicit."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6,
+          "maxCount": 1
+        }
+      },
+      {
+        "type": "AttachDon",
+        "count": 3,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "condition": {
+          "type": "HasRestingDon"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:51:38.999Z"
+}

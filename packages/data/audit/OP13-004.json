@@ -1,0 +1,67 @@
+{
+  "id": "OP13-004",
+  "name": "Sabo",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing first passive effect: 'If you have 4 or more Life cards, give this Leader −1000 power.' This is a permanent passive condition, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct) but condition is incomplete. Condition should check for Character with cost 8 or more on board, not just HasCardOnBoard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasCardOnBoard' is too generic. Should specify checking for Character with cost ≥8. Current DSL does not capture the cost requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "[DON!! x1] is a one-time activated ability, not EndOfTurn. Duration should be 'Permanent' or omitted for immediate single application."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": "GreaterThanOrEqual",
+        "value": 4
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "Leader"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "costThreshold": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:58:47.029Z"
+}

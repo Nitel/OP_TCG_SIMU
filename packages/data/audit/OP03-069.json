@@ -1,0 +1,37 @@
+{
+  "id": "OP03-069",
+  "name": "Minorhinoceros",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: must check 'LeaderHasType' for {Impel Down}. Current condition is 'Always' but effect text requires leader type check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action incomplete: missing 'count' field. Should specify 'count':1 to trash exactly 1 card."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Impel Down"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:39.713Z"
+}

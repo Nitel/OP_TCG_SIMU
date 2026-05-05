@@ -1,0 +1,30 @@
+{
+  "id": "OP05-105_r1",
+  "name": "Satori",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is invalid. Must be a specific trigger type: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn, or OnPlay variant."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is not valid. Legacy alias is 'TrashCard' which maps to 'ForceDiscard'. Use 'ForceDiscard' instead."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing required 'condition' field. Cannot determine target or scope of effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing required 'duration' field. Cannot determine how long effect applies."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:36:16.884Z"
+}

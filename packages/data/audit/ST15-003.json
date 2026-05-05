@@ -1,0 +1,47 @@
+{
+  "id": "ST15-003",
+  "name": "Kingdew",
+  "set": "ST-15",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to restrict effect to opponent's turn. Text states '[Opponent's Turn]' which requires duration or conditional check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'OwnLeaderUpTo1' or similar to reflect 'up to 1 of your Leader' (selective targeting, not all leaders)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should include condition 'ByEffect' — text specifies 'K.O.'d by an effect', not all KOs."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "DuringOpponentTurn"
+        },
+        {
+          "type": "ByEffect"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeaderUpTo1"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:11:13.757Z"
+}

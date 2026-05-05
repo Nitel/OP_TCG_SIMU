@@ -1,0 +1,52 @@
+{
+  "id": "OP01-024",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is incomplete. Card has two distinct effects: (1) a passive protection effect ('This Character cannot be K.O.'d in battle by ＜Strike＞ attribute Characters') and (2) an activated ability. Only the activated ability is present in DSL. The passive effect requires a Counter trigger to prevent KO from Strike Characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with condition 'OncePerTurn' or equivalent. Current DSL lacks the 'OncePerTurn' constraint in conditions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": "Always",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Attacking",
+            "filter": {
+              "hasType": "Strike"
+            }
+          }
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "Activated",
+      "condition": "OncePerTurn",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:44.160Z"
+}

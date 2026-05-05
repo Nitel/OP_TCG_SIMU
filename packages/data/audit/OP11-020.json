@@ -1,0 +1,52 @@
+{
+  "id": "OP11-020",
+  "name": "X Calibur",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "Second PowerBoost action requires a condition checking if opponent has a Character with 6000+ power, but no condition field is present. Should include condition object."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is redundant and incorrect. The conditional second PowerBoost should be within the same effect as a conditional action, not a separate trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but the conditional action structure is wrong—it should be a single conditional action within one effect, not two separate effects."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "OpponentCharacter",
+            "power": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:41:40.509Z"
+}

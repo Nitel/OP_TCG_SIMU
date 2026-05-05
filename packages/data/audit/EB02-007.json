@@ -1,0 +1,58 @@
+{
+  "id": "EB02-007",
+  "name": "Cloven Rose Blizzard",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The trigger should be 'Activated' (for [Main] timing) not 'OnPlay'. [Main] effects activate when played from hand during Main Phase, not automatically on play.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "PowerBoost action is missing the count limit. The text says 'Up to a total of 3 of your Leader and Character cards' but the DSL targets all characters and leader without any limit.",
+      "field": "effects[0].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharactersAndLeader",
+              "count": 3
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 3000,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 4000,
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:26.237Z"
+}

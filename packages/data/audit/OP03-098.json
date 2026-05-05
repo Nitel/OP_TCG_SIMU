@@ -1,0 +1,52 @@
+{
+  "id": "OP03-098",
+  "name": "Enies Lobby",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the core game mechanic. The card has an [Activate: Main] ability that requires: (1) resting this Stage, (2) checking if Leader's type includes 'CP', (3) reducing opponent's Character cost by 2 during this turn. Current DSL only contains PlaySelf trigger and Rest action with no condition or cost reduction effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "PlaySelf trigger is incorrect for a Stage card with Activate ability. Should not auto-play on play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Rest action exists but is disconnected from the actual activated ability logic. Missing: LeaderHasType condition ('CP'), PowerBoost action (−2 cost), target specification (opponent's Character, up to 1), and duration ('DuringYourTurn' since effect applies 'during this turn')."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "value": "CP"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "OpponentCharacter",
+            "count": 1
+          },
+          "value": -2,
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:34.750Z"
+}

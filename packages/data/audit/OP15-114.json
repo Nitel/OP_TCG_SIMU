@@ -1,0 +1,68 @@
+{
+  "id": "OP15-114",
+  "name": "Wyper",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "PowerBoost duration should be \"DuringYourTurn\" not \"EndOfTurn\". The card text explicitly states \"during this turn\", which means the effect lasts only for your current turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.type",
+      "description": "AttachDon target restriction missing. The card specifies \"1 of your {Sky Island} type Leader or Character cards\", but the DSL target only uses \"ChooseOwnCharacterOrLeader\" without the Sky Island type filter."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[2]",
+      "description": "KO action should conditionally target only Characters with 0 power or less, but current DSL targets all opponent Characters. The effect text says \"K.O. all of your opponent's Characters with 0 power or less\", implying a conditional check."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters",
+            "filter": "PowerLessThanOrEqual0"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "OncePerTurn"
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": "HasType:SkyIsland"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:30:46.470Z"
+}

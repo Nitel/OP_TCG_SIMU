@@ -1,0 +1,69 @@
+{
+  "id": "ST07-003",
+  "name": "Charlotte Katakuri",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the primary effect: 'Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life cards.' Only the conditional Rush keyword is implemented."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should be 'HasLessLifeThanOpponent' (or equivalent). Rush is only granted if you have less Life cards than opponent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text states 'during this turn' which should be 'DuringYourTurn' to allow the character to attack on the turn it is played."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "target": {
+            "scope": "Deck",
+            "owner": "Either",
+            "count": 1,
+            "from": "Top",
+            "zone": "Life"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "target": {
+            "scope": "Deck",
+            "owner": "Either",
+            "placement": "TopOrBottom",
+            "zone": "Life"
+          }
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasLessLifeThanOpponent"
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T13:01:24.216Z"
+}

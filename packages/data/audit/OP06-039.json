@@ -1,0 +1,41 @@
+{
+  "id": "OP06-039",
+  "name": "You Ain't Even Worth Killing Time!!",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Second effect should target only rested Characters, but condition is missing. Target should include 'rested:true' constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "rested": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:56:08.490Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP08-097",
+  "name": "Heliceratops",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect should reduce cost (−2 cost), not rest a character. Should use 'PowerBoost' with negative value or a cost reduction mechanic, but 'Rest' does not match the card text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "Target maxCost is 3, but card text specifies 'give up to 1 of your opponent's Characters −2 cost during this turn' — this is a cost reduction effect, not a cost-based selection criteria. The condition for which characters can be targeted is not clearly limited by cost in the original text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Card text states 'during this turn' which indicates a duration-limited effect. DSL is missing duration field. Should include duration:'DuringYourTurn' to enforce the turn-limited scope."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action to KO character with maxCost 3 is unexplained and does not match card text. Card describes a single Main effect with two sequential actions. This extra trigger is spurious."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "subType": "Animal Kingdom Pirates"
+        },
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "upTo": 1
+            },
+            "powerBoost": -2
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 0,
+              "upTo": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:31:40.655Z"
+}

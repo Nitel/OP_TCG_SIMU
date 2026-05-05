@@ -1,0 +1,44 @@
+{
+  "id": "OP02-057",
+  "name": "Bartholomew Kuma",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and oversimplified. The effect requires: (1) looking at top 2 cards, (2) revealing up to 1 {The Seven Warlords of the Sea} type card, (3) adding it to hand, (4) placing remaining cards at top or bottom in any order. Current DSL only shows a generic SearchDeck with no filter, depth, or deck rearrangement logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify {The Seven Warlords of the Sea} type constraint, not \"Any\". The action is conditional on card type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action for placing remaining cards back to deck. After selecting up to 1 card for hand, the other card(s) must be placed at top or bottom of deck in any order. This requires a second action or extended SearchDeck with deckPlacement parameter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "depth": 2,
+        "filter": {
+          "kind": "Type",
+          "value": "The Seven Warlords of the Sea"
+        },
+        "maxCount": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "OrderDeckCards",
+        "count": 1,
+        "placement": "TopOrBottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:15.065Z"
+}

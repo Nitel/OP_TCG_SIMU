@@ -1,0 +1,52 @@
+{
+  "id": "OP06-020",
+  "name": "Hody Jones",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must include both opponent's DON!! cards AND Characters with cost ≤3. Current DSL only targets Characters. Need to support multiple target types (DON cards + Characters)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second action: the restrictive effect 'you cannot add Life cards to your hand using your own effects during this turn' must be represented. This is a conditional restriction during the current turn (duration: DuringYourTurn)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect uses 'You may' (optional), but DSL shows mandatory Rest. Should clarify optionality in the action structure if the system supports it."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCardsByType",
+            "cardTypes": [
+              "DON",
+              "Character"
+            ],
+            "maxCost": 3,
+            "maxCount": 1
+          },
+          "optional": true
+        },
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "Self"
+          },
+          "keyword": "CannotAddLifeThisTurn",
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:54:42.980Z"
+}

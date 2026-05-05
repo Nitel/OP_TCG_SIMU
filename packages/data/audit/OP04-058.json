@@ -1,0 +1,53 @@
+{
+  "id": "OP04-058",
+  "name": "Crocodile",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' or a reactive trigger matching 'When a DON!! card on your field is returned to your DON!! deck by your effect', not 'Activated'. This describes a response to a card return event."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states '[Opponent's Turn]' — duration must be 'DuringOpponentTurn', not omitted/Permanent. This is a critical duration violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'Always' is incomplete. Must include 'HasRestingDon' or similar condition to reflect 'When a DON!! card on your field is returned to your DON!! deck by your effect'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'GiveDon' is incomplete. Effect requires searching/playing from DON!! deck ('add up to 1 DON!! card from your DON!! deck and set it as active'), which requires 'SearchDeck' or 'AttachDon' with source specification, not just 'GiveDon'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "'[Once Per Turn]' limitation is not encoded in DSL (no frequency limiting mechanism present)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Opponent's Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck by your effect, add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "HasRestingDon"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "Deck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:48.805Z"
+}

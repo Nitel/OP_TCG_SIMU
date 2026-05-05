@@ -1,0 +1,55 @@
+{
+  "id": "OP07-056_r1",
+  "name": "Slave Arrow",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost should be >=2, not <=2. Card says 'cost of 2 or more' but DSL specifies maxCost:2 which limits to cost 2 or less"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand action is mandatory in DSL but card text says 'You may return' — requires optional:true"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Draw 2 cards) has no basis in official card text. This effect should not exist"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "PowerBoost target should be limited to 'Up to 1' per card text, but scope ChooseOwnCharacterOrLeader does not enforce count limit — needs maxCount:1"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "minCost": 2
+            },
+            "optional": true
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:40.641Z"
+}

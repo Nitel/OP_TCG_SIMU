@@ -1,0 +1,48 @@
+{
+  "id": "OP05-087",
+  "name": "Hakuba",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (When Attacking), not 'Activated'. Activated is for abilities that require manual activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text states 'during this turn' which means the effect lasts only for the current turn phase, not through end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should exclude this Character. Add condition or refine target to prevent selecting the attacking Character itself."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] You may K.O. 1 of your Characters other than this Character: Give up to 1 of your opponent's Characters −5 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -5,
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:50:50.791Z"
+}

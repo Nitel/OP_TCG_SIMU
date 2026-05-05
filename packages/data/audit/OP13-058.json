@@ -1,0 +1,60 @@
+{
+  "id": "OP13-058",
+  "name": "Phoenix Pyreapple",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'ReturnToHand' or similar deck-return action, not 'Rest'. The card effect places opponent's Character at bottom of deck, which is a return/reorder effect, not a rest action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is incorrect. Should target 'OwnDonCards' to rest (the cost), then apply separate action to opponent's Character. Current scope 'ChooseOpponentCharacter' is the effect target, not the cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure missing cost specification. Main ability has two parts: (1) cost 'rest 1 own DON card' and (2) effect 'place opponent's Character at bottom of deck'. Should separate into cost + effect structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnDonCards",
+          "count": 1
+        }
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "count": 1
+          },
+          "placement": "BottomOfDeck"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:02:42.345Z"
+}

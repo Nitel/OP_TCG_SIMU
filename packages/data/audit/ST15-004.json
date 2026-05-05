@@ -1,0 +1,57 @@
+{
+  "id": "ST15-004",
+  "name": "Thatch",
+  "set": "ST-15",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' (checks Leader type), not 'HasCardOnBoard' (checks board state). Card text: 'If your Leader's type includes \"Whitebeard Pirates\"'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition structure incorrect. Should use 'LeaderHasType' with type field, not 'HasCardOnBoard' with name field"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope should be 'OpponentCharacter' (automatic selection of 1), not 'ChooseOpponentCharacter'. Text says 'give up to 1' meaning optional/up to, handled by max:1, not by choice scope"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is acceptable for \"during this turn\", but verify against official DSL standard for temporary power debuffs"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST15-004",
+    "effectText": "[On Play] If your Leader's type includes \"Whitebeard Pirates\", give up to 1 of your opponent's Characters −2000 power during this turn. Then, add 1 card from the top of your Life cards to your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "type_name": "Whitebeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "OpponentCharacter",
+              "max": 1
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:11:19.803Z"
+}

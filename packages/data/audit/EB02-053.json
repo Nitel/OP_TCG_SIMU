@@ -1,0 +1,46 @@
+{
+  "id": "EB02-053",
+  "name": "Myskina Olga",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Card has two trigger effects (OnPlay and OnKO) but DSL effects array is empty. The effect allows looking at 1 card from the top of your or opponent's Life and placing it at the top or bottom of Life.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "target": "YourLifeOrOpponentLife",
+            "count": 1,
+            "toLocation": "TopOrBottomOfLife"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "target": "YourLifeOrOpponentLife",
+            "count": 1,
+            "toLocation": "TopOrBottomOfLife"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:59.051Z"
+}

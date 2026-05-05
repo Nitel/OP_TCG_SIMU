@@ -1,0 +1,39 @@
+{
+  "id": "OP13-110",
+  "name": "Stussy",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Egghead} type, not just if Leader exists on board. Current condition 'HasCardOnBoard' with name 'Leader' is incorrect. Should use 'LeaderHasType' with type 'Egghead'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must include cardType 'Character' and keyword 'Trigger' in addition to maxCost. Current filter only specifies cost constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Egghead"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5,
+            "keyword": "Trigger"
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:06:44.789Z"
+}

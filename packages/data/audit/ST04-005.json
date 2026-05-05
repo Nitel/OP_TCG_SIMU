@@ -1,0 +1,46 @@
+{
+  "id": "ST04-005",
+  "name": "Queen",
+  "set": "ST-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (card ability activates when entering the field), not 'Activated' (which implies a player-triggered activated ability)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasRestingDon' is incorrect. The effect requires DON!! payment (−1), which should be represented as a cost condition, not a board state check. Should verify cost mechanism in DSL spec or use appropriate cost representation"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence is incomplete. After DrawCard, the TrashFromHand should execute, but the DSL lacks clarity on whether both actions fire or if there's a conditional dependency. Per card text, both should execute in sequence"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "location": "hand"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:57:52.893Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP08-111",
+  "name": "S-Shark",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text states '[When Attacking]' which is an attack trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions are completely wrong. DSL contains TrashFromHand and PlaySelf, but card effect is a blocker prevention ability with no card plays or discards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. Effect applies 'during this battle' - should be duration: 'DuringOpponentTurn' or similar battle-specific duration."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing cost condition. Card requires [DON!! x1] to activate the effect - needs cost specification."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] Your opponent cannot activate [Blocker] during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "cost": {
+          "don": 1
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "BlockerLock",
+            "target": "opponent",
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:32:44.957Z"
+}

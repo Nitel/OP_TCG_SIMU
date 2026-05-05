@@ -1,0 +1,43 @@
+{
+  "id": "OP07-063",
+  "name": "Capote",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The card prevents attack, which requires a duration-based restriction, not a Rest action. Should use a keyword restriction or custom action indicating 'cannot attack' with proper duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing duration specification. Text states 'until the end of your opponent's next turn', which means the effect lasts during opponent's turn. Should include duration:\"DuringOpponentTurn\" or equivalent mechanic to prevent attacks for that specific period."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but maxCost constraint should be maxCost:6 (up to cost 6 or less). Also missing selection limit: should specify maxCount:1 since effect says 'up to 1 of your opponent's Characters'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Foxy Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotAttack",
+        "duration": "DuringOpponentTurn",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:07:14.935Z"
+}

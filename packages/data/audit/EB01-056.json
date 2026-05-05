@@ -1,0 +1,39 @@
+{
+  "id": "EB01-056",
+  "name": "Charlotte Flampe",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the cost/condition that allows you to add 1 card from top or bottom of Life to hand. The effect should be conditional on paying this cost, but the DSL only has the Draw action with no preceding FlipLife action.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "critical",
+      "description": "The FlipLife action (adding Life card to hand) is completely missing from the DSL. This is the first part of the effect and is required for the Draw to happen.",
+      "field": "effects[0].actions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true,
+            "fromTopOrBottom": true
+          },
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "condition": "IfPreviousActionTaken"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:41.173Z"
+}

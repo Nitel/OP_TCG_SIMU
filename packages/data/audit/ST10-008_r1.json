@@ -1,0 +1,45 @@
+{
+  "id": "ST10-008_r1",
+  "name": "Shachi &amp; Penguin",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon' (resting DON!!). The card text says 'DON!! cards on your field' which refers to attached DON!!, not resting DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.count",
+      "description": "Condition should use 'maxCount':3 or 'upTo':3 to represent '3 or less', not 'count':3 which typically means 'exactly 3'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is incomplete. GiveDon adds DON!! to hand/field, but the card text specifies 'add up to 2 DON!! cards from your DON!! deck and rest them'. Should specify: source (from deck), count (up to 2), and resting state. Likely needs additional Rest action or Rest parameter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "maxCount": 3
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 2,
+          "upTo": true,
+          "fromDeck": true
+        },
+        {
+          "type": "Rest",
+          "target": "AddedDon"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:52:02.539Z"
+}

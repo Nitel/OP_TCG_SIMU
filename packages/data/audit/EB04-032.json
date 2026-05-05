@@ -1,0 +1,82 @@
+{
+  "id": "EB04-032",
+  "name": "Queen",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "OnPlay effect missing 'optional' flag. Card text says 'You may trash' indicating optional action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition type incorrect. Should be 'LeaderHasType' not 'HasCardOnBoard'. Card checks if Leader has {Animal Kingdom Pirates} type, not board presence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "SearchDeck action incomplete. Missing cost specification (rest 2 DON!! cards) and missing 'rest' action on searched card. Should include AttachDon with rest modifier, not just SearchDeck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing 'Once Per Turn' restriction in DSL. Should include appropriate frequency limiter or cost structure."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "optional": true,
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "Animal Kingdom Pirates"
+            },
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Animal Kingdom Pirates"
+        },
+        "cost": {
+          "type": "Rest",
+          "count": 2,
+          "filter": {
+            "kind": "Don"
+          }
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Don"
+            },
+            "count": 1,
+            "destination": "board",
+            "thenActions": [
+              {
+                "type": "Rest"
+              }
+            ]
+          }
+        ],
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:09:22.516Z"
+}

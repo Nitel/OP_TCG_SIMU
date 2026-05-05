@@ -1,0 +1,72 @@
+{
+  "id": "OP15-003",
+  "name": "Alvida",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnKO trigger is incorrect. The card says 'If this Character would be K.O.'d' — this is a prevention effect, not a response to KO. Should use trigger:'Counter' with a condition to prevent the KO, or use a custom 'PreventKO' pattern. The current DSL allows KO to happen, then trashes a card."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action is correct for the effect, but the effect structure is wrong. This should conditionally prevent KO if a valid card is trashed. Current DSL has empty thenActions but doesn't model the prevention."
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Second effect (Activate: Main ability to give opponent's rested DON!! cards) is completely missing from effects array. DSL is incomplete."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": "self",
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 6000,
+            "zone": "Hand"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "RemoveLife",
+              "target": "self",
+              "amount": 0,
+              "note": "Prevents KO of this Character"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "target": "opponent",
+          "filter": {
+            "rested": true
+          },
+          "maxCount": 1,
+          "moveTo": [
+            "opponent's Leader",
+            "opponent's Character"
+          ],
+          "optional": true
+        }
+      ],
+      "duration": "Permanent",
+      "activationType": "Main",
+      "frequency": "OncePerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:22:13.464Z"
+}

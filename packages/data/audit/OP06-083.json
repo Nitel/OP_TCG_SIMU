@@ -1,0 +1,44 @@
+{
+  "id": "OP06-083",
+  "name": "Oars",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].keyword",
+      "description": "Effect should negate this Character's effect (prevent abilities), not grant Rush keyword. 'This Character's effect is negated' means abilities are disabled, not that it gains Rush."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "GiveKeyword is incorrect action type for negating effects. Should use a negation/disable mechanic or represent as removing ability to use effects."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "This Character cannot attack.<br>[Activate: Main] You may K.O. 1 of your {Thriller Bark Pirates} type Characters: This Character's effect is negated during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Thriller Bark Pirates"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "EffectNegated",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:59:33.950Z"
+}

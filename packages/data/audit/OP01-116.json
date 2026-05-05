@@ -1,0 +1,44 @@
+{
+  "id": "OP01-116",
+  "name": "Artificial Devil Fruit SMILE",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing 'count' (max 1), 'types' filter for SMILE type, and does not represent the 'look at 5 cards' mechanic with deck bottom placement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL lacks the full sequence: (1) look at top 5 cards, (2) play up to 1 SMILE Character with cost ≤3, (3) place rest at bottom in any order. Current action only attempts card selection without the view/arrangement steps."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Look at 5 cards from the top of your deck; play up to 1 {SMILE} type Character card with a cost of 3 or less. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByCost",
+              "maxCost": 3,
+              "cardTypes": [
+                "Character"
+              ],
+              "types": [
+                "SMILE"
+              ]
+            },
+            "count": 1,
+            "destination": "board"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:14.484Z"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "OP09-012",
+  "name": "Monster",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should have OnKO trigger with condition checking if Character has [Bonk Punch], allowing trash instead of KO."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "[Bonk Punch]"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T10:34:11.738Z"
+}

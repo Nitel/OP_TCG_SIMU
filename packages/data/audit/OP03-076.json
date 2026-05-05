@@ -1,0 +1,50 @@
+{
+  "id": "OP03-076",
+  "name": "Rob Lucci",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a complex triggered ability with duration conditions, but effects[] is empty. Should contain: (1) An OnKO trigger for opponent's Character KO'd with duration DuringOpponentTurn, (2) A cost to trash 2 cards from hand (Once Per Turn), (3) An action to set this Leader as active. Duration '[Your Turn]' at start indicates this effect is limited to your turn."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Effect text contains '[Your Turn]' which indicates the triggered ability should only function during your turn. This requires proper duration handling in the DSL structure."
+    },
+    {
+      "severity": "major",
+      "field": "cost",
+      "description": "[Once Per Turn] restriction and 'trash 2 cards from your hand' cost are not represented in DSL."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "Always"
+        },
+        "duration": "DuringYourTurn",
+        "cost": {
+          "type": "TrashFromHand",
+          "count": 2
+        },
+        "restrictions": [
+          {
+            "type": "OncePerTurn"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "ThisLeader"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:54.612Z"
+}

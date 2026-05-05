@@ -1,0 +1,43 @@
+{
+  "id": "ST13-018",
+  "name": "Gum-Gum Jet Spear",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].condition",
+      "description": "DrawCard condition should check \"TrashCount\" (Life cards in trash = 0), not \"Always\". The effect reads \"if you have 0 Life cards\" which means the condition must verify TrashCount equals 0."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (FlipLife with Trigger) is extraneous and incorrect. The original card text contains only one effect: the Counter with conditional draw. There is no separate FlipLife action described in the card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxChoose": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "value": 0
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:00.530Z"
+}

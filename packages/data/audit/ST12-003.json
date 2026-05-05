@@ -1,0 +1,66 @@
+{
+  "id": "ST12-003",
+  "name": "Dracule Mihawk",
+  "set": "ST-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition uses TurnCount with max:2, but card text says 'If you have 2 or less Characters' — this is a board state condition (HasCardOnBoard count), not a turn count. Should use a character count condition or custom logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing attribute requirement '<Slash>' — card allows 'Muggy Kingdom type OR <Slash> attribute' but DSL only specifies subType. Must represent both options."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing exclusion for [Dracule Mihawk] — card specifies 'other than [Dracule Mihawk]' but DSL has no excludeCards or similar restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action missing 'rested' state — card text specifies cards are played 'rested' but no Rest action or restState flag present in DSL."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'up to 1' quantity constraint — should specify maxQuantity:1 or similar."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filter": {
+        "cardType": "Character"
+      },
+      "max": 2
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "maxQuantity": 1,
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 4,
+          "any": [
+            {
+              "subType": "Muggy Kingdom"
+            },
+            {
+              "attribute": "Slash"
+            }
+          ],
+          "excludeCards": [
+            "Dracule Mihawk"
+          ]
+        },
+        "restState": "Rested"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:06:35.873Z"
+}

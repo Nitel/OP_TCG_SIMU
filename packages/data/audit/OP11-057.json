@@ -1,0 +1,34 @@
+{
+  "id": "OP11-057",
+  "name": "Pedro",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has ability text but effects array is empty. Must define conditional Blocker keyword grant."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "condition": {
+            "type": "CardCountInHand",
+            "comparison": "LessOrEqual",
+            "value": 4
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:30.326Z"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "ST13-019",
+  "name": "The Three Brothers' Bond",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing filter conditions: must specify exactly 1 card with names [Sabo], [Portgas.D.Ace], or [Monkey.D.Luffy] AND cost ≤ 5. Current filter is 'Any' which doesn't match the selective reveal requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not account for the 'look at 5 cards' scoping mechanic. Action should clarify that search is limited to top 5 cards of deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action for placing remaining cards at bottom of deck in any order. Current DSL only captures hand addition; must include secondary action or extended SearchDeck behavior to handle pile ordering."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any",
+            "names": [
+              "Sabo",
+              "Portgas.D.Ace",
+              "Monkey.D.Luffy"
+            ],
+            "maxCost": 5,
+            "scopeTop": 5,
+            "maxCards": 1
+          },
+          "destination": "hand",
+          "revealMode": "reveal"
+        },
+        {
+          "type": "ArrangeFromDeck",
+          "location": "bottom",
+          "scopeTop": 5,
+          "orderingChoice": "player"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:04.828Z"
+}

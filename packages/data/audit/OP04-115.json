@@ -1,0 +1,48 @@
+{
+  "id": "OP04-115",
+  "name": "Gun Modoki",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is mandatory in DSL but card text says 'You may add' — should be optional. DSL lacks 'optional' flag or conditional structure to represent player choice."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Card text explicitly states 'during this turn' which requires duration 'DuringYourTurn', not EndOfTurn. Violation of duration rule."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with Trigger and PowerBoost is not supported by card text. Card mentions '(This card deals 2 damage)' as passive damage, not a triggered effect. This damage should be intrinsic to the card or handled differently, not as a separate Trigger effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target restriction missing: card specifies 'Up to 1 of your {Land of Wano} type Characters', but DSL target only uses 'ChooseOwnCharacter' without the type filter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "DoubleAttack",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "hasType": "LandOfWano"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:45:02.338Z"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "EB04-034",
+  "name": "Charlotte Pudding",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (Blocker with optional activation during opponent's attack), not 'OnAttacked'. 'OnAttacked' fires automatically; this effect requires player choice ('You may')."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition check: effect only resolves if you have 4+ Events in trash. Current DSL lacks 'TrashCount' condition gate before PowerBoost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand action should not have a cardType filter. The effect allows trashing any 1 card from hand; the filter should be removed or set to null."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Missing 'limit' property for 'Once Per Turn' restriction. Should include 'limit:{type:\"PerTurn\",value:1}'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "TrashCount",
+            "cardType": "Event",
+            "comparison": ">=",
+            "value": 4
+          }
+        ],
+        "limit": {
+          "type": "PerTurn",
+          "value": 1
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 2000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "count": 1
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:09:32.857Z"
+}

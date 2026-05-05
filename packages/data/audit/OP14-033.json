@@ -1,0 +1,72 @@
+{
+  "id": "OP14-033",
+  "name": "Perona",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "OnPlay effect uses Rest action, but card text says characters 'cannot be rested' (prevention effect). Should use a condition/keyword to prevent resting, not Rest action itself."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration constraint. Text states 'until the end of your opponent's next End Phase' — requires explicit duration tracking, not instantaneous Rest."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "OnKO effect is missing the cost: 'You may rest 1 of your cards' — requires a RestYourCard cost before PlayFromHand action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specification incomplete: 'Up to 2' requires maxTargets:2, and should specify opponent's Characters only."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP14-033",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotRest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxTargets": 2
+            },
+            "duration": "UntilEndOfOpponentNextEndPhase"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "cost": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseYourCard",
+              "maxTargets": 1
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "color": "Green",
+              "cardType": "Character",
+              "maxCost": 5
+            },
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:12:43.999Z"
+}

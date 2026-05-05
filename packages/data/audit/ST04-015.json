@@ -1,0 +1,53 @@
+{
+  "id": "ST04-015",
+  "name": "Brachio Bomber",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon action is incomplete. The effect states 'add up to 1 DON!! card from your DON!! deck and set it as active' — this requires SearchDeck to retrieve from deck, not just GiveDon. Should be SearchDeck with count:1, source:'DON!!Deck', then attach/set active."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:'Trigger' is undefined and redundant. The card text describes a single Main effect with two sequential actions (KO, then add DON!!). There is no second trigger mentioned. This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' should include 'maxCost' condition. Current structure is unclear — should be {'scope':'OpponentCharacter','maxCost':6} or similar with proper cost filtering."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 6 or less, then add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxCost": 6
+            },
+            "count": 1
+          },
+          {
+            "type": "SearchDeck",
+            "target": {
+              "scope": "DON!!Deck"
+            },
+            "count": 1
+          },
+          {
+            "type": "AttachDon",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:58:33.873Z"
+}

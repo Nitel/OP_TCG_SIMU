@@ -1,0 +1,63 @@
+{
+  "id": "OP11-024",
+  "name": "Aladine",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: OnKO trigger must include condition to check that KO was caused by opponent's effect. Current DSL has no condition filtering for 'opponent's effect'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is not properly chained. The Rest action should be part of a conditional chain where both trash AND rest must succeed before playing the character. Current structure doesn't enforce 'If you do' logic correctly."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "PlayFromHand filter incomplete: must include both {Fish-Man} OR {Merfolk} type using 'anyType' logic, not just 'subType'. Current filter only checks subType without OR condition for alternative type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "PlayFromHand action must be conditional on successful Rest. The 'If you do' language means play only happens if both trash AND rest were performed. Current nesting doesn't reflect this dependency."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "KOByOpponentEffect"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOwnDonCard"
+              },
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "filter": {
+                    "anyType": [
+                      "Fish-Man",
+                      "Merfolk"
+                    ],
+                    "maxCost": 6
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:42:04.231Z"
+}

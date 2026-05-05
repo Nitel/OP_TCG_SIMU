@@ -1,0 +1,40 @@
+{
+  "id": "OP11-063",
+  "name": "Little Sadi",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: LeaderHasType with type 'Impel Down'. The card effect explicitly requires 'If your Leader has the {Impel Down} type' before the Rest action activates."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include maxCount: 1 to reflect 'up to 1' in the card text. Current target lacks quantity constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Impel Down"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:59.651Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "OP04-118",
+  "name": "Nefeltari Vivi",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter is incomplete. Effect should target red Characters with cost 3 or more, excluding this Character. Current target only filters by maxCost without color requirement and self-exclusion."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "maxCost:3 is incorrect. Card text states 'cost of 3 or more', which means minCost:3, not maxCost:3."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP04-118",
+    "effectText": "All of your red Characters with a cost of 3 or more other than this Character gain [Rush].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "AllOwnCharacters",
+              "minCost": 3,
+              "hasType": "Red",
+              "excludeSelf": true
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:45:14.114Z"
+}

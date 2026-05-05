@@ -1,0 +1,25 @@
+{
+  "id": "OP02-057_r1",
+  "name": "Bartholomew Kuma",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at 2 cards from top of deck, (2) revealing up to 1 {The Seven Warlords of the Sea} card and adding it to hand, (3) placing remaining cards at top or bottom in any order. Current DSL uses generic SearchDeck with no filter, count limit, or deck arrangement logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify {The Seven Warlords of the Sea} type, not 'Any'. Should be {\"type\":\"The Seven Warlords of the Sea\"} or equivalent type matching."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL lacks representation of the 'look at 2 cards' mechanic, the 'up to 1' card selection limit, and the 'place rest at top or bottom in any order' mechanic. Current schema appears insufficient for multi-step deck manipulation with arrangement options."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:12:16.131Z"
+}

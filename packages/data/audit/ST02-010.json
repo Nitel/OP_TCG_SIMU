@@ -1,0 +1,50 @@
+{
+  "id": "ST02-010",
+  "name": "Basil Hawkins",
+  "set": "ST-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (when this character battles), not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should check if this character is battling opponent's character"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'Rest' but should be no action—'set this card as active' means the card becomes active (opposite of rested state). This is a state change, not a Rest action"
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Text contains '[Your Turn]' which indicates duration should be 'DuringYourTurn', not missing"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Once Per Turn] [Your Turn] If this Character battles your opponent's Character, set this card as active.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "isToggle": false
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:55:48.474Z"
+}

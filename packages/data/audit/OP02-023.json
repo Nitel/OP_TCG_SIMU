@@ -1,0 +1,30 @@
+{
+  "id": "OP02-023",
+  "name": "You May Be a Fool...but I Still Love You",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is invalid. Should be 'StartOfTurn' for a Main card effect that checks conditions at turn start."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition. Card requires condition: Life ≤ 3 (HasLifeCards or equivalent with numeric comparison)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'PowerBoost' is incorrect. Effect restricts life gain, not boosts power. Requires a negative action or restriction mechanic (e.g., 'PreventLifeGain' or similar restriction keyword, not PowerBoost)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'during this turn' which means the restriction lasts until end of turn, but the DSL structure doesn't support ability restrictions—this requires a special keyword or mechanic not currently modeled."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:30:22.025Z"
+}

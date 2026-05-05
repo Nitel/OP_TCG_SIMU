@@ -1,0 +1,51 @@
+{
+  "id": "OP03-089_r1",
+  "name": "Brannew",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the lookup/reveal mechanism. DSL should specify: look at top 3 cards, reveal up to 1 Navy type card (excluding Brannew), add to hand, trash the rest. Current DSL uses generic SearchDeck without proper filtering or trash action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to Navy type cards excluding Brannew by name. Missing type and exclusion constraints."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing trash action for remaining cards. Effect requires two outcomes: add revealed card to hand AND trash the rest."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Lookup",
+            "lookupCount": 3,
+            "cardType": "Navy",
+            "excludeCardNames": [
+              "Brannew"
+            ],
+            "revealCount": 1
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "kind": "Remaining"
+          },
+          "destination": "trash"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:14:35.461Z"
+}

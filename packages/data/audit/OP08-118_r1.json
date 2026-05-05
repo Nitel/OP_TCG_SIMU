@@ -1,0 +1,66 @@
+{
+  "id": "OP08-118_r1",
+  "name": "Silvers Rayleigh",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost action missing selection logic. Card text requires selecting UP TO 2 characters with different power reductions (−3000 and −2000). DSL applies −3000 to AllOpponentCharacters without distinction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next turn), not 'EndOfTurn'. Text states 'until the end of your opponent's next turn' which is a specific opponent-turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO action uses 'ChooseOpponentCharacter' but missing explicit 'maxPower:3000' constraint in target scope. Should enforce power limit in target selection."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "Card text says 'up to 1' (optional), but KO action structure doesn't clearly express optionality. Should use 'maxCount:1' with optional semantics."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP08-118_r1",
+    "effectText": "[On Play] Select up to 2 of your opponent's Characters, and give 1 Character −3000 power and the other −2000 power until the end of your opponent's next turn. Then, K.O. up to 1 of your opponent's Characters with 3000 power or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -3000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1
+            },
+            "duration": "DuringOpponentTurn"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1
+            },
+            "duration": "DuringOpponentTurn"
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1,
+              "maxPower": 3000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:45:49.993Z"
+}

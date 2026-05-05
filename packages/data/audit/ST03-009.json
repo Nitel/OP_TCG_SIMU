@@ -1,0 +1,30 @@
+{
+  "id": "ST03-009",
+  "name": "Donquixote Doflamingo",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but card text says 'Return up to 1 Character' with no opponent restriction. Should be 'ChooseCharacter' to allow targeting any character (yours or opponent's)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 7
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:56:57.098Z"
+}

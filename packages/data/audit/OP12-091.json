@@ -1,0 +1,63 @@
+{
+  "id": "OP12-091",
+  "name": "Poker",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incorrect. The card effect places cards FROM trash TO deck bottom, not searching from deck. Should use TrashFromHand or similar trash-to-deck mechanic, or a custom trash placement action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing required constraints. Should specify exactly 3 cards from trash, not 'Any' from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope is too broad. Should be 'ChooseOwnCharacterWithType' or equivalent to enforce SMILE type restriction, and should allow UP TO 2 characters (not all chosen characters)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Missing type filter for SMILE. Current target does not restrict to {SMILE} type characters."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is acceptable for 'during this turn', but verify this matches intended game semantics (should apply for remainder of current turn only)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "Card",
+          "source": "trash",
+          "count": 3
+        },
+        "destination": "deckBottom"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterWithType",
+          "type": "SMILE",
+          "maxCount": 2
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:56:18.175Z"
+}

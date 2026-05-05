@@ -1,0 +1,49 @@
+{
+  "id": "OP12-101",
+  "name": "Jewelry Bonney",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but card text states 'until the end of your opponent's next turn'. This should be 'DuringOpponentTurn' or equivalent to cover opponent's next turn, not just current turn end."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should filter for {Supernovas} type Leader, not just any own Leader. Condition 'LeaderHasType: Supernovas' or similar type-checking is missing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with PlaySelf) is not present in card text and should be removed. Card only describes the main activation ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "condition": {
+            "type": "LeaderHasType",
+            "typeId": "Supernovas"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:57:00.657Z"
+}

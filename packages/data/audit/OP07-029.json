@@ -1,0 +1,58 @@
+{
+  "id": "OP07-029",
+  "name": "Basil Hawkins",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect missing condition: should check 'LeaderHasType' for {Supernovas}, not 'Always'. Current DSL gives Blocker unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect is incomplete/missing. Text describes '[Once Per Turn] If this Character would be removed from the field by your opponent's effect, you may rest 1 of your opponent's Characters instead.' This requires a Counter trigger (not OnAttacked), a condition checking removal threat, and action to Rest opponent's character. DSL currently only covers the Blocker activation on attack."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "First effect trigger should be 'Trigger' (passive conditional grant), not 'Activated' (player-initiated). 'Activated' implies manual activation; the Blocker is granted passively if condition is met."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ],
+      "limitPerTurn": 1
+    }
+  ],
+  "auditedAt": "2026-05-05T10:04:34.988Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP09-114",
+  "name": "Lindbergh",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you and your opponent have a total of 5 or less Life cards' is not represented. Should use a custom condition or compound condition checking total Life ≤ 5."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained by card text and appears to be erroneous template artifact."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct but should clarify it targets up to 1 character (maxCount or similar constraint may be needed)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If you and your opponent have a total of 5 or less Life cards, K.O. up to 1 of your opponent's Characters with 2000 power or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Custom",
+          "description": "Total Life cards (yours + opponent's) ≤ 5"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 2000,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:30:34.673Z"
+}

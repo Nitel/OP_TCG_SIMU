@@ -1,0 +1,35 @@
+{
+  "id": "ST21-002",
+  "name": "Usopp",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Duration is 'EndOfTurn' but the official text specifies '[Opponent's Turn]' which should be encoded as 'DuringOpponentTurn'. The effect should only be active during the opponent's turn, not until end of any turn.",
+      "field": "effects[0].actions[0].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:33.589Z"
+}

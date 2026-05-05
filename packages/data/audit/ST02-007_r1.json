@@ -1,0 +1,60 @@
+{
+  "id": "ST02-007_r1",
+  "name": "Jewelry Bonney",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost specification: trigger 'Activated' requires 'cost' field to specify 'Rest 1 of your DON!! cards and this Character'. DSL must include cost object with RestDon and Rest actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter incomplete: should specify 'maxResults':1 to represent 'up to 1' card. Current DSL lacks this constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing 'searchCount':5 parameter to represent 'Look at 5 cards from the top of your deck'. Current DSL does not specify deck depth examined."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing mandatory action for card placement: effect requires remaining 4 cards to be 'placed at the bottom of your deck in any order' - DSL must include PutToDeck or equivalent action with position specification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": [
+        {
+          "type": "AttachDon",
+          "count": 1
+        },
+        {
+          "type": "Rest"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "searchCount": 5,
+          "filter": {
+            "kind": "Any",
+            "subType": "Supernovas"
+          },
+          "maxResults": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "PutToDeck",
+          "position": "bottom",
+          "allowReorder": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:51:52.056Z"
+}

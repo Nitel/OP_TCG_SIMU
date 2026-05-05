@@ -1,0 +1,47 @@
+{
+  "id": "OP02-070",
+  "name": "New Kama Land",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard'. The effect checks if your Leader IS Emporio.Ivankov, not if the card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[2].actions[0]",
+      "description": "Third action missing count specification. Should be 'count':3 for 'trash up to 3 cards', not an open-ended trash."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].thenActions",
+      "description": "First TrashFromHand has empty thenActions array; should be omitted or clarified that second action is sequential, not conditional."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Emporio.Ivankov"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 3,
+        "filter": {}
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:38.206Z"
+}

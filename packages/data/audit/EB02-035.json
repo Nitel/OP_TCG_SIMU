@@ -1,0 +1,67 @@
+{
+  "id": "EB02-035",
+  "name": "Sanji &amp; Pudding",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong trigger. Should be a triggered effect during your turn when 2+ DON!! are returned, not 'Activated'. The text says '[Your Turn] [Once Per Turn] When 2 or more DON!! cards on your field are returned to your DON!! deck'",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "First effect missing the actual trigger condition - it should trigger when 2+ DON!! are returned to the DON!! deck, not 'Always'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "First effect missing 'oncePerTurn' restriction specified in '[Once Per Turn]'",
+      "field": "effects[0].oncePerTurn"
+    },
+    {
+      "severity": "major",
+      "description": "First effect missing duration 'DuringYourTurn' since the text specifies '[Your Turn]'",
+      "field": "effects[0].duration"
+    },
+    {
+      "severity": "major",
+      "description": "Second effect missing condition check. Should only draw if your DON!! count is equal to or less than opponent's DON!! count, not 'Always'",
+      "field": "effects[1].condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "DonReturned",
+        "condition": {
+          "type": "DonReturnedCount",
+          "minCount": 2
+        },
+        "duration": "DuringYourTurn",
+        "oncePerTurn": true,
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "state": "active"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "DonCountComparison",
+          "comparison": "lessOrEqual"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:03:15.084Z"
+}

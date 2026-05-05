@@ -1,0 +1,55 @@
+{
+  "id": "OP02-022",
+  "name": "Whitebeard Pirates",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses ByName for 'Whitebeard Pirates', but card text specifies filtering by type inclusion ('type including \"Whitebeard Pirates\"'), not by name. Should use ByType or ByCardType filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not capture the 'look at 5 cards from top' constraint. The action should specify a deck search scope of 5 cards from top, or this requires a separate Peek/Look action before the search."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is missing the 'up to 1' quantity constraint. Should specify maxResults:1 or equivalent to limit selection to 1 card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action to place remaining cards at bottom of deck in any order. The DSL must include a second action or mechanic to handle deck ordering of non-selected cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Whitebeard Pirates"
+            },
+            "deckPosition": "top",
+            "deckRange": 5,
+            "maxResults": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "OrderDeck",
+            "cards": "remaining",
+            "position": "bottom",
+            "orderBy": "player_choice"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:18.951Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP12-004",
+  "name": "Kouzuki Oden",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringTurn' (or 'DuringYourTurn') not 'EndOfTurn'. Text says 'during this turn' which is temporary, not permanent until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "count": 2,
+            "filter": {
+              "cardType": "Event"
+            },
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 2000,
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:29.676Z"
+}

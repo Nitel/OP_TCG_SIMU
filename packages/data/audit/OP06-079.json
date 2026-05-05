@@ -1,0 +1,61 @@
+{
+  "id": "OP06-079",
+  "name": "Kingdom of GERMA",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is mandatory in DSL but card text says 'You may trash' — should be optional. Use optional:true or restructure with conditional logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "SearchDeck filter missing 'type' constraint. Card specifies 'GERMA' type; filter must include {\"type\":\"GERMA\"} to match 'reveal up to 1 card with a type including GERMA'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "SearchDeck does not support the 'place rest at bottom in any order' mechanic. This requires a multi-step resolution: reveal up to 1 GERMA, add to hand, then order remaining 2 cards at deck bottom. Standard SearchDeck action cannot handle card ordering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Rest action should target the card itself (the Stage with this ability), not 'Self' in the context of an activated ability. Clarify scope or use card identity."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 card with a type including \"GERMA\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "Rest",
+                "target": {
+                  "scope": "Self"
+                }
+              },
+              {
+                "type": "SearchDeck",
+                "filter": {
+                  "type": "GERMA"
+                },
+                "maxReveal": 3,
+                "maxRetrieve": 1,
+                "destination": "hand"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:59:15.410Z"
+}

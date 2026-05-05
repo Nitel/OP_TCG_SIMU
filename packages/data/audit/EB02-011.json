@@ -1,0 +1,70 @@
+{
+  "id": "EB02-011",
+  "name": "Arlong",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Condition is missing the type requirement. Should check if Leader has {Fish-Man} OR {East Blue} type, not just any Leader on board.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "AttachDon action missing requirement that the DON!! card must be rested before attaching.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Rest action has wrong semantics. The effect should PREVENT resting (give 'cannot be rested' status), not rest the character. This is fundamentally different from resting.",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "Rest/prevention effect missing duration specification. Should last 'until the end of your opponent's next turn'.",
+      "field": "effects[0].actions[1].duration"
+    },
+    {
+      "severity": "major",
+      "description": "AttachDon action missing 'up to' semantic (should be optional).",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Fish-Man",
+            "East Blue"
+          ]
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "optional": true,
+            "fromRested": true,
+            "target": {
+              "scope": "OwnLeader"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeRested",
+            "optional": true,
+            "duration": "UntilEndOfOpponentNextTurn",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "maxCost": 5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:42.816Z"
+}

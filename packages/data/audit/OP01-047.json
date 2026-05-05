@@ -1,0 +1,52 @@
+{
+  "id": "OP01-047",
+  "name": "Trafalgar Law",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand action is unconditional in DSL but card text states 'You may return 1 Character to your hand' as a condition for the PlayFromHand action. The structure should reflect that returning a character is optional and enables/gates the play action, not a separate mandatory action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing condition structure. The effect should use a condition like 'HasCardOnBoard' or similar to gate the PlayFromHand action on whether a character was returned. Current DSL lists both actions sequentially without conditional dependency."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "cardType": "Character"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "cardType": "Character"
+            },
+            "optional": true
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 3
+            },
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:19.794Z"
+}

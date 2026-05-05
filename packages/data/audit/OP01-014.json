@@ -1,0 +1,41 @@
+{
+  "id": "OP01-014",
+  "name": "Jinbe",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always', not 'HasRestingDon'. The card ability triggers on block without requiring don. The '[DON!! x1]' notation indicates a cost requirement, not a conditional trigger—this should be represented as a cost field, not a condition. Current DSL incorrectly gates the effect behind a don requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing 'cost' field. '[DON!! x1]' is a cost requirement that must be paid to use this effect, separate from the trigger condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Red",
+            "cardType": "Character",
+            "maxCost": 2
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:29.926Z"
+}

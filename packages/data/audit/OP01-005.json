@@ -1,0 +1,42 @@
+{
+  "id": "OP01-005",
+  "name": "Uta",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "SearchDeck searches from deck, but effect specifies searching from trash. Should be PlayFromHand or a trash-search action."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].filter",
+      "description": "Filter missing color requirement (red) and exclusion of [Uta]. Filter should include color:'red' and exclude card name 'Uta'."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Action should search/retrieve from trash, not deck. Correct action type needed for trash retrieval."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "filter": {
+          "kind": "ByCost",
+          "maxCost": 3,
+          "color": "red",
+          "excludeNames": [
+            "Uta"
+          ]
+        },
+        "source": "trash",
+        "max": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:21.119Z"
+}

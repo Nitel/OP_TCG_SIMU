@@ -1,0 +1,25 @@
+{
+  "id": "OP14-106",
+  "name": "Salome",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not valid. Blocker activates on 'OnAttacked' (opponent declares attack), not generic 'Trigger'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker's effect is a conditional ability that rests this card and redirects the attack target—this requires 'Rest' action, not 'PlaySelf'. The redirect mechanic itself is not representable in standard DSL actions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker keyword ability is a passive conditional mechanic ('you may rest this card to make it the new target') that cannot be fully expressed as a triggered effect in standard DSL. This is a keyword ability that should be represented as an intrinsic property, not an effect."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:18:19.488Z"
+}

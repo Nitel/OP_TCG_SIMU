@@ -1,0 +1,32 @@
+{
+  "id": "OP01-039",
+  "name": "Killer",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks for HasCardOnBoard named 'Character', but the card text requires '3 or more Characters'. The condition should be HasCardOnBoard with count:3 and a proper character type filter, or use a custom count mechanism. Current condition is incomplete and does not capture the numerical threshold."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnBlock",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "count": 3,
+          "cardType": "Character"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:05.761Z"
+}

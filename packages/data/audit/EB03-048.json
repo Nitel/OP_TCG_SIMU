@@ -1,0 +1,57 @@
+{
+  "id": "EB03-048",
+  "name": "Rebecca",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing 'deckSize' parameter (should be 5). Filter uses 'ByName' but card effect specifies searching by type {Dressrosa}, not by name. Should use type-based filter. Missing explicit reveal mechanic and deck bottom placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand filter is incomplete. Missing 'maxCost' constraint (cost of 1). Filter should specify cost:1 as a constraint, not just maxCost. Effect says 'play up to 1' which requires proper quantity limiting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL is missing critical sequence: (1) Look at top 5 cards, (2) reveal up to 1 Dressrosa Stage, (3) add to hand, (4) place rest at bottom in any order, (5) then play up to 1 Dressrosa Stage with cost 1. Current DSL collapses these into two actions without the intermediate deck manipulation step."
+    }
+  ],
+  "suggestedDsl": {
+    "keywordAbilities": [
+      "Blocker"
+    ],
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "deckSize": 5,
+            "filter": {
+              "kind": "ByType",
+              "type": "Dressrosa",
+              "cardType": "Stage"
+            },
+            "maxResults": 1,
+            "destination": "hand"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "ByType",
+              "type": "Dressrosa",
+              "cardType": "Stage",
+              "cost": 1
+            },
+            "maxResults": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:39.341Z"
+}

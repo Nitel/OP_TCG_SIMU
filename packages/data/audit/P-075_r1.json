@@ -1,0 +1,57 @@
+{
+  "id": "P-075_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action missing 'source' parameter. Should specify DON!! comes from rested cards (source: 'Resting'). Current action doesn't clarify the DON!! must be rested."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition checks HasCardOnBoard for generic 'Character', but card text requires 'a Character with a cost of 8 or more'. Condition must filter by cost threshold, not just existence."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "Resting",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "filter": {
+          "cost": {
+            "min": 8
+          }
+        }
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:37.278Z"
+}

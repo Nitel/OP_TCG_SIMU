@@ -1,0 +1,40 @@
+{
+  "id": "OP06-047_r1",
+  "name": "Charlotte Pudding",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'ForceDiscard' is incorrect. Card effect states opponent 'returns all cards in their hand to their deck and shuffles' — this is ReturnToHand, not ForceDiscard (which typically means discard to trash). The count of 999 is also a workaround; should use a proper mechanic for 'all cards in hand'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing target specification. Both actions (return hand + draw) should target 'opponent' explicitly via a target field."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-047_r1",
+    "effectText": "[On Play] Your opponent returns all cards in their hand to their deck and shuffles their deck. Then, your opponent draws 5 cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "count": "all",
+            "target": "opponent"
+          },
+          {
+            "type": "DrawCard",
+            "count": 5,
+            "target": "opponent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:43:00.756Z"
+}

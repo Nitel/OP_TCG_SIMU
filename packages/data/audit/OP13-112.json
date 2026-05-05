@@ -1,0 +1,41 @@
+{
+  "id": "OP13-112",
+  "name": "Vegapunk",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' or 'StartOfTurn', not 'OnBlock'. The effect grants Blocker as a static ability when the condition is met, not in response to blocking."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (cards attached to this character), not 'HasRestingDon' (resting DON!! cards). The card text says 'given DON!! cards' meaning DON!! attached to this character."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have a total of 2 or more given DON!! cards, this Character gains [Blocker].",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:06:52.497Z"
+}

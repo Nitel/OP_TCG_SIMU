@@ -1,0 +1,36 @@
+{
+  "id": "OP07-011",
+  "name": "Bluejam",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (card activates when attacking), not 'Activated' (manual ability). Text explicitly states '[When Attacking]'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope missing 'maxCount' constraint. Card text specifies 'up to 1', but DSL target only defines maxPower without a count limit. Should include 'maxCount':1."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 2000,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:13.002Z"
+}

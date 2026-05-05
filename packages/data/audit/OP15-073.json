@@ -1,0 +1,48 @@
+{
+  "id": "OP15-073",
+  "name": "Yama",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand action missing 'quantity' constraint. Card text says 'up to 1', requiring maxQuantity:1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action missing 'quantity' constraint. Card text says 'up to 1', requiring maxQuantity:1"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Two separate PlayFromHand actions should be combined into one with an OR condition (player chooses one of two options, not both). Structure should use conditional logic or single action with dual filter options"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "maxQuantity": 1,
+          "filter": {
+            "subType": "Heavenly Warriors",
+            "maxCost": 1
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "maxQuantity": 1,
+          "filter": {
+            "cardType": "Character",
+            "subType": "Vassals",
+            "maxCost": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:27:33.287Z"
+}

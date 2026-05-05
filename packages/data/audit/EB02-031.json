@@ -1,0 +1,48 @@
+{
+  "id": "EB02-031",
+  "name": "Hope",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger: effectText says '[Main]' which should trigger on 'Activated' (event card main phase activation), but DSL has 'Trigger' which is for when card triggers from damage",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is inverted: effectText says 'cost of 4 or more' but DSL has maxCost:4 which means cost ≤4. Should use minCost:4 instead",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing lookCount parameter: effectText specifies 'Look at 4 cards from the top of your deck' but DSL doesn't specify how many cards to look at",
+      "field": "effects[0].actions[0].lookCount"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing revealCount specification: effectText says 'reveal up to 1 card' which should be encoded as revealCount:1 or maxReveals:1",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookCount": 4,
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 4
+            },
+            "destination": "hand",
+            "revealCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:03:00.029Z"
+}

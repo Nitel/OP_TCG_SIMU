@@ -1,0 +1,64 @@
+{
+  "id": "OP07-109_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand with excludeSelf:true is contradictory. The ability says 'trash this Character' (self), not trash from hand. Should use TrashSelf or similar mechanism."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Condition 'If you have 2 or less Life cards' is missing. Should be a condition gate before the KO/Draw actions, not an unconditional trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (trigger:Trigger with KO action) is extraneous and has no correspondence to the card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "DrawCard should only execute if the KO action succeeded or as part of the sequence. Text says 'Then, draw 1 card' implying it happens after the optional KO, but current structure may not enforce proper sequencing."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "self": true
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 4
+              },
+              "optional": true
+            },
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ],
+          "condition": {
+            "type": "LifeCount",
+            "maxValue": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:00.368Z"
+}

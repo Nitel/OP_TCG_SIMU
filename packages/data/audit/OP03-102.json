@@ -1,0 +1,50 @@
+{
+  "id": "OP03-102",
+  "name": "Sanji",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card says 'When Attacking' which is an attack trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action sequence is reversed. Card says: (1) add 1 Life card to hand, (2) then add 1 deck card to Life cards. DSL has SearchDeck (to hand) second, but should be first. Also SearchDeck should target Life cards, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].destination",
+      "description": "SearchDeck destination is 'hand' but should be 'life' - card adds deck card to Life cards, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' not 'HasRestingDon' - the cost is DON!! x2 attached to the card, not resting on leader."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 2
+    },
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "filter": {
+          "kind": "Any"
+        },
+        "destination": "life"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:40.036Z"
+}

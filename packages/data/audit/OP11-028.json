@@ -1,0 +1,25 @@
+{
+  "id": "OP11-028",
+  "name": "Lord of the Coast",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect claims 'Rest' action, but card text describes preventing a Character from becoming active during opponent's next Refresh Phase. This is a conditional prevention mechanic, not a Rest action. Rest is an immediate state change; this effect must prevent the Refresh Phase activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Entirely fabricated effect. Card text contains no KO action or cost-based targeting. This effect has no basis in the official card text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects structure",
+      "description": "Card text describes a single effect ('Up to 1 of your opponent's rested Characters will not become active in your opponent's next Refresh Phase'), but DSL contains two unrelated effects. The single effect requires a custom or conditional action type not present in standard OPTCG DSL (no standard action prevents Refresh Phase activation)."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:42:20.823Z"
+}

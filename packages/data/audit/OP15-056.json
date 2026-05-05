@@ -1,0 +1,58 @@
+{
+  "id": "OP15-056",
+  "name": "Would You Let Me Eat the Flame-Flame Fruit?",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveKeyword action missing target specification for Lucy Leader. Text specifies 'your [Lucy] Leader' — should have target with scope and name filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but text states 'during this turn' — should be 'DuringYourTurn' (effect active only during your turn, not persisting to end)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing PowerBoost action for '+3000 power'. Text requires both DoubleAttack keyword AND +3000 power boost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger with type 'Trigger' and duplicate DrawCard is malformed. This card has no secondary trigger condition — this effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "ChooseOwnLeader",
+            "name": "Lucy"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "power": 3000,
+          "target": {
+            "scope": "ChooseOwnLeader",
+            "name": "Lucy"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:11.670Z"
+}

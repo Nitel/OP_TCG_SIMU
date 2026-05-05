@@ -1,0 +1,73 @@
+{
+  "id": "OP09-041",
+  "name": "Soul Franky Swing Arm Boxing Solid",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect is correct but incomplete. Should target up to 1 card, not unlimited choice."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely wrong. DSL shows 'Rest' action on opponent's Character, but card text requires: condition check (LeaderHasType=ODYSSEY AND HasRestingDon count ≥2), then activate up to 2 own Characters (set to active/unrest)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect should be conditional on first effect resolving (chained 'Trigger'), not independent. Requires conditions array."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. Should be inverse action (activate/unrest), or use Rest with negate/inverse logic. Standard practice would require custom 'Activate' or similar, but 'Rest' here opposes intent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].conditions",
+      "description": "Missing conditions array. Must check: LeaderHasType (ODYSSEY) AND character rested count ≥2."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "ODYSSEY"
+        },
+        {
+          "type": "HasRestingDon",
+          "minValue": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxAmount": 2
+          },
+          "inverse": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:46:26.299Z"
+}

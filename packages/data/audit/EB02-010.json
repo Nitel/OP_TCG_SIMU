@@ -1,0 +1,65 @@
+{
+  "id": "EB02-010",
+  "name": "Monkey.D.Luffy",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing [Once Per Turn] restriction on the Activated trigger",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing DON!! -2 cost requirement for activation",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Condition checks for presence of 'Straw Hat Crew' cards but does not verify that ONLY Straw Hat Crew Characters are on the field (exclusivity check missing)",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "GiveDon action should set up to 2 DON!! cards as active (unrest them), not give new DON!! cards",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "major",
+      "description": "Duration should be 'UntilEndOfOpponentsNextTurn' not 'EndOfTurn' - the power boost lasts until the end of opponent's next turn, not just the current turn",
+      "field": "effects[0].actions[1].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "oncePerTurn": true,
+        "cost": {
+          "type": "RestDon",
+          "count": 2
+        },
+        "condition": {
+          "type": "OnlyHasTypeOnBoard",
+          "characterType": "Straw Hat Crew"
+        },
+        "actions": [
+          {
+            "type": "UnrestDon",
+            "count": 2,
+            "upTo": true
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "UntilEndOfOpponentsNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:40.361Z"
+}

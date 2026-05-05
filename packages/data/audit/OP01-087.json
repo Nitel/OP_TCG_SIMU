@@ -1,0 +1,29 @@
+{
+  "id": "OP01-087",
+  "name": "Officer Agents",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and action 'PlaySelf' has no basis in card text. Counter effects should only contain the single Counter-triggered PlayFromHand action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Baroque Works",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:26.869Z"
+}

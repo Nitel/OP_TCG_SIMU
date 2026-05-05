@@ -1,0 +1,51 @@
+{
+  "id": "OP04-092",
+  "name": "Rebecca",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at top 3 cards, (2) revealing up to 1 {Dressrosa} type card excluding [Rebecca], (3) adding it to hand, (4) trashing the rest. Current DSL only has SearchDeck with empty filter and no trash logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing required constraints: type must be {Dressrosa}, card name must not be [Rebecca], and action must be limited to 'up to 1' card"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing secondary action to trash remaining cards from the 3 examined"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "searchCount": 3,
+            "filter": {
+              "kind": "Type",
+              "value": "Dressrosa",
+              "excludeNames": [
+                "Rebecca"
+              ]
+            },
+            "selectCount": "UpTo1",
+            "destination": "hand"
+          },
+          {
+            "type": "ForceDiscard",
+            "source": "SearchedRemainder",
+            "destination": "trash"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:30.573Z"
+}

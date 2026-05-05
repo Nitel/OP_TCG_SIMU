@@ -1,0 +1,46 @@
+{
+  "id": "OP02-019",
+  "name": "Rakuyo",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which requires duration:'DuringYourTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for Characters with type 'Whitebeard Pirates'; current scope 'AllOwnCharacters' lacks type filter"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' (passive effect at turn start), not 'Activated' (which implies manual activation)"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "typeFilter": "Whitebeard Pirates"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:14.137Z"
+}

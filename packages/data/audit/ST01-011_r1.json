@@ -1,0 +1,15 @@
+{
+  "id": "ST01-011_r1",
+  "name": "Brook",
+  "set": "PRB-02",
+  "verdict": "minor",
+  "issues": [
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].count",
+      "description": "Card text says 'up to 2 rested DON!!', but DSL uses count:2 without 'up to' semantics. The action should allow selecting 0, 1, or 2 DON cards. Consider adding a qualifier or accepting that count:2 in AttachDon may implicitly mean 'up to 2' in implementation."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:51:43.317Z"
+}

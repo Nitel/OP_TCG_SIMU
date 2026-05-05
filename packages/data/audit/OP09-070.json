@@ -1,0 +1,58 @@
+{
+  "id": "OP09-070",
+  "name": "Nami",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect returns DON!! cards from field to DON!! deck, which should use 'ReturnToHand' (legacy alias for returning cards to deck). TrashFromHand removes cards from play permanently."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty. Must specify: source='Field', cardType='Don', count range (1 or more), and target as 'Leader or Character'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "GiveDon action is incorrect. The effect gives rested DON!! cards (existing on field) to Leader/Character, not adding new DON!!. This should be a conditional distribution of the returned DON!!, not a separate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally wrong. Should be: optional return of 1+ DON!! from field to deck, then distribute up to 2 of those rested DON!! to Leader or target Character. Currently missing the distribution target and proper chaining."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may return 1 or more DON!! cards from your field to your DON!! deck: Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "filter": {
+              "source": "Field",
+              "cardType": "Don",
+              "minCount": 1,
+              "maxCount": null
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "GiveDon",
+                "count": 2,
+                "target": "LeaderOrOneCharacter",
+                "maxCount": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:19:26.507Z"
+}

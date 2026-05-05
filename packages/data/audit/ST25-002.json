@@ -1,0 +1,83 @@
+{
+  "id": "ST25-002",
+  "name": "Cabaji",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 2 or more Characters with a base cost of 5 or more' is not represented. Should check character count on board with cost threshold."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: +1 cost boost is not implemented in the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Wrong trigger: Text states '[Opponent's Turn] This Character gains +5000 power' which is a passive conditional, not OnAttacked. Should be a continuous effect with duration DuringOpponentTurn, not triggered on OnAttacked."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Wrong duration: '[Opponent's Turn]' in text indicates duration should be 'DuringOpponentTurn', not 'EndOfTurn'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "Blocker keyword effect is missing the conditional gate - it should only apply if condition is met."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "parameters": {
+            "count": 2,
+            "minBaseCost": 5,
+            "controller": "Self"
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 5000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:39.376Z"
+}

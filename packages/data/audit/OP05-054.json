@@ -1,0 +1,30 @@
+{
+  "id": "OP05-054",
+  "name": "Monkey.D.Garp",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: card placement effect. DSL only includes DrawCard but card text requires placing 2 cards from hand to bottom of deck in any order. This is a significant part of the effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "destination": "DeckBottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:48:19.044Z"
+}

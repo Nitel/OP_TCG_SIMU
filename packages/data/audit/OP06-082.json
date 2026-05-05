@@ -1,0 +1,63 @@
+{
+  "id": "OP06-082",
+  "name": "Inuppe",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' with type:'Thriller Bark Pirates', not 'Always'. The effect only triggers if leader has the specified type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition should be 'LeaderHasType' with type:'Thriller Bark Pirates', not 'Always'. The effect only triggers if leader has the specified type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "types": [
+          "Thriller Bark Pirates"
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "types": [
+          "Thriller Bark Pirates"
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:59:29.951Z"
+}

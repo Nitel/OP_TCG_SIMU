@@ -1,0 +1,47 @@
+{
+  "id": "OP02-026",
+  "name": "Sanji",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' but must specify it triggers when playing a Character with no base effect, not just any card. Current DSL is missing the character filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is wrong. Should check: (1) you have ≤3 Characters on board AND (2) the played card is a Character with no base effect. Current condition only checks HasCardOnBoard but doesn't validate character count threshold or 'no base effect' requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. Should be 'AttachDon' (attaching/setting DON!! cards as active). GiveDon implies gaining Don counters, not activating existing DON!! cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'Once Per Turn' frequency restriction in DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": "OwnDonCards"
+        }
+      ],
+      "frequency": "OncePerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:30:28.281Z"
+}

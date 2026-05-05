@@ -1,0 +1,55 @@
+{
+  "id": "OP14-086",
+  "name": "Miss Doublefinger(Zala)",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: effect requires 'TrashCount' >= 7, but DSL has 'Always'. This is a core requirement of the card effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Second action missing: 'all of your Characters with type including Baroque Works gain +2 cost' is not represented in DSL. Currently only the +1000 power to Self is implemented."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (static ability), not 'Activated'. This is a passive effect that checks trash count, not an activated ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "value": 7,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2,
+          "target": {
+            "scope": "YourCharacters",
+            "filter": {
+              "hasType": "Baroque Works"
+            }
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:16:50.124Z"
+}

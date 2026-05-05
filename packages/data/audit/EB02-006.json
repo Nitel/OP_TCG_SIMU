@@ -1,0 +1,73 @@
+{
+  "id": "EB02-006",
+  "name": "Yamato",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Condition is completely wrong. The text says 'If your Leader has the {Land of Wano} type or is [Portgas.D.Ace]', but DSL checks for a card named 'Portgas D. Ace' on board instead of checking the Leader's type or name.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the 'or' clause for Land of Wano type. The condition should check if Leader has Land of Wano type OR is named Portgas.D.Ace.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "AttachDon action is missing the source specification. The text says 'give up to 1 rested DON!! card', which means it should specify that the DON!! must be rested (not active).",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "minor",
+      "description": "AttachDon count should be 'up to 1' (optional), which typically requires an upTo or optional flag.",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "major",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. The text says 'during this turn' in the context of a [Your Turn] activated ability, meaning it applies during your turn only.",
+      "field": "effects[0].actions[1].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Or",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "cardType": "Land of Wano"
+            },
+            {
+              "type": "LeaderIsName",
+              "name": "Portgas.D.Ace"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "upTo": true,
+            "fromRested": true,
+            "target": {
+              "scope": "OwnLeader"
+            }
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:22.636Z"
+}

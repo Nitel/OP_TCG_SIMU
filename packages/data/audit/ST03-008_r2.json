@@ -1,0 +1,30 @@
+{
+  "id": "ST03-008_r2",
+  "name": "Trafalgar Law",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is completely missing. Card has [Blocker] trait but effects array is empty. Must include Counter trigger with condition checking opponent attack declaration and action to rest this card and redirect attack target."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "ThisCard"
+          }
+        ],
+        "duration": "Permanent",
+        "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:39:19.637Z"
+}

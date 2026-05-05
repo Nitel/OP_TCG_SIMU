@@ -1,0 +1,45 @@
+{
+  "id": "OP10-110",
+  "name": "Heat &amp; Wire",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to limit Rest action to Characters with cost ≤ opponent's Life count. The DSL has no condition filtering by cost relative to opponent's Life cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and action 'PlaySelf' does not appear in official card text. This effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' with proper selection constraints based on cost condition, not open-ended ChooseOpponentCharacter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "filter": {
+              "costLessThanOrEqual": "OpponentLifeCount"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:39:20.191Z"
+}

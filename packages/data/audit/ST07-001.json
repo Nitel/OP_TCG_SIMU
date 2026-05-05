@@ -1,0 +1,53 @@
+{
+  "id": "ST07-001",
+  "name": "Charlotte Linlin",
+  "set": "ST-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Effect structure is incorrect. The card text presents two sequential optional actions: (1) 'You may add 1 card from top or bottom of Life cards to hand' AND (2) 'If you have 2 or less Life cards, add up to 1 card from hand to top of Life cards'. The DSL conflates these into a conditional chain. The second action should be a separate action with its own condition (LeaderHasLife count ≤ 2), not a thenAction of the first."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is used for converting Life cards to hand. However, the action should allow choice of 'top or bottom' of Life cards, which FlipLife does not specify. This is a structural limitation but FlipLife is the correct action type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "RevealFromHand with thenActions is incorrect. The second action 'add up to 1 card from hand to top of Life cards' should use AddLife with a condition checking life count ≤ 2. RevealFromHand is not the right action type here; AddLife should be used directly."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST07-001",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "AddLife",
+            "count": 1,
+            "optional": true,
+            "condition": {
+              "type": "LeaderHasLife",
+              "count": 2,
+              "comparison": "<="
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:01:14.055Z"
+}

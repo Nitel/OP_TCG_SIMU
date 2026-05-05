@@ -1,0 +1,37 @@
+{
+  "id": "OP15-115",
+  "name": "Impact Dial",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "FlipLife is correct for 'add 1 card from top of Life cards to hand', but the DSL structure has two separate effects (OnPlay and Trigger) when the card text describes a single sequential action. The second effect with trigger 'Trigger' is undefined and should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate/extraneous effect with trigger 'Trigger' (undefined trigger type). Card text describes one main effect on play, not two separate triggers."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:30:45.035Z"
+}

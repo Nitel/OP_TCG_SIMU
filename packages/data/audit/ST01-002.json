@@ -1,0 +1,55 @@
+{
+  "id": "ST01-002",
+  "name": "Usopp",
+  "set": "ST-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack', not 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action 'PlaySelf' is incorrect. Card effect prevents opponent blocking with high-power characters during battle, not playing itself. Should use a condition-based restriction or counter effect"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringBattle' or equivalent to restrict blocker activation during this specific battle only"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition to check blocker character power >= 5000"
+    }
+  ],
+  "suggestedDsl": {
+    "cost": {
+      "don": 2
+    },
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringBattle",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "cardType": "Character",
+            "power": 5000,
+            "comparison": ">="
+          }
+        ],
+        "actions": [
+          {
+            "type": "PreventAction",
+            "actionType": "Activate",
+            "target": "OpponentBlocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:54:04.330Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP01-115",
+  "name": "Elephant's Marchoo",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "GiveDon action is incorrect for this effect. The card should SearchDeck for DON!! cards and PlayFromHand (or equivalent) to add and set as active, not GiveDon which adds DON!! counters to a card. This is a fundamental action type error."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing proper targeting/sourcing: should specify searching from DON!! deck and playing/attaching the card, not distributing DON!! resources."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-115",
+    "effectText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "SearchDeck",
+            "target": {
+              "cardType": "DON!!",
+              "maxCount": 1
+            },
+            "then": {
+              "type": "PlayFromHand",
+              "setActive": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:12.950Z"
+}

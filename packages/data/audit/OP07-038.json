@@ -1,0 +1,42 @@
+{
+  "id": "OP07-038",
+  "name": "Boa Hancock",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' (Character removed from field), not 'Activated'. The effect activates automatically when a character is removed, not as a player-activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is missing. Must include 'HasCardOnBoard' or similar to check '5 or less cards in hand' (hand size check). Current condition 'Always' ignores the hand requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration missing. Text contains '[Your Turn]' which requires duration:'DuringYourTurn', not Permanent or EndOfTurn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "comparison": "LessThanOrEqual",
+        "value": 5
+      },
+      "duration": "DuringYourTurn",
+      "frequency": "OncePerTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:05:14.446Z"
+}

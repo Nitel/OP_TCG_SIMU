@@ -1,0 +1,54 @@
+{
+  "id": "EB02-005",
+  "name": "Fake Straw Hat Crew",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing [Your Turn] condition and wrong duration. Effect should apply during your turn only with duration 'DuringYourTurn', not 'EndOfTurn'.",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing entire [Opponent's Turn] effect that gives -2000 power during opponent's turn.",
+      "field": "effects[1]"
+    },
+    {
+      "severity": "major",
+      "description": "Using Activated trigger instead of properly modeling turn-based continuous effects. These are continuous effects that should be active during specific turns.",
+      "field": "effects[0].trigger"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:17.216Z"
+}

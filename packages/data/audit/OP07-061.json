@@ -1,0 +1,41 @@
+{
+  "id": "OP07-061",
+  "name": "Vinsmoke Sanji",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for {The Vinsmoke Family} type requirement. DSL must include 'LeaderHasType' condition checking for 'The Vinsmoke Family'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing GiveDon action for DON!! −1 cost. The card requires returning 1 DON!! from field to DON!! deck before the conditional draw can occur"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "The Vinsmoke Family"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": -1,
+          "target": "self"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:07:05.310Z"
+}

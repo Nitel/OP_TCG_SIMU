@@ -1,0 +1,49 @@
+{
+  "id": "OP09-057_r2",
+  "name": "Cross Guild",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck is incorrect for this effect. The card requires looking at top 4 cards, revealing up to 1 Cross Guild card, and adding it to hand, then placing rest at bottom. This is a multi-step effect: (1) look at cards, (2) conditional reveal/add, (3) reorder remainder. SearchDeck typically searches entire deck. This should use a custom reveal/filter mechanism or multiple actions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is ByCost with maxCost:4, which is completely wrong. The effect requires filtering by TYPE (Cross Guild), not by cost. Should be {\"kind\":\"ByType\",\"type\":\"Cross Guild\"} or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the constraint that only UP TO 1 card can be added (not all matching cards). Filter should enforce maxCount:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect does not reflect that cards are drawn from TOP 4 of deck specifically, nor that remaining cards are placed at BOTTOM in any order. Current DSL loses this positioning requirement."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Cross Guild",
+              "maxCount": 1,
+              "fromTop": 4
+            },
+            "destination": "hand",
+            "thenPlaceRestAtBottom": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:40.592Z"
+}

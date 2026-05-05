@@ -1,0 +1,62 @@
+{
+  "id": "OP09-095_r1",
+  "name": "Laffitte",
+  "set": "ST-27",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: activation requires resting 1 DON!! card and this Character. DSL must include cost/condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter incomplete: must specify {Blackbeard Pirates} type filter, not 'Any'. Card type restriction is essential to effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action: 'up to 1' reveal and search is incomplete without the 'place rest at bottom' mechanic. Need second action or composite SearchDeck with reordering."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost specification: activation requires Rest action on DON!! cards and this Character before search can occur."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may rest 1 of your DON!! cards and this Character: Look at 5 cards from the top of your deck; reveal up to 1 {Blackbeard Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourDonCards",
+            "count": 1
+          },
+          {
+            "type": "Rest",
+            "target": "Self"
+          },
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "Blackbeard Pirates"
+            },
+            "destination": "hand",
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:26.228Z"
+}

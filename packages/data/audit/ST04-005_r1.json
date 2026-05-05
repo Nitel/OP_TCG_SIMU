@@ -1,0 +1,39 @@
+{
+  "id": "ST04-005_r1",
+  "name": "Queen",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always', not 'HasRestingDon'. The effect is unconditional; the DON!! cost (−1) is a resource payment option, not a conditional gate. HasRestingDon would incorrectly require resting DON!! to exist before the effect triggers."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash 1 card from your hand', which is a discard effect. Correct type is 'ForceDiscard' (legacy alias: TrashCard)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:33.097Z"
+}

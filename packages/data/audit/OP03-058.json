@@ -1,0 +1,47 @@
+{
+  "id": "OP03-058",
+  "name": "Iceburg",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for 'rest this Leader' requirement. The effect should only trigger if the Leader can be rested, which requires a condition check or cost specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing filter for card type. PlayFromHand action must include type filter for 'Character' cards, not just subType."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing DON!! cost/requirement. The effect requires 'DON!! −1' as a cost, which should be represented as a cost or condition in the DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "self"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Character",
+            "subType": "Galley-La Company",
+            "maxCost": 5
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:21.632Z"
+}

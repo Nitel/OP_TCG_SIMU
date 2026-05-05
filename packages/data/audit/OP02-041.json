@@ -1,0 +1,37 @@
+{
+  "id": "OP02-041",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "PlayFromHand should use OR logic (up to 1 card of either type), not two separate actions. Current DSL plays up to 2 cards (1 of each type). Should be single action with OR condition or combined filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but FILM and Straw Hat Crew are character types, not subtypes. Should use 'type' field with proper type enumeration."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": [
+              "FILM",
+              "Straw Hat Crew"
+            ],
+            "maxCost": 4
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:30:50.078Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP03-090",
+  "name": "Blueno",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect describes a passive Blocker keyword grant, not an activated ability. Should use trigger:'Trigger' (passive grant on play) or have no trigger, not 'Activated'. The DON cost is part of the card's static ability text, not an activated action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Blocker is a permanent keyword grant (the Character 'gains' it), not a temporary effect. Duration should be 'Permanent', not 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'PlayFromHand' but card specifies playing from trash ('from your trash'). Should be 'PlayFromTrash' or equivalent that targets the trash zone."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "Filter uses 'subType' for 'CP', but CP is typically a type, not subtype. Should be 'type':'CP' or 'hasType':'CP'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "type": "CP",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:17.546Z"
+}

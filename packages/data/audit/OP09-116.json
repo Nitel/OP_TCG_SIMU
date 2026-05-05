@@ -1,0 +1,37 @@
+{
+  "id": "OP09-116",
+  "name": "Never Underestimate the Power of Miracles!!",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and PlayFromHand action is not supported by card text. The official text only describes a Counter ability that grants +2000 power during this battle. This second effect appears to be fabricated and has no basis in the provided card effect text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is incorrect. Card text specifies 'Up to 1 of your Leader or Character cards' which should use scope 'OwnLeaderOrCharacter' with proper maxCount constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "OwnLeaderOrCharacter",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:30:40.733Z"
+}

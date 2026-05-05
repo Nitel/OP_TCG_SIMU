@@ -1,0 +1,46 @@
+{
+  "id": "ST12-007",
+  "name": "Rika",
+  "set": "ST-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant effect text but effects array is empty. Must include OnPlay trigger with RestDon cost condition and conditional Rest action for Slash Characters."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 2
+          },
+          {
+            "type": "LeaderHasAnyType",
+            "value": [
+              "Opponent"
+            ],
+            "condition": "OpponentLifeCount>=3"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourCharacter",
+            "filter": {
+              "attribute": "Slash",
+              "maxCost": 4
+            },
+            "amount": 1
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:06:49.411Z"
+}

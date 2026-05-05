@@ -1,0 +1,31 @@
+{
+  "id": "OP13-071",
+  "name": "Nekomamushi",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards attached to field), not 'HasRestingDon' (resting DON!! cards). The card text says '8 or more DON!! cards on your field' which refers to all DON!! present, tracked via HasAttachedDon."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:03:42.396Z"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "OP12-080",
+  "name": "Baratie",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' for [Activate: Main] abilities, not 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition 'LeaderIsName' to check if Leader is [Sanji]"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions are completely wrong. Should include: optional placement at bottom of deck, SearchDeck (look at 3 cards), RevealFromHand (reveal up to 1 Event), and return rest to bottom in any order. Current DSL only has PlaySelf."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderIsName",
+          "value": "Sanji"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlaySelf",
+          "optional": true,
+          "placement": "DeckBottom"
+        },
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "reveal": true
+        },
+        {
+          "type": "RevealFromHand",
+          "cardType": "Event",
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:55:23.265Z"
+}

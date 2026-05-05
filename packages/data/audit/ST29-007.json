@@ -1,0 +1,44 @@
+{
+  "id": "ST29-007",
+  "name": "Tony Tony.Chopper",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect trigger should be 'OnKO' but actions are incorrect. FlipLife adds card FROM life to hand (correct), but AddLife should add card FROM hand TO life. The DSL shows AddLife as standalone action, but card text shows it's a paired optional action: 'You may add 1 card from top/bottom of Life to hand: Add up to 1 card from hand to top of Life.' This is one conditional effect, not two separate triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and 'Unblockable' keyword is completely absent from official card text. This effect should not exist."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "The two actions (FlipLife and AddLife) need proper conditional structure. FlipLife is optional ('You may'), and AddLife is conditional on the first action. This requires a single OnKO trigger with conditional logic, not two separate actions in sequence."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On K.O.] You may add 1 card from the top or bottom of your Life cards to your hand: Add up to 1 card from your hand to the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "AddLife",
+            "count": 1,
+            "source": "Hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:24:35.156Z"
+}

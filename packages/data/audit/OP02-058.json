@@ -1,0 +1,48 @@
+{
+  "id": "OP02-058",
+  "name": "Buggy",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck filter is incomplete. DSL specifies only maxCost:5, but card text requires: color=blue, type=ImpelDown, excludeByName=[Buggy], and look at exactly 5 cards from top of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing required filters: color (blue), type (ImpelDown), excludeByName (Buggy). Current filter only checks cost, which is not mentioned in card text"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action for 'place the rest at the bottom of your deck in any order' - requires additional action or modifier to handle the 4 remaining cards"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 blue {Impel Down} type card other than [Buggy] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByProperties",
+              "color": "blue",
+              "type": "ImpelDown",
+              "excludeByName": [
+                "Buggy"
+              ]
+            },
+            "destination": "hand",
+            "searchCount": 5,
+            "maxResults": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:15.323Z"
+}

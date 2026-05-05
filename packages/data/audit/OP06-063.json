@@ -1,0 +1,66 @@
+{
+  "id": "OP06-063",
+  "name": "Vinsmoke Sora",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (may trash), but DSL structure doesn't reflect the conditional logic. The action should trash from hand optionally, then check the DON condition before SearchDeck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "SearchDeck is incorrect. The card should be added from trash (already in trash after optional discard), not from deck. Should be a custom 'AddFromTrash' or 'ReturnToHand' from trash, not SearchDeck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "Filter missing critical constraints: card type 'Character', power limit '4000 or less', and type 'The Vinsmoke Family'. Current filter is empty."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field'. This is a required conditional gate before the search action executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand filter is empty. Should specify maximum 1 card (qty limit)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "maxQty": 1
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "AddFromTrash",
+            "filter": {
+              "kind": "ByType",
+              "type": "Character",
+              "subtypes": [
+                "The Vinsmoke Family"
+              ],
+              "maxPower": 4000
+            },
+            "destination": "hand",
+            "maxQty": 1,
+            "condition": {
+              "type": "HasAttachedDon",
+              "comparison": "LessOrEqual",
+              "opponentComparison": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:57:58.407Z"
+}

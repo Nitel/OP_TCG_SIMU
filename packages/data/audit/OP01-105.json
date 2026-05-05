@@ -1,0 +1,29 @@
+{
+  "id": "OP01-105",
+  "name": "Bao Huang",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty but card has On Play ability text. Missing effect: OnPlay trigger with RevealFromHand action targeting opponent's hand (2 cards)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "RevealFromHand",
+            "target": "OpponentHand",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:56.359Z"
+}

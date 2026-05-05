@@ -1,0 +1,44 @@
+{
+  "id": "OP03-104",
+  "name": "Shirley",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The OnPlay effect is completely wrong. The card should look at the top card of Life (yours or opponent's) and place it at top or bottom of Life, but the DSL has 'RevealFromHand' which looks at hand cards instead of Life cards.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the [Blocker] keyword effect entirely. This is a static ability that should be represented in the DSL.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Static",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": "Self"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "choosePlayer": true,
+            "placement": "TopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:57.829Z"
+}

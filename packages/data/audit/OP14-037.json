@@ -1,0 +1,57 @@
+{
+  "id": "OP14-037",
+  "name": "For Fun",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasRestingDon' but the effect describes resting 3 of YOUR cards (Characters), not Don counters. This should use a custom condition or be restructured as a cost. The DSL conflates resting Don counters with resting Character cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target filter 'maxPower:7000' should be 'maxBasePower:7000' to match 'base power' in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.additionalFilters",
+      "description": "Target must be 'rested' Characters. Add 'isRested:true' filter to match 'rested Characters' in text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "RestOwnCards",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxBasePower": 7000,
+            "isRested": true,
+            "maxChoices": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:02.034Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP13-079",
+  "name": "Imu",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing the [Once Per Turn] condition. Should include 'oncePerTurn: true' or equivalent constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action only models trashing from hand with Celestial Dragons filter. Card text states 'trash 1 of your Celestial Dragons type Characters OR 1 card from your hand' — this is an OR condition with two separate paths, not a single filtered action. Must model both options."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with activation context '[Main]' — trigger is correct but activation type/phase context not fully encoded in DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "activation": "Main",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "type": "Character",
+            "subType": "Celestial Dragons"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:20.973Z"
+}

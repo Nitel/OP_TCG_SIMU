@@ -1,0 +1,32 @@
+{
+  "id": "OP05-102",
+  "name": "Gedatsu",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost should be a dynamic value based on opponent's Life card count, not null. Should reference opponent's life total or use a condition-based cost limit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope missing quantity constraint 'up to 1'. Should include maxTargets:1 or similar to enforce the 'up to 1' limit."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": "OpponentLifeCount",
+          "maxTargets": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:51:59.090Z"
+}

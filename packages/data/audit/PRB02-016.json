@@ -1,0 +1,60 @@
+{
+  "id": "PRB02-016",
+  "name": "Otama",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "PowerBoost effect missing cost condition: activation requires resting this Character AND adding 1 card from top/bottom of Life cards to hand. Current DSL shows no Rest cost or FlipLife action as part of the activation cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is completely invalid: card text contains no opponent targeting, no character restriction, no cost limit. This effect appears fabricated and does not match the official card text at all."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incorrect: should be 'scope:\"ChooseOwnCharacterOrLeader\",maxCount:1' to enforce 'Up to 1' limit. Current scope lacks maxCount constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is correct as 'EndOfTurn' (matches 'during this turn'), but overall structure is wrong due to missing activation cost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "FlipLife",
+          "amount": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:51:31.240Z"
+}

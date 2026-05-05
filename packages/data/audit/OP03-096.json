@@ -1,0 +1,47 @@
+{
+  "id": "OP03-096",
+  "name": "Tempest Kick Sky Slicer",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect targets only opponent Characters with cost 0, but card text says 'cost of 0 OR your opponent's Stages with a cost of 3 or less' — missing Stage targeting entirely"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect has no cost restriction and no Stage targeting — incomplete implementation of the OR clause"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[2]",
+      "description": "DrawCard action with count:2 appears unrelated to card text '[Main] K.O. up to 1...' — no draw effect mentioned in official text"
+    },
+    {
+      "severity": "critical",
+      "field": "effects structure",
+      "description": "Should be single OnPlay effect with OR target logic for (OpponentCharacter cost≤0) OR (OpponentStage cost≤3), not three separate effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 0 or your opponent's Stages with a cost of 3 or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacterOrStage",
+              "maxCost": 0,
+              "stageMaxCost": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:30.494Z"
+}

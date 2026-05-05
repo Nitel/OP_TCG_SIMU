@@ -1,0 +1,41 @@
+{
+  "id": "OP08-090",
+  "name": "Hamlet",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect searches trash, not deck. Should be 'PlayFromTrash' or equivalent trash-sourcing action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'type' constraint. Must include {\"type\":\"SMILE\"} to match '{SMILE} type Character card' requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing quantity constraint. Effect allows 'up to 1' card but action lacks maxCount or similar limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "type": "SMILE",
+            "kind": "ByCost",
+            "maxCost": 2
+          },
+          "maxCount": 1,
+          "destination": "board"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:31:05.742Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP14-078",
+  "name": "Bullet String",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Donquixote Pirates} type, not if card is on board. Use LeaderHasType instead of HasCardOnBoard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second PowerBoost must target the same card as the first boost (established by 'that card'). Cannot use independent ChooseOwnCharacterOrLeader. Target should reference the card selected in first action or use a persistent target mechanism."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Donquixote Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "max": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "PreviouslySelectedTarget"
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:16:12.009Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "ST03-007",
+  "name": "Sentomaru",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing required 'type' constraint. Card text specifies '[Pacifista]' type, but filter only has 'kind' and 'maxCost'. Must include type filter for Pacifista."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing shuffle step. Card text states 'then shuffle your deck' which must be represented as a separate action or shuffle directive."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "'Once Per Turn' restriction not encoded in DSL. Condition should include turnLimit or similar constraint."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 4,
+            "type": "Pacifista"
+          },
+          "destination": "board",
+          "count": 1
+        },
+        {
+          "type": "ShuffleDeck"
+        }
+      ],
+      "turnLimit": 1
+    }
+  ],
+  "auditedAt": "2026-05-05T12:56:49.357Z"
+}

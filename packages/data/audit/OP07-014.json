@@ -1,0 +1,37 @@
+{
+  "id": "OP07-014",
+  "name": "Moda",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states '[Your Turn]' which indicates the effect lasts during your turn only. Duration should be 'DuringYourTurn', not 'EndOfTurn'. These are different mechanics: DuringYourTurn persists through your turn phase, while EndOfTurn expires at turn end."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify the card name filter 'Portgas.D.Ace' in the target scope for precision, though 'ChooseOwnCharacter' is functionally acceptable if name filtering is handled elsewhere."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": "Portgas.D.Ace"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:26.283Z"
+}

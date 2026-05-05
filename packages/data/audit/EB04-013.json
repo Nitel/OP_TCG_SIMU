@@ -1,0 +1,35 @@
+{
+  "id": "EB04-013",
+  "name": "Carrot",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes [On Play] trigger with conditional action, but effects array is empty. Should contain OnPlay trigger with LeaderHasType condition and Rest action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Minks"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "UpTo2MinkTypeCharactersAndLeader",
+            "count": 2
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:42.973Z"
+}

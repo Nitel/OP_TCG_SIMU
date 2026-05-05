@@ -1,0 +1,50 @@
+{
+  "id": "EB01-035",
+  "name": "Ms. Monday",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition type is wrong. The text says 'If your Leader's type includes \"Baroque Works\"' which should use LeaderHasType or LeaderHasAnyType, not HasCardOnBoard. HasCardOnBoard checks for a card with that name on the board, not the leader's type.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Condition field 'name' should be 'type' when using LeaderHasType or LeaderHasAnyType to check for a type trait, not a card name.",
+      "field": "effects[0].condition.name"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Baroque Works"
+          ]
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "PlaySelf"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:29.321Z"
+}

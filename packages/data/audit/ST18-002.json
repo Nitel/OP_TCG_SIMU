@@ -1,0 +1,35 @@
+{
+  "id": "ST18-002",
+  "name": "O-Nami",
+  "set": "ST-18",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards on field), not 'HasRestingDon' (resting DON!! cards). 'HasRestingDon' checks for resting DON!!, while the card text requires '8 or more DON!! cards on your field' (attached/placed DON!!)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:13:40.998Z"
+}

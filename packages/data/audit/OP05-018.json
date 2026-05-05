@@ -1,0 +1,49 @@
+{
+  "id": "OP05-018",
+  "name": "Emporio Energy Hormone",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "[Counter] cards trigger on Counter, not OnAttacked. Should be trigger: 'Counter'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Duplicate/redundant second effect with trigger 'Trigger' should not exist. Counter effect should have single action sequence"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow Leader OR Character (scope should be 'ChooseOwnLeaderOrCharacter' or equivalent), not just Character"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "maxAmount": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxPower": 5000,
+            "cardType": "Character"
+          },
+          "maxAmount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:39:03.082Z"
+}

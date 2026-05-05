@@ -1,0 +1,47 @@
+{
+  "id": "OP04-017",
+  "name": "Happiness Punch",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing trigger type 'Counter'. The card has [Counter] in its effect text, but the DSL uses 'Activated' instead of 'Counter'.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition for the second PowerBoost action. The effect text states 'if your Leader is active' before giving -1000 power, but there is no condition checking if the leader is active.",
+      "field": "effects[0].actions[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "duration": "EndOfTurn",
+            "condition": {
+              "type": "LeaderIsActive"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:54:07.003Z"
+}

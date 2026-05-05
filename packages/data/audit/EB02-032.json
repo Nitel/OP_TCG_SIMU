@@ -1,0 +1,70 @@
+{
+  "id": "EB02-032",
+  "name": "Iceburg",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "HasRestingDon condition checks for resting DON!! cards, but effect text says '3 or more DON!! cards on your field' (not specifically resting). Should use HasAttachedDon or similar.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck action missing the count parameter (should look at 7 cards from top of deck)",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is 'Any' but should filter for [Galley-La Company] trait, and reveal up to 1",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "SearchDeck action missing maxCards:1 parameter (can only add up to 1 card to hand)",
+      "field": "effects[0].actions[0].maxCards"
+    },
+    {
+      "severity": "major",
+      "description": "PlayFromHand action missing maxCards:1 parameter (can only play up to 1 card)",
+      "field": "effects[0].actions[1].maxCards"
+    },
+    {
+      "severity": "minor",
+      "description": "PlayFromHand filter should use 'trait' field instead of 'subType' for [Galley-La Company]",
+      "field": "effects[0].actions[1].filter.subType"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 3
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 7,
+            "filter": {
+              "trait": "Galley-La Company"
+            },
+            "destination": "hand",
+            "maxCards": 1,
+            "reveal": true
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "trait": "Galley-La Company",
+              "cardType": "Character"
+            },
+            "maxCards": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:03:02.334Z"
+}

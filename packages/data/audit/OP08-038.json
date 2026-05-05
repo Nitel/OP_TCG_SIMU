@@ -1,0 +1,63 @@
+{
+  "id": "OP08-038",
+  "name": "We Would Never Sell a Comrade to an Enemy!!!",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (Main phase ability), not 'OnPlay'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing protection action. DSL has only Rest action but effect grants damage prevention until end of opponent's next turn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action targets characters but should target exactly 2 characters (not variable, not maxCost-based)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "No condition or duration specified for the protection effect. Should include duration 'DuringOpponentTurn' for opponent's next turn protection"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest target scope uses 'maxCost' but card says 'rest 2 of your Characters' - should be count-based selection of exactly 2"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 2
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Protection",
+          "target": {
+            "scope": "OwnCharacter"
+          },
+          "duration": "DuringOpponentTurn",
+          "durationValue": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:27:08.515Z"
+}

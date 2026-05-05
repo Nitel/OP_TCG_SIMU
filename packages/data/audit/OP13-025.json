@@ -1,0 +1,46 @@
+{
+  "id": "OP13-025",
+  "name": "Koby",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks for Leader on board, but effect requires Leader to have {FILM} type OR <Strike> attribute. Should use LeaderHasAnyType or LeaderHasAttribute condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is GiveDon (adds DON!! to your pool), but card text says 'set up to 1 of your DON!! cards as active'. This should be AttachDon or a similar action that activates existing DON!!, not creates new ones."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count is 1, but text says 'up to 1', which allows for 0. DSL should support optional actions or clarify max=1."
+    }
+  ],
+  "suggestedDsl": {
+    "cardName": "OP13-025",
+    "effectText": "[On Play] If your Leader has the {FILM} type or the <Strike> attribute, set up to 1 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "FILM"
+          ]
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:00:16.965Z"
+}

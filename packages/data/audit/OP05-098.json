@@ -1,0 +1,45 @@
+{
+  "id": "OP05-098",
+  "name": "Enel",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has complex trigger condition '[Opponent's Turn] [Once Per Turn] When your number of Life cards becomes 0' with two actions: (1) add 1 card from top of deck to top of Life cards, (2) trash 1 card from hand. This requires at least one effect object with trigger, conditions, and actions."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Opponent's Turn] in effect text requires duration:'DuringOpponentTurn', not permanent or EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnLifeReachZero",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "duration": "DuringOpponentTurn",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "target": "TopOfDeck",
+            "destination": "TopOfLifeCards",
+            "count": 1
+          },
+          {
+            "type": "ForceDiscard",
+            "target": "OwnHand",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:51:40.568Z"
+}

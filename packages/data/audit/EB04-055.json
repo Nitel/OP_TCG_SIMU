@@ -1,0 +1,35 @@
+{
+  "id": "EB04-055",
+  "name": "Bartholomew Kuma",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object is completely fabricated. Card text only describes one effect: '[On K.O.] Play up to 1 {Revolutionary Army} type Character card with a cost of 4 or less from your hand.' There is no trigger condition about 'Leader with Revolutionary Army type' or 'PlaySelf' action in the official text."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but should use 'type' for character type classification (Revolutionary Army is a type, not subtype)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Revolutionary Army",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:22.419Z"
+}

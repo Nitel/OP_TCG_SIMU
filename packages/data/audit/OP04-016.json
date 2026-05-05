@@ -1,0 +1,56 @@
+{
+  "id": "OP04-016",
+  "name": "Bad Manners Kick Course",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "[Counter] should trigger on 'Counter', not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand should not filter by cardType='Character'; it trashes from hand without type restriction"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target should allow Leader OR Character (both own); scope 'ChooseOwnCharacter' excludes Leader. Use 'ChooseOwnLeaderOrCharacter' or equivalent"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with opponent power debuff) has no basis in card text and should be removed entirely"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect should be optional ('You may trash'); requires optional:true flag"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "optional": true,
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnLeaderOrCharacter",
+                "limit": 1
+              },
+              "duration": "DuringThisBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:33.529Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP05-095",
+  "name": "Dragon Claw",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing conditional logic. The K.O. action should only execute if trash count ≥ 15. Current DSL has no TrashCount condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should be 'ChooseOwnLeaderOrCharacter' to allow selection of Leader OR Character, not just Character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringBattle"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxCost": 4
+          },
+          "condition": {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 15
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:51:30.970Z"
+}

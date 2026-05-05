@@ -1,0 +1,54 @@
+{
+  "id": "OP07-064_r1",
+  "name": "Sanji",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Card has two distinct effects but effects array is empty. First effect: conditional cost reduction (−3 cost if opponent has at least 2 more DON!! than you). Second effect: Blocker keyword with its triggered ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing first effect: cost reduction trigger. Should trigger OnPlay or as a static condition checking HasAttachedDon counts (your field vs opponent field). Condition: opponent's DON!! count ≥ your DON!! count + 2. Action: PowerBoost with −3 cost modifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing second effect: Blocker keyword mechanic. Should be OnAttacked trigger allowing rest action to redirect attack target to this card."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP07-064_r1",
+    "effectText": "If the number of DON!! cards on your field is at least 2 less than the number on your opponent's field, give this card in your hand −3 cost. [Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "comparison": "opponentHasAtLeast2More"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "self",
+            "costModifier": -3
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "self",
+            "effect": "RedirectAttackTarget"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:48.572Z"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "OP05-030_r1",
+  "name": "Donquixote Rosinante",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker keyword effect missing. The first ability should represent the Blocker mechanic: 'After your opponent declares an attack, you may rest this card to make it the new target of the attack.' This requires a Counter trigger, not OnAttacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Wrong trigger. Should be OnKO (when character would be KO'd), not OnAttacked. The effect activates when 'your rested Character would be K.O.'d'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Wrong action type. Should be KO (trash this character instead of the rested character), not TrashFromHand. TrashFromHand is for hand effects; this is a board effect on Self."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Missing duration. Text states '[Opponent's Turn]', so duration must be 'DuringOpponentTurn', not Permanent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition incomplete. Should check that a rested Character on board would be KO'd, not just Always. Requires board state evaluation."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Opponent's Turn] If your rested Character would be K.O.'d, you may trash this Character instead.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "optional": true
+      },
+      {
+        "trigger": "OnKO",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:16.645Z"
+}

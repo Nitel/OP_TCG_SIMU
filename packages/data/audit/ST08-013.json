@@ -1,0 +1,57 @@
+{
+  "id": "ST08-013",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "ST-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (battle end after this character attacks) or a battle-resolution trigger, not 'Activated'. The effect activates at the end of a battle, not as a player-activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is wrong. 'HasRestingDon' checks for resting DON on board. The cost '[DON!! x1]' means this ability requires paying 1 DON (attached DON cost), not checking for resting DON. Should be 'HasAttachedDon' with count 1, or this should be modeled as a cost separate from conditions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "'you may' indicates optionality. The DSL should reflect that KO actions are conditional/optional, not guaranteed. Current DSL executes both KOs unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target 'OriginalTarget' is unclear in battle context. Should explicitly target 'the opponent's Character this Character battled with' — may need scope like 'BattledOpponentCharacter' or similar battle-specific target."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] At the end of a battle in which this Character battles your opponent's Character, you may K.O. the opponent's Character you battled with. If you do, K.O. this Character.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "BattledOpponentCharacter"
+            },
+            "optional": true
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            },
+            "conditional": "ifPreviousActionResolved"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:03:24.342Z"
+}

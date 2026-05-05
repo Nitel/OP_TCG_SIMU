@@ -1,0 +1,50 @@
+{
+  "id": "OP03-109",
+  "name": "Charlotte Chiffon",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Effect specifies trashing from Life cards, not hand. Should use TrashFromLife or equivalent action type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty. Must specify source as Life cards (top or bottom), not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "FlipLife is incorrect action. Effect adds a card from deck to Life, which is AddLife or PlayToLife. FlipLife converts Life to hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is optional ('You may') but DSL lacks optional/conditional structure. Should include condition allowing player to decline."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromLife",
+          "count": 1,
+          "source": "TopOrBottom",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "AddLife",
+              "source": "Deck",
+              "count": 1,
+              "placement": "Top"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:50.622Z"
+}

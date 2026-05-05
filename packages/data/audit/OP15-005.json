@@ -1,0 +1,35 @@
+{
+  "id": "OP15-005",
+  "name": "Cabaji",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a [When Attacking] trigger with a conditional power boost that must be represented in DSL."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "targetPlayer": "opponent",
+            "comparison": ">"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:19.884Z"
+}

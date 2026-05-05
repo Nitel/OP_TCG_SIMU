@@ -1,0 +1,42 @@
+{
+  "id": "OP05-064",
+  "name": "Killer",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not support the complex multi-step logic: (1) look at 5 cards, (2) reveal up to 1 Kid Pirates card excluding Killer, (3) place rest at bottom in any order. Current DSL only searches deck without the 'exclude Killer' condition or the 'place rest at bottom' requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses ByName which searches by card name, not card type. Should use ByType filter for {Kid Pirates} type, and must include exclusion logic for [Killer]."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Kid Pirates} type card other than [Killer] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Kid Pirates",
+              "excludeName": "Killer"
+            },
+            "topCards": 5,
+            "maxCount": 1,
+            "destination": "hand",
+            "remainderDestination": "bottomOfDeck",
+            "remainderOrdering": "any"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:08.339Z"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "EB03-049",
+  "name": "I Knew You People Were Behind This.",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'LeaderIsName' with name 'Perona', not 'HasCardOnBoard'. The text states 'If your Leader is [Perona]'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Both PlayFromHand actions should include 'source' field to allow playing from trash as well. Text says 'from your hand or trash'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost requirement: playing these cards requires 7 DON!! cards to be rested. Should include a condition or prerequisite for resting DON!!."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Perona"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 6
+          },
+          "source": [
+            "hand",
+            "trash"
+          ]
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "source": [
+            "hand",
+            "trash"
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:40.365Z"
+}

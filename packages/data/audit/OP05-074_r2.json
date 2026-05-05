@@ -1,0 +1,57 @@
+{
+  "id": "OP05-074_r2",
+  "name": "Eustass\"Captain\"Kid",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects but DSL effects array is empty. Missing: (1) Blocker counter-effect to rest and redirect attack, (2) [Your Turn] triggered effect to add DON!! from deck when one is returned"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker effect missing: trigger=Counter, condition for opponent attack declaration, action to Rest self and redirect attack target"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "[Your Turn] effect missing: trigger=Trigger (when DON!! returned to deck), duration=DuringYourTurn, condition=HasAttachedDon, action=AddDon with limit once per turn"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)<br>[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "duration": "Permanent",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "description": "After opponent declares attack, may rest this card to redirect attack to it"
+      },
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "condition": "HasAttachedDon",
+        "actions": [
+          {
+            "type": "AddDon",
+            "from": "Deck",
+            "count": 1,
+            "target": "Self",
+            "state": "Active"
+          }
+        ],
+        "frequency": "OncePerTurn",
+        "description": "When DON!! on field returned to deck, add up to 1 DON!! from deck as active"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:36:00.374Z"
+}

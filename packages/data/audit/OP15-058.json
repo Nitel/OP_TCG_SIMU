@@ -1,0 +1,52 @@
+{
+  "id": "OP15-058",
+  "name": "Enel",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First GiveDon action should specify 'active' state (set as active DON!!). Current DSL lacks this distinction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second GiveDon action should specify 'rested' state (add rested DON!!). Current DSL lacks this distinction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "AttachDon should target rested DON!! cards already given to hand, then attach to chosen Character. Action sequence and targeting unclear."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 2
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "state": "active"
+        },
+        {
+          "type": "GiveDon",
+          "count": 4,
+          "state": "rested"
+        },
+        {
+          "type": "AttachDon",
+          "count": 4,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:20.684Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "EB02-009",
+  "name": "Thousand Sunny",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that restricts the target to {Straw Hat Crew} type Characters only. The effectText specifies 'Give up to 1 of your currently given DON!! cards to 1 of your {Straw Hat Crew} type Characters' but the DSL has no type restriction on the target.",
+      "field": "effects[0].actions[1].target"
+    },
+    {
+      "severity": "minor",
+      "description": "The Rest action should be part of the cost, not a separate action in the actions array. The text says 'You may rest this Stage:' indicating it's the cost of activation.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "Straw Hat Crew"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:32.857Z"
+}

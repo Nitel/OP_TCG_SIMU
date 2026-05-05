@@ -1,0 +1,49 @@
+{
+  "id": "OP06-052",
+  "name": "Tokikake",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (DON!! ability), but the effect logic is completely wrong"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition must check 'HasCardOnBoard' with count ≤4 in hand, not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'GiveKeyword' with keyword 'CannotBeKOed', not 'Unblockable'. The effect prevents K.O. in battle, not blocking"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' or 'DuringYourTurn' depending on card design, not 'EndOfBattle'. Protection lasts while condition is met"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HandCount",
+        "value": 4,
+        "operator": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOed",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:57:07.883Z"
+}

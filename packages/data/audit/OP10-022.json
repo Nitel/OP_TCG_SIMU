@@ -1,0 +1,70 @@
+{
+  "id": "OP10-022",
+  "name": "Trafalgar Law",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition for 'total cost of your Characters is 5 or more'. Current condition only checks for attached DON; does not verify character cost threshold."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "ReturnToHand action is present but incomplete: missing conditional logic. The action should only execute IF the flipped Life card meets criteria (Supernovas type, cost ≤5). Currently structured as unconditional sequence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing PlayFromHand action. After revealing a qualifying card, the effect allows playing it. Current DSL only FlipLife without subsequent play action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Card filtering logic absent. The FlipLife action should include a filter condition: card must be type {Supernovas} AND cost ≤5. No type/cost validation present."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "HasAttachedDon",
+              "count": 1
+            },
+            {
+              "type": "TotalCharacterCostThreshold",
+              "threshold": 5,
+              "scope": "OwnCharacters"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            }
+          },
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "filter": {
+              "cardType": "Character",
+              "hasType": "Supernovas",
+              "maxCost": 5
+            },
+            "onMatch": {
+              "type": "PlayFromHand"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:32:33.459Z"
+}

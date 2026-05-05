@@ -1,0 +1,57 @@
+{
+  "id": "OP11-071",
+  "name": "Charlotte Perospero",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing conditional logic: effect should only DrawCard and GiveDon if the revealed card's cost matches the chosen cost. Current DSL always executes both actions regardless of match."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is correct, but the subsequent conditional reveal-and-compare mechanic is not represented. DSL lacks the opponent deck reveal check and cost comparison condition."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].type",
+      "description": "GiveDon action is present but should only trigger conditionally on cost match; currently unconditional in chain."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP11-071",
+    "effectText": "[Activate: Main] [Once Per Turn] You may trash 1 card from your hand: Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, draw 1 card and add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "RevealFromHand",
+                "source": "OpponentDeck",
+                "count": 1,
+                "condition": "CostMatch",
+                "thenActions": [
+                  {
+                    "type": "DrawCard",
+                    "count": 1
+                  },
+                  {
+                    "type": "GiveDon",
+                    "count": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:45:38.830Z"
+}

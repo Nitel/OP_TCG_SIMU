@@ -1,0 +1,57 @@
+{
+  "id": "OP08-026",
+  "name": "Giovanni",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text says '[When Attacking]' which indicates OnAttack trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action is completely wrong. Text does not Rest characters; it prevents them from becoming active during opponent's next Refresh Phase. This requires a duration-based effect that blocks the Refresh action, not a Rest action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incorrect. Should target rested Characters only (HasRestingDon condition), not just any character with cost ≤1. Text explicitly says 'rested Characters'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure missing: needs a condition to filter for rested characters and a mechanism to prevent activation during opponent's next Refresh Phase (likely requiring a duration state or blocked-from-refresh marker)."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] Up to 1 of your opponent's rested Characters with a cost of 1 or less will not become active in your opponent's next Refresh Phase.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasRestingDon"
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeActivated",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1,
+              "maxCost": 1,
+              "filters": [
+                "HasRestingDon"
+              ]
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:11.151Z"
+}

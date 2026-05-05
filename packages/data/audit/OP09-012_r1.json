@@ -1,0 +1,41 @@
+{
+  "id": "OP09-012_r1",
+  "name": "Monster",
+  "set": "ST-23",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective/replacement effect text but effects array is empty. Must define: OnKO trigger with condition checking for [Bonk Punch] character, action to trash this card instead of letting character be KO'd"
+    },
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "effectText field is missing; should contain the full card ability text for reference"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your Character [Bonk Punch] would be K.O.'d by an effect, you may trash this Character instead.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "[Bonk Punch]"
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:18:01.828Z"
+}

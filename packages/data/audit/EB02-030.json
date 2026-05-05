@@ -1,0 +1,41 @@
+{
+  "id": "EB02-030",
+  "name": "And That's When Somebody Makes Fun of Their Friend's Dream!!!!",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The Counter effect is completely wrong. The official text describes a replacement effect that prevents K.O. in battle by trashing a card from hand instead. The DSL only has a simple TrashFromHand action with no prevention/replacement mechanism, no K.O. condition check, and no battle context.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "critical",
+      "description": "There is a spurious Trigger effect with DrawCard action that does not appear anywhere in the official effectText. The card only has a [Counter] effect.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PreventKO",
+            "scope": "YourCharacters",
+            "context": "InBattle",
+            "replacementCost": {
+              "type": "TrashFromHand",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:52.400Z"
+}

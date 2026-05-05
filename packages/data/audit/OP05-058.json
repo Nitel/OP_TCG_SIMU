@@ -1,0 +1,62 @@
+{
+  "id": "OP05-058",
+  "name": "It's a Waste of Human Life!!",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is ReturnToHand, but card text says 'Place at bottom of deck' — should be a custom action or different type representing deck placement, not hand return"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Scope is ChooseOpponentCharacter, but effect applies to 'all Characters' (both players' boards) with cost ≤3 — should target all characters, not just opponent's"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand with count:1 and empty filter does not match 'you and your opponent trash cards from your hands until you each have 5 cards' — should be a single action affecting both players simultaneously with proper count logic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and different maxCost:2 is extraneous and does not correspond to card text — only one effect (OnPlay) should exist"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "First effect maxCost is 3 (correct), but second effect maxCost is 2 (incorrect and unexplained) — should both be 3 or only one effect with maxCost:3"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-058",
+    "effectText": "[Main] Place all Characters with a cost of 3 or less at the bottom of the owner's deck. Then, you and your opponent trash cards from your hands until you each have 5 cards in your hands.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "AllCharacters",
+              "maxCost": 3,
+              "placement": "DeckBottom"
+            },
+            "description": "Place all Characters with cost ≤3 at bottom of owner's deck"
+          },
+          {
+            "type": "ForceDiscard",
+            "target": {
+              "scope": "BothPlayers"
+            },
+            "count": "UntilEach5Remaining",
+            "description": "Both players trash cards from hand until each has 5 cards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:40.237Z"
+}

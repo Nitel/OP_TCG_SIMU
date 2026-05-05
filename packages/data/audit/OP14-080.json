@@ -1,0 +1,77 @@
+{
+  "id": "OP14-080",
+  "name": "Gecko Moria",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition 'Once Per Turn' on the Activated trigger. DSL requires explicit turnLimit or similar constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO target must filter for {Thriller Bark Pirates} type Characters. Current target lacks type filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand action should have a conditional structure: 'may trash 3' means it's optional and enables the subsequent FlipLife. Current DSL doesn't capture the optional/conditional relationship."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1]",
+      "description": "FlipLife should be conditional on trashing 3 cards (thenActions of the trash action), not a separate parallel action. Also, 'up to 1 card from top of deck to top of Life' requires SearchDeck with placement detail, not just FlipLife count."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "limit": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "Thriller Bark Pirates"
+            }
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 3,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "count": 1,
+              "optional": true,
+              "placement": "TopOfLife"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:16:22.779Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "OP02-098_r1",
+  "name": "Koby",
+  "set": "ST-19",
+  "verdict": "minor",
+  "issues": [
+    {
+      "severity": "minor",
+      "field": "actions[0].type",
+      "description": "Legacy alias 'TrashFromHand' is acceptable but modern DSL prefers 'ForceDiscard'. However, 'TrashFromHand' is explicitly listed as a valid action type, so this is not an error—just noting for consistency."
+    },
+    {
+      "severity": "minor",
+      "field": "actions[0].filter",
+      "description": "Filter uses 'Any' which is correct for optional trashing from hand, but the DSL should clarify that the player may choose not to trash (optional condition). The current structure with thenActions implies the KO only happens if trash occurs, which matches the card text 'may trash... : K.O.' correctly."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:13:58.981Z"
+}

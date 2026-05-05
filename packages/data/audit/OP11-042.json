@@ -1,0 +1,39 @@
+{
+  "id": "OP11-042",
+  "name": "Vito",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text says 'during this turn' which indicates the effect lasts for the current turn only, not until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "Firetank Pirates"
+            },
+            "thenActions": [
+              {
+                "type": "GiveKeyword",
+                "keyword": "Rush",
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:43:24.553Z"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "ST13-002",
+  "name": "Portgas.D.Ace",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck with destination 'hand' is incorrect. Card effect specifies adding to 'top of your Life cards face-up', not hand. Should use custom action or clarify Life pile mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'maxCost:5' but effect requires 'cost of 5' exactly (not up to 5). Should be 'cost':5 or 'exactCost':5"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second trigger for '[End of Your Turn] Trash all your face-up Life cards.' Must include separate effect with trigger 'EndOfTurn' and action 'TrashFromHand' or equivalent targeting Life cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect allows looking at 5 cards and choosing up to 1 Character with cost 5, then ordering remaining 4 cards at bottom of deck. Current DSL does not capture the card selection/ordering mechanic."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST13-002",
+    "effectText": "[DON!! x2] [Activate: Main] [Once Per Turn] Look at 5 cards from the top of your deck and add up to 1 Character card with a cost of 5 to the top of your Life cards face-up. Then, place the rest at the bottom of your deck in any order. [End of Your Turn] Trash all your face-up Life cards.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Character",
+              "cost": 5
+            },
+            "maxResults": 1,
+            "destination": "lifeCardsFaceUp"
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "source": "lifeCardsFaceUp"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:07:41.507Z"
+}

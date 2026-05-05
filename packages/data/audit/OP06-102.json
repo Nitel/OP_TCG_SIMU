@@ -1,0 +1,55 @@
+{
+  "id": "OP06-102",
+  "name": "Kamakiri",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action should be 'AttachDon' (place 1 Stage/Don with cost 1 at bottom of deck), not 'TrashFromHand'. The effect places a card, not discards from hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify cost constraint (cost: 1) to match 'Stage with a cost of 1'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' and 'TurnCount' is incorrect. This is an Activated ability (manual activation), not a triggered effect. The 'Once Per Turn' restriction should be encoded in the trigger itself or as a constraint, not as a separate Trigger effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "KO target should use 'maxCost' constraint, but the scope 'ChooseOpponentCharacter' needs verification that it properly applies the cost filter of 2 or less."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] You may place 1 Stage with a cost of 1 at the bottom of the owner's deck: K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "filter": {
+              "cost": 1
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            },
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:01:03.137Z"
+}

@@ -1,0 +1,84 @@
+{
+  "id": "OP12-087",
+  "name": "Nico Robin",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing static ability for Blocker and +3 cost conditional on Leader type. Card has two separate effects: (1) static conditional ability, (2) On Play optional ability with condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "OnPlay action is missing the condition check: 'If your opponent has 5 or more cards in their hand'. The thenActions should only execute if opponent hand size >= 5."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand should include optional/may clause. The effect text says 'You may trash 1 card' - this should be reflected in optional behavior, and count should be exactly 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "ForceDiscard action is missing the condition that opponent must have 5+ cards in hand before opponent trashes 2 cards."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP12-087",
+    "effectText": "If your Leader is [Koala] or [Monkey.D.Luffy], this Character gains [Blocker] and +3 cost.<br>[On Play] You may trash 1 card from your hand: If your opponent has 5 or more cards in their hand, your opponent trashes 2 cards from their hand.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "LeaderHasAnyType",
+            "values": [
+              "Koala",
+              "Monkey.D.Luffy"
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 3
+          }
+        ],
+        "duration": "Permanent"
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "optional": true,
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "ForceDiscard",
+                "count": 2,
+                "conditions": [
+                  {
+                    "type": "HasCardOnBoard",
+                    "target": "opponent",
+                    "minCount": 5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:57.726Z"
+}

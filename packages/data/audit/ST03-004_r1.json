@@ -1,0 +1,54 @@
+{
+  "id": "ST03-004_r1",
+  "name": "Gecko Moria",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is SearchDeck but effect searches trash, not deck. Should be a custom trash-search action or equivalent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type constraints: must match {The Seven Warlords of the Sea} OR {Thriller Bark Pirates}. Current filter only checks cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing exclusion: [Gecko Moria] must be excluded from valid targets."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing quantity limit: effect states 'up to 1' but DSL does not specify maxCount or quantity constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchTrash",
+            "maxCount": 1,
+            "filter": {
+              "kind": "ByTypeAndCost",
+              "types": [
+                "The Seven Warlords of the Sea",
+                "Thriller Bark Pirates"
+              ],
+              "maxCost": 4,
+              "excludeNames": [
+                "Gecko Moria"
+              ]
+            },
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:12:25.401Z"
+}

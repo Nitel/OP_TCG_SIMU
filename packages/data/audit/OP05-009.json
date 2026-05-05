@@ -1,0 +1,32 @@
+{
+  "id": "OP05-009",
+  "name": "Toh-Toh",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires 'Leader has 0 power or less'. No condition type exists for power comparisons in the DSL spec; this should be documented as a limitation or the condition should reflect the actual game state dependency."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Draw 1 card if your Leader has 0 power or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ],
+        "note": "Conditional on Leader power ≤ 0 (not encodable in current DSL)"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:51.563Z"
+}

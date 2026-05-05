@@ -1,0 +1,32 @@
+{
+  "id": "ST08-001",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] in card text requires duration:\"DuringYourTurn\" but DSL has no duration field. This effect should only trigger during your turn, not opponent's turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:02:29.551Z"
+}

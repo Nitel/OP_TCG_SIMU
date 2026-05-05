@@ -1,0 +1,40 @@
+{
+  "id": "OP03-071",
+  "name": "Rob Lucci",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' with count:1 is incorrect. The card text says 'DON!! −1', meaning you pay 1 DON!! to activate the effect. This should be a cost, not a condition. The condition should be 'Always' since there are no conditional requirements listed in the card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'maxCount:1' to indicate 'up to 1' character, not just the cost restriction. Current syntax only specifies maxCost but should clarify the quantity limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:43.302Z"
+}

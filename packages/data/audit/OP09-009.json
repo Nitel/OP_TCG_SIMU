@@ -1,0 +1,36 @@
+{
+  "id": "OP09-009",
+  "name": "Benn.Beckman",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'ForceDiscard' (trash opponent's card) not 'KO' (destroy own card). 'Trash' in opponent context = ForceDiscard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope 'ChooseOpponentCharacter' is not a valid scope. Should use 'OpponentCharacter' with a count limiter or 'ChooseUpTo' pattern if available. Verify correct scope syntax for opponent character selection."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": {
+              "scope": "OpponentCharacter",
+              "maxPower": 6000,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:34:03.709Z"
+}

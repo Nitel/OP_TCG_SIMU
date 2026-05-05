@@ -1,0 +1,80 @@
+{
+  "id": "OP13-081",
+  "name": "Koala",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' for [Activate: Main] ability, but the condition logic is fundamentally wrong. This is a Main phase activated ability, not a passive trigger based on Leader type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition uses HasCardOnBoard checking for 'Revolutionary Army' type, but the card text states 'If your Leader has the {Revolutionary Army} type' — this should check Leader type, not board presence. Use 'LeaderHasType' with value 'Revolutionary Army'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action is TrashFromHand, but card text says 'place 1 card from your trash at the bottom of your deck' — this is the opposite direction. Should be searching/retrieving FROM trash, not sending TO trash."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The activated ability has two separate effects: (1) place card from trash to bottom of deck, AND (2) give up to 1 rested DON to Leader or Character. These are chained incorrectly. The second action should not be conditional on the first."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "AttachDon action must target a rested DON card (condition missing). Target scope is correct but missing the 'isRested' filter requirement."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Missing the static +3 cost effect. Card has two separate effects: (1) passive static boost when Leader is Revolutionary Army type, (2) activated ability. Current DSL only captures part of activated ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "Card",
+            "location": "trash"
+          },
+          "placement": "bottom"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "filter": {
+            "isRested": true
+          },
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:32.970Z"
+}

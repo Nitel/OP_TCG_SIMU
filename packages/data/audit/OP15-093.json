@@ -1,0 +1,76 @@
+{
+  "id": "OP15-093",
+  "name": "The Risky Brothers",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost action: DSL must include TrashFromHand action to represent the 'trash this Character' cost of the activation"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveKeyword action is incomplete: must specify target filter for [Monkey.D.Luffy] Characters only; current scope='ChooseOwnCharacter' allows any character"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: the <Slash> attribute must be represented as a separate GiveKeyword action (or equivalent attribute action)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for 'during this turn': should be 'DuringYourTurn' per duration rules"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": [
+          {
+            "type": "TrashFromHand",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "condition": {
+          "type": "TrashCount",
+          "min": 15
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "HasCardName",
+                "name": "Monkey.D.Luffy"
+              },
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Slash",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "HasCardName",
+                "name": "Monkey.D.Luffy"
+              },
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:29:06.260Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP07-118",
+  "name": "Sabo",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand filter is incorrect. The card to trash must come from hand but should not be restricted to Character type. The DSL should allow trashing any card type from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "The two KO actions are sequential (thenActions implies both execute after trash). However, the card text indicates these are independent options: 'up to 1...AND up to 1...' suggesting two separate KO actions that can each be chosen independently. The structure should reflect that both can be performed from a single trash, not sequentially dependent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "KO target scope is incorrect. Should target opponent's Characters (not just 'ChooseOpponentCharacter'). Target should specify scope as opponent Characters with maxCost constraint applied properly."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "OpponentCharacter",
+                  "maxCost": 5
+                },
+                "amount": 1,
+                "optional": true
+              },
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "OpponentCharacter",
+                  "maxCost": 3
+                },
+                "amount": 1,
+                "optional": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:11:29.906Z"
+}

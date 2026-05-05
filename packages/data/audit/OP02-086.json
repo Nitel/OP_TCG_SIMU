@@ -1,0 +1,38 @@
+{
+  "id": "OP02-086",
+  "name": "Minokoala",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if your Leader has the {Impel Down} type, not if a card with that type is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is missing the 'rest' component. Card text states 'add up to 1 DON!! card from your DON!! deck and rest it' — requires both GiveDon AND Rest actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Impel Down"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": "AddedCard"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:54.354Z"
+}

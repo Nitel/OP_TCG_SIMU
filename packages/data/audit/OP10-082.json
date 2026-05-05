@@ -1,0 +1,80 @@
+{
+  "id": "OP10-082",
+  "name": "Kuzan",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with duration 'Main' phase, but the DSL lacks duration specification for Main phase activation"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "First action is 'TrashFromHand' but should be 'TrashSelf' (trash this Character, not from hand). TrashFromHand is for discarding cards from hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].type",
+      "description": "SearchDeck is incorrect destination. Should search trash (not deck) per text: 'play up to 1...from your trash'. Use SearchTrash or PlayFromTrash instead."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].filter",
+      "description": "Filter missing type restriction {Blackbeard Pirates}. Should include 'hasType: \"Blackbeard Pirates\"' and exclusion 'notName: \"Kuzan\"'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].filter.maxCost",
+      "description": "Filter should specify maxCost: 5 but also must enforce type and name exclusions"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing passive effect for 'This Character cannot be removed from the field by your opponent's effects' (immunity/protection keyword)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "duration": "Main",
+      "actions": [
+        {
+          "type": "TrashSelf",
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            },
+            {
+              "type": "PlayFromTrash",
+              "count": 1,
+              "filter": {
+                "kind": "ByType",
+                "type": "Blackbeard Pirates",
+                "maxCost": 5,
+                "notName": "Kuzan"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Passive",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:15.579Z"
+}

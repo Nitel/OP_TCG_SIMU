@@ -1,0 +1,71 @@
+{
+  "id": "OP03-094",
+  "name": "Air Door",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing leader type condition. Effect requires 'LeaderHasType' condition with type 'CP' but DSL has 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action incorrect. Should specify looking at top 5 cards with filter for Character type including 'CP' and cost ≤5, not 'Any' kind"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' is undefined and semantically incorrect. Should be part of first effect's action sequence or clarified"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "PlayFromHand is wrong - should be playing from the 5 cards looked at (SearchDeck result), not from hand. Also filter has color 'Black' and maxPower '3' which don't match card requirements (no color specified, cost ≤5 not power ≤3)"
+    },
+    {
+      "severity": "critical",
+      "field": "missing",
+      "description": "No action to trash remaining cards after selecting 1 Character card"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "CP"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "cardType": "Character",
+            "typeIncludes": "CP",
+            "maxCost": 5
+          },
+          "quantity": 5,
+          "destination": "reveal"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "typeIncludes": "CP",
+            "maxCost": 5
+          },
+          "quantity": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "cardType": "Any"
+          },
+          "destination": "trash"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:26.439Z"
+}

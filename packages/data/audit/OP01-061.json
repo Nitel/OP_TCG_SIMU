@@ -1,0 +1,55 @@
+{
+  "id": "OP01-061",
+  "name": "Kaido",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' (when opponent's Character is K.O.'d), not 'Activated'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasAttachedDon' is incorrect. The card requires [DON!! x1] as a cost, not a condition. This should be a cost field, not a condition. Condition should reflect 'Once Per Turn' restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'AttachDon' (set DON!! as active on this card), not 'GiveDon'. Also missing the 'up to 1' qualifier and source specification (from DON!! deck)."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Missing cost field. The [DON!! x1] requirement must be specified as a cost, separate from conditions and actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. '[Your Turn]' in text indicates this effect applies 'DuringYourTurn', not permanently."
+    }
+  ],
+  "suggestedDsl": {
+    "cost": {
+      "don": 1
+    },
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "deck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:19:43.476Z"
+}

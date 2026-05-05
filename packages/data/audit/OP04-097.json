@@ -1,0 +1,41 @@
+{
+  "id": "OP04-097",
+  "name": "Otama",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'KO' but card effect states 'Add to the top of your opponent's Life cards face-up'. This is not a KO; it should be a custom action or 'AddLife' variant that places a card into opponent's life pile, not destroy it."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing type filter condition. Card specifies '{Animal} or {SMILE} type Characters' but DSL only checks maxCost. Must include type filter for Animal OR SMILE."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Scope 'ChooseOpponentCharacter' is unclear. Should explicitly state this is choosing from opponent's board/hand. Typically 'OpponentCharacter' with proper filtering."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "MoveToOpponentLife",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 3,
+          "hasAnyType": [
+            "Animal",
+            "SMILE"
+          ],
+          "max": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:44:13.895Z"
+}

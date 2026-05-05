@@ -1,0 +1,80 @@
+{
+  "id": "EB02-041",
+  "name": "Merry Go",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "OnPlay condition checks for 'HasCardOnBoard' with name 'Straw Hat Crew', but should check if Leader has the {Straw Hat Crew} type using LeaderHasType",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "Activated effect missing cost (rest this Stage) requirement",
+      "field": "effects[1].cost"
+    },
+    {
+      "severity": "critical",
+      "description": "Activated effect missing condition that checks if DON!! cards on your field ≤ opponent's DON!! cards",
+      "field": "effects[1].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Activated effect gives +2000 power but should give +2 cost (different attribute entirely)",
+      "field": "effects[1].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Activated effect target should be limited to {Straw Hat Crew} type Characters only",
+      "field": "effects[1].actions[0].target"
+    },
+    {
+      "severity": "critical",
+      "description": "Activated effect duration is 'EndOfTurn' but should last 'until the end of your opponent's next turn', which is DuringOpponentTurn",
+      "field": "effects[1].actions[0].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "characterType": "Straw Hat Crew"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestSelf"
+        },
+        "condition": {
+          "type": "DonCountComparison",
+          "comparison": "LessThanOrEqual"
+        },
+        "actions": [
+          {
+            "type": "CostBoost",
+            "amount": 2,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1,
+              "filter": {
+                "type": "Straw Hat Crew"
+              }
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:15.636Z"
+}

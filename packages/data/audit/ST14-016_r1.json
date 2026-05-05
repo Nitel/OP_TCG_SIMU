@@ -1,0 +1,39 @@
+{
+  "id": "ST14-016_r1",
+  "name": "I Have My Crew!!",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but card text specifies 'until the end of your opponent's next turn' — should be 'DuringOpponentTurn' or equivalent multi-turn duration"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action has no basis in card text. Card only describes Draw + PowerBoost; no KO effect exists"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1
+          },
+          "duration": "UntilEndOfOpponentNextTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:52:53.992Z"
+}

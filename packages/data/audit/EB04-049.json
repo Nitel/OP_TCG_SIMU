@@ -1,0 +1,41 @@
+{
+  "id": "EB04-049",
+  "name": "Finger Pistol Yellow Lotus",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand, but card text says 'trash 2 cards from the top of your deck'. Should be TrashFromDeck or similar deck-based action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure incorrect: trashing from deck is a cost/condition, not a separate action. Should be restructured as a condition with cost requirement before the KO action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target filter incomplete: missing 'hasType' or equivalent to filter for Characters. Should specify scope as opponent's Characters specifically."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "KO",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5
+        },
+        "cost": {
+          "type": "TrashFromDeck",
+          "count": 2
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:20:55.553Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP14-061",
+  "name": "Vergo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing first effect entirely. Card has two effects: (1) 'Once Per Turn' protection effect that returns DON!! to deck when {Donquixote Pirates} Character would be removed by opponent's effect, and (2) the OnAttack effect. DSL only includes the OnAttack effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "OnAttack effect missing DON!! cost condition. Effect text states 'DON!! −1:' indicating a DON!! cost of 1 must be paid. DSL has no cost/condition for the DON!! expenditure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' opponent Character, not unlimited. Current scope 'ChooseOpponentCharacter' implies single selection but lacks the 'up to' qualifier for optional targeting."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Donquixote Pirates"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseSelfDonCard",
+            "amount": 1
+          }
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnAttack",
+      "cost": {
+        "type": "AttachDon",
+        "amount": -1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "amount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:14:49.253Z"
+}

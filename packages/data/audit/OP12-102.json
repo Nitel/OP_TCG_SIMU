@@ -1,0 +1,78 @@
+{
+  "id": "OP12-102",
+  "name": "Shirahoshi",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect trigger is wrong. Text describes a reactive ability when opponent's effect would remove your Character (base cost ≤6), not OnPlay. Should be Counter or Trigger on opponent's removal effect, not OnPlay."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action is incomplete. FlipLife only specifies count=1, but missing the conditional check: this action only occurs IF opponent's effect would remove a Character with base cost ≤6. Needs proper condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'Activated' is incorrect. Text states '[Opponent's Turn]' which indicates a static/conditional ability during opponent's turn, not an activated ability. Should be Trigger or StartOfTurn with DuringOpponentTurn duration."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says '[Opponent's Turn]' - effect applies during opponent's turn. Should be duration:'DuringOpponentTurn', not EndOfTurn. Violation of duration rule."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target is 'AllOwnCharacters' but should be scoped to {Neptunian} type Characters only. Text specifies 'all of your {Neptunian} type Characters'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition 'Always' is incorrect. Text requires 'you have no other [Shirahoshi] with a base cost of 2' - this is a specific conditional, not Always."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardName": "Character",
+        "maxBaseCost": 6
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "TrashCount",
+        "cardName": "Shirahoshi",
+        "baseCost": 2,
+        "comparison": "equals",
+        "value": 0
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "types": [
+              "Neptunian"
+            ]
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:02.713Z"
+}

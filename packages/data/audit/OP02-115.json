@@ -1,0 +1,36 @@
+{
+  "id": "OP02-115",
+  "name": "Monkey.D.Garp",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target missing cost filter. Card text specifies 'cost of 0' but DSL has no costFilter constraint. Should filter opponent characters to only those with cost=0."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target missing quantity limit. Card text specifies 'up to 1' but DSL target allows unconstrained selection. Should add maxAmount:1."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 2
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxAmount": 1,
+          "costFilter": 0
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:34.136Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP15-047",
+  "name": "Sanji",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which means the effect lasts only while it is your turn, not until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is 'ChooseOwnCharacterOrLeader' but text says 'Up to 1 of your Characters' - should be 'ChooseOwnCharacter' (does not include Leader). However, this is a minor issue as the practical difference may be context-dependent."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-047",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Unblockable",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:25:30.938Z"
+}

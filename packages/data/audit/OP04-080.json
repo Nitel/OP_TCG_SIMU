@@ -1,0 +1,33 @@
+{
+  "id": "OP04-080",
+  "name": "Gyats",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has On Play trigger with action to grant keyword allowing Dressrosa characters to attack active Characters this turn. Missing entire effect definition."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "UpTo1YourCharacterWithType",
+            "targetParams": {
+              "type": "Dressrosa"
+            },
+            "keyword": "CanAttackActiveCharacters",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:43:13.582Z"
+}

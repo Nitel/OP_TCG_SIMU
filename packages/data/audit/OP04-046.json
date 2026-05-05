@@ -1,0 +1,39 @@
+{
+  "id": "OP04-046",
+  "name": "Queen",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing condition check for Leader type. Effect requires 'LeaderHasType' condition with value 'Animal Kingdom Pirates'"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "SearchDeck action missing critical parameters: 'lookAtCount' (7), 'maxReveal' (2), and 'placeRest' ('bottom'). Current DSL doesn't capture the 'look at 7, reveal up to 2' logic or the placement of remaining cards"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Animal Kingdom Pirates"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByName",
+          "name": "Plague Rounds|Ice Oni"
+        },
+        "lookAtCount": 7,
+        "maxReveal": 2,
+        "destination": "hand",
+        "placeRest": "bottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:26.061Z"
+}

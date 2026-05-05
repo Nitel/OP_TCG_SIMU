@@ -1,0 +1,73 @@
+{
+  "id": "OP09-044",
+  "name": "Izo",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing SearchDeck action details: filter must specify {Land of Wano} OR Whitebeard Pirates type; maxCards should be 1; deckPosition should specify 'top 5 cards'; also missing the 'place rest at bottom in any order' mechanic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter is empty {kind:'Any'} but text requires filtering by type (Land of Wano OR Whitebeard Pirates)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck missing maxCards:1 and missing deckPosition:'top5' to match 'look at 5 cards from top'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action present but card text says 'trash 1 card from your hand' should occur AFTER deck ordering step, and thenActions is empty—this needs proper sequencing"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing intermediate step: 'place the rest at the bottom of your deck in any order'—no mechanic to handle reordering remaining 4 cards"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP09-044",
+    "effectText": "[When Attacking] Look at 5 cards from the top of your deck; reveal up to 1 {Land of Wano} type card or card with a type including \"Whitebeard Pirates\" and add it to your hand. Then, place the rest at the bottom of your deck in any order and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Or",
+              "filters": [
+                {
+                  "kind": "HasType",
+                  "type": "Land of Wano"
+                },
+                {
+                  "kind": "HasType",
+                  "type": "Whitebeard Pirates"
+                }
+              ]
+            },
+            "deckPosition": "top5",
+            "maxCards": 1,
+            "destination": "hand",
+            "thenActions": [
+              {
+                "type": "TrashFromHand",
+                "filter": {
+                  "kind": "Any"
+                },
+                "maxCards": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:46:37.552Z"
+}

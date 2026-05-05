@@ -1,0 +1,30 @@
+{
+  "id": "OP03-044_r1",
+  "name": "Kaya",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: card effect requires both 'Draw 2 cards' AND 'trash 2 cards from your hand'. DSL only includes DrawCard; ForceDiscard action is completely absent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "source": "Hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:28.573Z"
+}

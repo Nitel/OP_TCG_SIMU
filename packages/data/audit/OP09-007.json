@@ -1,0 +1,54 @@
+{
+  "id": "OP09-007",
+  "name": "Heat",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL is missing the Blocker ability entirely. The card has two distinct effects: (1) Blocker keyword/counter ability, and (2) On Play power boost. Only the On Play effect is represented."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specifies 'maxPower:4000' but the condition should be 'maxPower' with value 4000 to match 'with 4000 power or less'. Current structure may be correct depending on implementation, but verify the operator is ≤ not <."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ],
+        "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "OwnLeader",
+              "maxPower": 4000
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:33:55.031Z"
+}

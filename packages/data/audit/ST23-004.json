@@ -1,0 +1,35 @@
+{
+  "id": "ST23-004",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-23",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which requires duration 'DuringYourTurn', not 'EndOfTurn'. These have different game mechanics: 'DuringYourTurn' means the effect lasts until your turn ends, while 'EndOfTurn' applies at end-of-turn timing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'max:1' or use 'ChooseUpToOneOpponentCharacter' to match 'up to 1' language in card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:42.174Z"
+}

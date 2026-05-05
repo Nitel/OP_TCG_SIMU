@@ -1,0 +1,56 @@
+{
+  "id": "OP10-076",
+  "name": "Baby 5",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action is missing the conditional requirement. The effect states 'You may trash 1 card' which makes trashing optional, but the condition 'If your Leader has the {Donquixote Pirates} type' must be checked before GiveDon executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing LeaderHasType condition to verify Leader has {Donquixote Pirates} type before the action chain executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "GiveDon action is incorrect. The effect adds DON!! from the DON!! deck and sets it as active, not from hand. This should be SearchDeck (to search DON!! deck) or similar mechanism, not GiveDon."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 card from your hand: If your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Donquixote Pirates"
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "filter": {
+                  "type": "DON!!"
+                },
+                "count": 1,
+                "optional": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:36:42.922Z"
+}

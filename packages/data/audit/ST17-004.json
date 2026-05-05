@@ -1,0 +1,59 @@
+{
+  "id": "ST17-004",
+  "name": "Boa Hancock",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck with destination 'hand' is incorrect. Card text says 'Look at 3 cards from the top of your deck and place them at the top or bottom of your deck in any order' — this is a deck manipulation action, not a search-to-hand. Should use a custom action or clarify as rearranging top 3 cards without drawing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify exactly 3 cards from top of deck, not 'Any' cards from entire deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope is missing type filter. Text restricts to '{The Seven Warlords of the Sea} type Leader or Character cards' but DSL only specifies 'ChooseOwnCharacterOrLeader' without the type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "AttachDon should only attach rested DON!! cards ('give up to 1 rested DON!!'), but DSL does not restrict to rested cards or specify the count comes from resting existing cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 3 cards from the top of your deck and place them at the top or bottom of your deck in any order. Then, give up to 1 rested DON!! card to 1 of your {The Seven Warlords of the Sea} type Leader or Character cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Any",
+              "count": 3,
+              "source": "TopOfDeck"
+            },
+            "destination": "TopOrBottomOfDeck"
+          },
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "RestedDon",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "filter": {
+                "type": "The Seven Warlords of the Sea"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:12:54.178Z"
+}

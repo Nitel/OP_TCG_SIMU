@@ -1,0 +1,20 @@
+{
+  "id": "OP09-111",
+  "name": "Brook",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not valid. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "ForceDiscard action requires a 'target' field specifying whose hand to discard from (e.g., 'opponent'). Current DSL has no target."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:30:16.646Z"
+}

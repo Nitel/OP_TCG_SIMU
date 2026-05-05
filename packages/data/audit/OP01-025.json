@@ -1,0 +1,27 @@
+{
+  "id": "OP01-025",
+  "name": "Roronoa Zoro",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has Rush keyword ability but effects array is empty. Should contain a GiveKeyword action to grant Rush to this card on play."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "Self",
+          "keyword": "Rush"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:42.930Z"
+}

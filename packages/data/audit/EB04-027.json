@@ -1,0 +1,39 @@
+{
+  "id": "EB04-027",
+  "name": "Boa Hancock",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and PlayFromHand action is not supported by official card text. Card text only describes '[On Play] Draw 2 cards and trash 1 card from your hand.' No additional effect exists."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is correct (legacy alias), but verify this matches the official card effect text exactly. Card says 'trash 1 card from your hand' which is accurate."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Draw 2 cards and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:08:58.418Z"
+}

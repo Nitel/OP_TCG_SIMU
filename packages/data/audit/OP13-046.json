@@ -1,0 +1,56 @@
+{
+  "id": "OP13-046",
+  "name": "Vista",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "OnKO trigger is incorrect. The effect activates when the character would be K.O.'d (before KO happens), not after. Should use Counter trigger with appropriate condition to prevent KO."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "OnAttacked trigger does not capture 'removed from field by opponent's effect'. Should use Counter trigger or separate mechanism for opponent effect removal."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing 'Once Per Turn' condition enforcement. Both effects should include condition limiting activation to once per turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should include condition that allows the trash action only if character would be K.O.'d/removed. Current structure doesn't prevent KO—it just trashes a card after KO occurs."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but card text says 'type including Whitebeard Pirates'. Should be 'type' not 'subType', or verify filter intent matches 'Whitebeard Pirates' classification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "TurnCount",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "type": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "Rest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:01:53.817Z"
+}

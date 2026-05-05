@@ -1,0 +1,44 @@
+{
+  "id": "OP07-075",
+  "name": "Slow-Slow Beam",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be limited to 'up to 1 each' of opponent's Leader and Character cards, not all opponent characters. Current target 'AllOpponentCharacters' applies debuff to all characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'during this turn' which should map to 'DuringYourTurn', not EndOfTurn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "OpponentLeader",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "OpponentCharacters",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:08:07.395Z"
+}

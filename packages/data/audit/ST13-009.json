@@ -1,0 +1,43 @@
+{
+  "id": "ST13-009",
+  "name": "Shanks",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional logic. Effect has two components: (1) optional FlipLife action, (2) conditional trash action only if opponent has 7+ cards in hand. DSL only includes FlipLife and lacks the hand-count condition and trash action entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing ForceDiscard action. Card text specifies 'trash up to 1 card from opponent's Life cards' but DSL contains no trash/discard action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition checking opponent's hand size (7 or more cards). The trash action is only supposed to trigger if this condition is met."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "ForceDiscard",
+          "target": "OpponentLifeCards",
+          "count": 1,
+          "optional": true,
+          "condition": "OpponentHandSize>=7"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:08:17.828Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP05-075",
+  "name": "Mr.1(Daz.Bonez)",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent attacks you), not 'OnAttacked' (you are attacked). Card text states '[On Your Opponent's Attack]' which indicates the opponent is performing the attack action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type is 'HasRestingDon' but card text specifies 'DON!! −1' which means paying/spending 1 DON!! from your field. This should be 'HasAttachedDon' with count 1, representing DON!! cards on your field available to return to deck."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'maxCost' but should use 'maxCost' (this is correct); however, verify that 'Baroque Works' is the exact subType string used in official card database."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Baroque Works",
+            "cardType": "Character",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:49:59.490Z"
+}

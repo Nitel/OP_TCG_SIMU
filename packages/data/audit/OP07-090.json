@@ -1,0 +1,40 @@
+{
+  "id": "OP07-090",
+  "name": "Morgans",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing reveal hand action. Card text specifies opponent reveals their hand after trashing, but DSL only contains ForceDiscard and DrawCard. The reveal action is not represented."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to target opponent. Actions affect opponent but no target specification is present in the DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "opponent"
+        },
+        {
+          "type": "RevealFromHand",
+          "target": "opponent"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "target": "opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:20.884Z"
+}

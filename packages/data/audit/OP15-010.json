@@ -1,0 +1,33 @@
+{
+  "id": "OP15-010",
+  "name": "Nezumi",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'GiveDon' not 'AttachDon'. The card text says 'Give up to 1 rested DON!! card' which means transferring DON from one source to the target, not attaching DON to a character. 'AttachDon' is for generating/creating new DON on a character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOwnCharacterOrLeader' is incorrect. The card gives DON 'to its owner's Leader or 1 of their Characters' - this refers to the opponent's Leader or Characters, not the activating player's. Target should be 'ChooseOpponentCharacterOrLeader'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:22:43.016Z"
+}

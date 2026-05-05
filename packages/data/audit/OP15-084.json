@@ -1,0 +1,56 @@
+{
+  "id": "OP15-084",
+  "name": "Dr. Hogback",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check Leader type {Thriller Bark Pirates}, not just HasCardOnBoard. Should be LeaderHasType:Thriller Bark Pirates"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be ForceDiscard (trash from deck), not TrashFromHand (trash from hand). Card text says 'trash 5 cards from the top of your deck'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Missing condition: should check 'if you have 6 or less cards in your hand' before drawing. Needs a hand count condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Thriller Bark Pirates"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 5,
+          "filter": {
+            "source": "TopOfDeck"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HandCount",
+        "operator": "<=",
+        "value": 6
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:28:24.258Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "OP10-055",
+  "name": "Marco",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify 'maxCount' of 1 (\"up to 1\"). Current target lacks maxCount constraint, allowing selection of multiple characters instead of the stated limit."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:35:04.771Z"
+}

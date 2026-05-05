@@ -1,0 +1,51 @@
+{
+  "id": "OP10-049",
+  "name": "Sabo",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain OnAttacked/Counter trigger with conditional return-to-hand action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger. Text describes a replacement/prevention effect: should use 'Counter' trigger to intercept opponent's removal effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing conditions: must check (1) target Character has base cost ≤7, (2) target is not named [Sabo], (3) effect is from opponent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: should include ReturnToHand for the protected Character."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your Character with a base cost of 7 or less other than [Sabo] would be removed from the field by your opponent's effect, you may return this Character to the owner's hand instead.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Character",
+            "modifier": "baseCost≤7&name≠Sabo"
+          }
+        ],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "triggeredCharacter"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:34:40.120Z"
+}

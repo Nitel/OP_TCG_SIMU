@@ -1,0 +1,27 @@
+{
+  "id": "ST03-008_r1",
+  "name": "Trafalgar Law",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing. Card has [Blocker] text but effects array is empty. Blocker should be represented as a Counter trigger that allows resting this card to redirect an attack."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "description": "After opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T13:12:33.909Z"
+}

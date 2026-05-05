@@ -1,0 +1,60 @@
+{
+  "id": "OP12-047",
+  "name": "Sengoku",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (You may trash). Current DSL makes it mandatory."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is overly restrictive. Text says 'trash 1 card from your hand' with no type restriction, but DSL limits to Character type only."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "SearchDeck implementation is incomplete. Must: (1) look at top 5 cards, (2) reveal up to 2 Navy cards excluding [Sengoku], (3) add to hand, (4) place rest at bottom in any order. Current DSL only searches deck without the 'look at 5' constraint or exclusion logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "Filter uses kind:'ByName' which is incorrect for type-based filtering. Should use kind:'ByType' with type:'Navy', plus additional constraint to exclude [Sengoku] by name."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "maxCount": 1,
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "lookAt": 5,
+                "filter": {
+                  "kind": "ByType",
+                  "type": "Navy",
+                  "excludeByName": [
+                    "Sengoku"
+                  ]
+                },
+                "maxSelect": 2,
+                "destination": "hand",
+                "orderRest": "AnyOrder",
+                "restDestination": "DeckBottom"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:52:53.001Z"
+}

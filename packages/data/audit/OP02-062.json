@@ -1,0 +1,92 @@
+{
+  "id": "OP02-062",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand must specify quantity=2 in filter; currently missing"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for '[Double Attack] during this turn' — should be 'DuringYourTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand must specify quantity=2 in filter; currently missing"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for '[Double Attack] during this turn' — should be 'DuringYourTurn'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0].target.scope",
+      "description": "Scope 'ChooseOpponentCharacter' may be unclear; should likely be 'ChooseCharacter' since the card returns opponent's character to owner's hand (neutral action)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "quantity": 2
+          },
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseCharacter",
+                "maxCost": 4
+              }
+            },
+            {
+              "type": "GiveKeyword",
+              "keyword": "DoubleAttack",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "quantity": 2
+          },
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseCharacter",
+                "maxCost": 4
+              }
+            },
+            {
+              "type": "GiveKeyword",
+              "keyword": "DoubleAttack",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:23.497Z"
+}

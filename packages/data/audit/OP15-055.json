@@ -1,0 +1,43 @@
+{
+  "id": "OP15-055",
+  "name": "Go Ahead and Use 'Em, Mr. Luffy!!!",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Card text states '[Blocker] until the end of your opponent's next End Phase', which means the effect lasts during opponent's turn. Should be 'DuringOpponentTurn' or similar extended duration, not a simple EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope missing type filter. Card specifies 'Up to 1 of your {Dressrosa} type Characters' but target only has 'ChooseOwnCharacter'. Should include type constraint for Dressrosa."
+    },
+    {
+      "severity": "minor",
+      "field": "effects",
+      "description": "DSL structure uses two separate Activated triggers for choice options. This is valid but should ideally be represented as a single Activated trigger with multiple action branches to reflect the 'Choose one' mechanic more clearly."
+    }
+  ],
+  "suggestedDsl": {
+    "triggers": "Activated",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "typeFilter": "Dressrosa",
+          "maxCount": 1
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:26:08.199Z"
+}

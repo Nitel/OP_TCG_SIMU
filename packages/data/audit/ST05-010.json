@@ -1,0 +1,59 @@
+{
+  "id": "ST05-010",
+  "name": "Zephyr",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect should trigger when this Character battles ＜Strike＞ attribute Characters, not on all attacks. Condition is missing the attribute check (LeaderHasType or similar for opponent's character type). Current condition is 'Always' which is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "OnAttacked trigger is incorrect. The card text describes a single battle condition ('When this Character battles ＜Strike＞ attribute Characters'), not a separate defensive trigger. OnAttacked should not be present."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[2].condition",
+      "description": "Condition uses HasRestingDon with count:1, but the effect requires paying DON!! (returning them to deck). The condition should verify the character has at least 1 DON!! attached, which is correct, but semantically this is a cost not a condition check."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:59:26.563Z"
+}

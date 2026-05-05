@@ -1,0 +1,52 @@
+{
+  "id": "OP06-115_r1",
+  "name": "You're the One Who Should Disappear.",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and condition 'Always'. Card only has one Counter effect; this second effect does not match the card text at all."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (preceded by 'You may'). Current structure treats trash as mandatory. Should use conditional optional syntax or clarify intent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for 'during this battle', but the conditional power boost (only if trash succeeds) must be properly nested. Current nesting appears correct but second effect undermines validity."
+    }
+  ],
+  "suggestedDsl": {
+    "version": "1.0",
+    "card": "OP06-115_r1",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "count": 1,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "count": 1
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:43:48.413Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "EB02-018",
+  "name": "Buggy",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition check for 'If you have no other [Buggy] Characters'. The DSL uses 'Always' condition but should check that no other Buggy Characters are on board.",
+      "field": "effects[0].condition.type"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "NegateCondition",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "cardName": "Buggy",
+            "scope": "OwnCharacters",
+            "excludeSelf": true
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:07.508Z"
+}

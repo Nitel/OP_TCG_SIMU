@@ -1,0 +1,42 @@
+{
+  "id": "OP08-040",
+  "name": "Atmos",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Condition missing: effect should only trigger if 'Your Leader's type includes \"Whitebeard Pirates\"' — this is a hard requirement before ReturnToHand can execute. Currently the DSL allows ReturnToHand regardless of leader type."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Whitebeard Pirates"
+          },
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 4,
+                "count": 1
+              },
+              "condition": {
+                "type": "LeaderHasAnyType",
+                "value": "Whitebeard Pirates"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:27:16.716Z"
+}

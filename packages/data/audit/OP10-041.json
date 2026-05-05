@@ -1,0 +1,50 @@
+{
+  "id": "OP10-041",
+  "name": "Radio Knife",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "KO action missing required condition: target must be rested. DSL specifies maxCost:5 but omits the 'isRested' condition that is explicit in card text ('rested Characters')."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Entire second effect is unexplained. Card text describes a single sequential action pair (Rest → Then KO), not two separate triggers. The second Trigger effect with Rest maxCost:4 has no basis in the card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should specify 'up to 1' via maxTargets or similar constraint; current DSL implies unrestricted quantity."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6,
+              "maxTargets": 1
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "isRested": true,
+              "maxTargets": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:33:59.696Z"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "P-029_r1",
+  "name": "Bartolomeo",
+  "set": "ST-16",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'EndOfTurn', not 'Activated'. Card text says '[End of Your Turn]' which is an automatic trigger, not a player-activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "First action is Rest, but card text says 'You may rest this Character' as a condition for the effect, not the primary action. The primary action is 'Set up to 1 of your {FILM} type Characters other than [Bartolomeo] as active'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action is 'GiveKeyword' with 'Blocker', but card effect has nothing to do with Blocker keyword. The action should set a Character as 'active' (likely a Rest/Un-rest mechanic), and should target {FILM} type Characters other than Bartolomeo."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Target filter 'maxCost:2' is not present in card text. Should filter for {FILM} type Characters and exclude Bartolomeo by name."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing optional clause: card says 'You may' indicating this is optional, not mandatory."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[End of Your Turn] You may rest this Character: Set up to 1 of your {FILM} type Characters other than [Bartolomeo] as active.",
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "optional": true
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filterByType": "FILM",
+              "excludeByName": "Bartolomeo",
+              "maxCount": 1
+            },
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:11:30.855Z"
+}

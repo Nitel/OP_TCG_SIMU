@@ -1,0 +1,51 @@
+{
+  "id": "ST20-004",
+  "name": "Charlotte Pudding",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife should be conditional (\"You may\"), not mandatory. The DSL lacks a condition wrapper or optional flag."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope is 'ChooseOwnCharacter' but should filter by type {Big Mom Pirates}. Missing type filter in target specification."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and ChooseOpponentCharacter is completely unrelated to card text. Should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Action sequence is wrong: FlipLife and Rest should both be conditional on 'You may'. Current structure treats them as sequential mandatory actions rather than optional choice."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 3,
+            "hasType": "Big Mom Pirates"
+          },
+          "maxCount": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:15:57.000Z"
+}

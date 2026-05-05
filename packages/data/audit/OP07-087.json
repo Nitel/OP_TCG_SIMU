@@ -1,0 +1,42 @@
+{
+  "id": "OP07-087",
+  "name": "Baskerville",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text contains '[Your Turn]' which requires duration:'DuringYourTurn', not 'Permanent'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check 'HasCardOnBoard' with opponent's characters of cost 0, not 'Always'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "OpponentBoard",
+        "filter": {
+          "cardType": "Character",
+          "cost": 0
+        }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:05.426Z"
+}

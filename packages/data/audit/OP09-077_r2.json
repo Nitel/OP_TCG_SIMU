@@ -1,0 +1,43 @@
+{
+  "id": "OP09-077_r2",
+  "name": "Gum-Gum Lightning",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Trigger 'Activated' is correct for main ability, but the second effect with trigger 'Trigger' is incorrect. The DON!! return cost is part of the activation condition, not a separate triggered effect. The cost (returning DON!!) should be represented in the condition or removed from DSL as it's a cost, not an effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Effect with trigger 'Trigger' and action 'GiveDon' misrepresents the card. The ability costs DON!! (returns them), it does not give DON!!. This action should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO target should allow up to 1 character (maxCount should be specified), not just choosing one. Current DSL lacks 'maxCount' specification in the action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "ReturnDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:47:06.560Z"
+}

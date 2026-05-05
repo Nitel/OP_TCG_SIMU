@@ -1,0 +1,44 @@
+{
+  "id": "ST29-009",
+  "name": "Nico Robin",
+  "set": "ST-29",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not valid for Blocker keyword. Blocker should use 'OnAttacked' trigger to activate when opponent declares an attack."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasCardOnBoard' with name 'Monkey D. Luffy' is incorrect. Blocker has no deck-building requirements; this condition should not exist."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker effect should 'Rest' this card to redirect the attack, not play it."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "The entire DSL misrepresents the Blocker keyword. Blocker is a static ability that allows you to rest this card to become the new attack target—it should be a simple mechanic, not a conditional trigger-action chain."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ],
+  "auditedAt": "2026-05-05T13:24:44.476Z"
+}

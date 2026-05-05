@@ -1,0 +1,44 @@
+{
+  "id": "OP03-042",
+  "name": "Usopp's Pirate Crew",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect text specifies 'from your trash' — should be 'FlipLife' or similar trash-recovery action. Correct action should search/retrieve from trash, not deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' with name 'Usopp' but effect specifies 'blue [Usopp]' — filter should include color constraint (blue) and card type (Usopp character)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'amount' constraint — effect says 'up to 1' but action has no limit specified."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Add up to 1 blue [Usopp] from your trash to your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "filter": {
+              "kind": "ByName",
+              "name": "Usopp",
+              "color": "blue"
+            },
+            "source": "trash",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:55.629Z"
+}

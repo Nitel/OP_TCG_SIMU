@@ -1,0 +1,45 @@
+{
+  "id": "P-068_r1",
+  "name": "Sanji",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is incomplete. DSL only includes trashing the character but omits the core effect: 'Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order.' Missing SearchDeck or equivalent action to reveal/manipulate deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The card text says 'trash this Character' (referring to the card on board), not from hand. Should be KO (removing from board) or a self-trash mechanism, not TrashFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing conditional: The trash action should be optional ('You may trash'). Current DSL lacks an optional/conditional wrapper or condition flag."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "self",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "count": 5,
+              "reveal": true,
+              "description": "Look at 5 cards from top of deck and place at top or bottom in any order"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:03.159Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP03-008",
+  "name": "Buggy",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive effect: 'This Character cannot be K.O.'d in battle by <Slash> attribute cards.' Should be a Permanent effect with a condition blocking KO from Slash cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Effect specifies: look at 5 cards, reveal up to 1 red Event, add to hand, place rest at bottom in any order. Current DSL lacks: search scope (5 cards), filter (red Event type), and bottom-deck placement logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify red Event cards, not 'Any'. Should include color/type constraints."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Permanent",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Cannot be K.O.'d in battle by <Slash> attribute cards"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Event",
+            "color": "red"
+          },
+          "searchCount": 5,
+          "selectCount": 1,
+          "destination": "hand",
+          "remainderDestination": "bottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:55.516Z"
+}

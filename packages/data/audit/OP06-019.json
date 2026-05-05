@@ -1,0 +1,33 @@
+{
+  "id": "OP06-019",
+  "name": "Blue Dragon Seal Water Stream",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'Trigger' but card text only describes a single Main effect. No secondary trigger condition is mentioned in the card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxPower",
+      "description": "Second effect specifies maxPower 4000, but card text states 5000 power or less. Values should match across all effects or the second effect should be removed if not in card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 5000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:54:40.733Z"
+}

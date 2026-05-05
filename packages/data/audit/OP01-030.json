@@ -1,0 +1,41 @@
+{
+  "id": "OP01-030",
+  "name": "In Two Years!! At the Sabaody Archipelago!!",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "SearchDeck action does not capture the 'look at 5 cards' mechanic. The card requires viewing the top 5 cards and choosing up to 1 {Straw Hat Crew} Character, then ordering the rest at the bottom. SearchDeck with ByName filter is insufficient."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses ByName but should filter by type {Straw Hat Crew}. The card specifies type-based filtering, not name-based."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the 'place the rest at the bottom of your deck in any order' action. This requires a separate action to reorder remaining cards back to deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Straw Hat Crew"
+          },
+          "destination": "hand",
+          "limit": 1,
+          "searchCount": 5
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:53.880Z"
+}

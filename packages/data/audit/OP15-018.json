@@ -1,0 +1,41 @@
+{
+  "id": "OP15-018",
+  "name": "Mohji",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is missing the condition that the target Character must have a DON!! card attached. The card text states 'with a DON!! card given' which is a required condition for the KO effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "scope": "TargetCharacter"
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 3000,
+              "conditions": [
+                {
+                  "type": "HasAttachedDon"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:23:17.781Z"
+}

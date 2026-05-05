@@ -1,0 +1,72 @@
+{
+  "id": "OP13-098",
+  "name": "Never Existed... in the First Place...",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with a cost (rest 1 DON!!), not a simple Activated. Should reflect DON!! rest cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasCardOnBoard' is incorrect for Leader checks. Should be 'LeaderIsName' to check if Leader is [Imu]."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition type 'HasCardOnBoard' is incorrect for Leader checks. Should be 'LeaderIsName' to check if Leader is [Imu]."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for counter effects during battle, but verify this matches card intent."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "RestDon",
+          "amount": 1
+        },
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Imu"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 7,
+              "maxCount": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Imu"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:05:48.541Z"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "OP08-118",
+  "name": "Silvers Rayleigh",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but effect text states 'until the end of your opponent's next turn'. This requires duration 'DuringOpponentTurn' or equivalent multi-turn duration, not single-turn EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but effect text states 'until the end of your opponent's next turn'. This requires duration 'DuringOpponentTurn' or equivalent multi-turn duration, not single-turn EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost actions lack 'count' or 'maxCount' specification. Text says 'Select up to 2' characters total, but DSL shows two separate PowerBoost actions without indicating they are part of a single selection group of up to 2 targets."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringOpponentTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:33:17.864Z"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "OP04-043",
+  "name": "Ulti",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Card text offers two mutually exclusive options: 'Return to hand OR bottom of deck'. DSL only implements ReturnToHand. Must use conditional/choice action structure to represent both options, or clarify which is primary."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Scope 'ChooseOpponentCharacter' is ambiguous. Card says 'a Character' without restricting to opponent only. Should be 'ChooseCharacter' to allow choosing your own or opponent's character, OR if opponent-only is intended, clarify in scope naming."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 2,
+              "count": 1
+            }
+          },
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 2,
+              "count": 1,
+              "location": "BottomOfDeck"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:22.907Z"
+}

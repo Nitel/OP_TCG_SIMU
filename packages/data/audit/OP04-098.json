@@ -1,0 +1,52 @@
+{
+  "id": "OP04-098",
+  "name": "Toko",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action requires a condition check: 'If you have 1 or less Life cards' must be evaluated before FlipLife executes. Current DSL has no conditional gate."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter specifies subType:'Land of Wano' but effect text says 'trash 2 {Land of Wano} type cards' — requires count:2 constraint in filter or thenActions"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Effect is optional ('You may trash') but DSL structure implies mandatory execution. Must wrap in conditional or optional flag."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Land of Wano",
+          "count": 2
+        },
+        "optional": true,
+        "condition": {
+          "type": "Always"
+        },
+        "thenActions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "condition": {
+              "type": "HasCardOnBoard",
+              "cardAttribute": "YourLifeCards",
+              "comparison": "<=",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:44:15.330Z"
+}

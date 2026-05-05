@@ -1,0 +1,44 @@
+{
+  "id": "OP07-110",
+  "name": "York",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'FlipLife' (correct) but the effect structure is missing the conditional 'You may' logic. The FlipLife action should be optional/conditional, not mandatory."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "The two effects (FlipLife and KO) should be linked as a conditional chain: FlipLife is optional ('You may'), and the KO only occurs if FlipLife is chosen. Current DSL presents them as sequential independent actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' with 'PlaySelf' action is unrelated to the card text and should not be present. This appears to be extraneous DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          },
+          "condition": "LifeFlipped"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:10:48.739Z"
+}

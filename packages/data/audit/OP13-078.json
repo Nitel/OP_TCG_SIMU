@@ -1,0 +1,49 @@
+{
+  "id": "OP13-078",
+  "name": "Oro Jackson",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (activated by opponent's effect removing character), not 'OnKO'. OnKO fires when a character is KO'd; this effect triggers when opponent uses an effect to remove a character, which may not be KO."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should check 'HasCardOnBoard' with type 'Roger Pirates' to verify a qualifying character exists before triggering."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action only adds DON but does not rest it. Must include a 'Rest' action after 'GiveDon' to match 'rest it' in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing '[Once Per Turn]' limit enforcement in DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Roger Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "deck"
+        },
+        {
+          "type": "Rest"
+        }
+      ],
+      "limit": "OncePerTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:12.897Z"
+}

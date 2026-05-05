@@ -1,0 +1,46 @@
+{
+  "id": "OP08-001",
+  "name": "Tony Tony.Chopper",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action missing 'filter' to restrict to {Animal} or {Drum Kingdom} type Characters"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify selection of up to 3 Characters, not unbounded ChooseOwnCharacter"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'duration' constraint. '[Activate: Main] [Once Per Turn]' indicates this is a Main phase activated ability with once-per-turn limitation - should include appropriate duration or frequency constraint"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "count": 3,
+          "filter": {
+            "hasType": [
+              "Animal",
+              "Drum Kingdom"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:11:38.925Z"
+}

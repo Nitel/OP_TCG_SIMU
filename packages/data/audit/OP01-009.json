@@ -1,0 +1,24 @@
+{
+  "id": "OP01-009",
+  "name": "Carrot",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is invalid. For '[Trigger] Play this card', the correct trigger is 'OnPlay' (card is played)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:27:18.522Z"
+}

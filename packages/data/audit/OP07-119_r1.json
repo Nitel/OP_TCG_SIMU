@@ -1,0 +1,42 @@
+{
+  "id": "OP07-119_r1",
+  "name": "Portgas.D.Ace",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action missing condition. Effect states 'Add up to 1 card from the top of your deck to the top of your Life cards' unconditionally, but GiveKeyword [Rush] is conditional on 'if you have 2 or less Life cards'. FlipLife should not have a condition, but GiveKeyword requires a condition: HasLessOrEqualLifeCards with value 2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveKeyword action missing condition. The [Rush] keyword is only granted 'if you have 2 or less Life cards' — this requires a condition that is currently absent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn",
+          "condition": {
+            "type": "HasLessOrEqualLifeCards",
+            "value": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:14.333Z"
+}

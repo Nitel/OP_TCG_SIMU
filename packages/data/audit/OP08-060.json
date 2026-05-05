@@ -1,0 +1,47 @@
+{
+  "id": "OP08-060",
+  "name": "King",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay', not 'Activated'. The effect is triggered when the card is played."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is missing. Should check 'HasCardOnBoard' or equivalent to verify opponent has 5+ DON!! on field. Current condition 'Always' does not enforce the opponent DON!! requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration '[Your Turn]' text in card requires 'DuringYourTurn', not 'EndOfTurn'. The effect should last during this turn only."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "match": "opponent",
+        "cardType": "DON",
+        "count": {
+          "min": 5
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:28:51.612Z"
+}

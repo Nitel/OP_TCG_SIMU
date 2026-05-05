@@ -1,0 +1,47 @@
+{
+  "id": "OP09-106",
+  "name": "Nico Olvia",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect targets 'OwnLeader' but card text specifies 'Up to 1 of your [Nico Robin] Leader' — requires condition to filter for Nico Robin leader specifically"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and condition 'Always' is unexplained in card text — DrawCard and TrashFromHand actions have no corresponding game rule or text"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn' — should be 'DuringYourTurn'"
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP09-106",
+    "effectText": "[On Play] Up to 1 of your [Nico Robin] Leader gains +3000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Nico Robin"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:29:57.720Z"
+}

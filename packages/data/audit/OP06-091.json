@@ -1,0 +1,34 @@
+{
+  "id": "OP06-091",
+  "name": "Victoria Cindry",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Condition missing: must check 'LeaderHasType' for {Thriller Bark Pirates}, but DSL has 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but effect should trash from deck (top of deck), not hand. Should use 'ForceDiscard' with source 'Deck' or similar deck-trash mechanism"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Thriller Bark Pirates"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 5,
+        "source": "Deck",
+        "filter": {}
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:00:08.402Z"
+}

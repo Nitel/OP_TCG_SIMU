@@ -1,0 +1,63 @@
+{
+  "id": "OP08-062",
+  "name": "Charlotte Katakuri",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but missing condition that Leader must have {Big Mom Pirates} type"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'TrashFromHand' but card text says 'trash this Character' (the card itself on board), not from hand. Should be 'KO' or similar board removal"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter targets 'Charlotte Katakuri' for trashing, but the ability trashes 'this Character' (the card being activated). Filter is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "PlayFromHand filter missing critical cost constraint: 'cost of 3 or more that is equal to or less than the number of DON!! cards on opponent's field'. Current filter has no cost condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: LeaderHasType with value {Big Mom Pirates}"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Big Mom Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "Self"
+        }
+      ],
+      "thenActions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "subType": "Charlotte Katakuri",
+            "costMin": 3,
+            "costMaxByOpponentDonCount": true
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:29:02.144Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "EB02-044",
+  "name": "Sengoku",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong action type: uses SearchDeck but effect text says 'from your trash', should use PlayFromHand or similar action that targets trash zone",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong source zone: searches deck instead of trash pile",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing filter for black color requirement",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing filter for {Navy} type requirement",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing specification that character is played rested",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing Blocker keyword in DSL",
+      "field": "keywords"
+    }
+  ],
+  "suggestedDsl": {
+    "keywords": [
+      "Blocker"
+    ],
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromTrash",
+            "filter": {
+              "kind": "ByColorAndTypeAndCost",
+              "color": "Black",
+              "type": "Navy",
+              "maxCost": 4
+            },
+            "count": 1,
+            "mode": "Rested"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:21.591Z"
+}

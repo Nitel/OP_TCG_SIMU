@@ -1,0 +1,29 @@
+{
+  "id": "OP14-051",
+  "name": "Hatchan",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Cost '[DON!! x2]' should be represented as 'cost' property, not as a condition. HasRestingDon is a game state condition, not a cost requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "cost": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:14:04.501Z"
+}

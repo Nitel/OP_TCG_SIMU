@@ -1,0 +1,65 @@
+{
+  "id": "OP03-012",
+  "name": "Marshall.D.Teach",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Card text says 'trash 1 of your red Characters' (on board), not from hand. Should be 'KO' with filter for red Characters with 4000+ power."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty. Must specify: type includes 'Character', color/attribute is 'Red', power >= 4000."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action is missing 'optional: true' flag. Card text says 'You may trash', indicating this is optional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration 'EndOfBattle' is correct, but the sequence structure is wrong. The DrawCard and PowerBoost should be conditional on the trash being performed (thenActions of the trash action)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Structure is incorrect. DrawCard and PowerBoost must be chained as thenActions of the optional trash action, not separate actions at root level."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "KO",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "type": "Character",
+            "color": "Red",
+            "minPower": 4000
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            },
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:06.494Z"
+}

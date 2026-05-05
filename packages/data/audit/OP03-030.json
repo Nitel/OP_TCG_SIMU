@@ -1,0 +1,67 @@
+{
+  "id": "OP03-030",
+  "name": "Nami",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. The effect describes looking at 5 cards and revealing/adding one; this should be 'RevealFromHand' or a custom search. SearchDeck typically searches the entire deck, not a specific top-N pile."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByCost' with maxCost 5, but the card text specifies filtering by TYPE (green {East Blue} type, excluding Nami). Filter should use 'ByType' or 'ByName' conditions, not cost-based filtering."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing the core mechanic: 'look at top 5 cards' constraint. The DSL does not restrict the search to the top 5 cards of deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained by card text and appears to be erroneous/orphaned logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The effect should allow revealing UP TO 1 card (optional), then place rest at bottom in any order. Current DSL does not capture the ordering/placement of remaining cards back to deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 green {East Blue} type card other than [Nami] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "types": [
+                "green",
+                "East Blue"
+              ],
+              "excludeNames": [
+                "Nami"
+              ],
+              "maxFromTop": 5
+            },
+            "count": {
+              "min": 0,
+              "max": 1
+            },
+            "destination": "hand"
+          },
+          {
+            "type": "PlaySelf",
+            "destination": "deckBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:36.378Z"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "OP11-119",
+  "name": "Koby",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay effect uses 'Unblockable' keyword, but card text says 'can also attack active Characters' — should grant ability to attack active Characters, not unblockable. Keyword choice is mechanically wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn' — should be 'DuringYourTurn' per duration rules."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "OnAttack effect includes 'PlayFromHand' action, but card text does not allow playing cards — it allows placing 2 trash cards at bottom of deck. This action should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "PlayFromHand filter references 'Character' but the actual effect is placing trash cards at deck bottom (requires SearchDeck or similar mechanic), not playing from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].duration",
+      "description": "PowerBoost duration is 'EndOfTurn' but text specifies 'until the end of your opponent's next turn' — should be 'DuringOpponentTurn' or extended duration matching opponent's turn end."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-119",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackActiveCharacters",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "amount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "TrashCount",
+          "amount": 2,
+          "comparison": ">="
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "amount": 2,
+            "filter": {
+              "source": "Trash"
+            },
+            "placement": "BottomOfDeck"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "amount": 1
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:14.213Z"
+}

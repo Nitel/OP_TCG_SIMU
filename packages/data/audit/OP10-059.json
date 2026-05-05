@@ -1,0 +1,49 @@
+{
+  "id": "OP10-059",
+  "name": "Fo...llow...Me...and...I...Will...Gui...de...You",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect completely misrepresents card mechanics. Card searches top 5 cards for up to 1 Dressrosa Character, reveals it, adds to hand, then places rest at bottom in any order. DSL only performs a cost-based deck search with no reveal, no card limit, no bottom placement, and no deck organization."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByCost' (maxCost:5) instead of card type filter. Should filter by type='Dressrosa' and type='Character'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action doesn't support 'up to 1' card limitation or reveal mechanic. Missing reveal action and bottom deck placement logic."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Dressrosa} type Character card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "types": [
+                "Dressrosa",
+                "Character"
+              ]
+            },
+            "limit": 1,
+            "destination": "hand",
+            "reveal": true,
+            "fromTop": 5,
+            "restToBottom": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:35:25.384Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP04-051",
+  "name": "Who's.Who",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and inaccurate. Effect requires: (1) look at 5 cards from top of deck, (2) filter for {Animal Kingdom Pirates} type cards excluding [Who's.Who], (3) reveal up to 1 card, (4) add to hand, (5) place rest at bottom in any order. Current DSL has no filter specification, no card limit (up to 1), and no handling of remaining cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify: type={Animal Kingdom Pirates}, exclude=[Who's.Who], and limit to top 5 cards of deck. Current filter is {kind:Any} which is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Missing action for placing non-selected cards at bottom of deck in any order. Current DSL only handles the card added to hand."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Specific",
+            "types": [
+              "Animal Kingdom Pirates"
+            ],
+            "excludeNames": [
+              "Who's.Who"
+            ],
+            "limit": 5,
+            "selectUpTo": 1
+          },
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:33.382Z"
+}

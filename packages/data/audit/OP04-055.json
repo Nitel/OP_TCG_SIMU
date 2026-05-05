@@ -1,0 +1,62 @@
+{
+  "id": "OP04-055",
+  "name": "Plague Rounds",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (\"may trash\"), but DSL structure doesn't reflect optionality. The condition should allow skipping this action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "KO is incorrect for \"place 1 Character...at the bottom of the owner's deck\". Should be ReturnToHand or a deck-bottom placement action, not KO. KO removes from game; placement to deck bottom is different."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].type",
+      "description": "SearchDeck with destination 'board' is incorrect. Should use PlayFromHand or similar to play from trash, not search from deck. The card is being played from trash, not searched from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].filter",
+      "description": "Filter searches deck, but effect specifies playing from trash. Should target trash, not deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "subType": "Ice Oni"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "target": {
+                  "scope": "ChooseOwnCharacter",
+                  "maxCost": 4
+                },
+                "destination": "deckBottom"
+              },
+              {
+                "type": "PlayFromHand",
+                "filter": {
+                  "subType": "Ice Oni"
+                },
+                "source": "trash"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:44.053Z"
+}

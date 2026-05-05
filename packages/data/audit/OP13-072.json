@@ -1,0 +1,60 @@
+{
+  "id": "OP13-072",
+  "name": "Buggy",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should be 'LeaderHasType' (checking Leader type), not 'HasCardOnBoard' (which checks board state). Text says 'your Leader's type includes \"Roger Pirates\"'."
+    },
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing second condition: 'HasAttachedDon' to verify 'you have any DON!! cards given'."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "SearchDeck action missing 'Rest' action after adding DON!! card. Text says 'add up to 1 DON!! card from your DON!! deck and rest it'."
+    },
+    {
+      "severity": "minor",
+      "field": "actions[0].filter",
+      "description": "Filter should specify DON!! card type, not 'Any'. Should be more restrictive."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "AllOf",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "name": "Roger Pirates"
+          },
+          {
+            "type": "HasAttachedDon"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "DON!!"
+          },
+          "destination": "board",
+          "amount": 1
+        },
+        {
+          "type": "Rest",
+          "target": "LastSearched"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:03:44.524Z"
+}

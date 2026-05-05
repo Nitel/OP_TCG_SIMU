@@ -1,0 +1,46 @@
+{
+  "id": "OP07-037",
+  "name": "More Pizza!!",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete and incorrect. Card text requires: (1) look at top 5 cards, (2) reveal up to 1 Supernovas card (excluding 'More Pizza!!'), (3) add to hand, (4) place rest at bottom in any order. Current DSL does not implement the 5-card peek, exclusion filter, or bottom-deck placement logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with DrawCard and Trigger trigger is not supported by card text. No conditional draw exists in the official text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses ByName which searches entire deck. Should use type-based filtering for {Supernovas} and exclude 'More Pizza!!' specifically."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card other than [More Pizza!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Supernovas",
+              "excludeName": "More Pizza!!"
+            },
+            "count": 1,
+            "destination": "hand",
+            "deckPosition": "top5",
+            "restToBottom": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:12.671Z"
+}

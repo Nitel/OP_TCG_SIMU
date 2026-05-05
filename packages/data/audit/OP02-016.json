@@ -1,0 +1,39 @@
+{
+  "id": "OP02-016",
+  "name": "Magura",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn' to match the temporary nature of the boost within the turn scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing 'hasType' condition for red Characters. DSL only specifies maxCost:1 but effect text requires 'red Characters', which should be enforced via hasType:'Red' or similar condition filter."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 1,
+          "conditions": [
+            {
+              "type": "HasCardType",
+              "value": "Red"
+            }
+          ]
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:51.382Z"
+}

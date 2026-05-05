@@ -1,0 +1,41 @@
+{
+  "id": "OP04-083_r2",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing protective effect: 'None of your Characters can be K.O.'d by effects until the start of your next turn' is not represented in DSL. This is a critical part of the card's On Play effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence is incomplete. The protection effect must come before DrawCard and TrashFromHand, with proper duration 'UntilStartOfNextTurn' to match 'until the start of your next turn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOByEffects",
+          "duration": "UntilStartOfNextTurn",
+          "target": "YourCharacters"
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:56.849Z"
+}

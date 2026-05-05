@@ -1,0 +1,44 @@
+{
+  "id": "OP02-050",
+  "name": "Inazuma",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasCardOnBoard' with count ≤1 to represent '1 or less cards in hand', not 'Always'. The power boost is conditional on hand size."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' or a continuous check, not 'OnPlay'. This is a static ability that should apply whenever the condition is met during the game, not just on play."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Blocker keyword is missing from DSL. The [Blocker] ability should be represented (though it may be a keyword applied via 'GiveKeyword' action or card trait, depending on DSL structure)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "count": 1,
+        "operator": "<="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:04.244Z"
+}

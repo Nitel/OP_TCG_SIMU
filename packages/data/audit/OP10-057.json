@@ -1,0 +1,90 @@
+{
+  "id": "OP10-057",
+  "name": "Leo",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: LeaderIsName 'Usopp' — effect only triggers if Leader is Usopp"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing optional cost: Rest your Leader or 1 Stage card — this is a required decision point before effect resolves"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand is incorrect — should SearchDeck to look at top 5 cards, then RevealFromHand to reveal up to 2 Dressrosa cards (excluding Leo)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should target Dressrosa type cards excluding Leo, not generic Character"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Reveal count should be 'up to 2', not 1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "SearchDeck action is in wrong sequence — should come before RevealFromHand; also missing 'count' and proper filter for Dressrosa exclusion"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing step: place remaining cards at bottom of deck in any order — requires ReorderDeck or equivalent"
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP10-057",
+    "effectText": "[On Play] You may rest your Leader or 1 of your Stage cards: If your Leader is [Usopp], look at 5 cards from the top of your deck; reveal up to 2 {Dressrosa} type cards other than [Leo] and add them to your hand. Then, place the rest at the bottom of your deck in any order, and trash 1 card from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "value": "Usopp"
+        },
+        "cost": {
+          "optional": true,
+          "description": "Rest your Leader or 1 Stage card"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "destination": "reveal",
+            "filter": {
+              "kind": "Any"
+            }
+          },
+          {
+            "type": "RevealFromHand",
+            "count": 2,
+            "upTo": true,
+            "destination": "hand",
+            "filter": {
+              "hasType": "Dressrosa",
+              "excludeName": "Leo"
+            }
+          },
+          {
+            "type": "PlayFromHand",
+            "description": "Place remaining cards at bottom of deck in any order"
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:25:41.880Z"
+}

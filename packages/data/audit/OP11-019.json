@@ -1,0 +1,53 @@
+{
+  "id": "OP11-019",
+  "name": "Glorp Web!!",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second PowerBoost action is missing its condition. The effect states 'if your opponent has a Character with 6000 power or more' — this condition must be added before the action executes."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "The second trigger block is unnecessary and incorrect. The conditional check should be part of the first effect as a condition on the second action, not a separate trigger."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' or similar for counter effects, not 'EndOfBattle'. Verify card text intent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "OpponentHasCharacterWithPowerOrMore",
+            "power": 6000
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:41:32.101Z"
+}

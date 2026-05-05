@@ -1,0 +1,39 @@
+{
+  "id": "EB01-006_r1",
+  "name": "Tony Tony.Chopper",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringTurn' (effect applies during this turn only), not 'EndOfTurn'. Text states 'during this turn' which indicates the effect lasts for the current attacking turn, not until end of turn phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'UpTo1' quantifier. Text states 'Give up to 1 of your opponent's Characters' indicating optional selection of up to one character, not unbounded choice."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantifier": "UpTo1"
+          },
+          "duration": "DuringTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:14.626Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP07-119",
+  "name": "Portgas.D.Ace",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is missing the conditional check. The effect should only flip 1 life card, then conditionally grant Rush only if life cards ≤ 2. Current DSL applies FlipLife unconditionally."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveKeyword (Rush) is missing condition HasLifeCardsLessOrEqual:2. Rush should only be granted if the character has 2 or fewer Life cards after the flip."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is EndOfTurn but text says 'during this turn' which is equivalent. This is acceptable but DuringYourTurn would be more precise for Rush mechanics."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP07-119",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfTurn",
+            "condition": {
+              "type": "LifeCardsLessOrEqual",
+              "value": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:11:33.691Z"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "OP14-076",
+  "name": "Ever White",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Main ability should use trigger 'Activated' with cost specification. DSL lacks 'cost' field to represent 'rest 2 of your DON!! cards' requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has type {Donquixote Pirates}, not if card is on board. Should be 'LeaderHasType' with type 'Donquixote Pirates'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should 'AttachDon' (add DON from deck and rest it), not 'GiveDon'. GiveDon is for generic DON additions without rest specification."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].duration",
+      "description": "Duration should be 'DuringThisBattle' or 'UntilEndOfBattle' for clarity; 'EndOfBattle' is acceptable but less standard."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP14-076",
+    "effectText": "[Main] You may rest 2 of your DON!! cards: If your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and rest it.\n[Counter] Your Leader gains +3000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "cost": {
+          "type": "Rest",
+          "count": 2,
+          "target": {
+            "scope": "OwnDon"
+          }
+        },
+        "condition": {
+          "type": "LeaderHasType",
+          "typeValue": "Donquixote Pirates"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "source": "DONDeck",
+            "rest": true
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:16:02.888Z"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "OP15-032",
+  "name": "Brook",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action target should specify quantity limit 'up to 1'. Current target lacks quantity constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely. DSL only contains OnPlay effect. [Activate: Main] effect with conditional Leader type check and Character setup is completely absent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": {
+              "type": "UpTo",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Straw Hat Crew"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlaySelf",
+          "optional": true,
+          "cost": "Trash"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseYourCharacter",
+            "quantity": {
+              "type": "UpTo",
+              "value": 1
+            },
+            "filter": {
+              "baseCost": {
+                "type": "LessOrEqual",
+                "value": 8
+              }
+            },
+            "setActive": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:24:25.655Z"
+}

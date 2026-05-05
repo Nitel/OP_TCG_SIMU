@@ -1,0 +1,27 @@
+{
+  "id": "OP02-067",
+  "name": "Arabesque Brick Fist",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but card effect text says 'Return up to 1 Character' with no restriction to opponent's characters. Should be 'ChooseCharacter' to allow selecting any character (including own)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 4,
+          "maxAmount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:31.960Z"
+}

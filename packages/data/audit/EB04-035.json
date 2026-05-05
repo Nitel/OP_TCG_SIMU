@@ -1,0 +1,58 @@
+{
+  "id": "EB04-035",
+  "name": "Hitokiri Kamazo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' or event-based, not 'Activated'. This is a passive effect triggered when a DON!! card on field is returned to deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. Text contains '[Your Turn]' which requires duration:'DuringYourTurn', not Permanent or EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type should be 'LeaderHasType' not 'HasCardOnBoard'. The condition checks if Leader has {Kid Pirates} type, not if a card is on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions are incomplete. GiveDon should attach a DON!! from deck (requires SearchDeck behavior), and Rest should target the attached DON, not Self. The card being returned to deck must be monitored as a trigger condition."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "[Once Per Turn] restriction is not encoded in DSL. This should be captured in frequency limits or trigger constraints."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Kid Pirates"
+      },
+      "duration": "DuringYourTurn",
+      "frequency": "OncePerTurn",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "cardType": "DON!!",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "LastSearched"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:09:40.299Z"
+}

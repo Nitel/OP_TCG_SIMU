@@ -1,0 +1,41 @@
+{
+  "id": "OP08-082",
+  "name": "Sasaki",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has game text but effects array is empty. Should contain one Activated effect with Rest action, condition checking HasAttachedDon, and PowerBoost action applying −2 cost with DuringYourTurn duration."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          },
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "value": -2,
+            "duration": "DuringYourTurn",
+            "optional": true,
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:30:30.146Z"
+}

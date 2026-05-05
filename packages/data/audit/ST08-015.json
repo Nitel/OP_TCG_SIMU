@@ -1,0 +1,33 @@
+{
+  "id": "ST08-015",
+  "name": "Gum-Gum Pistol",
+  "set": "ST-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect has trigger 'Trigger' with no associated condition. A 'Trigger' effect requires a specific trigger condition (e.g., 'OnAttack', 'OnKO', etc.) or a Conditions array. This effect is incomplete and cannot execute."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Second effect draws a card, but the card text only describes K.O. effect. No draw effect is mentioned in the official text. This action should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:03:33.146Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP05-102_r1",
+  "name": "Gedatsu",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action lacks required condition filtering. Text specifies K.O. target must have cost ≤ opponent's Life card count. DSL missing condition that evaluates opponent's Life count and restricts character selection by cost threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is unrestricted. Must include cost-based condition constraint or use conditional targeting mechanism to enforce 'cost equal to or less than number of opponent's Life cards' rule."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] K.O. up to 1 of your opponent's Characters with a cost equal to or less than the number of your opponent's Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1,
+              "costLimit": "OpponentLifeCount"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:46.021Z"
+}

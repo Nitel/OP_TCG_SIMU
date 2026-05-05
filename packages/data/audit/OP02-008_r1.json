@@ -1,0 +1,55 @@
+{
+  "id": "OP02-008_r1",
+  "name": "Jozu",
+  "set": "ST-15",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text specifies two conditions: (1) 'If you have 2 or less Life cards' AND (2) 'your Leader's type includes \"Whitebeard Pirates\"'. Should be a compound condition checking both TurnCount/Life state and LeaderHasType."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'Activated' but this is a static/passive ability that checks conditions continuously, not an activated ability. Should be 'Trigger' or 'OnPlay' depending on intended behavior."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but [Rush] from this effect should persist for the turn the card is played (permanent during that turn). Should be 'DuringYourTurn' or 'Permanent' depending on design intent."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "All",
+          "conditions": [
+            {
+              "type": "TurnCount",
+              "value": 2,
+              "comparison": "LessOrEqual"
+            },
+            {
+              "type": "LeaderHasType",
+              "value": "Whitebeard Pirates"
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:10:25.064Z"
+}

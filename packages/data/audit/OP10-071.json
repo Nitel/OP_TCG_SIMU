@@ -1,0 +1,74 @@
+{
+  "id": "OP10-071",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely. Card has two separate abilities: [On Play] and [On Your Opponent's Attack]. DSL only contains the first effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "[On Play] ability requires DON!! cost of −1 as a condition/cost before the PlayFromHand action can be executed. Current DSL lacks any cost/condition mechanism."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing [On Your Opponent's Attack] effect with [Once Per Turn] trigger. Should include: rest 1 DON!! card as cost, then add up to 1 DON!! from DON!! deck and set as active."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Donquixote Pirates",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "optional": true,
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "DON!!Card",
+          "optional": true,
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "type": "DON!!"
+          },
+          "optional": true,
+          "count": 1,
+          "setAsActive": true
+        }
+      ],
+      "oncePerTurn": true
+    }
+  ],
+  "auditedAt": "2026-05-05T11:36:21.215Z"
+}

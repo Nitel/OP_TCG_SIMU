@@ -1,0 +1,71 @@
+{
+  "id": "EB04-030",
+  "name": "Kaido",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Animal Kingdom Pirates} type, not if a card is on board. Should be LeaderHasType:Animal Kingdom Pirates"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn' — text states 'during this turn' which means the effect lasts only for the current turn phase"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action should include cost condition in target specification; currently missing explicit cost constraint in action definition"
+    },
+    {
+      "severity": "critical",
+      "field": "root",
+      "description": "Missing first effect: 'If this Character would be K.O.'d, you may return 1 DON!! card from your field to your DON!! deck instead.' This is a Counter trigger that should prevent K.O."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseSelfDON",
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Animal Kingdom Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:09:09.546Z"
+}

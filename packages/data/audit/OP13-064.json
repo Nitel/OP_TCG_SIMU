@@ -1,0 +1,46 @@
+{
+  "id": "OP13-064",
+  "name": "Gol.D.Roger",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states 'until the end of your opponent's next End Phase' but DSL has 'EndOfTurn'. This means the boost lasts through opponent's next turn, not just current turn. Should be 'DuringOpponentTurn' or equivalent multi-turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Text states 'until the end of your opponent's next End Phase' but DSL has 'EndOfTurn'. Should match opponent's next End Phase duration, not current turn's end."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "UntilEndOfOpponentNextEndPhase"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:03:09.799Z"
+}

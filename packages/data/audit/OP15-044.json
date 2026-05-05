@@ -1,0 +1,43 @@
+{
+  "id": "OP15-044",
+  "name": "Koala",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect must: (1) look at 3 cards from top of deck, (2) reveal up to 1 Dressrosa Event, (3) add it to hand, (4) place rest at bottom in any order. Current DSL only searches by name, missing the multi-step reveal/sort mechanic. Filter should use ByType for Event type, not ByName."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses ByName instead of ByType. Effect requires filtering by {Dressrosa} type AND Event type, not a specific card name."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Event",
+            "subtype": "Dressrosa"
+          },
+          "destination": "hand",
+          "count": {
+            "min": 0,
+            "max": 1
+          },
+          "deckPosition": "top",
+          "deckPositionCount": 3,
+          "remainderPlacement": "bottom",
+          "remainderOrder": "any"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:25:21.720Z"
+}

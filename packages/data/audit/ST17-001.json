@@ -1,0 +1,42 @@
+{
+  "id": "ST17-001",
+  "name": "Crocodile",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing entire conditional logic. DSL must include: (1) reveal top deck card, (2) check if card has {The Seven Warlords of the Sea} type, (3) DrawCard and place card on top only if condition is true. Current DSL unconditionally draws 2 cards without any reveal or condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to place 1 card from hand at top of deck. No mechanism defined for this effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "RevealFromDeck",
+          "count": 1,
+          "checkType": "The Seven Warlords of the Sea"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "PlaceCardOnTopOfDeck",
+          "source": "Hand",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:12:40.661Z"
+}

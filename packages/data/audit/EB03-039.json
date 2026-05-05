@@ -1,0 +1,59 @@
+{
+  "id": "EB03-039",
+  "name": "Ulti",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if the Leader has {Animal Kingdom Pirates} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition structure incorrect. Should use LeaderHasType with type value, not name field with card name."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].type",
+      "description": "Action type should be 'PlayFromHand' not 'SearchDeck'. The card is played from trash, not searched from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].destination",
+      "description": "Filter is incomplete. Must specify: maxCost: 6000, hasBaseEffect: false, kind: 'Character'. Current filter only has cost restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "types": [
+        "Animal Kingdom Pirates"
+      ]
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "source": "hand"
+      },
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "source": "trash",
+        "filter": {
+          "kind": "Character",
+          "maxPower": 6000,
+          "hasBaseEffect": false
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:17:19.479Z"
+}

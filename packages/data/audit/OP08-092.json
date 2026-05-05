@@ -1,0 +1,43 @@
+{
+  "id": "OP08-092",
+  "name": "Page One",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but effect searches trash, not deck. Should be 'PlayFromHand' or a trash-search action. Official text: 'Play up to 1 [Ulti] with a cost of 4 or less from your trash.'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing filter for card type '[Ulti]'. Current filter only checks cost; must also restrict to Ulti type cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'maxCount' constraint. Effect states 'up to 1', requiring maxCount:1 limit."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "ByType",
+              "type": "Ulti",
+              "maxCost": 4
+            },
+            "source": "trash",
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:31:16.777Z"
+}

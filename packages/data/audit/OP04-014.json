@@ -1,0 +1,28 @@
+{
+  "id": "OP04-014",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Banish is a keyword ability that should be represented in effects array, not left empty. It modifies how damage interacts with cards (trashing without Trigger activation)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Banish"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:26.023Z"
+}

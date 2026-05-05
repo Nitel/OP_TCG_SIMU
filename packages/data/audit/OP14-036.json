@@ -1,0 +1,52 @@
+{
+  "id": "OP14-036",
+  "name": "Strive to Surpass me, Roronoa Zoro!!!",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "PowerBoost action is missing the cost condition. The effect states 'You may rest 1 of your cards' — this is a cost that must be represented as a condition before the action, not a separate trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and targeting opponent's character is incorrect. The card text does not mention affecting opponent cards. This entire effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' to match 'during this battle' in card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "OwnCharacterOrLeader"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:12:55.279Z"
+}

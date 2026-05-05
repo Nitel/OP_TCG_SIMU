@@ -1,0 +1,59 @@
+{
+  "id": "OP04-109",
+  "name": "Tonoyasu",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'TrashFromBoard' or similar (trashing this Character from board during Activate), not 'TrashFromHand'. The card is trashed as a cost of activation, not from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'excludeSelf:true' is incorrect. The effect must trash THIS Character (self) as the activation cost. Should target self explicitly or use appropriate cost mechanism."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope incomplete. Must filter by type '{Land of Wano}' and specify 'Leader or Character'. Current scope 'ChooseOwnCharacter' does not enforce type restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text says 'during this turn' which should map to 'DuringYourTurn', not EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromBoard",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "type": "Land of Wano",
+                "cardType": [
+                  "Leader",
+                  "Character"
+                ]
+              },
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:37.843Z"
+}

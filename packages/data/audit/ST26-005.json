@@ -1,0 +1,105 @@
+{
+  "id": "ST26-005",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-26",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: Leader must be multicolored. Current condition is 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: Opponent must have 5 or more DON!! cards on field."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: Leader must have type 'Straw Hat Crew'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringOpponentTurn' (until end of opponent's next End Phase), not 'EndOfTurn'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should set base power to 7000, not boost by 7000. Requires 'SetPower' or equivalent action type, or clarification in amount field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger (OnAttack) has identical conditions and actions to OnPlay. Both should share same condition logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "type": "LeaderHasAnyType",
+            "values": [
+              "Straw Hat Crew"
+            ]
+          },
+          {
+            "type": "LeaderIsMulticolored"
+          },
+          {
+            "type": "OpponentFieldDonCount",
+            "comparison": ">=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "type": "LeaderHasAnyType",
+            "values": [
+              "Straw Hat Crew"
+            ]
+          },
+          {
+            "type": "LeaderIsMulticolored"
+          },
+          {
+            "type": "OpponentFieldDonCount",
+            "comparison": ">=",
+            "value": 5
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:56.885Z"
+}

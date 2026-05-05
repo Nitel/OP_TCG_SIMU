@@ -1,0 +1,40 @@
+{
+  "id": "OP12-117",
+  "name": "Slam Gibson",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Main ability should trigger 'OnPlay' or similar, not 'Activated'. The text 'You may rest 5 of your DON!! cards' describes a cost/activation condition, not a trigger. However, the DSL structure suggests this is a manual activated ability during your turn, which would be 'Activated' only if it's a continuous effect you can activate. Given the phrasing 'You may', this should likely be 'Activated' with a cost of RestDon×5, but the cost is missing entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasCardOnBoard' is checking for a card name, but should be 'LeaderHasType' to check if 'your Leader has the {Supernovas} type'. Current implementation checks board state, not leader type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. The effect adds a Character 'to the top or bottom of the owner's Life cards face-down', which is a unique action not in the standard list. This describes placing a card into the Life zone, not into hand. No standard action matches this effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter specifies 'ByCost' with maxCost 9, but missing 'kind' specification for Character type. Should filter Characters only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination is 'hand', but card should go to Life cards (face-down), not hand. This is fundamentally wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost specification: 'rest 5 of your DON!! cards' should be represented as a cost parameter, not implicit."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:58:18.406Z"
+}

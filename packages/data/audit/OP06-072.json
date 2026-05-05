@@ -1,0 +1,51 @@
+{
+  "id": "OP06-072",
+  "name": "Cosette",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing required checks: LeaderHasType for {GERMA 66} and comparison of DON!! counts (your field vs opponent's field). Current condition is 'Always' but card requires both type check AND DON count differential check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' or 'StartOfTurn', not 'OnAttacked'. The effect is a static conditional ability that should be checked when relevant, not triggered by being attacked. The attack response (Blocker activation) is a separate game mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is incorrect. Blocker is a permanent keyword granted to the character once conditions are met. Should be 'Permanent' or omitted (permanent by default)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "AllOf",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "GERMA 66"
+        },
+        {
+          "type": "DonComparison",
+          "yourFieldLessThan": 2,
+          "opponentField": true
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:58:40.704Z"
+}

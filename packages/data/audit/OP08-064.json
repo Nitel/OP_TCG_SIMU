@@ -1,0 +1,39 @@
+{
+  "id": "OP08-064",
+  "name": "Charlotte Cracker",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant effect text but effects array is empty. Must define Activated trigger with DON cost and PlayFromHand action for Biscuit Warrior."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "name": "Biscuit Warrior"
+            },
+            "amount": 1
+          }
+        ],
+        "cost": {
+          "don": 1
+        },
+        "frequency": "OncePerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:29:10.330Z"
+}

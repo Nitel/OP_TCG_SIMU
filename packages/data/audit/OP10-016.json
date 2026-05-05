@@ -1,0 +1,54 @@
+{
+  "id": "OP10-016",
+  "name": "Monet",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action requires a 'condition' field to specify that only rested DON!! cards can be given. The DSL does not restrict to rested cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should be 'ChooseOwnCharacterOrLeader' but the action should clarify it applies DON!! cards FROM rested cards, not just attachment."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Missing 'cost' field to indicate this is an Activate action requiring the Character to rest. Should include cost:{type:'Rest',target:{scope:'Self'}}."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 2,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
+        },
+        "condition": {
+          "type": "HasRestingDon"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:32:04.063Z"
+}

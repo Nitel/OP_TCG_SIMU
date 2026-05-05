@@ -1,0 +1,44 @@
+{
+  "id": "ST12-002",
+  "name": "Kuina",
+  "set": "ST-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action rests Self unconditionally, but card text says 'You may rest this Character' — this should be optional/conditional, not automatic. The card allows you to rest this character as part of the activation cost/choice, not forces it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained and does not match card text. No effect in the card text describes playing this character from anywhere."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Action should be optional ('You may') but DSL lists it as mandatory. Needs conditional logic or 'optional' flag to reflect 'up to 1'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:06:26.831Z"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "OP05-115",
+  "name": "Two-Hundred Million Volts Amaru",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action is missing conditional check. Effect text states 'if you have 1 or less Life cards' — this condition must be represented as a condition gate, not an unconditional action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with TrashFromHand and FlipLife) does not appear in card text. The DSL contains an extra effect that is not supported by the official card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify 'Leader or Character' — currently uses generic 'ChooseOwnCharacter'. Text states 'your Leader or Character cards'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest action requires a conditional check for life count before being executed. Must add condition: HasLifeOrLess with value 1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "condition": {
+            "type": "LifeCount",
+            "value": 1,
+            "comparison": "LessOrEqual"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:52:59.426Z"
+}

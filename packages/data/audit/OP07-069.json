@@ -1,0 +1,35 @@
+{
+  "id": "OP07-069",
+  "name": "Pickles",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain trigger and condition logic for protection from opponent's KO effects."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "YourCharactersOfType",
+          "targetParams": {
+            "type": "Foxy Pirates",
+            "excludeName": "Pickles"
+          },
+          "keyword": "Cannot be KO'd by opponent's effects",
+          "conditionMet": "HasAttachedDon <= OpponentHasAttachedDon"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:07:40.124Z"
+}

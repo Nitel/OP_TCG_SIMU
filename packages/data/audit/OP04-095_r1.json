@@ -1,0 +1,73 @@
+{
+  "id": "OP04-095_r1",
+  "name": "Barrier!!",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First PowerBoost should target same card as conditional boost. Scope should reference 'that card' after selection, not allow re-selection."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].condition",
+      "description": "Condition should be 'TrashCount' >= 15, not 'Always'. Text says 'if you have 15 or more cards in your trash'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].target",
+      "description": "Second PowerBoost must target the SAME card selected in first effect, not allow new selection. DSL architecture requires card reference or unified selection logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[2]",
+      "description": "Third effect (Trigger with DrawCard/TrashFromHand) has no basis in card text. Text contains only power boosts; this effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[].duration",
+      "description": "Duration 'EndOfBattle' is correct for battle-scoped effects, but effects array structure doesn't properly chain conditional logic—second boost should only execute if condition met AND card was targeted."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP04-095_r1",
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 15 or more cards in your trash, that card gains an additional +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxTargets": 1
+            },
+            "duration": "EndOfBattle",
+            "thenActions": [
+              {
+                "condition": {
+                  "type": "TrashCount",
+                  "comparison": ">=",
+                  "value": 15
+                },
+                "actions": [
+                  {
+                    "type": "PowerBoost",
+                    "amount": 2000,
+                    "target": {
+                      "scope": "LastTargeted"
+                    },
+                    "duration": "EndOfBattle"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:34:54.259Z"
+}

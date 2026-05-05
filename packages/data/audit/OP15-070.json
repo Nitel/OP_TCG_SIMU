@@ -1,0 +1,63 @@
+{
+  "id": "OP15-070",
+  "name": "Fuza",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Text states '[Opponent's Turn]' which indicates the power reduction applies during opponent's turn only. Duration should be 'DuringOpponentTurn', not 'EndOfTurn'. This is a significant difference in when the effect applies."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'PowerBoost' with positive amount suggests increasing power. However, the card text says 'base power become 6000', which is a SET operation (not a boost). Should use 'SetBasePower' or similar if available, or clarify that this sets the value to exactly 6000, not adds 6000."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope 'AllOwnCharacters' is too broad. The effect should specifically target '[Shura] cards' and 'this Character', not all own characters. Needs filtering by card type '[Shura]'."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Unblockable",
+            "target": {
+              "scope": "AllOwnCharacters",
+              "filter": {
+                "cardType": "Shura"
+              }
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 6000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "filter": {
+                "cardType": "Shura"
+              }
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:27:16.498Z"
+}

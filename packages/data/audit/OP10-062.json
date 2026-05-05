@@ -1,0 +1,55 @@
+{
+  "id": "OP10-062",
+  "name": "Violet",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' checking for {Donquixote Pirates}, not 'HasRestingDon'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be a DON cost payment first (cost:-1), then a conditional search. Current action is SearchDeck but missing DON cost deduction and conditional logic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify purple Event cards from trash, not 'Any' from deck. Should filter by color:'purple' and cardType:'Event', with source:'trash'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination is correct (hand), but the action sequence is wrong: cost payment must precede the conditional search"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "costs": [
+      {
+        "type": "GiveDon",
+        "target": "self",
+        "amount": -1
+      }
+    ],
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Donquixote Pirates"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "color": "purple",
+          "cardType": "Event"
+        },
+        "source": "trash",
+        "destination": "hand",
+        "amount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:35:35.934Z"
+}

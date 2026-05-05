@@ -1,0 +1,58 @@
+{
+  "id": "OP05-082",
+  "name": "Shirahoshi",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action: SearchDeck (place 2 cards from trash at bottom of deck). Current DSL only includes Rest and ForceDiscard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition: opponent must have 6+ cards in hand for ForceDiscard to trigger. No condition specified in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "ForceDiscard target unclear: should target 'opponent' hand, not ambiguous default scope."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "placement": "BottomOfDeck",
+          "source": "Trash"
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "Opponent"
+          }
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "target": {
+          "scope": "Opponent"
+        },
+        "count": 6,
+        "comparison": ">="
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:32.180Z"
+}

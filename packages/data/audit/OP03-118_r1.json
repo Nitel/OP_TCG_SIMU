@@ -1,0 +1,37 @@
+{
+  "id": "OP03-118_r1",
+  "name": "Ikoku Sovereignty",
+  "set": "ST-20",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and actions TrashFromHand + FlipLife is not present in card text. Only Counter effect with power boost is described."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' or equivalent battle-scoped duration, not 'EndOfBattle'. 'During this battle' indicates effect lasts for battle resolution, not until end."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 5000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:15:23.752Z"
+}

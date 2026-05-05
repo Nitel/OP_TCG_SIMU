@@ -1,0 +1,68 @@
+{
+  "id": "OP12-081",
+  "name": "Koala",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasCardOnBoard' with name parameter is not standard syntax. Should use a proper condition type that checks for multiple Characters with cost 8+. The condition needs to verify '2 or more Characters with cost 8 or more' but current DSL lacks cost-filtering capability in conditions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing target specification: 'your opponent's Leader' is not captured. OnAttack trigger needs clarification that attack target is opponent's Leader."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing critical condition. '[Once Per Turn]' + 'when opponent plays Character with cost 8+' OR 'when opponent plays Character using Character effect' – these activation conditions are not represented in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "'Activated' trigger is too vague. Should specify the actual trigger conditions: opponent playing 8+ cost Character OR opponent playing Character via Character effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action 'FlipLife' with count:1 flips 1 Life card to hand. Text says 'Your opponent adds 1 card from top of their Life cards to their hand' – this is correct action, but player context is ambiguous. Presume this is opponent's action (opponent gains this benefit)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "count": 2,
+          "minCost": 8
+        },
+        "targetType": "OpponentLeader",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "activationCondition": "OpponentPlaysCharacterCost8PlusOrViaEffect",
+        "limitedUse": "OncePerTurn",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "player": "Opponent",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:34.732Z"
+}

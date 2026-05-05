@@ -1,0 +1,55 @@
+{
+  "id": "OP07-093",
+  "name": "Rob Lucci",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the condition 'You may place 3 cards from your trash at the bottom of your deck' which should gate the entire effect. This is an optional action that triggers the rest of the sequence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to place 3 cards from trash to bottom of deck (SearchDeck or similar with trash source)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing final action 'you may place up to 1 card from your opponent's trash at the bottom of their deck' (conditional placement action)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ForceDiscard targets opponent's hand correctly, but the action sequence should only trigger IF the player chooses to place 3 cards from trash first"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "source": "trash",
+          "destination": "bottomOfDeck",
+          "count": 3,
+          "optional": true
+        },
+        {
+          "type": "ForceDiscard",
+          "target": "opponent",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "source": "opponentTrash",
+          "destination": "opponentBottomOfDeck",
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:09:32.596Z"
+}

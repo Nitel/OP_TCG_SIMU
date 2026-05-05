@@ -1,0 +1,71 @@
+{
+  "id": "OP02-064",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card effect occurs 'When Attacking', which is the attack trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "Action type 'TrashFromHand' is correct for the first optional cost, but the subsequent actions misrepresent the effect. The card does not KO (destroy) characters; it places them 'at the bottom of the owner's deck'."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].thenActions[0].type",
+      "description": "Second action should not be 'KO'. The effect states 'Place up to 1 Character with a cost of 2 or less at the bottom of the owner's deck', which is a different action (likely 'ReturnToHand' or similar deck manipulation, but KO is incorrect)."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].thenActions[1]",
+      "description": "The second thenAction describes the end-of-battle effect. This should be a separate effect with its own trigger or duration flag, not chained as a thenAction. The text states 'Then, at the end of this battle, place this Character at the bottom of the owner's deck'—this is delayed/deferred, not immediate."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].thenActions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incorrect. The effect places 'a Character'—likely an opponent's character, but the scope should reflect the game context more clearly. Also, the target should be optional ('up to 1')."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 2
+              },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "trigger": "EndOfTurn",
+          "actions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:29.496Z"
+}

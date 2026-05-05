@@ -1,0 +1,38 @@
+{
+  "id": "OP10-060",
+  "name": "Barrier-Barrier Pistol",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but card text says 'at the bottom of the owner's deck' — should be a deck placement action, not hand return. No standard action exists for this; likely needs custom handling or 'SearchDeck' variant."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct, but missing 'maxCount':1 to enforce 'up to 1' limit."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Place up to 1 of your opponent's Characters with 6000 power or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 6000,
+              "maxCount": 1
+            },
+            "note": "DSL lacks standard action for 'bottom of deck' — this placeholder uses ReturnToHand. Requires custom implementation or new action type."
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:35:25.724Z"
+}

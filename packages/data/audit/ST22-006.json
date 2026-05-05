@@ -1,0 +1,52 @@
+{
+  "id": "ST22-006",
+  "name": "Jozu",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing reveal mechanic and conditional logic. DSL does not implement the 'Reveal 1 card from top of deck' step or the type check for 'Whitebeard Pirates'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing trash action. Effect should conditionally draw 2 AND trash 1, but only the draw is present."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "No condition gate. The draw and trash are unconditional, but should only trigger if revealed card has type 'Whitebeard Pirates'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "source": "TopOfDeck",
+          "count": 1
+        },
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "RevealedCardHasType",
+            "value": "Whitebeard Pirates"
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "condition": {
+            "type": "RevealedCardHasType",
+            "value": "Whitebeard Pirates"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:16:55.203Z"
+}

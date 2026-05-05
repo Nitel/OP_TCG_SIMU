@@ -1,0 +1,53 @@
+{
+  "id": "EB02-021",
+  "name": "Gum-Gum Giant Pistol",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Trigger is 'OnPlay' but this is an event card with [Main] timing, should use 'Activated' trigger",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing type filter for {Straw Hat Crew} on the power boost target",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "critical",
+      "description": "Second action is completely wrong - should prevent the boosted character from becoming active in next Refresh Phase, not rest an opponent's character",
+      "field": "effects[0].actions[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 6000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1,
+              "filter": {
+                "type": "Straw Hat Crew"
+              }
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBecomeActive",
+            "target": {
+              "scope": "SameAsAbove"
+            },
+            "duration": "UntilNextRefreshPhase"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:20.400Z"
+}

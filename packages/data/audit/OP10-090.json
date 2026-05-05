@@ -1,0 +1,34 @@
+{
+  "id": "OP10-090",
+  "name": "Franky",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'PlayFromHand' is incorrect. Card text specifies playing from trash, not hand. Should be 'PlayFromTrash' or similar trash-sourced action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'rested' state modifier. Card text explicitly states cards are played 'rested', which must be captured in the action."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "subType": "Dressrosa",
+          "cardType": "Character",
+          "maxCost": 3
+        },
+        "state": "Rested",
+        "maxCount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:37:48.541Z"
+}

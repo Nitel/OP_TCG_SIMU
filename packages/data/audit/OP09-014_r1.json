@@ -1,0 +1,37 @@
+{
+  "id": "OP09-014_r1",
+  "name": "Limejuice",
+  "set": "ST-23",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has On Play trigger with effect text that should block opponent's Blocker activation, but no effects are defined."
+    },
+    {
+      "severity": "critical",
+      "field": "effectText",
+      "description": "Trigger and condition are missing from DSL. Should have OnPlay trigger with condition targeting opponent's Blockers (power ≤4000) and duration DuringYourTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "effects": [
+      {
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "OpponentBlockersWithPowerOrLess",
+            "power": 4000,
+            "keyword": "CannotActivate",
+            "duration": "DuringYourTurn",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:18:10.583Z"
+}

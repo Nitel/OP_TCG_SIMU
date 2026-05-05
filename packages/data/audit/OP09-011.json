@@ -1,0 +1,51 @@
+{
+  "id": "OP09-011",
+  "name": "Hongo",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should not be in the same effect group as conditional power reduction. The card text shows Rest is mandatory (\"You may rest this Character\") but the power reduction is conditional (\"If your Leader...\"). Rest should execute regardless; power reduction only if condition met."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should be \"ChooseOpponentCharacter\" with optional quantity (up to 1), but DSL must clarify this is optional selection. Current DSL lacks optional/quantity modifier."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Red-Haired Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1,
+            "optional": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:34:13.038Z"
+}

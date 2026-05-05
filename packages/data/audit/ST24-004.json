@@ -1,0 +1,60 @@
+{
+  "id": "ST24-004",
+  "name": "Law &amp; Bepo",
+  "set": "ST-24",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing required condition: 'up to 1' means optional targeting with max 1 character. Current DSL has no condition limiting selection."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing secondary effect: 'that Character will not become active in your opponent's next Refresh Phase' is a persistent effect that must be encoded. Current DSL does not prevent activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].condition",
+      "description": "PowerBoost condition is 'Always' but should be 'HasRestingDon' or equivalent checking 'opponent has 2 or more rested Characters'. No condition validates the threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but text specifies 'until the end of your opponent's next End Phase'. This requires duration:'DuringOpponentTurn' or a multi-turn effect, not single EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxTargets": 1,
+          "optional": true
+        },
+        "effect": {
+          "type": "PreventActivation",
+          "duration": "UntilOpponentRefreshPhase"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "UntilOpponentEndPhase",
+        "condition": {
+          "type": "TrashCount",
+          "scope": "OpponentRestingCharacters",
+          "comparison": ">=",
+          "value": 2
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:40.039Z"
+}

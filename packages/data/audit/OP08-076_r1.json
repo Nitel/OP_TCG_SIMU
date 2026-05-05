@@ -1,0 +1,56 @@
+{
+  "id": "OP08-076_r1",
+  "name": "It's to Die For...",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing condition. Should have condition checking opponent has Character with 6000+ power"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].condition.type",
+      "description": "Second effect condition is 'Always' but should be 'HasCardOnBoard' or similar checking opponent's 6000+ power Character. 'Always' makes this unconditional GiveDon which contradicts card text"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[2]",
+      "description": "Third effect with trigger 'Trigger' is invalid. This appears to be a duplicate/malformed effect with no clear trigger point"
+    },
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Card text describes ONE conditional action with two phases: (1) Add 1 DON unconditionally, (2) IF opponent has 6000+ power Character, add 1 DON. DSL has three separate effects instead of proper conditional structure"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "params": {
+          "owner": "opponent",
+          "power": 6000
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:32.484Z"
+}

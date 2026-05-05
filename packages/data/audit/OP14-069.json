@@ -1,0 +1,63 @@
+{
+  "id": "OP14-069",
+  "name": "Donquixote Doflamingo",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect prevents Characters from being rested (a restriction/keyword grant), not rests them. Should use 'GiveKeyword' with keyword 'CannotRest' or similar, or use a custom restriction action. Current DSL incorrectly rests the characters instead of preventing them from being rested."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Missing duration field. Text states 'cannot be rested until the end of your opponent's next End Phase' — this is a temporary restriction during opponent's turn. Should have duration:'DuringOpponentTurn' or appropriate end condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition type 'HasCardOnBoard' is incorrect. Should be 'LeaderHasType' to check if the Leader has {Donquixote Pirates} type, not check for a card on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions",
+      "description": "The second option (prevent rest) should not use 'Rest' action three times. It should use a prevention/restriction mechanism. Current implementation is semantically wrong."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Donquixote Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8,
+            "max": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotRest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "max": 3
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:15:26.961Z"
+}

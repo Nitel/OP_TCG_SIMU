@@ -1,0 +1,45 @@
+{
+  "id": "ST21-003",
+  "name": "Sanji",
+  "set": "ST-21",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing entire [On Play] effect that selects a {Straw Hat Crew} Character with 6000+ power and grants 'cannot be blocked' for the turn",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": {
+              "type": "YourCharacter",
+              "count": 1,
+              "filters": [
+                {
+                  "type": "HasType",
+                  "value": "Straw Hat Crew"
+                },
+                {
+                  "type": "PowerAtLeast",
+                  "value": 6000
+                }
+              ]
+            },
+            "keyword": "CannotBeBlocked",
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:33.931Z"
+}

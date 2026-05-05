@@ -1,0 +1,36 @@
+{
+  "id": "ST05-014",
+  "name": "Buena Festa",
+  "set": "ST-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing: (1) filter for FILM type card, (2) exclusion of [Buena Festa], (3) limit of 'up to 1' card, (4) the deck inspection mechanic (look at 5 cards from top), (5) reordering of remaining cards to bottom of deck"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect does not capture the multi-step sequence: inspect top 5 → reveal and select up to 1 FILM (excluding Buena Festa) → add to hand → reorder rest to bottom. Current DSL represents only a basic search."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "FILM",
+          "excludeName": "Buena Festa"
+        },
+        "limit": 1,
+        "inspectTop": 5,
+        "destination": "hand",
+        "notes": "Remaining 4 cards placed at bottom of deck in any order"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:59:43.149Z"
+}

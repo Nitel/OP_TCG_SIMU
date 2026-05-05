@@ -1,0 +1,41 @@
+{
+  "id": "OP14-103",
+  "name": "Gloriosa (Grandma Nyon)",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally wrong. The card has a single [On Play] trigger with two sequential actions (optional flip, then mandatory add to Life), not two separate triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect. The effect should allow choosing 1 card from top OR bottom of Life cards to add to hand, then add up to 1 card from hand to top of Life cards. This requires DrawCard (with Life as source) and AttachDon (or similar) in sequence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Spurious second trigger with PlaySelf action. This trigger and action do not correspond to any text in the card effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:04.750Z"
+}

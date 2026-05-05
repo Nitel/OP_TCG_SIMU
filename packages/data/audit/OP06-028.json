@@ -1,0 +1,57 @@
+{
+  "id": "OP06-028",
+  "name": "Zeo",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing condition: LeaderHasType {New Fish-Man Pirates}. DSL only checks for resting DON but card text requires leader type check first."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action: SetupDon (or equivalent). Card text explicitly states 'set up to 1 of your DON!! cards as active' before the power boost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which means the power boost only applies while it's your turn, not permanently until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "types": [
+          "New Fish-Man Pirates"
+        ]
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Board",
+            "filter": "DON",
+            "count": 1
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:55:19.076Z"
+}

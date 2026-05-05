@@ -1,0 +1,47 @@
+{
+  "id": "OP06-036_r1",
+  "name": "Ryuma",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope missing condition for 'rested' Characters. Text specifies 'rested Characters with a cost of 4 or less' but DSL only filters by maxCost. Should include condition for resting state."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope missing condition for 'rested' Characters. Text specifies 'rested Characters with a cost of 4 or less' but DSL only filters by maxCost. Should include condition for resting state."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "isRested": true
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "isRested": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:37:10.835Z"
+}

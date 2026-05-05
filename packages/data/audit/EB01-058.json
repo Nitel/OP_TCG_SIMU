@@ -1,0 +1,55 @@
+{
+  "id": "EB01-058",
+  "name": "Mont Blanc Cricket",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing [DON!! x1] condition - effect should only be active when this character has 1 attached DON!!",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing life card condition - effect requires 'you have 2 or less Life cards'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong duration - '[Your Turn]' in official text means duration should be 'DuringYourTurn', not 'EndOfTurn'",
+      "field": "effects[0].actions[0].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "And",
+          "conditions": [
+            {
+              "type": "HasAttachedDon",
+              "count": 1
+            },
+            {
+              "type": "LifeCount",
+              "operator": "<=",
+              "count": 2
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:48.032Z"
+}

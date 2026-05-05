@@ -1,0 +1,42 @@
+{
+  "id": "OP04-056_r1",
+  "name": "Gum-Gum Red Roc",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. Card effect places a Character at bottom of deck, which requires 'PlayFromHand' or a custom 'PlaceAtBottomOfDeck' action. 'Rest' means exhaust/flip a card, not deck placement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope 'ChooseOwnCharacter' is incorrect. Effect says 'Place up to 1 Character at the bottom of the owner's deck' — this should target a Character from hand or field being placed into deck, not just any own character. Scope should clarify source (hand vs. board)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.maxCost",
+      "description": "maxCost constraint of 4 is not mentioned in card text. No cost restriction stated for the Character being placed."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Place up to 1 Character at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxAmount": 1
+            },
+            "destination": "DeckBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:34:42.018Z"
+}

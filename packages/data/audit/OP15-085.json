@@ -1,0 +1,75 @@
+{
+  "id": "OP15-085",
+  "name": "Tony Tony.Chopper",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect trashes from deck (top of deck), not from hand. Should be 'ForceDiscard' with source 'Deck' or similar deck-trash mechanism. However, standard DSL may not have explicit deck-trash; this needs clarification or a custom action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Trashing 'from the top of your deck' requires source specification (Deck), not a card filter. Current filter={} suggests hand cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition 'HasCardOnBoard' with name 'Straw Hat Crew' is incorrect. Should be 'LeaderHasType' to check if Leader has {Straw Hat Crew} type, not if a card named 'Straw Hat Crew' is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].type",
+      "description": "Action 'PlayFromHand' is incorrect. The effect adds card from trash to hand, so should be 'ReturnToHand' with filter specifying trash source and name exclusion for Tony Tony.Chopper."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].filter.excludeSelf",
+      "description": "Filter uses 'excludeSelf' but should exclude by card name 'Tony Tony.Chopper'. Format should be 'excludeName' or similar name-based exclusion."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-085",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 3,
+            "source": "Deck",
+            "filter": {}
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "typeRequired": "Straw Hat Crew"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "ReturnToHand",
+            "count": 1,
+            "source": "Trash",
+            "filter": {
+              "subType": "Straw Hat Crew",
+              "cardType": "Character",
+              "excludeName": "Tony Tony.Chopper"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:28:32.018Z"
+}

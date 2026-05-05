@@ -1,0 +1,62 @@
+{
+  "id": "OP01-024_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive effect for '[DON!! x2] This Character cannot be K.O.'d in battle by <Strike> attribute Characters.' — should be a Permanent condition that prevents KO from Strike Characters when attached DON count ≥ 2"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' is incorrect. The Activate ability should check 'Always' (no resource cost condition); the player chooses to activate and must have resting DON available (game state check, not DSL condition). Alternatively, if modeling resource consumption, this belongs in action logic, not trigger condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action models 'Give...rested DON' as AttachDon, but should clarify target is 'up to 2' (variable count ≤ 2 from available rested DON pool). Current DSL forces exactly 2."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOedByStrikeAttribute",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "properties": {
+        "timing": "Main",
+        "limit": "OncePerTurn"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "maximum": true,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:25.554Z"
+}

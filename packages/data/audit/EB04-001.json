@@ -1,0 +1,88 @@
+{
+  "id": "EB04-001",
+  "name": "Jewelry Bonney",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive effect for '[Opponent's Turn] If you have 1 or less Life cards, this Leader gains +2000 power.' Should be a separate effect with trigger:'Trigger', condition checking life ≤1, and PowerBoost action with duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "TurnCount is incorrect condition. Should check 'HasLife' or life count (≤1 for first passive). TurnCount with min:1 does not match card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' opponent character, not unlimited. scope should be 'ChooseOpponentCharacter' with optional targeting allowed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Condition 'HasAttachedDon' count:1 is wrong. Should be life count ≥2. Effect should only trigger if condition met, not as separate conditional action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "FlipLife is incorrect for 'add 1 card from top of Life cards to hand'. Should be action that draws/moves life cards to hand, or custom sequence. FlipLife moves life to damage zone."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Second Activate effect missing condition check 'if you have 2 or more Life cards' before the FlipLife action. Should be conditional within the same effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "condition": {
+            "type": "TrashCount",
+            "max": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "optional": true,
+            "max": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "min": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:36.199Z"
+}

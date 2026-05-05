@@ -1,0 +1,50 @@
+{
+  "id": "OP03-081",
+  "name": "Kalifa",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text says 'during this turn' which means the effect lasts only while it's your turn, not through end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[0].target.scope",
+      "description": "Target should be 'OpponentCharacter' (up to 1, optional) not 'ChooseOpponentCharacter'. The 'up to 1' quantifier should be expressed in the target definition, not implicit in the scope name."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": -2000,
+                "target": {
+                  "scope": "OpponentCharacter",
+                  "quantity": {
+                    "type": "UpTo",
+                    "count": 1
+                  }
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:04.533Z"
+}

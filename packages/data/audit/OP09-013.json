@@ -1,0 +1,53 @@
+{
+  "id": "OP09-013",
+  "name": "Yasopp",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states 'until the end of your opponent's next turn' but DSL has 'EndOfTurn'. Should be 'DuringOpponentTurn' or equivalent multi-turn duration, not single EndOfTurn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Text states '[When Attacking]' which maps to 'OnAttack', not 'Activated'. Activated is for abilities requiring payment/choice activation"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Text says 'up to 1 of your opponent's Characters' but target scope 'ChooseOpponentCharacter' is singular/forced. Should allow 0 selection or clarify as optional choice"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "optional": true
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:34:25.928Z"
+}

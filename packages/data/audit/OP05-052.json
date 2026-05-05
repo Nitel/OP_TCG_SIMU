@@ -1,0 +1,32 @@
+{
+  "id": "OP05-052",
+  "name": "Maynard",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has Blocker keyword ability but effects array is empty. Blocker is a triggered ability that should be represented in DSL: triggers on OnAttacked, condition Always, action Rest (self) to redirect attack target."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ],
+  "auditedAt": "2026-05-05T09:48:10.437Z"
+}

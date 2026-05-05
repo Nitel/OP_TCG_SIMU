@@ -1,0 +1,43 @@
+{
+  "id": "OP13-065",
+  "name": "Shanks",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at top 5 cards, (2) filtering for cards with type 'Roger Pirates' excluding [Shanks], (3) revealing up to 1 card, (4) adding it to hand, (5) placing remaining cards at bottom of deck in any order. Current DSL uses generic SearchDeck with no filter specification, no reveal condition, and no deck organization logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify type 'Roger Pirates' AND exclude card [Shanks]. Current filter is 'Any' which matches nothing in the card effect text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL lacks the mandatory 'reveal' and 'organize' steps. The effect requires revealing selected card(s) and organizing remaining cards at bottom of deck in any order—these actions are missing entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "value": "Roger Pirates",
+          "exclude": [
+            "Shanks"
+          ]
+        },
+        "reveal": true,
+        "selectUpTo": 1,
+        "destination": "hand",
+        "organizeRemainder": "BottomOfDeck"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:03:16.465Z"
+}

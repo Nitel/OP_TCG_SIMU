@@ -1,0 +1,62 @@
+{
+  "id": "OP14-090",
+  "name": "Mr.1(Daz.Bonez)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL missing the passive ability: 'If there is a Character with a cost of 0 or with a cost of 8 or more, this Character can attack Characters on the turn in which it is played.' This is a conditional static effect that should be represented as a separate effect entry with trigger 'OnPlay' and action 'GiveKeyword' (granting 'CanAttackCharactersOnPlayTurn' or similar)."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specifies 'maxCost:0' but should include 'maxCount:1' or equivalent to represent 'up to 1' constraint clearly."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If there is a Character with a cost of 0 or with a cost of 8 or more, this Character can attack Characters on the turn in which it is played. [On Play] Rest up to 1 of your opponent's Characters with a cost of 0.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "scope": "YourCharacters",
+          "filter": {
+            "costMinimum": 0,
+            "costMaximum": 0
+          },
+          "operator": "OR",
+          "altCondition": {
+            "type": "HasCardOnBoard",
+            "scope": "YourCharacters",
+            "filter": {
+              "costMinimum": 8
+            }
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CanAttackCharactersOnPlayTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 0,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:17:08.215Z"
+}

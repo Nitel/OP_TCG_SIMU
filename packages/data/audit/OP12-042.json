@@ -1,0 +1,55 @@
+{
+  "id": "OP12-042",
+  "name": "Alvida",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but card text says 'Place at the bottom of the owner's deck' — should be 'PlayFromHand' or a deck-bottom placement action. ReturnToHand returns to hand, not deck bottom."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive effect for '+1 cost' when you have 2+ Characters with base cost 5+. The DSL only captures the [On Play] effect and omits the permanent cost boost condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'maxCount' parameter — card says 'up to 1', should specify maxCount:1 in the action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Passive",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "YourCharacters",
+        "minCount": 2,
+        "baseCost": 5
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:52:31.889Z"
+}

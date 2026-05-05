@@ -1,0 +1,29 @@
+{
+  "id": "OP03-010",
+  "name": "Fossa",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is completely missing from effects array. Should contain a Counter trigger that activates when opponent attacks, allowing player to rest this card to redirect attack target to itself."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true,
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:57.837Z"
+}

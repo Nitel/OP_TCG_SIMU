@@ -1,0 +1,31 @@
+{
+  "id": "EB01-049",
+  "name": "T-Bone",
+  "set": "EB-01",
+  "verdict": "minor",
+  "issues": [
+    {
+      "severity": "minor",
+      "description": "Missing 'count: 1' field to explicitly encode 'up to 1' from the effect text. While the default behavior may be correct, the text explicitly states 'up to 1' which should be encoded for clarity.",
+      "field": "effects[0].actions[0].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            },
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:15.902Z"
+}

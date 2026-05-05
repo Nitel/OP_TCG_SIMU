@@ -1,0 +1,59 @@
+{
+  "id": "OP15-075",
+  "name": "El Thor",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Action 1 uses 'EndOfTurn' but text says 'during this turn' — should be 'DuringYourTurn' per duration rules"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Action uses 'EndOfBattle' but text says 'during this battle' — should be 'DuringThisBattle' per duration rules"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Enel"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Enel"
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:27:42.115Z"
+}

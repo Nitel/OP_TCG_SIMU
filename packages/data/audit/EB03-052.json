@@ -1,0 +1,55 @@
+{
+  "id": "EB03-052",
+  "name": "Shirahoshi",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'FlipLife' (add card from top of deck to top of Life cards), not 'SearchDeck' to hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "PowerBoost target should filter for {Neptunian} type Characters only, not all own Characters"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader 'IsName' Shirahoshi, not HasCardOnBoard"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is acceptable for 'during this turn' but 'DuringYourTurn' is more precise"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Shirahoshi"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "filter": {
+            "kind": "Any"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filterType": "Neptunian"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:46.970Z"
+}

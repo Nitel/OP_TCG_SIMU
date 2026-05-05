@@ -1,0 +1,49 @@
+{
+  "id": "OP14-052",
+  "name": "Hannyabal",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action missing required 'count' property. Card text specifies 'trash 3 cards' but DSL does not enforce this quantity constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand filter includes 'Event' and 'Stage' types, but card effect text says 'from your hand' without type restriction. Filter should allow any card type or be empty to match 'cards from your hand'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'condition' property. Card text uses 'You may' indicating optional action, but DSL structure lacks explicit optional/conditional modifier on the effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 3,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Impel Down",
+                "cardType": "Character",
+                "maxCost": 6
+              },
+              "count": 1,
+              "maxCount": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:14:07.156Z"
+}

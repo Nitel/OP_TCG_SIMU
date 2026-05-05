@@ -1,0 +1,45 @@
+{
+  "id": "OP07-017",
+  "name": "Dragon Breath",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action targets Character but should target Stage. Card text specifies 'up to 1 of your opponent's Stages with a cost of 1 or less'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "Missing maxCost constraint on Stage target. Should be maxCost:1 per card text 'Stages with a cost of 1 or less'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action missing maxQuantity constraint. Card text says 'up to 1' which requires maxQuantity:1"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000,
+          "maxQuantity": 1
+        }
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentStage",
+          "maxCost": 1,
+          "maxQuantity": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:41.773Z"
+}

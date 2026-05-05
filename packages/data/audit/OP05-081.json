@@ -1,0 +1,36 @@
+{
+  "id": "OP05-081",
+  "name": "One-Legged Toy Soldier",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has game text but effects array is empty. Must define Activated trigger with trash cost and PowerBoost action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": "ThisCharacter",
+            "count": 1
+          },
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "count": 1,
+            "modifier": -3,
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:50:26.100Z"
+}

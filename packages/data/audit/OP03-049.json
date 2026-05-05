@@ -1,0 +1,37 @@
+{
+  "id": "OP03-049",
+  "name": "Patty",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing required deck threshold check. Text states 'If you have 20 or less cards in your deck' but DSL uses Always. Should be a TrashCount or equivalent deck-size condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incorrectly specified as 'ChooseOwnCharacter'. Text requires returning Character from owner's hand (not board). Scope should reflect hand selection, and maxCount should be 1 (up to 1 Character)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "TrashCount",
+      "value": 20,
+      "comparison": ">="
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacterFromHand",
+          "maxCost": 3,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:04.297Z"
+}

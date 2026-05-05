@@ -1,0 +1,49 @@
+{
+  "id": "OP01-084",
+  "name": "Mr.2.Bon.Kurei(Bentham)",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. Card text requires: (1) Look at 5 cards from top of deck, (2) Reveal up to 1 Baroque Works Event, (3) Add to hand, (4) Place rest at bottom in any order. Current DSL only searches by cost, missing the 5-card limit, type filter (Baroque Works Event), and deck arrangement step."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should be by type 'Baroque Works' and card kind 'Event', not by cost. The maxCost parameter is not mentioned in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action to arrange remaining cards at bottom of deck in any order. Complete effect requires multiple sequential actions: search, reveal, add to hand, then arrange rest."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "searchCount": 5,
+        "filter": {
+          "type": "ByCombinedType",
+          "kind": "Event",
+          "combinedType": "Baroque Works"
+        },
+        "selectCount": {
+          "min": 0,
+          "max": 1
+        },
+        "destination": "hand",
+        "remainingDestination": "deckBottom",
+        "remainingOrder": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:24.580Z"
+}

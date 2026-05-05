@@ -1,0 +1,35 @@
+{
+  "id": "OP07-051",
+  "name": "Boa Hancock",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is incorrect. Card text specifies characters 'cannot attack until the end of your opponent's next turn', which is a conditional restriction with duration, not a Rest action. Should use a conditional/restriction mechanism or clarify as a temporary inability-to-attack state, not Rest."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is missing the exclusion filter. Text explicitly states 'other than [Monkey.D.Luffy]'. Target must exclude this character."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'SearchDeck' with destination 'hand' is incorrect. Card text states 'place up to 1 Character...at the bottom of the owner's deck', which means the character should be placed in deck, not searched to hand. Should use a different action type (e.g., placing from hand to bottom of deck, or a deck-placement action)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter scope is incomplete. 'ByCost' filter specifies maxCost but the source of the character being placed is not defined. Text indicates 'your' Character, implying it must be selected from your hand or board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition/constraint: 'Up to 1' on both actions is not properly represented in the DSL structure."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:06:16.568Z"
+}

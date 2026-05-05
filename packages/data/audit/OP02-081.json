@@ -1,0 +1,27 @@
+{
+  "id": "OP02-081",
+  "name": "Domino",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has Blocker keyword ability but effects array is empty. Blocker is a static keyword that should be represented in the DSL, typically as a passive/keyword effect or noted in card properties."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:49.199Z"
+}

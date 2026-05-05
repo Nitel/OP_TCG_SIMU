@@ -1,0 +1,69 @@
+{
+  "id": "OP12-070",
+  "name": "Sanji",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second effect: 'If this Character would be removed from the field by your opponent's effect, you may return 1 DON!! card from your field to your DON!! deck instead.' This is a replacement/prevention effect triggered when character would be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost logic incomplete: should calculate +1000 per every 5 Events in trash, not just a flat perTrashedCard flag. Requires condition checking TrashCount with division/modulo logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' or similar (persistent passive effect), not 'OnPlay'. The first ability is static/continuous, not just triggered on play."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perTrashedCard": true,
+          "cardType": "Event",
+          "divisor": 5,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "Self"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "source": "Field",
+          "target": {
+            "scope": "Self",
+            "cardType": "DON!!"
+          }
+        }
+      ],
+      "duration": "DuringOpponentTurn"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:54:38.581Z"
+}

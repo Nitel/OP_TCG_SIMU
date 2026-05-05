@@ -1,0 +1,69 @@
+{
+  "id": "OP12-043",
+  "name": "Kuzan",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive effect for hand-size cost penalty. Card has two distinct effects: (1) passive 'If you have 5+ cards in hand, +1 cost' and (2) [On Play] ability. DSL only captures OnPlay."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action does not implement 'cannot attack' restriction. Rest only exhausts; it does not prevent future attacks. Required action is GiveKeyword with keyword 'CannotAttack' or equivalent, OR a custom restriction that persists until end of opponent's next End Phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Duration missing. Text states 'cannot attack until the end of your opponent's next End Phase'—this is a timed restriction (DuringOpponentTurn, ending at a specific phase), not permanent. Rest has no duration parameter to enforce this expiry."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Condition 'up to 1' (max target count=1) not encoded. Filter or action target should specify maxTargets:1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Passive",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "count": 5,
+          "comparison": "GreaterThanOrEqual",
+          "scope": "OwnHand"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "maxTargets": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "CannotAttack",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxTargets": 1
+              },
+              "duration": "UntilEndOfOpponentNextEndPhase"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:52:35.909Z"
+}

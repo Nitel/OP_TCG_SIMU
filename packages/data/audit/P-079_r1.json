@@ -1,0 +1,60 @@
+{
+  "id": "P-079_r1",
+  "name": "Lim",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is empty but card has two distinct effects: (1) Blocker keyword effect and (2) End of Your Turn conditional effect. Both must be represented."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing Blocker effect triggered OnAttacked with Rest action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing End of Your Turn effect with condition checking for 2+ rested ODYSSEY Characters, action to set this Character active"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": {
+            "cardType": "ODYSSEY",
+            "characterType": "Character",
+            "restState": "Rested",
+            "count": 2,
+            "comparison": "GreaterThanOrEqual"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self",
+          "value": false
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:46.736Z"
+}

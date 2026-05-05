@@ -1,0 +1,42 @@
+{
+  "id": "OP03-122_r1",
+  "name": "Sogeking",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target should be 'ChooseCharacter' (your own characters), not 'ChooseOpponentCharacter'. Card effect returns a character to owner's hand, implying player's own characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "TrashFromHand action has unnecessary 'thenActions' field that should not be present. This is a sequential action, not a conditional one."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseCharacter",
+            "maxCost": 6,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:34:07.145Z"
+}

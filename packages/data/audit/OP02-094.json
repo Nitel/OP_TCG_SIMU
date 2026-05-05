@@ -1,0 +1,38 @@
+{
+  "id": "OP02-094",
+  "name": "Isuka",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but card text says 'set this Character as active'. 'Active' means the opposite of resting. Should be a custom action or the DSL needs to support 'Activate' (unrest). 'Rest' is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger is 'OnKO' but card text specifies 'When this Character battles and K.O.'s' – this requires the Character to be attacking and deal the K.O. blow. 'OnKO' is too broad; should be 'OnAttack' with a condition that the attacked character was K.O.'d, or a more specific 'OnBattleKO' trigger if available."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Once Per Turn] When this Character battles and K.O.'s your opponent's Character, set this Character as active.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Activate",
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:07.699Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP13-038",
+  "name": "Gum-Gum Elephant Gun",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "GiveDon is incorrect for 'set up to 2 of your DON!! cards as active'. This should be AttachDon with count:2 to attach DON to your Leader/Characters, or the action semantics are wrong. 'Set as active' means activate/attach DON, not give new DON."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Action states 'at the end of this turn' but no duration is specified. Should have duration:'EndOfTurn' to indicate the DON activation timing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second trigger with 'Trigger' type and Rest action appears to be a duplicate/error. The card text describes a single Main effect with two sequential actions (Rest, then set DON). The second effect should not exist unless there is conditional logic in the original text that is not captured here."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:01:13.295Z"
+}

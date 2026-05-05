@@ -1,0 +1,60 @@
+{
+  "id": "OP14-084",
+  "name": "Ms. All Sunday",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check Leader type, not board presence. Should be LeaderHasType:Baroque Works"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action searches from deck, but card text says 'from your trash'. Should use source:trash, not default deck search"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second action searches from deck, but card text says 'from your trash'. Should use source:trash"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "Actions should filter by type 'Baroque Works' in addition to cost constraints"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "type": "Baroque Works",
+            "maxCost": 4
+          },
+          "source": "trash",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "type": "Baroque Works",
+            "maxCost": 1
+          },
+          "source": "trash",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:16:41.469Z"
+}

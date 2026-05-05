@@ -1,0 +1,49 @@
+{
+  "id": "P-073",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for 'Once Per Turn' activation restriction"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing FlipLife action (add 1 card from top or bottom of Life cards to hand) which is the primary effect of this activation"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is acceptable for 'during this turn' but should use 'DuringYourTurn' for clarity that the boost lasts until end of your turn"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "amount": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:49:17.454Z"
+}

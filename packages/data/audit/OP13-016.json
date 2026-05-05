@@ -1,0 +1,57 @@
+{
+  "id": "OP13-016",
+  "name": "Monkey.D.Garp",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' (checks Leader), not 'HasCardOnBoard' (checks board). Leader is not a card on the board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck with 'maxCost:3' searches for cost ≤3. Effect requires cost ≥3 ('cost of 3 or more'). Should use 'minCost':3 instead."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck does not support the full effect: look at 4 cards, reveal up to 1, place rest at bottom in any order. Current DSL cannot express 'look at X cards' or 'place rest at bottom in order' mechanics. Effect requires custom implementation or extended action type."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Three separate effects for three different Leaders should be consolidated into one with 'LeaderHasAnyType' or 'OR' condition logic if DSL supports it, or use a single compound condition rather than three identical triggers."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "Standard DSL cannot fully represent 'look at 4 cards, reveal up to 1 with cost ≥3, place rest at bottom in order'. Recommended custom action or extended schema.",
+    "structure": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "names": [
+            "Sabo",
+            "Portgas.D.Ace",
+            "Monkey.D.Luffy"
+          ]
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 3
+            },
+            "destination": "hand",
+            "maxResults": 1,
+            "note": "Limitation: cannot express 'look at 4 cards' constraint or 'place rest at bottom in order' mechanic"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:59:37.171Z"
+}

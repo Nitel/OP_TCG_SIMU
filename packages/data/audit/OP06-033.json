@@ -1,0 +1,86 @@
+{
+  "id": "OP06-033",
+  "name": "Vander Decken IX",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL implements only Fish-Man trash option. Card text allows OR choice between: (1) trash 1 Fish-Man from hand, (2) trash 1 [The Ark Noah] from hand or field. DSL must support both options with conditional branching or multiple effect paths."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is mandatory in DSL. Card text uses 'may trash', indicating the entire effect is optional. Should use conditional/optional structure to allow player to decline."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target is unrestricted K.O. in DSL. Card text specifies 'up to 1 of your opponent's rested Characters' — target must include 'rested' condition filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ConditionalAction",
+          "condition": "CanTrashFromHandOrField",
+          "description": "Player may choose: trash 1 Fish-Man from hand OR trash 1 [The Ark Noah] from hand/field",
+          "options": [
+            {
+              "optionName": "TrashFishMan",
+              "actions": [
+                {
+                  "type": "TrashFromHand",
+                  "filter": {
+                    "subType": "Fish-Man"
+                  },
+                  "thenActions": [
+                    {
+                      "type": "KO",
+                      "target": {
+                        "scope": "ChooseOpponentCharacter",
+                        "condition": "IsRested"
+                      },
+                      "count": {
+                        "type": "UpTo",
+                        "value": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "optionName": "TrashArkNoah",
+              "actions": [
+                {
+                  "type": "TrashFromHandOrField",
+                  "filter": {
+                    "cardName": "[The Ark Noah]"
+                  },
+                  "thenActions": [
+                    {
+                      "type": "KO",
+                      "target": {
+                        "scope": "ChooseOpponentCharacter",
+                        "condition": "IsRested"
+                      },
+                      "count": {
+                        "type": "UpTo",
+                        "value": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:55:45.347Z"
+}

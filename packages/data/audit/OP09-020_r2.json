@@ -1,0 +1,41 @@
+{
+  "id": "OP09-020_r2",
+  "name": "Come On!! We'll Fight You!!",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is incomplete and incorrect. Missing filter for {Red-Haired Pirates} type card, missing the 'look at 5 cards' mechanic, and missing the 'place rest at bottom' mechanic. Should use a more complex structure to represent: look at top 5 → reveal up to 1 Red-Haired Pirates (excluding card name) → add to hand → place others at bottom in any order."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' trigger and DrawCard action is unexplained and does not match card text. This appears to be erroneous or placeholder logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify type {Red-Haired Pirates} and exclude card name [Come On!! We'll Fight You!!], not 'Any'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "TypeExcludesName",
+          "type": "Red-Haired Pirates",
+          "excludeName": "Come On!! We'll Fight You!!"
+        },
+        "count": 1,
+        "lookAtCount": 5,
+        "destination": "hand",
+        "restToBottom": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:13.900Z"
+}

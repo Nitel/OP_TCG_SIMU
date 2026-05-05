@@ -1,0 +1,48 @@
+{
+  "id": "OP06-100",
+  "name": "Inuarashi",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have count:1 constraint; missing conditional logic that K.O. target's cost ≤ opponent's Life count"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "KO action missing filter condition: target cost must be ≤ opponent's Life card count. Current target scope incomplete."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:Trigger and PlaySelf is incorrect. Card text contains no automatic play mechanic; this effect should not exist."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "KO",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "filter": {
+                  "costLessThanOrEqual": "OpponentLifeCount"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:00:52.573Z"
+}

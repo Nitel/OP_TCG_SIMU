@@ -1,0 +1,64 @@
+{
+  "id": "EB03-006",
+  "name": "Nami",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "OnPlay effect is missing the optional/choice structure. The text says 'You may give your active Leader −5000 power during this turn: Draw 1 card', meaning the power reduction is a cost for drawing. Currently both actions execute unconditionally in sequence.",
+      "field": "effects[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Activated effect condition is wrong. Should check 'LeaderHasType: Alabasta', not 'HasCardOnBoard' with name 'Alabasta'. The text says 'If your Leader has the {Alabasta} type'.",
+      "field": "effects[1].condition.type"
+    },
+    {
+      "severity": "minor",
+      "description": "Activated effect target should specify count: 1 to match 'up to 1 of your opponent's Characters'.",
+      "field": "effects[1].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1,
+            "cost": {
+              "type": "PowerBoost",
+              "amount": -5000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            },
+            "optional": true
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "leaderType": "Alabasta"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:04.593Z"
+}

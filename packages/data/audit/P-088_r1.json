@@ -1,0 +1,25 @@
+{
+  "id": "P-088_r1",
+  "name": "Trafalgar Law",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition type 'HasCardOnBoard' requires a 'type' property (card type filter), not 'name'. Use CardType condition or specify what type of Supernovas card to check for"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is not valid. Must be one of: DrawCard, KO, ReturnToHand, PowerBoost, ForceDiscard, AddLife, GiveDon, FlipLife, AttachDon, GiveKeyword, Rest, RemoveLife, SearchDeck, PlayFromHand, RevealFromHand, TrashFromHand, Win"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:50:12.667Z"
+}

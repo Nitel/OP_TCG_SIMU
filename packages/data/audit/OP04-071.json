@@ -1,0 +1,58 @@
+{
+  "id": "OP04-071",
+  "name": "Mr.4(Babe)",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent declares attack), not 'OnAttacked' (this card is attacked). The effect activates when opponent attacks, before target is declared."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition references HasRestingDon with count:1, but the card text says 'DON!! −1' as a cost. This should be a cost action (AttachDon or similar resource spend), not a condition check. The condition should verify the player CAN pay this cost, or the cost should be modeled as a separate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing the core effect: returning DON!! cards from field to DON!! deck. Current actions only apply Blocker and PowerBoost. The DSL should include an action to handle the DON!! return mechanic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "amount": -1,
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:42:36.525Z"
+}

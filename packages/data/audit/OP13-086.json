@@ -1,0 +1,56 @@
+{
+  "id": "OP13-086",
+  "name": "Saint Shalria",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect requires: (1) looking at 3 cards from top of deck, (2) revealing up to 1 Celestial Dragons card OTHER THAN Saint Shalria, (3) adding it to hand, (4) trashing the rest of the 3 cards. Current DSL only searches by type 'Celestial Dragons' without the Saint Shalria exclusion and does not trash the remaining 2 cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand is disconnected from SearchDeck logic. The effect should trash 1 card from hand AFTER the search/trash sequence is complete, but the DSL structure suggests it's independent. The sequence must be: search 3 → reveal up to 1 (excluding Saint Shalria) to hand → trash remaining 2 → then trash 1 from hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' kind with 'Celestial Dragons' which appears to be a type, not a card name. Should use type-based filtering with exclusion for Saint Shalria."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Celestial Dragons",
+          "excludeNames": [
+            "Saint Shalria"
+          ]
+        },
+        "destination": "hand",
+        "maxCount": 1,
+        "lookAtCount": 3,
+        "thenActions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "filter": {
+              "source": "deckLookAt"
+            }
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:04:54.582Z"
+}

@@ -1,0 +1,85 @@
+{
+  "id": "OP14-020",
+  "name": "Dracule Mihawk",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing passive effect: 'If your opponent's Leader has the <Slash> attribute, this Leader gains +1000 power.' Should be a separate Trigger:Always effect with condition LeaderHasType and action PowerBoost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Effect requires checking both 'Character with cost 5 or more on board' AND 'Once Per Turn' limitation. Current condition only checks HasCardOnBoard but doesn't specify cost requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions are missing the final effect: 'you cannot play Character cards during this turn' should add a restriction/status effect. Also missing that DON cards are 'set as active' (already active), not given from hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action target is unclear. The DSL shows 'ChooseOwnCharacter' but text says 'You may rest 1 of your cards' - needs explicit target specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "GiveDon is incorrect. The effect 'set up to 3 of your DON!! cards as active' means activating existing DON, not giving new DON. This may require a different action type or clarification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Always",
+      "condition": {
+        "type": "LeaderHasType",
+        "opponentLeader": true,
+        "attribute": "Slash"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "value": 1000
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "phase": "Main",
+      "limitPerTurn": 1,
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "minCost": 5
+      },
+      "actions": [
+        {
+          "type": "ActivateDon",
+          "count": 3,
+          "target": {
+            "scope": "OwnDonCards"
+          }
+        },
+        {
+          "type": "AddRestriction",
+          "restriction": "CannotPlayCharacters",
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:11:42.988Z"
+}

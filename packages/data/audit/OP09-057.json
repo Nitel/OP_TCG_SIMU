@@ -1,0 +1,46 @@
+{
+  "id": "OP09-057",
+  "name": "Cross Guild",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is invalid. Main ability should use 'OnPlay' trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Must specify: (1) search scope limited to top 4 cards of deck, (2) filter type constraint '{Cross Guild}', (3) maximum 1 card selection, (4) reveal requirement, (5) placement of remaining cards at bottom of deck in any order."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'Any' is incorrect. Should filter for cards with type 'Cross Guild' only."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "CardType",
+            "value": "Cross Guild"
+          },
+          "limit": 1,
+          "scope": "Top4",
+          "reveal": true,
+          "destination": "hand",
+          "thenPlaceRest": {
+            "location": "BottomOfDeck",
+            "order": "AnyOrder"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:03:03.172Z"
+}

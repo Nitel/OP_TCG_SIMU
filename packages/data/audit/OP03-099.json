@@ -1,0 +1,55 @@
+{
+  "id": "OP03-099",
+  "name": "Charlotte Katakuri",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has official effect text but effects array is empty. Must define OnAttack trigger with life card manipulation and power boost actions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing OnAttack trigger for 'When Attacking' ability"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing actions: (1) Peek at up to 1 life card from either player, (2) Reorder that life card (top/bottom), (3) PowerBoost +1000 during battle"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life cards. Then, this Leader gains +1000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "PeekLifeCard",
+            "target": "AnyPlayer",
+            "count": 1
+          },
+          {
+            "type": "ReorderLifeCard",
+            "position": "TopOrBottom"
+          },
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "value": 1000,
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:34.272Z"
+}

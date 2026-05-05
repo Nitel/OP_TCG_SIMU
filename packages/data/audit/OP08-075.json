@@ -1,0 +1,45 @@
+{
+  "id": "OP08-075",
+  "name": "Candy Maiden",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'turn all of your Life cards face-down' (FlipLife action). DSL only includes Rest action but card text contains two sequential effects connected by 'Then'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action target should allow 0 selection ('up to 1' means optional). Current maxCost specification is correct, but target needs to clarify optionality via minCount or similar constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP08-075",
+    "effectText": "[Main] DON!! −1: Rest up to 1 of your opponent's Characters with a cost of 2 or less. Then, turn all of your Life cards face-down.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2,
+              "minCount": 0,
+              "maxCount": 1
+            }
+          },
+          {
+            "type": "FlipLife",
+            "target": {
+              "scope": "AllYourLifeCards"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:29:57.600Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "OP03-020",
+  "name": "Striker",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing required condition: LeaderIsName (Portgas.D.Ace). The card text explicitly states 'If your Leader is [Portgas.D.Ace]', which must be enforced as a condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The effect searches through 5 cards from top of deck (not full deck), reveals up to 1 Event, adds it to hand, then places rest at bottom of deck in any order. Current DSL does not specify the 5-card limit or the bottom-placement mechanic for remaining cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Portgas.D.Ace"
+      },
+      "cost": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Event"
+          },
+          "searchCount": 5,
+          "revealCount": 1,
+          "destination": "hand",
+          "remainder": "BottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:33:16.923Z"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "OP01-039_r1",
+  "name": "Killer",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' with name 'Character', but the card text requires '3 or more Characters'. The condition needs to specify a count threshold (minimum 3), not just presence. Current DSL does not validate the '3 or more' requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:04.332Z"
+}

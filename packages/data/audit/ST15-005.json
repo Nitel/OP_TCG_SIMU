@@ -1,0 +1,59 @@
+{
+  "id": "ST15-005",
+  "name": "Portgas.D.Ace",
+  "set": "ST-15",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' (checking Leader's type), not 'HasCardOnBoard'. The card text states 'If your Leader's type includes \"Whitebeard Pirates\"' which is a leader type check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing second effect entirely. The card has a '[Once Per Turn]' triggered ability: 'If this Character would be removed from the field by your opponent's effect, you may give this Character −2000 power during this turn instead.' This requires a Counter trigger with conditional power reduction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "First effect trigger should be 'Trigger' or ability check, not 'OnPlay'. The Rush gain is conditional on leader type, not triggered by playing this card specifically."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:11:23.302Z"
+}

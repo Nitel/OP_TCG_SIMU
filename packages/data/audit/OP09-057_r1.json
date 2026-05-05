@@ -1,0 +1,44 @@
+{
+  "id": "OP09-057_r1",
+  "name": "Cross Guild",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is drastically oversimplified. Missing: (1) 'Look at 4 cards' mechanic, (2) filter for {Cross Guild} type, (3) 'up to 1' card limit, (4) placement of remaining cards at bottom of deck in any order. Current DSL only searches deck generically."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to {Cross Guild} type cards only."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action does not capture the 'look at 4 cards' mechanic or the requirement to place remaining cards at bottom in any order. This is a multi-step effect that cannot be fully represented by SearchDeck alone."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 4 cards from the top of your deck; reveal up to 1 {Cross Guild} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "Type",
+              "value": "Cross Guild"
+            },
+            "destination": "hand",
+            "amount": 1,
+            "searchAmount": 4
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:22.939Z"
+}

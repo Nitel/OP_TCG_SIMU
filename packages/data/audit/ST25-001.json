@@ -1,0 +1,46 @@
+{
+  "id": "ST25-001",
+  "name": "Alvida",
+  "set": "ST-25",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' to check if Leader is [Buggy], not 'HasCardOnBoard' which checks for a card on the board"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'leaderName' field required by 'LeaderIsName' condition type"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action has unnecessary 'thenActions' field; this is a simple discard action without conditional chaining"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains +1 cost. [On Play] If your Leader is [Buggy], draw 3 cards and trash 2 cards from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "leaderName": "Buggy"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 3
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:31.779Z"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OP11-076",
+  "name": "Hannyabal",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should be LeaderHasType:Impel Down, not Always. Card text explicitly states 'If your Leader has the {Impel Down} type'"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Impel Down"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Impel Down",
+              "cardType": "Character",
+              "maxCost": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:45:59.789Z"
+}

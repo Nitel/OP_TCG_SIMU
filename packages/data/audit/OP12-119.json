@@ -1,0 +1,62 @@
+{
+  "id": "OP12-119",
+  "name": "Bartholomew Kuma",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (You may trash). Add condition: optional=true"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the end of your opponent's next End Phase' — should be 'DuringOpponentTurn' or similar multi-turn duration, not single EndOfTurn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing condition. Text states '[Opponent's Turn] [On K.O.]' — requires condition for opponent's turn context. Current DSL has OnKO trigger without DuringOpponentTurn condition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "FlipLife",
+              "count": 1
+            },
+            {
+              "type": "PowerBoost",
+              "amount": 2,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "UntilEndOfOpponentNextEndPhase"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:58:25.578Z"
+}

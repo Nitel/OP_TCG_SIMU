@@ -1,0 +1,79 @@
+{
+  "id": "OP11-062",
+  "name": "Charlotte Katakuri",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing DrawCard action. Card text says 'Look at 1 card from the top of your opponent's deck' which requires a DrawCard or equivalent peek action before PowerBoost"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing DrawCard action. Card text says 'Look at 1 card from the top of your opponent's deck' which requires a DrawCard or equivalent peek action before PowerBoost"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "'Once Per Turn' restriction not encoded in DSL. Conditions lack turn-limiting mechanism"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "'Once Per Turn' restriction not encoded in DSL. Conditions lack turn-limiting mechanism"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "target": {
+            "scope": "Opponent"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "target": {
+            "scope": "Opponent"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:55.696Z"
+}

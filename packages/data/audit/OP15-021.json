@@ -1,0 +1,73 @@
+{
+  "id": "OP15-021",
+  "name": "Just Watch Me, Ace!!!",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost reduction effect. Card has a passive ability: 'If you have 4 or more Events in your trash, give this card in your hand −3 cost.' This requires a condition-based cost modification, not present in DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringTurn' (not 'EndOfTurn'). Text states 'during this turn' which indicates the effect lasts for the current turn only, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration should be 'DuringTurn' (not 'EndOfTurn'). Text states 'during this turn' which indicates the effect lasts for the current turn only, not until end of turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TrashCount",
+        "cardType": "Event",
+        "comparison": ">=",
+        "value": 4
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "limit": 1
+          },
+          "duration": "DuringTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "limit": 1
+          },
+          "duration": "DuringTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:23:33.604Z"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "ST19-004",
+  "name": "Hina",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing trigger context. Text '[Opponent's Turn]' indicates this is a passive effect that should trigger OnAttacked or similar, not Activated. Should be trigger-less passive or clarify as OnAttacked. Current Activated trigger is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. '[Opponent's Turn]' in card text requires duration:'DuringOpponentTurn' to indicate the boost persists during opponent's turn, not just until end of your turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "AttachDon action incomplete. Card text requires placing 1 card from trash at bottom of deck as a cost/prerequisite before AttachDon can resolve. Current DSL omits the SearchDeck/retrieve-from-trash action."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].condition",
+      "description": "Missing 'Once Per Turn' restriction. Condition should include once-per-turn limiting mechanism (e.g., via activation tracking)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": null,
+      "condition": null,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": "FromTrash",
+          "count": 1,
+          "destination": "DeckBottom"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "condition": {
+            "type": "HasRestingDon",
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:14:55.573Z"
+}

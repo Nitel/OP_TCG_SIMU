@@ -1,0 +1,38 @@
+{
+  "id": "ST26-003",
+  "name": "Nico Robin",
+  "set": "ST-26",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing the cost condition. Card text specifies 'DON!! −2' (return 2 DON!! cards from field to deck) as a cost before the effect resolves. DSL must include a condition that enforces this cost requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'AttachDon' not 'GiveDon'. The effect sets a DON!! card as active (attaches it), not adds it to hand/resources. 'GiveDon' implies adding to Don pool."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "comparison": ">=",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DeckSearch"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:21:44.359Z"
+}

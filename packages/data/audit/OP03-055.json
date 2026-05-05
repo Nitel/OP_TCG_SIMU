@@ -1,0 +1,72 @@
+{
+  "id": "OP03-055",
+  "name": "Gum-Gum Giant Gavel",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Counter cards must use trigger:'Counter', not 'OnAttacked'. This is a Counter effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "First action should be optional trash from hand (conditional), not mandatory TrashFromHand. The 'You may' indicates this is optional."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand with count:2 from deck is incorrect. Should use a separate action targeting deck, not hand. The second trash is 'from the top of your deck', not hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:'Trigger' and ReturnToHand action is completely unrelated to card text. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "PowerBoost target should specify 'maxCount':1 to match 'Up to 1 of your Leader'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The trash from hand action must be conditional/optional (You may trash). Structure should reflect optional first action, then conditional subsequent actions."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": {
+          "scope": "OwnHand"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "OwnLeader",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "target": {
+          "scope": "OwnDeck",
+          "position": "top"
+        },
+        "optional": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:17.850Z"
+}

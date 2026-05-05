@@ -1,0 +1,40 @@
+{
+  "id": "OP07-062",
+  "name": "Vinsmoke Reiju",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' must be represented as a DON comparison condition, not 'Always'. Current condition does not enforce the DON count requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing type filter: 'The Vinsmoke Family' type requirement not specified in target. Target should filter for {The Vinsmoke Family} Characters only."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "LessThanOrEqual",
+        "compareToOpponent": true
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1,
+            "hasType": "The Vinsmoke Family",
+            "max": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:07:05.983Z"
+}

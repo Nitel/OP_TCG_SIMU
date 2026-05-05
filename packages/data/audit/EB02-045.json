@@ -1,0 +1,73 @@
+{
+  "id": "EB02-045",
+  "name": "Trafalgar Law",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The DSL is completely wrong. The card has [Blocker] keyword which is missing, and the OnPlay effect should allow placing 2 cards from trash at bottom of deck as a cost, then choose between drawing 1 card OR forcing opponent to trash if they have 5+ cards. Currently it has PlayFromHand action which doesn't match the effect text at all.",
+      "field": "effects[0].actions"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the [Blocker] keyword effect entirely",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "cost": {
+          "type": "PlaceCardsFromTrash",
+          "count": 2,
+          "destination": "BottomOfDeck"
+        },
+        "actions": [
+          {
+            "type": "Choice",
+            "options": [
+              {
+                "actions": [
+                  {
+                    "type": "DrawCard",
+                    "count": 1
+                  }
+                ]
+              },
+              {
+                "condition": {
+                  "type": "OpponentHandCount",
+                  "min": 5
+                },
+                "actions": [
+                  {
+                    "type": "ForceDiscard",
+                    "target": "Opponent",
+                    "count": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": "Self",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:24.855Z"
+}

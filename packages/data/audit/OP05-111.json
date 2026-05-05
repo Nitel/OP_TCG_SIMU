@@ -1,0 +1,25 @@
+{
+  "id": "OP05-111",
+  "name": "Hotori",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "ReturnToHand is incorrect. Card effect states 'Add up to 1 of your opponent's Characters... to the top or bottom of your opponent's Life cards face-up.' This is a move to Life cards, not returning to hand. Correct action should be custom/specialized for Life card placement, or if system supports it, a move-to-life action. ReturnToHand violates the core mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing condition that this action is conditional on the first action succeeding ('You may play 1 [Kotori]...: Add...'). The colon indicates the Add effect only triggers if a Kotori was played. Current DSL treats both actions as independent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand should have a 'maxCount' or similar constraint of 1. Filter correctly identifies Kotori but lacks quantity limit specification in action parameters."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:52:41.041Z"
+}

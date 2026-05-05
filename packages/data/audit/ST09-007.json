@@ -1,0 +1,41 @@
+{
+  "id": "ST09-007",
+  "name": "Shinobu",
+  "set": "ST-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing conditional action: 'You may add 1 card from the top or bottom of your Life cards to your hand' should be represented as a FlipLife action before the PowerBoost. The effect is conditional on this optional Life card action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition structure. The PowerBoost (+4000) only applies if the player chooses to add a Life card to hand. Should include a condition or sequential action dependency."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "amount": 1,
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:02.670Z"
+}

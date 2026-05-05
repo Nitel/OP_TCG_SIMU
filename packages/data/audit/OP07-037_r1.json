@@ -1,0 +1,56 @@
+{
+  "id": "OP07-037_r1",
+  "name": "More Pizza!!",
+  "set": "ST-24",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action is present but missing required filter conditions: must specify CardType={Supernovas} and exclude [More Pizza!!]"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type should reflect the 'look at 5 cards' mechanic which is a deck search/peek operation, not a generic SearchDeck without parameters"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger 'Trigger' with DrawCard is unexplained and not supported by card text; the effect describes revealing and adding cards, not drawing"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must include CardType condition for {Supernovas} and CardName exclusion for [More Pizza!!]; currently set to 'Any' which is incorrect"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing the mechanic of placing remaining cards at bottom of deck in any order after selection"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card other than [More Pizza!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "CardType",
+              "value": "Supernovas",
+              "exclude": [
+                "More Pizza!!"
+              ]
+            },
+            "count": 1,
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:18.517Z"
+}

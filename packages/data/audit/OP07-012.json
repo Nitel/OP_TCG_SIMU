@@ -1,0 +1,32 @@
+{
+  "id": "OP07-012",
+  "name": "Porchemy",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect applies for the duration of your turn only, not until end of turn. Should be duration:'DuringYourTurn' not 'EndOfTurn'. 'During this turn' is a temporary effect that lasts while your turn is active."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "amount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:03:17.561Z"
+}

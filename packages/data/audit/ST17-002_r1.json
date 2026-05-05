@@ -1,0 +1,41 @@
+{
+  "id": "ST17-002_r1",
+  "name": "Trafalgar Law",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect lacks condition 'If your Leader has the {The Seven Warlords of the Sea} type' — should be conditional, not unconditional. The card text uses 'If' which makes both effects conditional on leader type."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition type 'HasCardOnBoard' checks for card on board, but text requires leader type check. Should use 'LeaderHasType' with value 'The Seven Warlords of the Sea', not HasCardOnBoard."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST17-002_r1",
+    "effectText": "[On Play] You may return 1 of your Characters to the owner's hand: If your Leader has the {The Seven Warlords of the Sea} type, return up to 1 Character with a cost of 4 or less to the owner's hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "The Seven Warlords of the Sea"
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 4
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:20.095Z"
+}

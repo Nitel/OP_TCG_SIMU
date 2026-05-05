@@ -1,0 +1,45 @@
+{
+  "id": "EB01-007",
+  "name": "Yamato",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing OncePerTurn restriction specified in effect text '[Once Per Turn]'",
+      "field": "effects[0].restriction"
+    },
+    {
+      "severity": "major",
+      "description": "Missing requirement that the DON!! card must be rested. The effect text specifies 'rested DON!! card' but the DSL has no condition checking for this",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing phase restriction. '[Activate: Main]' implies this can only be activated during Main phase",
+      "field": "effects[0].phase"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "phase": "Main",
+        "restriction": "OncePerTurn",
+        "condition": {
+          "type": "HasRestingDon"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:28.049Z"
+}

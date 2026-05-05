@@ -1,0 +1,83 @@
+{
+  "id": "OP13-099",
+  "name": "The Empty Throne",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing first effect entirely. Card has two effects: (1) passive '[Your Turn]' effect that boosts Leader power when trash ≥19, and (2) Activated Main ability. DSL only captures second effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with 'activation':'Main', but this effect is missing the Main activation context and cost requirements (rest self + 3 DON!! cards)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "PlayFromHand action missing cost constraint. Effect text specifies 'cost equal to or less than the number of DON!! cards on your field' — this must be included as a filter condition, not just color/type/cardType."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but should include HasAttachedDon condition (player must have 3+ DON!! cards to activate, implied by 'rest... 3 of your DON!! cards')."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 19
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "LeaderCard"
+          },
+          "value": 1000
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "activation": "Main",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": ">=",
+        "value": 3
+      },
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GiveDon",
+          "value": -3
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "subType": "Five Elders",
+            "cardType": "Character",
+            "costComparison": "<=",
+            "costReference": "DONCardsOnField"
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:05:57.250Z"
+}

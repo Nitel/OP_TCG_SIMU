@@ -1,0 +1,60 @@
+{
+  "id": "OP12-015",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand should use optional:'true' to reflect 'You may reveal' phrasing"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "AttachDon filter missing 'rested' condition - text specifies 'rested DON!! card'. Should filter for resting DON cards only"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "'give up to 1' implies optional count - should use 'optional':true or 'count':1 with appropriate semantics"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 2,
+        "optional": true,
+        "filter": {
+          "cardType": "Event"
+        },
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "optional": true,
+            "filter": {
+              "color": "Red",
+              "cardType": "Character",
+              "maxPower": 3000
+            }
+          },
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "optional": true,
+            "filter": {
+              "hasRestingDon": true
+            },
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:20.494Z"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "OP05-029",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's attack), not 'OnAttacked' (when your character is attacked). The card activates when opponent attacks, not when you are attacked."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'Once Per Turn' frequency constraint. DSL should include frequency limiting this ability to once per turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing cost requirement: ability costs 1 DON!! (➀). Action should include GiveDon/AttachDon cost deduction or cost field specification."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-029",
+    "effectText": "[On Your Opponent's Attack] [Once Per Turn] ➀: Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "frequency": "OncePerTurn",
+        "cost": 1,
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6,
+              "maxAmount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:46:27.027Z"
+}

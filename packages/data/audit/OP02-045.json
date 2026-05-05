@@ -1,0 +1,51 @@
+{
+  "id": "OP02-045",
+  "name": "Three Sword Style Oni Giri",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' for Counter effects that apply during battle resolution"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object is completely extraneous and not mentioned in card text. Card only describes two sequential actions within a single Counter trigger, not a separate Trigger effect"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter missing 'baseEffect' condition. Card text specifies 'no base effect' - should include 'baseEffect:false' or equivalent exclusion"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 6000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "maxCost": 3,
+              "baseEffect": false
+            },
+            "maxCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:55.321Z"
+}

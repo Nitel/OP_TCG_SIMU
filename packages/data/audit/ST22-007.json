@@ -1,0 +1,53 @@
+{
+  "id": "ST22-007",
+  "name": "Squard",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing RevealFromHand action to reveal top card of deck. The effect must first reveal 1 card from deck before conditionally attaching DON!!"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check if revealed card's type includes 'Whitebeard Pirates'. AttachDon should only occur if this condition is met"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon target must be restricted to rested DON!! cards only. Current target allows any character/leader. Target should specify 'rested' constraint or use conditional logic"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "source": "TopOfDeck"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "restriction": "RestingDonOnly"
+          },
+          "condition": {
+            "type": "RevealedCardHasType",
+            "cardType": "Whitebeard Pirates"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:17:03.586Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "EB02-003",
+  "name": "Tony Tony.Chopper",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "The duration is 'EndOfTurn' but the text explicitly states '[Opponent's Turn]', which means the power boost should only apply during the opponent's turn. The duration should be 'DuringOpponentTurn', not 'EndOfTurn'.",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "major",
+      "description": "The condition checks for 'HasCardOnBoard' with name 'Straw Hat Crew', but should check if the Leader has the {Straw Hat Crew} type using 'LeaderHasType'.",
+      "field": "effects[1].condition.type"
+    },
+    {
+      "severity": "minor",
+      "description": "The AttachDon action should specify that the DON!! card being given is rested (from the rested DON!! pool).",
+      "field": "effects[1].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "characterType": "Straw Hat Crew"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "fromRested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:01:11.070Z"
+}

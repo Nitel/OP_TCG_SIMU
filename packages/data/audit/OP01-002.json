@@ -1,0 +1,48 @@
+{
+  "id": "OP01-002",
+  "name": "Trafalgar Law",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition checks 'HasCardOnBoard' with name 'Character' (generic type), but should verify exactly 5 Characters on board. Current condition is too permissive."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "PlayFromHand filter missing 'differentColor' constraint. Effect text requires played Character is 'different color than the returned Character' — this dependency is not captured in DSL."
+    },
+    {
+      "severity": "minor",
+      "field": "trigger",
+      "description": "Trigger 'Activated' is correct, but DSL should reflect '[Activate: Main] [Once Per Turn] ➁' metadata. This is typically a formatting/metadata issue rather than logic error."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Character",
+      "count": 5
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter"
+        }
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 5,
+          "differentColorFrom": "returnedCharacter"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:12.759Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP01-073",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. The effect allows you to look at and rearrange 5 cards from the top of your deck, not search/draw them to hand. This should use a custom action or clarify the mechanic as 'Rearrange' or similar, not SearchDeck which implies drawing cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is missing critical specification: must target top 5 cards only, not 'Any' cards from deck. Should specify 'TopOfDeck' with count=5."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination 'hand' is wrong. Cards are rearranged at top or bottom of deck, they do not go to hand. Destination should be 'deck' or similar."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "DSL is completely missing the [Blocker] keyword effect. The card has two distinct effects: Blocker (passive ability) and On Play effect. Only the On Play is represented."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromDeck",
+          "count": 5,
+          "position": "top",
+          "rearrange": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:07.615Z"
+}

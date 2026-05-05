@@ -1,0 +1,53 @@
+{
+  "id": "OP06-065",
+  "name": "Vinsmoke Niji",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing condition: 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' should be a HasAttachedDon comparison condition, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Card text says 'choose one' but DSL has two separate effects both triggering on play. Should be a single effect with two mutually exclusive action branches"
+    },
+    {
+      "severity": "minor",
+      "field": "actions[0].target",
+      "description": "Target scope should reflect 'up to 1' with a quantity limit"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "compareToOpponent": true
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "quantity": 1
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "quantity": 1
+          }
+        }
+      ],
+      "chooseOne": true
+    }
+  ],
+  "auditedAt": "2026-05-05T09:58:07.699Z"
+}

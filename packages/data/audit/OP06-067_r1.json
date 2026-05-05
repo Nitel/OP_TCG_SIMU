@@ -1,0 +1,54 @@
+{
+  "id": "OP06-067_r1",
+  "name": "Vinsmoke Yonji",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always', but card text specifies 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field'. Should use a comparison condition checking DON counts on both fields."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing second effect for [Blocker] keyword. The DSL should include a Counter effect that triggers when opponent declares an attack, allowing this card to be rested to become the new target."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessOrEqual",
+        "scope": "Self",
+        "opponentComparison": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:37:46.084Z"
+}

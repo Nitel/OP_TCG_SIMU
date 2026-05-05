@@ -1,0 +1,37 @@
+{
+  "id": "OP08-088",
+  "name": "Duval",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but card text states 'until the end of your opponent's next turn'. This requires duration:'DuringOpponentTurn' to represent the opponent's turn scope, not just your turn end."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'PowerBoost' but card grants '+1 cost', not power. Should use 'GiveCost' or equivalent cost modifier action if available in DSL, or clarify if this is intentionally modeling cost as power for the system."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "max": 1
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:30:56.934Z"
+}

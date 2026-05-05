@@ -1,0 +1,62 @@
+{
+  "id": "OP15-059",
+  "name": "Amazon",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is incomplete. DSL only captures the Rest action but omits the entire conditional chain: opponent's choice to return DON!! cards, and the power reduction if they decline. The trigger should also be OnAttack (opponent's attack), not OnAttacked (being attacked)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent attacking), not 'OnAttacked' (this card being attacked)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing conditional logic: (1) Rest is optional ('You may'), (2) opponent gets choice to return DON!!, (3) if they don't, apply −2000 power to up to 1 opponent Leader/Character. Current DSL only includes Rest with no conditions or follow-up effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Duration missing: 'during this turn' indicates the power reduction should have duration:'DuringOpponentTurn', not Permanent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Opponent",
+            "cardTypes": [
+              "Leader",
+              "Character"
+            ],
+            "count": 1
+          },
+          "power": -2000,
+          "duration": "DuringOpponentTurn",
+          "condition": "OpponentDeclinedReturnDON"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:29.604Z"
+}

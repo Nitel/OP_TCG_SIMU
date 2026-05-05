@@ -1,0 +1,57 @@
+{
+  "id": "OP09-073",
+  "name": "Brook",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. Card text says 'return DON!! cards from your field to your DON!! deck' — this is AttachDon removal/return, not hand discard. Should use a return/detach action or custom logic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "target.scope should specify 'ChooseOpponentCharacter' with a count limit of 2. Current scope is incomplete; needs maxCount:2 constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but the power boost should only apply during the attacking turn. Verify this aligns with 'during this turn' semantics (should be DuringYourTurn or equivalent turn-scoped duration, not permanent EndOfTurn)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty but should specify DON!! cards only. Needs {'hasCardProperty':'DON!!'} or equivalent to limit valid targets."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "filter": {
+              "hasCardProperty": "DON!!"
+            },
+            "minAmount": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": -2000,
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCount": 2
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:27:15.336Z"
+}

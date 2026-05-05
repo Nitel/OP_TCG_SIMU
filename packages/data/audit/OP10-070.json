@@ -1,0 +1,53 @@
+{
+  "id": "OP10-070",
+  "name": "Trebol",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'PowerBoost' but card grants protection from K.O., not a power boost. Should use a protection/immunity action or custom mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text specifies 'until the end of your opponent's next turn', which is a longer duration spanning into the opponent's next turn. Should be 'EndOfOpponentTurn' or equivalent multi-turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing Blocker ability entirely. The card's passive Blocker effect is not represented in the DSL. Should include separate trigger for Blocker mechanic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOd",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "maxPower": 1000
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:36:15.112Z"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "OP02-066",
+  "name": "Impel Down All Stars",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect missing LeaderHasType condition to check for {Impel Down} type leader, which is required by the effect text 'If your Leader has the {Impel Down} type'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "TrashFromHand action has incorrect filter specifying cardType 'Event', but the effect text says 'trash 2 cards from your hand' without any type restriction",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "TrashFromHand should specify count: 2 to match 'trash 2 cards from your hand'",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "major",
+      "description": "DrawCard action should specify 'upTo: true' to match 'draw up to 2 cards' rather than drawing exactly 2",
+      "field": "effects[0].actions[0].thenActions[0].upTo"
+    },
+    {
+      "severity": "minor",
+      "description": "Second effect with Trigger appears to be for the [Trigger] ability, which should draw 1 card typically, but draws 2 here. Verify if this card has a printed [Trigger] ability",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "leaderType": "Impel Down"
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 2,
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 2,
+                "upTo": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:53:37.042Z"
+}

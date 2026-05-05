@@ -1,0 +1,30 @@
+{
+  "id": "OP05-118_r1",
+  "name": "Kaido",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires opponent to have 3 or less Life cards. Should be a life check condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:36:35.349Z"
+}

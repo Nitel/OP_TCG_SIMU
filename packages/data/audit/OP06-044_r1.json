@@ -1,0 +1,46 @@
+{
+  "id": "OP06-044_r1",
+  "name": "Gion",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. DSL must define the trigger, condition, and action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "[Your Turn] in text requires duration:'DuringYourTurn', not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When your opponent activates an Event, your opponent must place 1 card from their hand at the bottom of their deck.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "triggerCondition": {
+          "type": "CardType",
+          "cardType": "Event",
+          "controller": "Opponent"
+        },
+        "conditions": [
+          {
+            "type": "OncePerTurn"
+          }
+        ],
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "target": "Opponent",
+            "count": 1,
+            "destination": "DeckBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:42:54.736Z"
+}

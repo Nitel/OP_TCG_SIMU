@@ -1,0 +1,53 @@
+{
+  "id": "OP09-030",
+  "name": "Trafalgar Law",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for optional cost: 'You may return 1 of your Characters to the owner's hand' must be represented as a condition. The action should only execute if this condition is met."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "excludeSelf is not a valid filter property for PlayFromHand. The exclusion of [Trafalgar Law] should use 'excludeName' or similar property, not excludeSelf."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should explicitly exclude 'Trafalgar Law' by name since the card text says 'other than [Trafalgar Law]'. Current implementation unclear if this is handled."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "Always",
+        "optional": true,
+        "cost": {
+          "type": "ReturnToHand",
+          "filter": {
+            "cardType": "Character",
+            "controller": "Self"
+          },
+          "amount": 1
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "ODYSSEY",
+          "cardType": "Character",
+          "maxCost": 3,
+          "excludeName": "Trafalgar Law"
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:35:37.396Z"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "ST14-014",
+  "name": "Gum-Gum Giant Rifle",
+  "set": "ST-14",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing cost requirement. Text states 'if you have a Character with a cost of 8 or more' but DSL only checks HasCardOnBoard without cost filter. Should be HasCardOnBoard with cost >= 8."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (SearchDeck) is completely extraneous and not mentioned in card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope should specify 'up to 1' but ChooseOwnCharacterOrLeader doesn't enforce the 'up to 1' limit. Should be explicit in target definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:10:06.165Z"
+}

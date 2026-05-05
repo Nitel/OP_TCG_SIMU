@@ -1,0 +1,46 @@
+{
+  "id": "OP03-110_r2",
+  "name": "Charlotte Smoothie",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect structure is incorrect. The card text describes a conditional action: 'You may add 1 card from the top or bottom of your Life cards to your hand' is the condition/cost that enables the power boost. The DSL should use a single effect with FlipLife as a conditional action (thenActions) that triggers PowerBoost, not two separate effects."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and hand discard action is completely unrelated to the card text and should not be present."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife should be optional (may) and conditional. Current structure treats it as mandatory. The PowerBoost should only occur if FlipLife is performed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:33:50.832Z"
+}

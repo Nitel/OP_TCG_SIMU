@@ -1,0 +1,39 @@
+{
+  "id": "OP03-053",
+  "name": "Yosaku &amp; Johnny",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'TrashCount' (checking deck size), not 'HasRestingDon'. The effect triggers when you have 20 or fewer cards in your deck (trash count ≤20)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (static/passive effect), not 'Activated'. This is a passive effect that applies while the condition is met, not a manually activated ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": "<=",
+        "count": 20
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:12.319Z"
+}

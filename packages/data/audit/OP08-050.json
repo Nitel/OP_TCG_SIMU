@@ -1,0 +1,40 @@
+{
+  "id": "OP08-050",
+  "name": "Namule",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'RevealFromHand' is incorrect for placing cards at top/bottom of deck. Should be 'PlayFromHand' with a 'placement' parameter, or a custom action like 'PlaceDeckCard' that specifies top/bottom positioning. RevealFromHand does not match the effect of placing cards into the deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing 'placement' or equivalent property to specify 'top or bottom of your deck'. The DSL must indicate the player chooses placement location."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Draw 2 cards and place 2 cards from your hand at the top or bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 2,
+            "filter": {},
+            "placement": "TopOrBottomOfDeck",
+            "playerChoice": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:28:01.727Z"
+}

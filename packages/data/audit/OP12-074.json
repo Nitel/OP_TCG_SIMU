@@ -1,0 +1,55 @@
+{
+  "id": "OP12-074",
+  "name": "Patty",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: LeaderIsName 'Sanji' is required but not present"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Missing consequent actions: should include AttachDon (add up to 1 DON!! from deck and set as active)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be conditional/optional (You may trash...). Current structure doesn't reflect optional cost pattern"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 Event from your hand: If your Leader is [Sanji], add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderIsName",
+            "value": "Sanji"
+          }
+        ],
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "cardType": "Event"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "AttachDon",
+                "source": "Deck",
+                "count": 1,
+                "setActive": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:54:57.000Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "OP06-001",
+  "name": "Uta",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text says 'during this turn' which means the effect lasts only during your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "GiveDon action missing 'rest' property. Card text explicitly states 'rest it' — the DON!! card must be added and rested."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "FILM"
+        },
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rest": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:53:16.490Z"
+}

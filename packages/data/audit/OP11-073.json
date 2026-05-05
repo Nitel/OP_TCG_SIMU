@@ -1,0 +1,35 @@
+{
+  "id": "OP11-073",
+  "name": "Charlotte Linlin",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (activated during opponent's attack), not 'Activated'. The effect states '[On Your Opponent's Attack]'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'RevealFromHand' is incorrect. The effect reveals from the top of opponent's deck, not hand. Should be a custom reveal-from-deck action or similar, not RevealFromHand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the cost-choice mechanic. The effect requires the player to 'Choose a cost' before revealing, and the power boost is conditional on the revealed card matching that cost. Current DSL has no condition checking card cost against chosen cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should include 'Once Per Turn' limiter. Current DSL only checks HasRestingDon but lacks frequency restriction."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "First ability (Leader has {Big Mom Pirates} type, Character gains [Rush]) is completely missing from DSL."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:45:48.954Z"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "OP12-012",
+  "name": "Buggy",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but text states 'until the end of your opponent's next End Phase', which means the effect lasts through opponent's turn. Should be 'DuringOpponentTurn' or equivalent multi-turn duration, not a single EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope 'ChooseOwnCharacter' lacks the necessary conditions. Must filter for: type includes 'Roger Pirates' AND is not named 'Buggy', and only up to 1 target. Need conditions or enhanced scope definition."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "count": 1,
+          "filter": {
+            "hasType": "Roger Pirates",
+            "isNotName": "Buggy"
+          }
+        },
+        "duration": "UntilEndOfOpponentNextEndPhase"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:06.060Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP09-005_r1",
+  "name": "Silvers Rayleigh",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires 'If your opponent has 2 or more Characters with a base power of 5000 or more'. This should be a custom condition checking opponent's board state, not Always."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is correct, but the DSL lacks the Blocker ability entirely. The card has two separate effects: [Blocker] and [On Play]. Only the On Play effect is currently in DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Custom",
+        "description": "Opponent has 2 or more Characters with base power 5000 or more"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "self"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:45:59.173Z"
+}

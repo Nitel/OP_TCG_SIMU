@@ -1,0 +1,47 @@
+{
+  "id": "OP07-076_r1",
+  "name": "Slow-Slow Beam Sword",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Power boost should have duration 'DuringThisBattle' not 'EndOfBattle'. The text 'during this battle' specifies the power is active only while the battle is occurring."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and GiveDon action is incorrect. The DON!! cost is part of the Counter cost mechanic, not a separate triggered effect. This should not be represented as a second effect; the DON!! return is a cost of playing the card, not an additional action."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest action target should allow 'up to 1', implying optional selection. Current scope 'ChooseOpponentCharacter' may not properly reflect optionality."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:44:50.092Z"
+}

@@ -1,0 +1,73 @@
+{
+  "id": "EB01-033",
+  "name": "Blueno",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing DON!! -1 cost requirement. The effect should only be usable if the player can return 1 DON!! card from their field to their DON!! deck.",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "major",
+      "description": "Condition checks for card named 'Water Seven' on board instead of checking if Leader has {Water Seven} type. Should use LeaderHasType condition.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing ability to play from trash. The effect allows playing from hand OR trash, but DSL only has PlayFromHand action.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "minor",
+      "description": "Filter should specify cost of exactly 5, not maxCost 5. The text says 'cost of 5' not 'cost of 5 or less'.",
+      "field": "effects[0].actions[0].filter.maxCost"
+    },
+    {
+      "severity": "minor",
+      "description": "Filter should exclude cards named 'Blueno', not just self. The text says 'other than [Blueno]' which means any Blueno card.",
+      "field": "effects[0].actions[0].filter.excludeSelf"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "cost": {
+          "type": "ReturnDon",
+          "amount": 1
+        },
+        "condition": {
+          "type": "LeaderHasType",
+          "subType": "Water Seven"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Water Seven",
+              "cardType": "Character",
+              "cost": 5,
+              "excludeName": "Blueno"
+            },
+            "amount": 1,
+            "optional": true
+          },
+          {
+            "type": "PlayFromTrash",
+            "filter": {
+              "subType": "Water Seven",
+              "cardType": "Character",
+              "cost": 5,
+              "excludeName": "Blueno"
+            },
+            "amount": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:22.100Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "EB03-005",
+  "name": "Sugar",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Condition uses HasCardOnBoard to check for 'Sugar' by name, but the effect text specifies 'If your Leader is [Sugar]'. This should use LeaderIsName condition instead, as it's checking the Leader specifically, not any card on board.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "The PlayFromHand action is missing the 'rested' specification. The effect text explicitly states the character should be played 'rested', but there's no 'rested: true' field in the action.",
+      "field": "effects[0].actions[0].rested"
+    },
+    {
+      "severity": "minor",
+      "description": "The PlayFromHand action is missing 'count: 1' to match 'up to 1' in the effect text, though this may be implicit.",
+      "field": "effects[0].actions[0].count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Sugar"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Donquixote Pirates",
+              "maxPower": 6000
+            },
+            "count": 1,
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:54.863Z"
+}

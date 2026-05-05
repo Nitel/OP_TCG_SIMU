@@ -1,0 +1,37 @@
+{
+  "id": "OP03-017",
+  "name": "Cross Fire",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Card text states 'during this turn' which indicates the effect lasts only for the current turn phase. Duration should be 'DuringYourTurn' not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at end of turn, while 'DuringYourTurn' correctly represents the limited duration specified by 'during this turn'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is acceptable but 'ChooseOpponentCharacters' with quantity constraint would be more precise for 'up to 1' targeting."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Whitebeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -4000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "quantity": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:13.340Z"
+}

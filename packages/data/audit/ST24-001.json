@@ -1,0 +1,35 @@
+{
+  "id": "ST24-001",
+  "name": "Capone\"Gang\"Bege",
+  "set": "ST-24",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: must check 'HasRestingDon' >= 6 before DrawCard/TrashFromHand. Current condition is 'Always', but effect should only trigger if you have 6+ rested cards."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:19:24.793Z"
+}

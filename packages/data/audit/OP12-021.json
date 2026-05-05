@@ -1,0 +1,49 @@
+{
+  "id": "OP12-021",
+  "name": "Ipponmatsu",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant text but effects array is empty. Should contain: (1) Condition checking Leader has <Slash> attribute AND 6+ rested DON cards, (2) Action preventing opponent from resting this Character, (3) Duration during opponent's turn. [Blocker] keyword should be represented as GiveKeyword action."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If your Leader has the <Slash> attribute and you have 6 or more rested DON!! cards, this Character cannot be rested by your opponent's effects.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Slash"
+          },
+          {
+            "type": "HasRestingDon",
+            "value": 6
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeRestedByOpponentEffects",
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:53.337Z"
+}

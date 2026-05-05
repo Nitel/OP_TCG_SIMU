@@ -1,0 +1,35 @@
+{
+  "id": "ST13-007",
+  "name": "Sabo",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect. The effect says 'trash this Character' (self), not trash from hand. Should be a conditional self-trash action, or the structure needs revision to allow optional self-discard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the 'Reveal 1 card from the top of your Life cards' mechanic. This is a Life reveal, not a deck search or hand action. Current DSL does not model Life card revelation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].destination",
+      "description": "SearchDeck with destination 'board' is incorrect. The effect says 'play that card' conditionally (if it's Sabo cost 5). Should use PlayFromHand or equivalent, and the search should reveal from Life, not deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text says 'until the end of your opponent's next turn', which should be duration 'DuringOpponentTurn' or similar extended duration, not a single turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].target.scope",
+      "description": "Target scope 'OwnLeader' is too broad. Effect says 'up to 1 of your Leader', implying a specific leader selection constraint, not all leaders."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:08:08.510Z"
+}

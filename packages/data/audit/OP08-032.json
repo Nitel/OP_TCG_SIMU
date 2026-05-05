@@ -1,0 +1,45 @@
+{
+  "id": "OP08-032",
+  "name": "Milky",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveDon' is incorrect. The effect activates a resting Character to set DON!! cards as active, which requires 'AttachDon' or a state-change action, not GiveDon (which adds DON!!). The card should activate/flip dormant DON!!"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing required check: 'LeaderHasType' with type 'Minks'. The effect only resolves if Leader has {Minks} type."
+    },
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger 'Activated' is correct for [Activate: Main], but the condition structure is incomplete and doesn't enforce the Minks type requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Action targets 'up to 1' DON!! card, but 'GiveDon' with count:1 semantically means adding a DON!!, not activating existing ones. Correct action should reflect setting dormant DON!! as active (state flip)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Minks"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": "self"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:26:39.108Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "ST10-001",
+  "name": "Trafalgar Law",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'ReturnToHand' or 'PlaySelf' (returning to deck bottom), not 'Rest'. Card text says 'place at bottom of owner's deck', which means removal from field."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'TurnCount' with min:1, max:1 does not properly encode 'Once Per Turn'. Should use 'Always' with activation context, or clarify this is a per-turn limit enforced by game rules."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is reasonable but should explicitly confirm maxPower:3000 applies to selection criteria."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxAmount": 1
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "maxAmount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:43.496Z"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "OP12-039",
+  "name": "Luffy Is the Man Who Will Become the King of Pirates!!!",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect uses 'PlayFromHand' action, but card text says 'Set your [Roronoa Zoro] Leader as active' — this is a Leader activation, not playing a character from hand. Should use a Leader-specific action or clarify the mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect trigger 'Trigger' is undefined and unclear. No condition specifies when this power boost activates. The text only describes setting Leader as active; no secondary effect is mentioned."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "PowerBoost action (+1000 power, EndOfTurn) has no basis in the provided card text. Card text contains no power boost effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Set your [Roronoa Zoro] Leader as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ActivateLeader",
+            "filter": {
+              "cardName": "Roronoa Zoro"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:52:14.106Z"
+}

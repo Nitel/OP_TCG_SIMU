@@ -1,0 +1,52 @@
+{
+  "id": "OP09-077_r1",
+  "name": "Gum-Gum Lightning",
+  "set": "ST-26",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Trigger type incorrect: 'Activated' should be used for the Main ability activation (DON cost payment), but the cost mechanic itself (returning DON to deck) is not represented. The DSL structure doesn't capture that this is a Main ability with a DON cost prerequisite."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and GiveDon action is incorrect. The card text does not grant DON; it returns DON cards from field to deck as a cost. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is correct but should include explicit cost condition. The ability requires paying 2 DON as a cost before activation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": -2,
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000,
+            "maxChoose": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:21:25.569Z"
+}

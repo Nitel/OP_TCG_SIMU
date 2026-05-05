@@ -1,0 +1,42 @@
+{
+  "id": "OP08-017",
+  "name": "I'd Never Shoot You!!!!",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Second action states 'during this turn' but DSL uses 'EndOfTurn'. Should be 'DuringYourTurn' to match the temporary effect timing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object with trigger 'Trigger' and +1000 power boost is completely absent from card text. This appears to be erroneous data."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:25:25.485Z"
+}

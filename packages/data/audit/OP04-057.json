@@ -1,0 +1,67 @@
+{
+  "id": "OP04-057",
+  "name": "Dragon Twister Demolition Breath",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Counter triggers should use 'Counter', not 'OnAttacked'. Counter is a special trigger type for defensive responses."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include Leader option: 'ChooseOwnLeaderOrCharacter', not just 'ChooseOwnCharacter'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect should also use 'Counter' trigger, not generic 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action should be custom/placement effect to 'place at bottom of deck', not 'ReturnToHand'. No standard action type matches this game mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should be 'ChooseOwnCharacter' (your own cards), not opponent's. Card text says 'your... Character cards'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "maxCost value of 6 is incorrect. Effect specifies cost 1 or less, so maxCost should be 1"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter",
+              "maxCount": 1
+            },
+            "duration": "DuringBattle"
+          },
+          {
+            "type": "Custom",
+            "description": "Place up to 1 of your Character cards with cost ≤1 at the bottom of your deck",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 1,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:46.820Z"
+}

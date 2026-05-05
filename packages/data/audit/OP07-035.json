@@ -1,0 +1,64 @@
+{
+  "id": "OP07-035",
+  "name": "Karmic Punishment",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Counter effect is missing the conditional check for 3+ Characters. The second PowerBoost should only occur if the condition is met, not as a separate unconditional action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (KO opponent Character with cost ≤4) has no basis in the card text. This effect does not appear in the official card description."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "The second PowerBoost should be conditional on 'HasCardOnBoard' with count 3+ (your Characters), not an independent action."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 3 or more Characters, that card gains an additional +1000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "scope": "OwnCharacters",
+            "minCount": 3
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:02.433Z"
+}

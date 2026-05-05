@@ -1,0 +1,38 @@
+{
+  "id": "OP09-112",
+  "name": "Belo Betty",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 2 or less Life cards' should be a Life count condition, not 'Always'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous effect: Second effect with trigger 'Trigger' and action 'PlaySelf' has no corresponding text in card effect"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If you have 2 or less Life cards, draw 1 card.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LifeCount",
+          "value": 2,
+          "comparison": "LessThanOrEqual"
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:30:21.925Z"
+}

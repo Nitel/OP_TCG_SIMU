@@ -1,0 +1,48 @@
+{
+  "id": "OP15-064",
+  "name": "Kotori",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition requires both [Satori] AND [Hotori] on board, but DSL only checks for Satori. Should be a composite condition checking both cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow choosing 0 or 1 character (\"up to 1\"), but current scope doesn't reflect optionality. Target needs optional/upTo modifier."
+    },
+    {
+      "severity": "minor",
+      "field": "root",
+      "description": "DSL lacks cost encoding (DON!! −2, rest this Character). Should include cost metadata or separate cost actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "names": [
+          "Satori",
+          "Hotori"
+        ],
+        "requireAll": true
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 5000,
+            "optional": true,
+            "upTo": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:49.256Z"
+}

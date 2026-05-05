@@ -1,0 +1,29 @@
+{
+  "id": "OP02-082",
+  "name": "Byrnndi World",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].amount",
+      "description": "Power boost amount is 7920 but card text states +792000. Amount should be 792000."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 792000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:49.747Z"
+}

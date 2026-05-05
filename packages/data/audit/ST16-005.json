@@ -1,0 +1,42 @@
+{
+  "id": "ST16-005",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-16",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should specify 'rested' state. HasCardOnBoard does not check resting status. Should be a compound condition or custom resting check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'OnPlay' only applies when this card enters play. The effect should be a passive/static ability that checks the condition continuously, not just on play. Consider 'Trigger' or a continuous passive state."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have a rested [Uta], this Character gains +1000 power.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "name": "Uta",
+          "restingState": "Rested"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:11:57.885Z"
+}

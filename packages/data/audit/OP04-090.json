@@ -1,0 +1,65 @@
+{
+  "id": "OP04-090",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but the entire effect structure is wrong"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect returns cards FROM trash TO deck (reverse direction). Should use a custom action or SearchDeck-like behavior. Current action suggests discarding from hand to trash, which is backwards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition 'TurnCount' with min:1 does not capture the '[Once Per Turn]' activation limit. Should use activation limit tracking, not TurnCount. TurnCount is for checking turn number, not per-turn ability usage."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing second effect: after returning cards, character becomes active and gains 'will not become active in next Refresh Phase' (a duration-based keyword/state that needs separate handling)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is empty object {}. Should specify source:'Trash' and count:7 to return exactly 7 cards from trash."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] You may return 7 cards from your trash to the bottom of your deck in any order: Set this Character as active. Then, this Character will not become active in your next Refresh Phase.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "source": "Trash",
+            "count": 7,
+            "destination": "DeckBottom",
+            "thenActions": [
+              {
+                "type": "Rest",
+                "target": "Self",
+                "setToActive": true
+              },
+              {
+                "type": "GiveKeyword",
+                "target": "Self",
+                "keyword": "CannotBecomeActiveNextRefresh"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:27.168Z"
+}

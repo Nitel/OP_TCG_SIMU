@@ -1,0 +1,30 @@
+{
+  "id": "OP05-118",
+  "name": "Kaido",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: card effect requires checking opponent's Life total (3 or less). Current condition is 'Always', should be a condition checking opponent Life count."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentLife",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 4
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:53:07.516Z"
+}

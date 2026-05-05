@@ -1,0 +1,71 @@
+{
+  "id": "OP05-099",
+  "name": "Amazon",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent's attack phase), not 'OnAttacked' (this card being attacked). Card activates during opponent's attack, not when attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing conditional actions. DSL only has Rest action, but effect requires: optional opponent trash from Life, conditional opponent power reduction, and conditional action logic (if trash, then nothing; if no trash, then power reduction)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing duration 'DuringOpponentTurn' (text says 'during this turn' in opponent's turn context). Power reduction effect must be scoped to opponent turn only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action lacks 'optional' flag. Text says 'You may rest' indicating optional activation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Opponent",
+            "source": "Life"
+          },
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Opponent",
+            "type": [
+              "Leader",
+              "Character"
+            ]
+          },
+          "count": 1,
+          "power": -2000,
+          "duration": "DuringOpponentTurn",
+          "condition": "IfOpponentDidNotTrash"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:51:50.894Z"
+}

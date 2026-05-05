@@ -1,0 +1,36 @@
+{
+  "id": "OP15-068",
+  "name": "Heavenly Warriors",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has conditional effect text but effects array is empty. Should contain condition checking DON count and action granting Blocker keyword."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have 6 or less DON!! cards on your field, this Character gains [Blocker].",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "comparison": "lessThanOrEqual",
+            "value": 6
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:27:06.352Z"
+}

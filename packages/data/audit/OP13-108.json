@@ -1,0 +1,53 @@
+{
+  "id": "OP13-108",
+  "name": "Jewelry Bonney",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The text checks if Leader has {Egghead} type, not if a card is on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Rest action) is completely unrelated to card text. No resting effect is mentioned in the official card text. This appears to be from a different card."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '[Rush] during this turn', but verify consistency. This is acceptable."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If your Leader has the {Egghead} type, this Character gains [Rush] during this turn. Then, your opponent adds 1 card from the top of their Life cards to their hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Egghead"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfTurn"
+          },
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "target": {
+              "scope": "Opponent"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:06:36.104Z"
+}

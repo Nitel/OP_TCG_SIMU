@@ -1,0 +1,59 @@
+{
+  "id": "OP12-041",
+  "name": "Sanji",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First ability missing cost condition: [Activate: Main] [Once Per Turn] DON!! −1 requires a condition checking DON!! spend of 1, not just 'Activated' trigger. Should include cost/resource check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Second ability condition is 'Always' but text states 'If the number of DON!! cards on your field is equal to or less than the number on your opponent's field' — requires comparison condition, not Always."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action should attach/rest the DON!! (GiveDon + Rest combined, or AttachDon with rest state), not just GiveDon. Text says 'add up to 1 DON!! card from your DON!! deck and rest it' — requires both attach and rest actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Event",
+            "subType": "Straw Hat Crew",
+            "maxCost": 3
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessOrEqual",
+        "opponentComparison": true
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "Deck",
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:52:24.362Z"
+}

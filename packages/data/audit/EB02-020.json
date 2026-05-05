@@ -1,0 +1,49 @@
+{
+  "id": "EB02-020",
+  "name": "We Are!",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "SearchDeck filter is inverted: uses maxCost=4 but text says 'cost of 4 or more' (minCost=4)",
+      "field": "effects[0].actions[0].filter"
+    },
+    {
+      "severity": "major",
+      "description": "Missing lookCount parameter: text says 'Look at 4 cards from the top' but DSL doesn't specify looking at 4 cards",
+      "field": "effects[0].actions[0].lookCount"
+    },
+    {
+      "severity": "major",
+      "description": "Missing revealCount parameter: text says 'reveal up to 1 card' but DSL doesn't specify the reveal limit",
+      "field": "effects[0].actions[0].revealCount"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing bottomDeckRest parameter: text says 'place the rest at the bottom of your deck in any order' which should be encoded",
+      "field": "effects[0].actions[0].bottomDeckRest"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "lookCount": 4,
+            "revealCount": 1,
+            "filter": {
+              "kind": "ByCost",
+              "minCost": 4
+            },
+            "destination": "hand",
+            "bottomDeckRest": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:17.761Z"
+}

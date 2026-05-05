@@ -1,0 +1,66 @@
+{
+  "id": "OP11-021",
+  "name": "Jinbe",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger is 'OnPlay' but card text says '[End of Your Turn]' – should be 'EndOfTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but card text requires 'If you have 6 or less cards in your hand' – should be a hand count condition"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'SearchDeck' but card effect 'set up to 1 of your {Fish-Man} or {Merfolk} type Characters and up to 1 of your DON!! cards as active' means Rest/Ready action on board, not search. Should be 'Rest' (to ready characters)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter 'kind:Any' is incorrect – must filter for {Fish-Man} or {Merfolk} type Characters AND DON!! cards separately"
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Text '[End of Your Turn]' requires duration 'DuringYourTurn' or 'Permanent' depending on interpretation; current structure missing duration field"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HandCount",
+        "value": 6,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "filter": {
+            "type": [
+              "Fish-Man",
+              "Merfolk"
+            ]
+          },
+          "maxTargets": 1,
+          "target": "YourCharacters"
+        },
+        {
+          "type": "Rest",
+          "filter": {
+            "kind": "DON"
+          },
+          "maxTargets": 1,
+          "target": "YourBoard"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:41:43.266Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "OP12-024",
+  "name": "Gyukimaru",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (given DON!! cards attached to this Character), not 'HasRestingDon' (resting DON!! tokens in resource area)"
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "First passive effect 'If this Character is active, this Character cannot be K.O.'d by your opponent's effects' is completely missing from DSL"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:51:11.927Z"
+}

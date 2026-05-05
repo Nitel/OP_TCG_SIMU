@@ -1,0 +1,30 @@
+{
+  "id": "OP06-086",
+  "name": "Gecko Moria",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PlayFromHand is incorrect; cards are being played from trash, not hand. Should be a custom action or PlayFromTrash equivalent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing source specification. Must indicate cards are chosen from trash, not deck/hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].filter",
+      "description": "Second action should specify that one card plays normally and the other plays rested. Current DSL does not capture the rested state differentiation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL lacks mechanism to express 'up to 1' selection and the conditional resting of the second card. Standard DSL cannot represent 'play 1 card and play the other card rested' logic without additional state/conditional actions."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:59:47.966Z"
+}

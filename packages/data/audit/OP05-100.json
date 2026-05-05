@@ -1,0 +1,37 @@
+{
+  "id": "OP05-100",
+  "name": "Enel",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has complex Rush passive effect with conditional replacement and negation logic, but effects array is empty. Must define: (1) OnAttacked trigger for character leaving field scenario, (2) condition checking for Monkey.D.Luffy on board, (3) FlipLife action to trash from Life cards instead of KO, (4) negation logic when Luffy present."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "Monkey.D.Luffy",
+            "negate": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "preventKO": true
+          }
+        ],
+        "duration": "Permanent",
+        "once": "PerTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:51:49.831Z"
+}

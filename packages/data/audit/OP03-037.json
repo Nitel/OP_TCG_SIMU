@@ -1,0 +1,56 @@
+{
+  "id": "OP03-037",
+  "name": "Tooth Attack",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect trigger should be 'Activated' (correct) but actions are missing required condition: Rest action must target only {East Blue} type Characters. Current DSL lacks type filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing type filter. Should restrict to {East Blue} Characters only, but target has no typeFilter specified."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "KO action condition incomplete. Must target opponent's rested Characters with cost ≤3. Current DSL specifies maxCost but lacks 'mustBeRested' condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with PlayFromHand) appears unrelated to card text. Official text contains no play ability—this effect should be removed or justified by full card text context."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may rest 1 of your {East Blue} type Characters: K.O. up to 1 of your opponent's rested Characters with a cost of 3 or less.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "typeFilter": [
+                "East Blue"
+              ]
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "mustBeRested": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:45.103Z"
+}

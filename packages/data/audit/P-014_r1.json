@@ -1,0 +1,35 @@
+{
+  "id": "P-014_r1",
+  "name": "Koby",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not a valid enum value. Should be 'OnAttacked' (blocker effect activates when opponent declares attack)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker keyword does not play the card; it rests it to become attack target. Should use 'Rest' action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition or action modifier to represent 'you may' (optional activation). Current DSL lacks conditional logic for optional effects."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:38:40.202Z"
+}

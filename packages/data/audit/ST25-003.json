@@ -1,0 +1,64 @@
+{
+  "id": "ST25-003",
+  "name": "Crocodile &amp; Mihawk",
+  "set": "ST-25",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing second effect for '[Once Per Turn] If your {Cross Guild} type Character would be removed from the field by your opponent's effect, you may trash 1 card from your hand instead.' This is a Counter/replacement effect with condition on opponent action, not part of OnPlay sequence."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[2]",
+      "description": "PlayFromHand should use 'maxCost' key consistently; verify filter structure matches DSL spec for cost constraints."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST25-003",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "filter": {}
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Cross Guild",
+              "cardType": "Character",
+              "maxCost": 4
+            },
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "subType": "Cross Guild",
+            "cardType": "Character"
+          }
+        },
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:41.066Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP11-039",
+  "name": "Vagabond Drill",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "PowerBoost target must filter by type {Fish-Man} or {Merfolk}; current scope 'ChooseOwnCharacterOrLeader' lacks type constraint"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and Rest action with maxCost:4 is unexplained in card text; card only describes one Rest action targeting opponent's Characters with cost ≤3. This effect should not exist."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' via maxCount or similar; current definition lacks quantity constraint clarity"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "types": [
+              "Fish-Man",
+              "Merfolk"
+            ],
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:10.131Z"
+}

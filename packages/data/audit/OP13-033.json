@@ -1,0 +1,31 @@
+{
+  "id": "OP13-033",
+  "name": "Franky",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows only 1 card selection (ChooseOpponentCharacter), but card text specifies 'up to 2' cards. Target must support quantity selection."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": {
+              "type": "UpTo",
+              "value": 2
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:00:52.094Z"
+}

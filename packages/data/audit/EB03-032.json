@@ -1,0 +1,36 @@
+{
+  "id": "EB03-032",
+  "name": "Charlotte Flampe",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "[Your Turn] in text indicates duration should be 'DuringYourTurn', not 'EndOfTurn'. The effect lasts during your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify Charlotte Katakuri cards only. Current scope 'ChooseOwnCharacter' is too broad and lacks the card name filter."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "cardName": "Charlotte Katakuri",
+            "maxAmount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:04.524Z"
+}

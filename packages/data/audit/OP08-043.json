@@ -1,0 +1,30 @@
+{
+  "id": "OP08-043",
+  "name": "Edward.Newgate",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing required conditions: LeaderHasType 'Whitebeard Pirates' and life count ≤2. Current condition is 'Always'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'Rest' but card effect restricts attack ability with conditional hand trash cost, not resting. Requires custom/unsupported mechanic or GiveKeyword 'Cannot Attack' with conditional cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Duration missing: effect lasts 'until end of opponent's next turn' (DuringOpponentTurn), not permanent. Required: duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing cost mechanic: opponent must trash 2 cards when attacking selected characters. Standard DSL cannot model conditional attack costs."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:27:27.728Z"
+}

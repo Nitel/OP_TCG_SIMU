@@ -1,0 +1,42 @@
+{
+  "id": "OP10-025",
+  "name": "Enel",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition is 'Always' but card text requires 'If you have 2 or more rested Characters' — should be a HasCardOnBoard condition checking for rested Characters with count >= 2"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action is missing count specification — should specify count: 2"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "restState": "Rested"
+        },
+        "count": 2,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:32:46.459Z"
+}

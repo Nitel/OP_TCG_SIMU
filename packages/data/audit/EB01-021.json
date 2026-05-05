@@ -1,0 +1,64 @@
+{
+  "id": "EB01-021",
+  "name": "Hannyabal",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger: DSL uses 'Activated' but effectText specifies '[End of Your Turn]' which should be 'EndOfTurn'",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition: effectText requires '{Impel Down} type Characters' but DSL has no type restriction in target",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong cost filter: effectText says 'cost of 2 or more' but DSL has maxCost: 2 and minCost: 2 (exactly 2), should be minCost: 2 only",
+      "field": "effects[0].actions[0].target.maxCost"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing optional flag: The effect says 'You may return' which should be marked as optional",
+      "field": "effects[0].actions[0].optional"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition linking: The second action (GiveDon) should only occur 'if' the first action (ReturnToHand) is performed, but there's no conditional linkage",
+      "field": "effects[0].actions"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "minCost": 2,
+              "types": [
+                "Impel Down"
+              ]
+            },
+            "optional": true
+          },
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "condition": {
+              "type": "IfPreviousActionPerformed"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:26.719Z"
+}

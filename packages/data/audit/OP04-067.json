@@ -1,0 +1,25 @@
+{
+  "id": "OP04-067",
+  "name": "Miss.MerryChristmas(Drophy)",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is incorrect. Blocker activates when opponent declares an attack, not on a generic Trigger. Should be OnAttack."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Action is completely wrong. PlaySelf does not represent Blocker functionality. Blocker should Rest the card and redirect the attack target. No standard action exists for attack redirection; this requires custom logic or clarification that Blocker is a keyword ability managed by the game engine, not a triggered effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition. Blocker is optional ('you may'), and only functions after opponent declares an attack. Condition structure is absent."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:38:09.130Z"
+}

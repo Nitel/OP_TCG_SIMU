@@ -1,0 +1,42 @@
+{
+  "id": "OP05-097",
+  "name": "Mary Geoise",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a [Your Turn] passive ability that reduces cost of Celestial Dragons characters (cost ≥2) by 1, but no effects are defined."
+    },
+    {
+      "severity": "major",
+      "field": "trigger",
+      "description": "[Your Turn] indicates duration constraint—should use trigger 'StartOfTurn' or similar with duration 'DuringYourTurn', not left empty."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] The cost of playing {Celestial Dragons} type Character cards with a cost of 2 or more from your hand will be reduced by 1.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "duration": "DuringYourTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "PlayFromHandCostReduction",
+            "parameters": {
+              "cardType": "Celestial Dragons",
+              "minCost": 2,
+              "reduction": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:51:40.239Z"
+}

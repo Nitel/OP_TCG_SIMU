@@ -1,0 +1,43 @@
+{
+  "id": "ST10-005",
+  "name": "Jinbe",
+  "set": "ST-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text says 'during this turn' which means the effect lasts only while it is your turn, not until end of turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow 0-1 selection (optional). Current 'ChooseOpponentCharacter' enforces selection. Should be 'ChooseOpponentCharacter' with maxCount:1 or similar optional targeting."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST10-005",
+    "effectText": "[DON!! x1] [When Attacking] Give up to 1 of your opponent's Characters −2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:05:02.647Z"
+}

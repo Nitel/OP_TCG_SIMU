@@ -1,0 +1,64 @@
+{
+  "id": "OP07-048",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but missing required 'cost' field for [Activate: Main] ➁ activation"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. This effect reveals from deck (conditional play), not searches. Should use 'RevealFromHand' or custom reveal mechanic, then conditionally 'PlayFromHand' or 'PlaySelf' if conditions met"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'ByName' but should filter by type {The Seven Warlords of the Sea} AND cost ≤4. Current filter is incomplete and targets wrong source"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition logic: card must be from top of deck reveal, be {The Seven Warlords of the Sea} type, AND have cost ≤4. Current DSL has no conditions"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Destination 'board' is incomplete. Card should be played 'rested' (Rest status required), then non-matching card goes to bottom of deck"
+    }
+  ],
+  "suggestedDsl": {
+    "cost": 2,
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "source": "deck",
+        "count": 1,
+        "position": "top"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "type": "The Seven Warlords of the Sea",
+          "maxCost": 4
+        },
+        "destination": "board",
+        "restCondition": true
+      },
+      {
+        "type": "PlaySelf",
+        "destination": "deckBottom"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:06:01.057Z"
+}

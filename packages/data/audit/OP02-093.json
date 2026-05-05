@@ -1,0 +1,56 @@
+{
+  "id": "OP02-093",
+  "name": "Smoker",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be ForceDiscard or modify cost attribute, not PowerBoost with negative amount. The card text says 'Give up to 1 of your opponent's Characters −1 cost', which modifies the cost stat, not power. PowerBoost is incorrect mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to check if any Character has cost 0 before applying second action. Card text explicitly states 'if there is a Character with a cost of 0' — this is a conditional requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' explicitly; current scope 'ChooseOpponentCharacter' is ambiguous about quantity limit."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "AnyCharacter",
+          "costComparison": "equal",
+          "costValue": 0
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1
+          },
+          "modifyCost": -1,
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:04.012Z"
+}

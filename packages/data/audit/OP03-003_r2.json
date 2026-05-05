@@ -1,0 +1,43 @@
+{
+  "id": "OP03-003_r2",
+  "name": "Izo",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is missing required parameters: 'count' (should be 5 cards to look at), 'filter' does not specify the type condition (must include 'Whitebeard Pirates' type), and does not exclude '[Izo]'. The action also does not account for placing remaining cards at bottom of deck in any order."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure incomplete. The card effect has two distinct phases: (1) search and reveal up to 1 card matching type filter, and (2) arrange remaining cards at bottom of deck. Current DSL only implements a basic SearchDeck without the reveal, count, type filtering, name exclusion, or bottom-deck placement mechanics."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 card with a type including \"Whitebeard Pirates\" other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 5,
+            "filter": {
+              "kind": "Type",
+              "value": "Whitebeard Pirates",
+              "exclusions": [
+                "Izo"
+              ]
+            },
+            "destination": "hand",
+            "maxSelect": 1,
+            "remaining": "bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:08.863Z"
+}

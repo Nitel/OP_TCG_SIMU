@@ -1,0 +1,45 @@
+{
+  "id": "EB02-048",
+  "name": "Brook",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "OnPlay effect searches deck instead of trash. Official text says 'Add up to 1 [Laboon] from your trash to your hand' but DSL uses SearchDeck action which searches the deck, not the trash.",
+      "field": "effects[0].actions[0].type"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "source": "trash",
+            "filter": {
+              "kind": "ByName",
+              "name": "Laboon"
+            },
+            "count": 1
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "name": "Laboon",
+              "maxCost": 4
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:36.429Z"
+}

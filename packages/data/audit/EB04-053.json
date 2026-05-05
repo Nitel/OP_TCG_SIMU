@@ -1,0 +1,30 @@
+{
+  "id": "EB04-053",
+  "name": "Sentomaru",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasLife' or similar checking for '2 or less Life cards', not 'Always'. Current DSL triggers draw unconditionally on block."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "HasLife",
+        "value": 2,
+        "comparison": "LessThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:21:13.727Z"
+}

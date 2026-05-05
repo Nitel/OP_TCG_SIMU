@@ -1,0 +1,43 @@
+{
+  "id": "OP09-083",
+  "name": "Van Augur",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Activate effect. DSL only contains OnKO trigger but card has two effects: [Activate: Main] and [On K.O.]. The Activate effect with condition LeaderHasType and action PowerBoost is completely absent."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Blackbeard Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "count": -3,
+          "target": "OpponentCharacter",
+          "maxTargets": 1,
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:28:04.335Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "OP10-109_r1",
+  "name": "Basil Hawkins",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'ForceDiscard' is incorrect. Card effect states 'Trash up to 1 card from the top of your opponent's Life cards' — this should use 'FlipLife' (legacy alias for TakeLifeToHand) to target opponent's Life cards, not hand discard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and actions [DrawCard, TrashFromHand] has no basis in official card text. Only one effect exists: the On K.O. effect. This entire second effect should be removed."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "target": "Opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:48:28.134Z"
+}

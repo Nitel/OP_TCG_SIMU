@@ -1,0 +1,59 @@
+{
+  "id": "OP12-065",
+  "name": "Emporio.Ivankov",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing passive effect for '[Blocker]' gain when trash has 4+ Events. Only OnKO action is present."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "OnKO action targets 'Self' but should target 'Event' cards from trash. Action should be more specific about selecting up to 1 Event from trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to check trash count (TrashCount >= 4 for Events) for the Blocker keyword grant."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Always",
+      "condition": {
+        "type": "TrashCount",
+        "operator": ">=",
+        "value": 4,
+        "cardType": "Event"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "Self"
+          },
+          "keyword": "Blocker",
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Trash",
+            "cardType": "Event"
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:54:19.561Z"
+}

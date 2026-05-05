@@ -1,0 +1,40 @@
+{
+  "id": "OP15-046",
+  "name": "Sabo",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if your Leader has the {Dressrosa} type, not if a card exists on board."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.name",
+      "description": "Condition parameter should be 'type' not 'name'. LeaderHasType condition uses 'type' field to specify the leader type."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify 'count' to indicate 'up to 1' activation limit. Current filter lacks the count constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Dressrosa"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "filter": {
+          "cardType": "Event",
+          "subType": "Dressrosa"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:25:30.504Z"
+}

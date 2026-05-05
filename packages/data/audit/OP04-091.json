@@ -1,0 +1,67 @@
+{
+  "id": "OP04-091",
+  "name": "Leo",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is mandatory in DSL but card text says 'You may rest' — should be optional/conditional"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: LeaderHasType 'Dressrosa' — card effect only triggers if Leader has this type"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "KO action target scope incorrect — should use 'OpponentCharacter' (not 'ChooseOpponentCharacter') and include cost filter as condition, not as action parameter"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].type",
+      "description": "TrashFromHand is wrong — card says 'trash 2 cards from the top of your deck', should be TrashFromTopOfDeck or similar deck action, not hand discard"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "Filter object is empty — should specify 'fromTop' or equivalent to indicate top-of-deck trash mechanic"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Dressrosa"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "optional": true
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 1
+          },
+          "maxCount": 1
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "fromTop": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:26.375Z"
+}

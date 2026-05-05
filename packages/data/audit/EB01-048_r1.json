@@ -1,0 +1,35 @@
+{
+  "id": "EB01-048_r1",
+  "name": "Laboon",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states 'during this turn' which indicates the effect lasts for the current turn only. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at end of turn, but 'during this turn' means it persists through the turn's actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'max 1' constraint. Current 'ChooseOpponentCharacter' allows selection but does not enforce the 'up to 1' limit in the DSL structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:40:35.749Z"
+}

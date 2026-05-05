@@ -1,0 +1,29 @@
+{
+  "id": "ST01-006_r1",
+  "name": "Tony Tony.Chopper",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has [Blocker] keyword ability but effects array is empty. Blocker is a triggered ability that activates after opponent declares an attack, allowing you to rest this card to redirect the attack target. This must be represented as a Counter trigger with Rest action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:39:03.649Z"
+}

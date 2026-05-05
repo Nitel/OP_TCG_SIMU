@@ -1,0 +1,56 @@
+{
+  "id": "OP01-073_r1",
+  "name": "Donquixote Doflamingo",
+  "set": "ST-17",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'RevealFromHand' or a deck-peek/arrange mechanic, not 'SearchDeck'. The effect reveals 5 cards from top of deck and arranges them—it does not search and add to hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing the 'arrange' or 'reorder' action. The card allows placing cards at top OR bottom in any order, which requires a reorder/arrange action, not a search."
+    },
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the [Blocker] passive ability entirely. The card has two effects: Blocker (passive Counter ability) and On Play (search/arrange). Only On Play is represented."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "description": "Blocker: After opponent declares attack, may rest this card to make it the new target"
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "filter": {
+            "kind": "Any",
+            "quantity": 5
+          },
+          "source": "TopOfDeck",
+          "destination": "DeckArrangement"
+        }
+      ],
+      "description": "Look at 5 cards from top of deck, place at top or bottom in any order"
+    }
+  ],
+  "auditedAt": "2026-05-05T13:11:59.275Z"
+}

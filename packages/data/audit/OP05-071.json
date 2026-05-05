@@ -1,0 +1,47 @@
+{
+  "id": "OP05-071",
+  "name": "Bepo",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: Must check if opponent has more DON!! cards than you. Current condition is 'Always', should be a comparison condition checking opponent DON count vs your DON count."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incorrect: 'ChooseOpponentCharacter' should specify 'up to 1' as per card text. Should be ChooseOpponentCharacter with maxTargets:1 or similar qualifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration incorrect: Card says 'during this turn' which means the effect applies only during your attack turn. Should be 'DuringYourTurn', not 'EndOfTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "scope": "Opponent",
+      "comparison": "GreaterThan",
+      "value": {
+        "type": "HasAttachedDon",
+        "scope": "Self"
+      }
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxTargets": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:49:40.446Z"
+}

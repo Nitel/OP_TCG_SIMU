@@ -1,0 +1,89 @@
+{
+  "id": "EB03-042",
+  "name": "Koala",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' but effect applies during opponent's turn. Duration missing: text states '[Opponent's Turn]' which requires duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration field. '[Opponent's Turn]' in effect text requires duration:'DuringOpponentTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type incorrect. Should be 'LeaderHasType' (checking Leader type) not 'HasCardOnBoard'. Text: 'If your Leader has the {Revolutionary Army} type'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action incomplete. Should support two options: (1) up to 1 {Revolutionary Army} character with cost ≤6 excluding [Koala], OR (2) up to 1 [Nico Robin] with cost ≤6 from hand or trash. Current DSL only handles first option and missing trash source"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "amount": "UpTo1",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxCost": 6,
+            "excludeNames": [
+              "Koala"
+            ]
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "amount": "UpTo1",
+          "filter": {
+            "name": "Nico Robin",
+            "maxCost": 6
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "amount": "UpTo1",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxCost": 6,
+            "excludeNames": [
+              "Koala"
+            ]
+          }
+        },
+        {
+          "type": "PlayFromTrash",
+          "amount": "UpTo1",
+          "filter": {
+            "name": "Nico Robin",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:26.159Z"
+}

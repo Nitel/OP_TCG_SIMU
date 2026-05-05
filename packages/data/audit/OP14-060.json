@@ -1,0 +1,45 @@
+{
+  "id": "OP14-060",
+  "name": "Donquixote Doflamingo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'GiveKeyword' with 'Unblockable' is incorrect. Card effect is about changing attack target, not granting Unblockable. Correct action should be a redirect/change-target mechanic (likely 'ChangeAttackTarget' or similar redirect action)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'OnAttacked' is incorrect. Card text says '[On Your Opponent's Attack]' which should be 'OnAttack' (opponent's attack phase), not 'OnAttacked' (when this card is attacked)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing '[Once Per Turn]' constraint. Should include 'type: \"OncePerTurn\"' or equivalent turn-limit condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is incorrect for a redirect effect. Target change should persist for the attack (duration should reflect attack resolution scope, not battle duration)."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "OncePerTurn"
+    },
+    "actions": [
+      {
+        "type": "ChangeAttackTarget",
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "subType": "Donquixote Pirates"
+        },
+        "duration": "DuringAttack"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:14:45.364Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ST13-011",
+  "name": "Portgas.D.Ace",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (checking Life cards = Don attached to Leader), not 'TurnCount'. TurnCount is for turn numbers in the game."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check Life cards ≤ 2. Use HasAttachedDon with max:2 to represent 2 or fewer Life cards attached to Leader."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:08:26.327Z"
+}

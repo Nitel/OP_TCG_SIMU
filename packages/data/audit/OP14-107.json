@@ -1,0 +1,42 @@
+{
+  "id": "OP14-107",
+  "name": "Shakuyaku",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check opponent's Life cards (≤3), not 'Always'. Required condition type missing or incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and condition 'HasCardOnBoard' for 'Kuja Pirates' is not mentioned in card text. This appears to be extraneous or from a different card."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "filter": {
+            "source": "Hand"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:24.020Z"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "OP09-064",
+  "name": "Killer",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' is incorrect. The card effect requires DON!! cards to be returned (spent) as a cost, not checked as a condition. This should use 'Always' with a cost modifier, or the condition should reflect the optional cost mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'Rest' is incorrect. The effect sets a Leader as 'active' (rests opponent's leader or activates own), not rests it. Should be 'SetActive' or similar state change, not 'Rest'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope 'OwnLeader' is too broad. The effect specifies '{Kid Pirates} type Leader', requiring a type constraint: scope should filter for 'OwnLeader' with condition 'LeaderHasType:Kid Pirates'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost representation. The 'DON!! −1' cost should be modeled separately from the effect trigger/condition structure, not as a condition check."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP09-064",
+    "effectText": "[On Play] DON!! −1: Set up to 1 of your {Kid Pirates} type Leader as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "cost": {
+          "type": "AttachedDon",
+          "count": 1
+        },
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Active",
+            "target": {
+              "scope": "OwnLeader",
+              "filter": {
+                "type": "LeaderHasType",
+                "value": "Kid Pirates"
+              },
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:18:57.334Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "ST06-016",
+  "name": "White Out",
+  "set": "ST-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Unexpected second effect with Trigger and DrawCard. Official text contains only Counter effect for power boost. The Draw action has no basis in card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'ChooseOwnCharacter' (Leader and Character are both characters). 'ChooseOwnCharacterOrLeader' is redundant/non-standard."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:01:03.658Z"
+}

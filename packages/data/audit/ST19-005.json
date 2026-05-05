@@ -1,0 +1,57 @@
+{
+  "id": "ST19-005",
+  "name": "Monkey.D.Garp",
+  "set": "ST-19",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct) but the action sequence is wrong. The card says 'place 1 card from your trash' — this is retrieving FROM trash, not discarding TO trash. Should use SearchDeck or similar to move from trash to deck bottom, not TrashFromHand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect places a card FROM trash to the bottom of deck. This should be a custom action or use a different mechanism (e.g., SearchDeck with a trash filter, or a dedicated 'MoveFromTrashToDeck' action). TrashFromHand discards from hand to trash, which is the opposite direction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing cost/condition: the action requires '[Once Per Turn]' activation restriction and a Main phase timing constraint. These should be encoded in the trigger or as a condition."
+    }
+  ],
+  "suggestedDsl": {
+    "name": "ST19-005",
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)\n[Activate: Main] [Once Per Turn] You may place 1 card from your trash at the bottom of your deck: Give up to 1 of your opponent's Characters −1 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": {
+              "source": "trash"
+            },
+            "placement": "bottom"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:57.913Z"
+}

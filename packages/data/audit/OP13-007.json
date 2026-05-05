@@ -1,0 +1,62 @@
+{
+  "id": "OP13-007",
+  "name": "Ace &amp; Sabo &amp; Luffy",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing condition to check if cost (give 1 active DON!! to Leader/Character and trash this Character) can be paid. The DSL should include a conditional action structure reflecting the [Activate: Main] cost requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should be 'ChooseOpponentCharacter' with optional selection (up to 1), but missing optionality marker in scope definition."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn' phrasing, but confirm this is the current turn (Your Turn). If it applies during opponent's turn as well, should be 'DuringYourTurn' only."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may give 1 of your active DON!! cards to 1 of your Leader or Character cards and trash this Character: Give up to 1 of your opponent's Characters −3000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "count": 1
+          }
+        ],
+        "actions": [
+          {
+            "type": "AttachDon",
+            "amount": -1,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter"
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "PowerBoost",
+            "amount": -3000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "optional": true
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:58:58.884Z"
+}

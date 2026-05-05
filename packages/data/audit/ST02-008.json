@@ -1,0 +1,34 @@
+{
+  "id": "ST02-008",
+  "name": "Scratchmen Apoo",
+  "set": "ST-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' is incorrect. The card effect does not require a resting DON!! on your side; it allows you to rest opponent's DON!! cards. The condition should be 'Always' or removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is imprecise. Should target opponent's DON!! cards specifically. Use 'ChooseOpponentDon' or similar DON-specific scope."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentDon",
+          "count": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:55:37.034Z"
+}

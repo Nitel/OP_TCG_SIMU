@@ -1,0 +1,41 @@
+{
+  "id": "OP05-062",
+  "name": "O-Nami",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' (passive static ability), not 'Activated'. This effect is a passive condition check that grants Blocker when the condition is met, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! attached to this card), not 'HasRestingDon'. The card text '10 DON!! cards on your field' refers to DON!! attached to this character."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have 10 DON!! cards on your field, this Character gains [Blocker].",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 10
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:58.881Z"
+}

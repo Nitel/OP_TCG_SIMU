@@ -1,0 +1,69 @@
+{
+  "id": "OP11-059",
+  "name": "Gum-Gum King Cobra",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Counter trigger should have a single PowerBoost action with conditional logic, not two separate PowerBoost actions. The second boost is conditional on hand size (≤4 cards)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (ReturnToHand action) is completely unrelated to the card text. This effect should not exist. The card only describes power boosts conditional on hand size."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Target should clarify 'up to 1' selection. Current scope allows multiple targets without quantity limit."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Conditional PowerBoost (the +2000 when hand ≤4) requires a condition field referencing hand count, not a separate independent action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "HandCount",
+          "maxCards": 4
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "PreviouslyTargetedCharacter"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:43.019Z"
+}

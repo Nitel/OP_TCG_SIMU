@@ -1,0 +1,51 @@
+{
+  "id": "EB02-024",
+  "name": "Sogeking",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Second action uses 'TrashFromHand' but the effect text says 'place 2 cards from your hand at the bottom of your deck in any order', which is not trashing. There is no DSL action type for placing cards at the bottom of the deck.",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "Third action has wrong target scope. Effect says 'return up to 1 Character' (no restriction to opponent's characters), but DSL uses 'ChooseOpponentCharacter'. Should be 'ChooseCharacter' or similar.",
+      "field": "effects[0].actions[2].target.scope"
+    },
+    {
+      "severity": "minor",
+      "description": "Third action missing 'upTo: 1' or 'optional: true' to reflect 'up to 1' in the text.",
+      "field": "effects[0].actions[2]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "BottomDeck",
+            "count": 2,
+            "filter": {},
+            "source": "Hand"
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 1
+            },
+            "upTo": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:33.267Z"
+}

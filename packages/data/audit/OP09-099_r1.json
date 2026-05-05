@@ -1,0 +1,63 @@
+{
+  "id": "OP09-099_r1",
+  "name": "Fullalead",
+  "set": "ST-27",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (You may trash). Current DSL makes it mandatory. Should wrap in conditional or use optional flag."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action is nested under TrashFromHand thenActions, but per card text it should execute regardless of whether card is trashed (rest is part of activation cost, not conditional on trash). Rest should be at same level as TrashFromHand or both should be in a sequence outside conditional."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "SearchDeck filter uses ByName for 'Blackbeard Pirates' but this is a type, not a card name. Should use ByType with type:'Blackbeard Pirates'. Also missing the deck ordering mechanic (place rest at bottom in any order) and the '3 cards from top' constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing complete SearchDeck logic: must look at 3 cards from top, reveal up to 1 {Blackbeard Pirates} type card, add to hand, then place remaining at bottom in any order. Current DSL only searches generically."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            },
+            {
+              "type": "SearchDeck",
+              "deckSize": 3,
+              "filter": {
+                "kind": "ByType",
+                "type": "Blackbeard Pirates"
+              },
+              "maxResults": 1,
+              "destination": "hand",
+              "remainingDestination": "deckBottom",
+              "remainingOrder": "Any"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:22:34.217Z"
+}

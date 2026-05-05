@@ -1,0 +1,57 @@
+{
+  "id": "OP14-063",
+  "name": "Sugar",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incomplete. Card text says 'Add up to 1 DON!! card from your DON!! deck' which requires a SearchDeck action to fetch from deck, then AttachDon to set as active. Current GiveDon alone does not match 'from your DON!! deck' specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition is 'Always' but should be 'HasAttachedDon' with count:6 and target:'Opponent'. Card text specifies 'If your opponent has 6 or more DON!! cards on their field'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "cardType": "DON"
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "setActive": true
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 6,
+        "target": "Opponent"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Donquixote Pirates",
+            "cardType": "Character",
+            "maxCost": 5
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:14:58.376Z"
+}

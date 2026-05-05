@@ -1,0 +1,45 @@
+{
+  "id": "OP05-056",
+  "name": "X.Barrels",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. The effect places a Character on the board at the bottom of the deck, which is a return/deck placement action, not a trash action. Should use 'ReturnToHand' or a deck-placement action, but the mechanic describes putting a Character from board to bottom of deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter scope is wrong. 'TrashFromHand' filters cards in hand, but the effect targets Characters 'other than this Character' on the board. Filter should target board state, not hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The entire action structure is incorrect for the intended mechanic. The DSL lacks a condition structure to make the draw conditional ('You may...'). The draw should only occur if a Character is placed at bottom of deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "excludeSelf": true,
+            "location": "board"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ],
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:48:29.078Z"
+}

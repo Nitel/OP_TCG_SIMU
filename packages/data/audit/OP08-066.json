@@ -1,0 +1,33 @@
+{
+  "id": "OP08-066",
+  "name": "Charlotte Brulee",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "OnKO trigger is correct, but the GiveDon action is incomplete. Card text states 'Add up to 1 DON!! card from your DON!! deck and rest it' — the action must include resting the DON!! card after adding it. Current DSL only adds DON without resting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action missing rest effect. Should be two sequential actions: GiveDon followed by Rest, or GiveDon must include a rest modifier/chained action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:29:19.039Z"
+}

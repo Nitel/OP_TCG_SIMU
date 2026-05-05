@@ -1,0 +1,60 @@
+{
+  "id": "EB04-009",
+  "name": "It's My Student's Farewell. I Want It to Be Proper.",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Text says 'during this turn' which requires duration:'DuringYourTurn', not 'EndOfTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action should be conditional/optional (text says 'You may give'). The AttachDon and PowerBoost are part of an optional sequence, not mandatory sequential actions"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope is incorrect. Text says 'your Characters or [Silvers Rayleigh]' — target should allow any own character OR the leader (Silvers Rayleigh), not restrict to subType in both cases"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Silvers Rayleigh"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:20:09.630Z"
+}

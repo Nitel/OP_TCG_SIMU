@@ -1,0 +1,60 @@
+{
+  "id": "OP12-013",
+  "name": "Hatchan",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be conditional (\"You may rest\"), but DSL presents it as mandatory. Rest must be wrapped in a conditional structure or marked as optional within RevealFromHand's thenActions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[0].count",
+      "description": "AttachDon count is fixed at 2, but card text says \"up to 2\" — should be variable/choosable, not hardcoded."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[0].target",
+      "description": "Target scope allows both Leader and any Character, but card text restricts to \"your Leader or 1 of your Characters\" (singular Character) — should distinguish or clarify the OR logic."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 2,
+        "filter": {
+          "cardType": "Event"
+        },
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "optional": true
+          },
+          {
+            "type": "AttachDon",
+            "count": {
+              "type": "UpTo",
+              "value": 2
+            },
+            "target": {
+              "scope": "ChooseOwnLeaderOrOneCharacter"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:10.127Z"
+}

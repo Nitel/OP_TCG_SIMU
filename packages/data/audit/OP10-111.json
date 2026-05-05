@@ -1,0 +1,40 @@
+{
+  "id": "OP10-111",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing required parameters: 'count' (should specify looking at 5 cards), 'filter' must specify {Supernovas} type AND exclude [Monkey.D.Luffy], and 'optional' should be true (up to 1). Current filter is 'Any' which matches nothing in the effect text."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect does not capture the full sequence: (1) look at 5 cards from top, (2) reveal up to 1 matching card and add to hand, (3) place rest at bottom in any order. The DSL only represents the search portion and omits the deck reorganization step."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "kind": "Type",
+            "value": "Supernovas",
+            "exclude": [
+              "Monkey.D.Luffy"
+            ]
+          },
+          "destination": "hand",
+          "reveal": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:39:26.842Z"
+}

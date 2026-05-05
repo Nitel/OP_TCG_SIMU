@@ -1,0 +1,51 @@
+{
+  "id": "OP03-115",
+  "name": "Streusen",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is not a valid action type. Should be ForceDiscard for trashing from hand. Legacy alias TrashCard maps to ForceDiscard, not TrashFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure is incorrect. TrashFromHand/ForceDiscard should not have thenActions nested. The KO action should be conditional on a successful trash via optional clause, not nested thenActions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'subType' but Trigger is an ability type, not a subtype. Should use 'ability' or 'hasAbility' filter instead."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "source": "Hand",
+            "filter": {
+              "ability": "Trigger"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "KO",
+                "target": {
+                  "scope": "OpponentCharacter",
+                  "maxCost": 1,
+                  "maxTargets": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:58.302Z"
+}

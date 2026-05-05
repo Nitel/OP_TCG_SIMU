@@ -1,0 +1,60 @@
+{
+  "id": "P-083_r1",
+  "name": "Shanks",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card activates when attacking, not on player action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (may trash). Current DSL structure treats it as mandatory. Should use optional flag or restructure with conditional logic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target should specify 'up to 1' opponent Character. Current 'ChooseOpponentCharacter' scope may not enforce the 'up to 1' limit properly."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text says 'during this turn' which maps to 'DuringYourTurn', not EndOfTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "cardType": "Character"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:50:04.227Z"
+}

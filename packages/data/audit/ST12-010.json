@@ -1,0 +1,75 @@
+{
+  "id": "ST12-010",
+  "name": "Emporio.Ivankov",
+  "set": "ST-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing Reveal mechanic. Effect should Reveal 1 card from top of deck before SearchDeck action. Current DSL only searches without revealing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter incomplete. Should specify 'Character' kind in addition to cost ≤2. Current filter only checks cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing deck placement action. After playing card, remaining revealed card must be placed at top or bottom of deck. Current DSL has no mechanism for this."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Missing 'Once Per Turn' frequency constraint on OnAttack trigger. DSL has no frequency modifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Missing condition: DrawCard should only occur if you have 6 or less cards in hand. Current DSL has no hand size condition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "source": "DeckTop"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "Character",
+            "maxCost": 2
+          },
+          "destination": "board",
+          "optional": true
+        },
+        {
+          "type": "SearchDeck",
+          "destination": "DeckTopOrBottom"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "frequency": "OncePerTurn",
+      "conditions": [
+        {
+          "type": "HandCount",
+          "maxCards": 6
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:07:04.826Z"
+}

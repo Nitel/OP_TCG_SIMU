@@ -1,0 +1,59 @@
+{
+  "id": "OP13-068",
+  "name": "Douglas Bullet",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check Leader's type, not board presence. Use LeaderHasType:\"Roger Pirates\" instead of HasCardOnBoard:\"Roger Pirates\""
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Missing static effect for passive power boost. Should have two separate effects: (1) static conditional power boost when DON count ≥ 8, and (2) OnPlay trigger"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest action targets the DON card added, not Self. Should use scope:\"LastAdded\" or equivalent to rest the newly added DON"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasAttachedDon",
+        "value": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "value": 2000
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Roger Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "LastAdded"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:03:28.610Z"
+}

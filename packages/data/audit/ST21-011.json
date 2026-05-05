@@ -1,0 +1,42 @@
+{
+  "id": "ST21-011",
+  "name": "Franky",
+  "set": "ST-21",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing type restriction: effect should only target {Straw Hat Crew} type Characters, but DSL has no type filter",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong duration: text says '[Opponent's Turn]' which requires duration 'DuringOpponentTurn', not 'EndOfTurn'",
+      "field": "effects[0].actions[0].duration"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "type": "Straw Hat Crew",
+              "maxPower": 4000
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:40.643Z"
+}

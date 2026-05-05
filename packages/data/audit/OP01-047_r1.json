@@ -1,0 +1,45 @@
+{
+  "id": "OP01-047_r1",
+  "name": "Trafalgar Law",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition that makes the second action conditional on the first. The effect text states 'You may return 1 of your Characters...Play up to 1 Character...' implying the play action is conditional on returning a character. DSL requires either: (1) a condition linking the actions, or (2) separate effects with proper conditional structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Action 'PlayFromHand' should have a condition restricting it to execute only if a character was returned. Current structure lists both actions sequentially without dependency logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "optional": true
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3
+          },
+          "optional": true,
+          "condition": {
+            "type": "Custom",
+            "description": "Only if a character was returned to hand"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:41.295Z"
+}

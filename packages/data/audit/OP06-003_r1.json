@@ -1,0 +1,44 @@
+{
+  "id": "OP06-003_r1",
+  "name": "Emporio.Ivankov",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'maxCost' but card text specifies '5000 power or less', not cost. Should use power-based filter, not cost-based filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'type' constraint for {Revolutionary Army}. Card text explicitly requires 'Revolutionary Army type Character card'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action only specifies playing from deck but omits the 'look at top 3 cards' and 'place rest at bottom in any order' deck manipulation steps. SearchDeck should include scry/reorder functionality or separate actions for deck inspection and reordering."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByPower",
+          "maxPower": 5000,
+          "type": "Revolutionary Army"
+        },
+        "destination": "board",
+        "maxResults": 1
+      },
+      {
+        "type": "ReorderDeck",
+        "from": "bottom",
+        "count": 3
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:36:53.224Z"
+}

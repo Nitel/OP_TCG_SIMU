@@ -1,0 +1,72 @@
+{
+  "id": "ST09-005",
+  "name": "Kouzuki Oden",
+  "set": "ST-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "GiveKeyword for DoubleAttack should have duration \"Permanent\" (applies to the card for the rest of the game), not \"EndOfTurn\""
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand action is missing the optional 'optional' flag. The card text says 'You may trash', indicating this is optional"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "TrashFromHand filter should not restrict to cardType \"Character\". The effect allows trashing any 2 cards from hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions",
+      "description": "The second action should add up to 1 card to Life cards (FlipLife), not SearchDeck to hand. Destination should be Life cards, not hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand count should be 2 (trash 2 cards), but the action structure doesn't specify count"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "FlipLife",
+              "filter": {
+                "kind": "Any"
+              },
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:03:54.119Z"
+}

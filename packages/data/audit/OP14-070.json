@@ -1,0 +1,69 @@
+{
+  "id": "OP14-070",
+  "name": "Buffalo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger is 'OnBlock' but card text says 'When this Character becomes rested by your opponent's Character's effect' — should be 'Counter' (triggered when opponent's effect attempts to rest this character)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to verify the resting effect is from opponent's Character effect — should have condition checking opponent source"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'ReturnToHand' but card says 'return 1 DON!! card from your field to your DON!! deck' — should be 'TrashFromHand' or similar DON deck return mechanic, not return to hand"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is 'Self' (this Character) but effect should target a DON!! card on field, not the Character itself"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'set this Character as active' — requires 'Rest' action with value false or equivalent 'activate' action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect should be optional ('you may') — missing optional flag or conditional wrapper"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Field",
+            "filter": {
+              "cardType": "DON"
+            },
+            "count": 1
+          },
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "value": false
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:15:33.548Z"
+}

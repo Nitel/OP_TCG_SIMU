@@ -1,0 +1,38 @@
+{
+  "id": "ST08-006",
+  "name": "Shirahoshi",
+  "set": "ST-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "PowerBoost is for ATK/DEF changes. Cost reduction should use a dedicated action type or modifier. PowerBoost with negative amount is semantically incorrect for cost mechanics."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is imprecise. Should be 'OpponentCharacter' with maxTargets:1 to match 'up to 1'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for 'during this turn', but action type must support cost reduction, not PowerBoost."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReduceCost",
+        "amount": 4,
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxTargets": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:02:56.511Z"
+}

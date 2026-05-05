@@ -1,0 +1,61 @@
+{
+  "id": "OP04-020",
+  "name": "Issho",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' for the first effect (activates when card is played), not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringYourTurn' per the '[Your Turn]' text in the card effect, not 'EndOfTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Second effect is completely missing: '[End of Your Turn] ➀: Set up to 1 of your Characters with a cost of 5 or less as active.' This requires a separate effect object with trigger 'EndOfTurn', condition for HasAttachedDon count 1, and action to rest/activate a character"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnCharacters",
+            "maxCost": 5
+          },
+          "optional": true,
+          "maxTargets": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:35.524Z"
+}

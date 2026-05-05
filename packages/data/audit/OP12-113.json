@@ -1,0 +1,49 @@
+{
+  "id": "OP12-113",
+  "name": "Roronoa Zoro",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The text 'your Leader has the {Supernovas} type' directly references leader type checking."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition value should be {\"type\":\"LeaderHasType\",\"typeValue\":\"Supernovas\"} not {\"type\":\"HasCardOnBoard\",\"name\":\"Leader with Supernovas type\"}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object is completely extraneous and not present in card text. Card only describes play action on K.O., no KO/ReturnToHand actions exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action missing 'rested' property. Card text specifies 'play...rested' which should be represented as {\"rested\":true}"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "typeValue": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Supernovas",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:57:56.294Z"
+}

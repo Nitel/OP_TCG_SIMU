@@ -1,0 +1,42 @@
+{
+  "id": "ST03-005_r1",
+  "name": "Dracule Mihawk",
+  "set": "ST-17",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'trash 2 cards from your hand' (ForceDiscard). DSL only includes DrawCard but effect text requires both DrawCard and ForceDiscard."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' (cost requirement, not trigger condition). 'HasRestingDon' is incorrect; '[DON!! x1]' indicates a cost, not a conditional effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [When Attacking] Draw 2 cards and trash 2 cards from your hand.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "Hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:12:31.634Z"
+}

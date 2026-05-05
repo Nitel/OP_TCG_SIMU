@@ -1,0 +1,64 @@
+{
+  "id": "ST13-001",
+  "name": "Sabo",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' (until start of next turn), not 'EndOfTurn'. Text states 'until the start of your next turn' which means the boost lasts through opponent's turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for the optional cost: Character must have cost ≥3 AND power ≥7000. Current condition only checks for 1 attached Don."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing primary action: adding 1 Character (cost ≥3, power ≥7000) to top of Life cards face-up. Only the power boost is captured."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlaySelf",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filters": [
+              {
+                "property": "cost",
+                "operator": ">=",
+                "value": 3
+              },
+              {
+                "property": "power",
+                "operator": ">=",
+                "value": 7000
+              }
+            ]
+          },
+          "destination": "TopOfLife",
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:07:36.669Z"
+}

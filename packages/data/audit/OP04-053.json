@@ -1,0 +1,51 @@
+{
+  "id": "OP04-053",
+  "name": "Page One",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with scope 'Event' to specify activation of an Event card, not just generic 'Activated'. Current DSL lacks event type specification."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'place 1 card from your hand at the bottom of your deck', which is a return/mill action, not trash. Should use 'ReturnToHand' with destination 'bottom' or a mill-specific action if available in DSL spec."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "'Once Per Turn' is a frequency limiter, not a condition. Should be represented as a separate 'frequency' field set to 'OncePerTurn', not as a condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Once Per Turn] When you activate an Event, draw 1 card. Then, place 1 card from your hand at the bottom of your deck.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "scope": "Event",
+        "frequency": "OncePerTurn",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "ReturnToHand",
+            "count": 1,
+            "filter": {},
+            "destination": "bottom",
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:37.760Z"
+}

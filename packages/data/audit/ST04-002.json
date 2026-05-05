@@ -1,0 +1,34 @@
+{
+  "id": "ST04-002",
+  "name": "Ulti",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always', not 'HasRestingDon'. The effect text describes a cost (DON!! −1) that is optional/payable, not a conditional requirement. The DSL should reflect that the play action is available unconditionally, with the DON cost being a separate payment mechanic not modeled in condition logic."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] DON!! −1: Play up to 1 [Page One] card with a cost of 4 or less from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "name": "Page One",
+              "maxCost": 4
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:57:39.270Z"
+}

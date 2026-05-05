@@ -1,0 +1,51 @@
+{
+  "id": "EB01-019",
+  "name": "Off-White",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "SearchDeck filter is incorrect. The card searches for characters with {Donquixote Pirates} TYPE, not NAME. Filter should be 'ByType' not 'ByName', and name should be 'Donquixote Pirates'.",
+      "field": "effects[0].actions[1].filter.kind"
+    },
+    {
+      "severity": "minor",
+      "description": "SearchDeck is missing 'count' field. The text says 'look at 3 cards from the top of your deck', which should be encoded as count: 3.",
+      "field": "effects[0].actions[1].count"
+    },
+    {
+      "severity": "minor",
+      "description": "SearchDeck is missing 'revealCount' field. The text says 'reveal up to 1', which should be encoded as revealCount: 1.",
+      "field": "effects[0].actions[1].revealCount"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "revealCount": 1,
+            "filter": {
+              "kind": "ByType",
+              "name": "Donquixote Pirates"
+            },
+            "destination": "hand"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:14.883Z"
+}

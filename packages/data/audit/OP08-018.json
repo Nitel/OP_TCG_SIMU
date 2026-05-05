@@ -1,0 +1,49 @@
+{
+  "id": "OP08-018",
+  "name": "Cloven Rose",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost target missing max count. Should include maxCount: 3 to reflect 'Up to 3 of your Characters'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PowerBoost target missing max count. Should include maxCount: 1 to reflect 'up to 1 of your opponent's Characters'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and −3000 power action has no basis in card text. This appears to be extraneous data not matching the official effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 3
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:25:34.181Z"
+}

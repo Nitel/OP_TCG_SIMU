@@ -1,0 +1,40 @@
+{
+  "id": "OP09-074",
+  "name": "Bepo",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a trigger with condition and action, but effects array is empty. Must define: trigger=OnPlay (or appropriate trigger), condition for DON return, duration=DuringYourTurn (due to '[Your Turn]' text), and PowerBoost action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text states '[Your Turn]' which requires duration:'DuringYourTurn', not Permanent or EndOfTurn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Triggered",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "YourLeaderOrCharacter",
+          "amount": 1000,
+          "count": 1
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "limitOnce": true,
+      "limitScope": "Turn"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:27:24.757Z"
+}

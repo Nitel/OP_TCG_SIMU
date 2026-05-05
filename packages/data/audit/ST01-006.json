@@ -1,0 +1,28 @@
+{
+  "id": "ST01-006",
+  "name": "Tony Tony.Chopper",
+  "set": "ST-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is completely missing. Card has [Blocker] but effects array is empty. Must include Counter trigger with Rest action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent",
+      "description": "Blocker: After opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T12:54:21.048Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "OP02-104",
+  "name": "Sentomaru",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PlaySelf action requires card context. Cannot determine if this is the correct action without card name and effect text"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:32:16.721Z"
+}

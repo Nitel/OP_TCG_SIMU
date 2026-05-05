@@ -1,0 +1,25 @@
+{
+  "id": "OP06-058",
+  "name": "Gravity Blade Raging Tiger",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a Main card action (place up to 2 Characters with cost ≤6 at bottom of deck) but effects array is empty. DSL must include trigger, conditions, and actions to represent this effect."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": "UpTo2CharactersWithCostOf6OrLess",
+        "destination": "BottomOfOwnersDeck"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:57:32.504Z"
+}

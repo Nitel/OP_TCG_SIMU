@@ -1,0 +1,55 @@
+{
+  "id": "OP08-052",
+  "name": "Portgas.D.Ace",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing reveal mechanic. Card text requires revealing 1 card from top of deck before searching, then placing revealed card back."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck filter incomplete. Must filter by type 'Whitebeard Pirates' AND cost ≤4. Current filter only specifies cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing type constraint. Should include 'HasType' or similar to check for 'Whitebeard Pirates'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to handle card placement. Effect requires placing non-played revealed card at top or bottom of deck after searching."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromDeck",
+          "count": 1,
+          "destination": "reveal"
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Whitebeard Pirates",
+            "maxCost": 4,
+            "cardType": "Character"
+          },
+          "destination": "board",
+          "maxCount": 1
+        },
+        {
+          "type": "ReturnToTopOrBottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:28:11.870Z"
+}

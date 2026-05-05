@@ -1,0 +1,40 @@
+{
+  "id": "OP10-034",
+  "name": "Franky",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' not 'OnAttacked'. The effect activates when the character would be KO'd (defeated in battle), not when attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'FlipLife' is incorrect. The card adds a Life card to hand, which should be 'DrawCard' (drawing from Life cards). FlipLife converts Life cards to damage, which is the opposite effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'optional':true to reflect the 'you may' clause in the card text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "source": "Life"
+        }
+      ],
+      "optional": true
+    }
+  ],
+  "auditedAt": "2026-05-05T11:33:29.787Z"
+}

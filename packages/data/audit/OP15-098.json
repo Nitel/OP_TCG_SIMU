@@ -1,0 +1,41 @@
+{
+  "id": "OP15-098",
+  "name": "Monkey.D.Luffy",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnKO' not 'OnAttacked'. The effect activates when a Character would be removed/KO'd, not when attacked."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition incomplete. Must check: (1) Character is Sky Island type, (2) has 6000+ base power, (3) would be removed BY OPPONENT. Current condition only checks for Sky Island on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'DrawCard' not 'FlipLife'. The effect adds cards from Life to hand (draw effect), not flips life."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Sky Island",
+        "basePower": 6000
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "source": "Life",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:29:33.126Z"
+}

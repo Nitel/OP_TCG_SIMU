@@ -1,0 +1,38 @@
+{
+  "id": "EB01-057",
+  "name": "Shirahoshi",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing condition that restricts OnKO trigger to only when K.O.'d by opponent's effect. The current DSL triggers on ANY K.O., but the effect text specifies 'When this Character is K.O.'d by your opponent's effect'",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "minor",
+      "description": "The Blocker keyword is missing from the DSL. While keywords are sometimes stored separately, this is a standard static ability that should be represented",
+      "field": "keywords"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "KOByOpponentEffect"
+        },
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      "Blocker"
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:41.687Z"
+}

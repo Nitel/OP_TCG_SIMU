@@ -1,0 +1,39 @@
+{
+  "id": "ST06-015",
+  "name": "Great Eruption",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration is 'EndOfTurn' but text says 'during this turn' — should be 'DuringYourTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second trigger with ForceDiscard action has no basis in card text. The card only mentions Draw and cost reduction; no discard effect exists."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:00:57.766Z"
+}

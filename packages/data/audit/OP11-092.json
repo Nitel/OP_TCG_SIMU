@@ -1,0 +1,77 @@
+{
+  "id": "OP11-092",
+  "name": "Helmeppo",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be optional (You may trash). Current DSL lacks optional modifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "SearchDeck filter incomplete: missing cost restriction (≤8), missing exclusion of Helmeppo, missing type filter for CHARACTER, missing destination specification (play from trash, not deck)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing end-of-turn effect: 'place the 1 Character played by this effect at the bottom of the owner's deck at the end of this turn' requires a separate OnEndOfTurn trigger or persistent duration mechanic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1].filter",
+      "description": "kind:'ByName' filters by card name, but effect requires type=SWORD and cost≤8; should use structured filter with type, cost, and exclude parameters"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-092",
+    "effectText": "[On Play] You may trash 1 card from your hand: Draw 1 card and play up to 1 {SWORD} type Character card with a cost of 8 or less other than [Helmeppo] from your trash. Then, place the 1 Character played by this effect at the bottom of the owner's deck at the end of this turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "optional": true,
+            "count": 1,
+            "source": "Hand",
+            "thenActions": [
+              {
+                "type": "DrawCard",
+                "count": 1
+              },
+              {
+                "type": "PlayFromHand",
+                "filter": {
+                  "type": "SWORD",
+                  "cardType": "Character",
+                  "maxCost": 8,
+                  "excludeNames": [
+                    "Helmeppo"
+                  ]
+                },
+                "source": "Trash",
+                "count": 1,
+                "maxCount": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "LastPlayedCharacterByThisEffect",
+            "destination": "BottomOfDeck"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:15.474Z"
+}

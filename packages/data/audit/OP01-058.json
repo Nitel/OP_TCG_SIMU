@@ -1,0 +1,46 @@
+{
+  "id": "OP01-058",
+  "name": "Punk Gibson",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Power boost duration should be 'DuringThisBattle' not 'EndOfBattle' for counter effects during battle"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and Rest action. The DSL should contain only one Counter effect; the second Trigger effect is not supported by the card text"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest action target should include maxCost constraint in scope definition for clarity, though implementation may infer from maxCost field"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:38.581Z"
+}

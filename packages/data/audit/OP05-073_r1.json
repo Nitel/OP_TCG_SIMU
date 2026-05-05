@@ -1,0 +1,57 @@
+{
+  "id": "OP05-073_r1",
+  "name": "Miss Doublefinger(Zala)",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect structure incorrect. 'You may trash 1 card' should be optional (conditional), but current DSL treats trash as mandatory with thenActions. Should use conditional structure with optional:true or separate condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "GiveDon action target is incorrect. Card text says 'Add up to 1 DON!! card from your DON!! deck' – this should be SearchDeck (to add from deck), not GiveDon (which creates DON!!). The result should then be rested."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[1]",
+      "description": "Rest target scope ambiguous. Should rest the DON!! card that was just added from deck, not Self (the played card). Target should reference the card added by SearchDeck."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {
+              "kind": "Any"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "filter": {
+                  "hasType": "DON!!"
+                },
+                "count": 1,
+                "thenActions": [
+                  {
+                    "type": "Rest",
+                    "target": {
+                      "scope": "LastSearched"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:35:49.970Z"
+}

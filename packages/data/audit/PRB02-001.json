@@ -1,0 +1,61 @@
+{
+  "id": "PRB02-001",
+  "name": "Koby",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing first effect: '[Opponent's Turn] If your Leader has the {Navy} type, this Character gains +1000 power.' Should be a separate effect with trigger 'Trigger', condition 'LeaderHasType:Navy', duration 'DuringOpponentTurn', and action 'PowerBoost:1000'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "DrawCard action is conditional on 'if you have 6 or less cards in your hand' but no condition is specified in the DSL. Requires condition checking hand size before drawing."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Navy"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "conditions": [
+            {
+              "type": "HandCount",
+              "value": 6,
+              "comparison": "LessOrEqual"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:50:15.791Z"
+}

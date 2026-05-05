@@ -1,0 +1,49 @@
+{
+  "id": "OP03-062",
+  "name": "Kokoro",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing critical parameters: (1) must specify 'lookAtCount':5 to look at top 5 cards; (2) filter should restrict to {Water Seven} type AND exclude Kokoro by name; (3) missing 'maxSelect':1 to allow 'up to 1' card; (4) missing action to place rest at bottom of deck in any order (requires separate ReturnToHand or similar with 'destination':'deckBottom' and 'order':'any')"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookAtCount": 5,
+        "filter": {
+          "kind": "And",
+          "conditions": [
+            {
+              "kind": "HasType",
+              "types": [
+                "Water Seven"
+              ]
+            },
+            {
+              "kind": "Not",
+              "condition": {
+                "kind": "IsCard",
+                "cardName": "Kokoro"
+              }
+            }
+          ]
+        },
+        "maxSelect": 1,
+        "destination": "hand"
+      },
+      {
+        "type": "ReturnToHand",
+        "source": "searchRemainder",
+        "destination": "deckBottom",
+        "order": "any"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:34:28.907Z"
+}

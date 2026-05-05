@@ -1,0 +1,29 @@
+{
+  "id": "ST17-003_r1",
+  "name": "Buggy",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an [On Play] trigger with a deck manipulation action, but effects array is empty. Should contain SearchDeck action to look at top 3 cards and reorder them."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 3,
+            "description": "Look at 3 cards from the top of your deck and place them at the top in any order"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:53:23.261Z"
+}

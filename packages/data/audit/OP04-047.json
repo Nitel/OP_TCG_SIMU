@@ -1,0 +1,39 @@
+{
+  "id": "OP04-047",
+  "name": "Ice Oni",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effects[] is empty but card has complex effect text with trigger (OnAttack), condition (opponent's Character cost ≤5), and action (ReturnToHand with bottom-of-deck placement). DSL must include this effect."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] prefix indicates this effect only functions during your turn. Duration should be 'DuringYourTurn', not default/EndOfTurn or Permanent."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": "OpponentBattledCharacter",
+            "placement": "BottomOfDeck"
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:37:26.950Z"
+}

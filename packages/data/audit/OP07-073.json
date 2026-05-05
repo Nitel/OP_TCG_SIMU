@@ -1,0 +1,46 @@
+{
+  "id": "OP07-073",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasCardOnBoard' checking opponent's Characters, not 'HasRestingDon'. The effect triggers if opponent has 3+ Characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' (which sets a Resting character as active) but the condition is wrong. The card is already resting; this activates it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing scope specification for opponent's board state. Condition must check opponent's field for Character count ≥3."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "target": {
+          "scope": "Opponent",
+          "cardType": "Character"
+        },
+        "count": 3,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:07:58.966Z"
+}

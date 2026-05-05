@@ -1,0 +1,37 @@
+{
+  "id": "OP09-026",
+  "name": "Sakazuki",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: 'If you have 2 or more rested Characters' should be a HasRestingDon condition with value >= 2, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Action missing quantifier: 'up to 1' means the action should include a maxCount or similar parameter to limit selection to 1 Character"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasRestingDon",
+      "value": 2,
+      "comparison": ">="
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:35:17.532Z"
+}

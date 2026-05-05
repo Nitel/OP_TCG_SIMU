@@ -1,0 +1,61 @@
+{
+  "id": "OP05-115_r1",
+  "name": "Two-Hundred Million Volts Amaru",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally wrong. Card has a single OnPlay effect with a conditional second action. DSL incorrectly splits this into two separate effects (OnPlay and Trigger). The Rest action should be conditional on life count, not a separate trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger + TrashFromHand + FlipLife) is completely fabricated. Card text contains no mention of trashing cards from hand or flipping life. This effect does not exist in the card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action missing condition: should only resolve 'if you have 1 or less Life cards'. Current DSL has no conditional logic on the Rest action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Rest target scope incomplete: 'ChooseOpponentCharacter' is correct but should specify the cost filter (maxCost:4) is applied as a constraint."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Up to 1 of your Leader or Character cards gains +3000 power during this turn. Then, if you have 1 or less Life cards, rest up to 1 of your opponent's Characters with a cost of 4 or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          },
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "maxCost": 4
+            },
+            "condition": {
+              "type": "LifeCount",
+              "value": 1,
+              "comparison": "LessOrEqual"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:36:27.627Z"
+}

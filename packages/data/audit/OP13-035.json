@@ -1,0 +1,29 @@
+{
+  "id": "OP13-035",
+  "name": "Bepo",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an EndOfTurn trigger with Rest action, but effects array is empty. DSL must contain the trigger and action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "ThisCardOrUpTo1YourDonCards"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:01:00.780Z"
+}

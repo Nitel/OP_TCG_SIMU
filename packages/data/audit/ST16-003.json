@@ -1,0 +1,54 @@
+{
+  "id": "ST16-003",
+  "name": "Charlotte Katakuri",
+  "set": "ST-16",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has non-empty effect text but empty effects array. Should contain a conditional power boost effect triggered on play or start of turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger type. This appears to be a static ability that should trigger OnPlay or be evaluated at game start."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing conditions: LeaderHasType (FILM) and a condition checking for 6+ rested cards (no standard condition exists; may require custom logic or TrashCount workaround)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing PowerBoost action with +2000 value."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "FILM"
+          },
+          {
+            "type": "Custom",
+            "description": "6 or more rested cards in play"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "value": 2000,
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:11:48.889Z"
+}

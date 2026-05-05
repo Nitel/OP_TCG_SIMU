@@ -1,0 +1,77 @@
+{
+  "id": "OP14-016",
+  "name": "X.Drake",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the first effect entirely. Card has two effects: (1) a Counter/Trigger effect during opponent's turn that gives Leader −2000 power, and (2) the DON!! x1 OnAttack effect. Only the second effect is present."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (triggered by opponent's effect removing a Supernovas Character), not 'OnAttack'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition for Supernovas type Character being targeted for removal. Should include LeaderHasType or card type check, plus the 'Once Per Turn' limit"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Action targets opponent's Character but should target your own Leader (give Leader −2000 power)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration is 'EndOfTurn' but text specifies '[Opponent's Turn]' — should be 'DuringOpponentTurn'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "'ChooseOpponentCharacter' allows free choice; text says 'up to 1' which is correct but scope should be 'OpponentCharacter' with count limit of 1"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "RemoveLife",
+            "amount": 2,
+            "target": {
+              "scope": "YourLeader"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "OpponentCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:11:22.194Z"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "EB03-013",
+  "name": "Carrot",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "Missing requirement that target character must be rested. The official text specifies 'K.O. up to 1 of your opponent's rested Characters' but the DSL target has no rested requirement.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Missing 'up to 1' optionality on the KO action. The official text says 'up to 1' indicating the action is optional.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Missing 'up to 1' optionality on the PlayFromHand action. The official text says 'play up to 1 [Zou]' indicating this action is also optional.",
+      "field": "effects[0].actions[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "TurnCount",
+          "min": 0,
+          "max": 0
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "rested": true
+            },
+            "optional": true
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Zou"
+            },
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:11:30.279Z"
+}

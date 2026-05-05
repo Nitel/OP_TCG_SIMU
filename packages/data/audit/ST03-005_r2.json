@@ -1,0 +1,38 @@
+{
+  "id": "ST03-005_r2",
+  "name": "Dracule Mihawk",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'trash 2 cards from your hand' (ForceDiscard action with count:2). DSL only contains DrawCard action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' (card must have DON!! attached), not 'HasRestingDon' (resting DON!! on board). The [DON!! x1] notation indicates attached DON!! requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:39:15.172Z"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "OP10-030",
+  "name": "Smoker",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "DSL is missing the [Banish] static ability entirely. The card has two distinct effects: (1) a static [Banish] effect that triggers when this card deals damage, and (2) an [Activate: Main] ability. Current DSL only captures a partial/incorrect version of the activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' or similar damage-dealing trigger, not 'Activated'. The [Banish] effect triggers when this card deals damage, not on manual activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'GiveDon' but should be 'KO' or 'ForceDiscard'. [Banish] means the target is trashed/KO'd without triggering effects."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect for [Activate: Main] ability. Should include: set up to 1 DON!! card as active, then lock DON!! set-up via Character effects for the rest of this turn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "DamagedCard"
+        }
+      ],
+      "description": "[Banish] - Target card is trashed without activating its Trigger"
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": "OwnCharacter"
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "description": "[Activate: Main] Set up to 1 of your DON!! cards as active. Then, you cannot set DON!! cards as active using Character effects during this turn."
+    }
+  ],
+  "auditedAt": "2026-05-05T11:33:12.572Z"
+}

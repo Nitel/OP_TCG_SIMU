@@ -1,0 +1,36 @@
+{
+  "id": "OP05-049",
+  "name": "Haccha",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'Return up to 1 Character' with no player specification. Should be 'ChooseCharacter' (own or opponent's field) or clarify if limited to opponent. Standard interpretation of unqualified 'Character' in return effects typically means any character on board."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target should include 'maxCount':1 to enforce 'up to 1' limit"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:00.796Z"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "OP07-004",
+  "name": "Curly.Dadan",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing 'condition' for optional effect. Card text states 'You may trash 1 card' - this requires an optional condition, not automatic execution."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand quantity not specified. Must include 'quantity':1 to match 'trash 1 card'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "SearchDeck filter incomplete. Must include power constraint (2000 or less) and reveal requirement. Current filter only checks cardType, missing power validation and reveal mechanic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Missing 'quantity' constraint. Card text specifies 'up to 1 Character card' - must set maxQuantity:1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing deck arrangement mechanic. Card text requires 'place the rest at the bottom of your deck in any order' - no DSL action captures this step."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "quantity": 1,
+          "filter": {
+            "excludeSelf": true
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "quantity": 5,
+              "maxQuantity": 1,
+              "filter": {
+                "kind": "ByType",
+                "cardType": "Character",
+                "maxPower": 2000
+              },
+              "destination": "hand",
+              "reveal": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:02:40.407Z"
+}

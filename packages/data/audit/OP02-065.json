@@ -1,0 +1,54 @@
+{
+  "id": "OP02-065",
+  "name": "Mr.3(Galdino)",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Blocker mechanic is a static ability, not a triggered effect. Should not use OnAttacked trigger. Blocker allows the player to respond to opponent's attack declaration—this is a special game mechanic, typically represented as a keyword or special action, not a standard trigger-action pair."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger should be 'EndOfTurn' not 'OnPlay'. Effect occurs at end of your turn, not when card is played."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but the effect allows trashing as a cost/condition for the main action. Structure should be: if player trashes 1 card from hand, then set this character as active (Rest it). The Rest action should occur conditionally after the trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions",
+      "description": "Second effect is missing a condition that trashing is optional ('You may trash'). Should include optional flag or conditional logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:31:30.117Z"
+}

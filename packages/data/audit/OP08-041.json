@@ -1,0 +1,25 @@
+{
+  "id": "OP08-041",
+  "name": "Aphelandra",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'KO' is incorrect. Card text states 'place at the bottom of the owner's deck', which is a return-to-deck action, not KO. No equivalent legacy alias exists for this action in the DSL spec."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'If your Leader has the {Kuja Pirates} type' must be represented as a condition (e.g., LeaderHasType or LeaderHasAnyType with value 'Kuja Pirates'). Current DSL has no conditions array."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand is mandatory in the DSL but optional ('You may return...') in card text. Should be wrapped in optional structure or trigger should reflect the conditional nature."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:27:18.577Z"
+}

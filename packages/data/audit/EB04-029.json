@@ -1,0 +1,109 @@
+{
+  "id": "EB04-029",
+  "name": "I Heard the Sound...of a Lady's Teardrops Falling",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (Main ability), not 'OnPlay'. Main abilities activate during your turn, not when card enters play."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasCardOnBoard' is incorrect. Should be 'LeaderIsName' with value 'Sanji' to check if Leader is Sanji."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "First action should be 'SearchDeck' to look at top 3 cards, not 'RevealFromHand'. The sequence is: search deck, reveal up to 1 matching card, add to hand, trash rest."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure is fundamentally wrong. Should search top 3 cards of deck, filter for [Sanji] or Event cards, reveal up to 1, add to hand, then trash remainder. Current structure mixes RevealFromHand with SearchDeck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter logic is incorrect. Should filter for cards that are ([Sanji] character) OR (Event), not both conditions on same card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Counter ability should allow optional trash (optional=true). Cost is 'may trash 1 card from hand', making the ability conditional."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event"
+            ],
+            "subType": [
+              "Sanji"
+            ]
+          },
+          "reveal": true,
+          "thenActions": [
+            {
+              "type": "RevealFromHand",
+              "count": 1,
+              "filter": {
+                "cardTypes": [
+                  "Character",
+                  "Event"
+                ],
+                "subType": [
+                  "Sanji"
+                ]
+              },
+              "destination": "hand",
+              "thenActions": [
+                {
+                  "type": "ForceDiscard",
+                  "source": "SearchResults",
+                  "remaining": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 4000,
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "subType": "Sanji",
+                "count": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:15.746Z"
+}

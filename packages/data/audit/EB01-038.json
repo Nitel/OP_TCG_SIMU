@@ -1,0 +1,48 @@
+{
+  "id": "EB01-038",
+  "name": "Oh Come My Way",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong condition type. Should check leader's type includes 'Baroque Works' using LeaderHasType, not HasCardOnBoard with name 'Baroque Works'",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "critical",
+      "description": "First effect has wrong action. Should redirect attack target using a redirect/change target action, not Rest the character",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "DON!! -1 cost mechanism is missing. Counter cards with DON!! cost need to represent this, though current DSL may not have a cost field",
+      "field": "effects[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect with Trigger trigger and DrawCard action does not exist in the official text at all. This appears to be from a different card entirely",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "LeaderHasType",
+          "characterType": "Baroque Works"
+        },
+        "actions": [
+          {
+            "type": "ChangeAttackTarget",
+            "target": {
+              "scope": "ChooseOwnCharacter"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:44.039Z"
+}

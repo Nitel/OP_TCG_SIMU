@@ -1,0 +1,65 @@
+{
+  "id": "OP13-082",
+  "name": "Five Elders",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should check if Leader IS Imu, not if a card named Imu is on board. Use LeaderIsName with value 'Imu', not HasCardOnBoard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing mandatory rest action for DON!! card. Text states 'rest 1 of your DON!! cards' which must precede trash action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2]",
+      "description": "SearchDeck action is incorrect. Should use PlayFromHand or similar to play from trash. SearchDeck retrieves from deck, not trash. Must filter for {Five Elders} type, 5000 power, and limit to 5 different card names from trash."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Action sequence is wrong: should be (1) Rest DON, (2) Trash from hand, (3) KO characters, (4) Play up to 5 Five Elders from trash. Current sequence doesn't reflect the cost/effect structure properly."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Imu"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnDonCards"
+        },
+        "count": 1
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "AllOwnCharacters"
+        }
+      },
+      {
+        "type": "PlayFromHand",
+        "source": "trash",
+        "count": 5,
+        "filter": {
+          "type": "FiveElders",
+          "power": 5000
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:04:33.633Z"
+}

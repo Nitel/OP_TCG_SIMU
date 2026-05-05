@@ -1,0 +1,68 @@
+{
+  "id": "OP06-015",
+  "name": "Lily Carnation",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand is incorrect; the card trashes Characters from the board (in play), not from hand. Should be 'KO' or a board trash action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter.maxPower",
+      "description": "maxPower should be 999999 to allow 6000+, but the condition requires 'power or more': minPower should be 6000, not maxPower constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing minPower:6000 to enforce the '6000 power or more' requirement."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "PlayFromHand is incorrect; the card is played from trash, not hand. Should be 'PlaySelf' or equivalent trash-play action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].filter.maxPower",
+      "description": "maxPower:5000 is correct for '2000 to 5000 power' upper bound, but minPower:2000 is missing."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Missing 'rested' keyword application. Card should be played rested; need GiveKeyword or rested property."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] You may trash 1 of your Characters with 6000 power or more: Play up to 1 {FILM} type Character card with 2000 to 5000 power from your trash rested.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "KO",
+            "filter": {
+              "cardType": "Character",
+              "minPower": 6000
+            },
+            "thenActions": [
+              {
+                "type": "PlayFromTrash",
+                "filter": {
+                  "subType": "FILM",
+                  "cardType": "Character",
+                  "minPower": 2000,
+                  "maxPower": 5000
+                },
+                "rested": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:54:22.452Z"
+}

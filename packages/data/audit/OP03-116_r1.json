@@ -1,0 +1,37 @@
+{
+  "id": "OP03-116_r1",
+  "name": "Shirahoshi",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing ForceDiscard action. Effect text requires trashing 2 cards, but DSL only includes DrawCard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Spurious second effect with trigger 'Trigger' and PlaySelf action. No such effect exists in card text."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Draw 3 cards and trash 2 cards from your hand.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 3
+          },
+          {
+            "type": "ForceDiscard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:33:58.916Z"
+}

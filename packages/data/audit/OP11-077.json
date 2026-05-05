@@ -1,0 +1,44 @@
+{
+  "id": "OP11-077",
+  "name": "Randolph",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has complex trigger condition with duration modifiers that must be encoded. Missing: OnPlay trigger, DON return condition, character targeting, cost boost, and dual-duration logic spanning your turn and opponent's next turn."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "[Your Turn] in effect text requires duration DuringYourTurn; opponent's next turn continuation requires separate EndOfTurn handler or Permanent with explicit end condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, up to 1 of your {Big Mom Pirates} type Characters gains +2 cost until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": "DON!!"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "YourCharactersOfType",
+            "targetValue": "Big Mom Pirates",
+            "value": 2,
+            "quantity": 1,
+            "durationOverride": "UntilEndOfOpponentNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:30:54.662Z"
+}

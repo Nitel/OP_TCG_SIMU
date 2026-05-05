@@ -1,0 +1,28 @@
+{
+  "id": "EB01-044",
+  "name": "Funkfreed",
+  "set": "EB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the boost lasts for the current turn only. Duration should be 'DuringYourTurn' not 'EndOfTurn'. These have different timing implications—'DuringYourTurn' means the effect is active while it's your turn, whereas 'EndOfTurn' means it expires at end of turn but may have already resolved."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "subType": "Spandam"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:16:42.888Z"
+}

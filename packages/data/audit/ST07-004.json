@@ -1,0 +1,61 @@
+{
+  "id": "ST07-004",
+  "name": "Charlotte Snack",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing FlipLife action. Card text states 'You may add 1 card from the top or bottom of your Life cards to your hand' which requires FlipLife action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing GiveKeyword action for [Banish]. Card text grants '[Banish]' keyword during battle."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle'. Card text specifies 'during this battle'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing optional/conditional wrapper. Card text uses 'You may' indicating optional action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:01:27.256Z"
+}

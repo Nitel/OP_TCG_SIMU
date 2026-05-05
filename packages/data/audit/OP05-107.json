@@ -1,0 +1,50 @@
+{
+  "id": "OP05-107",
+  "name": "Lieutenant Spacey",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a triggered ability that must be defined: '[Your Turn] [Once Per Turn] When a card is added to your hand from your Life, this Character gains +2000 power during this turn.'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger: should be 'Trigger' (card added to hand from Life)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].duration",
+      "description": "Missing duration: '[Your Turn]' in text requires duration 'DuringYourTurn'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: PowerBoost with +2000 power"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] [Once Per Turn] When a card is added to your hand from your Life, this Character gains +2000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "duration": "DuringYourTurn",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "value": 2000
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:52:24.285Z"
+}

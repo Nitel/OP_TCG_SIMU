@@ -1,0 +1,61 @@
+{
+  "id": "OP01-101",
+  "name": "Sasaki",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text says '[When Attacking]' which is an attack trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0]",
+      "description": "Action sequence is incomplete. Should include: TrashFromHand (optional/conditional), then SearchDeck to add DON!! from deck, then Rest the added DON!!. Current DSL only trashes and gives DON without searching."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].filter",
+      "description": "TrashFromHand filter is empty. Should specify optional/conditional trashing (up to 1 card from hand)."
+    },
+    {
+      "severity": "critical",
+      "field": "actions",
+      "description": "Missing Rest action. Card text requires the added DON!! to be rested, but DSL has no Rest action."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].thenActions[0].type",
+      "description": "GiveDon is incorrect action. Should SearchDeck to fetch DON!! from DON!! deck, not directly give DON!!."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "optional": true,
+          "count": 1
+        },
+        "thenActions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "type": "DON",
+              "count": 1
+            }
+          },
+          {
+            "type": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:20:52.542Z"
+}

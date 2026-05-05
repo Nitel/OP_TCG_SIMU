@@ -1,0 +1,52 @@
+{
+  "id": "OP10-019",
+  "name": "Divine Departure",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (cards you control with DON!! attached), not 'HasRestingDon'. The effect requires resting 5 of your DON!! cards, which means DON!! cards already attached to your characters."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Target scope should be 'OwnCharacter' not 'OwnLeader'. Effect text says 'Up to 1 of your Leader gains +3000 power' but in OPTCG DSL, Leaders are separate from Characters. The text is ambiguous but context (a Counter ability) suggests it should boost your own characters in battle. If it truly means the Leader card, use 'OwnLeader'; if any of your characters, use 'OwnCharacter'. Based on standard Counter syntax, 'OwnCharacter' is more likely."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 5
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxPower": 8000
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "OwnCharacter"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:32:20.277Z"
+}

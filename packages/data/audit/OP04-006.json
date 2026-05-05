@@ -1,0 +1,41 @@
+{
+  "id": "OP04-006",
+  "name": "Koza",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Leader power reduction should be optional ('You may') but is unconditional in DSL. Requires condition: optional=true"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the start of your next turn' which means the boost persists through opponent's turn. Should be duration:'UntilStartOfNextTurn' or equivalent persistent duration, not EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -5000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "EndOfTurn",
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "UntilStartOfNextTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:21.114Z"
+}

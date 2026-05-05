@@ -1,0 +1,28 @@
+{
+  "id": "OP07-045",
+  "name": "Jinbe",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].filter",
+      "description": "Filter excludes 'self' via excludeSelf:true, but card text specifies exclusion of '[Jinbe]' by name, not by self-reference. The excludeSelf property is inapplicable here; a name-based exclusion (excludeName or similar) should be used instead."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "The Seven Warlords of the Sea",
+          "cardType": "Character",
+          "maxCost": 4,
+          "excludeName": "Jinbe"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:05:48.205Z"
+}

@@ -1,0 +1,36 @@
+{
+  "id": "OP03-009",
+  "name": "Haruta",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has activated ability text but effects array is empty. Must include effect with Trigger: Activated, Condition: Once Per Turn, Action: AttachDon"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "AttachDon",
+            "target": "YourLeaderOrCharacter",
+            "amount": 1,
+            "from": "RestingDon"
+          }
+        ],
+        "duration": "Permanent",
+        "onceTurn": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:58.358Z"
+}

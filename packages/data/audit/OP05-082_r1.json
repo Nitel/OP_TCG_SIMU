@@ -1,0 +1,62 @@
+{
+  "id": "OP05-082_r1",
+  "name": "Shirahoshi",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'RemoveLife' is incorrect. The effect places cards from trash at bottom of deck, which should use 'SearchDeck' or a custom action for deck manipulation. RemoveLife reduces life total, not deck operations."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional logic. The effect has a condition 'If your opponent has 6 or more cards in their hand' that must be represented. Current condition is 'Always', but should include opponent hand count check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing ForceDiscard action. After the condition is met, opponent must trash 1 card from their hand. Current DSL has no discard action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "'Rest' and card manipulation should only execute if condition is met. Structure needs conditional wrapping or separate effect for the trash→deck placement vs the opponent discard."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "OpponentHandCount",
+        "value": 6,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Opponent"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:36:10.729Z"
+}

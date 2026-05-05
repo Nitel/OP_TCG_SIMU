@@ -1,0 +1,36 @@
+{
+  "id": "OP01-113",
+  "name": "Holedem",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action does not capture the 'rest it' effect. The card adds a DON!! card AND rests it. Missing Rest action."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].count",
+      "description": "Count should be 'up to 1' — current DSL uses count:1 which is mandatory. Consider if 'up to' distinction matters in your system."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On K.O.] Add up to 1 DON!! card from your DON!! deck and rest it.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1
+          },
+          {
+            "type": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:09.156Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "OP13-031",
+  "name": "Trafalgar Law",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing static ability for 'If you have 1 or less Life cards, this Character gains [Blocker]'. Should be a separate effect with trigger 'Trigger' and condition 'HasLifeOrLess:1'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "ReturnToHand action is missing 'optional':true to reflect 'You may return' in card text"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action is missing 'rested':true to reflect 'play...rested' requirement in card text"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasLifeOrLess",
+        "value": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "optional": true
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:00:44.104Z"
+}

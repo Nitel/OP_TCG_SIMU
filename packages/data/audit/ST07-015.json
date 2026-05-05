@@ -1,0 +1,44 @@
+{
+  "id": "ST07-015",
+  "name": "Soul Pocus",
+  "set": "ST-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally broken. Card text describes an opponent choice (either trash opponent's Life OR add from deck to Life), but DSL executes BOTH actions unconditionally. Must be either: (1) single ForceDiscard on opponent Life, OR (2) single FlipLife on own deck, depending on opponent's choice. Current DSL does neither correctly."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type 'Trigger' is invalid. Should be 'OnPlay' (main card effect triggered when card is played)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "'RemoveLife' is not a valid action type. For trashing opponent Life cards, use 'ForceDiscard' (with target opponent). RemoveLife reduces Life total, not Life card pile."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Both actions execute in sequence. Card requires opponent to choose ONE option. This cannot be properly modeled in current DSL without choice mechanics. Should either pick the most likely option or note as limitation."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Your opponent chooses one:\n- Trash 1 card from the top of your opponent's Life cards.\n- Add 1 card from the top of your deck to the top of your Life cards.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "target": "OpponentLife"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:02:20.952Z"
+}

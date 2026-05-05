@@ -1,0 +1,67 @@
+{
+  "id": "EB01-029",
+  "name": "Sorry. I'm a Goner.",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Effect uses 'RevealFromHand' but the official text says 'Reveal 1 card from the top of your deck', which should use 'SearchDeck' or a reveal-from-deck action",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Condition is missing: should only return character if revealed card has cost 4 or more (minCost: 4), not maxCost: 4",
+      "field": "effects[0].actions[0].thenActions[0].target.maxCost"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing action: the revealed card must be placed at the bottom of the deck after the reveal and conditional return",
+      "field": "effects[0].actions[0].thenActions"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect with 'Trigger' trigger is spurious and not mentioned in the official text. The card only has a [Counter] effect",
+      "field": "effects[1]"
+    },
+    {
+      "severity": "major",
+      "description": "Return should be 'up to 1', meaning count: 1 and optional: true",
+      "field": "effects[0].actions[0].thenActions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "RevealFromDeck",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "target": {
+                  "scope": "ChooseOwnCharacter",
+                  "count": 1
+                },
+                "optional": true,
+                "condition": {
+                  "type": "RevealedCardMinCost",
+                  "minCost": 4
+                }
+              },
+              {
+                "type": "PlaceCardToBottomOfDeck",
+                "target": {
+                  "scope": "RevealedCard"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:47.820Z"
+}

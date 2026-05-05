@@ -1,0 +1,20 @@
+{
+  "id": "OP01-082",
+  "name": "Monet",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger value 'Trigger' is not a valid trigger type. Must be one of: OnPlay, OnAttack, OnAttacked, OnKO, OnBlock, Counter, Activated, StartOfTurn, EndOfTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "PlaySelf action requires a 'zone' property specifying where the card is played from (e.g., 'Hand', 'Trash', 'Deck')"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:20:19.804Z"
+}

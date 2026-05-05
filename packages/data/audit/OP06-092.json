@@ -1,0 +1,57 @@
+{
+  "id": "OP06-092",
+  "name": "Brook",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "actions[0].type",
+      "description": "Effect uses KO but card text says 'Trash' — KO removes from game, Trash sends to trash pile. Should be ForceDiscard."
+    },
+    {
+      "severity": "critical",
+      "field": "structure",
+      "description": "Card presents a choice between two effects (Choose one: •Trash OR •Place cards), but DSL only implements the first option. Must represent both branches as separate action paths or clarify single-effect intent."
+    },
+    {
+      "severity": "critical",
+      "field": "actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is non-standard. Should use proper target definition with scope and filter conditions (e.g., character type, cost ≤4)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "conditions": [
+              {
+                "type": "HasMaxCost",
+                "value": 4
+              }
+            ],
+            "maxTargets": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromOpponentTrash",
+          "target": {
+            "scope": "OpponentTrash",
+            "maxTargets": 3
+          },
+          "destination": "BottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:00:16.845Z"
+}

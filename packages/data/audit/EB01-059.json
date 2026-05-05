@@ -1,0 +1,59 @@
+{
+  "id": "EB01-059",
+  "name": "Kingdom Come",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First effect has wrong trigger. Official text says '[Main]' which means this is an Event card activated from hand, not 'OnPlay'. Event cards should use 'Activated' trigger.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Second action in first effect is completely wrong. The text says 'trash cards from the top of your Life cards until you have 1 Life card', which is not 'RemoveLife'. This should likely be a special action or use FlipLife with specific logic to reduce life to exactly 1.",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "minor",
+      "description": "First action says 'up to 1' which means optional (count 0-1), but DSL doesn't specify this is optional",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "RemoveLife",
+            "count": "UntilOne",
+            "comment": "Trash life cards until you have 1 remaining"
+          }
+        ]
+      },
+      {
+        "trigger": "Trigger",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter"
+            },
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:53.475Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP11-023",
+  "name": "Arlong",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type is incorrect. Card text describes a conditional cost reduction (passive ability), not an event trigger. Should use 'Activated' or a passive condition check, not 'Trigger'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is completely wrong. Card grants cost reduction (−3 cost), not a Rest action. Should use 'PowerBoost' with cost modifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target is wrong. Action targets opponent's characters, but effect should target 'this card' in hand for cost reduction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing all three required conditions: LeaderHasType {Fish-Man}, LeaderLife ≤3, and OpponentRestingCards ≥5. DSL has no conditions array."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Fish-Man"
+        },
+        {
+          "type": "LeaderLife",
+          "comparison": "<=",
+          "value": 3
+        },
+        {
+          "type": "OpponentRestingCards",
+          "comparison": ">=",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self",
+            "location": "Hand"
+          },
+          "costModifier": -3
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T11:41:53.300Z"
+}

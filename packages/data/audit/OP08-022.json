@@ -1,0 +1,25 @@
+{
+  "id": "OP08-022",
+  "name": "Inuarashi",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'Rest' is incorrect. The effect prevents Characters from becoming active during opponent's next Refresh Phase, not simply resting them. This requires a custom mechanic or a different action type that represents blocking activation during refresh. 'Rest' alone does not capture the conditional prevention of activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incomplete. The card specifies 'up to 2' Characters, but the DSL target does not include a maxSelect or count limit of 2. Should be maxSelect:2."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The effect text indicates a duration-based mechanic: 'will not become active in your opponent's next Refresh Phase' implies the effect persists through the opponent's turn until refresh. This is not a simple Rest action—it's a prevention of activation. The DSL lacks a duration property and cannot represent this conditional refresh-phase prevention without additional fields like duration:'UntilRefresh' or a custom action."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T10:25:52.499Z"
+}

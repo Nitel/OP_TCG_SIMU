@@ -1,0 +1,43 @@
+{
+  "id": "OP03-064",
+  "name": "Tilestone",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: effect requires Leader to have {Galley-La Company} type, but DSL has Always. Should be LeaderHasType:Galley-La Company"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Action incomplete: GiveDon only adds DON cards but does not rest them. Effect text states 'rest it' — need additional Rest action or GiveDon must support rest parameter"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].source",
+      "description": "Source missing: effect specifies DON cards come from 'your DON!! deck' (SearchDeck behavior), not generic GiveDon. Should clarify deck source"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Galley-La Company"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "cardType": "DON",
+          "count": 1
+        },
+        {
+          "type": "Rest"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:33.546Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP14-056",
+  "name": "Wadatsumi",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects in text but DSL effects array is empty. Missing: (1) static ability preventing attacks, (2) triggered ability that negates this Character's effect when a card is trashed from hand by an effect during the turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing static effect: This Character cannot attack. Should be represented as a passive restriction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing triggered effect: OnPlay trigger or passive monitoring for cards trashed from hand by effects. When condition met, should negate this Character's effect with duration DuringYourTurn."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "description": "This Character cannot attack",
+        "actions": []
+      },
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "description": "When a card is trashed from your hand by an effect, this Character's effect is negated during this turn",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "EffectNegated",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:14:25.912Z"
+}

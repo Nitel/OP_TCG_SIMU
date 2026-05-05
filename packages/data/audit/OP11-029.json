@@ -1,0 +1,43 @@
+{
+  "id": "OP11-029",
+  "name": "Charlotte Praline",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "Missing Blocker keyword effect. Card text states '[Blocker]' which should be represented as a separate effect with GiveKeyword action or as a static ability. The DSL only includes the [On Play] effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. 'maxCost:1' is correct but should include 'maxCount':1 to represent 'up to 1' limitation explicitly, or the action should clarify it selects at most 1 character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:42:21.711Z"
+}

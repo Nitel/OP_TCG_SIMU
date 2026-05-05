@@ -1,0 +1,64 @@
+{
+  "id": "OP04-064",
+  "name": "Ms. All Sunday",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon is incorrect. Effect text says 'Add up to 1 DON!! card from your DON!! deck' — this is SearchDeck (fetch from deck), not GiveDon (create DON!! tokens). Should search deck for DON card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action targets Self, but the DON card being added from deck needs to be rested, not the character. Target should be the searched card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition. DrawCard action should only occur 'if you have 6 or more DON!! cards on your field' — needs HasAttachedDon condition with count:6."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with Trigger and PlaySelf. No play-itself mechanic exists in card text. This should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "cardType": "DON"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "LastSearched"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 6
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:38:02.413Z"
+}

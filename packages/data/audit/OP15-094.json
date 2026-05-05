@@ -1,0 +1,53 @@
+{
+  "id": "OP15-094",
+  "name": "Roronoa Zoro",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has protective effect text but effects array is empty. Should contain OnAttacked trigger with condition checking opponent effect removal and action to trash this character."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "[Blocker] keyword missing from effects array"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "type": "StrawHatCrew",
+              "excludeSelf": true
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "KO",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      },
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:29:13.329Z"
+}

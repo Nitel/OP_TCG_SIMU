@@ -1,0 +1,44 @@
+{
+  "id": "OP05-084",
+  "name": "Saint Charlos",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' not 'Activated' — this is a passive turn-start effect, not an activated ability"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: must check that only Celestial Dragons type Characters are on your field. Should include HasCardOnBoard condition or similar type-checking logic"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn' — '[Your Turn]' in card text indicates effect lasts during your turn only, not until end of turn"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Celestial Dragons",
+        "isOnly": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:50:41.542Z"
+}

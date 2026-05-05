@@ -1,0 +1,58 @@
+{
+  "id": "ST13-014_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'RevealFromHand' not 'TrashFromHand'. The card text says 'Reveal 1 card from the top of your Life cards', not trash. Trashing is only a cost option ('You may trash this Character')."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Second action should reveal from Life cards (deck equivalent), not 'RevealFromHand'. Text explicitly states 'Reveal 1 card from the top of your Life cards'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[1].duration",
+      "description": "Duration should be 'DuringOpponentTurn' not 'EndOfTurn'. Text states 'until the end of your opponent's next turn', which is a conditional duration tied to opponent's turn phase."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter uses 'maxCost' but should specify exact cost of 5, or clarify as 'cost':5. Additionally, 'Monkey.D.Luffy' needs proper type/name filtering structure."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "optional": true,
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 1,
+        "source": "Life",
+        "filter": {
+          "name": "Monkey.D.Luffy",
+          "cost": 5
+        },
+        "thenActions": [
+          {
+            "type": "PlaySelf"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "OwnLeader",
+              "count": 1
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:52:33.214Z"
+}

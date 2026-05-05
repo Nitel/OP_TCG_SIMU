@@ -1,0 +1,37 @@
+{
+  "id": "OP06-117",
+  "name": "The Ark Maxim",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for cost restriction. The effect should include a condition that targets only opponent's Characters with cost ≤ 2, but 'maxCost' is not a standard condition field. Should use a proper cost filter in the target specification or add a Condition node."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target specification incomplete. 'maxCost: 2' is not a recognized target field in the DSL standard. Cost-based filtering should be expressed as a condition or integrated target property."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters",
+            "cost": {
+              "operator": "<=",
+              "value": 2
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:02:12.136Z"
+}

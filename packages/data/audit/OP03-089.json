@@ -1,0 +1,46 @@
+{
+  "id": "OP03-089",
+  "name": "Brannew",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) look at top 3 cards, (2) reveal up to 1 Navy type card other than Brannew, (3) add it to hand, (4) trash the rest. Current DSL uses generic SearchDeck with no filter, count limit, or trash mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify Navy type cards and exclude Brannew by name."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing second action to trash remaining cards. Effect requires sequential actions: search/reveal, then trash."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": {
+            "kind": "Navy",
+            "excludeName": "Brannew"
+          },
+          "maxSelect": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "deck",
+          "destination": "trash"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:14.589Z"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "OP01-112",
+  "name": "Page One",
+  "set": "OP-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has an Activated ability that costs 1 DON!! and grants the ability to attack opponent's active Characters during this turn. This must be represented in the DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "cost": {
+        "don": 1
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackActiveCharacters"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:06.861Z"
+}

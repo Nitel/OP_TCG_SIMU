@@ -1,0 +1,31 @@
+{
+  "id": "ST12-014",
+  "name": "Duval",
+  "set": "ST-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type is SearchDeck (which implies drawing into hand), but card text says 'Look at 3 cards from the top of your deck and place them at the top or bottom of the deck in any order' — this is a scry/arrange action, not a search. SearchDeck is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing context: effect should specify looking at exactly 3 cards from top of deck and arranging them (scry mechanic), not searching deck."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ScryDeck",
+          "count": 3,
+          "destination": "top_or_bottom"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:07:20.380Z"
+}

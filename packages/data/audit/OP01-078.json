@@ -1,0 +1,71 @@
+{
+  "id": "OP01-078",
+  "name": "Boa Hancock",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasCardOnBoard' (checking hand size ≤5), not 'HasRestingDon'. The DON requirement is a cost, not a condition for the draw effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition should be 'HasCardOnBoard' (checking hand size ≤5), not 'HasRestingDon'. The DON requirement is a cost, not a condition for the draw effect."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0]",
+      "description": "Missing cost representation for '[DON!! x1]'. DSL should indicate this is a DON cost mechanic, though current schema may not fully support cost encoding separately from conditions."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1]",
+      "description": "Missing cost representation for '[DON!! x1]'. DSL should indicate this is a DON cost mechanic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "count": {
+          "operator": "<=",
+          "value": 5
+        },
+        "zone": "hand"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "cost": {
+        "don": 1
+      }
+    },
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "count": {
+          "operator": "<=",
+          "value": 5
+        },
+        "zone": "hand"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "cost": {
+        "don": 1
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:13.523Z"
+}

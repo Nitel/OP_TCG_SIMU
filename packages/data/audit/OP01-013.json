@@ -1,0 +1,46 @@
+{
+  "id": "OP01-013",
+  "name": "Sanji",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Power boost duration should be 'DuringTurn' (this turn only), not 'EndOfTurn'. Card text explicitly states 'during this turn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "AttachDon action missing 'rested' state specification. Card requires attaching rested DON!! cards, not unrested."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringTurn"
+        },
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "Self"
+          },
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:27.977Z"
+}

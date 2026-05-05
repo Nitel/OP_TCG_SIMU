@@ -1,0 +1,70 @@
+{
+  "id": "EB02-059",
+  "name": "Without Your Help I Can't Become the King of the Pirates!!!!",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The condition 'HasRestingDon' with count 0 is completely wrong. The text requires 'if you have 1 or less Life cards', which should be a condition checking life count, not don availability.",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "major",
+      "description": "The PlayFromHand action is missing the filter for '[Sanji]' cards. The text says 'yellow {Straw Hat Crew} type Character cards OR [Sanji]', meaning Sanji cards (even non-yellow or non-Straw Hat Crew) with cost 5 or less should also be playable.",
+      "field": "effects[0].actions[1].filter"
+    },
+    {
+      "severity": "minor",
+      "description": "The PlayFromHand action should have 'count: 1' to match 'play up to 1' in the text.",
+      "field": "effects[0].actions[1].count"
+    },
+    {
+      "severity": "major",
+      "description": "The PlayFromHand action should only be conditional (execute only if life <= 1), but currently it's part of the same unconditional effect as the PowerBoost. This needs to be restructured or the condition needs to apply specifically to this action.",
+      "field": "effects[0].actions[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "anyOf": [
+                {
+                  "color": "Yellow",
+                  "subType": "Straw Hat Crew",
+                  "cardType": "Character",
+                  "maxCost": 5
+                },
+                {
+                  "name": "Sanji",
+                  "cardType": "Character",
+                  "maxCost": 5
+                }
+              ]
+            },
+            "condition": {
+              "type": "LifeCount",
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:27.213Z"
+}

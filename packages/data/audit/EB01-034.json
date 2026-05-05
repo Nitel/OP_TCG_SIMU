@@ -1,0 +1,65 @@
+{
+  "id": "EB01-034",
+  "name": "Ms. Wednesday",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing [Blocker] keyword effect entirely. This should be a keyword field, not an effect entry.",
+      "field": "keywords"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type. The effect triggers [On Your Opponent's Attack], not Activated. Should use trigger OnAttacked or a specific opponent attack trigger.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "major",
+      "description": "Wrong condition type. Should check LeaderHasType for 'Baroque Works', not HasCardOnBoard with name 'Baroque Works'.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing cost specification. The effect requires 'DON!! −1' cost, which should be represented in a cost field.",
+      "field": "effects[0].cost"
+    },
+    {
+      "severity": "major",
+      "description": "Missing [Once Per Turn] restriction in the effect.",
+      "field": "effects[0].restriction"
+    },
+    {
+      "severity": "minor",
+      "description": "GiveDon action missing 'active: true' to indicate the DON!! is set as active, not rested.",
+      "field": "effects[0].actions[0].active"
+    }
+  ],
+  "suggestedDsl": {
+    "keywords": [
+      "Blocker"
+    ],
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "condition": {
+          "type": "LeaderHasType",
+          "cardType": "Baroque Works"
+        },
+        "cost": {
+          "type": "ReturnDon",
+          "count": 1
+        },
+        "restriction": "OncePerTurn",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "active": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:26.973Z"
+}

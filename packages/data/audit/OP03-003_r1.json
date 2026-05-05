@@ -1,0 +1,49 @@
+{
+  "id": "OP03-003_r1",
+  "name": "Izo",
+  "set": "ST-15",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at 5 cards from top, (2) filtering by type 'Whitebeard Pirates' AND excluding [Izo], (3) revealing up to 1 card, (4) adding it to hand, (5) placing remaining cards at bottom in any order. Current DSL only searches by name, missing the type filter, exclusion condition, card count limit (5), and bottom-deck placement of remaining cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses kind:'ByName' which is incorrect. Should use kind:'ByType' to filter cards with type 'Whitebeard Pirates', and must include exclusion of card name 'Izo'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action to place remaining 4 cards at bottom of deck in any order. The effect is a deck search with remainder management, requiring a secondary action or extended parameters."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP03-003_r1",
+    "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 card with a type including \"Whitebeard Pirates\" other than [Izo] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByType",
+              "type": "Whitebeard Pirates",
+              "excludeNames": [
+                "Izo"
+              ]
+            },
+            "maxResults": 1,
+            "searchDepth": 5,
+            "destination": "hand",
+            "remainderDestination": "bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:10:44.567Z"
+}

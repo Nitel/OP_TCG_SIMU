@@ -1,0 +1,39 @@
+{
+  "id": "OP14-093",
+  "name": "Mr.4(Babe)",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text specifies 'from your trash' — should be 'ChooseFromTrash'. Also missing type filter 'Baroque Works'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Missing required 'typeFilter' property to enforce 'Baroque Works' type requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'maxCount' property — effect text says 'up to 1' which requires maxCount:1."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "maxCount": 1,
+        "target": {
+          "scope": "ChooseFromTrash",
+          "cardType": "Character",
+          "typeFilter": "Baroque Works",
+          "maxCost": 8
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:17:16.745Z"
+}

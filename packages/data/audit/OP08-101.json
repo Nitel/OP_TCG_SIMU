@@ -1,0 +1,65 @@
+{
+  "id": "OP08-101",
+  "name": "Charlotte Angel",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but missing condition check for LeaderHasType {Big Mom Pirates}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Effect specifies trashing from Life cards (top of deck used as life), not hand. Should use 'ForceDiscard' or similar for life pile, or clarify mechanic"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Missing conditional thenActions: Should check LeaderHasType {Big Mom Pirates}, then if true, execute SearchDeck (add 1 from top of deck to top of Life) with duration DuringYourTurn (end of turn timing)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing 'Once Per Turn' constraint - should add 'limit: 1' or frequency tracking"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Condition structure missing: needs condition 'LeaderHasType' with value {Big Mom Pirates} before executing thenActions"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] You may trash 1 card from the top of your Life cards: If your Leader has the {Big Mom Pirates} type, add 1 card from the top of your deck to the top of your Life cards at the end of this turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "limit": 1,
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "filter": {
+              "source": "Life"
+            },
+            "thenActions": [
+              {
+                "type": "SearchDeck",
+                "count": 1,
+                "filter": {},
+                "placement": "TopOfLife",
+                "condition": {
+                  "type": "LeaderHasType",
+                  "value": "Big Mom Pirates"
+                },
+                "duration": "DuringYourTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:31:58.270Z"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "OP07-021",
+  "name": "Urouge",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing Blocker effect entirely. Card has two distinct effects: (1) Blocker keyword (Counter trigger on opponent's attack declaration), and (2) End of Turn effect to set DON cards active. DSL only captures a partial/incorrect action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' for Blocker mechanic (activated when opponent declares attack), not 'Activated'. Blocker is a response to OnAttack, not a manual activation."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'GiveDon' is incorrect. Blocker effect should Rest this card ('Rest' action) to redirect attack target, not give DON. The DON setup is a separate end-of-turn effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect for '[End of Your Turn] Set up to 1 of your DON!! cards as active.' Should be a separate effect with trigger 'EndOfTurn' and action to set DON active (likely 'AttachDon' or equivalent state change)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": "YourDON"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:04:00.688Z"
+}

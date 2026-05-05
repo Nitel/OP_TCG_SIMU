@@ -1,0 +1,76 @@
+{
+  "id": "OP15-095",
+  "name": "Gum-Gum Storm",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Main effect condition missing TrashCount check. Text states 'If you have 15 or more cards in your trash' but condition is Always. Should be TrashCount:15+"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action is not conditional. Text says 'You may rest 1 of your DON!! cards' as prerequisite, but Rest is listed as mandatory action. Should be optional/conditional or restructured with proper cost modeling"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "PowerBoost target scope incorrect. Text restricts to '{Straw Hat Crew} type Leader or Character cards' but target scope is ChooseOwnCharacterOrLeader with no type filter. Should filter by LeaderHasType or character type constraint"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Counter effect condition missing TrashCount check. Text states 'If you have 15 or more cards in your trash' but condition is Always. Should be TrashCount:15+"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "value": 15,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": "HasAttachedDon"
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": "LeaderHasAnyType:StrawHatCrew"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "TrashCount",
+        "value": 15,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:29:16.811Z"
+}

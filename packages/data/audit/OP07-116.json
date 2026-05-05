@@ -1,0 +1,88 @@
+{
+  "id": "OP07-116",
+  "name": "Blaze Slice",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Rest action missing condition: 'if your opponent has 2 or less Life cards'. The Rest should be conditional on opponent's life total."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Counter trigger effect missing condition on Rest action for opponent life check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[2]",
+      "description": "Third effect (Trigger) is incomplete and unclear. No trigger type specified, and Rest action lacks the life condition."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '[During this turn]' phrasing, but verify this matches official DSL convention."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxAmount": 1
+          },
+          "condition": {
+            "type": "OpponentLifeCount",
+            "comparison": "<=",
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxAmount": 1
+          },
+          "condition": {
+            "type": "OpponentLifeCount",
+            "comparison": "<=",
+            "value": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:11:20.024Z"
+}

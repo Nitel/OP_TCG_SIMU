@@ -1,0 +1,76 @@
+{
+  "id": "OP09-093",
+  "name": "Marshall.D.Teach",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is incorrect. Effect text says 'negate the effect' of opponent's Leader, which requires a negation mechanic, not Rest. Current DSL lacks proper negation action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Action type 'Rest' is incorrect. Effect text says 'negate the effect' and 'cannot attack until end of opponent's next turn' — requires negation + attack prevention, not simple Rest."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition to check if 'this Character was played on this turn'. Current DSL only checks Leader type, not play timing requirement."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incomplete. Should specify 'up to 1' in the action parameters or target definition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Duration missing. Text states 'during this turn' (for Leader negation) and 'until end of opponent's next turn' (for Character negation) — requires explicit duration handling for the second part."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "AllOf",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Blackbeard Pirates"
+        },
+        {
+          "type": "PlayedThisTurn",
+          "target": "Self"
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "NegateLeaderEffect",
+        "target": {
+          "scope": "OpponentLeader"
+        },
+        "duration": "DuringYourTurn",
+        "limit": 1
+      },
+      {
+        "type": "NegateEffect",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "limit": 1
+        },
+        "duration": "UntilEndOfOpponentNextTurn"
+      },
+      {
+        "type": "PreventAttack",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "limit": 1
+        },
+        "duration": "UntilEndOfOpponentNextTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:28:52.859Z"
+}

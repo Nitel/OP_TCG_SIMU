@@ -1,0 +1,45 @@
+{
+  "id": "OP11-069",
+  "name": "Charlotte Brulee",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is missing the conditional structure. The card has two distinct actions: (1) FlipLife 1 card, and (2) AddDon from deck if Leader has {Big Mom Pirates} type. Current DSL only includes the FlipLife action and omits the conditional AddDon action entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition check for 'LeaderHasType' with {Big Mom Pirates}. The second effect is conditional on the Leader having this type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action. After FlipLife, there should be an AddDon action (count: 1, from deck, set as active) that is conditional on the Leader type check."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "AddDon",
+          "count": 1,
+          "source": "deck",
+          "setActive": true,
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "Big Mom Pirates"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:45:29.192Z"
+}

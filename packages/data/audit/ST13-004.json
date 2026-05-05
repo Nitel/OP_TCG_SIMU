@@ -1,0 +1,20 @@
+{
+  "id": "ST13-004",
+  "name": "Edward.Newgate",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Effect completely misrepresents the card. DSL only includes FlipLife (1 card), but the actual effect has three distinct steps: (1) Add 1 card from top of deck to top of Life cards, (2) Look at all Life cards, (3) Place 1 card at top of deck and rest back to Life area in any order. This is a complex multi-step effect that cannot be expressed as a single FlipLife action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing actions for the search/rearrangement mechanic. The effect requires searching your Life cards, selecting 1 to place on top of deck, and reordering the rest back to Life area—none of which are captured in current DSL."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T13:07:50.382Z"
+}

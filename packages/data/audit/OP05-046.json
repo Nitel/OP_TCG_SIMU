@@ -1,0 +1,33 @@
+{
+  "id": "OP05-046",
+  "name": "Dalmatian",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'place 1 card from your hand at the bottom of your deck', which means returning to deck, not trashing. Should use 'ReturnToHand' or a deck-placement action. 'TrashFromHand' sends cards to trash/KO zone, not deck bottom."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On K.O.] Draw 1 card and place 1 card from your hand at the bottom of your deck.",
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "ReturnToHand",
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:47:45.565Z"
+}

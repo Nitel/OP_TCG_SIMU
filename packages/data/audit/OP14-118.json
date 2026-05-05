@@ -1,0 +1,53 @@
+{
+  "id": "OP14-118",
+  "name": "You'll Frighten Me... ♡",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (checking Life cards in play) not 'TurnCount'. 'TurnCount' checks turn number; 'HasAttachedDon' checks don count (Life cards)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition requires 'max':2 to represent '2 or less Life cards'. Structure should be {\"type\":\"HasAttachedDon\",\"max\":2}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should prevent attack, not Rest. 'Rest' immobilizes a character; the effect prevents attacks during this turn. This requires a duration-based restriction or custom action. If using Rest as workaround, it's semantically incorrect for 'cannot attack during this turn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing duration specification. Text states 'during this turn' → should have duration:\"DuringYourTurn\" to indicate temporary restriction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with Trigger and PlayFromHand. No such effect exists in card text. This appears to be unrelated card data."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasAttachedDon",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:19:18.165Z"
+}

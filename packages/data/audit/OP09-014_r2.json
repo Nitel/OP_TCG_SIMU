@@ -1,0 +1,29 @@
+{
+  "id": "OP09-014_r2",
+  "name": "Limejuice",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a significant game action (blocking opponent's Blocker activation) but effects array is empty. DSL must include an OnPlay trigger with appropriate conditions and actions to prevent opponent Blocker activation."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "duration": "DuringOpponentTurn",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Custom",
+        "description": "Opponent cannot activate up to 1 [Blocker] Character with 4000 power or less this turn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:07.249Z"
+}

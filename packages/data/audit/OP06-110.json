@@ -1,0 +1,48 @@
+{
+  "id": "OP06-110",
+  "name": "Nekomamushi",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' not 'Activated' — this is a static/passive ability that grants a keyword, not an activated ability requiring player action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'Permanent' not 'EndOfTurn' — this ability grants a constant keyword that lasts the character's lifetime, not just one turn"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (PlaySelf on Trigger/Always) is spurious and should be removed — card text contains no play instruction"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].keyword",
+      "description": "Keyword 'Unblockable' is incorrect — the ability allows attacking active Characters (normally blockable), so use 'DirectAttack' or similar. 'Unblockable' would mean cannot be blocked at all, which is different from attacking active chars"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DirectAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:01:38.970Z"
+}

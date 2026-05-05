@@ -1,0 +1,49 @@
+{
+  "id": "ST09-014",
+  "name": "Narikabura Arrow",
+  "set": "ST-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (checking if you have 2 or less Life cards), not 'TurnCount'. TurnCount is for game turn tracking, not Life card count."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition structure is wrong. Should check current Life count (<=2), not turn count. Correct structure: {\"type\":\"HasAttachedDon\",\"max\":2}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Card text says 'during this turn' which means the power reduction lasts only while the Counter is resolving/during this turn. Should be 'DuringYourTurn' or 'Permanent' depending on game rules, but 'EndOfTurn' triggers end-of-turn removal, which may not match intent."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with TrashFromHand and FlipLife) has no basis in the card text. This entire effect should be removed—the card only describes the Counter action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasAttachedDon",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:04:34.117Z"
+}

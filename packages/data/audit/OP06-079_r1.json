@@ -1,0 +1,63 @@
+{
+  "id": "OP06-079_r1",
+  "name": "Kingdom of GERMA",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is incorrect. The card text describes: (1) optional trash 1 from hand AND rest this Stage as cost, (2) look at top 3 of deck, (3) reveal and add up to 1 GERMA card, (4) place rest at bottom in any order. Current DSL uses SearchDeck with cost filter instead of implementing the actual 'look at 3' mechanic with type-based reveal and reorder functionality."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand should be conditional (optional 'may'). Current DSL does not reflect the optional nature of the trash cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2]",
+      "description": "SearchDeck with maxCost:3 filter is fundamentally wrong. The effect requires filtering by type 'GERMA', not by cost. Additionally, the full mechanic of 'look at 3 cards, reveal up to 1 GERMA, reorder rest at bottom' cannot be represented by a simple SearchDeck action and requires a more complex sequence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing the 'place the rest at the bottom of your deck in any order' reordering mechanic. Current DSL has no action to handle deck reordering after card selection."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] You may trash 1 card from your hand and rest this Stage: Look at 3 cards from the top of your deck; reveal up to 1 card with a type including \"GERMA\" and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "Rest",
+                "target": {
+                  "scope": "Self"
+                }
+              },
+              {
+                "type": "SearchDeck",
+                "lookCount": 3,
+                "filter": {
+                  "kind": "ByType",
+                  "type": "GERMA"
+                },
+                "selectCount": 1,
+                "destination": "hand",
+                "remaining": "bottom"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:02.930Z"
+}

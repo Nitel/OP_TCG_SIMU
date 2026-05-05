@@ -1,0 +1,36 @@
+{
+  "id": "OP02-102",
+  "name": "Smoker",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringBattle' not 'EndOfBattle'. The power boost applies 'during this battle', which is an active duration while the battle is happening, not an end-of-turn or permanent effect."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].condition",
+      "description": "Condition structure is unclear. The HasCardOnBoard type typically checks board presence but 'cost of 0' is a property filter that may need more specific specification. This is a minor issue if the engine supports property matching; otherwise it needs clarification."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Character with a cost of 0"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringBattle"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:14.430Z"
+}

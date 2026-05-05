@@ -1,0 +1,74 @@
+{
+  "id": "OP15-001",
+  "name": "Krieg",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing condition checking if only East Blue characters on your field. DSL has HasAttachedDon condition but card text requires field composition check (LeaderHasType or equivalent for all Characters)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "First effect should trigger on opponent's turn (passive/continuous), not Activated. Card text '[Opponent's Turn]' indicates automatic trigger during opponent turn, not Main activation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect for '[Opponent's Turn]' text. Should be 'DuringOpponentTurn' to represent the continuous conditional during opponent's turn phase."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger should be 'Activated' with proper Main phase specification in condition, but lacks 'OncePerTurn' condition enforcement in DSL structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Rest action missing condition that target must have '2 or more DON!! cards given'. Current DSL has no restriction on valid targets."
+    }
+  ],
+  "suggestedDsl": {
+    "version": "1.0",
+    "card": "OP15-001",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "AllOpponentCharacters"
+            },
+            "duration": "DuringOpponentTurn",
+            "conditionalCheck": "OnlyEastBlueCharactersOnField"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "restriction": "HasAttachedDon",
+              "restrictionValue": 2
+            },
+            "limit": "OncePerTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:01.907Z"
+}

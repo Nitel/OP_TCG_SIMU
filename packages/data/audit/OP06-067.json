@@ -1,0 +1,66 @@
+{
+  "id": "OP06-067",
+  "name": "Vinsmoke Yonji",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: card effect requires 'your DON count ≤ opponent's DON count' but DSL has 'Always'. Should be a HasAttachedDon comparison condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' or continuous check, not 'Activated'. This is a passive static ability that checks a condition at the start of turn, not a player-activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'Permanent' for a static power boost that persists while condition is met, not 'EndOfTurn'."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1]",
+      "description": "[Blocker] keyword effect is missing from DSL. Should include GiveKeyword action for 'Blocker' trait."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "LessThanOrEqual",
+        "target": "Self",
+        "comparison": "OpponentAttachedDon"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:58:17.961Z"
+}

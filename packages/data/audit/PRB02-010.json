@@ -1,0 +1,59 @@
+{
+  "id": "PRB02-010",
+  "name": "Charlotte Pudding",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition should check if Leader has {Big Mom Pirates} type, not if a card is on board. Should be LeaderHasType:Big Mom Pirates"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "PlayFromHand filter missing minPower constraint. Card must have 6000 to 8000 power, requiring both minPower:6000 and maxPower:8000"
+    },
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing condition: opponent must have 6 or more DON!! cards on their field. Requires additional condition check"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Big Mom Pirates"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "HasAttachedDon",
+            "target": "opponent",
+            "minCount": 6
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Big Mom Pirates",
+            "cardType": "Character",
+            "minPower": 6000,
+            "maxPower": 8000
+          },
+          "condition": {
+            "type": "HasAttachedDon",
+            "target": "opponent",
+            "minCount": 6
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:50:57.642Z"
+}

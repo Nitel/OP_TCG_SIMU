@@ -1,0 +1,64 @@
+{
+  "id": "OP05-030",
+  "name": "Donquixote Rosinante",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing Blocker ability entirely. Card has two distinct effects: (1) Blocker mechanic (OnAttack trigger to rest and redirect), (2) Opponent's Turn conditional that prevents KO by trashing self instead. DSL only captures a simple KO on OnAttacked, which is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (opponent declares attack, Blocker activates), not 'OnAttacked'. OnAttacked is passive damage received."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is KO, but Blocker doesn't KO anything. It rests the card to redirect attack. Correct action should be 'Rest' with target 'Self'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect: [Opponent's Turn] conditional that triggers OnKO with condition 'DuringOpponentTurn' to replace KO with TrashFromHand action on Self, preventing the KO."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1] (missing)",
+      "description": "Duration '[Opponent's Turn]' in text requires 'duration:\"DuringOpponentTurn\"' on second effect, not Permanent or EndOfTurn."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:46:36.955Z"
+}

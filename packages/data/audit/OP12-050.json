@@ -1,0 +1,29 @@
+{
+  "id": "OP12-050",
+  "name": "Jaguar.D.Saul",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword ability is missing. Card text describes the Blocker mechanic which should be represented as a GiveKeyword action or built-in Blocker effect."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Blocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:53:06.248Z"
+}

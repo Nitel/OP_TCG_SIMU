@@ -1,0 +1,36 @@
+{
+  "id": "ST03-013",
+  "name": "Boa Hancock",
+  "set": "ST-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Trigger' is not a valid trigger type. Blocker is a keyword ability triggered by opponent's attack declaration, should use 'OnAttacked'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action 'PlaySelf' is incorrect. Blocker allows resting the card to redirect attack target; should use 'Rest' action to represent the card being rested as cost"
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker effect is a passive keyword ability that modifies game rules (redirects attack target), not represented by simple action list. DSL should reflect: OnAttacked trigger, optional Rest action, and effect description noting it becomes new attack target"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ],
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T12:57:13.645Z"
+}

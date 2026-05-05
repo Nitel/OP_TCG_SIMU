@@ -1,0 +1,54 @@
+{
+  "id": "OP02-068",
+  "name": "Gum-Gum Rain",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Card has Counter trigger with conditional trash action, but second effect uses 'Trigger' which is undefined. The card should have only one Counter effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' and ReturnToHand action does not match card text at all. Card text makes no mention of returning cards to hand or filtering by cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is marked with optional 'may', but DSL does not indicate this is optional. Should use optional:true or restructure as conditional."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for 'during this battle', but verify this value exists in official duration enum."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "filter": {},
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 3000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "maxAmount": 1
+                },
+                "duration": "EndOfBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:31:34.622Z"
+}

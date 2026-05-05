@@ -1,0 +1,49 @@
+{
+  "id": "OP01-078_r1",
+  "name": "Boa Hancock",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'if you have 5 or less cards in your hand' should be checked. Current condition is Always, but should verify hand size ≤ 5."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition missing: 'if you have 5 or less cards in your hand' should be checked. Current condition is Always, but should verify hand size ≤ 5."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HandCount",
+        "value": 5,
+        "operator": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "HandCount",
+        "value": 5,
+        "operator": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:31:58.099Z"
+}

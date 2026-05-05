@@ -1,0 +1,57 @@
+{
+  "id": "OP08-119",
+  "name": "Kaido &amp; Linlin",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "FlipLife is incorrect for 'add up to 1 card from the top of your deck to the top of your Life cards'. This should be AddLife or a specialized action that adds a card to life pile from deck. FlipLife flips life cards to don side, not add from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "KO target should exclude this Character. Current target 'AllOpponentCharacters' is correct scope but should clarify it excludes the attacking character. The effect says 'all Characters other than this Character' which means all opponent characters except the attacker itself."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[2]",
+      "description": "RemoveLife with count:1 is correct for trashing opponent's life, but should be clarified as 'up to 1' per the card text. Current implementation enforces exactly 1."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] DON!! −10: K.O. all Characters other than this Character. Then, add up to 1 card from the top of your deck to the top of your Life cards and trash up to 1 card from the top of your opponent's Life cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 10
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "AllOpponentCharacters",
+              "exclude": "Self"
+            }
+          },
+          {
+            "type": "AddLife",
+            "source": "DeckTop",
+            "count": 1,
+            "optional": true
+          },
+          {
+            "type": "RemoveLife",
+            "target": "Opponent",
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:33:23.258Z"
+}

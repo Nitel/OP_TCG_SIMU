@@ -1,0 +1,55 @@
+{
+  "id": "OP04-081",
+  "name": "Cavendish",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' (when this character attacks), not 'Activated' (manual ability)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Effect says 'trash 2 cards from the top of your deck', not hand. Should be a deck trash action (likely 'TrashFromDeck' or similar mill effect)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "KO target should allow 'up to 1' selection (optional), but current DSL lacks 'optional' flag on the KO action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should be optional ('You may rest'), but current DSL does not mark it as optional"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "optional": true,
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          },
+          "optional": true
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:43:24.776Z"
+}

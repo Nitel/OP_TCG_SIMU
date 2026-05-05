@@ -1,0 +1,37 @@
+{
+  "id": "OP06-035_r1",
+  "name": "Hody Jones",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action missing quantity limit. Card text specifies 'up to a total of 2' but DSL has no count/limit parameter. Should include count constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete. Card allows resting 'Characters OR DON!! cards' but target only specifies ChooseOpponentCharacter. Must support both card types."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrDon",
+            "count": 2
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:37:02.413Z"
+}

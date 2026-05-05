@@ -1,0 +1,55 @@
+{
+  "id": "OP14-114",
+  "name": "Ran",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' (correct), but the activation cost '[Activate: Main]' and '[Once Per Turn]' restrictions are not represented in the DSL structure. The DSL lacks 'activation' and 'duration' fields required for proper Activated ability modeling."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action is correct, but 'count:1' should reflect 'up to 1 rested DON!!' — the DSL does not specify the rested state requirement or 'up to' semantics."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify '{Kuja Pirates} type Leader or Character' — current scope 'ChooseOwnCharacterOrLeader' is too broad and does not filter by type 'Kuja Pirates'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is completely erroneous. The card text contains no triggered effect that plays the card itself. This effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to 1 of your {Kuja Pirates} type Leader or Character cards.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "activation": "Main",
+        "duration": "OncePerTurn",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "hasType": "Kuja Pirates"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "optional": true,
+            "source": "Rested",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "hasType": "Kuja Pirates"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:18:59.668Z"
+}

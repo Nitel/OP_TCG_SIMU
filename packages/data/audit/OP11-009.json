@@ -1,0 +1,43 @@
+{
+  "id": "OP11-009",
+  "name": "Nico Robin",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but card text states 'until the end of your opponent's next turn'. This means the effect persists through opponent's turn, requiring duration 'DuringOpponentTurn' or similar extended duration, not a simple EndOfTurn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target allows unlimited selection via ChooseOpponentCharacter, but card text specifies 'up to 1' character. Target should enforce maximum of 1 character selection."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP11-009",
+    "effectText": "[DON!! x2] [When Attacking] Give up to 1 of your opponent's Characters −2000 power until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "max": 1
+            },
+            "duration": "UntilEndOfOpponentNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:40:46.819Z"
+}

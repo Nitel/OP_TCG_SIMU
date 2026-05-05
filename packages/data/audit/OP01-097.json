@@ -1,0 +1,45 @@
+{
+  "id": "OP01-097",
+  "name": "Queen",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'Always' not 'HasRestingDon'. The card says 'You may return' DON cards, meaning the effect triggers regardless of whether you have DON cards available. The cost is optional ('may'), not a condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should be 'ChooseUpToOneOpponentCharacter' or similar to reflect 'up to 1' — the current 'ChooseOpponentCharacter' implies exactly 1 is required."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseUpToOneOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:20:45.016Z"
+}

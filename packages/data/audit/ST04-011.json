@@ -1,0 +1,28 @@
+{
+  "id": "ST04-011",
+  "name": "Black Maria",
+  "set": "ST-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker keyword effect is completely missing. Card has [Blocker] ability but effects array is empty. Must include OnAttacked trigger with Counter type that rests this card and redirects attack target."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "type": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "ThisCard"
+        }
+      ],
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "auditedAt": "2026-05-05T12:58:14.916Z"
+}

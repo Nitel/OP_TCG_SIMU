@@ -1,0 +1,45 @@
+{
+  "id": "OP12-057",
+  "name": "Ice Block Pheasant Peck",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' for '+4000 power during this battle'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect object with trigger 'Trigger' and DrawCard action is not present in card text. Card only specifies: PowerBoost then TrashFromHand. This appears to be spurious data."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "thenActions array is empty; should be removed or the structure simplified since there are no conditional follow-ups"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:53:38.376Z"
+}

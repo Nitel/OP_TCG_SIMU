@@ -1,0 +1,48 @@
+{
+  "id": "OP14-062",
+  "name": "Gladius",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'KO' not 'Rest'. Card text says 'K.O. or rest up to 1' meaning the effect can either KO OR rest, but DSL only includes Rest. The optional DON cost allows choosing to activate or not, but when activated, it should offer both KO and Rest as alternative actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for DON cost. The effect requires 'DON!! −1' payment, which should be represented as a cost condition (e.g., 'HasAttachedDon' with count 1, or a cost field if supported by DSL)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:14:57.451Z"
+}

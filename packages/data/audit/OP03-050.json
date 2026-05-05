@@ -1,0 +1,33 @@
+{
+  "id": "OP03-050",
+  "name": "Boodle",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but effect text says 'trash 1 card from the top of your deck'. Should be 'ForceDiscard' with source 'Deck' (or equivalent deck-trash action), not hand-based action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'source' specification. The card is trashed from deck (top), not from hand. Current action implies hand discard."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "Deck",
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:34:07.404Z"
+}

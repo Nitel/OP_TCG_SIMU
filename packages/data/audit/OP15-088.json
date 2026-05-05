@@ -1,0 +1,64 @@
+{
+  "id": "OP15-088",
+  "name": "Pirates Docking Six",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand trashes from hand, but card text says 'trash 3 cards from the top of your deck'. Should be a deck-milling action (likely custom or needs clarification as 'TrashFromDeck' or similar mill mechanic)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure is incomplete: 'You may' indicates this is optional/conditional, but no condition wrapper exists. The trash action should conditionally gate the play action via thenActions or conditional structure."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "PlayFromHand plays from hand, but card text says 'Play up to 1...Character card...from your trash'. Should be 'PlayFromTrash' or equivalent, not PlayFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing 'count' field: 'up to 1' requires count constraint. Should include count:1 and optional:true."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "This Character gains +6 cost.<br>[On Play] You may trash 3 cards from the top of your deck: Play up to 1 {Straw Hat Crew} type Character card with a cost of 2 or less from your trash.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromDeck",
+            "count": 3,
+            "thenActions": [
+              {
+                "type": "PlayFromTrash",
+                "count": 1,
+                "optional": true,
+                "filter": {
+                  "cardType": "Character",
+                  "subType": "Straw Hat Crew",
+                  "maxCost": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "trigger": "Permanent",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 6
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:28:45.231Z"
+}

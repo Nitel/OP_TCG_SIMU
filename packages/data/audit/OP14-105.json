@@ -1,0 +1,58 @@
+{
+  "id": "OP14-105",
+  "name": "Gorgon Sisters",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[2]",
+      "description": "Extraneous third effect with trigger 'Trigger' and HasCardOnBoard condition is not present in card text. Card only describes an Activate: Main ability with reveal condition; no automatic play effect exists."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand should be a condition, not an action. The reveal is a cost/requirement for the ability, not an effect. Structure should use condition check before thenActions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition object. Should have condition checking 'Can reveal 3 Amazon Lily cards from hand' before executing AttachDon action."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].thenActions[0].target.scope",
+      "description": "Scope 'AllOwnCharactersAndLeader' includes Leader implicitly. Card text says 'your Leader and all of your Characters' which is correctly interpreted, but verify consistency with DSL standard naming conventions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 3,
+          "filter": {
+            "subType": [
+              "Amazon Lily",
+              "Kuja Pirates"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "AllOwnCharactersAndLeader"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:15.392Z"
+}

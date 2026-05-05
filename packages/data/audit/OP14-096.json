@@ -1,0 +1,84 @@
+{
+  "id": "OP14-096",
+  "name": "Ground Death",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Main ability missing cost requirement: 'You may rest 2 of your DON!! cards' is not represented. Should have condition checking HasAttachedDon >= 2 or similar cost gate."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action targets wrong scope. Should target opponent's Characters (cost ≤5), not own Characters. Action should be KO/negate effect on opponent's Character, not Rest own DON."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but effect text says 'Negate the effect'. Should remove Rest action and add proper negation (no direct negation action exists; this may require KO or special handling). Current DSL fundamentally misrepresents the ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Counter ability requires 'you have 10 or more cards in your trash' but condition is 'Always'. Should be TrashCount >= 10."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Main ability text says 'during this turn' which implies DuringYourTurn scope/duration, not covered by current DSL structure."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP14-096",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasAttachedDon",
+          "amount": 2
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "OwnDonCards",
+              "amount": 2
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "OpponentCharacters",
+              "filter": {
+                "maxCost": 5
+              },
+              "amount": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "TrashCount",
+          "amount": 10
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "amount": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:17:36.011Z"
+}

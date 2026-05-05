@@ -1,0 +1,49 @@
+{
+  "id": "OP04-103",
+  "name": "Kouzuki Hiyori",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Text says 'during this turn' which indicates DuringYourTurn, not EndOfTurn. Duration should be 'DuringYourTurn' to match the temporary nature of the effect within the current turn."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'Leader or Character' (CardType) in addition to the Land of Wano subType filter. Current scope 'ChooseOwnCharacter' doesn't account for Leader cards."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' appears to be erroneous boilerplate. This card has no self-play mechanic mentioned in the official text."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "count": 1
+            },
+            "duration": "DuringYourTurn",
+            "filter": {
+              "subType": "Land of Wano",
+              "cardType": [
+                "Leader",
+                "Character"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:44:35.507Z"
+}

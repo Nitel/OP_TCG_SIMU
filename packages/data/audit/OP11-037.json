@@ -1,0 +1,46 @@
+{
+  "id": "OP11-037",
+  "name": "Ancient Weapon Poseidon",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck action is incomplete. Missing 'count' parameter (should be 4), missing 'filter' for card types ({Neptunian} or {Fish-Man Island}), missing 'maxResults' constraint (up to 1), and missing specification that remaining cards go to bottom of deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with DrawCard is incorrect. The card effect does not draw cards; it reveals and selects from looked-at cards. This entire effect should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'Activated' is correct for a [Main] effect, but the actions don't match the full card text. The DSL must capture: look at 4 cards, reveal up to 1 matching type, add to hand, and place rest at bottom in any order."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 4,
+          "filter": {
+            "kind": "Any",
+            "cardTypes": [
+              "Neptunian",
+              "Fish-Man Island"
+            ],
+            "cardKind": "Character"
+          },
+          "maxResults": 1,
+          "destination": "hand",
+          "remainingDestination": "bottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:00.696Z"
+}

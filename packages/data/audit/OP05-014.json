@@ -1,0 +1,37 @@
+{
+  "id": "OP05-014",
+  "name": "Pell",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which indicates the effect lasts only while attacking/this turn phase, not until end of turn. Should be 'DuringYourTurn' or similar turn-scoped duration, not 'EndOfTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' (optional selection). Current 'ChooseOpponentCharacter' may imply mandatory selection. Should use 'max':1 or similar optional targeting mechanism."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentCharacter",
+          "max": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:55.866Z"
+}

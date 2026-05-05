@@ -1,0 +1,25 @@
+{
+  "id": "OP06-106_r1",
+  "name": "Kouzuki Hiyori",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect. The effect allows you to ADD (move) a card from Life to hand, not flip Life cards. Should use a custom action or clarify intent—FlipLife typically means converting Life cards to hand count, not selecting and moving specific cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "TrashFromHand is incorrect. The effect says 'add up to 1 card from hand to the top of your Life cards'—this is moving a card back to Life, not trashing it. No DSL action directly models this; likely requires custom implementation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "thenActions array is empty but conditional logic is needed: first action (select from Life) should gate the second action (return card to Life). This is a two-step optional sequence, not a simple discard."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T12:38:20.783Z"
+}

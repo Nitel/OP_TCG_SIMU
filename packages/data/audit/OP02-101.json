@@ -1,0 +1,37 @@
+{
+  "id": "OP02-101",
+  "name": "Strawberry",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has significant conditional effect text but effects array is empty. Should contain OnAttack trigger with condition checking for cost 0 Character on board, action preventing opponent's Blocker activation for characters with cost ≤5 during this battle."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": {
+              "costOrLess": 0
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "PreventBlocker",
+            "target": "OpponentCharactersWithCostOrLess",
+            "value": 5,
+            "duration": "DuringThisBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:32:13.022Z"
+}

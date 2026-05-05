@@ -1,0 +1,33 @@
+{
+  "id": "OP04-088",
+  "name": "Hajrudin",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which means the effect lasts for your current turn only, not until end of turn."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnLeader"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -4000,
+        "target": {
+          "scope": "ChooseOpponentCharacter"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:43:43.057Z"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "OP06-075",
+  "name": "Count Battler",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "DSL uses two separate Rest actions instead of a single Rest action with maxCount:2. The card text 'Rest up to 2' indicates a single action targeting up to 2 characters, not two independent Rest actions."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 2
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:58:53.437Z"
+}

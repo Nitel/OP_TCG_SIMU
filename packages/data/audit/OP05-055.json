@@ -1,0 +1,25 @@
+{
+  "id": "OP05-055",
+  "name": "X.Drake",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'SearchDeck' is incorrect. The effect 'Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order' describes deck manipulation (arranging cards), not searching for cards into hand. This should use a custom action or be represented differently, as no standard action perfectly matches 'look and rearrange'. SearchDeck implies drawing/tutoring cards into hand, which contradicts the effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is missing quantity constraint. The effect specifies exactly '5 cards from the top', but filter lacks a 'count' or 'quantity' specification limiting the action to 5 cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Blocker keyword ability is not represented in DSL. The card has '[Blocker]' text ('After your opponent declares an attack, you may rest this card to make it the new target') which requires a separate effect with trigger 'OnAttacked' or similar, but is completely missing from the effects array."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:48:28.254Z"
+}

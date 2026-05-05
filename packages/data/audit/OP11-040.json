@@ -1,0 +1,44 @@
+{
+  "id": "OP11-040",
+  "name": "Monkey.D.Luffy",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'StartOfTurn' not 'Activated'. Text says 'at the start of your turn', which is a fixed timing trigger, not a player-activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "SearchDeck action is incomplete. The effect involves: (1) looking at 5 cards from top of deck, (2) revealing up to 1 {Straw Hat Crew} card to hand, (3) placing rest at top/bottom in any order. Current DSL only captures a basic search with no card count limit, type filter, or deck arrangement step."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition uses 'HasAttachedDon' but text says 'DON!! cards on your field' which refers to resting DON cards (HasRestingDon), not attached DON."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Type",
+            "value": "Straw Hat Crew"
+          },
+          "count": 1,
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:16.558Z"
+}

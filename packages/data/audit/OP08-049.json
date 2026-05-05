@@ -1,0 +1,61 @@
+{
+  "id": "OP08-049",
+  "name": "Speed Jil",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'RevealFromHand' but card text says 'Reveal 1 card from the top of your deck' — should be 'RevealFromDeck' or similar deck-reveal action, not hand reveal"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing placement logic: revealed card must be placed at top or bottom of deck. Current DSL has no action for this placement choice"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Conditional [Rush] grant is missing: 'GiveKeyword' should only trigger IF revealed card's type includes 'Whitebeard Pirates'. Current DSL grants Rush unconditionally"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '[during this turn]', but the condition check must be added first before the keyword action fires"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "RevealFromDeck",
+            "count": 1,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "PlaceOnDeck",
+                "position": "TopOrBottom"
+              },
+              {
+                "type": "GiveKeyword",
+                "keyword": "Rush",
+                "target": {
+                  "scope": "Self"
+                },
+                "duration": "DuringYourTurn",
+                "condition": {
+                  "type": "HasCardType",
+                  "cardType": "Whitebeard Pirates"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:27:56.720Z"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP13-053",
+  "name": "Marshall.D.Teach",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition: effect requires trashing 1 Character with type 'Whitebeard Pirates' (optional 'may'), but DSL has no conditions or trash action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: ForceDiscard (trash 1 Character) is not present in DSL"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action: GiveKeyword with keyword 'Banish' and duration 'DuringYourTurn' (text says 'during this turn')"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DrawCard is conditional on trashing a Character, but DSL structure does not reflect this dependency"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "YourCharactersWithType",
+          "targetValue": "Whitebeard Pirates",
+          "optional": true
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": "Self",
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:02:18.227Z"
+}

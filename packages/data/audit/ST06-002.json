@@ -1,0 +1,44 @@
+{
+  "id": "ST06-002",
+  "name": "Koby",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be a conditional/cost action, not a main action. The effect reads 'You may trash 1 card from your hand' as an optional cost, then 'K.O. up to 1 of your opponent's Characters' as the result. Structure should use a cost/condition mechanism, not a thenActions chain. Additionally, 'filter' property with 'cardType' and 'excludeSelf' is incorrect for hand trashing—should specify quantity only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand does not use a 'filter' property. Should use 'quantity' to specify '1 card' and no filter constraints."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1] (nested)",
+      "description": "KO action target scope 'ChooseOpponentCharacter' with 'maxCost:0' is non-standard. Should use proper targeting: 'scope' should specify opponent's characters, and cost filter should be applied as a condition, not as a direct property."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "optional": true,
+    "cost": {
+      "type": "TrashFromHand",
+      "quantity": 1
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "OpponentCharacter",
+          "quantity": 1,
+          "filter": {
+            "maxCost": 0
+          }
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:00:04.341Z"
+}

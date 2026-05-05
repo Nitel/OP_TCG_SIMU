@@ -1,0 +1,54 @@
+{
+  "id": "OP09-045_r1",
+  "name": "Cabaji",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "effectText describes a protection ability but effects[] is empty. Should contain a Counter trigger that prevents K.O. in battle when condition is met."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Missing trigger for battle damage prevention. Should use 'OnAttacked' to intercept K.O. damage."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition check for [Buggy] or [Mohji] Character on board. Should use 'HasCardOnBoard' with type filter."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing action to prevent K.O. No action type exists for 'cannot be K.O.'d' — this requires a Counter-type effect or a special immunity marker not currently supported in standard actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "If you have a [Buggy] or [Mohji] Character, this Character cannot be K.O.'d in battle.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cardType": "Character",
+            "hasAnyType": [
+              "Buggy",
+              "Mohji"
+            ]
+          }
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Indestructible",
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:56.043Z"
+}

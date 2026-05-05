@@ -1,0 +1,81 @@
+{
+  "id": "ST13-010",
+  "name": "Portgas.D.Ace",
+  "set": "ST-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action should trash THIS CHARACTER (the card itself), not from hand. Should be 'KO' or similar self-trash, not 'TrashFromHand'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "RevealFromHand is incorrect. Should reveal from LIFE CARDS (top of deck), not hand. Needs custom action or different structure."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].thenActions[0]",
+      "description": "PlayFromHand is incorrect context. Card is revealed from life, not hand. Should be 'PlaySelf' or 'Play' action targeting revealed card."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].thenActions[0].filter",
+      "description": "Filter missing required conditions: must match [Portgas.D.Ace] character name AND cost of 5."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[1].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. Text states 'until the end of your opponent's next turn' → should be 'DuringOpponentTurn' or equivalent multi-turn duration."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions[1].target",
+      "description": "Target scope is 'OwnLeader' but text says 'up to 1 of your Leader' (singular). Verify if multiple leaders possible; if not, scope is correct but should clarify selection."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "This card's core mechanic (reveal from life pile with conditional play) does not cleanly map to standard DSL. Recommend custom implementation or extension.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            },
+            "thenActions": [
+              {
+                "type": "RevealFromLife",
+                "count": 1,
+                "thenActions": [
+                  {
+                    "type": "PlaySelf",
+                    "filter": {
+                      "name": "Portgas.D.Ace",
+                      "cost": 5
+                    },
+                    "thenActions": [
+                      {
+                        "type": "PowerBoost",
+                        "amount": 2000,
+                        "target": {
+                          "scope": "OwnLeader",
+                          "count": 1
+                        },
+                        "duration": "DuringOpponentTurn"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:08:22.255Z"
+}

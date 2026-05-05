@@ -1,0 +1,47 @@
+{
+  "id": "OP06-036",
+  "name": "Ryuma",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope missing 'rested' condition. Card text specifies 'rested Characters' but DSL has no filter for rest status."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope missing 'rested' condition. Card text specifies 'rested Characters' but DSL has no filter for rest status."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "isRested": true
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "isRested": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:55:54.608Z"
+}

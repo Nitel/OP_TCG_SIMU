@@ -1,0 +1,56 @@
+{
+  "id": "OP10-114",
+  "name": "X.Drake",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First action rests Self unconditionally, but card text states 'You may rest this Character' as a cost that is optional and conditional on the life card comparison. The Self rest should be conditional on the life check, not automatic."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always', but the effect should only resolve if 'the number of your Life cards is equal to or less than the number of your opponent's Life cards'. This life comparison must be a condition, not omitted."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Second Rest action lacks a condition check. The opponent character rest is only available if the life card condition is met. Additionally, the action should use 'UpTo' semantics (up to 1 character), which may need explicit maxCount handling."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "condition": {
+            "type": "LifeComparison",
+            "comparison": "LessOrEqual"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          },
+          "condition": {
+            "type": "LifeComparison",
+            "comparison": "LessOrEqual"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:39:41.999Z"
+}

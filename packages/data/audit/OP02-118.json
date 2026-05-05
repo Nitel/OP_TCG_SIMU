@@ -1,0 +1,50 @@
+{
+  "id": "OP02-118",
+  "name": "Yasakani Sacred Jewel",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Counter effect is incomplete. Missing optional cost structure: 'You may trash 1 card from your hand' should make the entire effect conditional on paying this cost, not execute unconditionally."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be a cost (optional), not an action. Counter effects with optional costs need cost parameter structure."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].keyword",
+      "description": "Keyword 'Banish' is incorrect. Card text says 'cannot be K.O.'d during this battle' which should use keyword 'CannotBeKOd' or equivalent protection, not Banish."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and KO action is completely unrelated to card text. Card only has one effect (Counter protection). This second effect should be removed entirely."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "cost": {
+        "type": "TrashFromHand",
+        "filter": {},
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOd",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxAmount": 1
+          },
+          "duration": "DuringThisBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:32:38.827Z"
+}

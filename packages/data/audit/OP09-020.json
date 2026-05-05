@@ -1,0 +1,54 @@
+{
+  "id": "OP09-020",
+  "name": "Come On!! We'll Fight You!!",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect structure is fundamentally wrong. The card performs a deck search with reveal and bottom placement, not a simple SearchDeck. Missing the 'look at 5 cards' mechanic, the reveal condition, and the 'place rest at bottom' action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck is incorrect. The actual effect requires: (1) look at top 5 cards, (2) reveal up to 1 Red-Haired Pirates type card (other than this card), (3) add to hand, (4) place remaining cards at bottom in any order. This is a multi-step deck manipulation, not a standard search."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action is entirely unsupported by card text. The card does not grant a draw action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].filter",
+      "description": "Filter is 'Any' but should restrict to {Red-Haired Pirates} type cards, excluding [Come On!! We'll Fight You!!] by name."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Red-Haired Pirates} type card other than [Come On!! We'll Fight You!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": {
+              "kind": "Type",
+              "value": "Red-Haired Pirates",
+              "excludeByName": [
+                "Come On!! We'll Fight You!!"
+              ]
+            },
+            "deckSearchType": "LookAtTop",
+            "lookCount": 5,
+            "destination": "hand",
+            "placeRemainder": "BottomOfDeckInAnyOrder"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:34:51.118Z"
+}

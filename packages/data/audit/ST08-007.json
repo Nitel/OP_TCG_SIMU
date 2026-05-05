@@ -1,0 +1,37 @@
+{
+  "id": "ST08-007",
+  "name": "Nefeltari Vivi",
+  "set": "ST-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger is wrong. Blocker activates when opponent declares an attack, not a generic Trigger. Should be OnAttack."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action PlaySelf is incorrect. Blocker rests the card and changes attack target, not plays it. Should use Rest action with appropriate targeting/condition logic for redirecting attacks."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing condition that this is optional ('you may rest this card'). Blocker keyword requires optional activation, not forced action."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "actions": [
+          {
+            "type": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:02:57.711Z"
+}

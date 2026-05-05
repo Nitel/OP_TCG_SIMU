@@ -1,0 +1,60 @@
+{
+  "id": "OP14-072",
+  "name": "Baby 5",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "OnPlay effect should use 'AddLife' or 'AttachDon' to add DON!! from DON!! deck and set as active. Current 'GiveDon' does not match 'Add up to 1 DON!! card from your DON!! deck and set it as active' — GiveDon generates DON!!, not adds from deck."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].destination",
+      "description": "OnKO effect destination should be 'lifeCards' not 'hand'. Card text states 'Add up to 1 card from the top of your deck to the top of your Life cards.'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].filter",
+      "description": "Filter should specify 'fromTop' or similar to indicate 'from the top of your deck' constraint, not generic 'Any'."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP14-072",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": {
+              "kind": "DON"
+            },
+            "destination": "active"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "count": 1,
+            "filter": {
+              "kind": "Any",
+              "fromTop": true
+            },
+            "destination": "lifeCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:15:43.063Z"
+}

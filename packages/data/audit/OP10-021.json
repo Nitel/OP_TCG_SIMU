@@ -1,0 +1,44 @@
+{
+  "id": "OP10-021",
+  "name": "Punk Hazard",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.name",
+      "description": "Condition checks for 'Caesar' but card text specifies '[Caesar Clown]' — should be 'Caesar Clown' (full official name)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action gives DON to target, but card text says 'give up to 1 rested DON!! card' — requires a source (rested DON must come from somewhere). Current DSL does not specify where DON is taken from. Should clarify if DON comes from your field or hand."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].count",
+      "description": "'up to 1' should be represented as count:1 with optional modifier, or the DSL should support 'up to' semantics more explicitly"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Caesar Clown"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:32:29.663Z"
+}

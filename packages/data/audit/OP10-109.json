@@ -1,0 +1,38 @@
+{
+  "id": "OP10-109",
+  "name": "Basil Hawkins",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'ForceDiscard' is incorrect for this card. The effect should trash from opponent's Life cards (top of deck), not force discard from hand. Should use a custom action or clarify the target as 'OpponentLifeCards' with appropriate action type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard/TrashFromHand actions is not present in the official card text. This appears to be data from a different card and should be removed."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing target specification. Action must specify target as 'OpponentLifeCards' or similar to indicate these are opponent's Life cards, not opponent's hand."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 1,
+            "target": "OpponentLifeCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:39:17.652Z"
+}

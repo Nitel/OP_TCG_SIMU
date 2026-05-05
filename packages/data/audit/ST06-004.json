@@ -1,0 +1,46 @@
+{
+  "id": "ST06-004",
+  "name": "Smoker",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' only if this is a manual ability. The text '[DON!! x1]' suggests a cost-based triggered ability that activates automatically when the condition is met during gameplay, not a manual activation. Should likely be 'Trigger' or clarify if this is meant to be manually activated."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'HasRestingDon' with count:1 checks if the player has 1 resting DON. The card text states 'If there is a Character with a cost of 0', which is a board state condition (HasCardOnBoard with cost filter), not a DON count condition. These are fundamentally different."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is incorrect. The gain of [Double Attack] should persist for the attack phase of this turn. Without explicit turn-end language in the card text, this should be 'Permanent' or 'DuringYourTurn', not 'EndOfTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "This Character cannot be K.O.'d by effects. [DON!! x1] If there is a Character with a cost of 0, this Character gains [Double Attack].",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cost": 0
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:00:14.584Z"
+}

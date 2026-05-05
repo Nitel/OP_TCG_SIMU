@@ -1,0 +1,38 @@
+{
+  "id": "OP07-101",
+  "name": "Shaka",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttacked' (blocker ability triggers when opponent declares attack), not 'Trigger'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'Rest' (rest this card to make it the new target), not 'PlaySelf'. Blocker keyword effect involves resting the card, not playing it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action to redirect attack target to this card. The effect should rest this card AND change the attack target."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T10:10:10.032Z"
+}

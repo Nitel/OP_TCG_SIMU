@@ -1,0 +1,34 @@
+{
+  "id": "OP14-017",
+  "name": "Chambres",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a Main card ability that swaps base power between opponent's Characters, but effects[] is empty. DSL must include the trigger, conditions, and power swap action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "OpponentCharacter",
+          "amount": "SwapWith",
+          "count": 2,
+          "filter": "BasePowerLessOrEqual9000",
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:11:25.574Z"
+}

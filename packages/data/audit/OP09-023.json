@@ -1,0 +1,81 @@
+{
+  "id": "OP09-023",
+  "name": "Adio",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "First effect missing condition: '[On Play] If your Leader has the {ODYSSEY} type' requires LeaderHasType:ODYSSEY condition, but condition is absent"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type incorrect: 'GiveDon' is not appropriate for 'set up to 3 of your DON!! cards as active' — should use 'AttachDon' or similar mechanic to activate DON cards. GiveDon gives new DON tokens; this sets existing ones active"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger incorrect: text says '[On Your Opponent's Attack]' which is OnAttack (opponent's action), not OnAttacked (being attacked). Should be 'OnAttack' with opponent context"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action sequence wrong: effect says 'You may rest 1 of your DON!! cards' (conditional payment), but Rest action is listed as mandatory first action. Cost actions should be separate or properly marked as optional costs"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].duration",
+      "description": "Duration context: '[during this battle]' applies to the power boost only, but OnAttack trigger with 'During Opponent's Attack' should use duration:'DuringOpponentTurn' for the overall effect window, with inner action having 'EndOfBattle'"
+    }
+  ],
+  "suggestedDsl": {
+    "card": "OP09-023",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "subType": "ODYSSEY"
+        },
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 3,
+            "target": {
+              "scope": "Self"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "duration": "DuringOpponentTurn",
+        "optional": true,
+        "cost": [
+          {
+            "type": "Rest",
+            "count": 1,
+            "target": {
+              "scope": "OwnDonCards"
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ],
+        "limitPerTurn": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:35:08.202Z"
+}

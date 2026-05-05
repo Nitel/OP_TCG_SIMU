@@ -1,0 +1,57 @@
+{
+  "id": "ST14-001",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-14",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the primary effect: 'All of your Characters gain +1 cost'. The current DSL only captures the conditional power boost and completely omits the cost increase."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Should check 'if you have a Character with a cost of 8 or more', not just 'HasCardOnBoard Character'. Needs to verify cost threshold."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (activated when leader enters play), not 'Activated' (player-activated ability). This is a passive leader effect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1,
+          "target": {
+            "scope": "OwnCharacters"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "Permanent"
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 8
+      }
+    }
+  ],
+  "auditedAt": "2026-05-05T13:09:10.052Z"
+}

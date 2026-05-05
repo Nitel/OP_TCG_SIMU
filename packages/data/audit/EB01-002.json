@@ -1,0 +1,72 @@
+{
+  "id": "EB01-002",
+  "name": "Izo",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "OnPlay effect uses AttachDon which attaches an active DON!! card. The text says 'Give up to 1 rested DON!! card' which means giving a rested DON!! (GiveDon with rested filter), not attaching an active one.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Second effect has wrong trigger. Text says '[On Your Opponent's Attack]' which means when opponent attacks (OnAttacked is correct trigger name). However, the condition and cost structure is wrong.",
+      "field": "effects[1]"
+    },
+    {
+      "severity": "major",
+      "description": "The TrashFromHand action should be a cost (optional: true), not a separate action. The text '[Once Per Turn] You may trash 1 card from your hand:' indicates this is an optional cost for the power reduction effect.",
+      "field": "effects[1].actions[0]"
+    },
+    {
+      "severity": "minor",
+      "description": "Missing oncePerTurn flag on the second effect, as text explicitly states '[Once Per Turn]'.",
+      "field": "effects[1].oncePerTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "restingOnly": true,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "oncePerTurn": true,
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "subTypes": [
+            "Land of Wano",
+            "Whitebeard Pirates"
+          ]
+        },
+        "cost": {
+          "type": "TrashFromHand",
+          "count": 1,
+          "optional": true
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacterOrLeader"
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:11.270Z"
+}

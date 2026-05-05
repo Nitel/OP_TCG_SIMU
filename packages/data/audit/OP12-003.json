@@ -1,0 +1,39 @@
+{
+  "id": "OP12-003",
+  "name": "Crocus",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "RevealFromHand should not wrap PlayFromHand. The card text says 'You may reveal 2 Events from your hand: Play...' indicating reveal is a cost/condition, not a thenAction trigger. PlayFromHand should be a direct action with a condition checking revealed cards, or the structure should use a cost model. Current nesting makes PlayFromHand dependent on successful reveal, but the reveal itself has no effect—it's a prerequisite."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "count": 1,
+            "filter": {
+              "color": "Red",
+              "cardType": "Character",
+              "maxPower": 3000
+            },
+            "conditions": [
+              {
+                "type": "RevealedFromHand",
+                "cardType": "Event",
+                "count": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:49:30.525Z"
+}

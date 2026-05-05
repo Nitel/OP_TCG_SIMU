@@ -1,0 +1,43 @@
+{
+  "id": "OP12-072",
+  "name": "Zeff",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' or a board event trigger, not 'Activated'. The effect triggers when a DON!! card on field is returned to DON!! deck, which is an automatic event trigger, not an activated ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks if Leader 'is' Sanji, not if a card named Sanji is on board. Should use 'LeaderIsName' with value 'Sanji', not 'HasCardOnBoard'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Missing the trigger condition for when a DON!! card is returned to DON!! deck. Current DSL lacks this core game mechanic trigger."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:54:47.854Z"
+}

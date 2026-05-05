@@ -1,0 +1,55 @@
+{
+  "id": "OP07-023",
+  "name": "Caribou",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasRestingDon' but the DSL uses 'HasRestingDon' with count:6. The condition type is correct, but the trigger is wrong: this is a static ability that should check continuously, not just OnPlay. This should use 'Trigger' with 'Always' condition or be a permanent static effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should not be 'OnPlay'. This is a static/continuous effect that applies whenever you have 6+ resting DON!! cards, not just when the card is played. Should be 'Trigger' or use a different structure to represent continuous checking."
+    },
+    {
+      "severity": "minor",
+      "field": "root",
+      "description": "The DSL does not capture the [Blocker] keyword ability. This should be a separate effect or included as 'GiveKeyword' action with keyword:'Blocker'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:04:12.627Z"
+}

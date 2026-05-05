@@ -1,0 +1,68 @@
+{
+  "id": "EB03-055",
+  "name": "Nico Robin",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing condition logic: should be conditional trash (may trash 1 from Life), then IF Leader has {Straw Hat Crew} type, add up to 2 from deck to Life. Current DSL only removes life without the conditional add-to-life action."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition type 'HasCardOnBoard' with name 'Straw Hat Crew' is incorrect. Should be 'LeaderHasType' with type '{Straw Hat Crew}' to check if leader has that type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Actions incomplete: RemoveLife from Life cards is correct, but missing the conditional subsequent action to add up to 2 cards from deck to Life cards when condition is met."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing duration marker. Text states '[Opponent's Turn] [On K.O.]' which means this ability only triggers during opponent's turn. Should include duration:'DuringOpponentTurn'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action type 'RemoveLife' is incorrect for dealing damage to opponent. Should be 'RemoveLife' targeting opponent, or the intent is to damage opponent (1 damage = 1 life removed from opponent). Verify this should affect opponent's life, not player's life."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "destination": "TopOfLife",
+          "optional": true
+        }
+      ],
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "{Straw Hat Crew}"
+      }
+    },
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1,
+          "target": "opponent",
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:55.363Z"
+}

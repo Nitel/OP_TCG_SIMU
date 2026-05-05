@@ -1,0 +1,50 @@
+{
+  "id": "OP04-001",
+  "name": "Nefeltari Vivi",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost condition: Activate requires ➁ (rest 2 DON!!). DSL must include condition to rest 2 DON cards from cost area."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Text explicitly states '[Rush] during this turn' which means the keyword lasts only during your turn, not permanently until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should clarify 'up to 1' (optional selection) — current ChooseOwnCharacter implies mandatory choice. Consider using optional selection pattern."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "optional": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:36:13.970Z"
+}

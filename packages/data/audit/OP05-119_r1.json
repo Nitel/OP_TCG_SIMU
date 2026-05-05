@@ -1,0 +1,73 @@
+{
+  "id": "OP05-119_r1",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the [On Play] effect entirely. Card has two effects: (1) [On Play] DON!! −10 effect that places Characters at bottom of deck and grants extra turn, and (2) [Activate: Main] effect. Only the second effect is partially captured, and even that is incomplete."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' for the primary effect, not 'Activated'. The [Activate: Main] effect should be a separate effect with trigger 'Activated'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "The [On Play] effect requires multiple actions: ReturnToHand or similar for placing Characters at bottom of deck, and a Win/turn-grant action. Current DSL only has GiveDon which doesn't match the effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing conditions for the [On Play] effect's DON!! cost requirement (DON!! −10). This should be a condition checking attached DON!!."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action is incorrect for the [Activate: Main] effect context. The effect should search/add DON!! from DON!! deck and set as active, which requires SearchDeck or similar action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 10
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": "AllCharactersExceptThis"
+        },
+        {
+          "type": "Win",
+          "effect": "ExtraTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "cardType": "Don",
+          "count": 1
+        }
+      ],
+      "duration": "Permanent",
+      "oncePer": "Turn"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:36:43.598Z"
+}

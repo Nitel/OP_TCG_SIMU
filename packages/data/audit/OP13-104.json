@@ -1,0 +1,57 @@
+{
+  "id": "OP13-104",
+  "name": "Kouzuki Hiyori",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "FlipLife is incorrect. Card text says 'add up to 1 card from the top of your deck to the top of your Life cards' — this is SearchDeck with destination Life, not FlipLife. FlipLife converts life to hand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].conditions",
+      "description": "Missing condition: 'If your Leader is multicolored' — requires LeaderHasAnyType condition checking for multiple colors"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand action should have optional modifier (may=true) since text says 'You may trash'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "value": [
+            "Red",
+            "Blue",
+            "Green",
+            "Purple",
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "count": 1,
+              "destination": "Life",
+              "position": "Top"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:06:18.542Z"
+}

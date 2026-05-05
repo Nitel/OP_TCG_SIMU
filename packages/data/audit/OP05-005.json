@@ -1,0 +1,63 @@
+{
+  "id": "OP05-005",
+  "name": "Karasu",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Second effect condition is wrong: text says 'If this Character has 7000 power or more', not 'LeaderHasType'. Should be a power check on the card itself, not a leader type check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is incomplete. Text specifies 'up to 1 of your opponent's Leader or Character cards' — should allow selection of either Leader OR Character, not just Character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "Target scope is incomplete. Text specifies 'up to 1 of your opponent's Leader or Character cards' — should allow selection of either Leader OR Character, not just Character."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentLeaderOrCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "CardPower",
+        "amount": 7000,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentLeaderOrCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:45:41.249Z"
+}

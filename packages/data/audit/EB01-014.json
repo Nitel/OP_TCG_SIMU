@@ -1,0 +1,49 @@
+{
+  "id": "EB01-014",
+  "name": "Sanji",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The effect text says '[Your Turn]' but duration is 'EndOfTurn' instead of 'DuringYourTurn'. This causes the power boost to persist beyond your turn.",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "critical",
+      "description": "The power boost should scale based on rested DON!! cards (every 3 rested DON!! = +1000 power), but the DSL gives a flat +1000 boost regardless of count. Missing the scaling calculation.",
+      "field": "effects[0].actions[0].amount"
+    },
+    {
+      "severity": "major",
+      "description": "The condition checks for 1 rested DON!!, but the effect requires 'every 3' rested DON!!. The condition should check for multiples of 3, or the action should dynamically calculate based on total rested DON!!.",
+      "field": "effects[0].condition.count"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 3
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "DuringYourTurn",
+            "scalingFactor": {
+              "type": "RestingDonCount",
+              "divisor": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:02.972Z"
+}

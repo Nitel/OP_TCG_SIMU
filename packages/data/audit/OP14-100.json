@@ -1,0 +1,45 @@
+{
+  "id": "OP14-100",
+  "name": "Absalom",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "SearchDeck action does not specify correct parameters: missing 'lookAtCount: 3', missing filter for '{Thriller Bark Pirates}' type, missing 'maxReveal: 1', and missing 'remainderDestination: \"bottom\"' with ordering capability"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is incorrect. The effect should be part of the SearchDeck action's post-search selection, not a separate triggered effect. PlayFromHand is not the correct action—should be 'AddToHand' or similar after revealing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter uses 'kind: Any' instead of correctly filtering for Thriller Bark Pirates type cards"
+    },
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Effect should be single OnKO trigger with SearchDeck that includes reveal logic, not split into two separate triggers"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookAtCount": 3,
+        "filter": {
+          "subType": "Thriller Bark Pirates"
+        },
+        "maxReveal": 1,
+        "destination": "hand",
+        "remainderDestination": "bottom",
+        "canOrder": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:17:55.581Z"
+}

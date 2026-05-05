@@ -1,0 +1,65 @@
+{
+  "id": "OP11-097",
+  "name": "After All These Years I'm Losing My Edge!!!",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost target is 'ChooseOwnCharacterOrLeader' but text specifies 'Up to 1' which allows choosing zero cards. Target should use 'optional' modifier or explicit 'UpTo:1' constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "Action type 'SearchDeck' is incorrect. Text retrieves from trash, not deck. Should be a custom trash-retrieval action or 'PlayFromHand' after search. Correct action: retrieve from trash to hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing conditional: second action should only trigger 'if you have 10 or more cards in your trash'. Requires condition: 'TrashCount>=10'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].filter",
+      "description": "Filter is incomplete. Specifies 'ByCost' but missing color filter. Text requires 'black Character card' — filter must include color:'black' and cardType:'Character'."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP11-097",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "optional": true,
+              "maxTargets": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "SearchTrash",
+            "filter": {
+              "kind": "ByCost",
+              "maxCost": 3,
+              "color": "black",
+              "cardType": "Character"
+            },
+            "maxTargets": 1,
+            "destination": "hand",
+            "condition": {
+              "type": "TrashCount",
+              "operator": ">=",
+              "value": 10
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:36.766Z"
+}

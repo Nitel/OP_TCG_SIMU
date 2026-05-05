@@ -1,0 +1,51 @@
+{
+  "id": "OP01-086_r1",
+  "name": "Overheat",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "ReturnToHand target should be 'ChooseOpponentActive' (active Character), not 'ChooseOpponentCharacter'. The card text specifies 'active Character'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and ReturnToHand with maxCost:4 has no basis in card text. Card only describes one ReturnToHand action (cost 3 or less). This entire effect should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' for counter effects that boost during battle."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP01-086_r1",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxAmount": 1
+            },
+            "duration": "DuringThisBattle"
+          },
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentActive",
+              "maxCost": 3,
+              "maxAmount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:12:07.273Z"
+}

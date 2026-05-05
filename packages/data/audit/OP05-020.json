@@ -1,0 +1,48 @@
+{
+  "id": "OP05-020",
+  "name": "Four Thousand-Brick Fist",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Power boost duration should be 'DuringYourTurn' not 'EndOfTurn'. Text states 'during this turn' which means the boost lasts for the current turn only, not until end of turn."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with +1000 power boost) has no basis in card text. The card only describes one effect: power boost and K.O. This second trigger effect should be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow Leader or Character ('ChooseOwnLeaderOrCharacter'), not just Character. Card text says 'your Leader or Character cards'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:45:58.245Z"
+}

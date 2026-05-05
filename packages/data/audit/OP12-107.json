@@ -1,0 +1,63 @@
+{
+  "id": "OP12-107",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check Life cards (HasAttachedDon with count ≤ 2), not TurnCount. TurnCount is for turn number, not life total."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect missing duration. Text states '[Opponent's Turn]' which requires duration:\"DuringOpponentTurn\", not omitted/default."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "Action type is FlipLife but effect text says 'Add up to 1 card from top of deck to top of Life cards' — this is SearchDeck + AttachDon (search 1 from deck and attach as Life), not FlipLife (flip Life to hand)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "target": {
+            "scope": "TopOfDeck"
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:57:31.009Z"
+}

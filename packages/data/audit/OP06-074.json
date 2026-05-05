@@ -1,0 +1,30 @@
+{
+  "id": "OP06-074",
+  "name": "Zephyr (Navy)",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Effect text says 'Negate the effect' of opponent's Character, but DSL uses Rest action. Negate is not implemented in current actions list; Rest is incorrect translation. Should clarify intended mechanic or use appropriate action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action targets opponent's Character, but Rest typically affects your own characters. Negate mechanic should target opponent's Character effect, not rest it."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition uses HasRestingDon with count:1, but card text indicates optional payment ('You may return...'). Should use optional modifier or adjust condition to reflect choice."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions",
+      "description": "Two sequential actions both target 'ChooseOpponentCharacter' with maxPower:5000, but second action (KO) should only execute if first condition (Negate) succeeds. Conditional chaining may need clarification."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:58:50.627Z"
+}

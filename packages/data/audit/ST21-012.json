@@ -1,0 +1,37 @@
+{
+  "id": "ST21-012",
+  "name": "Brook",
+  "set": "ST-21",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "The action specifies 'count: 2' and 'scope: ChooseOwnCharacterOrLeader', which implies giving 2 DON!! to a single target. However, the official text says 'Give up to 2 rested DON!! cards to your Leader or 1 of your Characters' - this means you can distribute up to 2 DON!! cards among multiple targets (your Leader and/or Characters), not necessarily all to one target.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Missing the 'rested' restriction on the DON!! cards being given. The official text specifically says 'rested DON!! cards', meaning only rested DON!! can be attached, but the DSL has no condition or filter to enforce this.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "sourceFilter": "rested",
+            "distributionMode": "split"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:47:44.886Z"
+}

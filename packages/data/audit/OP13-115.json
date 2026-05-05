@@ -1,0 +1,51 @@
+{
+  "id": "OP13-115",
+  "name": "Paper Art Afterimage",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].condition",
+      "description": "Condition missing: second power boost should only trigger if opponent has ≤2 Life cards. Current condition is 'Always' but should check opponent's life total."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous effect: second trigger object with DrawCard action has no basis in card text. Counter effect contains only two power boosts; no card draw is mentioned."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringThisTurn' or similar to represent 'during this turn', not 'EndOfTurn'. Text says 'during this turn' which implies the boost lasts through the turn, not just until end."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "DuringThisTurn",
+        "condition": {
+          "type": "OpponentLifeCount",
+          "maxValue": 2
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:05.365Z"
+}

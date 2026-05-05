@@ -1,0 +1,53 @@
+{
+  "id": "OP05-114_r1",
+  "name": "El Thor",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Second PowerBoost action has condition type 'Always' but should be conditional on opponent having ≤2 Life. Condition type should be 'OpponentLifeCount' or similar (not found in spec, but 'Always' is incorrect)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and KO action has no basis in card text. Card text contains no KO effect. This effect must be removed entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second PowerBoost targets 'ChooseOwnCharacterOrLeader' independently, but per card text it should reference 'that card' (the same card from the first action). Target scope should reference the same card selected in the first action, not re-select."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "PreviouslySelectedCard"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "OpponentLifeCount",
+            "count": 2,
+            "comparison": "LessOrEqual"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:36:21.920Z"
+}

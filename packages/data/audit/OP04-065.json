@@ -1,0 +1,42 @@
+{
+  "id": "OP04-065",
+  "name": "Miss.Goldenweek(Marianne)",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action should be 'Rest' with duration 'DuringYourTurn' to represent 'cannot attack until the start of your next turn'. Current Rest action lacks duration specification; needs duration:\"DuringYourTurn\""
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect (Trigger with HasRestingDon condition) is not supported by card text and appears to be erroneous. Card text contains only [On Play] trigger; no secondary effect exists."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If your Leader's type includes \"Baroque Works\", up to 1 of your opponent's Characters with a cost of 5 or less cannot attack until the start of your next turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "subType": "Baroque Works"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5,
+              "maxQuantity": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:38:04.320Z"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "OP03-088",
+  "name": "Fukurou",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects that must be represented in DSL: (1) 'This Character cannot be K.O.'d by effects' - a passive protection effect, and (2) '[Blocker]' - an activated ability. Effects array is empty."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing protection effect: 'cannot be K.O.'d by effects' should be represented as a passive/always-active effect that prevents KO actions targeting this card."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Missing Blocker activated ability: Should trigger when opponent declares attack, allow rest of this card to redirect attack target to this card."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Always",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOdByEffects"
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest"
+          }
+        ],
+        "description": "After opponent declares attack, you may rest this card to make it the new target of the attack"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:35:12.526Z"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "OP13-062",
+  "name": "Crocus",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' (DON!! cards given to this card) not 'HasRestingDon' (resting DON!! in your pool). 'Given' means attached to the card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.count",
+      "description": "Condition count should be >=1 (any DON!! attached), not exactly 1. Use 'count:{min:1}' or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter should specify 'DON!! card' not 'Any'. The search is restricted to DON!! deck cards only."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target.scope",
+      "description": "'ChooseOpponentCharacter' is reasonable but 'maxPower' should clarify base power (not current power). Standard implementations may use 'basePower' instead of 'maxPower'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": {
+            "min": 1
+          }
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "DonCard"
+            },
+            "destination": "board",
+            "max": 1
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "OpponentCharacter",
+              "basePower": {
+                "max": 3000
+              }
+            },
+            "max": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:03:00.971Z"
+}

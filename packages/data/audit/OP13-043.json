@@ -1,0 +1,35 @@
+{
+  "id": "OP13-043",
+  "name": "Otama",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: 'If you have 3 or less Life cards' should be represented as a condition checking life count ≤ 3. Current condition is 'Always', which ignores the life requirement."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LifeCount",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:01:35.943Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "OP08-047",
+  "name": "Jozu",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is missing the conditional requirement: 'You may return 1 of your Characters other than this Character to the owner's hand' is a cost/condition that must be paid before the main effect triggers. The DSL should include a condition that checks if player chooses to return one of their own Characters, then only then does the return-opponent's-character effect resolve."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope is incorrect. Current DSL targets own Characters (ChooseOwnCharacter), but the effect text states 'Return up to 1 Character with a cost of 6 or less to the owner's hand' without specifying scope—this should target opponent's Characters (ChooseOpponentCharacter), as the card effect follows conditional payment structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 6,
+            "excludeSource": true
+          },
+          "optional": true
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "optional": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:27:46.777Z"
+}

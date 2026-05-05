@@ -1,0 +1,54 @@
+{
+  "id": "ST11-003",
+  "name": "Backlight",
+  "set": "ST-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Second action (KO) must target only rested Characters, but DSL does not filter for rested state. Target should include 'rested:true' constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL structure uses single effect with two actions, but card text says 'choose one' - implying mutually exclusive choices. Should be represented as two separate effects or with explicit choice structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "rested": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:06:06.461Z"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "OP15-054",
+  "name": "And No One Else Can Have It! It's Our Memento of Him",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard' for Leader check"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition should be 'LeaderIsName' not 'HasCardOnBoard' for Leader check"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2].filter",
+      "description": "Filter key should be 'type' not 'subType' for Dressrosa type filter"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should be 'Stage' (scope:'OpponentStage'), not 'ChooseOpponentCharacterOrLeader'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Lucy"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {}
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Lucy"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "OpponentStage"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:26:01.830Z"
+}

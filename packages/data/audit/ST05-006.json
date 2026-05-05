@@ -1,0 +1,32 @@
+{
+  "id": "ST05-006",
+  "name": "Gild Tesoro",
+  "set": "ST-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'HasAttachedDon' not 'HasRestingDon'. The card text states 'DON!! −2' which refers to attached DON!! cards on the card itself, not resting DON!! cards in the DON!! deck."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] DON!! −2: Draw 2 cards.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasAttachedDon",
+          "count": 2
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:59:08.504Z"
+}

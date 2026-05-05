@@ -1,0 +1,62 @@
+{
+  "id": "EB02-057",
+  "name": "Mad Treasure",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The first action uses FlipLife which adds Life to hand, but it should be optional (the text says 'You may'). There is no optional flag on this action.",
+      "field": "effects[0].actions[0].optional"
+    },
+    {
+      "severity": "critical",
+      "description": "The second action uses ReturnToHand which returns a card to hand, but the effect should add the opponent's Character to the top or bottom of opponent's Life cards face-up. This is fundamentally the wrong action type - it should be AddLife targeting an opponent's Character.",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "The effect text allows choosing top OR bottom for the Life card taken to hand, but FlipLife doesn't have a position parameter to specify this choice.",
+      "field": "effects[0].actions[0].position"
+    },
+    {
+      "severity": "major",
+      "description": "The effect allows choosing top OR bottom for where to place the opponent's Character in their Life, but the DSL doesn't capture this choice.",
+      "field": "effects[0].actions[1].position"
+    },
+    {
+      "severity": "major",
+      "description": "The second action is conditional on the first action being performed ('You may... : Add...'), but there's no dependency link between them in the DSL.",
+      "field": "effects[0].actions[1].condition"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "optional": true,
+            "position": "TopOrBottom"
+          },
+          {
+            "type": "AddLife",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            },
+            "toOpponent": true,
+            "faceUp": true,
+            "position": "TopOrBottom",
+            "condition": {
+              "type": "IfPreviousActionPerformed"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:10:15.957Z"
+}

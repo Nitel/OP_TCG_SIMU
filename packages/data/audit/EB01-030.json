@@ -1,0 +1,25 @@
+{
+  "id": "EB01-030",
+  "name": "Loguetown",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "The action type 'TrashFromHand' is incorrect. The official text says 'place this card and 1 card from your hand at the bottom of your deck', not trash them. There is no action type in DSL to represent placing cards at bottom of deck, but this is fundamentally different from trashing.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the requirement to place 'this card' (the stage itself) at the bottom of the deck. The effect only attempts to trash from hand, but doesn't include the stage card itself.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "The filter is empty '{}' but should specify count: 1 since exactly 1 card from hand must be selected.",
+      "field": "effects[0].actions[0].filter"
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:07:14.499Z"
+}

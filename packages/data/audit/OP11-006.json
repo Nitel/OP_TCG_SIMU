@@ -1,0 +1,43 @@
+{
+  "id": "OP11-006",
+  "name": "Zephyr",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which means the effect lasts only during your current turn. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect ends at end of turn, but 'during this turn' means it's active throughout your turn only."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target must filter for ＜Special＞ attribute Characters. Current target 'ChooseOpponentCharacter' allows any opponent character. Should include attribute filter: {\"scope\":\"ChooseOpponentCharacter\",\"attribute\":\"Special\"} or similar attribute constraint."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target",
+      "description": "Text specifies 'up to 1' character, but target does not explicitly limit selection count. Should clarify maxTargets:1 in target object if needed for DSL validation."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -5000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "attribute": "Special",
+          "maxTargets": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:40:36.284Z"
+}

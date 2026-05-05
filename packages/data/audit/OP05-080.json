@@ -1,0 +1,60 @@
+{
+  "id": "OP05-080",
+  "name": "Elizabello II",
+  "set": "OP-05",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition 'Once Per Turn' - DSL should include 'condition' with 'type':'OncePerTurn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing SearchDeck action to return 20 cards from trash to deck and shuffle - card text specifies 'You may return 20 cards from your trash to your deck and shuffle it' as the cost/effect prerequisite"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Effect should be conditional on performing the SearchDeck action (return 20 cards from trash). Current DSL does not model the 'may' cost structure"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP05-080",
+    "effectText": "[When Attacking] [Once Per Turn] You may return 20 cards from your trash to your deck and shuffle it: This Character gains [Double Attack] and +10000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "OncePerTurn"
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "amount": 20,
+            "source": "Trash",
+            "optional": true
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "DoubleAttack",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "PowerBoost",
+            "amount": 10000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:50:23.170Z"
+}

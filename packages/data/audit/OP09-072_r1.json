@@ -1,0 +1,48 @@
+{
+  "id": "OP09-072_r1",
+  "name": "Franky",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition 'HasRestingDon' with count:2 is incorrect. Card text says 'DON!! −2' which means cost 2 DON, not a condition. This should be a cost, not a condition."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action structure is wrong. The effect is optional ('You may trash 1 card') with a conditional draw. Should use 'optional:true' and structure as: if trash, then draw."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "Blocker keyword ability is completely missing from DSL. Card has [Blocker] which should be represented as a separate effect or keyword."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "AttachDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:46:55.793Z"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "ST07-011",
+  "name": "Zeus",
+  "set": "ST-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should not be mandatory in the array. The card text says 'You may rest this Character', indicating rest is optional. The condition should reflect this optionality, or rest should be separated as a cost/condition rather than an action in sequence."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target should be restricted to [Charlotte Linlin] cards only. Current scope 'ChooseOwnCharacter' allows any character. Should include a filter: {\"scope\":\"ChooseOwnCharacter\",\"filter\":{\"hasType\":\"Charlotte Linlin\"}}"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect trigger 'Trigger' with action 'PlaySelf' is incorrect. The ability describes Banish keyword functionality (a static effect on damage), not a separate trigger. This effect should not exist; Banish keyword behavior is handled by the game engine, not by custom DSL actions."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to limit the effect to 'Up to 1' Charlotte Linlin card. The DSL should include a maxTargets constraint or similar condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            },
+            "optional": true
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "Banish",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "filter": {
+                "hasType": "Charlotte Linlin"
+              },
+              "maxTargets": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:02:03.829Z"
+}

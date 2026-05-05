@@ -1,0 +1,67 @@
+{
+  "id": "EB01-008",
+  "name": "LittleOars Jr.",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong trigger type: uses 'OnKO' but effect text says 'If this Character would be K.O.'d' which is a replacement effect, not a trigger after KO. Should use a special replacement/prevention mechanism or mark as optional with cost.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the replacement mechanic: effect should prevent the KO by paying a cost (trashing a card), not trigger after KO has already happened.",
+      "field": "effects[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Missing 'once per turn' restriction in the effect structure.",
+      "field": "effects[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Missing condition that this only applies when K.O.'d 'by an effect' (not by battle).",
+      "field": "effects[0].condition"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing the 'you may' optional aspect - this is a choice, not mandatory.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "TrashFromHand should have count: 1 specified, and it should be a cost to prevent KO, not just an action.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "KOByEffect"
+        },
+        "oncePerTurn": true,
+        "optional": true,
+        "cost": {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Event",
+              "Stage"
+            ]
+          },
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PreventKO",
+            "target": "self"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:57:37.812Z"
+}

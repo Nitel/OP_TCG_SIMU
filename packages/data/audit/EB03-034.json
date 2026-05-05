@@ -1,0 +1,68 @@
+{
+  "id": "EB03-034",
+  "name": "Charlotte Linlin",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].type",
+      "description": "TrashFromHand is incorrect. Card states 'place 1 card from your hand at the top of your deck' — this is ReturnToHand or a deck-positioning action, not trash/discard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[2]",
+      "description": "Missing action: 'add up to 1 DON!! card from your DON!! deck and set it as active' — requires GiveDon or AttachDon action with appropriate filter for DON!! deck cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "FlipLife is incorrect. Card states 'Add up to 1 card from the top of your deck to the top of your Life cards' — this is AddLife (gaining life by adding deck cards), not flipping life totals."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition.type",
+      "description": "Condition logic wrong. 'DON!! −1' means spend/consume 1 DON!!, not a HasRestingDon check. Should be a cost condition or HasAttachedDon with count ≥1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ReturnToHand",
+          "count": 1,
+          "filter": {}
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "filter": {
+            "source": "DONDeck"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "AddLife",
+          "count": 1,
+          "filter": {
+            "source": "TopOfDeck"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:11.529Z"
+}

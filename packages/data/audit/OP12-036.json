@@ -1,0 +1,59 @@
+{
+  "id": "OP12-036",
+  "name": "Roronoa Zoro",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger 'OnPlay' is incorrect. This is a static ability that applies when the card is on board, not when played. Should use 'Trigger' or be a passive effect without trigger."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasCardOnBoard' (Leader on board) but the effect should check if Leader HAS the <Slash> attribute. Should be 'LeaderHasType' with type 'Slash'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing the first effect: 'This card in your hand cannot be played by effects' - a static restriction that should prevent PlayFromHand/PlaySelf actions when triggered by effects."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing the KO protection action. The card 'cannot be K.O.'d in battle by <Slash> attribute cards' - this requires a defensive action or keyword like 'Unaffected' or a specific KO prevention condition."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "This card in your hand cannot be played by effects. If your Leader has the <Slash> attribute, this Character cannot be K.O.'d in battle by <Slash> attribute cards and gains +1000 power.",
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Slash"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          },
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotBeKOedBySlashAttributes",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:52:03.515Z"
+}

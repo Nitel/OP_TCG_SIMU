@@ -1,0 +1,44 @@
+{
+  "id": "OP06-115",
+  "name": "You're the One Who Should Disappear.",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence is incorrect. 'You may trash 1 card' indicates trashing is optional and conditional. The PowerBoost should only occur if a card is trashed. Current structure has PowerBoost as a thenAction (correct), but the outer action should reflect the optional nature via a condition or conditional gate."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "TrashFromHand should be conditional/optional. DSL should use a conditional wrapper or make the entire effect chain optional. The card text says 'You may trash...then gains' implying optional discard triggering optional boost."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "count": 1
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "count": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:02:03.127Z"
+}

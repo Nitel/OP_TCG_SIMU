@@ -1,0 +1,62 @@
+{
+  "id": "OP07-077",
+  "name": "We're Going to Claim the One Piece!!!",
+  "set": "OP-07",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (Main phase card activation), not 'Activated' (typically for abilities with costs)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is missing required LeaderHasAnyType check for {Animal Kingdom Pirates} or {Big Mom Pirates}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete: missing filter for card types, missing 'look at 5' mechanic, missing reveal/reveal-up-to-1 logic, missing bottom-deck placement of remaining cards"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] If your Leader has the {Animal Kingdom Pirates} or {Big Mom Pirates} type, look at 5 cards from the top of your deck; reveal up to 1 {Animal Kingdom Pirates} or {Big Mom Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Animal Kingdom Pirates",
+            "Big Mom Pirates"
+          ]
+        },
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "HasAnyType",
+              "types": [
+                "Animal Kingdom Pirates",
+                "Big Mom Pirates"
+              ]
+            },
+            "destination": "hand",
+            "amount": "upTo1",
+            "searchFrom": "top5"
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "Remaining"
+            },
+            "destination": "bottomOfDeck",
+            "allowReorder": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:08:17.602Z"
+}

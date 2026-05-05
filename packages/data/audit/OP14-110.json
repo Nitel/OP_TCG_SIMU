@@ -1,0 +1,54 @@
+{
+  "id": "OP14-110",
+  "name": "Dr. Hogback",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'PlayFromHand' or similar play action, not 'SearchDeck'. The card plays from trash, not searches deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'source' parameter specifying 'trash' as the zone to play from."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is incomplete. Must include cardType filter for 'Character' and exclusion for '[Dr. Hogback]'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is incorrect. The card text specifies one effect '[On K.O.]' with a restriction on Trigger type (other than Dr. Hogback), not two separate triggers."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].destination",
+      "description": "'destination' should not be 'board' for a play action; remove or use 'play' semantics instead."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "source": "trash",
+          "max": 1,
+          "filter": {
+            "kind": "ByCardType",
+            "cardType": "Character",
+            "maxCost": 4,
+            "excludeByName": [
+              "Dr. Hogback"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:18:39.584Z"
+}

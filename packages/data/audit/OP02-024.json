@@ -1,0 +1,67 @@
+{
+  "id": "OP02-024",
+  "name": "Moby Dick",
+  "set": "OP-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect with trigger 'Trigger' and action 'PlaySelf' is nonsensical and not supported by card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition is 'Always' but text requires 'If you have 1 or less Life cards'. Should be a life total condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].trigger",
+      "description": "Trigger is 'OnPlay' but text says '[Your Turn]', indicating continuous effect during your turn. Should be 'StartOfTurn' or similar persistent trigger."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target is 'AllOwnCharacters' but text specifies only 'Edward.Newgate' and Characters with type 'Whitebeard Pirates'. Should use a filtered scope."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].duration",
+      "description": "Duration is 'EndOfTurn' but '[Your Turn]' in text indicates effect lasts during your turn phase. Should be 'DuringYourTurn'."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] If you have 1 or less Life cards, your [Edward.Newgate] and all your Characters with a type including \"Whitebeard Pirates\" gain +2000 power.",
+    "effects": [
+      {
+        "trigger": "StartOfTurn",
+        "condition": {
+          "type": "HasRestingDon",
+          "amount": 1,
+          "comparison": "LessOrEqual"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "OwnCharacters",
+              "filter": {
+                "orConditions": [
+                  {
+                    "name": "Edward.Newgate"
+                  },
+                  {
+                    "typeIncludes": "Whitebeard Pirates"
+                  }
+                ]
+              }
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:30:23.969Z"
+}

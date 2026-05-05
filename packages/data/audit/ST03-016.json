@@ -1,0 +1,36 @@
+{
+  "id": "ST03-016",
+  "name": "Thrust Pad Cannon",
+  "set": "ST-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target should be 'ChooseCharacter' (your own characters or any character depending on card context), not 'ChooseOpponentCharacter'. Counter effects typically return opponent's characters, but the scope value is incorrect—should be 'ChooseOpponentCharacter' is valid only if explicitly targeting opponent. Verify: does this return opponent's or your own character? Text says 'a Character' generically."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Trigger 'Trigger' with PlaySelf action is non-standard. Counter effects do not typically have a second auto-trigger that plays the card itself. This effect should be removed unless the card text explicitly states it plays itself after the counter resolves."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Counter] Return up to 1 Character with a cost of 3 or less to the owner's hand.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "actions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:57:26.059Z"
+}

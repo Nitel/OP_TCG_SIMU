@@ -1,0 +1,45 @@
+{
+  "id": "OP03-114",
+  "name": "Charlotte Linlin",
+  "set": "OP-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "condition",
+      "description": "Missing condition check for Leader type {Big Mom Pirates}. Should be LeaderHasType:Big Mom Pirates, not Always"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "FlipLife action is incorrect. Should be SearchDeck to add card from top of deck to Life cards, not flip a Life card"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "RemoveLife targets own Life cards. Should target opponent's Life cards (RemoveLife should specify opponent target, or use different action structure)"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Big Mom Pirates"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "destination": "LifeCards"
+        },
+        {
+          "type": "RemoveLife",
+          "count": 1,
+          "target": "opponent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:35:54.587Z"
+}

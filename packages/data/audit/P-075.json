@@ -1,0 +1,66 @@
+{
+  "id": "P-075",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action should specify 'rested' DON requirement. Card text says 'Give up to 1 rested DON!! card' but DSL has no rested constraint. Should use a condition or action modifier."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "HasCardOnBoard condition is improperly formed. It uses 'name' field but should use 'filter' to specify cost constraint. Correct format: {\"type\":\"HasCardOnBoard\",\"filter\":{\"cost\":{\"min\":8}}}"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[1]",
+      "description": "TrashFromHand has unnecessary 'thenActions' field (empty array). Should be removed for cleanliness."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "P-075",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            },
+            "filter": {
+              "rested": true
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cost": {
+              "min": 8
+            }
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {}
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:49:36.133Z"
+}

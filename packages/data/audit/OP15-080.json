@@ -1,0 +1,71 @@
+{
+  "id": "OP15-080",
+  "name": "Oars",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing first effect entirely: 'If you have [Gecko Moria] with 10000 power or more on your field and there are no other [Oars] cards, this Character gains +7000 power.' This is a conditional power boost effect with two conditions (LeaderHasType/specific name check + card presence check)."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "PlayFromHand is incorrect. [On K.O.] effect allows playing from trash, not hand. Should be 'PlaySelf' with source indicating trash, or context should clarify this is trash-based play."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "[On K.O.] effect has missing mandatory cost/condition: 'You may place 3 cards from your trash at the bottom of your deck in any order' before the play action. This should include a TrashCount condition (≥3) and a deck-ordering action not represented in current DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderIsName",
+          "value": "Gecko Moria"
+        },
+        {
+          "type": "HasCardOnBoard",
+          "cardName": "Gecko Moria",
+          "minPower": 10000
+        },
+        {
+          "type": "HasCardOnBoard",
+          "cardName": "Oars",
+          "count": 0
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": "Self"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "minCards": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlaySelf",
+          "source": "Trash",
+          "cost": {
+            "trashCards": 3,
+            "placement": "BottomOfDeck"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:28:06.160Z"
+}

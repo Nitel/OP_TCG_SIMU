@@ -1,0 +1,35 @@
+{
+  "id": "ST29-001",
+  "name": "Monkey.D.Luffy",
+  "set": "ST-29",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: 'If you have 2 or less Life cards' should be represented as a condition checking Life count, not 'Always'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "comparison": "<=",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:24:08.572Z"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "OP11-038",
+  "name": "Gum-Gum Elephant Gatling",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Main ability requires cost payment (rest 1 DON!! card) as activation condition. DSL missing cost/condition check. Should include condition checking for HasAttachedDon or similar."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' with maxCost filter is unclear. Should be 'OpponentCharacter' with cost constraint specified in condition or target definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 5
+          },
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader",
+            "amount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:43:07.080Z"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ST17-003",
+  "name": "Buggy",
+  "set": "ST-17",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has official effect text but DSL effects array is empty. Must include OnPlay trigger with deck manipulation actions."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "searchCount": 3,
+            "searchType": "TopDeck",
+            "arrangeable": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:12:49.024Z"
+}

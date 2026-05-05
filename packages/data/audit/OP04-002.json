@@ -1,0 +1,55 @@
+{
+  "id": "OP04-002",
+  "name": "Igaram",
+  "set": "OP-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringTurn' (or similar current-turn-only), not 'EndOfTurn'. Text says 'during this turn' which means the power loss lasts only for the current turn, not until end of turn. This is a temporal distinction violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[2]",
+      "description": "SearchDeck action is incomplete. The effect looks at 5 cards, reveals up to 1 Alabasta card, and places the rest at the bottom of the deck in any order. Current DSL only captures the search action but omits the deck manipulation (placing non-selected cards at bottom in chosen order). This requires additional action(s) or enhanced parameters to fully represent the effect."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -5000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringTurn"
+      },
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Alabasta"
+        },
+        "destination": "hand",
+        "quantity": {
+          "min": 0,
+          "max": 1
+        },
+        "lookAtCount": 5,
+        "remainderPlacement": {
+          "destination": "deck_bottom",
+          "order": "player_choice"
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:15.712Z"
+}

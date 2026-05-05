@@ -1,0 +1,67 @@
+{
+  "id": "OP09-086_r1",
+  "name": "Jesus Burgess",
+  "set": "ST-27",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing protection effect: 'This Character cannot be K.O.'d by your opponent's effects' is not represented in DSL. Requires a Counter or defensive mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has Blackbeard Pirates type, not if Blackbeard Pirates card is on board. Should use LeaderHasType:Blackbeard Pirates"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "PowerBoost amount is static (+1000). Effect requires dynamic calculation: +1000 for EVERY 4 cards in trash. Needs conditional or parametric scaling based on trash count."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be StartOfTurn or Permanent, not Activated. This is a passive ability that recalculates each turn."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "This Character cannot be K.O.'d by your opponent's effects. If your Leader has the {Blackbeard Pirates} type, this Character gains +1000 power for every 4 cards in your trash.",
+    "effects": [
+      {
+        "trigger": "Counter",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent",
+            "blockEffect": true
+          }
+        ]
+      },
+      {
+        "trigger": "StartOfTurn",
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Blackbeard Pirates"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": "TrashCount * 250",
+            "target": {
+              "scope": "Self"
+            },
+            "duration": "Permanent"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:22:04.418Z"
+}

@@ -1,0 +1,67 @@
+{
+  "id": "EB03-059",
+  "name": "S-Snake",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Egghead} type, not if Egghead card is on board. Should use LeaderHasType:Egghead"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Missing condition: Life cards ≥ 2. Must add HasCardOnBoard or similar to verify 2+ Life cards"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action should add Character to top of Life cards face-up, not PlayFromHand. Should use AttachDon or custom Life-stacking action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing requirement: Character must have [Trigger] keyword"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger:Trigger and opponent character rest is unrelated to card text and should not exist"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If your Leader has the {Egghead} type and you have 2 or more Life cards, add up to 1 Character card with a [Trigger] from your hand to the top of your Life cards face-up.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "AND",
+          "conditions": [
+            {
+              "type": "LeaderHasType",
+              "value": "Egghead"
+            },
+            {
+              "type": "TrashCount",
+              "operator": ">=",
+              "value": 2
+            }
+          ]
+        },
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "hasKeyword": "Trigger"
+            },
+            "maxAmount": 1,
+            "destination": "LifeCards"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:18:04.230Z"
+}

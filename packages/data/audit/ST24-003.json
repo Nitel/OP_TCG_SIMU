@@ -1,0 +1,29 @@
+{
+  "id": "ST24-003",
+  "name": "Basil Hawkins",
+  "set": "ST-24",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect is completely missing. Card has '[End of Your Turn]' trigger with action to set up to 1 DON!! card as active, but effects array is empty."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "YourDonCards",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:19:35.888Z"
+}

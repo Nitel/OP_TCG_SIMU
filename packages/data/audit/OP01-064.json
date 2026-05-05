@@ -1,0 +1,44 @@
+{
+  "id": "OP01-064",
+  "name": "Alvida",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack', not 'Activated'. The card text says '[When Attacking]', which maps to OnAttack trigger. The Activated trigger with HasRestingDon condition is incorrect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Effect has a condition 'HasRestingDon' but OnAttack already requires the Character to be attacking (which requires it to be rested). The DON cost is a play cost, not a conditional requirement for the effect. This condition should not exist or the effect structure is wrong."
+    },
+    {
+      "severity": "major",
+      "field": "effects structure",
+      "description": "Two separate effects are listed, but the card describes a single optional effect triggered 'When Attacking'. Should be consolidated into one OnAttack effect. The Activated effect is extraneous and incorrect."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:19:51.639Z"
+}

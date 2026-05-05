@@ -1,0 +1,42 @@
+{
+  "id": "OP13-117",
+  "name": "Gum-Gum Dawn Stamp",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'FlipLife' is incorrect. Card text says 'turn 1 card from the top of your Life cards face-up' which is a cost/choice mechanic, not an effect action. This should be represented as a cost condition or removed from effects array."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and DrawCard action is completely absent from card text. No draw effect exists in the official card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO target should include 'maxCount':1 to match 'up to 1' in the text, and scope should reflect optional selection."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] You may turn 1 card from the top of your Life cards face-up: K.O. up to 1 of your opponent's Characters with a base cost of 6 or less.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 6,
+              "maxCount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:07:14.778Z"
+}

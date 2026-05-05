@@ -1,0 +1,28 @@
+{
+  "id": "OP04-089",
+  "name": "Bartolomeo",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Blocker ability is a core keyword that must be defined. The DSL effects array is empty but the card has '[Blocker]' text requiring keyword implementation."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T09:43:48.090Z"
+}

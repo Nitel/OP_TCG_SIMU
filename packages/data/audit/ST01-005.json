@@ -1,0 +1,42 @@
+{
+  "id": "ST01-005",
+  "name": "Jinbe",
+  "set": "ST-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text says 'during this turn' which means the boost lasts only for the current turn while attacking. Duration should be 'DuringYourTurn', not 'EndOfTurn'. 'EndOfTurn' implies the effect expires at end of turn, but 'during this turn' indicates it persists through the turn's actions."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target description should clarify 'other than this card' — scope should be 'ChooseOwnCharacterOrLeaderExcludingSelf' or similar to match card text restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "ST01-005",
+    "effectText": "[DON!! x1] [When Attacking] Up to 1 of your Leader or Character cards other than this card gains +1000 power during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeaderExcludingSelf"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:54:15.576Z"
+}

@@ -1,0 +1,61 @@
+{
+  "id": "OP05-119_r2",
+  "name": "Monkey.D.Luffy",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Effect is completely missing the first ability. DSL only contains a SearchDeck action, but the card text describes: (1) Place all Characters except this one at bottom of deck, (2) Take an extra turn. Neither action is implemented."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Second ability [Activate: Main] is entirely missing from DSL. Should include: trigger Activated, condition Once Per Turn, cost ➀, action to add DON!! from DON!! deck and set as active."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck with filter 'Any' and destination 'board' does not match card text. The first ability requires returning Characters to bottom of deck (ReturnToHand with destination deck), not searching."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "Character",
+            "excludeSelf": true
+          },
+          "destination": "deck",
+          "position": "bottom",
+          "any": false
+        },
+        {
+          "type": "PlaySelf",
+          "extraTurn": true
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": "Once Per Turn",
+      "cost": 1,
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "DON!!",
+            "source": "DONDeck"
+          },
+          "destination": "active",
+          "max": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:36:45.799Z"
+}

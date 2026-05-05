@@ -1,0 +1,53 @@
+{
+  "id": "EB01-027",
+  "name": "Mr.1(Daz.Bonez)",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the conditional power boost effect: 'If your Leader's type includes \"Baroque Works\", this Character gains +1000 power for every 2 Events in your trash.' This is a permanent static ability that should be present in the DSL.",
+      "field": "effects"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderHasType",
+          "leaderType": "Baroque Works"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "amount": 1000,
+            "multiplier": {
+              "type": "TrashCount",
+              "cardType": "Event",
+              "divideBy": 2
+            },
+            "duration": "Permanent"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "filter": {},
+            "thenActions": []
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:58:35.224Z"
+}

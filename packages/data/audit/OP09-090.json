@@ -1,0 +1,53 @@
+{
+  "id": "OP09-090",
+  "name": "Doc Q",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action should not be in the effects array for an Activate trigger. The 'rest this Character' is the activation cost, not an action consequence. It should be specified in the activation cost structure, not as an action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is optional/gating. The effect should proceed only if the condition is true, but the Rest action cost should be separate from the conditional effect logic."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "activationCost": {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:28:39.723Z"
+}

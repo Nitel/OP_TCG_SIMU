@@ -1,0 +1,56 @@
+{
+  "id": "OP10-067",
+  "name": "Senor Pink",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'SearchDeck' is incorrect. The card retrieves from trash ('from your trash'), not deck. Should be 'TrashFromHand' or equivalent trash-to-hand action, but DSL lacks explicit trash-search action. Use custom handler or clarify with 'SearchTrash' if supported."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing card type constraint. Text specifies 'purple Event' but filter only includes cost. Must add filter condition for card type 'Event' and type color 'Purple'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "Missing second action entirely. Card text includes 'Then, set up to 1 of your DON!! cards as active' (Rest action to flip DON!!), but DSL contains no such action."
+    },
+    {
+      "severity": "major",
+      "field": "root",
+      "description": "DON!! cost payment (−1) not represented. While optional mechanics ('You may') may be implicit, the DON!! payment mechanic should be documented or acknowledged if system supports it."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP10-067",
+    "effectText": "[On Play] DON!! −1: Add up to 1 purple Event with a cost of 5 or less from your trash to your hand. Then, set up to 1 of your DON!! cards as active.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchTrash",
+            "filter": {
+              "kind": "ByCardType",
+              "cardType": "Event",
+              "color": "Purple",
+              "maxCost": 5
+            },
+            "destination": "hand",
+            "amount": 1
+          },
+          {
+            "type": "Rest",
+            "target": "OwnDONCards",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:36:05.523Z"
+}

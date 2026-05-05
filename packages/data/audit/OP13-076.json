@@ -1,0 +1,77 @@
+{
+  "id": "OP13-076",
+  "name": "Divine Departure",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition checks 'HasRestingDon' but effect requires resting 5 DON!! cards as a cost, not a condition. Should use 'cost' field with RestDon action, not a condition."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope 'ChooseOpponentCharacter' is incorrect. Card text says 'up to 1', which should be 'ChooseOpponentCharacterOptional' or similar optional targeting."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition.type",
+      "description": "Second condition 'If you have any DON!! cards given' is missing entirely. DSL only checks for resting DON but does not verify leader has attached DON cards."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand is a cost, not an action. Should be in 'cost' field, and conditional PowerBoost should follow only if cost is paid."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].target",
+      "description": "Target scope should be 'ChooseOwnCharacterOrLeaderOptional' to reflect 'up to 1' in the text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "RestDon",
+        "count": 5
+      },
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -8000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOptional",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "cost": {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeaderOptional",
+            "count": 1
+          },
+          "duration": "DuringBattle"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:26:03.430Z"
+}

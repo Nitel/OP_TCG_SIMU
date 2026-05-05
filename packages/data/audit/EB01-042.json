@@ -1,0 +1,67 @@
+{
+  "id": "EB01-042",
+  "name": "Scarlet",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong action type: should trash self (this Character), not trash from hand. The effect says 'You may trash this Character' meaning the character on the board, not a card from hand.",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "The PlayFromHand action should play the card rested, but there's no 'rested' or 'playRested' field specified.",
+      "field": "effects[0].actions[0].thenActions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong action type: should reduce cost, not power. The effect says 'give up to 1 of your opponent's Characters −2 cost', which affects cost not power.",
+      "field": "effects[0].actions[0].thenActions[1].type"
+    },
+    {
+      "severity": "major",
+      "description": "The filter excludeSelf is on TrashFromHand but should be on PlayFromHand - you can't play [Scarlet] from hand with this effect.",
+      "field": "effects[0].actions[0].filter.excludeSelf"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "TrashSelf",
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "filter": {
+                  "subType": "Dressrosa",
+                  "cardType": "Character",
+                  "maxCost": 3,
+                  "excludeName": "Scarlet"
+                },
+                "count": 1,
+                "rested": true
+              },
+              {
+                "type": "CostReduction",
+                "amount": -2,
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "count": 1
+                },
+                "duration": "EndOfTurn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:58.065Z"
+}

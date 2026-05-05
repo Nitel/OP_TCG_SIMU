@@ -1,0 +1,40 @@
+{
+  "id": "OP14-005",
+  "name": "Killer",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing 'Once Per Turn' constraint. The card text explicitly states '[Once Per Turn]', which should be represented as a condition or frequency limiter in the DSL."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "AttachDon action does not specify the source requirement. Card text states 'Give up to 1 rested DON!! card', implying the DON card must be rested. This prerequisite is missing from the DSL."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "frequency": "OncePerTurn",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": {
+            "scope": "OwnRested"
+          },
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:10:31.958Z"
+}

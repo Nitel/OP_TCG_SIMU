@@ -1,0 +1,75 @@
+{
+  "id": "OP06-023",
+  "name": "Arlong",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect structure is incorrect. 'TrashFromHand' should be a condition (optional cost), not an action. The Rest action should be conditional on trashing a card."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand as action is invalid; should be a condition. Use 'condition' with 'type' for optional trash cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect trigger 'Trigger' is invalid. There should be only one OnPlay effect with conditional trash. Resting opponent's rested Leader should be part of the OnPlay effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].target",
+      "description": "Target 'ChooseOpponentCharacter' is incorrect for preventing Leader attack. Target should be 'OpponentLeader' and effect must include duration preventing attacks until end of opponent's next turn."
+    },
+    {
+      "severity": "major",
+      "field": "duration",
+      "description": "Missing duration. Text 'cannot attack until the end of your opponent's next turn' requires duration:'UntilEndOfOpponentNextTurn' or equivalent effect preventing attacks during that window."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Card text requires 'Up to 1 of your opponent's rested Leader' - implies targeting only if a rested Leader exists. Condition filtering for rested status missing."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] You may trash 1 card from your hand: Up to 1 of your opponent's rested Leader cannot attack until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "HasRestingDon",
+          "scope": "OpponentLeader"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "OpponentLeader",
+              "filters": [
+                {
+                  "kind": "Rested"
+                }
+              ]
+            },
+            "duration": "UntilEndOfOpponentNextTurn",
+            "costType": "optional",
+            "cost": [
+              {
+                "type": "TrashFromHand",
+                "filter": {
+                  "kind": "Any"
+                },
+                "amount": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:55:01.873Z"
+}

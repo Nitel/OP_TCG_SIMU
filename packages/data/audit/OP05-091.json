@@ -1,0 +1,60 @@
+{
+  "id": "OP05-091",
+  "name": "Rebecca",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "SearchDeck is incorrect; card should be retrieved from trash, not deck. Action type should be ReturnToHand with source:trash"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Missing required filters: color (Black), cardType (Character), and exclusion for [Rebecca]. Cost range is 3-7, not unbounded max"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action missing rested state specification. Card should be played rested per effect text"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Missing quantity constraint 'up to 1' in action definition"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "source": "trash",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "minCost": 3,
+            "maxCost": 7,
+            "excludeNames": [
+              "Rebecca"
+            ]
+          },
+          "quantity": "upTo1"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "maxCost": 3
+          },
+          "quantity": "upTo1",
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:51:10.957Z"
+}

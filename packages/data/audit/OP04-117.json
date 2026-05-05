@@ -1,0 +1,30 @@
+{
+  "id": "OP04-117",
+  "name": "Heavenly Fire",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'PlayFromHand' is incorrect. The card effect adds opponent's Characters to Life cards, not plays them from hand. Should use 'AddToLife' or similar; 'PlayFromHand' implies playing a card from player's own hand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter targets player's own cards ('your'). Effect must target opponent's Characters. Filter should specify opponent scope and Character type."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' + 'FlipLife' is incorrect. The card does not flip Life cards; it adds Characters to Life cards face-up. This action misrepresents the mechanic entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "No action exists in standard DSL to 'add a card to Life cards'. This effect requires a custom action type not in the provided vocabulary, or the DSL structure is insufficient for this card mechanic."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T09:45:12.370Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "OP15-100",
+  "name": "Kamakiri",
+  "set": "OP15-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for optional trash cost. Effect should include a condition checking if this Character is trashed, or the trash action should be a prerequisite. Current DSL does not represent 'You may trash this Character and add 1 card from the top of your Life cards to your hand' as a cost."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing FlipLife action. The effect includes 'add 1 card from the top of your Life cards to your hand' which should be represented as FlipLife action before the KO action."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "KO action missing maxCount parameter. Effect states 'K.O. up to 1' which requires maxCount: 1 to properly limit selection."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:29:42.413Z"
+}

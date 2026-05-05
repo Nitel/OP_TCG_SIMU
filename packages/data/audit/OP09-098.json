@@ -1,0 +1,35 @@
+{
+  "id": "OP09-098",
+  "name": "Black Hole",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'Rest' is incorrect for 'negate the effect'. Should be a negation/effect-blocking action; 'Rest' does not negate effects. No standard action exists for effect negation in current DSL—this represents a missing effect capability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1].target",
+      "description": "K.O. condition is incomplete. Text states 'if that Character has a cost of 4 or less', but target only specifies maxCost:4. The action should be conditional on the chosen character's cost, not an independent selection constraint. Target scope and logic is malformed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "'up to 1' optional targeting is not encoded. Condition allows negation of 0 or 1 character, but DSL forces selection without optional qualifier."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect is unexplained and not in card text. 'Rest' a Character or Leader has no basis in the official effect. This effect should not exist."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "'during this turn' implies duration scope. DSL condition checks leader type but does not encode turn-limited duration (DuringYourTurn or similar)."
+    }
+  ],
+  "suggestedDsl": null,
+  "auditedAt": "2026-05-05T11:29:16.983Z"
+}

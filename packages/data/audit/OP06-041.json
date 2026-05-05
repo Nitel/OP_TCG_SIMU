@@ -1,0 +1,27 @@
+{
+  "id": "OP06-041",
+  "name": "The Ark Noah",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous 'Trigger' effect with 'PlaySelf' action. Card text only describes On Play effect that rests opponent's Characters. No trigger condition or play-from-hand mechanic is mentioned in official text."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:56:16.546Z"
+}

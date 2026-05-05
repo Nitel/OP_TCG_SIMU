@@ -1,0 +1,50 @@
+{
+  "id": "OP04-012",
+  "name": "Nefeltari Cobra",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Effect uses OnPlay trigger but the official text says '[Your Turn]' which is a continuous effect, not a one-time OnPlay effect. Should use Activated trigger instead.",
+      "field": "effects[0].trigger"
+    },
+    {
+      "severity": "critical",
+      "description": "Duration is 'EndOfTurn' but the official text says '[Your Turn]' which requires 'DuringYourTurn' duration to apply continuously during your turns only.",
+      "field": "effects[0].actions[0].duration"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing condition to filter for {Alabasta} type characters. The effect should only boost Characters with the Alabasta type.",
+      "field": "effects[0].actions[0].target"
+    },
+    {
+      "severity": "major",
+      "description": "Missing exclusion of 'this Character' (self). The effect states 'other than this Character' so Nefeltari Cobra should not boost itself.",
+      "field": "effects[0].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 1000,
+            "target": {
+              "scope": "AllOwnCharacters",
+              "filter": {
+                "type": "Alabasta",
+                "excludeSelf": true
+              }
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:54:07.495Z"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "OP10-083",
+  "name": "Kouzuki Momonosuke",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing condition: effect requires resting 'this Character and 1 of your {Dressrosa} type Leader or Stage cards' as a cost. Needs condition to check for available Dressrosa card to rest."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Rest action incomplete: must rest both 'this Character' AND '1 of your {Dressrosa} type Leader or Stage cards'. Currently only rests Self. Need second Rest action or composite target."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope incorrect: 'up to 1' means optional selection of 0 or 1 opponent Character. Current 'ChooseOpponentCharacter' implies mandatory selection. Should be 'OptionalChooseOpponentCharacter' or similar optional variant."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration correct as 'EndOfTurn' (matches 'during this turn' phrasing), but verify it aligns with turn timing—should apply only during the current turn then expire."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Dressrosa"
+        }
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseCard",
+            "filter": {
+              "type": "Dressrosa"
+            }
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "OptionalChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:37:16.694Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "ST08-005",
+  "name": "Shanks",
+  "set": "ST-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Card text says 'You may trash 1 card from your hand' (any card), but DSL filters for Character type. Should be generic trash action without cardType filter."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Structure uses thenActions implying the KO is conditional on trash. Card text uses colon (:) indicating the KO effect triggers when condition is met, but should be a separate conditional action. Trash should be optional (may), making this a cost-effect pair."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope 'AllOpponentCharacters' is correct, but cost filter 'maxCost:1' should be 'maxCost:1' to include cost 0 and 1. Verify if 'cost of 1 or less' means ≤1 (currently correct) or needs clarification."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "AllOpponentCharacters",
+                "maxCost": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:02:48.685Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP02-002",
+  "name": "Monkey.D.Garp",
+  "set": "OP-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttachedDon' (when DON!! is given to your Leader or Character), not 'Activated'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Duration should be 'DuringYourTurn' (text says 'during this turn'), not 'EndOfTurn'"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].amount",
+      "description": "PowerBoost amount of -1000 is unconventional; standard cost reduction is typically -1 (or -100 if using cost units). Verify card intent; likely should be -1 or -100"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Your Turn] When this Leader or any of your Characters is given a DON!! card, give up to 1 of your opponent's Characters with a cost of 7 or less −1 cost during this turn.",
+    "effects": [
+      {
+        "trigger": "OnAttachedDon",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": -1,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 7,
+              "maxSelect": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:21:30.151Z"
+}

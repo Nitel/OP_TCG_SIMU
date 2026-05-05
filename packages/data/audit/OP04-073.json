@@ -1,0 +1,62 @@
+{
+  "id": "OP04-073",
+  "name": "Mr.13 &amp; Ms.Friday",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost specification, not a separate Trigger effect. The activation cost (trash this Character + 1 Baroque Works Character) must be encoded in the first effect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. This is trashing Characters on board, not from hand. Should be 'KO' or similar board-based removal. Also, the cost requires trashing THIS card (self) PLUS another Baroque Works character—this is a dual cost structure."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Activation cost structure is malformed. The effect must express: [COST: trash self + trash 1 Baroque Works Character on board] → [ACTION: add 1 DON from deck and set active]. Current DSL does not properly model the dual-target cost."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with 'Trigger' and 'PlaySelf' is incorrect and unnecessary. The card is trashed as part of the cost, not played. This effect should be removed entirely."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "'GiveDon' is incorrect action type. Should be 'AttachDon' to set a DON card as active (attached to leader or field state). Also, the action should search/retrieve from DON deck, not give."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "trashSelf": true,
+        "trashTarget": {
+          "filter": {
+            "subType": "Baroque Works"
+          },
+          "count": 1
+        }
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "name": "DON!!"
+          },
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "AttachDon"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:42:48.261Z"
+}

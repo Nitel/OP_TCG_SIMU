@@ -1,0 +1,68 @@
+{
+  "id": "OP06-080",
+  "name": "Gecko Moria",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnAttack' not 'Activated'. Card text states '[When Attacking]' which is an attack trigger, not an activated ability."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing mandatory milling action. Effect requires trashing 2 cards from top of deck before playing a character. Current DSL only searches deck without milling."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].filter",
+      "description": "SearchDeck filter incomplete. Missing type filter for '{Thriller Bark Pirates}' characters. Filter should include 'type' or 'characterType' constraint."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].destination",
+      "description": "Destination should be 'trash' not 'board'. Card plays from trash, not directly to board. Should use 'PlayFromTrash' action type or equivalent."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition logic incomplete. The ➁ notation with DON cost means you must pay/rest 1 DON to activate. Current condition only checks presence, not payment/rest action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ForceDiscard",
+              "count": 2,
+              "source": "deck",
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "filter": {
+                    "type": "Thriller Bark Pirates",
+                    "kind": "ByCost",
+                    "maxCost": 4
+                  },
+                  "source": "trash",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:59:21.246Z"
+}

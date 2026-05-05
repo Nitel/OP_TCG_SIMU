@@ -1,0 +1,56 @@
+{
+  "id": "ST13-019_r1",
+  "name": "The Three Brothers' Bond",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger type 'Trigger' is invalid. This is a [Main] card ability, should use 'Activated' trigger"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing required filter conditions: must specify character names ([Sabo], [Portgas.D.Ace], [Monkey.D.Luffy]) and cost constraint (≤5). Current filter is empty 'Any'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck missing 'limit' parameter: should be limited to 1 card maximum ('up to 1')"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing action for deck ordering mechanic: 'place the rest at the bottom of your deck in any order' requires additional action or parameter not captured in current DSL"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing initial setup: 'Look at 5 cards from the top of your deck' is not represented; SearchDeck should reference scoped pool of top 5 cards"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "HasAnyName",
+            "names": [
+              "Sabo",
+              "Portgas.D.Ace",
+              "Monkey.D.Luffy"
+            ],
+            "maxCost": 5
+          },
+          "limit": 1,
+          "searchScope": "top5",
+          "destination": "hand"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:52:38.455Z"
+}

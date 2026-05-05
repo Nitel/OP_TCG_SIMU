@@ -1,0 +1,68 @@
+{
+  "id": "OP13-080",
+  "name": "St. Ethanbaron V. Nusjuro",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing TrashCount check. Text states 'If you have 7 or more cards in your trash' but DSL uses Always. Should be TrashCount:>=7"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "First effect should also include protection from opponent's effects removal. Text says 'cannot be removed from the field by your opponent's effects' but DSL only grants Rush. Missing KO prevention or similar protection action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].condition",
+      "description": "Condition missing TrashCount check. Text states 'If you have 10 or more cards in your trash' but DSL uses Always. Should be TrashCount:>=10"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[1].actions[0].target",
+      "description": "Target should specify 'up to 1' but ChooseOpponentCharacter typically allows free selection. Consider if max:1 constraint needed"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "value": 7,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "TrashCount",
+        "value": 10,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:04:22.956Z"
+}

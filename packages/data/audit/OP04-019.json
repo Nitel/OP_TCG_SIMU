@@ -1,0 +1,32 @@
+{
+  "id": "OP04-019",
+  "name": "Donquixote Doflamingo",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has effect text but effects array is empty. Should contain trigger, condition, and action for setting up DON!! cards."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "EndOfTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "count": 2,
+            "target": "YourDONCards"
+          }
+        ],
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:36:31.618Z"
+}

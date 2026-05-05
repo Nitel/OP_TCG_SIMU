@@ -1,0 +1,62 @@
+{
+  "id": "PRB02-007",
+  "name": "Jinbe",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "OnPlay effect is severely incomplete. Should include: (1) look at 5 cards from top of deck, (2) reveal up to 1 {The Seven Warlords of the Sea} type card other than [Jinbe], (3) add it to hand, (4) place rest at bottom of deck in any order. Current SearchDeck action lacks the 5-card limit, type filter ({The Seven Warlords of the Sea}), name exclusion ([Jinbe]), and the 'place rest at bottom' mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0]",
+      "description": "OnAttack action uses Rest, but card text says 'place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck' — this is a deck manipulation action, not a Rest action. Should be a custom action or sequence that moves a character to bottom of deck."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].target",
+      "description": "Target scope is ChooseOpponentCharacter, but effect should target 'up to 1 Character' (could be player's own or opponent's). Scope is ambiguous and likely wrong."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "PRB02-007",
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {The Seven Warlords of the Sea} type card other than [Jinbe] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[When Attacking] Place up to 1 Character with a cost of 1 or less at the bottom of the owner's deck.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "NamedType",
+              "value": "The Seven Warlords of the Sea",
+              "excludeNames": [
+                "Jinbe"
+              ]
+            },
+            "limit": 1,
+            "destination": "hand",
+            "deckCount": 5,
+            "restToBottom": true
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseCharacter",
+              "maxCost": 1
+            },
+            "destination": "deckBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:50:46.087Z"
+}

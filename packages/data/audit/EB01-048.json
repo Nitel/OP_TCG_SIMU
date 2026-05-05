@@ -1,0 +1,43 @@
+{
+  "id": "EB01-048",
+  "name": "Laboon",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Action type is wrong. The effect reduces cost by 4, not power by 4000. Should use a cost reduction action, not PowerBoost.",
+      "field": "effects[0].actions[1].type"
+    },
+    {
+      "severity": "critical",
+      "description": "The amount is -4000 (power) but should be -4 (cost). The official text says '−4 cost', not '−4000 power'.",
+      "field": "effects[0].actions[1].amount"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "Self"
+            }
+          },
+          {
+            "type": "CostReduction",
+            "amount": -4,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            },
+            "duration": "EndOfTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:00:14.875Z"
+}

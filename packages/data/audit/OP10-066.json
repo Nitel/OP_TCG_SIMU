@@ -1,0 +1,50 @@
+{
+  "id": "OP10-066",
+  "name": "Giolla",
+  "set": "OP-10",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "triggers",
+      "description": "Trigger should be 'OnAttack' (opponent attacking), not 'OnAttacked' (being attacked). 'On Your Opponent's Attack' means when opponent initiates attack."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Missing cost requirement: must rest 2 of your own DON!! cards as payment. Condition should check 'HasAttachedDon' >= 2 or equivalent resource check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'OncePerTurn' enforcement in the effect. DSL should include turn-limiting mechanism."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target scope incomplete: 'ChooseOpponentCharacter' with 'maxCost:4' is correct but missing 'maxSelect':1 to enforce 'up to 1' limitation."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "minDon": 2
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4,
+          "maxSelect": 1
+        },
+        "cost": {
+          "restOwnDon": 2
+        },
+        "oncePerTurn": true
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:35:54.341Z"
+}

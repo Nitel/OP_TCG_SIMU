@@ -1,0 +1,38 @@
+{
+  "id": "OP04-044_r1",
+  "name": "Kaido",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'Return...to the owner's hand' — should target own Characters, not opponent's. Scope should be 'ChooseOwnCharacter'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target.scope",
+      "description": "Target scope is 'ChooseOpponentCharacter' but effect text says 'Return...to the owner's hand' — should target own Characters, not opponent's. Scope should be 'ChooseOwnCharacter'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 8
+        }
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 3
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:34:32.388Z"
+}

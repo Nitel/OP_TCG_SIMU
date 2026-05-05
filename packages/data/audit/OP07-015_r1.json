@@ -1,0 +1,44 @@
+{
+  "id": "OP07-015_r1",
+  "name": "Monkey.D.Dragon",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'AttachDon' is incorrect. The effect gives rested DON!! cards (already rested), not attaches new Don. Should use 'GiveDon' with a rested/duration qualifier, or clarify the mechanic. Current DSL implies attaching fresh Don, but text specifies 'rested DON!!' cards being given from hand/pool."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].count",
+      "description": "Count should reflect 'up to 2', but the action lacks conditional/optional semantics. DSL should support optional count (e.g., 'upTo':true or similar) or this needs restructuring."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target 'ChooseOwnCharacterOrLeader' is too broad. Text specifies 'your Leader OR 1 of your Characters' (singular character, not multiple). Target should clarify: single character selection or leader only."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP07-015_r1",
+    "effectText": "[On Play] Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 2,
+            "optional": true,
+            "target": {
+              "scope": "ChooseOwnLeaderOrSingleCharacter"
+            },
+            "restriction": "RestingDonOnly"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:08.072Z"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "OP13-100",
+  "name": "Jewelry Bonney",
+  "set": "OP-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnPlay' (activates when you play a Character with [Trigger]), not 'Activated'. 'Activated' is for manually activatable abilities."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. Text contains '[Your Turn]' which requires duration:'DuringYourTurn' (not Permanent or EndOfTurn)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Should include 'HasCardOnBoard' or similar to verify a Character with [Trigger] was just played. Current 'Always' is too broad."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Action says 'Give up to 2 rested DON!!' but DSL shows AttachDon with count:2. Should clarify that only rested DON cards can be selected, or this may be a targeting/condition limitation."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP13-100",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "Always"
+        },
+        "duration": "DuringYourTurn",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:05:59.243Z"
+}

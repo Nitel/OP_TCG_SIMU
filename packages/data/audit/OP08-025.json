@@ -1,0 +1,31 @@
+{
+  "id": "OP08-025",
+  "name": "Shishilian",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has On Play trigger with significant board lock effect that must be encoded. Should prevent up to 1 opponent's rested Character (cost ≤3) from becoming active during opponent's next Refresh Phase."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Up to 1 of your opponent's rested Characters with a cost of 3 or less will not become active in your opponent's next Refresh Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "Rest",
+            "target": "OpponentCharacterRestingCostLE3",
+            "amount": 1,
+            "duration": "DuringOpponentNextRefreshPhase"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:26:04.802Z"
+}

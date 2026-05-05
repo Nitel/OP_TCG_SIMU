@@ -1,0 +1,45 @@
+{
+  "id": "OP01-008",
+  "name": "Cavendish",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "FlipLife is incorrect for this effect. The card text says 'add 1 card from your Life area to your hand', which is DrawCard (or TakeLifeToHand in legacy). FlipLife is a damage mechanic. Should be DrawCard with source 'Life'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing 'optional' flag. Text says 'You may add', indicating this is optional, not mandatory."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].duration",
+      "description": "Duration should be 'DuringYourTurn' not 'EndOfTurn'. Card text explicitly states '[Rush] during this turn', which requires DuringYourTurn duration per specification rules."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "source": "Life",
+          "optional": true
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:18:23.223Z"
+}

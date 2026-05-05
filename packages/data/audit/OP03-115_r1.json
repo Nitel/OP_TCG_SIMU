@@ -1,0 +1,40 @@
+{
+  "id": "OP03-115_r1",
+  "name": "Streusen",
+  "set": "ST-20",
+  "verdict": "minor",
+  "issues": [
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "Action sequence structure: 'You may trash 1 card' should be optional (conditional), but the DSL uses thenActions which implies mandatory execution after trash. Should use 'optional':true or restructure to make the trash conditional rather than a prerequisite for the K.O. The card text reads as 'may trash → if you do, may K.O.' (two separate may statements)."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "optional": true,
+            "filter": {
+              "subType": "Trigger"
+            },
+            "thenActions": [
+              {
+                "type": "KO",
+                "optional": true,
+                "target": {
+                  "scope": "ChooseOpponentCharacter",
+                  "maxCost": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:15:20.531Z"
+}

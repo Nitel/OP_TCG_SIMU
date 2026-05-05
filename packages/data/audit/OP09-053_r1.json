@@ -1,0 +1,62 @@
+{
+  "id": "OP09-053_r1",
+  "name": "Mohji",
+  "set": "ST-25",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. The card text requires looking at 5 cards from top of deck, revealing up to 1 [Richie], and placing the rest at the bottom in any order. Current DSL only searches for Richie without the 'look at 5' and 'place rest at bottom' mechanics. SearchDeck requires 'quantity' parameter (5) and doesn't support the 'place at bottom' instruction."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action has malformed filter. Filter uses both 'cardType' and 'cardTypes' (redundant), and 'subType' field is non-standard. Should use 'kind':'ByName' with 'name':'Richie' to match the effect requirement of playing 'up to 1 [Richie]'. The quantity limit (up to 1) is also not specified."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "DSL structure cannot express the full effect. The card text requires a multi-step process: (1) Look at 5 cards, (2) Reveal up to 1 Richie and add to hand, (3) Place remaining 4 cards at bottom in any order, (4) Play up to 1 Richie from hand. Current DSL lacks support for deck ordering and the 'look at' mechanic with partial selection."
+    }
+  ],
+  "suggestedDsl": {
+    "note": "Current DSL framework cannot fully represent this effect due to missing 'LookAt' and 'OrderDeckCards' action types. Suggested structure if framework is extended:",
+    "structure": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "LookAtDeck",
+            "quantity": 5
+          },
+          {
+            "type": "SearchDeck",
+            "filter": {
+              "kind": "ByName",
+              "name": "Richie"
+            },
+            "destination": "hand",
+            "quantity": 1,
+            "optional": true
+          },
+          {
+            "type": "OrderDeckCards",
+            "position": "bottom",
+            "quantity": 4
+          },
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "kind": "ByName",
+              "name": "Richie"
+            },
+            "quantity": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:20:07.990Z"
+}

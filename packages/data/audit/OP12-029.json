@@ -1,0 +1,38 @@
+{
+  "id": "OP12-029",
+  "name": "Shimotsuki Kouzaburou",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "KO action targets rested Characters only, but target scope does not filter for rested state. Should add 'hasResting':true condition or use 'ChooseOpponentRestingCharacter' scope."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 2
+            }
+          },
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1,
+              "hasResting": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:51:28.901Z"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "OP06-089",
+  "name": "Taralan",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'Trash 3 cards from the top of your deck'. Should be 'ForceDiscard' with source 'Deck' or equivalent deck-milling action, not hand discard."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'TrashFromHand' but card text says 'Trash 3 cards from the top of your deck'. Should be 'ForceDiscard' with source 'Deck' or equivalent deck-milling action, not hand discard."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 3,
+          "filter": {
+            "source": "Deck"
+          },
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 3,
+          "filter": {
+            "source": "Deck"
+          },
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:59:59.766Z"
+}

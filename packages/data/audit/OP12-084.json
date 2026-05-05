@@ -1,0 +1,39 @@
+{
+  "id": "OP12-084",
+  "name": "Emporio.Ivankov",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition.type",
+      "description": "Condition should be 'LeaderHasType' not 'HasCardOnBoard'. The effect checks if your Leader has {Revolutionary Army} type, not if a card is on board."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action should be 'ForceDiscard' not 'TrashFromHand'. The effect trashes from deck (top), not from hand. Use ForceDiscard with source 'Deck' and position 'Top'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing source specification. Should specify trashing from 'Deck' not 'Hand'."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 3,
+        "source": "Deck",
+        "position": "Top"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:55:43.230Z"
+}

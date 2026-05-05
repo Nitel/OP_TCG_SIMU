@@ -1,0 +1,62 @@
+{
+  "id": "OP12-028",
+  "name": "Kouzuki Hiyori",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete. Missing 'count' (5 cards), 'filter' details (should specify <Slash> attribute OR green Event), and 'remaining' action (place rest at bottom of deck in any order). Current filter is generic 'Any'."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition type should be 'LeaderIsName' with value 'Roronoa Zoro', not 'HasCardOnBoard'. Leader condition does not require board presence check."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing cost modeling: action requires resting 1 DON!! card AND this Character as payment. Current DSL has no cost/payment structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Roronoa Zoro"
+      },
+      "cost": {
+        "restCharacters": 1,
+        "restDon": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "filter": {
+            "kind": "Or",
+            "conditions": [
+              {
+                "attribute": "Slash"
+              },
+              {
+                "type": "Event",
+                "color": "green"
+              }
+            ]
+          },
+          "revealCount": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "PlaceDecksBottom",
+          "source": "SearchedCards",
+          "orderBy": "any"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:51:29.997Z"
+}

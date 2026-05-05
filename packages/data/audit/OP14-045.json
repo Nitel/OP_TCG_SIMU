@@ -1,0 +1,53 @@
+{
+  "id": "OP14-045",
+  "name": "Kuroobi",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be a conditional effect responding to 'When a card is trashed from your hand by an effect', not OnPlay. Current trigger OnPlay is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to detect when a card is trashed from hand. Requires a Trigger or OnTrash-like condition to capture the trashing event."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringYourTurn' (card gains Rush 'during this turn'), not 'EndOfTurn'. The text 'during this turn' indicates the keyword lasts only for the current turn phase."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "TrashFromHand"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:39.048Z"
+}

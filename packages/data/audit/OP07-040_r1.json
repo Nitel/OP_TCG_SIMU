@@ -1,0 +1,48 @@
+{
+  "id": "OP07-040_r1",
+  "name": "Crocodile",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Rest action targets own DON!! cards, not own Characters. Should use scope 'ChooseOwnDon' or similar, not 'ChooseOwnCharacter'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target",
+      "description": "ReturnToHand targets own Characters with cost 2 or less, not opponent Characters. Should be 'ChooseOwnCharacter' with maxCost constraint, not 'ChooseOpponentCharacter'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Effect is conditional on 'You may rest 1 of your DON!! cards' - this is an optional cost, not a mandatory action. Structure should reflect optional activation and conditional execution"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "condition": "HasAttachedDon",
+        "conditionAmount": 1,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 2,
+          "maxAmount": 1
+        },
+        "cost": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnDon",
+              "amount": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:44:38.337Z"
+}

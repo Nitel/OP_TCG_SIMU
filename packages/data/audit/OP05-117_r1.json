@@ -1,0 +1,57 @@
+{
+  "id": "OP05-117_r1",
+  "name": "Upper Yard",
+  "set": "PRB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is incomplete and incorrect. The effect requires: (1) looking at 5 cards from top of deck, (2) revealing up to 1 Sky Island type card, (3) adding it to hand, (4) placing rest at bottom in any order. Current DSL only has a generic SearchDeck with no filter specification, no quantity limit, and no handling of remaining cards."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter must specify {Sky Island} type requirement. Current filter is 'Any' which allows any card to be searched."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing action to handle placement of non-selected cards at bottom of deck. The effect requires returning 4 cards (or fewer if fewer than 5 in deck) to bottom of deck in any order."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck should be limited to up to 1 card. Current DSL has no quantity constraint specified."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP05-117_r1",
+    "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Sky Island} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "source": "deck",
+            "filter": {
+              "kind": "Type",
+              "value": "Sky Island"
+            },
+            "quantity": 1,
+            "destination": "hand",
+            "deckDepth": 5
+          },
+          {
+            "type": "ArrangeBottom",
+            "source": "deck",
+            "quantity": "remaining",
+            "deckDepth": 5
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:36:32.022Z"
+}

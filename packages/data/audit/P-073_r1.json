@@ -1,0 +1,43 @@
+{
+  "id": "P-073_r1",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition for 'You may add 1 card from the top or bottom of your Life cards to your hand'. The DSL should include a FlipLife action with target scope 'Life' before the PowerBoost, or as an alternative action. Current DSL only captures the power boost."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfTurn' is correct for '[Your Turn]' context (card gains power during this turn), but the missing FlipLife action should precede this."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "amount": 1,
+        "target": {
+          "scope": "Life"
+        }
+      },
+      {
+        "type": "DrawCard",
+        "amount": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:49:19.704Z"
+}

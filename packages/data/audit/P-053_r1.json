@@ -1,0 +1,37 @@
+{
+  "id": "P-053_r1",
+  "name": "Nami",
+  "set": "PRB-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Missing hand size condition. Effect requires 'If you have 3 or less cards in your hand' but DSL has 'Always'. Should be a TurnCount or custom hand size condition."
+    },
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope incomplete. Should specify both 'opponent' AND 'Character' type AND cost limit (≤3). Current 'ChooseOpponentCharacter' with maxCost=3 is incomplete without explicit type restriction."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HandCount",
+      "value": 3,
+      "operator": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        }
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:38:48.947Z"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "OP15-104",
+  "name": "Conis",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have less Life cards than your opponent' requires a life comparison condition (e.g., PlayerLifeLessThanOpponent or similar), not 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' is unexplained and not in original card text. Card text only describes one On Play effect. This should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[1].count",
+      "description": "Second effect trashes 1 card, but card text requires trashing 2 cards"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "PlayerLifeLessThanOpponent"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:30:01.866Z"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "OP01-117",
+  "name": "Sheep's Horn",
+  "set": "OP-01",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "actions[0].target",
+      "description": "Target scope missing 'maxCount' constraint. Action should rest 'up to 1' character, but target only specifies maxCost without limiting quantity to 1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:21:15.476Z"
+}

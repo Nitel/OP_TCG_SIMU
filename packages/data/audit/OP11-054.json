@@ -1,0 +1,41 @@
+{
+  "id": "OP11-054",
+  "name": "Nami",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader is multicolored: LeaderHasAnyType or similar multicolor check, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing second action: placing 2 cards from hand at top/bottom of deck. Current DSL only includes DrawCard(3), omits the deck placement effect"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "multicolor"
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "destination": "TopOrBottomOfDeck"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:44:19.379Z"
+}

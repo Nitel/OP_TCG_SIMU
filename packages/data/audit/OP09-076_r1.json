@@ -1,0 +1,38 @@
+{
+  "id": "OP09-076_r1",
+  "name": "Roronoa Zoro",
+  "set": "ST-26",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional logic. Effect requires a cost (return 1+ DON!! from field to deck) before the action executes. DSL should use a Condition to gate the action, or represent this as a cost-action pair. Current DSL unconditionally gives DON!!"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'GiveDon' is incomplete. The effect should search/add a DON!! from deck and set it active, not just give DON!!. Current action does not capture the 'add from deck' or 'set as active' mechanics"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "No representation of the optional ('You may') nature or the variable cost (1 or more DON!!). The DSL should indicate optionality and the cost structure"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "source": "DONDeck",
+        "target": "Self",
+        "count": 1,
+        "cardType": "DON",
+        "optional": true,
+        "note": "Cost: return 1+ DON!! from field to DON!! deck; Add up to 1 DON!! and set as active"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:21:20.303Z"
+}

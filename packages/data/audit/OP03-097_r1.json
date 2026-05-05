@@ -1,0 +1,48 @@
+{
+  "id": "OP03-097_r1",
+  "name": "Six King Pistol",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect object (Trigger with DrawCard and KO) does not match card text. Card only describes a Counter effect with conditional trash and power boost. No draw or KO mechanics are present in official text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should have maxCount:1 to enforce 'up to 1 card' constraint and be optional (optional:true)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target scope should be 'ChooseOwnCharacterOrLeader' with maxTargets:1 to enforce 'Up to 1' limitation"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "maxCount": 1,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "maxTargets": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:41:43.547Z"
+}

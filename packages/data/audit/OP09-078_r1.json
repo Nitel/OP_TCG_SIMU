@@ -1,0 +1,50 @@
+{
+  "id": "OP09-078_r1",
+  "name": "Gum-Gum Giant",
+  "set": "PRB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition should check if Leader has {Straw Hat Crew} type, not if a card with that name is on board. Should be LeaderHasType:Straw Hat Crew"
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand is optional ('You may trash'), but DSL structure doesn't explicitly model optionality. Effect proceeds correctly via thenActions, but conditional execution of the entire effect chain on optional action could be clearer."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Straw Hat Crew"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "kind": "Any"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          },
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:47:13.994Z"
+}

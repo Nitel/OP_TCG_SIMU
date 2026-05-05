@@ -1,0 +1,38 @@
+{
+  "id": "EB03-037",
+  "name": "Lim",
+  "set": "EB-03",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty but card has a significant On Play trigger with conditional power boost. Missing entire effect definition."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 7,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "value": 1000,
+          "targets": [
+            "YourLeaderCards",
+            "YourCharacterCards"
+          ],
+          "cardTypeFilter": "ODYSSEY",
+          "duration": "DuringOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:15.458Z"
+}

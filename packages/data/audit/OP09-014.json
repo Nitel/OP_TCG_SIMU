@@ -1,0 +1,45 @@
+{
+  "id": "OP09-014",
+  "name": "Limejuice",
+  "set": "OP-09",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has significant On Play effect that prevents opponent from activating Blocker characters with ≤4000 power this turn, but no DSL effects defined."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "duration": "DuringOpponentTurn",
+        "conditions": [
+          {
+            "type": "HasCardOnBoard",
+            "value": {
+              "cardType": "Character",
+              "hasKeyword": "Blocker",
+              "maxPower": 4000
+            }
+          }
+        ],
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotActivate",
+            "target": "OpponentCharacter",
+            "value": {
+              "maxCount": 1,
+              "cardType": "Character",
+              "hasKeyword": "Blocker",
+              "maxPower": 4000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:34:21.629Z"
+}

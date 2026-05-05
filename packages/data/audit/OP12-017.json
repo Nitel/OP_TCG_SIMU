@@ -1,0 +1,67 @@
+{
+  "id": "OP12-017",
+  "name": "Color of Observation Haki",
+  "set": "OP-12",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing condition to check for active DON!! card. Effect requires 'You may give 1 active DON!! card' which should be a HasAttachedDon condition with value ≥1"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should restrict to: (red Event) OR (Character with cost ≥3). Filter must specify 'color:Red,type:Event' OR 'type:Character,cost:≥3'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Missing action to reveal the selected card. DSL should include a RevealFromHand or similar action before adding to hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing SearchDeck scope parameter. Effect looks at top 4 cards and places rest at bottom; this requires 'lookAtTop':4 and 'placeRest':'BottomOfDeck' parameters"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Missing action to handle card placement. After selecting up to 1 card, remaining 3 cards must be placed at bottom in any order—requires explicit action or placement rule"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "comparison": "≥",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookAtTop": 4,
+        "filter": {
+          "kind": "Or",
+          "conditions": [
+            {
+              "color": "Red",
+              "type": "Event"
+            },
+            {
+              "type": "Character",
+              "cost": "≥3"
+            }
+          ]
+        },
+        "selectMax": 1,
+        "destination": "hand",
+        "reveal": true,
+        "placeRest": "BottomOfDeck"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:50:31.589Z"
+}

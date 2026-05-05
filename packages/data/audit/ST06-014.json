@@ -1,0 +1,46 @@
+{
+  "id": "ST06-014",
+  "name": "Shockwave",
+  "set": "ST-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' not 'EndOfBattle' for battle-specific power boost"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous second effect with trigger 'Trigger' and KO action with maxCost:4 has no basis in card text; only one Counter effect should exist"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].target.maxCost",
+      "description": "maxCost should be 3, not unspecified; card text specifies 'cost of 3 or less'"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:00:55.085Z"
+}

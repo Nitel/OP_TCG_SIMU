@@ -1,0 +1,71 @@
+{
+  "id": "OP04-061",
+  "name": "Tom",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with cost/activation type specified. Current trigger is correct but activation context missing."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].conditions",
+      "description": "Missing required condition: LeaderHasType with type 'Water Seven'. The effect only resolves 'If your Leader has the {Water Seven} type'."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash this Character' (trash from board/play area), not from hand. Should use appropriate board trash action or clarify self-trash mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter.excludeSelf",
+      "description": "excludeSelf:true contradicts 'trash this Character' - the effect should trash the card itself. This should be true for self-targeting."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "Action 'GiveDon' is incomplete. Text requires: add DON from DON deck AND rest it. Missing 'Rest' action in sequence."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Missing 'rest it' action. After adding DON card, must apply Rest action to that DON card."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "types": [
+            "Water Seven"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "isTarget": true
+          },
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1,
+              "source": "DonDeck"
+            },
+            {
+              "type": "Rest",
+              "target": "justAddedDon"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:37:57.861Z"
+}

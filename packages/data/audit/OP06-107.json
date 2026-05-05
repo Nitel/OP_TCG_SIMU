@@ -1,0 +1,38 @@
+{
+  "id": "OP06-107",
+  "name": "Kouzuki Momonosuke",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'FlipLife' is incorrect. The card effect adds Characters to Life cards (face-up), which is 'AttachDon' or a custom Life card placement action. 'FlipLife' flips life cards face-down. The DSL should reflect adding up to 1 Land of Wano Character to Life cards, not flipping them."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing condition to filter for {Land of Wano} type Characters and exclude [Kouzuki Momonosuke]. The action needs conditions or target specification to match card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "The count and placement logic (top or bottom of Life cards) is not properly captured in current action structure."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": "YourLandOfWanoCharactersExcludingMomonosuke",
+          "placement": "TopOrBottomOfLifeCards"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:01:21.696Z"
+}

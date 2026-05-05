@@ -1,0 +1,34 @@
+{
+  "id": "OP06-059",
+  "name": "White Snake",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringTurn' (power boost lasts 'during this turn'), not 'EndOfTurn'. 'During this turn' indicates the effect ends at turn's end, but the DSL semantic for temporary in-turn effects is 'DuringTurn'."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "amount": 1
+          },
+          "duration": "DuringTurn"
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:57:37.540Z"
+}

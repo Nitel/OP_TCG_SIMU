@@ -1,0 +1,55 @@
+{
+  "id": "EB01-036",
+  "name": "Minochihuahua",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Missing the [Rush] keyword effect entirely. Rush is a keyword that should be encoded in the DSL.",
+      "field": "effects"
+    },
+    {
+      "severity": "critical",
+      "description": "OnKO effect has wrong condition type. Should check if Leader has {Impel Down} type using LeaderHasType, not just HasCardOnBoard checking for Leader.",
+      "field": "effects[0].condition.type"
+    },
+    {
+      "severity": "major",
+      "description": "GiveDon action is missing the 'rested' parameter. The text says 'add up to 1 DON!! card from your DON!! deck and rest it', meaning the DON!! should be added in rested state.",
+      "field": "effects[0].actions[0]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "Rush",
+            "target": "Self"
+          }
+        ]
+      },
+      {
+        "trigger": "OnKO",
+        "condition": {
+          "type": "LeaderHasType",
+          "trait": "Impel Down"
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 1,
+            "rested": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:35.198Z"
+}

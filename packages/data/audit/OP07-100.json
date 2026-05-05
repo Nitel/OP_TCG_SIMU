@@ -1,0 +1,45 @@
+{
+  "id": "OP07-100",
+  "name": "Edison",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: 'If you have 2 or less Life cards' requires condition type 'TrashCount' with operator 'LessThanOrEqual' and value 2, not 'Always'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "TrashFromHand action missing count parameter: should specify count:2 to trash exactly 2 cards"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Extraneous effect: second trigger with PlaySelf action is not supported by card text and should be removed"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TrashCount",
+        "operator": "LessThanOrEqual",
+        "value": 2
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:10:08.360Z"
+}

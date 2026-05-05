@@ -1,0 +1,32 @@
+{
+  "id": "OP14-023",
+  "name": "Kikunojo",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes an action '[End of Your Turn] Set this Character as active' but effects array is empty. Must include trigger and action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self",
+          "setActive": true
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "auditedAt": "2026-05-05T12:11:55.175Z"
+}

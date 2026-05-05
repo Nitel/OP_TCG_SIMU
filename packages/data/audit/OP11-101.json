@@ -1,0 +1,38 @@
+{
+  "id": "OP11-101",
+  "name": "Capone\"Gang\"Bege",
+  "set": "OP-11",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty. Card has a triggered ability that should be represented: 'Once Per Turn' trigger when a Supernovas Character (other than Capone) would be removed by opponent's effect, allowing player to add it to top of Life cards face-down instead."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnAttacked",
+        "conditions": [
+          {
+            "type": "LeaderHasAnyType",
+            "value": [
+              "Supernovas"
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "target": "Self"
+          }
+        ],
+        "duration": "Permanent",
+        "optional": true,
+        "oncePer": "Turn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:47:55.263Z"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "EB03-035",
+  "name": "Charlotte Pudding",
+  "set": "EB-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition missing: must check 'HasAttachedDon' to compare DON!! cards on field vs opponent's field. Current condition is 'Always', ignoring the 'if' clause entirely."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Action incomplete: 'GiveDon' alone does not capture the 'rest it' requirement. Missing 'Rest' action or should be 'AttachDon' with rest modifier."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "targetDon": "opponent"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DonDeck"
+        },
+        {
+          "type": "Rest"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:17:12.820Z"
+}

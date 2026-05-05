@@ -1,0 +1,70 @@
+{
+  "id": "ST13-007_r1",
+  "name": "Sabo",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "DSL is missing the core conditional logic: 'If that card is a [Sabo] with a cost of 5' condition and the subsequent 'play that card' action are not represented"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[1]",
+      "description": "FlipLife is used but should be followed by conditional checks for card type ([Sabo]) and cost (5), then PlayFromHand action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing PowerBoost action for 'up to 1 of your Leader gains +2000 power' with duration constraint 'until the end of your opponent's next turn'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should be TrashSelf or the effect should clarify trashing the Character itself (this card), not a hand card. Activation is on board, not from hand"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].thenActions",
+      "description": "FlipLife needs conditional thenActions that check for [Sabo] type and cost 5, then execute PlayFromHand and PowerBoost with proper duration"
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "ST13-007_r1",
+    "effectText": "[Activate: Main] You may trash this Character: Reveal 1 card from the top of your Life cards. If that card is a [Sabo] with a cost of 5, you may play that card. If you do, up to 1 of your Leader gains +2000 power until the end of your opponent's next turn.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "FlipLife",
+            "count": 1,
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "filter": {
+                  "hasType": [
+                    "Sabo"
+                  ],
+                  "cost": 5
+                },
+                "thenActions": [
+                  {
+                    "type": "PowerBoost",
+                    "target": "Leader",
+                    "count": 1,
+                    "power": 2000,
+                    "duration": "DuringOpponentTurn"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:52:23.104Z"
+}

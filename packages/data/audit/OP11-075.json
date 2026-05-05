@@ -1,0 +1,36 @@
+{
+  "id": "OP11-075",
+  "name": "Jaguar.D.Saul",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition is 'Always' but effect text requires TWO conditions: (1) Leader is Nico Robin AND (2) 7+ DON on field. Must use compound condition with LeaderIsName and HasAttachedDon."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderIsName",
+          "value": "Nico Robin",
+          "compound": {
+            "type": "HasAttachedDon",
+            "value": 7,
+            "operator": "GreaterThanOrEqual"
+          }
+        },
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:45:56.979Z"
+}

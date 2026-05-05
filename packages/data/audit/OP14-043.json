@@ -1,0 +1,42 @@
+{
+  "id": "OP14-043",
+  "name": "Aladine",
+  "set": "OP14-EB04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions",
+      "description": "Two separate PlayFromHand actions violate the 'up to 1' constraint. Should be a single PlayFromHand action with filter allowing either Fish-Man OR Merfolk type, not two independent actions that would allow playing 2 cards total."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3,
+            "subType": [
+              "Fish-Man",
+              "Merfolk"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:13:29.617Z"
+}

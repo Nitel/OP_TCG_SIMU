@@ -1,0 +1,49 @@
+{
+  "id": "OP13-066",
+  "name": "Silvers Rayleigh",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition should be 'HasAttachedDon' (you have any DON!! cards given/attached), not 'HasRestingDon' (resting DON!! cards). These are distinct mechanics."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions",
+      "description": "Missing second action: 'add up to 1 DON!! card from your DON!! deck and set it as active at the end of this turn' requires AttachDon action with duration constraint."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "AttachDon action for the second part must include duration specification to set it active 'at the end of this turn' (likely duration: 'EndOfTurn' or deferred activation)."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "AttachDon",
+          "source": "DONDeck",
+          "maxCount": 1,
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:03:19.171Z"
+}

@@ -1,0 +1,70 @@
+{
+  "id": "EB01-043",
+  "name": "Spandine",
+  "set": "EB-01",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "Wrong action type: uses 'RevealFromHand' but the effect places cards from trash to bottom of deck, not revealing from hand",
+      "field": "effects[0].actions[0].type"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong source location: cards are placed from trash, not from hand",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Missing bottom-of-deck placement: the 3 CP cards should be placed at the bottom of deck in any order",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Wrong action in thenActions: uses 'PlayFromHand' but should play from trash",
+      "field": "effects[0].actions[0].thenActions[0].type"
+    },
+    {
+      "severity": "major",
+      "description": "Missing rested state: the Character card should be played rested",
+      "field": "effects[0].actions[0].thenActions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Missing excludeName filter: should exclude [Spandine] specifically, not just excludeSelf",
+      "field": "effects[0].actions[0].thenActions[0].filter"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "MoveToBottomOfDeck",
+            "count": 3,
+            "source": "Trash",
+            "filter": {
+              "subType": "CP"
+            },
+            "optional": true,
+            "thenActions": [
+              {
+                "type": "PlayFromTrash",
+                "count": 1,
+                "filter": {
+                  "subType": "CP",
+                  "cardType": "Character",
+                  "maxCost": 4,
+                  "excludeName": "Spandine"
+                },
+                "rested": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T08:59:59.915Z"
+}

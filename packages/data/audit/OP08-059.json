@@ -1,0 +1,67 @@
+{
+  "id": "OP08-059",
+  "name": "Alber",
+  "set": "OP-08",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Activated' with activation type 'Main' (cost specification missing from DSL structure)"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is incomplete. Must check: (1) Leader has {Animal Kingdom Pirates} type, (2) you have 10 DON!! on field. Current condition only says 'Always'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'TrashFromHand' is incorrect. Card text says 'trash this Character' (trash self, not from hand). Should be 'Trash' or similar self-reference action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter.excludeSelf",
+      "description": "excludeSelf:true contradicts card text. Effect should trash the card itself (not exclude self)"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions",
+      "description": "Structure uses 'thenActions' but conditions for playing must be met before/during action resolution. The DON count and Leader type must be checked before action execution, not after trash"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Activated",
+      "activationType": "Main",
+      "condition": {
+        "type": "All",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "Animal Kingdom Pirates"
+          },
+          {
+            "type": "HasAttachedDon",
+            "value": 10
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "Trash",
+          "target": "Self"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "King",
+            "maxCost": 7
+          },
+          "count": "UpTo1"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:28:45.861Z"
+}

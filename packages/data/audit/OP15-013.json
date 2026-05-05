@@ -1,0 +1,47 @@
+{
+  "id": "OP15-013",
+  "name": "Pincers",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Card has two distinct effects but effects array is empty. Effect 1: Conditional cost reduction (Leader power ≤0 → −2 cost). Effect 2: Blocker keyword with its trigger and action."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "value": "PowerLessOrEqual",
+            "comparison": 0
+          }
+        ],
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "Self",
+            "value": -2
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttacked",
+        "duration": "Permanent",
+        "actions": [
+          {
+            "type": "GiveKeyword",
+            "target": "Self",
+            "keyword": "Blocker"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:22:55.465Z"
+}

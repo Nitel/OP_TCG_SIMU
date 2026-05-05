@@ -1,0 +1,37 @@
+{
+  "id": "OP08-083",
+  "name": "Sheepshead",
+  "set": "OP-08",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text contains '[Your Turn]' which requires duration:'DuringYourTurn', not 'EndOfTurn'. This is a duration violation."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type should be 'GiveCostReduction' or similar cost-reduction mechanic, not 'PowerBoost'. PowerBoost modifies power/ATK, not cost."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[DON!! x1] [Your Turn] Give all of your opponent's Characters −1 cost.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "GiveCostReduction",
+            "amount": 1,
+            "target": {
+              "scope": "AllOpponentCharacters"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:30:35.528Z"
+}

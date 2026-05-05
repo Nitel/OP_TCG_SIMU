@@ -1,0 +1,42 @@
+{
+  "id": "ST04-014",
+  "name": "Lead Performer \"Disaster\"",
+  "set": "ST-04",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "GiveDon action is incorrect for this effect. The card text specifies 'add up to 1 DON!! card from your DON!! deck and set it as active', which requires searching the DON!! deck and attaching a DON!! card. This should use AttachDon with a search condition, not GiveDon (which adds DON!! tokens to the leader)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1]",
+      "description": "Missing search/deck interaction. The action must search the DON!! deck and select a card to attach, not simply add a generic DON!! token."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[Main] Draw 1 card, then add up to 1 DON!! card from your DON!! deck and set it as active.",
+    "effects": [
+      {
+        "trigger": "Activated",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          },
+          {
+            "type": "SearchDeck",
+            "cardType": "DON",
+            "count": 1,
+            "optional": true,
+            "then": {
+              "type": "AttachDon"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:58:31.126Z"
+}

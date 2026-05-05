@@ -1,0 +1,52 @@
+{
+  "id": "OP13-092",
+  "name": "Saint Mjosgard",
+  "set": "OP-13",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].condition",
+      "description": "Condition is 'TurnCount' but should be 'LeaderHasLife' or similar checking Life card count ≤ 3. Current condition does not match 'If you have 3 or less Life cards'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'SearchDeck' but card text specifies playing from 'trash', not deck. Should be 'PlayFromHand' or equivalent trash-sourced action"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter only checks name 'Mary Geoise' but misses type requirement ('Stage' type) and cost requirement (cost of 1). Filter must include type and cost constraints"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "Missing quantity limit: text says 'up to 1' but action does not specify maxCount or similar constraint"
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasLife",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "source": "trash",
+          "filter": {
+            "kind": "ByType",
+            "type": "Stage",
+            "name": "Mary Geoise",
+            "cost": 1
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T12:05:19.856Z"
+}

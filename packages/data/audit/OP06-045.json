@@ -1,0 +1,39 @@
+{
+  "id": "OP06-045",
+  "name": "Kuzan",
+  "set": "OP-06",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].type",
+      "description": "TrashFromHand is incorrect. Card text says 'place 2 cards from your hand at the bottom of your deck' — this is ReturnToHand or a deck-bottom placement action, not trash/discard. TrashFromHand removes cards from the game."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[1].filter",
+      "description": "Missing count constraint. Action must specify count:2 to match 'place 2 cards'."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP06-045",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          },
+          {
+            "type": "ReturnToHand",
+            "count": 2,
+            "filter": {},
+            "destination": "DeckBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:56:36.286Z"
+}

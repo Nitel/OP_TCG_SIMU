@@ -1,0 +1,65 @@
+{
+  "id": "OP06-103",
+  "name": "Kawamatsu",
+  "set": "OP-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "TrashFromHand should trash from hand (generic cards), not Characters. The effect trashes '2 cards from your hand' (any cards), then adds Characters with 0 power to Life cards. These are separate actions."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "TrashFromHand has cardType filter 'Character' but effect text says 'trash 2 cards from your hand' with no type restriction. Filter should be removed or be unrestricted."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "PlayFromHand is incorrect. The effect adds Characters to Life cards (face-up), which is not a standard action. Should use a custom action like 'AddToLifeDeck' or similar, as this is a unique mechanic not covered by PlayFromHand."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].filter.power",
+      "description": "Filter specifies Characters with power 0, but should also specify Characters you control ('your Characters')."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' is unexplained and not in the card text. Should be removed."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "The action is optional ('You may') but DSL does not express optionality. Should include 'optional:true' or similar mechanism."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[When Attacking] You may trash 2 cards from your hand: Add up to 1 of your Characters with 0 power to the top or bottom of the owner's Life cards face-up.",
+    "effects": [
+      {
+        "trigger": "OnAttack",
+        "optional": true,
+        "actions": [
+          {
+            "type": "ForceDiscard",
+            "count": 2,
+            "source": "Hand"
+          },
+          {
+            "type": "AddToLifeDeck",
+            "filter": {
+              "cardType": "Character",
+              "power": 0,
+              "controller": "You"
+            },
+            "count": 1,
+            "placement": "TopOrBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T10:01:04.899Z"
+}

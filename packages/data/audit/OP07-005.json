@@ -1,0 +1,36 @@
+{
+  "id": "OP07-005",
+  "name": "Carina",
+  "set": "OP-07",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Text states 'during this turn' which means the effect lasts for the duration of the current turn only. Should use duration:'DuringYourTurn' not 'EndOfTurn'. The distinction matters: 'during this turn' is temporary and active only while the turn progresses, not persisting until end of turn."
+    },
+    {
+      "severity": "minor",
+      "field": "effects[0].actions[0].target.quantity",
+      "description": "Text says 'up to 1' which should be represented. Target scope is correct but optional selection (up to 1) could be more explicitly defined if the DSL supports quantity constraints."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1,
+            "optional": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T10:02:45.318Z"
+}

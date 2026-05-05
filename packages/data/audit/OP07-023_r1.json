@@ -1,0 +1,33 @@
+{
+  "id": "OP07-023_r1",
+  "name": "Caribou",
+  "set": "ST-24",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Trigger' or 'StartOfTurn' (passive effect), not 'Activated'. This is a static passive ability that checks continuously, not an activated ability."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 6
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:18:51.156Z"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "OP11-056",
+  "name": "Brook",
+  "set": "OP-11",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].destination",
+      "description": "Action places card at bottom of deck, not in hand. Should be 'destination':'deck' with 'position':'bottom'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck typically implies searching and playing/drawing. Effect should use different action or clarify 'bottom of deck' placement via position parameter"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByCost",
+          "maxCost": 1,
+          "cardType": "Character"
+        },
+        "destination": "deck",
+        "position": "bottom",
+        "amount": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:44:27.431Z"
+}

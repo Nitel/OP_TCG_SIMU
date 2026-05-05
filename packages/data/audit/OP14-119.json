@@ -1,0 +1,93 @@
+{
+  "id": "OP14-119",
+  "name": "Dracule Mihawk",
+  "set": "OP14-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'OnBlock' only if the card blocks. Text says '[Your Turn] When this Character becomes rested' — this is a resting trigger, not a block trigger. Should be a custom trigger or OnRest if available; 'OnBlock' is incorrect."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type is 'Rest' but the effect prevents opponent's Characters from being rested. Should be a prevention/restriction mechanic, not Rest action. The card does not rest opponent characters; it prevents them from being rested."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].duration",
+      "description": "Missing duration field. Text specifies 'until the end of your opponent's next End Phase' — this is a conditional timed duration, not permanent or EndOfTurn. Needs explicit duration handling."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Trigger 'OnAttacked' is incorrect. Text says '[On Your Opponent's Attack]' — should be 'OnAttack' (opponent attacks you), not 'OnAttacked'. This is when opponent attacks, triggering your response."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "TrashFromHand action should be conditional (optional 'You may trash'). Current DSL does not indicate this is optional. Should use 'optional':true or 'mayActivate':true."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing '[Once Per Turn]' condition. Should include condition type 'OncePerTurn' or similar frequency restriction."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].thenActions",
+      "description": "'thenActions' is empty array but PowerBoost is listed as separate action. The power boost should be conditional on trashing — it should be in 'thenActions' of the trash action, not a separate sequential action."
+    }
+  ],
+  "suggestedDsl": {
+    "cardNumber": "OP14-119",
+    "effectText": "[Your Turn] When this Character becomes rested, up to 1 of your opponent's Characters with a cost of 9 or less cannot be rested until the end of your opponent's next End Phase.\n[On Your Opponent's Attack] [Once Per Turn] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +2000 power during this battle.",
+    "effects": [
+      {
+        "trigger": "OnRest",
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "Always"
+        },
+        "actions": [
+          {
+            "type": "PreventRest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 9,
+              "max": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "OnAttack",
+        "condition": {
+          "type": "Always",
+          "oncePerTurn": true
+        },
+        "actions": [
+          {
+            "type": "TrashFromHand",
+            "count": 1,
+            "optional": true,
+            "filter": {},
+            "thenActions": [
+              {
+                "type": "PowerBoost",
+                "amount": 2000,
+                "target": {
+                  "scope": "ChooseOwnCharacterOrLeader",
+                  "max": 1
+                },
+                "duration": "DuringThisBattle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:26:28.993Z"
+}

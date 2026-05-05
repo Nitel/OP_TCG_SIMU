@@ -1,0 +1,36 @@
+{
+  "id": "OP09-066",
+  "name": "Jean Bart",
+  "set": "OP-09",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "condition",
+      "description": "Condition missing: 'If your opponent has more DON!! cards on their field than you' requires a HasAttachedDon comparison condition, not Always"
+    },
+    {
+      "severity": "major",
+      "field": "actions[0]",
+      "description": "Action missing limit: 'up to 1' requires maxTargets:1 parameter"
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "comparison": "OpponentGreater"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3
+        },
+        "maxTargets": 1
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T11:19:05.359Z"
+}

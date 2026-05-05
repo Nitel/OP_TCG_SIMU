@@ -1,0 +1,67 @@
+{
+  "id": "EB02-049",
+  "name": "Monkey.D.Garp",
+  "set": "EB-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "description": "OnPlay effect missing requirement that DON!! cards must be rested. The DSL doesn't enforce that the DON!! cards given must be in rested state.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "major",
+      "description": "Activated effect condition checks for any card named 'Monkey.D.Garp' on board, but should specifically check if YOUR LEADER is 'Monkey.D.Garp'. Current condition would trigger if opponent has Garp character on board.",
+      "field": "effects[1].condition"
+    },
+    {
+      "severity": "minor",
+      "description": "OnPlay effect allows giving 'up to 2' DON!! cards but DSL has fixed count of 2. Should allow choosing 0, 1, or 2.",
+      "field": "effects[0].actions[0].count"
+    },
+    {
+      "severity": "minor",
+      "description": "Activated effect missing the cost requirement to rest this Character. The trigger should include restCost or the action should be conditional on resting.",
+      "field": "effects[1]"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "AttachDon",
+            "count": 2,
+            "optional": true,
+            "maxCount": 2,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "source": "RestedDon"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "condition": {
+          "type": "LeaderIsName",
+          "name": "Monkey.D.Garp"
+        },
+        "restCost": true,
+        "actions": [
+          {
+            "type": "KO",
+            "optional": true,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 1,
+              "count": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:09:43.840Z"
+}

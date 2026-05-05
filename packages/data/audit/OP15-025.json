@@ -1,0 +1,64 @@
+{
+  "id": "OP15-025",
+  "name": "Kuro",
+  "set": "OP15-EB04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "DSL is missing the second part of the effect: 'at the end of this turn, up to 1 rested Character with 3 or more DON!! cards given will not become active in your opponent's next Refresh Phase.' This is a conditional delayed effect that should be a separate effect entry with trigger 'EndOfTurn' and a condition checking DON count >= 3."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "GiveDon action missing 'toOpponentCharacter' boolean flag or equivalent targeting specification to clarify the DON cards are given to opponent's Character, not your own."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'ChooseOpponentCharacter' with count 1 (up to 1 opponent Character receives the DON cards), not 'ChooseOpponentCharacter' alone."
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP15-025",
+    "effectText": "[Blocker]\n[On Play] Give up to 2 DON!! cards from your opponent's cost area to 1 of your opponent's Characters. Then, at the end of this turn, up to 1 rested Character with 3 or more DON!! cards given will not become active in your opponent's next Refresh Phase.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 2,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "trigger": "EndOfTurn",
+        "conditions": [
+          {
+            "type": "HasAttachedDon",
+            "value": 3,
+            "comparison": ">="
+          }
+        ],
+        "actions": [
+          {
+            "type": "PreventActive",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "filter": "IsRested"
+            },
+            "duration": "DuringOpponentTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:23:55.167Z"
+}

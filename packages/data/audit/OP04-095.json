@@ -1,0 +1,63 @@
+{
+  "id": "OP04-095",
+  "name": "Barrier!!",
+  "set": "OP-04",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' not 'OnAttacked'. This is a Counter card."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "Missing conditional action: second +2000 power boost only applies 'if you have 15 or more cards in your trash'. Requires condition check."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Entire second effect is wrong. Should be second PowerBoost conditional on TrashCount >= 15, not DrawCard + TrashFromHand."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should allow Leader OR Character ('ChooseOwnLeaderOrCharacter' or equivalent), not just Character."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration 'EndOfBattle' is correct for 'during this battle', but structure needs conditional second action."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrCharacter",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "LastTargetedCard"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 15
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T09:44:03.451Z"
+}

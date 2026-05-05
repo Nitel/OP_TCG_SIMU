@@ -1,0 +1,50 @@
+{
+  "id": "EB02-015",
+  "name": "Jewelry Bonney",
+  "set": "EB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "description": "First action is completely wrong. The effect does not Rest a character - it prevents an already rested character from becoming active in the next Refresh Phase. This is a 'freeze' or 'skip untap' effect, not a Rest action.",
+      "field": "effects[0].actions[0]"
+    },
+    {
+      "severity": "critical",
+      "description": "Second action is wrong. The effect sets a DON!! card as active at end of turn, not immediately. GiveDon typically adds new DON!! cards, but this effect activates an existing rested DON!! at a delayed timing (end of turn).",
+      "field": "effects[0].actions[1]"
+    },
+    {
+      "severity": "major",
+      "description": "The target scope for the first action should specify 'rested' characters only (up to 1 rested opponent Character), not all opponent characters.",
+      "field": "effects[0].actions[0].target"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PreventRefresh",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "count": 1,
+              "filter": {
+                "isRested": true
+              }
+            },
+            "duration": "UntilNextOpponentRefreshPhase"
+          },
+          {
+            "type": "AttachDon",
+            "count": 1,
+            "timing": "EndOfTurn",
+            "toSelf": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:02:01.457Z"
+}

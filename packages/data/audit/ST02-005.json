@@ -1,0 +1,41 @@
+{
+  "id": "ST02-005",
+  "name": "Killer",
+  "set": "ST-02",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target missing required condition: opponent's Characters must be 'rested'. The DSL specifies only maxCost:3 but omits the rested state requirement from card text."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect with trigger 'Trigger' and action 'PlaySelf' has no basis in provided card text. This appears to be extraneous or from a different card."
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3,
+              "conditions": [
+                {
+                  "type": "HasRestingDon"
+                }
+              ]
+            },
+            "maxAmount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:55:28.592Z"
+}

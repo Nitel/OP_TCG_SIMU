@@ -1,0 +1,64 @@
+{
+  "id": "OP05-057",
+  "name": "Hound Blaze",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should include Leader cards: scope should be 'ChooseOwnLeaderOrCharacter', not just 'ChooseOwnCharacter'"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger is 'Trigger' (undefined). Should be 'OnPlay' as both effects are part of the same Main card activation"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].actions[0].type",
+      "description": "Action type is 'ReturnToHand' but effect says 'place at the bottom of the owner's deck' - should use a different action or custom handling. ReturnToHand puts cards in hand, not deck bottom"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target",
+      "description": "Target is 'ChooseOpponentCharacter' but effect should target 'own Character' (your Character with cost 2 or less). Should be 'ChooseOwnCharacter'"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0].target.maxCost",
+      "description": "maxCost is 3 but effect specifies 'cost of 2 or less', so maxCost should be 2"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 3000,
+            "target": {
+              "scope": "ChooseOwnLeaderOrCharacter"
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      },
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "PlayFromHand",
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "maxCost": 2
+            },
+            "destination": "DeckBottom"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:39.142Z"
+}

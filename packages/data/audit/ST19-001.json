@@ -1,0 +1,49 @@
+{
+  "id": "ST19-001",
+  "name": "Smoker",
+  "set": "ST-19",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].type",
+      "description": "Rest is incorrect for 'cannot attack' effect. Should use GiveKeyword with keyword 'CannotAttack' or similar restriction mechanic. Rest only exhausts a card."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0].target",
+      "description": "Target specifies single selection but text says 'Up to 2'. maxCost:4 is correct but count should be up to 2 characters, not 1."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].thenActions[0]",
+      "description": "Duration missing. Text states 'until the end of your opponent's next turn' which requires duration:'DuringOpponentTurn' or similar turn-locked duration, not permanent."
+    }
+  ],
+  "suggestedDsl": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "color": "Black",
+          "subType": "Navy"
+        },
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "GiveKeyword",
+            "keyword": "CannotAttack",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 4,
+              "maxCount": 2
+            },
+            "duration": "UntilEndOfOpponentNextTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:14:37.658Z"
+}

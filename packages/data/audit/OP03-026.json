@@ -1,0 +1,41 @@
+{
+  "id": "OP03-026",
+  "name": "Kuroobi",
+  "set": "OP-03",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].target",
+      "description": "Target should specify 'up to 1' limit. Current target lacks quantity constraint. Should be {\"scope\":\"ChooseOpponentCharacter\",\"quantity\":1,\"upTo\":true}"
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1]",
+      "description": "Orphaned second effect with trigger:'Trigger' and action PlaySelf is invalid. This card has no self-play clause in official text. Remove this effect entirely."
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] If your Leader has the {East Blue} type, rest up to 1 of your opponent's Characters.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "condition": {
+          "type": "LeaderHasType",
+          "subType": "East Blue"
+        },
+        "actions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "quantity": 1,
+              "upTo": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:33:24.070Z"
+}

@@ -1,0 +1,76 @@
+{
+  "id": "OP10-037",
+  "name": "Lim",
+  "set": "OP-10",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].trigger",
+      "description": "Trigger should be 'Counter' (opponent's effect removing character), not 'OnAttacked'. The card responds to opponent effects removing it, not attacks."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].type",
+      "description": "Action is 'Rest' but should include a condition to choose 1 ODYSSEY Character. Missing target filter for ODYSSEY type and quantity limit."
+    },
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Missing second effect entirely. Card has two separate abilities: (1) Counter to opponent removal + Rest ODYSSEY character, (2) End of Your Turn + Activate up to 1 ODYSSEY character. DSL only contains partial first ability."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].condition",
+      "description": "Condition 'Always' is incorrect. Should reference protection scenario (character being removed by opponent effect)."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Missing second effect: trigger 'EndOfTurn', action to set active (likely 'PowerBoost' or equivalent), targeting ODYSSEY Characters with quantity limit of 1."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasType",
+              "value": "ODYSSEY"
+            },
+            "quantity": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasType",
+              "value": "ODYSSEY"
+            },
+            "quantity": 1,
+            "active": true
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T11:33:40.627Z"
+}

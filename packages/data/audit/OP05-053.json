@@ -1,0 +1,34 @@
+{
+  "id": "OP05-053",
+  "name": "Mozambia",
+  "set": "OP-05",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect text describes a triggered ability that activates when drawing a card outside Draw Phase, but DSL effects array is empty. Missing: Trigger=OnDraw, Condition=!DrawPhase, Action=PowerBoost(+2000), Duration=DuringYourTurn"
+    },
+    {
+      "severity": "critical",
+      "field": "duration",
+      "description": "'[Your Turn]' in text requires duration:DuringYourTurn, not Permanent or EndOfTurn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "Trigger",
+        "condition": "Always",
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000
+          }
+        ],
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T09:48:18.533Z"
+}

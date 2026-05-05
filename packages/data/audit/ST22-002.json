@@ -1,0 +1,65 @@
+{
+  "id": "ST22-002",
+  "name": "Izo",
+  "set": "ST-22",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0]",
+      "description": "First effect missing complete SearchDeck filter logic. Should specify: type includes 'Whitebeard Pirates', exclude [Izo], look at top 5 cards, reveal up to 1, place rest at bottom in any order. Current filter is 'Any' with no parameters."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[1].trigger",
+      "description": "Second effect trigger is 'OnAttacked' but card text says '[On Your Opponent's Attack]'. OnAttacked means this card was attacked; opponent's attack is a broader event. Should use 'Trigger' with proper condition, or reinterpret as 'OnAttack' from opponent perspective."
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Second effect is missing: (1) optional cost to trash this Character, (2) the action to place 1 card from hand at bottom of deck. Currently only has DrawCard."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "HasType",
+            "value": "Whitebeard Pirates",
+            "excludeNames": [
+              "Izo"
+            ]
+          },
+          "count": 1,
+          "destination": "hand",
+          "deckPosition": "top",
+          "deckPositionCount": 5
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": "Always",
+      "duration": "DuringOpponentTurn",
+      "optional": true,
+      "cost": {
+        "type": "TrashSelf"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "destination": "bottom",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:16:38.491Z"
+}

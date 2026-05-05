@@ -1,0 +1,71 @@
+{
+  "id": "OP12-014",
+  "name": "Boa Hancock",
+  "set": "OP-12",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action missing critical parameters: no 'cardCount' (should be 5), no 'revealCount' (should be up to 1), no filter for card type ([Monkey.D.Luffy] or red Event), no 'orderPlacement' for bottom-of-deck placement"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1]",
+      "description": "Activated effect missing cost condition: 'You may trash this Character' is a cost that must be represented as a condition or precondition, not just an action"
+    },
+    {
+      "severity": "major",
+      "field": "effects[1].actions[0]",
+      "description": "AttachDon action incorrect: card text says 'Give up to 2 rested DON!!' (moving existing rested DON), not attaching new DON. This should use a different action type or parameters to reflect moving rested DON from source to target"
+    }
+  ],
+  "suggestedDsl": {
+    "cardId": "OP12-014",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "cardCount": 5,
+            "revealCount": 1,
+            "filter": {
+              "kind": "Or",
+              "conditions": [
+                {
+                  "kind": "Name",
+                  "value": "Monkey.D.Luffy"
+                },
+                {
+                  "kind": "Type",
+                  "value": "red Event"
+                }
+              ]
+            },
+            "destination": "hand",
+            "orderPlacement": "bottom"
+          }
+        ]
+      },
+      {
+        "trigger": "Activated",
+        "activationType": "Main",
+        "cost": {
+          "type": "TrashSelf"
+        },
+        "actions": [
+          {
+            "type": "GiveDon",
+            "count": 2,
+            "source": "rested",
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:25:52.744Z"
+}

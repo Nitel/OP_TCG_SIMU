@@ -1,0 +1,60 @@
+{
+  "id": "OP09-056_r2",
+  "name": "Mr.3(Galdino)",
+  "set": "PRB-02",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0]",
+      "description": "SearchDeck action is oversimplified. The effect requires: (1) looking at top 4 cards, (2) filtering for {Cross Guild} type OR 'Baroque Works' type (excluding Mr.3), (3) revealing up to 1 card, (4) adding to hand, (5) placing rest at bottom in any order. Current DSL lacks the 4-card limit, proper filter conditions, 'up to 1' constraint, reveal step, and reordering mechanic."
+    },
+    {
+      "severity": "critical",
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter is 'Any' but should specify: HasType({Cross Guild}) OR (HasType('Baroque Works') AND NOT IsName('Mr.3(Galdino)'))"
+    }
+  ],
+  "suggestedDsl": {
+    "effectText": "[On Play] Look at 4 cards from the top of your deck; reveal up to 1 {Cross Guild} type card or card with a type including \"Baroque Works\" other than [Mr.3(Galdino)] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "actions": [
+          {
+            "type": "SearchDeck",
+            "deckPosition": "top",
+            "cardCount": 4,
+            "filter": {
+              "kind": "Or",
+              "conditions": [
+                {
+                  "kind": "HasType",
+                  "value": "Cross Guild"
+                },
+                {
+                  "kind": "And",
+                  "conditions": [
+                    {
+                      "kind": "HasType",
+                      "value": "Baroque Works"
+                    },
+                    {
+                      "kind": "IsNotName",
+                      "value": "Mr.3(Galdino)"
+                    }
+                  ]
+                }
+              ]
+            },
+            "selectCount": "UpTo1",
+            "destination": "hand",
+            "remainderDestination": "deckBottom",
+            "allowReorder": true
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T12:46:36.465Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "ST13-017",
+  "name": "Flame Dragon King",
+  "set": "ST-13",
+  "verdict": "major",
+  "issues": [
+    {
+      "severity": "major",
+      "field": "effects",
+      "description": "DSL is missing the second action entirely. Card text requires two distinct actions: (1) PowerBoost with duration 'during this battle', and (2) a new action type to handle 'look at all your Life cards and place them back in any order'. The current DSL only implements the power boost and omits the life card reordering effect."
+    },
+    {
+      "severity": "major",
+      "field": "effects[0].actions[0].duration",
+      "description": "Duration should be 'DuringThisBattle' (or equivalent battle-scoped duration), not 'EndOfBattle'. The text 'during this battle' indicates the boost applies for the duration of the current battle, not until end of battle."
+    }
+  ],
+  "suggestedDsl": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringThisBattle"
+        },
+        {
+          "type": "ReorderLifeCards",
+          "target": {
+            "scope": "OwnLifeCards"
+          }
+        }
+      ]
+    }
+  ],
+  "auditedAt": "2026-05-05T13:08:54.935Z"
+}

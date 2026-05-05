@@ -1,0 +1,31 @@
+{
+  "id": "ST06-010",
+  "name": "Helmeppo",
+  "set": "ST-06",
+  "verdict": "critical",
+  "issues": [
+    {
+      "severity": "critical",
+      "field": "effects",
+      "description": "Effect array is empty but card has On Play effect that gives opponent's Character −3 cost during this turn"
+    }
+  ],
+  "suggestedDsl": {
+    "effects": [
+      {
+        "trigger": "OnPlay",
+        "conditions": [],
+        "actions": [
+          {
+            "type": "PowerBoost",
+            "target": "OpponentCharacter",
+            "amount": -3,
+            "duration": "DuringYourTurn",
+            "maxTargets": 1
+          }
+        ]
+      }
+    ]
+  },
+  "auditedAt": "2026-05-05T13:00:39.289Z"
+}
