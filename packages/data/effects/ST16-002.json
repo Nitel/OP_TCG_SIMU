@@ -1,22 +1,16 @@
 {
   "id": "ST16-002",
-  "name": "Gordon",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardNumber": "ST16-002",
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "OnAttack",
       "actions": [
         {
           "type": "TrashFromHand",
           "filter": {
             "subType": "Music"
           },
+          "optional": true,
           "thenActions": [
             {
               "type": "PowerBoost",
@@ -25,12 +19,11 @@
               "target": {
                 "scope": "ChooseOwnCharacterOrLeader"
               },
-              "duration": "EndOfBattle"
+              "duration": "DuringOpponentTurn"
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

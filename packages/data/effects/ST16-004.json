@@ -1,11 +1,6 @@
 {
   "id": "ST16-004",
-  "name": "Shanks",
-  "cost": 9,
-  "power": 11000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] K.O. up to 1 of your opponent's rested Characters.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,7 +8,12 @@
         {
           "type": "KO",
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "conditions": [
+              {
+                "type": "HasRestingDon"
+              }
+            ]
           }
         }
       ]

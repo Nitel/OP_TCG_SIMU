@@ -1,17 +1,13 @@
 {
   "id": "ST16-005",
-  "name": "Monkey.D.Luffy",
-  "cost": 2,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "If you have a rested [Uta], this Character gains +1000 power.",
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Trigger",
       "condition": {
         "type": "HasCardOnBoard",
-        "name": "Uta"
+        "name": "Uta",
+        "restingState": "Rested"
       },
       "actions": [
         {
@@ -24,6 +20,5 @@
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }
