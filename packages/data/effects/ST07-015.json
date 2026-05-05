@@ -1,22 +1,14 @@
 {
   "id": "ST07-015",
-  "name": "Soul Pocus",
-  "cost": 5,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] Your opponent chooses one:\n- Trash 1 card from the top of your opponent's Life cards.\n- Add 1 card from the top of your deck to the top of your Life cards.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnPlay",
       "actions": [
         {
-          "type": "RemoveLife",
-          "count": 1
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "OpponentLife"
         }
       ]
     }

@@ -1,48 +1,26 @@
 {
-  "id": "ST07-009",
-  "name": "Charlotte Mont-d'or",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": "Always",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "fromPosition": "TopOrBottom",
+        "toLocation": "Hand"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
-        }
-      ]
+      }
+    ],
+    "cost": {
+      "restSelf": true
     }
-  ],
-  "counter": 1000
+  },
+  "id": "ST07-009"
 }

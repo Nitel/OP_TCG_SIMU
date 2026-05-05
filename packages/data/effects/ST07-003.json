@@ -1,27 +1,46 @@
 {
-  "id": "ST07-003",
-  "name": "Charlotte Katakuri",
-  "cost": 4,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "target": {
+          "scope": "Deck",
+          "owner": "Either",
+          "count": 1,
+          "from": "Top",
+          "zone": "Life"
         }
-      ],
-      "condition": {
-        "type": "Always"
+      },
+      {
+        "type": "PlayFromHand",
+        "target": {
+          "scope": "Deck",
+          "owner": "Either",
+          "placement": "TopOrBottom",
+          "zone": "Life"
+        }
       }
+    ],
+    "condition": {
+      "type": "Always"
     }
-  ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ],
+    "condition": {
+      "type": "HasLessLifeThanOpponent"
+    }
+  },
+  "id": "ST07-003"
 }

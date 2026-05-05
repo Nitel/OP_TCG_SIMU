@@ -1,11 +1,6 @@
 {
   "id": "ST07-016",
-  "name": "Power Mochi",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "note": "DSL system lacks native support for 'look at and rearrange Life cards' action. Current suggestion includes PowerBoost only as it is the only standard action present.",
   "effects": [
     {
       "trigger": "Counter",
@@ -14,20 +9,13 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
           },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+          "duration": "DuringThisBattle"
         }
       ]
     }
-  ]
+  ],
+  "customNote": "Life card inspection and repositioning ('place at top or bottom') requires custom action support not in standard DSL"
 }

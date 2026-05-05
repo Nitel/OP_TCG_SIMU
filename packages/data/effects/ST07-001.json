@@ -1,11 +1,6 @@
 {
   "id": "ST07-001",
-  "name": "Charlotte Linlin",
-  "cost": 0,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Leader",
-  "keywords": [],
+  "cardNumber": "ST07-001",
   "effects": [
     {
       "trigger": "OnAttack",
@@ -16,20 +11,17 @@
       "actions": [
         {
           "type": "FlipLife",
-          "count": 1
+          "count": 1,
+          "optional": true
         },
         {
-          "type": "RevealFromHand",
+          "type": "AddLife",
           "count": 1,
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "AddLife",
-              "count": 1
-            }
-          ],
+          "optional": true,
           "condition": {
-            "type": "Always"
+            "type": "LeaderHasLife",
+            "count": 2,
+            "comparison": "<="
           }
         }
       ]
