@@ -147,6 +147,11 @@ export type EffectAction =
       readonly type: 'TrashFromDeck';
       readonly count: number;
       readonly thenActions: readonly EffectAction[];
+    }
+  /** Play a card from the source player's trash onto the board for free, filtered by HandFilter. Fires OnPlay. */
+  | {
+      readonly type: 'PlayFromTrash';
+      readonly filter: HandFilter;
     };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────

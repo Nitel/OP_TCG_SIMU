@@ -116,6 +116,18 @@ function addToP2Board(state: GameState, card: Card): GameState {
   };
 }
 
+/** Place a card in P1's trash and return the updated state. */
+function addToP1Trash(state: GameState, card: Card): GameState {
+  return {
+    ...state,
+    cards: { ...state.cards, [card.id]: { ...card, zone: 'trash' } },
+    players: {
+      ...state.players,
+      [P1]: { ...state.players[P1]!, trash: [...state.players[P1]!.trash, card.id] },
+    },
+  };
+}
+
 /** Add untapped (active) DON!! cards to P1's donArea. */
 function addFreeDon(state: GameState, dons: Card[]): GameState {
   const updatedCards: Record<string, Card> = { ...state.cards };
@@ -1553,6 +1565,64 @@ describe('TrashFromDeck', () => {
     // Card played from hand (-1) + DrawCard (+1) = net 0 change in hand size
     expect(result.players[P1]!.hand.length).toBe(handBefore - 1 + 1);
     expect(result.players[P1]!.trash.length).toBe(1);
+  });
+});
+
+describe('PlayFromTrash', () => {
+  it('#P1 — nominal : carte en trash matchant le filtre est posée sur le board', () => {
+    const base = bootstrapGame();
+    const trashChar = makeChar('trash-char', 'p1', 3000, { zone: 'trash', cost: 4, type: 'Character' });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PlayFromTrash', filter: { cardType: 'Character', maxCost: 5 } }],
+    };
+    const src = makeChar('play-from-trash-src', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Trash(base, trashChar);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[trashChar.id]?.zone).toBe('board');
+    expect(result.players[P1]!.trash).not.toContain(trashChar.id);
+    expect(result.players[P1]!.board).toContain(trashChar.id);
+  });
+
+  it('#P2 — aucun match dans la trash → state inchangé (carte reste en trash)', () => {
+    const base = bootstrapGame();
+    const trashChar = makeChar('trash-no-match', 'p1', 3000, { zone: 'trash', cost: 10, type: 'Character' });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PlayFromTrash', filter: { maxCost: 5 } }],
+    };
+    const src = makeChar('play-from-trash-src2', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Trash(base, trashChar);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[trashChar.id]?.zone).toBe('trash');
+  });
+
+  it('#P3 — filtre subType : seule la carte avec le bon subType est sélectionnée', () => {
+    const base = bootstrapGame();
+    const wrongChar = makeChar('trash-wrong-type', 'p1', 3000, { zone: 'trash', cost: 3, subTypes: 'Navy' });
+    const rightChar = makeChar('trash-right-type', 'p1', 2000, { zone: 'trash', cost: 3, subTypes: 'Straw Hat Crew' });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PlayFromTrash', filter: { subType: 'Straw Hat Crew' } }],
+    };
+    const src = makeChar('play-from-trash-src3', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Trash(base, wrongChar);
+    state = addToP1Trash(state, rightChar);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[rightChar.id]?.zone).toBe('board');
+    expect(result.cards[wrongChar.id]?.zone).toBe('trash');
   });
 });
 

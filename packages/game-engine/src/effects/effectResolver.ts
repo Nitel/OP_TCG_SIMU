@@ -590,6 +590,50 @@ function resolveAction(
       return next;
     }
 
+    // ── PlayFromTrash ─────────────────────────────────────────────────────────
+    case 'PlayFromTrash': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      const f = action.filter;
+      const match = player.trash.find((id) => {
+        const c = state.cards[id];
+        if (c === undefined) return false;
+        if (f.color !== undefined && c.color !== f.color) return false;
+        if (f.cardType !== undefined && c.type !== f.cardType) return false;
+        if (f.maxCost !== undefined && c.cost > f.maxCost) return false;
+        if (f.maxPower !== undefined && c.power > f.maxPower) return false;
+        if (f.subType !== undefined && !(c.subTypes ?? '').includes(f.subType)) return false;
+        if (f.excludeSelf === true && id === context.sourceCardId) return false;
+        return true;
+      });
+      if (match === undefined) return state;
+      const card = state.cards[match]!;
+      const updatedCards: Record<string, Card> = {
+        ...state.cards,
+        [match]: { ...card, zone: 'board' as const, tapped: false },
+      };
+      const updatedPlayer: PlayerState = {
+        ...player,
+        trash: player.trash.filter((id) => id !== match),
+        board: [...player.board, match],
+      };
+      let next: GameState = {
+        ...state,
+        cards: updatedCards as Readonly<Record<CardId, Card>>,
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+      // Fire OnPlay — same pattern as PlaySelf (effectResolver.ts:468-476)
+      if (card.effects?.length) {
+        next = resolveEffects(
+          card.effects,
+          'OnPlay',
+          { sourceCardId: match, sourcePlayerId: context.sourcePlayerId },
+          next,
+        );
+      }
+      return next;
+    }
+
     // ── RevealFromHand ────────────────────────────────────────────────────────
     // Intercepted in resolveEffects before reaching here; this case is unreachable.
     case 'RevealFromHand':
