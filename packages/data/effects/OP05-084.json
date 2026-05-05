@@ -1,28 +1,21 @@
 {
-  "id": "OP05-084",
-  "name": "Saint Charlos",
-  "cost": 3,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4,
-          "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardType": "Celestial Dragons",
+      "isOnly": true
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -4,
+        "target": {
+          "scope": "AllOpponentCharacters"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP05-084"
 }

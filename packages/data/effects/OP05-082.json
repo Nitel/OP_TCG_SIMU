@@ -1,27 +1,35 @@
 {
-  "id": "OP05-082",
-  "name": "Shirahoshi",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "ForceDiscard",
-          "count": 1
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
+      },
+      {
+        "type": "SearchDeck",
+        "count": 2,
+        "placement": "BottomOfDeck",
+        "source": "Trash"
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": {
+          "scope": "Opponent"
+        }
+      }
+    ],
+    "condition": {
+      "type": "HasCardOnBoard",
+      "target": {
+        "scope": "Opponent"
+      },
+      "count": 6,
+      "comparison": ">="
     }
-  ],
-  "counter": 2000
+  },
+  "id": "OP05-082"
 }

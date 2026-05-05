@@ -1,26 +1,27 @@
 {
-  "id": "OP05-069",
-  "name": "Trafalgar Law",
-  "cost": 3,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "comparison": "OpponentHasMore"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Heart Pirates"
+        },
+        "limit": 1,
+        "destination": "hand",
+        "reveal": true
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+      {
+        "type": "ArrangeDeck",
+        "position": "bottom",
+        "count": 4
+      }
+    ]
+  },
+  "id": "OP05-069"
 }

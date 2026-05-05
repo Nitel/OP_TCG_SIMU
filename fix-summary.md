@@ -1,29 +1,26 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:10.582Z
+Generated: 2026-05-05T14:17:11.529Z
 
-**Total patched:** 91 | **Total skipped:** 15
+**Total patched:** 94 | **Total skipped:** 12
 
-## OP-04 — 91 cartes patchées
+## OP-05 — 94 cartes patchées
 
-**critical (48):** OP04-005, OP04-011, OP04-012, OP04-014, OP04-016, OP04-019, OP04-020, OP04-024, OP04-027, OP04-028, OP04-029, OP04-035, OP04-036, OP04-037, OP04-038, OP04-039, OP04-040, OP04-041, OP04-047, OP04-048, OP04-051, OP04-058, OP04-059, OP04-061, OP04-066, OP04-069, OP04-073, OP04-075, OP04-077, OP04-080, OP04-081, OP04-082, OP04-083, OP04-089, OP04-090, OP04-091, OP04-092, OP04-093, OP04-095, OP04-096, OP04-097, OP04-099, OP04-101, OP04-104, OP04-106, OP04-108, OP04-110, OP04-116
+**critical (45):** OP05-013, OP05-015, OP05-016, OP05-017, OP05-020, OP05-021, OP05-022, OP05-024, OP05-030, OP05-031, OP05-037, OP05-045, OP05-048, OP05-051, OP05-052, OP05-053, OP05-059, OP05-060, OP05-069, OP05-073, OP05-074, OP05-079, OP05-081, OP05-085, OP05-086, OP05-088, OP05-089, OP05-091, OP05-092, OP05-093, OP05-094, OP05-096, OP05-097, OP05-099, OP05-100, OP05-101, OP05-103, OP05-104, OP05-106, OP05-107, OP05-113, OP05-114, OP05-115, OP05-117, OP05-119
 
-**major (43):** OP04-001, OP04-002, OP04-003, OP04-004, OP04-006, OP04-008, OP04-015, OP04-017, OP04-018, OP04-022, OP04-025, OP04-026, OP04-030, OP04-032, OP04-033, OP04-034, OP04-044, OP04-046, OP04-050, OP04-052, OP04-053, OP04-055, OP04-060, OP04-064, OP04-065, OP04-068, OP04-071, OP04-074, OP04-076, OP04-079, OP04-084, OP04-085, OP04-086, OP04-088, OP04-094, OP04-098, OP04-102, OP04-103, OP04-105, OP04-109, OP04-112, OP04-115, OP04-118
+**major (49):** OP05-001, OP05-002, OP05-003, OP05-004, OP05-005, OP05-006, OP05-007, OP05-009, OP05-014, OP05-018, OP05-019, OP05-023, OP05-025, OP05-026, OP05-027, OP05-028, OP05-029, OP05-033, OP05-034, OP05-040, OP05-041, OP05-042, OP05-043, OP05-046, OP05-047, OP05-049, OP05-050, OP05-054, OP05-056, OP05-062, OP05-063, OP05-064, OP05-066, OP05-067, OP05-068, OP05-070, OP05-071, OP05-072, OP05-075, OP05-076, OP05-077, OP05-078, OP05-082, OP05-084, OP05-087, OP05-090, OP05-095, OP05-102, OP05-118
 
-**skipped — type inconnu (15):**
-- OP04-009 (TargetScope::YourLeader)
-- OP04-021 (TargetScope::ChooseOpponentDon)
-- OP04-031 (no suggestedDsl)
-- OP04-042 (no suggestedDsl)
-- OP04-043 (TargetScope::ChooseCharacter)
-- OP04-057 (TargetScope::ChooseOwnLeaderOrCharacter, ActionType::Custom)
-- OP04-063 (TargetScope::ChooseOwnLeaderOrCharacter)
-- OP04-067 (no suggestedDsl)
-- OP04-070 (TargetScope::ChooseUpToOneOpponentCharacter)
-- OP04-072 (ActionType::RemoveDon)
-- OP04-100 (no suggestedDsl)
-- OP04-111 (TargetScope::Board)
-- OP04-113 (no suggestedDsl)
-- OP04-117 (no suggestedDsl)
-- OP04-119 (Trigger::OnOpponentTurn, TargetScope::YourCharacters)
+**skipped — type inconnu (12):**
+- OP05-008 (TargetScope::ChooseOwnLeaderOrCharacter)
+- OP05-032 (TargetScope::YourCharacters)
+- OP05-038 (TargetScope::OwnRestingDon)
+- OP05-039 (TargetScope::ChooseOwnLeaderOrCharacter)
+- OP05-055 (no suggestedDsl)
+- OP05-057 (TargetScope::ChooseOwnLeaderOrCharacter)
+- OP05-058 (TargetScope::AllCharacters, TargetScope::BothPlayers)
+- OP05-061 (TargetScope::OpponentCharacter)
+- OP05-080 (ConditionType::OncePerTurn)
+- OP05-098 (Trigger::OnLifeReachZero)
+- OP05-105 (no suggestedDsl)
+- OP05-111 (no suggestedDsl)
 

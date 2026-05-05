@@ -1,24 +1,14 @@
 {
   "id": "OP05-102",
-  "name": "Gedatsu",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": null
-          }
-        }
-      ]
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": "OpponentLifeCount",
+        "maxTargets": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

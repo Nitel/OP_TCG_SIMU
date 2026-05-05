@@ -1,28 +1,24 @@
 {
-  "id": "OP05-003",
-  "name": "Inazuma",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "filters": {
+        "type": "Character",
+        "minPower": 7000,
+        "excludeSelf": true
+      }
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP05-003"
 }

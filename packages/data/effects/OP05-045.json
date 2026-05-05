@@ -1,35 +1,33 @@
 {
   "id": "OP05-045",
-  "name": "Stainless",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "Self"
-              }
-            },
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "maxCost": 2
-              }
-            }
-          ]
-        }
-      ]
+      "type": "Always"
     }
   ],
-  "counter": 1000
+  "actions": [
+    {
+      "type": "SearchDeck",
+      "filter": {
+        "maxCost": 2,
+        "type": "Character"
+      },
+      "placement": "BottomOfDeck",
+      "optional": true
+    }
+  ],
+  "costs": [
+    {
+      "type": "ForceDiscard",
+      "count": 1,
+      "source": "Hand"
+    },
+    {
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
+    }
+  ]
 }

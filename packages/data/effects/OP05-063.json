@@ -1,16 +1,11 @@
 {
   "id": "OP05-063",
-  "name": "O-Robi",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP05-063",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 8
       },
       "actions": [
@@ -19,10 +14,10 @@
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 3
-          }
+          },
+          "maxTargets": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

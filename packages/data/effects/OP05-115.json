@@ -1,48 +1,28 @@
 {
-  "id": "OP05-115",
-  "name": "Two-Hundred Million Volts Amaru",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+        "duration": "EndOfTurn"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 4
+        },
+        "condition": {
+          "type": "LifeCount",
+          "value": 1,
+          "comparison": "LessOrEqual"
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "kind": "Any"
-          },
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP05-115"
 }

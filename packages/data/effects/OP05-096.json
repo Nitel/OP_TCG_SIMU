@@ -1,11 +1,6 @@
 {
   "id": "OP05-096",
-  "name": "I Bid 500 Million!!",
-  "cost": 3,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
+  "note": "Third option (Place on Life cards) cannot be represented with current DSL action types. Recommended DSL for first two options with conditional draw:",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -19,7 +14,9 @@
         },
         {
           "type": "DrawCard",
-          "count": 1
+          "count": 1,
+          "condition": "HasCardOnBoard",
+          "cardType": "Celestial Dragons"
         }
       ]
     },
@@ -35,31 +32,9 @@
         },
         {
           "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
+          "count": 1,
+          "condition": "HasCardOnBoard",
+          "cardType": "Celestial Dragons"
         }
       ]
     }

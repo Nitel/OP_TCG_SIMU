@@ -1,25 +1,37 @@
 {
-  "id": "OP05-088",
-  "name": "Mansherry",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasAttachedDon",
+      "minCount": 1
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "self"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "zone": "trash",
+          "count": 2
+        },
+        "destination": "deckBottom"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "ByCost",
+          "minCost": 3,
+          "maxCost": 5,
+          "color": "black",
+          "type": "Character"
+        },
+        "destination": "hand",
+        "maxCount": 1,
+        "zone": "trash"
+      }
+    ]
+  },
+  "id": "OP05-088"
 }

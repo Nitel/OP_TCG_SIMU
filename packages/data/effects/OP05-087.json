@@ -1,14 +1,9 @@
 {
   "id": "OP05-087",
-  "name": "Hakuba",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [When Attacking] You may K.O. 1 of your Characters other than this Character: Give up to 1 of your opponent's Characters −5 cost during this turn.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "actions": [
         {
           "type": "KO",
@@ -22,10 +17,9 @@
           "target": {
             "scope": "ChooseOpponentCharacter"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

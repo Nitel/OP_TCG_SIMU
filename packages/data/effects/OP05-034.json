@@ -1,29 +1,25 @@
 {
-  "id": "OP05-034",
-  "name": "Baby 5",
-  "cost": 1,
-  "power": 1000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "Self"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any",
-            "subType": "Donquixote Pirates"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "type": "Donquixote Pirates"
+        },
+        "count": 5,
+        "maxReveal": 1,
+        "destination": "hand"
+      }
+    ]
+  },
+  "id": "OP05-034"
 }

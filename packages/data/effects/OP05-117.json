@@ -1,23 +1,18 @@
 {
-  "id": "OP05-117",
-  "name": "Upper Yard",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Sky Island"
+        },
+        "destination": "hand",
+        "searchCount": 5,
+        "selectCount": "UpTo1"
+      }
+    ]
+  },
+  "id": "OP05-117"
 }

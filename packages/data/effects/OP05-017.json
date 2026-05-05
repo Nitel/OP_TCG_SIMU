@@ -1,44 +1,20 @@
 {
-  "id": "OP05-017",
-  "name": "Lindbergh",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasPower",
+      "minPower": 7000
     },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PlaySelf"
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 3000,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP05-017"
 }

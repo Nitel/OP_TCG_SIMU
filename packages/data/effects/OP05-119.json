@@ -1,27 +1,45 @@
 {
-  "id": "OP05-119",
-  "name": "Monkey.D.Luffy",
-  "cost": 10,
-  "power": 12000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 10
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 10
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "filter": {
+          "kind": "Character",
+          "excludeSelf": true
+        },
+        "destination": "DeckBottom"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ]
+      {
+        "type": "Trigger",
+        "effect": "ExtraTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "activation": {
+      "cost": "➀",
+      "frequency": "OncePerTurn",
+      "zone": "Main"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "DON",
+          "maxAmount": 1
+        },
+        "destination": "Active"
+      }
+    ]
+  },
+  "id": "OP05-119"
 }

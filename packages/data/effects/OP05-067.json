@@ -1,24 +1,17 @@
 {
   "id": "OP05-067",
-  "name": "Zoro-Juurou",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "LifeCount",
+    "value": 3,
+    "comparison": "LessOrEqual"
+  },
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
+      "type": "GiveDon",
+      "count": 1,
+      "fromDeck": true,
+      "setActive": true
     }
-  ],
-  "counter": 1000
+  ]
 }

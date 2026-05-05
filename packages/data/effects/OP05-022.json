@@ -1,33 +1,23 @@
 {
   "id": "OP05-022",
-  "name": "Donquixote Rosinante",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [
-    "Blocker"
-  ],
+  "effectText": "[End of Your Turn] If you have 6 or less cards in your hand, rest this Leader.",
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "Hand",
+        "count": {
+          "type": "LessThanOrEqual",
+          "value": 6
+        }
+      },
       "actions": [
         {
           "type": "Rest",
           "target": {
             "scope": "Self"
           }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PlaySelf"
         }
       ]
     }

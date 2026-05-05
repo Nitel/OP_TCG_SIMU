@@ -1,31 +1,31 @@
 {
-  "id": "OP05-095",
-  "name": "Dragon Claw",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnLeaderOrCharacter",
+          "maxCount": 1
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+        "duration": "DuringBattle"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCount": 1,
+          "maxCost": 4
+        },
+        "condition": {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 15
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP05-095"
 }

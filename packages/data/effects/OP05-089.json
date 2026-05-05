@@ -1,25 +1,25 @@
 {
   "id": "OP05-089",
-  "name": "Saint Mjosgard",
-  "cost": 5,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] ➀ (You may rest the specified number of DON!! cards in your cost area.) You may rest this Character and 1 of your Characters: Add up to 1 black Character card with a cost of 1 from your trash to your hand.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [],
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "ReturnToHand",
           "filter": {
-            "kind": "ByCost",
+            "location": "trash",
+            "color": "Black",
+            "kind": "Character",
             "maxCost": 1
           },
-          "destination": "hand"
+          "count": {
+            "min": 0,
+            "max": 1
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,28 +1,23 @@
 {
-  "id": "OP05-004",
-  "name": "Emporio.Ivankov",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Revolutionary Army",
-            "maxPower": 5000,
-            "excludeSelf": true
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasPower",
+      "minPower": 7000
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "quantity": "up to 1",
+        "filter": {
+          "subType": "Revolutionary Army",
+          "maxPower": 5000,
+          "exclusionList": [
+            "Emporio.Ivankov"
+          ]
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP05-004"
 }

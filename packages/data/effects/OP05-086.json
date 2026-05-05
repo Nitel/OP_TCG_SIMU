@@ -1,28 +1,21 @@
 {
-  "id": "OP05-086",
-  "name": "Nefeltari Vivi",
-  "cost": 1,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "TrashCount",
+      "value": 10,
+      "comparison": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP05-086"
 }

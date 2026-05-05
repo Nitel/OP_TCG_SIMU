@@ -1,33 +1,21 @@
 {
-  "id": "OP05-077",
-  "name": "Gamma Knife",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -5000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "cost": {
+      "type": "GiveDon",
+      "count": 1
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -5000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "max": 1
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP05-077"
 }

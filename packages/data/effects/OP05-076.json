@@ -1,23 +1,22 @@
 {
-  "id": "OP05-076",
-  "name": "When You're at Sea You Fight against Pirates!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 3,
+        "filter": {
+          "kind": "HasAnyType",
+          "types": [
+            "Straw Hat Crew",
+            "Kid Pirates",
+            "Heart Pirates"
+          ]
+        },
+        "destination": "hand",
+        "maxReveal": 1
+      }
+    ]
+  },
+  "id": "OP05-076"
 }

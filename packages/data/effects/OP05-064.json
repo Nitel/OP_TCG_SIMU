@@ -1,11 +1,6 @@
 {
   "id": "OP05-064",
-  "name": "Killer",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Kid Pirates} type card other than [Killer] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,13 +8,17 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByName",
-            "name": "Kid Pirates"
+            "kind": "ByType",
+            "type": "Kid Pirates",
+            "excludeName": "Killer"
           },
-          "destination": "hand"
+          "topCards": 5,
+          "maxCount": 1,
+          "destination": "hand",
+          "remainderDestination": "bottomOfDeck",
+          "remainderOrdering": "any"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

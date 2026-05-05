@@ -1,20 +1,45 @@
 {
-  "id": "OP05-060",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 0
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "DonDeck"
+      }
+    ]
+  },
+  "2": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 3,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "DonDeck"
+      }
+    ]
+  },
+  "id": "OP05-060"
 }

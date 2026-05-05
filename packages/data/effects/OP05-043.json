@@ -1,27 +1,23 @@
 {
   "id": "OP05-043",
-  "name": "Ulti",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Multicolor"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Any"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "count": {
+        "min": 0,
+        "max": 1
+      },
+      "destination": "hand",
+      "searchFromTop": 3,
+      "note": "Look at 3 cards from top; add up to 1 to hand; place rest at top or bottom of deck in any order"
     }
-  ],
-  "counter": 1000
+  ]
 }

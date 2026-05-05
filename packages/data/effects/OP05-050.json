@@ -1,21 +1,19 @@
 {
-  "id": "OP05-050",
-  "name": "Hina",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HandCount",
+        "value": 5,
+        "comparison": "LessOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP05-050"
 }

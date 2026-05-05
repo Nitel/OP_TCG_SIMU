@@ -1,23 +1,22 @@
 {
   "id": "OP05-074",
-  "name": "Eustass\"Captain\"Kid",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "DuringYourTurn"
+        }
+      ],
       "actions": [
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "source": "DonDeck",
+          "oncePerTurn": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

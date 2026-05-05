@@ -1,33 +1,24 @@
 {
-  "id": "OP05-078",
-  "name": "Punk Rotten",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 5000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "DonCost",
+      "count": 1
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 5000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "HasType",
+            "value": "Kid Pirates"
+          }
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP05-078"
 }

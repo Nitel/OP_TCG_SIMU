@@ -1,31 +1,27 @@
 {
-  "id": "OP05-047",
-  "name": "Basil Hawkins",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnBlock",
+    "conditions": [
+      {
+        "type": "HandCount",
+        "operator": "<=",
+        "value": 3
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP05-047"
 }

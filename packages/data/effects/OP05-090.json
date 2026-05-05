@@ -1,42 +1,33 @@
 {
-  "id": "OP05-090",
-  "name": "Riku Doldo III",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxPower": 5000
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxPower": 5000
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxAmount": 1,
+          "type": "Dressrosa"
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxAmount": 1,
+          "type": "Dressrosa"
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP05-090"
 }

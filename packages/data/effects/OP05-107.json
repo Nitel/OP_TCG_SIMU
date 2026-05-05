@@ -1,11 +1,22 @@
 {
   "id": "OP05-107",
-  "name": "Lieutenant Spacey",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effectText": "[Your Turn] [Once Per Turn] When a card is added to your hand from your Life, this Character gains +2000 power during this turn.",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "value": 2000
+        }
+      ]
+    }
+  ]
 }

@@ -1,24 +1,18 @@
 {
-  "id": "OP05-042",
-  "name": "Issho",
-  "cost": 6,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 7
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotAttack",
+        "duration": "UntilStartOfYourNextTurn",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 7,
+          "maxAmount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP05-042"
 }

@@ -1,24 +1,29 @@
 {
-  "id": "OP05-027",
-  "name": "Trafalgar Law",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
+        },
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP05-027"
 }

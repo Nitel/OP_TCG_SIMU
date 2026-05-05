@@ -1,11 +1,6 @@
 {
   "id": "OP05-009",
-  "name": "Toh-Toh",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Draw 1 card if your Leader has 0 power or less.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -17,8 +12,8 @@
           "type": "DrawCard",
           "count": 1
         }
-      ]
+      ],
+      "note": "Conditional on Leader power ≤ 0 (not encodable in current DSL)"
     }
-  ],
-  "counter": 2000
+  ]
 }

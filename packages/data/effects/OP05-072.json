@@ -1,28 +1,19 @@
 {
   "id": "OP05-072",
-  "name": "Hone-Kichi",
-  "cost": 4,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasAttachedDon",
+    "count": 8
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 8
+      "type": "PowerBoost",
+      "amount": -2000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "limit": 2
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
   ]
 }

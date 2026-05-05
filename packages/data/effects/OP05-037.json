@@ -1,42 +1,32 @@
 {
   "id": "OP05-037",
-  "name": "Because the Side of Justice Will Be Whichever Side Wins!!",
-  "cost": 0,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Counter] You may trash 1 card from your hand: Up to 1 of your Leader or Character cards gains +3000 power during this battle.",
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "Counter",
       "actions": [
         {
           "type": "TrashFromHand",
           "filter": {
-            "kind": "Any"
+            "kind": "Any",
+            "location": "Hand"
           },
+          "optional": true,
           "thenActions": [
             {
               "type": "PowerBoost",
               "amount": 3000,
               "target": {
-                "scope": "ChooseOwnCharacter"
+                "scope": "ChooseOwnCharacter",
+                "maxTargets": 1,
+                "validTargets": [
+                  "Leader",
+                  "Character"
+                ]
               },
               "duration": "EndOfBattle"
             }
           ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
         }
       ]
     }

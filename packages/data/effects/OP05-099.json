@@ -1,23 +1,43 @@
 {
-  "id": "OP05-099",
-  "name": "Amazon",
-  "cost": 3,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "optional": true
+      },
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "Opponent",
+          "source": "Life"
+        },
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "Opponent",
+          "type": [
+            "Leader",
+            "Character"
+          ]
+        },
+        "count": 1,
+        "power": -2000,
+        "duration": "DuringOpponentTurn",
+        "condition": "IfOpponentDidNotTrash"
+      }
+    ]
+  },
+  "id": "OP05-099"
 }

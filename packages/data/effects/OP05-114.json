@@ -1,35 +1,35 @@
 {
-  "id": "OP05-114",
-  "name": "El Thor",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "max": 1
+        },
+        "duration": "DuringThisBattle"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "OpponentLifeCount",
+      "comparison": "LessOrEqual",
+      "value": 2
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "LastTargetedCharacter"
+        },
+        "duration": "DuringThisBattle"
+      }
+    ]
+  },
+  "id": "OP05-114"
 }

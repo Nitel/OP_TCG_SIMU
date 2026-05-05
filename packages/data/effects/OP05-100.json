@@ -1,12 +1,24 @@
 {
   "id": "OP05-100",
-  "name": "Enel",
-  "cost": 7,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "Monkey.D.Luffy",
+          "negate": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "preventKO": true
+        }
+      ],
+      "duration": "Permanent",
+      "once": "PerTurn"
+    }
+  ]
 }

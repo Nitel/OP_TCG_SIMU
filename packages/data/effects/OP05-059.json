@@ -1,21 +1,22 @@
 {
   "id": "OP05-059",
-  "name": "Let Us Begin the World of Violence!!!",
-  "cost": 5,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Trigger",
       "condition": {
-        "type": "Always"
+        "type": "LeaderHasType",
+        "value": "multicolored"
       },
       "actions": [
         {
           "type": "DrawCard",
-          "count": 2
+          "count": 1
+        },
+        {
+          "type": "ReturnToHand",
+          "target": "Character",
+          "maxCost": 5,
+          "maxCount": 1
         }
       ]
     }

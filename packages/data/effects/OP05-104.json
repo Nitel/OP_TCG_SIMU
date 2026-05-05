@@ -1,11 +1,26 @@
 {
   "id": "OP05-104",
-  "name": "Conis",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "Hand"
+        }
+      ],
+      "optionalAction": true,
+      "cost": {
+        "type": "PlaceCardAtBottomOfDeck",
+        "cardType": "Stage",
+        "count": 1
+      }
+    }
+  ]
 }
