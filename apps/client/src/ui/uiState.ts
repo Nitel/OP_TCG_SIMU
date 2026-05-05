@@ -1,4 +1,4 @@
-import type { CardId, GameAction, HandFilter } from 'game-engine';
+import type { CardId, DeckFilter, GameAction, HandFilter } from 'game-engine';
 
 export type SelectionMode =
   | 'play'
@@ -9,7 +9,8 @@ export type SelectionMode =
   | 'chooseTarget'
   | 'resolveOnKO'
   | 'revealFromHand'
-  | 'trashFromHand';
+  | 'trashFromHand'
+  | 'searchDeck';
 
 export interface UIState {
   selectedCardId: CardId | null;
@@ -33,6 +34,12 @@ export interface UIState {
     filter: HandFilter;
     sourceCardId: CardId;
     selectedCardIds: CardId[];
+  };
+  /** Set when selectionMode === 'searchDeck' — the top N revealed cards the player must choose from */
+  searchInteraction?: {
+    revealedCardIds: readonly CardId[];
+    filter: DeckFilter;
+    destination: 'hand' | 'board';
   };
 }
 

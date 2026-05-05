@@ -11,13 +11,14 @@
       "trigger": "Trigger",
       "actions": [
         {
-          "type": "Draw",
+          "type": "DrawCard",
           "count": 3
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 2,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         },
         {
           "type": "PowerBoost",
@@ -28,7 +29,7 @@
           "duration": "EndOfTurn"
         },
         {
-          "type": "GainKeyword",
+          "type": "GiveKeyword",
           "keyword": "DoubleAttack",
           "target": {
             "scope": "ChooseOwnCharacter"

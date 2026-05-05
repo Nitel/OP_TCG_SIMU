@@ -10,7 +10,11 @@
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "Fish-Man",
+          "Merfolk"
+        ]
       },
       "actions": [
         {
@@ -26,7 +30,7 @@
       "trigger": "Activated",
       "actions": [
         {
-          "type": "GainKeyword",
+          "type": "GiveKeyword",
           "keyword": "Unblockable",
           "target": {
             "scope": "ChooseOwnCharacter"

@@ -152,16 +152,39 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
             {/* Activate button — shown when a board card or leader with Activated effect is selected */}
             {(uiState.selectionMode === null || uiState.selectionMode === 'attack') && uiState.selectedCardId !== null && (() => {
               const selCard = gameState.cards[uiState.selectedCardId];
-              const hasActivated = selCard?.effects?.some((e) => e.trigger === 'Activated');
-              if (!hasActivated) return null;
+              const activatedEffects = selCard?.effects?.filter((e) => e.trigger === 'Activated') ?? [];
+              if (activatedEffects.length === 0) return null;
               const ownPlayer = gameState.players[activePlayerId];
               const isOnBoard = ownPlayer !== undefined &&
                 (ownPlayer.board.includes(uiState.selectedCardId) || ownPlayer.leader === uiState.selectedCardId);
               if (!isOnBoard) return null;
+
+              const alreadyUsed = gameState.activatedAbilityIds.includes(uiState.selectedCardId);
+              const allCards = Object.values(gameState.cards);
+              const conditionMet = activatedEffects.some((eff) => {
+                const cond = eff.condition;
+                if (!cond || cond.type === 'Always') return true;
+                if (cond.type === 'HasAttachedDon') {
+                  const attached = allCards.filter(d => d.type === 'DON' && d.attachedTo === uiState.selectedCardId!).length;
+                  return attached >= cond.count;
+                }
+                if (cond.type === 'HasRestingDon') {
+                  const active = allCards.filter(d => d.type === 'DON' && d.ownerId === activePlayerId && !d.tapped && d.attachedTo === null).length;
+                  return active >= cond.count;
+                }
+                return true;
+              });
+
+              const canActivate = conditionMet && !alreadyUsed;
+              const tooltip = alreadyUsed ? 'Déjà activé ce tour' : !conditionMet ? 'Conditions non remplies' : undefined;
+
               return (
-                <button style={{ ...primaryBtn, background: '#2a1a4a', border: '1px solid #8844cc', color: '#cc88ff' }}
+                <button
+                  style={{ ...primaryBtn, background: canActivate ? '#2a1a4a' : '#1a1a2a', border: `1px solid ${canActivate ? '#8844cc' : '#443355'}`, color: canActivate ? '#cc88ff' : '#665577', cursor: canActivate ? 'pointer' : 'not-allowed' }}
+                  disabled={!canActivate}
+                  title={tooltip}
                   onClick={() => onAction({ type: 'ActivatedAbility', playerId: activePlayerId, cardId: uiState.selectedCardId! } satisfies ActivatedAbilityAction)}>
-                  Activer
+                  Activer{alreadyUsed ? ' ✓' : ''}
                 </button>
               );
             })()}

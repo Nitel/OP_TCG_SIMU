@@ -14,16 +14,17 @@ const EFFECTS_DIR = path.join(__dirname, '../../data/effects');
 
 const VALID_TRIGGERS = new Set([
   'Activated', 'OnPlay', 'OnAttack', 'OnAttacked', 'OnBlock', 'OnKO', 'OnLeaveField', 'Counter', 'Trigger',
-  'StartOfTurn', 'StartOfOpponentTurn', 'StartOfMainPhase', 'EndOfTurn',
+  'StartOfTurn', 'StartOfOpponentTurn', 'StartOfMainPhase', 'EndOfTurn', 'OnOpponentBlock',
 ]);
 const VALID_CONDITIONS = new Set([
   'Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon', 'TrashCount', 'HasCardOnBoard',
+  'AnyPlayerHasNoLife', 'LeaderHasType', 'LeaderHasAnyType', 'LeaderIsName',
 ]);
 const VALID_ACTIONS = new Set([
-  'Draw', 'KO', 'ReturnToHand', 'PowerBoost', 'TrashCard', 'AddLife',
-  'GiveDon', 'TakeLifeToHand', 'AttachDon', 'GainKeyword', 'Rest',
+  'DrawCard', 'KO', 'ReturnToHand', 'PowerBoost', 'ForceDiscard', 'AddLife',
+  'GiveDon', 'FlipLife', 'AttachDon', 'GiveKeyword', 'Rest',
   'RemoveLife', 'PlaySelf', 'SearchDeck', 'PlayFromHand', 'RevealFromHand',
-  'TrashFromHand',
+  'TrashFromHand', 'Win',
 ]);
 const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
 const VALID_SCOPES = new Set([
@@ -36,6 +37,32 @@ const VALID_SCOPES = new Set([
 const VALID_DURATIONS = new Set(['EndOfTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
 const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName']);
 const VALID_CARD_TYPES = new Set(['Character', 'Event', 'Stage']);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function validateActions(actions: any[], lbl: string): void {
+  for (const [ai, action] of actions.entries()) {
+    const albl = `${lbl} actions[${ai}]`;
+    expect(VALID_ACTIONS, `${albl}.type "${action.type}"`).toContain(action.type);
+    if (action.keyword != null) {
+      expect(VALID_KEYWORDS, `${albl}.keyword "${action.keyword}"`).toContain(action.keyword);
+    }
+    if (action.duration != null) {
+      expect(VALID_DURATIONS, `${albl}.duration "${action.duration}"`).toContain(action.duration);
+    }
+    if (action.target?.scope != null) {
+      expect(VALID_SCOPES, `${albl}.target.scope "${action.target.scope}"`).toContain(action.target.scope);
+    }
+    if (action.filter?.kind != null) {
+      expect(VALID_FILTER_KINDS, `${albl}.filter.kind "${action.filter.kind}"`).toContain(action.filter.kind);
+    }
+    if (action.filter?.cardType != null) {
+      expect(VALID_CARD_TYPES, `${albl}.filter.cardType "${action.filter.cardType}"`).toContain(action.filter.cardType);
+    }
+    if (Array.isArray(action.thenActions)) {
+      validateActions(action.thenActions, `${albl}.thenActions`);
+    }
+  }
+}
 
 describe('DSL Schema Validation', () => {
   const files = fs.readdirSync(EFFECTS_DIR).filter((f) => f.endsWith('.json')).sort();
@@ -61,36 +88,7 @@ describe('DSL Schema Validation', () => {
           );
         }
 
-        for (const [ai, action] of (effect.actions ?? []).entries()) {
-          const albl = `${lbl} actions[${ai}]`;
-
-          expect(VALID_ACTIONS, `${albl}.type "${action.type}"`).toContain(action.type);
-
-          if (action.keyword != null) {
-            expect(VALID_KEYWORDS, `${albl}.keyword "${action.keyword}"`).toContain(action.keyword);
-          }
-          if (action.duration != null) {
-            expect(VALID_DURATIONS, `${albl}.duration "${action.duration}"`).toContain(
-              action.duration,
-            );
-          }
-          if (action.target?.scope != null) {
-            expect(VALID_SCOPES, `${albl}.target.scope "${action.target.scope}"`).toContain(
-              action.target.scope,
-            );
-          }
-          if (action.filter?.kind != null) {
-            expect(VALID_FILTER_KINDS, `${albl}.filter.kind "${action.filter.kind}"`).toContain(
-              action.filter.kind,
-            );
-          }
-          if (action.filter?.cardType != null) {
-            expect(
-              VALID_CARD_TYPES,
-              `${albl}.filter.cardType "${action.filter.cardType}"`,
-            ).toContain(action.filter.cardType);
-          }
-        }
+        validateActions(effect.actions ?? [], lbl);
       }
     });
   }

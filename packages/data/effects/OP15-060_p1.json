@@ -31,7 +31,7 @@
       },
       "actions": [
         {
-          "type": "GainKeyword",
+          "type": "GiveKeyword",
           "keyword": "Blocker",
           "target": {
             "scope": "Self"
@@ -39,9 +39,10 @@
           "duration": "EndOfTurn"
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

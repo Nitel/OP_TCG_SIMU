@@ -177,8 +177,8 @@ function resolveAction(
   const opponentId = context.sourcePlayerId === p1 ? p2 : p1;
 
   switch (action.type) {
-    // ── Draw ──────────────────────────────────────────────────────────────────
-    case 'Draw':
+    // ── DrawCard ─────────────────────────────────────────────────────────────
+    case 'DrawCard':
       return drawCards(state, context.sourcePlayerId, action.count);
 
     // ── KO ───────────────────────────────────────────────────────────────────
@@ -228,28 +228,47 @@ function resolveAction(
       return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
     }
 
-    // ── TrashCard (force discard) ──────────────────────────────────────────────
-    case 'TrashCard': {
-      const targetPlayerId = action.from === 'OpponentHand' ? opponentId : context.sourcePlayerId;
-      const targetPlayer = state.players[targetPlayerId];
-      if (targetPlayer === undefined || targetPlayer.hand.length === 0) return state;
-
-      // Discard up to `count` cards (pick from the end — arbitrary for stubs)
-      const count = Math.min(action.count, targetPlayer.hand.length);
-      const toDiscard = targetPlayer.hand.slice(-count);
+    // ── ForceDiscard ──────────────────────────────────────────────────────────
+    // Opponent must discard `count` cards from their hand (they choose; bot picks from end).
+    // TODO: create pendingForceDiscardInteraction for human opponents.
+    case 'ForceDiscard': {
+      const opponent = state.players[opponentId];
+      if (opponent === undefined || opponent.hand.length === 0) return state;
+      const count = Math.min(action.count, opponent.hand.length);
+      const toDiscard = opponent.hand.slice(-count);
       const updatedCards: Record<string, Card> = { ...state.cards };
       for (const id of toDiscard) {
         updatedCards[id] = { ...updatedCards[id]!, zone: 'trash' as const };
       }
-      const updatedPlayer: PlayerState = {
-        ...targetPlayer,
-        hand:  targetPlayer.hand.slice(0, targetPlayer.hand.length - count),
-        trash: [...targetPlayer.trash, ...toDiscard],
+      const updatedOpponent: PlayerState = {
+        ...opponent,
+        hand:  opponent.hand.slice(0, opponent.hand.length - count),
+        trash: [...opponent.trash, ...toDiscard],
       };
       return {
         ...state,
         cards: updatedCards as Readonly<Record<CardId, Card>>,
-        players: { ...state.players, [targetPlayerId]: updatedPlayer },
+        players: { ...state.players, [opponentId]: updatedOpponent },
+      };
+    }
+
+    // ── FlipLife ──────────────────────────────────────────────────────────────
+    // Sets pendingFlipLifeInteraction for player to choose which Life card(s) to flip face-up.
+    // Full interactive implementation deferred; bot/AI picks the last life card.
+    case 'FlipLife': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined || player.life.length === 0) return state;
+      // For now: auto-flip the last life card (bot behaviour / stub).
+      // TODO: create pendingFlipLifeInteraction for human players.
+      const count = Math.min(action.count, player.life.length);
+      const toFlip = player.life.slice(-count);
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of toFlip) {
+        updatedCards[id] = { ...updatedCards[id]!, tapped: true }; // tapped = face-up marker
+      }
+      return {
+        ...state,
+        cards: updatedCards as Readonly<Record<CardId, Card>>,
       };
     }
 
@@ -327,28 +346,6 @@ function resolveAction(
       };
     }
 
-    // ── TakeLifeToHand ────────────────────────────────────────────────────────
-    case 'TakeLifeToHand': {
-      const player = state.players[context.sourcePlayerId];
-      if (player === undefined || player.life.length === 0) return state;
-      const count = Math.min(action.count, player.life.length);
-      // Top of life zone = last element in the array
-      const taken = player.life.slice(-count);
-      const updatedCards: Record<string, Card> = { ...state.cards };
-      for (const id of taken) {
-        updatedCards[id] = { ...updatedCards[id]!, zone: 'hand' as const };
-      }
-      const updatedPlayer: PlayerState = {
-        ...player,
-        life: player.life.slice(0, player.life.length - count),
-        hand: [...player.hand, ...taken],
-      };
-      return {
-        ...state,
-        cards: updatedCards as Readonly<Record<CardId, Card>>,
-        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
-      };
-    }
 
     // ── AttachDon ─────────────────────────────────────────────────────────────
     case 'AttachDon': {
@@ -373,8 +370,8 @@ function resolveAction(
       return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
     }
 
-    // ── GainKeyword ───────────────────────────────────────────────────────────
-    case 'GainKeyword': {
+    // ── GiveKeyword ───────────────────────────────────────────────────────────
+    case 'GiveKeyword': {
       const targets = selectTargets(action.target, context, state);
       if (targets.length === 0) return state;
       const updatedCards: Record<string, Card> = { ...state.cards };
@@ -437,16 +434,21 @@ function resolveAction(
       };
     }
 
+    // ── Win ───────────────────────────────────────────────────────────────────
+    case 'Win':
+      return { ...state, winner: context.sourcePlayerId };
+
     // ── PlaySelf ──────────────────────────────────────────────────────────────
     case 'PlaySelf': {
-      // Put the source card onto the board for free (Trigger / OnKO effect).
-      // Card may be in hand (Trigger), trash (OnKO), or life (edge cases) — remove from all.
+      // Put the source card onto the board for free (Trigger / OnKO / resurrection effect).
+      // Card may be in hand (Trigger), trash (OnKO resurrection), or life (edge cases).
       const player = state.players[context.sourcePlayerId];
       if (player === undefined) return state;
       const card = state.cards[context.sourceCardId];
       if (card === undefined) return state;
       const cid = context.sourceCardId;
       if (player.board.includes(cid)) return state; // already on board, no-op
+      const tapped = action.rested === true; // rested=true for Marco-style resurrection
       const updatedPlayer: PlayerState = {
         ...player,
         hand:  player.hand.filter((id) => id !== cid),
@@ -454,14 +456,24 @@ function resolveAction(
         life:  player.life.filter((id) => id !== cid),
         board: [...player.board, cid],
       };
-      return {
+      let next: GameState = {
         ...state,
         cards: {
           ...state.cards,
-          [cid]: { ...card, zone: 'board' as const, tapped: false },
+          [cid]: { ...card, zone: 'board' as const, tapped },
         },
         players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
       };
+      // Fire OnPlay effects (unless played rested from trash — resurrection skip)
+      if (!tapped && card.effects?.length) {
+        next = resolveEffects(
+          card.effects,
+          'OnPlay',
+          { sourceCardId: cid, sourcePlayerId: context.sourcePlayerId },
+          next,
+        );
+      }
+      return next;
     }
 
     // ── PlayFromHand ──────────────────────────────────────────────────────────
@@ -493,10 +505,26 @@ function resolveAction(
 
     // ── SearchDeck ────────────────────────────────────────────────────────────
     case 'SearchDeck': {
-      // Find the first card in deck matching the filter
       const player = state.players[context.sourcePlayerId];
       if (player === undefined || player.deck.length === 0) return state;
 
+      // When `count` is specified: reveal top N cards and let the player choose → set pendingSearchInteraction.
+      if (action.count !== undefined) {
+        const revealedCardIds = player.deck.slice(0, action.count);
+        return {
+          ...state,
+          pendingSearchInteraction: {
+            playerId: context.sourcePlayerId,
+            revealedCardIds,
+            filter: action.filter,
+            destination: action.destination,
+            sourceCardId: context.sourceCardId,
+            sourcePlayerId: context.sourcePlayerId,
+          },
+        };
+      }
+
+      // No count: auto-pick the first matching card (backwards-compatible, bot-friendly)
       const foundIdx = player.deck.findIndex((id) => {
         const card = state.cards[id];
         if (card === undefined) return false;
@@ -620,15 +648,37 @@ export function resolveEffects(
         );
         if (!hasCard) continue;
       }
+      if (cond.type === 'AnyPlayerHasNoLife') {
+        const anyEmpty = Object.values(next.players).some((p) => p.life.length === 0);
+        if (!anyEmpty) continue;
+      }
+      if (cond.type === 'LeaderHasType') {
+        const leaderId = next.players[context.sourcePlayerId]?.leader;
+        if (!leaderId) continue;
+        const leader = next.cards[leaderId];
+        if (leader?.subTypes?.includes(cond.subType) !== true) continue;
+      }
+      if (cond.type === 'LeaderHasAnyType') {
+        const leaderId = next.players[context.sourcePlayerId]?.leader;
+        if (!leaderId) continue;
+        const leader = next.cards[leaderId];
+        if (!cond.subTypes.some((t) => leader?.subTypes?.includes(t) === true)) continue;
+      }
+      if (cond.type === 'LeaderIsName') {
+        const leaderId = next.players[context.sourcePlayerId]?.leader;
+        if (!leaderId) continue;
+        const leader = next.cards[leaderId];
+        if (leader?.name.includes(cond.name) !== true) continue;
+      }
       // 'Always' → always passes
     }
     for (let ai = 0; ai < effect.actions.length; ai++) {
       const action = effect.actions[ai]!;
 
       // Detect ChooseTarget actions that need player input (not pre-supplied via context).
-      // OnPlay and Activated are intercepted client-side (chosenTargetId provided before dispatch);
-      // for all other triggers the engine must pause and wait for ResolveTargetInteraction.
-      const needsEngineInteraction = trigger !== 'OnPlay' && trigger !== 'Activated';
+      // Activated abilities are intercepted client-side (chosenTargetId provided before dispatch);
+      // for all other triggers (including OnPlay) the engine pauses and waits for ResolveTargetInteraction.
+      const needsEngineInteraction = trigger !== 'Activated';
       if (needsEngineInteraction && context.chosenTargetId === undefined) {
         const t = (action as Record<string, unknown>).target;
         if (t !== null && t !== undefined && typeof t === 'object') {
@@ -681,6 +731,8 @@ export function resolveEffects(
           pendingTrashInteraction: {
             playerId: context.sourcePlayerId,
             filter: action.filter,
+            ...(action.count    !== undefined ? { count: action.count }       : {}),
+            ...(action.optional !== undefined ? { optional: action.optional } : {}),
             sourceCardId: context.sourceCardId,
             sourcePlayerId: context.sourcePlayerId,
             thenActions: action.thenActions,

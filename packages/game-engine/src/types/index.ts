@@ -91,20 +91,31 @@ export interface HandFilter {
 // ─── DSL — Effect actions ─────────────────────────────────────────────────────
 
 export type EffectAction =
-  | { readonly type: 'Draw'; readonly count: number }
+  | { readonly type: 'DrawCard'; readonly count: number }
   | { readonly type: 'KO'; readonly target: TargetSelector }
   | { readonly type: 'ReturnToHand'; readonly target: TargetSelector }
   | { readonly type: 'PowerBoost'; readonly amount: number; readonly perTrashedCard?: true; readonly target: TargetSelector; readonly duration: EffectDuration }
-  | { readonly type: 'TrashCard'; readonly count: number; readonly from: 'OpponentHand' | 'OwnHand' }
   | { readonly type: 'AddLife'; readonly count: number }
   | { readonly type: 'GiveDon'; readonly count: number }
-  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' }
-  | { readonly type: 'TakeLifeToHand'; readonly count: number }
+  /**
+   * Look at the top `count` cards of the deck (or all, if count is omitted) and let the player
+   * choose one matching `filter` to put in `destination`. The rest return to the top of the deck.
+   * When `count` is provided, sets pendingSearchInteraction for player choice.
+   * When `count` is omitted, auto-picks the first matching card (bot-friendly).
+   */
+  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board'; readonly count?: number }
+  /** Flip `count` Life cards face-up (player chooses); cards stay in the Life zone but become visible. */
+  | { readonly type: 'FlipLife'; readonly count: number }
+  /** Force the opponent to discard `count` cards from their hand (opponent chooses which). */
+  | { readonly type: 'ForceDiscard'; readonly count: number }
   | { readonly type: 'AttachDon'; readonly count: number; readonly target: TargetSelector; readonly from?: 'active' | 'rested' }
-  | { readonly type: 'GainKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration }
+  | { readonly type: 'GiveKeyword'; readonly keyword: CardKeyword; readonly target: TargetSelector; readonly duration: EffectDuration }
   | { readonly type: 'Rest'; readonly target: TargetSelector }
   | { readonly type: 'RemoveLife'; readonly count: number }
-  | { readonly type: 'PlaySelf' }
+  /** Current source player wins the game immediately. */
+  | { readonly type: 'Win' }
+  /** Play the source card onto the board for free. rested=true plays it tapped (e.g. Marco resurrection). */
+  | { readonly type: 'PlaySelf'; readonly rested?: boolean }
   /** Play a card from the owner's hand for free, filtered by HandFilter. Requires player choice — sets pendingOnKOInteraction. */
   | { readonly type: 'PlayFromHand'; readonly filter: HandFilter }
   /**
@@ -118,13 +129,17 @@ export type EffectAction =
       readonly thenActions: readonly EffectAction[];
     }
   /**
-   * Player chooses any number of cards matching filter from their hand and trashes them.
+   * Player trashes cards from their hand matching filter.
+   * count: exact number required (omit = player chooses any amount).
+   * optional: if true the player may skip (trash 0 cards) even if matching cards exist.
    * Sets pendingTrashInteraction. thenActions execute after; PowerBoost(perTrashedCard) is
    * scaled by the number of cards actually trashed.
    */
   | {
       readonly type: 'TrashFromHand';
       readonly filter: HandFilter;
+      readonly count?: number;
+      readonly optional?: true;
       readonly thenActions: readonly EffectAction[];
     };
 
@@ -137,6 +152,7 @@ export type EffectTrigger =
   | 'OnKO'                // When this card is KO'd (by any means)
   | 'OnLeaveField'        // When this card leaves the board (KO or returned to hand)
   | 'OnBlock'             // When this card becomes a blocker
+  | 'OnOpponentBlock'     // When the opponent activates a Blocker against this card's controller's attack
   | 'Counter'             // When this card is played from hand during the opponent's attack window
   | 'Trigger'             // When this card is revealed from the Life zone
   | 'Activated'           // Activated ability during Main phase — [DON!! xN] cost
@@ -158,7 +174,15 @@ export type EffectCondition =
   /** True when the source player's trash contains at least `min` cards */
   | { readonly type: 'TrashCount'; readonly min: number }
   /** True when the source player has a character named `name` on the board */
-  | { readonly type: 'HasCardOnBoard'; readonly name: string };
+  | { readonly type: 'HasCardOnBoard'; readonly name: string }
+  /** True when either player has 0 Life cards (used by Gol.D.Roger OnOpponentBlock win condition) */
+  | { readonly type: 'AnyPlayerHasNoLife' }
+  /** True when the source player's leader card's subTypes includes `subType` */
+  | { readonly type: 'LeaderHasType'; readonly subType: string }
+  /** True when the source player's leader card's subTypes includes ANY of the given types */
+  | { readonly type: 'LeaderHasAnyType'; readonly subTypes: readonly string[] }
+  /** True when the source player's leader card's name includes `name` */
+  | { readonly type: 'LeaderIsName'; readonly name: string };
 
 // ─── DSL — CardEffect ─────────────────────────────────────────────────────────
 
@@ -310,6 +334,10 @@ export interface GameState {
   readonly pendingTrashInteraction: {
     readonly playerId: PlayerId;
     readonly filter: HandFilter;
+    /** Exact number of cards the player must trash (undefined = player chooses any amount). */
+    readonly count?: number;
+    /** If true the player may skip (send 0 cards) even when matching cards exist. */
+    readonly optional?: true;
     readonly sourceCardId: CardId;
     readonly sourcePlayerId: PlayerId;
     readonly thenActions: readonly EffectAction[];
@@ -318,6 +346,18 @@ export interface GameState {
     /** Remaining CardEffects in the effect list (after the current effect) */
     readonly pendingEffects: readonly CardEffect[];
     readonly trigger: EffectTrigger;
+  } | null;
+  /**
+   * Set when a SearchDeck effect fires with a `count` (look at top N cards) and requires
+   * the player to choose one card to play. Cleared when ResolveSearchInteraction is dispatched.
+   */
+  readonly pendingSearchInteraction: {
+    readonly playerId: PlayerId;
+    readonly revealedCardIds: readonly CardId[];
+    readonly filter: DeckFilter;
+    readonly destination: 'hand' | 'board';
+    readonly sourceCardId: CardId;
+    readonly sourcePlayerId: PlayerId;
   } | null;
 }
 
@@ -471,6 +511,13 @@ export interface ResolveTrashInteractionAction {
   readonly trashedCardIds: readonly CardId[];
 }
 
+export interface ResolveSearchInteractionAction {
+  readonly type: 'ResolveSearchInteraction';
+  readonly playerId: PlayerId;
+  /** ID of the card from the revealed top-N to play. Null = player passes (no card played). */
+  readonly chosenCardId: CardId | null;
+}
+
 export type GameAction =
   | MulliganAction
   | DrawCardAction
@@ -488,7 +535,8 @@ export type GameAction =
   | ResolveOnKOInteractionAction
   | ResolveTargetInteractionAction
   | ResolveRevealInteractionAction
-  | ResolveTrashInteractionAction;
+  | ResolveTrashInteractionAction
+  | ResolveSearchInteractionAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 
@@ -544,5 +592,6 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     pendingTargetInteraction: null,
     pendingRevealInteraction: null,
     pendingTrashInteraction: null,
+    pendingSearchInteraction: null,
   };
 }

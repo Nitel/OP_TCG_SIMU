@@ -21,14 +21,23 @@
     },
     {
       "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
-        },
-        {
-          "type": "PlaySelf"
+          "filter": {
+            "cardType": "Event"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlaySelf",
+              "rested": true
+            }
+          ]
         }
       ]
     }

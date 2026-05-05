@@ -9,6 +9,24 @@ import { flashLife, koFade, scaleIn, hoverLift, hoverReset, killContainerTweens 
 const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
 function cardImageUrl(filename: string): string { return `${CDN_BASE}/card-images/${filename}`; }
 
+/**
+ * Extract the card template ID from a game-state card ID.
+ * Game IDs are formatted as `{playerId}-{templateId}-{instanceIndex}`.
+ * Standard sets (OP, ST, EB): regex extracts e.g. "ST21-015" from "P1-ST21-015-0".
+ * Promo / special sets: strips player prefix and numeric instance suffix.
+ */
+function extractTemplateId(cardId: string): string {
+  const standard = cardId.match(/[A-Z]{2,3}\d{2}-\d{3}[^-\s]*/)?.[0];
+  if (standard !== undefined) return standard;
+  // Fallback: remove leading player-prefix segment and trailing numeric index segment.
+  // e.g. "P1-P-069_r1-2" → parts ["P1","P","069_r1","2"] → strip first+last → "P-069_r1"
+  const parts = cardId.split('-');
+  if (parts.length >= 3 && /^\d+$/.test(parts[parts.length - 1]!)) {
+    return parts.slice(1, -1).join('-');
+  }
+  return cardId;
+}
+
 // ─── Layout ───────────────────────────────────────────────────────────────────
 
 const CANVAS_W = 1920;
@@ -343,8 +361,8 @@ function loadCardTexture(cardId: string): void {
     return;
   }
 
-  const templateId = cardId.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-  if (templateId === undefined) {
+  const templateId = extractTemplateId(cardId);
+  if (templateId === cardId && !cardId.includes('-')) {
     textureCache.set(cardId, Texture.EMPTY);
     return;
   }
@@ -525,7 +543,7 @@ function drawCard(
 
   // Card artwork sprite (lazy-loaded, replaces bg when available)
   if (!faceDown) {
-    const cardTemplateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? card.id;
+    const cardTemplateId = extractTemplateId(card.id);
     const cachedTex = textureCache.get(cardTemplateId) ?? textureCache.get(card.id);
     if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
       const sprite = new Sprite(cachedTex);
@@ -591,7 +609,7 @@ function drawCard(
     cardContainer.on('pointerdown', (e) => {
       const ge = e as unknown as { global: { x: number; y: number }; stopPropagation: () => void };
       ge.stopPropagation();
-      const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? card.id;
+      const templateId = extractTemplateId(card.id);
       const tex = textureCache.get(templateId) ?? textureCache.get(card.id) ?? null;
       _pendingDrag = { cardId: card.id, startX: ge.global.x, startY: ge.global.y, tex: tex !== null && tex !== Texture.EMPTY ? tex : null, dragType: 'don' };
       // onDragStart intentionally not called here — drag starts only after movement threshold
@@ -669,7 +687,7 @@ function drawStack(
 
   // Show top card artwork when provided (e.g. trash pile)
   if (topCard !== undefined && count > 0) {
-    const templateId = topCard.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? topCard.id;
+    const templateId = extractTemplateId(topCard.id);
     const cachedTex = textureCache.get(templateId);
     if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
       const sprite = new Sprite(cachedTex);
@@ -880,7 +898,7 @@ function renderPlayer(
   drawSpread(scene, 'COST AREA', freeDonIds, allCards, costX, donY, false, uiState, activePlayerId, onCardClick, newCardIds,
     null, false, DON_GAP,
     (id, gx, gy) => {
-      const templateId = String(id).match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? String(id);
+      const templateId = extractTemplateId(String(id));
       const tex = textureCache.get(templateId) ?? textureCache.get(id) ?? null;
       _pendingDrag = { cardId: id, startX: gx, startY: gy, tex: tex !== null && tex !== Texture.EMPTY ? tex : null, dragType: 'don' };
     },
@@ -1077,7 +1095,7 @@ function drawHandFan(
         cardContainer.addChild(recto);
       }
     } else {
-      const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? card.id;
+      const templateId = extractTemplateId(card.id);
       const cachedTex  = textureCache.get(templateId) ?? textureCache.get(card.id);
       if (cachedTex !== undefined && cachedTex !== Texture.EMPTY) {
         const sprite = new Sprite(cachedTex);
@@ -1148,7 +1166,7 @@ function drawHandFan(
       cardContainer.on('pointerdown', (e) => {
         const ge = e as unknown as { global: { x: number; y: number }; stopPropagation: () => void };
         ge.stopPropagation();
-        const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? card.id;
+        const templateId = extractTemplateId(card.id);
         const tex        = textureCache.get(templateId) ?? textureCache.get(card.id) ?? null;
         _pendingDrag = { cardId: id, startX: ge.global.x, startY: ge.global.y, tex: tex !== null && tex !== Texture.EMPTY ? tex : null, dragType: 'hand' };
       });

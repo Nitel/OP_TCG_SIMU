@@ -295,9 +295,10 @@ export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = (() => {
       );
     })
     .map((c) => {
-      const eff = effectMap[c.id];
+      const bid = baseCardId(c.id);
+      const eff = effectMap[bid] ?? effectMap[c.id];
       return {
-        id: c.id,
+        id: bid,
         name: c.name,
         type: c.normalizedType,
         cost: c.cost,
@@ -318,9 +319,15 @@ export const ALL_CARD_TEMPLATES: readonly CardTemplate[] = (() => {
 export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerSetup {
   const pid = String(playerId);
   const byId: Record<string, RawCard> = Object.fromEntries(allRaw.map((c) => [c.id, c]));
+  // Also index by base ID so saved decks using canonical IDs (P-069, OP05-037) resolve correctly
+  const byBaseId: Record<string, RawCard> = {};
+  for (const c of allRaw) {
+    const bid = baseCardId(c.id);
+    if (!(bid in byBaseId)) byBaseId[bid] = c;
+  }
 
   // Leader
-  const leaderRaw = byId[deck.leaderId];
+  const leaderRaw = byId[deck.leaderId] ?? byBaseId[deck.leaderId];
   const leaderCard = rawToCard(
     leaderRaw ?? allRaw.find((c) => c.cardType.toLowerCase() === 'leader')!,
     `${pid}-${deck.leaderId}-leader`,
@@ -332,7 +339,7 @@ export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerS
   const deckCards: Card[] = [];
   const copyCount: Record<string, number> = {};
   for (const entry of deck.cards) {
-    const raw = byId[entry.id];
+    const raw = byId[entry.id] ?? byBaseId[entry.id];
     if (raw === undefined) continue;
     const clamped = Math.min(entry.count, 4);
     for (let i = 0; i < clamped && deckCards.length < 50; i++) {
@@ -375,7 +382,7 @@ export function buildDeckFromSaved(playerId: PlayerId, deck: SavedDeck): PlayerS
 /** Extract set ID from a card ID: "OP01-005" → "OP-01", "ST01-001" → "ST-01", "P-069" → "P". */
 export function cardSetFromId(id: string): string {
   const m = id.match(/^([A-Z]+)(\d{2})-/);
-  if (m === null) return id.split('-')[0] ?? id;
+  if (m === null) return id.match(/^([A-Z]+)-/)?.[1] ?? id;
   return `${m[1]}-${m[2]}`;
 }
 

@@ -171,7 +171,23 @@ function decideCombatDefense(state: GameState, botId: PlayerId): GameAction | nu
 export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction | null {
   if (state.winner !== null) return null;
 
-  // Handle pending reveal interaction — bot auto-reveals valid cards or skips
+  // Handle pending search interaction — bot auto-picks first matching revealed card
+  if (state.pendingSearchInteraction !== null && state.pendingSearchInteraction.playerId === botId) {
+    const pending = state.pendingSearchInteraction;
+    const f = pending.filter;
+    const chosen = pending.revealedCardIds.find((id) => {
+      const c = state.cards[id];
+      if (c === undefined) return false;
+      switch (f.kind) {
+        case 'Any': return true;
+        case 'ByType': return c.type === f.cardType;
+        case 'ByCost': return c.cost <= f.maxCost;
+        case 'ByName': return c.name === f.name;
+      }
+    }) ?? null;
+    return { type: 'ResolveSearchInteraction', playerId: botId, chosenCardId: chosen };
+  }
+
   // Handle pending trash interaction — bot trashes all eligible cards (maximises power boost)
   if (state.pendingTrashInteraction !== null && state.pendingTrashInteraction.playerId === botId) {
     const pending = state.pendingTrashInteraction;

@@ -10,7 +10,8 @@
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "LeaderHasType",
+        "subType": "Dressrosa"
       },
       "actions": [
         {
@@ -22,16 +23,18 @@
           "duration": "EndOfTurn"
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         }
       ]
     },
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "Always"
+        "type": "LeaderHasType",
+        "subType": "Dressrosa"
       },
       "actions": [
         {
@@ -43,9 +46,10 @@
           "duration": "EndOfTurn"
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

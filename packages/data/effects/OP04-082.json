@@ -21,7 +21,8 @@
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "LeaderIsName",
+        "name": "Rebecca"
       },
       "actions": [
         {
@@ -32,9 +33,10 @@
           }
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

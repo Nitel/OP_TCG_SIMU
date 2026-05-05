@@ -9,12 +9,12 @@
   "effects": [
     {
       "trigger": "OnPlay",
+      "condition": { "type": "Always" },
       "actions": [
         {
           "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
+          "count": 5,
+          "filter": { "kind": "Any" },
           "destination": "board"
         }
       ]

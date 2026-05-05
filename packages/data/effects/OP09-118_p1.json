@@ -10,10 +10,13 @@
   ],
   "effects": [
     {
-      "trigger": "OnBlock",
+      "trigger": "OnOpponentBlock",
+      "condition": {
+        "type": "AnyPlayerHasNoLife"
+      },
       "actions": [
         {
-          "type": "PlaySelf"
+          "type": "Win"
         }
       ]
     }

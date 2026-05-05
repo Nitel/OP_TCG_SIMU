@@ -9,10 +9,21 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": { "type": "HasCardOnBoard", "name": "Camie" },
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Camie"
+      },
       "actions": [
-        { "type": "Draw", "count": 2 },
-        { "type": "TrashCard", "count": 2, "from": "OwnHand" }
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
       ]
     }
   ],

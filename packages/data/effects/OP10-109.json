@@ -11,9 +11,8 @@
       "trigger": "OnKO",
       "actions": [
         {
-          "type": "TrashCard",
-          "count": 1,
-          "from": "OpponentHand"
+          "type": "ForceDiscard",
+          "count": 1
         }
       ]
     },
@@ -21,13 +20,14 @@
       "trigger": "Trigger",
       "actions": [
         {
-          "type": "Draw",
+          "type": "DrawCard",
           "count": 2
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

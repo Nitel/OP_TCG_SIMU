@@ -111,7 +111,7 @@ describe('ActivatedAbility', () => {
     const base = bootstrapGame();
     const activatedEffect: CardEffect = {
       trigger: 'Activated',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const card = makeChar('activ-draw', 'p1', 3000, { effects: [activatedEffect] });
     const state = addToP1Board(base, card);
@@ -134,7 +134,7 @@ describe('ActivatedAbility', () => {
     const base = bootstrapGame();
     const activatedEffect: CardEffect = {
       trigger: 'Activated',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const card = makeChar('activ-p2', 'p2', 3000, { effects: [activatedEffect] });
     const state = addToP2Board(base, card);
@@ -156,7 +156,7 @@ describe('ActivatedAbility', () => {
     const base = bootstrapGame();
     const activatedEffect: CardEffect = {
       trigger: 'Activated',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const card = makeChar('activ-phase', 'p1', 3000, { effects: [activatedEffect] });
     const state = { ...addToP1Board(base, card), phase: 'DON' as const };
@@ -177,7 +177,7 @@ describe('ActivatedAbility', () => {
     const base = bootstrapGame();
     const onPlayEffect: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const card = makeChar('no-activ', 'p1', 3000, { effects: [onPlayEffect] });
     const state = addToP1Board(base, card);

@@ -11,7 +11,7 @@
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "TakeLifeToHand",
+          "type": "FlipLife",
           "count": 1
         },
         {
@@ -28,9 +28,10 @@
       "trigger": "Trigger",
       "actions": [
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         },
         {
           "type": "PlaySelf"

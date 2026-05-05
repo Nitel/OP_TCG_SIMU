@@ -218,12 +218,9 @@ export function App() {
     // Compute log description before state mutation (cards still in original zones)
     const humanId  = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
     const logText  = gameState !== null ? describeAction(action, gameState, humanId, isVsBot) : null;
-    // Intercept actions that play or activate a card and may need a player-chosen target.
-    if (
-      action.type === 'PlayCharacterFromHand' ||
-      action.type === 'PlayEvent' ||
-      action.type === 'ActivatedAbility'
-    ) {
+    // Intercept Activated abilities that need a player-chosen target (client-side, pre-dispatch).
+    // OnPlay effects are now handled engine-side via pendingTargetInteraction.
+    if (action.type === 'ActivatedAbility') {
       if (action.chosenTargetId === undefined) {
         const card = gameState?.cards[action.cardId];
         if (card?.effects !== undefined) {
@@ -396,6 +393,28 @@ export function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState?.pendingTrashInteraction]);
 
+  // ── Detect pendingSearchInteraction — show searchDeck UI for human player ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingSearchInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      setUiState((prev) => ({
+        ...prev,
+        selectionMode: 'searchDeck',
+        searchInteraction: {
+          revealedCardIds: pending.revealedCardIds,
+          filter: pending.filter,
+          destination: pending.destination,
+        },
+      }));
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'searchDeck' ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingSearchInteraction]);
+
   // ── Greedy bot (vsBot mode) ───────────────────────────────────────────────
 
   useEffect(() => {
@@ -411,8 +430,9 @@ export function App() {
     const isBotPendingOnKO   = gameState.pendingOnKOInteraction?.playerId   === BOT_ID;
     const isBotPendingReveal = gameState.pendingRevealInteraction?.playerId  === BOT_ID;
     const isBotPendingTrash  = gameState.pendingTrashInteraction?.playerId   === BOT_ID;
+    const isBotPendingSearch = gameState.pendingSearchInteraction?.playerId  === BOT_ID;
 
-    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash) return;
+    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash && !isBotPendingSearch) return;
 
     const action = greedyBotDecide(gameState, BOT_ID);
     if (action === null) return;
@@ -928,6 +948,90 @@ export function App() {
                     }}
                   >
                     {ti.selectedCardIds.length === 0 ? 'Passer (0 carte)' : `Défausser (${ti.selectedCardIds.length})`}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── Search-deck overlay ─────────────────────────────────────────── */}
+        {uiState.selectionMode === 'searchDeck' && uiState.searchInteraction !== undefined && (() => {
+          const si = uiState.searchInteraction;
+          const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? gameState.activePlayerId;
+          const revealedCards = si.revealedCardIds
+            .map((id) => gameState.cards[id])
+            .filter((c): c is NonNullable<typeof c> => c !== undefined);
+          const CDN_BASE_: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
+          const matchCard = (c: { id: string; type: string; cost: number; name: string }) => {
+            switch (si.filter.kind) {
+              case 'Any': return true;
+              case 'ByType': return c.type === si.filter.cardType;
+              case 'ByCost': return c.cost <= si.filter.maxCost;
+              case 'ByName': return c.name === si.filter.name;
+            }
+          };
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 470,
+              background: 'rgba(0,0,0,0.85)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'auto',
+            }}>
+              <div style={{
+                background: 'rgba(4,8,24,0.97)',
+                border: '1px solid rgba(100,200,255,0.5)',
+                borderRadius: 10, padding: 20,
+                maxWidth: '85vw',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
+                display: 'flex', flexDirection: 'column', gap: 16,
+              }}>
+                <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#44ddff', textAlign: 'center', letterSpacing: 1 }}>
+                  Choisissez 1 carte parmi les {revealedCards.length} premières de votre deck (ou passez)
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${Math.min(Math.max(revealedCards.length, 1), 7)}, 86px)`,
+                  gap: 8, justifyContent: 'center',
+                }}>
+                  {revealedCards.map((card) => {
+                    const tplId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
+                    const imgUrl = tplId !== undefined ? `${CDN_BASE_}/card-images/${tplId}.png` : null;
+                    const isValid = matchCard(card as { id: string; type: string; cost: number; name: string });
+                    return (
+                      <div
+                        key={card.id}
+                        onClick={() => isValid && dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: card.id })}
+                        style={{
+                          width: 86, height: 120, borderRadius: 4, overflow: 'hidden',
+                          cursor: isValid ? 'pointer' : 'default',
+                          border: isValid ? '2px solid #44ddff' : '1px solid rgba(100,200,255,0.2)',
+                          opacity: isValid ? 1 : 0.4,
+                          boxShadow: isValid ? '0 0 8px rgba(68,221,255,0.5)' : 'none',
+                          transition: 'box-shadow 0.1s',
+                        }}
+                      >
+                        {imgUrl !== null ? (
+                          <img src={imgUrl} alt={card.name} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{ width: '100%', height: '100%', background: '#0a1a2a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4, boxSizing: 'border-box' }}>
+                            <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 9, textAlign: 'center' }}>{card.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <button
+                    onClick={() => dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: null })}
+                    style={{
+                      padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                      border: '1px solid #44ddff', borderRadius: 4,
+                      cursor: 'pointer', background: '#001a24', color: '#44ddff', fontWeight: 'bold',
+                    }}
+                  >
+                    Passer
                   </button>
                 </div>
               </div>

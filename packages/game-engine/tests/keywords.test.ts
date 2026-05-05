@@ -258,7 +258,7 @@ describe('[Banish] — KO envoie la carte dans "removed" et non trash', () => {
 describe('[On Play] trigger', () => {
   it('OnPlay → effet déclenché à la pose', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnPlay', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnPlay', actions: [{ type: 'DrawCard', count: 1 }] };
     const char = makeChar('on-play-char', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
     const s = addToP1Hand(base, char);
     const deckBefore = s.players[P1]!.deck.length;
@@ -272,7 +272,7 @@ describe('[On Play] trigger', () => {
 describe('[When Attacking] (OnAttack) trigger', () => {
   it('OnAttack → effet déclenché lors de la déclaration d\'attaque', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnAttack', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnAttack', actions: [{ type: 'DrawCard', count: 1 }] };
     const attacker = makeChar('on-atk-char', 'p1', 3000, { effects: [eff] });
     let s = addToP1Board(base, attacker);
     const deckBefore = s.players[P1]!.deck.length;
@@ -284,7 +284,7 @@ describe('[When Attacking] (OnAttack) trigger', () => {
 describe('[When KO\'d] (OnKO) trigger', () => {
   it('OnKO via combat → effet déclenché', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnKO', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnKO', actions: [{ type: 'DrawCard', count: 1 }] };
     const victim = makeChar('on-ko-victim', 'p2', 1000, { effects: [eff], tapped: true });
     const attacker = makeChar('on-ko-atk', 'p1', 5000);
     let s = addToP1Board(base, attacker);
@@ -300,7 +300,7 @@ describe('[When KO\'d] (OnKO) trigger', () => {
 
   it('OnKO via action KO → effet déclenché', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnKO', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnKO', actions: [{ type: 'DrawCard', count: 1 }] };
     const victim = makeChar('ko-action-victim', 'p2', 3000, { effects: [eff] });
     const caster = makeChar('ko-action-caster', 'p1', 2000, {
       effects: [{ trigger: 'OnPlay', actions: [{ type: 'KO', target: { scope: 'AllOpponentCharacters' } }] }],
@@ -319,7 +319,7 @@ describe('[When KO\'d] (OnKO) trigger', () => {
 describe('[OnLeaveField] trigger', () => {
   it('OnLeaveField via KO en combat → effet déclenché', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnLeaveField', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnLeaveField', actions: [{ type: 'DrawCard', count: 1 }] };
     const victim = makeChar('leave-ko-victim', 'p2', 1000, { effects: [eff], tapped: true });
     const attacker = makeChar('leave-atk', 'p1', 5000);
     let s = addToP1Board(base, attacker);
@@ -334,7 +334,7 @@ describe('[OnLeaveField] trigger', () => {
 
   it('OnLeaveField via ReturnToHand → effet déclenché', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnLeaveField', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnLeaveField', actions: [{ type: 'DrawCard', count: 1 }] };
     const target = makeChar('leave-rth-target', 'p2', 2000, { effects: [eff] });
     const caster = makeChar('rth-caster', 'p1', 2000, {
       effects: [{ trigger: 'OnPlay', actions: [{ type: 'ReturnToHand', target: { scope: 'AllOpponentCharacters' } }] }],
@@ -353,7 +353,7 @@ describe('[OnLeaveField] trigger', () => {
 describe('[When Blocking] (OnBlock) trigger', () => {
   it('OnBlock → effet déclenché quand la carte bloque', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'OnBlock', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'OnBlock', actions: [{ type: 'DrawCard', count: 1 }] };
     const blocker = makeChar('on-block-char', 'p2', 3000, { keywords: ['Blocker'], effects: [eff] });
     const attacker = makeChar('on-block-atk', 'p1', 2000);
     let s = addToP1Board(base, attacker);
@@ -398,7 +398,7 @@ describe('[Trigger] — révélée depuis la zone Vie', () => {
 describe('[At the Start of Your Turn] (StartOfTurn) trigger', () => {
   it('StartOfTurn → effet déclenché au début du tour du propriétaire', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'StartOfTurn', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'StartOfTurn', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('sot-card', 'p1', 3000, { effects: [eff] });
     // Start from End phase — transition to next turn will fire StartOfTurn
     let s: GameState = { ...addToP1Board(base, card), phase: 'End' };
@@ -416,7 +416,7 @@ describe('[At the Start of Your Turn] (StartOfTurn) trigger', () => {
 describe('[At the Start of Opponent\'s Turn] (StartOfOpponentTurn) trigger', () => {
   it('StartOfOpponentTurn → effet déclenché au début du tour de l\'adversaire', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'StartOfOpponentTurn', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'StartOfOpponentTurn', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('soot-card', 'p1', 3000, { effects: [eff] });
     // P1 is active in base (turn 3, Main). Move to End phase.
     let s: GameState = { ...addToP1Board(base, card), phase: 'End' };
@@ -430,7 +430,7 @@ describe('[At the Start of Opponent\'s Turn] (StartOfOpponentTurn) trigger', () 
 describe('[At the Start of Main Phase] (StartOfMainPhase) trigger', () => {
   it('StartOfMainPhase → effet déclenché à l\'entrée de la phase Main', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'StartOfMainPhase', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'StartOfMainPhase', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('somp-card', 'p1', 3000, { effects: [eff] });
     // Start from DON phase — EndPhase goes DON → Main
     let s: GameState = { ...addToP1Board(base, card), phase: 'DON' };
@@ -444,7 +444,7 @@ describe('[At the Start of Main Phase] (StartOfMainPhase) trigger', () => {
 describe('[End of Your Turn] (EndOfTurn) trigger', () => {
   it('EndOfTurn → effet déclenché à l\'entrée de la phase End', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'EndOfTurn', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'EndOfTurn', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('eot-card', 'p1', 3000, { effects: [eff] });
     // Start from Main phase — EndPhase goes Main → End
     let s: GameState = { ...addToP1Board(base, card), phase: 'Main' };
@@ -463,7 +463,7 @@ describe('HasRestingDon condition (passive)', () => {
     const eff: CardEffect = {
       trigger: 'OnAttack',
       condition: { type: 'HasRestingDon', count: 1 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const attacker = makeChar('hrd-atk', 'p1', 3000, { effects: [eff] });
     const restedDon = makeDon('hrd-don', 'p1', { tapped: true });
@@ -480,7 +480,7 @@ describe('HasRestingDon condition (passive)', () => {
     const eff: CardEffect = {
       trigger: 'OnAttack',
       condition: { type: 'HasRestingDon', count: 2 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const attacker = makeChar('hrd-no-atk', 'p1', 3000, { effects: [eff] });
     const restedDon = makeDon('hrd-don2', 'p1', { tapped: true });
@@ -498,7 +498,7 @@ describe('HasAttachedDon condition', () => {
     const eff: CardEffect = {
       trigger: 'OnAttack',
       condition: { type: 'HasAttachedDon', count: 2 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const attacker = makeChar('had-atk', 'p1', 3000, { effects: [eff] });
     const don1 = makeDon('had-don1', 'p1', { tapped: true, attachedTo: makeCardId('had-atk') });
@@ -519,7 +519,7 @@ describe('HasAttachedDon condition', () => {
     const eff: CardEffect = {
       trigger: 'OnAttack',
       condition: { type: 'HasAttachedDon', count: 2 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const attacker = makeChar('had-no-atk', 'p1', 3000, { effects: [eff] });
     const don1 = makeDon('had-don3', 'p1', { tapped: true, attachedTo: makeCardId('had-no-atk') });
@@ -541,7 +541,7 @@ describe('LeaderHasAttachedDon condition (ST21-001 pattern)', () => {
     const eff: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'LeaderHasAttachedDon', count: 1 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const leaderId = base.players[P1]!.leader!;
     // Add the Activated effect to the leader
@@ -570,7 +570,7 @@ describe('LeaderHasAttachedDon condition (ST21-001 pattern)', () => {
     const eff: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'LeaderHasAttachedDon', count: 1 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const leaderId = base.players[P1]!.leader!;
     const s: GameState = {
@@ -591,7 +591,7 @@ describe('LeaderHasAttachedDon condition (ST21-001 pattern)', () => {
 describe('[Once Per Turn] — restriction activatedAbilityIds', () => {
   it('Activated utilisé une fois → succès', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'Activated', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'Activated', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('once-card', 'p1', 3000, { effects: [eff] });
     const s = addToP1Board(base, card);
     const result = applyAction(s, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
@@ -601,7 +601,7 @@ describe('[Once Per Turn] — restriction activatedAbilityIds', () => {
 
   it('Activated utilisé deux fois le même tour → ALREADY_ACTIVATED', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'Activated', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'Activated', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('once-card2', 'p1', 3000, { effects: [eff] });
     let s = addToP1Board(base, card);
     s = applyAction(s, { type: 'ActivatedAbility', playerId: P1, cardId: card.id }) as GameState;
@@ -651,7 +651,7 @@ describe('[Once Per Turn] — restriction activatedAbilityIds', () => {
 
   it('activatedAbilityIds vidé au changement de tour', () => {
     const base = bootstrapGame();
-    const eff: CardEffect = { trigger: 'Activated', actions: [{ type: 'Draw', count: 1 }] };
+    const eff: CardEffect = { trigger: 'Activated', actions: [{ type: 'DrawCard', count: 1 }] };
     const card = makeChar('once-card3', 'p1', 3000, { effects: [eff] });
     let s = addToP1Board(base, card);
     // Activate once
@@ -665,5 +665,115 @@ describe('[Once Per Turn] — restriction activatedAbilityIds', () => {
     s = applyAction(s, { type: 'EndPhase', playerId: P1 }) as GameState;
     // activatedAbilityIds cleared
     expect(s.activatedAbilityIds).not.toContain(card.id);
+  });
+});
+
+// ─── Régression : premier tour et Rush ───────────────────────────────────────
+
+describe('[Rush] régression — règle du premier tour', () => {
+  it('turnNumber 1 (premier tour J1) — aucune attaque même avec Rush', () => {
+    // OPTCG : seul le premier joueur ne peut pas attaquer à son tout premier tour.
+    const base = bootstrapGame();
+    const rushChar = makeChar('rush-t1', 'p1', 5000, { keywords: ['Rush'] });
+    const target = makeChar('target', 'p2', 1000, { tapped: true });
+    let s = addToP1Board(base, rushChar);
+    s = addToP2Board(s, target);
+    // Force turnNumber 1 (premier tour de J1)
+    s = { ...s, turnNumber: 1 };
+    const result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: rushChar.id, targetId: target.id,
+    });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
+  });
+
+  it('turnNumber 2 (premier tour J2) — peut attaquer avec un personnage déjà en jeu', () => {
+    // OPTCG : le second joueur peut attaquer dès son premier tour.
+    const base = bootstrapGame();
+    const char = makeChar('p2-veteran', 'p2', 3000);
+    const target = makeChar('p1-target', 'p1', 1000, { tapped: true });
+    let s = addToP2Board(base, char);
+    s = addToP1Board(s, target);
+    // Force turnNumber 2 (premier tour de J2, phase Main)
+    s = { ...s, turnNumber: 2, activePlayerId: P2, phase: 'Main' };
+    const result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P2, attackerId: char.id, targetId: target.id,
+    });
+    expect(isGameError(result)).toBe(false);
+  });
+
+  it('turnNumber 2 — personnage avec Rush posé ce tour peut attaquer', () => {
+    // Rush doit fonctionner dès le premier tour du second joueur.
+    const base = bootstrapGame();
+    const rushChar = makeChar('rush-p2', 'p2', 3000, { zone: 'hand', cost: 0, keywords: ['Rush'] });
+    const target = makeChar('p1-target', 'p1', 1000, { tapped: true });
+    let s = addToP1Board(base, target);
+    // Add rush char to P2 hand
+    s = {
+      ...s,
+      cards: { ...s.cards, [rushChar.id]: { ...rushChar, zone: 'hand' } },
+      players: { ...s.players, [P2]: { ...s.players[P2]!, hand: [...s.players[P2]!.hand, rushChar.id] } },
+    };
+    s = { ...s, turnNumber: 2, activePlayerId: P2, phase: 'Main' };
+
+    const afterPlay = applyAction(s, {
+      type: 'PlayCharacterFromHand', playerId: P2, cardId: rushChar.id,
+    });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    const result = applyAction(afterPlay, {
+      type: 'DeclareAttack', playerId: P2, attackerId: rushChar.id, targetId: target.id,
+    });
+    expect(isGameError(result)).toBe(false);
+  });
+
+  it('turnNumber 2 — personnage sans Rush posé ce tour → SUMMON_SICKNESS', () => {
+    const base = bootstrapGame();
+    const char = makeChar('no-rush-p2', 'p2', 3000, { zone: 'hand', cost: 0 });
+    const target = makeChar('p1-target', 'p1', 1000, { tapped: true });
+    let s = addToP1Board(base, target);
+    s = {
+      ...s,
+      cards: { ...s.cards, [char.id]: { ...char, zone: 'hand' } },
+      players: { ...s.players, [P2]: { ...s.players[P2]!, hand: [...s.players[P2]!.hand, char.id] } },
+    };
+    s = { ...s, turnNumber: 2, activePlayerId: P2, phase: 'Main' };
+
+    const afterPlay = applyAction(s, {
+      type: 'PlayCharacterFromHand', playerId: P2, cardId: char.id,
+    });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    const result = applyAction(afterPlay, {
+      type: 'DeclareAttack', playerId: P2, attackerId: char.id, targetId: target.id,
+    });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('SUMMON_SICKNESS');
+  });
+
+  it('Rush via GiveKeyword (temporaryKeyword) permet d\'attaquer le tour joué', () => {
+    // Une carte à laquelle on donne Rush via effet doit pouvoir attaquer immédiatement.
+    const base = bootstrapGame();
+    const target = makeChar('t', 'p2', 1000, { tapped: true });
+    const newChar = makeChar('new-char', 'p1', 3000, { zone: 'hand', cost: 0 });
+    let s = addToP2Board(base, target);
+    s = addToP1Hand(s, newChar);
+    // Play the character (adds to newBoardIds)
+    s = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: newChar.id }) as GameState;
+    // Manually grant Rush via temporaryKeywords (simulating GiveKeyword effect)
+    s = {
+      ...s,
+      cards: {
+        ...s.cards,
+        [newChar.id]: { ...s.cards[newChar.id]!, temporaryKeywords: ['Rush'] },
+      },
+    };
+    // Now the character is new AND has Rush → should be able to attack
+    const result = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: newChar.id, targetId: target.id,
+    });
+    expect(isGameError(result)).toBe(false);
   });
 });

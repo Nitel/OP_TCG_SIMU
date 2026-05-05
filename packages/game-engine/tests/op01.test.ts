@@ -132,8 +132,8 @@ describe('OP01-008 Cavendish: OnPlay TakeLifeToHand', () => {
     const cavendishEffect: CardEffect = {
       trigger: 'OnPlay',
       actions: [
-        { type: 'TakeLifeToHand', count: 1 },
-        { type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' },
+        { type: 'FlipLife', count: 1 },
+        { type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' },
       ],
     };
     const cavendish = makeChar('OP01-008', 'p1', 5000, {
@@ -155,10 +155,10 @@ describe('OP01-008 Cavendish: OnPlay TakeLifeToHand', () => {
     expect(isGameError(result)).toBe(false);
     if (isGameError(result)) return;
 
-    // Life zone shrank by 1
-    expect(result.players[P1]!.life.length).toBe(lifeBefore - 1);
-    // Hand: -1 (played cavendish) +1 (life card taken) → net 0
-    expect(result.players[P1]!.hand.length).toBe(handBefore);
+    // FlipLife: life card stays in zone (just becomes visible), life.length unchanged
+    expect(result.players[P1]!.life.length).toBe(lifeBefore);
+    // Hand: -1 (played cavendish), no card gained from life
+    expect(result.players[P1]!.hand.length).toBe(handBefore - 1);
     // Cavendish itself is on the board
     expect(result.players[P1]!.board.includes(cavendish.id)).toBe(true);
   });
@@ -173,8 +173,8 @@ describe('OP01-008 Cavendish: OnPlay GainKeyword Rush', () => {
     const cavendishEffect: CardEffect = {
       trigger: 'OnPlay',
       actions: [
-        { type: 'TakeLifeToHand', count: 1 },
-        { type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' },
+        { type: 'FlipLife', count: 1 },
+        { type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' },
       ],
     };
     const cavendish = makeChar('OP01-008', 'p1', 5000, {
@@ -203,7 +203,7 @@ describe('OP01-008 Cavendish: OnPlay GainKeyword Rush', () => {
     const cavendishEffect: CardEffect = {
       trigger: 'OnPlay',
       actions: [
-        { type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' },
+        { type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' },
       ],
     };
     const cavendish = makeChar('OP01-008', 'p1', 5000, {
@@ -260,7 +260,7 @@ describe('OP01-013 Sanji: Activated TakeLifeToHand + PowerBoost + AttachDon', ()
       {
         trigger: 'Activated',
         actions: [
-          { type: 'TakeLifeToHand', count: 1 },
+          { type: 'FlipLife', count: 1 },
           { type: 'PowerBoost', amount: 2000, target: { scope: 'Self' }, duration: 'EndOfTurn' },
           { type: 'AttachDon', count: 2, target: { scope: 'Self' } },
         ],
@@ -279,9 +279,9 @@ describe('OP01-013 Sanji: Activated TakeLifeToHand + PowerBoost + AttachDon', ()
       state,
     );
 
-    // TakeLifeToHand: life -1, hand +1
-    expect(after.players[P1]!.life.length).toBe(lifeBefore - 1);
-    expect(after.players[P1]!.hand.length).toBe(handBefore + 1);
+    // FlipLife: life card stays in zone (just becomes visible), life.length unchanged
+    expect(after.players[P1]!.life.length).toBe(lifeBefore);
+    expect(after.players[P1]!.hand.length).toBe(handBefore);
 
     // PowerBoost: +2000
     expect(calculatePower(sanjiId, after)).toBe(powerBefore + 2000 + 2 * 1000); // +2000 boost + 2 DON
@@ -356,10 +356,21 @@ describe("OP01-115 Elephant's Marchoo: OnPlay KO(maxCost≤2) + GiveDon 1", () =
 
     const p2BoardBefore = state.players[P2]!.board.length;
 
-    const result = applyAction(state, {
+    // OnPlay with ChooseOpponentCharacter goes through engine-side pendingTargetInteraction
+    const afterPlay = applyAction(state, {
       type: 'PlayCharacterFromHand',
       playerId: P1,
       cardId: marchoo.id,
+    });
+
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    expect(afterPlay.pendingTargetInteraction).not.toBeNull();
+
+    const result = applyAction(afterPlay, {
+      type: 'ResolveTargetInteraction',
+      playerId: P1,
+      targetCardId: target.id,
     });
 
     expect(isGameError(result)).toBe(false);
@@ -618,7 +629,7 @@ describe('ST21-015: Activated [DON!! x2] → GainKeyword Rush — peut attaquer 
     const activatedEffect: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'HasRestingDon', count: 2 },
-      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+      actions: [{ type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
     };
     const card = makeChar('ST21-015', 'p1', 4000, {
       zone: 'hand',
@@ -651,5 +662,72 @@ describe('ST21-015: Activated [DON!! x2] → GainKeyword Rush — peut attaquer 
     // DeclareAttack → must succeed despite summon sickness (Rush is in temporaryKeywords)
     const attack = applyAction(result, { type: 'DeclareAttack', playerId: P1, attackerId: card.id, targetId: target.id });
     expect(isGameError(attack)).toBe(false);
+  });
+});
+
+// ── ST21-015 Zoro — OnKO PlayFromHand (regression) ───────────────────────────
+
+describe('ST21-015 Zoro: OnKO PlayFromHand regression', () => {
+  it('when Zoro is KO\'d, sets pendingOnKOInteraction for Red Character ≤6000', () => {
+    const base = bootstrapGame();
+
+    const zoroOnKO: CardEffect = {
+      trigger: 'OnKO',
+      actions: [
+        { type: 'PlayFromHand', filter: { color: 'Red', cardType: 'Character', maxPower: 6000 } },
+      ],
+    };
+    const zoro = makeChar('ST21-015', 'p1', 5000, { zone: 'board', effects: [zoroOnKO] });
+    let state: GameState = {
+      ...base,
+      cards: { ...base.cards, [zoro.id]: zoro },
+      players: { ...base.players, [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, zoro.id] } },
+    };
+
+    // Zoro gets KO'd — simulate via resolveEffects OnKO
+    const after = resolveEffects(zoro.effects!, 'OnKO', { sourceCardId: zoro.id, sourcePlayerId: P1 }, state);
+
+    // pendingOnKOInteraction must be set, targeting P1 with correct filter
+    expect(after.pendingOnKOInteraction).not.toBeNull();
+    expect(after.pendingOnKOInteraction?.playerId).toBe(P1);
+    expect(after.pendingOnKOInteraction?.filter.color).toBe('Red');
+    expect(after.pendingOnKOInteraction?.filter.cardType).toBe('Character');
+    expect(after.pendingOnKOInteraction?.filter.maxPower).toBe(6000);
+  });
+
+  it('attacker is NOT KO\'d when counters make defender power exceed attacker power', () => {
+    const base = bootstrapGame();
+
+    const attacker = makeChar('zo-atk', 'p1', 3000, { zone: 'board', tapped: false, cost: 0, keywords: ['Rush'] });
+    const defender = makeChar('def-leader', 'p2', 5000, { type: 'Leader', zone: 'leader', tapped: false });
+
+    let state: GameState = {
+      ...base,
+      cards: { ...base.cards, [attacker.id]: attacker, [defender.id]: defender },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, attacker.id] },
+        [P2]: { ...base.players[P2]!, leader: defender.id },
+      },
+    };
+
+    // DeclareAttack → P1 attacks P2's leader
+    let result = applyAction(state, { type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: defender.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // Simulate counter already applied (counterPower 2000 → leader total 7000 > attacker 3000)
+    // Done by directly patching activeCombat counterPower (mirrors what PlayCounter does)
+    result = { ...result, activeCombat: result.activeCombat !== null ? { ...result.activeCombat, counterPower: 2000 } : null };
+
+    // ResolveCombat → attack repelled, attacker must NOT be KO'd
+    result = applyAction(result, { type: 'ResolveCombat', playerId: P1 });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // Attacker survives — attack was repelled by counters
+    expect(result.cards[attacker.id]?.zone).toBe('board');
+    // Defender (leader) also survives (attack failed)
+    expect(result.cards[defender.id]).toBeDefined();
   });
 });

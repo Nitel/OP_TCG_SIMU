@@ -91,15 +91,15 @@ export function resolveCombat(state: GameState): GameState {
 
   if (blockerId !== null) {
     // ── Blocked combat ───────────────────────────────────────────────────────
-    // Counter applies to the original target, not the blocker
+    // Counter applies to the original target, not the blocker.
+    // In OP TCG only the blocker can be KO'd; the attacker is never KO'd by blocking.
     const blockerPower = calculatePower(blockerId, state);
     const blockerCard = state.cards[blockerId]; // read BEFORE trash
 
     if (attackerPower >= blockerPower) {
       next = koCard(next, blockerId, blockerCard);
-    } else {
-      next = koCard(next, attackerId, attacker);
     }
+    // else: attack repelled, blocker survives, attacker is unharmed
   } else {
     // ── Unblocked attack ─────────────────────────────────────────────────────
     const target = state.cards[targetId];

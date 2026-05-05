@@ -153,7 +153,7 @@ describe('OnPlay: Draw 1', () => {
     const base = bootstrapGame();
     const drawEffect: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const playCard = makeChar('draw-card', 'p1', 2000, {
       zone: 'hand',
@@ -224,12 +224,12 @@ describe('DoubleAttack: 2 dégâts au leader', () => {
 
 // ── 3. OnPlay — TrashCard (opponent discards 1) ───────────────────────────────
 
-describe('OnPlay: TrashCard — opponent discards 1', () => {
-  it("l'adversaire défausse 1 carte quand la carte est jouée", () => {
+describe('OnPlay: TrashFromHand — joueur défausse depuis sa main', () => {
+  it('crée une pendingTrashInteraction quand la carte est jouée', () => {
     const base = bootstrapGame();
     const trashEffect: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'TrashCard', count: 1, from: 'OpponentHand' }],
+      actions: [{ type: 'TrashFromHand', filter: {}, count: 1, thenActions: [] }],
     };
     const playCard = makeChar('sniper', 'p1', 2000, {
       zone: 'hand',
@@ -237,8 +237,6 @@ describe('OnPlay: TrashCard — opponent discards 1', () => {
       effects: [trashEffect],
     });
     const state = addToHand(base, playCard);
-
-    const p2HandBefore = state.players[P2]!.hand.length;
 
     const result = applyAction(state, {
       type: 'PlayCharacterFromHand',
@@ -248,8 +246,9 @@ describe('OnPlay: TrashCard — opponent discards 1', () => {
     expect(isGameError(result)).toBe(false);
     if (isGameError(result)) return;
 
-    expect(result.players[P2]!.hand.length).toBe(p2HandBefore - 1);
-    expect(result.players[P2]!.trash.length).toBe(1);
+    // TrashFromHand pauses and sets pendingTrashInteraction
+    expect(result.pendingTrashInteraction).not.toBeNull();
+    expect(result.pendingTrashInteraction?.playerId).toBe(P1);
   });
 });
 
@@ -342,7 +341,7 @@ describe('Trigger: révélé depuis Life zone → Draw 1', () => {
     const triggerCardId = makeCardId('trigger-card');
     const triggerEffect: CardEffect = {
       trigger: 'Trigger',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const triggerCard = makeChar('trigger-card', 'p2', 2000, {
       zone: 'life',
@@ -400,7 +399,7 @@ describe('OnKO: Draw 1 quand la carte est KO', () => {
     const victimId = makeCardId('martyr');
     const koEffect: CardEffect = {
       trigger: 'OnKO',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     // Put victim on P2's board (P1 will KO it)
     const victim = makeChar('martyr', 'p2', 1000, { zone: 'board', tapped: true, effects: [koEffect] });
@@ -496,10 +495,20 @@ describe('OnPlay: ReturnToHand (personnage adverse)', () => {
     const p2BoardBefore = state.players[P2]!.board.length;
     const p2HandBefore  = state.players[P2]!.hand.length;
 
-    const result = applyAction(state, {
+    // OnPlay with ChooseOpponentCharacter goes through engine-side pendingTargetInteraction
+    const afterPlay = applyAction(state, {
       type: 'PlayCharacterFromHand',
       playerId: P1,
       cardId: playCard.id,
+    });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    expect(afterPlay.pendingTargetInteraction).not.toBeNull();
+
+    const result = applyAction(afterPlay, {
+      type: 'ResolveTargetInteraction',
+      playerId: P1,
+      targetCardId: targetId,
     });
     expect(isGameError(result)).toBe(false);
     if (isGameError(result)) return;
@@ -549,7 +558,7 @@ describe('PlayEvent', () => {
     const base = bootstrapGame();
     const drawEffect: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const eventCard: Card = {
       id: makeCardId('event-draw'),
@@ -613,7 +622,7 @@ describe('Condition HasRestingDon', () => {
     const condEffect: CardEffect = {
       trigger: 'OnPlay',
       condition: { type: 'HasRestingDon', count: 2 },
-      actions: [{ type: 'Draw', count: 2 }],
+      actions: [{ type: 'DrawCard', count: 2 }],
     };
     const playCard = makeChar('cond-card', 'p1', 2000, {
       zone: 'hand',
@@ -641,7 +650,7 @@ describe('Condition HasRestingDon', () => {
     const condEffect: CardEffect = {
       trigger: 'OnPlay',
       condition: { type: 'HasRestingDon', count: 2 },
-      actions: [{ type: 'Draw', count: 2 }],
+      actions: [{ type: 'DrawCard', count: 2 }],
     };
     const playCard = makeChar('cond-card-2', 'p1', 2000, {
       zone: 'hand',
@@ -802,7 +811,7 @@ describe('HasAttachedDon Activated : Rush accordé quand 2 DON!! attachés (patt
     const eff: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'HasAttachedDon', count: 2 },
-      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+      actions: [{ type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
     };
     const card = makeChar('zoro-pattern', 'p1', 5000, { effects: [eff] });
     let s = addToP1Board(base, card);
@@ -825,7 +834,7 @@ describe('HasAttachedDon Activated : Rush accordé quand 2 DON!! attachés (patt
     const eff: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'HasAttachedDon', count: 2 },
-      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+      actions: [{ type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
     };
     const card = makeChar('zoro-1don', 'p1', 5000, { effects: [eff] });
     let s = addToP1Board(base, card);
@@ -847,7 +856,7 @@ describe('Activated HasRestingDon : coût DON!! payé après activation', () => 
     const eff: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'HasRestingDon', count: 1 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const card = makeChar('don-cost-card', 'p1', 3000, { effects: [eff] });
     let s = addToP1Board(base, card);
@@ -869,7 +878,7 @@ describe('Activated HasRestingDon : coût DON!! payé après activation', () => 
     const eff: CardEffect = {
       trigger: 'Activated',
       condition: { type: 'HasRestingDon', count: 2 },
-      actions: [{ type: 'Draw', count: 1 }],
+      actions: [{ type: 'DrawCard', count: 1 }],
     };
     const card = makeChar('don-cost-fail', 'p1', 3000, { effects: [eff] });
     let s = addToP1Board(base, card);
@@ -952,7 +961,7 @@ describe('GainKeyword: durée Permanent vs EndOfTurn', () => {
     const base = bootstrapGame();
     const eff: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'GainKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
+      actions: [{ type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'EndOfTurn' }],
     };
     const card = makeChar('temp-rusher', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
     const state = addToHand(base, card);
@@ -978,7 +987,7 @@ describe('GainKeyword: durée Permanent vs EndOfTurn', () => {
     const base = bootstrapGame();
     const eff: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'GainKeyword', keyword: 'Blocker', target: { scope: 'Self' }, duration: 'Permanent' }],
+      actions: [{ type: 'GiveKeyword', keyword: 'Blocker', target: { scope: 'Self' }, duration: 'Permanent' }],
     };
     const card = makeChar('perm-blocker', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
     const state = addToHand(base, card);
@@ -1006,7 +1015,7 @@ describe('GainKeyword: durée Permanent vs EndOfTurn', () => {
     const base = bootstrapGame();
     const eff: CardEffect = {
       trigger: 'OnPlay',
-      actions: [{ type: 'GainKeyword', keyword: 'DoubleAttack', target: { scope: 'Self' }, duration: 'Permanent' }],
+      actions: [{ type: 'GiveKeyword', keyword: 'DoubleAttack', target: { scope: 'Self' }, duration: 'Permanent' }],
     };
     const card = makeChar('perm-da', 'p1', 2000, { zone: 'hand', cost: 0, effects: [eff] });
     const state = addToHand(base, card);
@@ -1204,7 +1213,7 @@ describe('pendingTargetInteraction : ChooseTarget suivi d\'autres actions', () =
       trigger: 'OnAttack',
       actions: [
         { type: 'PowerBoost', amount: 2000, target: { scope: 'ChooseOwnCharacter' }, duration: 'EndOfTurn' },
-        { type: 'Draw', count: 1 },
+        { type: 'DrawCard', count: 1 },
       ],
     };
     const attacker = makeChar('chain-atk', 'p1', 5000, { effects: [eff] });
@@ -1346,5 +1355,176 @@ describe('RevealFromHand', () => {
     });
     expect(isGameError(err)).toBe(true);
     if (isGameError(err)) expect(err.code).toBe('INVALID_TARGET');
+  });
+});
+
+// ── Régression : conditions leader (LeaderHasType / LeaderHasAnyType / LeaderIsName) ──────────
+
+describe('Condition LeaderHasType', () => {
+  it('effet ignoré quand le leader manque le subType → carte jouable sans blocage', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'LeaderHasType', subType: 'Revolutionary Army' },
+      actions: [{ type: 'PowerBoost', amount: -3000, target: { scope: 'ChooseOpponentCharacter' }, duration: 'EndOfTurn' }],
+    };
+    const opponentChar = makeChar('op-char', 'p2', 3000);
+    const playCard = makeChar('koala', 'p1', 3000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToHand(base, playCard);
+    state = addToP2Board(state, opponentChar);
+
+    // Leader has no subTypes → condition fails → card plays without pendingTargetInteraction
+    const result = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: playCard.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.pendingTargetInteraction).toBeNull();
+    expect(result.cards[playCard.id]?.zone).toBe('board');
+    // Opponent character untouched
+    expect(result.cards[opponentChar.id]?.powerModifierOT).toBeUndefined();
+  });
+
+  it('effet déclenche pendingTargetInteraction quand le leader a le subType', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'LeaderHasType', subType: 'Revolutionary Army' },
+      actions: [{ type: 'PowerBoost', amount: -3000, target: { scope: 'ChooseOpponentCharacter' }, duration: 'EndOfTurn' }],
+    };
+    const opponentChar = makeChar('op-char', 'p2', 3000);
+    const playCard = makeChar('koala', 'p1', 3000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToHand(base, playCard);
+    state = addToP2Board(state, opponentChar);
+
+    // Patch P1 leader to have the required subType
+    const leaderId = state.players[P1]!.leader!;
+    state = { ...state, cards: { ...state.cards, [leaderId]: { ...state.cards[leaderId]!, subTypes: 'Revolutionary Army' } } };
+
+    const afterPlay = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: playCard.id,
+    });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    expect(afterPlay.pendingTargetInteraction).not.toBeNull();
+
+    const result = applyAction(afterPlay, {
+      type: 'ResolveTargetInteraction',
+      playerId: P1,
+      targetCardId: opponentChar.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(calculatePower(opponentChar.id, result)).toBe(0); // 3000 - 3000
+  });
+});
+
+describe('Condition LeaderHasAnyType', () => {
+  it('effet déclenche si le leader a UN des types (OR)', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'LeaderHasAnyType', subTypes: ['Fish-Man', 'Merfolk'] },
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const playCard = makeChar('fishman-helper', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToHand(base, playCard);
+
+    // Leader has "Merfolk" → second type in OR list
+    const leaderId = state.players[P1]!.leader!;
+    state = { ...state, cards: { ...state.cards, [leaderId]: { ...state.cards[leaderId]!, subTypes: 'Merfolk' } } };
+
+    const deckBefore = state.players[P1]!.deck.length;
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 1); // drew 1
+  });
+
+  it('effet ignoré si le leader n\'a aucun des types', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'LeaderHasAnyType', subTypes: ['Fish-Man', 'Merfolk'] },
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const playCard = makeChar('fishman-helper', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, playCard);
+
+    const deckBefore = state.players[P1]!.deck.length;
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore); // no draw
+  });
+});
+
+describe('Condition LeaderIsName', () => {
+  it('effet déclenche quand le nom du leader correspond', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'LeaderIsName', name: 'p1-leader' },
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const playCard = makeChar('ace-helper', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, playCard);
+
+    // P1 leader name is 'p1-leader' (from makePlayerSetup helper)
+    const deckBefore = state.players[P1]!.deck.length;
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 1);
+  });
+
+  it('effet ignoré quand le nom du leader ne correspond pas', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'LeaderIsName', name: 'Portgas.D.Ace' },
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const playCard = makeChar('ace-helper', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, playCard);
+
+    const deckBefore = state.players[P1]!.deck.length;
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore); // no draw
+  });
+});
+
+// ── Régression : OnPlay avec ChooseOpponentCharacter → engine-side (pas de blocage client) ─────
+
+describe('Régression : OnPlay ChooseOpponentCharacter → pendingTargetInteraction engine-side', () => {
+  it('PlayCharacterFromHand sans chosenTargetId → pendingTargetInteraction set (pas de blocage)', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'ReturnToHand', target: { scope: 'ChooseOpponentCharacter' } }],
+    };
+    const opChar = makeChar('op-target', 'p2', 2000);
+    const playCard = makeChar('tactician', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToHand(base, playCard);
+    state = addToP2Board(state, opChar);
+
+    const afterPlay = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: playCard.id,
+    });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    // Engine sets pendingTargetInteraction instead of auto-resolving
+    expect(afterPlay.pendingTargetInteraction).not.toBeNull();
+    expect(afterPlay.pendingTargetInteraction?.scope).toBe('ChooseOpponentCharacter');
+    // Card is already on the board
+    expect(afterPlay.cards[playCard.id]?.zone).toBe('board');
   });
 });

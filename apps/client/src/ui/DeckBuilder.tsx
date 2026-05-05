@@ -3,13 +3,8 @@ import type { CSSProperties } from 'react';
 import type { CardTemplate, SavedDeck } from '../data/deckBuilder';
 import {
   ALL_CARD_TEMPLATES, saveDeckToStorage,
-  loadDecksFromStorage, deleteDeckFromStorage, cardSetFromId,
+  loadDecksFromStorage, deleteDeckFromStorage, cardSetFromId, baseCardId,
 } from '../data/deckBuilder';
-
-// ─── Base card ID (strips variant suffixes like _p1, _p2, _r1, _r2, …) ──────
-function baseCardId(id: string): string {
-  return id.match(/^([A-Z]{2,3}\d{2}-\d{3})/)?.[1] ?? id;
-}
 
 // ─── CDN image URL ────────────────────────────────────────────────────────────
 
@@ -501,7 +496,7 @@ export function DeckBuilder({ initialDeck, onSave, onCancel }: Props) {
   };
 
   const handleImport = (text: string) => {
-    const re = /(\d+)[xX×]?\s+([A-Z]+\d{2}-\d{3})/g;
+    const re = /(\d+)[xX×]?\s+([A-Z]+\d*-\d{3})/g;
     const newCounts: Record<string, number> = {};
     let newLeader: string | null = null;
     let match: RegExpExecArray | null;

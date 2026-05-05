@@ -92,7 +92,7 @@ function buildCombatState(attackerPower: number, targetPower: number): GameState
 
   return {
     ...base,
-    turnNumber: 3, // bypass first-turn attack restriction (turns 1 & 2 forbid attacks)
+    turnNumber: 3, // bypass first-turn restriction (only turn 1 / P1's first turn bans attacks)
     cards: { ...base.cards, [attackerId]: attacker, [targetId]: target },
     players: {
       ...base.players,
@@ -503,46 +503,51 @@ describe('ResolveCombat — attaque bloquée', () => {
     }
   });
 
-  it('KO l\'attaquant si power attaquant < power blocker', () => {
+  it('attaquant survit si power attaquant < power blocker (attaque repoussée, personne KO)', () => {
+    // OP TCG rule: only the blocker can be KO'd; attacker is never KO'd by blocking
     const state  = setupBlockedCombat(2000, 4000);
     const result = applyAction(state, { type: 'ResolveCombat', playerId: P1 });
 
     expect(isGameError(result)).toBe(false);
     if (!isGameError(result)) {
-      expect(result.cards[makeCardId('attacker')]!.zone).toBe('trash');
-      expect(result.players[P1]!.trash).toContain(makeCardId('attacker'));
+      // Attacker survives — attack was repelled
+      expect(result.cards[makeCardId('attacker')]!.zone).toBe('board');
+      // Blocker also survives (attacker was weaker)
+      expect(result.cards[makeCardId('blocker')]!.zone).toBe('board');
       expect(result.activeCombat).toBeNull();
     }
   });
 
-  it('les DON attachés retournent en donArea quand leur porteur est KO', () => {
+  it('les DON attachés retournent en donArea quand leur porteur (blocker) est KO', () => {
+    // Attacker wins (stronger) → blocker is KO'd → DON on the blocker detach
     const base       = buildCombatState(4000, 2000);
     const attackerId = makeCardId('attacker');
-    const donId      = makeCardId('extra-don');
-    const don        = makeDon('extra-don', 'p1', 'attacker');
+
+    // Add a DON attached to the blocker
+    const donId  = makeCardId('extra-don');
+    const blockerId = makeCardId('weak-blocker');
+    const blockerChar = makeChar('weak-blocker', 'p2', 1000, { keywords: ['Blocker'] });
+    const don = {
+      id: donId,
+      name: 'DON!!',
+      cost: 0, power: 0, color: 'Red' as const,
+      type: 'DON' as const,
+      zone: 'donArea' as const,
+      ownerId: P2,
+      tapped: false,
+      attachedTo: blockerId,
+    };
 
     const s: GameState = {
       ...base,
-      cards: { ...base.cards, [donId]: don },
+      cards: { ...base.cards, [donId]: don, [blockerId]: blockerChar },
       players: {
         ...base.players,
-        [P1]: { ...base.players[P1]!, donArea: [...base.players[P1]!.donArea, donId] },
+        [P2]: { ...base.players[P2]!, board: [...base.players[P2]!.board, blockerId], donArea: [...base.players[P2]!.donArea, donId] },
       },
     };
 
-    // Use a blocker with higher power to KO the attacker
-    const blockerId = makeCardId('strong-blocker');
-    const blocker   = makeChar('strong-blocker', 'p2', 8000, { keywords: ['Blocker'] });
-    const s2: GameState = {
-      ...s,
-      cards: { ...s.cards, [blockerId]: blocker },
-      players: {
-        ...s.players,
-        [P2]: { ...s.players[P2]!, board: [...s.players[P2]!.board, blockerId] },
-      },
-    };
-
-    const afterAttack = applyAction(s2, {
+    const afterAttack = applyAction(s, {
       type: 'DeclareAttack', playerId: P1, attackerId, targetId: makeCardId('target'),
     });
     if (isGameError(afterAttack)) throw new Error();
@@ -556,7 +561,11 @@ describe('ResolveCombat — attaque bloquée', () => {
 
     expect(isGameError(result)).toBe(false);
     if (!isGameError(result)) {
-      // Attacker KO'd, its DON detached
+      // Blocker KO'd (attacker 4000 >= blocker 1000)
+      expect(result.cards[blockerId]!.zone).toBe('trash');
+      // Attacker survives
+      expect(result.cards[attackerId]!.zone).toBe('board');
+      // DON on blocker detached
       expect(result.cards[donId]!.attachedTo).toBeNull();
     }
   });
@@ -813,19 +822,28 @@ describe('DeclareAttack — restriction premier tour', () => {
     if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
   });
 
-  it('NO_ATTACK_FIRST_TURN à turnNumber === 2 (second joueur)', () => {
-    const base = buildCombatState(3000, 2000);
-    // Make P2 the active player for their first turn
-    const state = { ...base, turnNumber: 2, activePlayerId: P2 };
-    const targetId = base.players[P1]!.board[0]!;
+  it('turnNumber === 2 (premier tour J2) — peut attaquer (OPTCG : seul J1 est bloqué au tour 1)', () => {
+    const base = bootstrapGame();
+    // Build state with P2 active, turnNumber 2, with an untapped attacker for P2
+    const p2Attacker = makeChar('p2-attacker', 'p2', 3000); // untapped by default
+    const p1Target   = makeChar('p1-target',   'p1', 1000, { tapped: true });
+    let state: GameState = {
+      ...base,
+      turnNumber: 2,
+      activePlayerId: P2,
+      phase: 'Main',
+      cards: { ...base.cards, [p2Attacker.id]: p2Attacker, [p1Target.id]: p1Target },
+      players: {
+        ...base.players,
+        [P2]: { ...base.players[P2]!, board: [...base.players[P2]!.board, p2Attacker.id] },
+        [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, p1Target.id] },
+      },
+    };
     const result = applyAction(state, {
-      type: 'DeclareAttack',
-      playerId: P2,
-      attackerId: makeCardId('target'), // P2's card is named 'target' in buildCombatState
-      targetId,
+      type: 'DeclareAttack', playerId: P2, attackerId: p2Attacker.id, targetId: p1Target.id,
     });
-    expect(isGameError(result)).toBe(true);
-    if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
+    // P2 can attack on their first turn — only P1's turn 1 is banned
+    expect(isGameError(result)).toBe(false);
   });
 
   it('autorise l\'attaque à turnNumber === 3 (dès le 3e tour)', () => {

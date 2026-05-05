@@ -317,14 +317,15 @@ function validatePlayerSetup(setup: PlayerSetup, label: string): GameError | nul
     return makeGameError('INVALID_DECK', `${label}: DON deck must have exactly 10 cards (got ${setup.donCards.length})`);
   }
 
-  // Max 4 copies of any card (by name)
+  // Max 4 copies of any card (by template ID — same name ≠ same card)
   const counts = new Map<string, number>();
   for (const card of setup.deckCards) {
-    const n = (counts.get(card.name) ?? 0) + 1;
+    const templateId = card.id.match(/[A-Z]+\d*-\d{3}/)?.[0] ?? card.name;
+    const n = (counts.get(templateId) ?? 0) + 1;
     if (n > 4) {
-      return makeGameError('INVALID_DECK', `${label}: more than 4 copies of "${card.name}"`);
+      return makeGameError('INVALID_DECK', `${label}: more than 4 copies of "${card.name}" (${templateId})`);
     }
-    counts.set(card.name, n);
+    counts.set(templateId, n);
   }
 
   // Color compatibility: each deck card must share at least one color with the leader
@@ -389,6 +390,7 @@ function applyStartGame(
     pendingTargetInteraction: null,
     pendingRevealInteraction: null,
     pendingTrashInteraction: null,
+    pendingSearchInteraction: null,
   };
 }
 
@@ -636,8 +638,10 @@ function applyDeclareAttack(
   if (state.activeCombat !== null) {
     return makeGameError('COMBAT_ALREADY_ACTIVE', 'Another combat is already pending resolution');
   }
-  if (state.turnNumber <= 2) {
-    return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed on the first turn');
+  // OPTCG rule: only the first player's very first turn (turnNumber 1) bans all attacks.
+  // The second player can attack freely on their first turn (turnNumber 2).
+  if (state.turnNumber <= 1) {
+    return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed on the first player\'s first turn');
   }
   if (state.winner !== null) {
     return makeGameError('GAME_OVER', 'The game has already ended');
@@ -798,16 +802,41 @@ function applyDeclareBlock(
     activeCombat: { ...state.activeCombat, blockerId: action.blockerId },
   };
 
-  // Trigger OnBlock effects
+  // Trigger OnBlock effects on the blocker itself
+  let afterOnBlock = afterBlock;
   if (blocker.effects?.length) {
-    return resolveEffects(
+    afterOnBlock = resolveEffects(
       blocker.effects,
       'OnBlock',
       { sourceCardId: action.blockerId, sourcePlayerId: action.playerId },
-      afterBlock,
+      afterOnBlock,
     );
   }
-  return afterBlock;
+
+  // Trigger OnOpponentBlock effects on ALL cards belonging to the attacking player
+  // (fires for cards like Gol.D.Roger that watch for the opponent using a Blocker)
+  const attackingPlayerId = afterOnBlock.activePlayerId;
+  const attackingPlayer = afterOnBlock.players[attackingPlayerId];
+  if (attackingPlayer !== undefined) {
+    const attackerCards = [
+      ...(attackingPlayer.leader !== null ? [attackingPlayer.leader] : []),
+      ...attackingPlayer.board,
+    ];
+    for (const cardId of attackerCards) {
+      const c = afterOnBlock.cards[cardId];
+      if (c?.effects?.length) {
+        afterOnBlock = resolveEffects(
+          c.effects,
+          'OnOpponentBlock',
+          { sourceCardId: cardId, sourcePlayerId: attackingPlayerId },
+          afterOnBlock,
+        );
+        if (afterOnBlock.winner !== null) return afterOnBlock;
+      }
+    }
+  }
+
+  return afterOnBlock;
 }
 
 // ─── PlayEvent ────────────────────────────────────────────────────────────────
@@ -1272,6 +1301,51 @@ function applyResolveRevealInteraction(
   return next;
 }
 
+// ─── ResolveSearchInteraction ─────────────────────────────────────────────────
+
+function applyResolveSearchInteraction(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveSearchInteraction' }>,
+): ActionResult {
+  const pending = state.pendingSearchInteraction;
+  if (pending === null) return makeGameError('NO_PENDING_INTERACTION', 'No pending search interaction');
+  if (pending.playerId !== action.playerId) return makeGameError('WRONG_PLAYER', 'Wrong player resolving search');
+
+  const player = state.players[pending.playerId];
+  if (player === undefined) return makeGameError('UNKNOWN_PLAYER', `Player ${pending.playerId} not found`);
+
+  // Remove revealed cards from deck (they were logically "lifted" for viewing)
+  const revealedSet = new Set(pending.revealedCardIds);
+  const newDeck = player.deck.filter((id) => !revealedSet.has(id));
+
+  let next: GameState = { ...state, pendingSearchInteraction: null };
+  const chosen = action.chosenCardId;
+
+  if (chosen !== null && revealedSet.has(chosen)) {
+    // Play the chosen card to its destination
+    const chosenCard = state.cards[chosen];
+    const dest = (pending.destination === 'board' && chosenCard?.type === 'Character') ? 'board' : 'hand';
+    const restIds = pending.revealedCardIds.filter((id) => id !== chosen);
+    const updatedPlayer: PlayerState = {
+      ...player,
+      deck: [...restIds, ...newDeck], // return rest to top
+      hand:  dest === 'hand'  ? [...player.hand,  chosen] : player.hand,
+      board: dest === 'board' ? [...player.board, chosen] : player.board,
+    };
+    next = {
+      ...next,
+      cards: { ...next.cards, [chosen]: { ...next.cards[chosen]!, zone: dest } } as Readonly<Record<CardId, Card>>,
+      players: { ...next.players, [pending.playerId]: updatedPlayer },
+    };
+  } else {
+    // Player passed — return all revealed cards to top of deck
+    const updatedPlayer: PlayerState = { ...player, deck: [...pending.revealedCardIds, ...newDeck] };
+    next = { ...next, players: { ...next.players, [pending.playerId]: updatedPlayer } };
+  }
+
+  return next;
+}
+
 // ─── ResolveTrashInteraction ──────────────────────────────────────────────────
 
 function applyResolveTrashInteraction(
@@ -1284,6 +1358,20 @@ function applyResolveTrashInteraction(
   }
   if (pending.playerId !== action.playerId) {
     return makeGameError('WRONG_PLAYER', `Player ${action.playerId} cannot resolve another player's trash`);
+  }
+
+  // Optional: player may send empty array to skip even if matching cards exist
+  if (action.trashedCardIds.length === 0 && pending.optional === true) {
+    // Skip — clear interaction and continue with remaining effects
+    let next: GameState = { ...state, pendingTrashInteraction: null };
+    // Still need to run thenActions (they just won't have any trashed cards to scale off)
+    // … handled naturally by the common resolution path below with trashedCount=0
+    // Fall through to common resolution with empty trashedCardIds
+  }
+
+  // Count validation
+  if (pending.count !== undefined && action.trashedCardIds.length > 0 && action.trashedCardIds.length !== pending.count) {
+    return makeGameError('INVALID_TRASH_COUNT', `Must trash exactly ${pending.count} card(s)`);
   }
 
   // Validate each chosen card: must be in hand, owned by the player, and match the filter
@@ -1417,6 +1505,8 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyResolveRevealInteraction(state, action);
     case 'ResolveTrashInteraction':
       return applyResolveTrashInteraction(state, action);
+    case 'ResolveSearchInteraction':
+      return applyResolveSearchInteraction(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

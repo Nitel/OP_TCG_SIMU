@@ -13,7 +13,7 @@
       "trigger": "OnAttacked",
       "actions": [
         {
-          "type": "GainKeyword",
+          "type": "GiveKeyword",
           "keyword": "Blocker",
           "target": {
             "scope": "Self"
@@ -32,9 +32,10 @@
           }
         },
         {
-          "type": "TrashCard",
+          "type": "TrashFromHand",
           "count": 1,
-          "from": "OwnHand"
+          "filter": {},
+          "thenActions": []
         }
       ]
     }
