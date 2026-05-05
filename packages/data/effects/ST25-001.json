@@ -1,17 +1,12 @@
 {
   "id": "ST25-001",
-  "name": "Alvida",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "If you have 2 or more Characters with a base cost of 5 or more, this Character gains +1 cost. [On Play] If your Leader is [Buggy], draw 3 cards and trash 2 cards from your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Buggy"
+        "type": "LeaderIsName",
+        "leaderName": "Buggy"
       },
       "actions": [
         {
@@ -20,12 +15,9 @@
         },
         {
           "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+          "count": 2
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

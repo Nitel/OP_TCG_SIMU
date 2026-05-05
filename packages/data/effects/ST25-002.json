@@ -1,18 +1,15 @@
 {
   "id": "ST25-002",
-  "name": "Cabaji",
-  "cost": 4,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "parameters": {
+          "count": 2,
+          "minBaseCost": 5,
+          "controller": "Self"
+        }
       },
       "actions": [
         {
@@ -22,11 +19,22 @@
             "scope": "Self"
           },
           "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
         }
       ]
     },
     {
-      "trigger": "OnAttacked",
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -34,10 +42,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

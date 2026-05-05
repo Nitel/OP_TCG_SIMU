@@ -1,11 +1,6 @@
 {
   "id": "ST25-003",
-  "name": "Crocodile & Mihawk",
-  "cost": 8,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "ST25-003",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -15,10 +10,9 @@
           "count": 2
         },
         {
-          "type": "TrashFromHand",
+          "type": "ForceDiscard",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         },
         {
           "type": "PlayFromHand",
@@ -26,7 +20,25 @@
             "subType": "Cross Guild",
             "cardType": "Character",
             "maxCost": 4
-          }
+          },
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "subType": "Cross Guild",
+          "cardType": "Character"
+        }
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {}
         }
       ]
     }

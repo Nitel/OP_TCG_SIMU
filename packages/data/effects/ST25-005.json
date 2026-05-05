@@ -1,16 +1,12 @@
 {
   "id": "ST25-005",
-  "name": "Mohji",
-  "cost": 4,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "staticAbilities": [
     {
-      "trigger": "OnBlock",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "count": 2,
+        "baseCost": 5,
+        "cardType": "Character"
       },
       "actions": [
         {
@@ -20,14 +16,27 @@
             "scope": "Self"
           },
           "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "cost": 1,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
         }
       ]
-    },
+    }
+  ],
+  "triggeredAbilities": [
     {
       "trigger": "OnKO",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Buggy"
+        "type": "LeaderIsName",
+        "name": "Buggy",
+        "handCount": {
+          "max": 3
+        }
       },
       "actions": [
         {
@@ -36,6 +45,5 @@
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }
