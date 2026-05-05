@@ -1,31 +1,21 @@
 {
   "id": "OP07-086",
-  "name": "Spandam",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "ForceDiscard",
+      "count": 2,
+      "source": "Deck",
+      "filter": {}
+    },
+    {
+      "type": "PowerBoost",
+      "amount": -2000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "optional": true
+      },
+      "duration": "EndOfTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

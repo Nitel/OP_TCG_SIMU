@@ -1,33 +1,35 @@
 {
-  "id": "OP07-091",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "perTrashedCard": true,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "SearchDeck",
+        "source": "Trash",
+        "target": {
+          "scope": "CharacterCard",
+          "minCost": 4,
+          "maxCount": -1
+        },
+        "placement": "BottomOfDeck"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "perCards": 3,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP07-091"
 }

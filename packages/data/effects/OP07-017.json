@@ -1,29 +1,22 @@
 {
   "id": "OP07-017",
-  "name": "Dragon Breath",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 3000
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxPower": 3000,
+        "maxQuantity": 1
+      }
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentStage",
+        "maxCost": 1,
+        "maxQuantity": 1
+      }
     }
   ]
 }

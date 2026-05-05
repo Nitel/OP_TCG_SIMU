@@ -1,26 +1,29 @@
 {
-  "id": "OP07-024",
-  "name": "Koala",
-  "cost": 3,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 5
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "Always"
+    },
+    "cost": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 5,
+          "typeFilter": "Fish-Man"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP07-024"
 }

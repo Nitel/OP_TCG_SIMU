@@ -1,24 +1,26 @@
 {
-  "id": "OP07-075",
-  "name": "Slow-Slow Beam",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentLeader",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "OpponentCharacters",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP07-075"
 }

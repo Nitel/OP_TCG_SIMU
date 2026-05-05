@@ -1,31 +1,22 @@
 {
   "id": "OP07-003",
-  "name": "Outlook III",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "KO",
+      "target": {
+        "scope": "Self"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": -2000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "count": 2,
+        "maxCount": true
+      },
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

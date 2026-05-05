@@ -1,29 +1,18 @@
 {
-  "id": "OP07-053",
-  "name": "Portgas.D.Ace",
-  "cost": 5,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "SearchDeck",
+        "count": 2,
+        "destination": "TopOrBottomOfDeck",
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP07-053"
 }

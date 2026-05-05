@@ -1,25 +1,22 @@
 {
-  "id": "OP07-090",
-  "name": "Morgans",
-  "cost": 2,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "count": 1
-        },
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": "opponent"
+      },
+      {
+        "type": "RevealFromHand",
+        "target": "opponent"
+      },
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "target": "opponent"
+      }
+    ]
+  },
+  "id": "OP07-090"
 }

@@ -1,11 +1,17 @@
 {
   "id": "OP07-039",
-  "name": "Edward Weevil",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "destination": "TopOrBottom",
+          "rearrange": true
+        }
+      ]
+    }
+  ]
 }

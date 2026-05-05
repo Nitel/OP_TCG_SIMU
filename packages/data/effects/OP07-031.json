@@ -1,31 +1,34 @@
 {
-  "id": "OP07-031",
-  "name": "Bartolomeo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnAttacked",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttacked",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "thenActions": []
+      }
+    ],
+    "limiter": "OncePerTurn"
+  },
+  "id": "OP07-031"
 }

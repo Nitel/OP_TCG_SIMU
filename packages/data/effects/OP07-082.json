@@ -1,31 +1,27 @@
 {
   "id": "OP07-082",
-  "name": "Captain John",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP07-082",
+  "effectText": "[On Play] Trash 2 cards from the top of your deck and give up to 1 of your opponent's Characters −1 cost during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "ForceDiscard",
           "count": 2,
-          "filter": {},
-          "thenActions": []
+          "source": "TopOfDeck",
+          "filter": {}
         },
         {
           "type": "PowerBoost",
           "amount": -1000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

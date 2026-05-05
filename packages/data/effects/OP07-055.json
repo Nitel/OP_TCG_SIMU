@@ -1,42 +1,24 @@
 {
-  "id": "OP07-055",
-  "name": "Snake Dance",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxCount": 1
         },
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCount": 1
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-055"
 }

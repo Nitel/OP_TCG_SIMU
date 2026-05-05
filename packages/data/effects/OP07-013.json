@@ -1,27 +1,37 @@
 {
   "id": "OP07-013",
-  "name": "Masked Deuce",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderIsName",
+    "value": "Portgas.D.Ace"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "from": 5,
+      "filter": {
+        "kind": "Or",
+        "conditions": [
+          {
+            "kind": "Name",
+            "value": "Portgas.D.Ace"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "kind": "Color",
+            "value": "red"
+          },
+          {
+            "kind": "Type",
+            "value": "Event"
+          }
+        ]
+      },
+      "count": 1,
+      "destination": "hand",
+      "remainder": {
+        "destination": "bottom",
+        "order": "any"
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

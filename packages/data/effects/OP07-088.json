@@ -1,25 +1,28 @@
 {
   "id": "OP07-088",
-  "name": "Hattori",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP07-088",
+  "effectText": "[Your Turn] [On Play] Up to 1 of your [Rob Lucci] cards gains +2000 power during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Rob Lucci"
+        }
+      ],
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "typeFilter": "Rob Lucci",
+            "maxTargets": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,14 +1,9 @@
 {
   "id": "OP07-019",
-  "name": "Jewelry Bonney",
-  "cost": 0,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[On Your Opponent's Attack] [Once Per Turn] ➀ (You may rest the specified number of DON!! cards in your cost area.): Rest up to 1 of your opponent's Leader or Character cards.",
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "OnAttack",
       "condition": {
         "type": "HasRestingDon",
         "count": 1
@@ -17,7 +12,8 @@
         {
           "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "count": 1
           }
         }
       ]

@@ -1,21 +1,27 @@
 {
-  "id": "OP07-093",
-  "name": "Rob Lucci",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "source": "trash",
+        "destination": "bottomOfDeck",
+        "count": 3,
+        "optional": true
+      },
+      {
+        "type": "ForceDiscard",
+        "target": "opponent",
+        "count": 1
+      },
+      {
+        "type": "SearchDeck",
+        "source": "opponentTrash",
+        "destination": "opponentBottomOfDeck",
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP07-093"
 }

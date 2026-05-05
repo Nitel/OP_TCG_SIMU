@@ -1,24 +1,31 @@
 {
   "id": "OP07-048",
-  "name": "Donquixote Doflamingo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "cost": 2,
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "The Seven Warlords of the Sea"
-          },
-          "destination": "board"
-        }
-      ]
+      "type": "Always"
+    }
+  ],
+  "actions": [
+    {
+      "type": "RevealFromHand",
+      "source": "deck",
+      "count": 1,
+      "position": "top"
+    },
+    {
+      "type": "PlayFromHand",
+      "filter": {
+        "type": "The Seven Warlords of the Sea",
+        "maxCost": 4
+      },
+      "destination": "board",
+      "restCondition": true
+    },
+    {
+      "type": "PlaySelf",
+      "destination": "deckBottom"
     }
   ]
 }

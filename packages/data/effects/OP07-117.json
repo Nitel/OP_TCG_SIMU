@@ -1,17 +1,26 @@
 {
   "id": "OP07-117",
-  "name": "Egghead",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Stage",
-  "keywords": [],
+  "effectText": "[End of Your Turn] If you have 3 or less Life cards, set up to 1 {Egghead} type Character with a cost of 5 or less as active.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "LifeCount",
+          "value": 3,
+          "operator": "LessThanOrEqual"
+        }
+      ],
       "actions": [
         {
-          "type": "PlaySelf"
+          "type": "Rest",
+          "target": {
+            "type": "Character",
+            "hasType": "Egghead",
+            "maxCost": 5,
+            "count": "UpTo1"
+          }
         }
       ]
     }

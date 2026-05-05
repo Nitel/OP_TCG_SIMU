@@ -1,36 +1,29 @@
 {
-  "id": "OP07-010",
-  "name": "Baccarat",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "Always"
+    },
+    "optional": true,
+    "limitPerTurn": 1,
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 2000,
+            "target": {
+              "scope": "ChooseOwnCharacterOrLeader",
+              "maxCount": 1
+            },
+            "duration": "DuringBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP07-010"
 }

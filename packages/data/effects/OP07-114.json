@@ -1,20 +1,24 @@
 {
-  "id": "OP07-114",
-  "name": "He Possesses the World's Most Brilliant Mind",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Trigger",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "value": "Egghead",
+        "operator": "is"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "filter": {
+          "type": "Egghead",
+          "excludeName": "He Possesses the World's Most Brilliant Mind"
+        },
+        "destination": "Hand"
+      }
+    ]
+  },
+  "id": "OP07-114"
 }

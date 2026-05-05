@@ -1,35 +1,33 @@
 {
   "id": "OP07-058",
-  "name": "Island of Women",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "Always"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
+      "type": "TrashFromHand",
+      "count": 1,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
           },
           "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "Self"
-              }
-            },
             {
               "type": "ReturnToHand",
               "target": {
                 "scope": "ChooseOwnCharacter",
-                "subType": "Amazon Lily"
+                "subType": [
+                  "Amazon Lily",
+                  "Kuja Pirates"
+                ],
+                "max": 1
+              },
+              "condition": {
+                "type": "LeaderHasType",
+                "value": "Kuja Pirates"
               }
             }
           ]

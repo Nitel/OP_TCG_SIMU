@@ -1,26 +1,21 @@
 {
-  "id": "OP07-066",
-  "name": "Tony Tony.Chopper",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "operator": "LessOrEqual",
+      "compareToOpponent": true
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "Rest",
+        "target": "Self"
+      }
+    ]
+  },
+  "id": "OP07-066"
 }

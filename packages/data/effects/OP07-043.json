@@ -1,25 +1,16 @@
 {
   "id": "OP07-043",
-  "name": "Salome",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "cardName": "Boa Hancock",
+        "maxAmount": 1
+      },
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

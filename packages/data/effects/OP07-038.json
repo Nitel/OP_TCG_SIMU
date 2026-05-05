@@ -1,23 +1,19 @@
 {
-  "id": "OP07-038",
-  "name": "Boa Hancock",
-  "cost": 0,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "comparison": "LessThanOrEqual",
+      "value": 5
+    },
+    "duration": "DuringYourTurn",
+    "frequency": "OncePerTurn",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP07-038"
 }

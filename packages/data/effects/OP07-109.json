@@ -1,36 +1,30 @@
 {
   "id": "OP07-109",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "excludeSelf": true
-          },
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
+      "type": "HasLife",
+      "value": 2,
+      "comparison": "LessOrEqual"
     }
   ],
-  "counter": 1000
+  "actions": [
+    {
+      "type": "TrashFromBoard",
+      "target": "Self",
+      "optional": true
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 4
+      },
+      "maxCount": 1
+    },
+    {
+      "type": "DrawCard",
+      "count": 1
+    }
+  ]
 }

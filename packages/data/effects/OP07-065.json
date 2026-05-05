@@ -1,24 +1,27 @@
 {
   "id": "OP07-065",
-  "name": "Gina",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "AND",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Foxy Pirates"
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
+      {
+        "type": "DonComparison",
+        "operator": "LessOrEqual",
+        "yourDon": "fieldCount",
+        "opponentDon": "fieldCount"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "GiveDon",
+      "count": 1,
+      "source": "DonDeck",
+      "state": "Active"
     }
-  ],
-  "counter": 2000
+  ]
 }

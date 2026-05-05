@@ -1,23 +1,27 @@
 {
-  "id": "OP07-074",
-  "name": "Monda",
-  "cost": 2,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Foxy Pirates"
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": "this"
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "deck"
+      },
+      {
+        "type": "Rest",
+        "target": "addedCard"
+      }
+    ]
+  },
+  "id": "OP07-074"
 }

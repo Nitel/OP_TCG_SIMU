@@ -1,36 +1,21 @@
 {
-  "id": "OP07-110",
-  "name": "York",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "condition": "LifeFlipped"
+      }
+    ]
+  },
+  "id": "OP07-110"
 }

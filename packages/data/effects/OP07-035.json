@@ -1,11 +1,6 @@
 {
   "id": "OP07-035",
-  "name": "Karmic Punishment",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle. Then, if you have 3 or more Characters, that card gains an additional +1000 power during this battle.",
   "effects": [
     {
       "trigger": "Counter",
@@ -14,29 +9,31 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
           },
           "duration": "EndOfBattle"
         }
       ]
     },
     {
-      "trigger": "Trigger",
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "OwnCharacters",
+          "minCount": 3
+        }
+      ],
       "actions": [
         {
-          "type": "KO",
+          "type": "PowerBoost",
+          "amount": 1000,
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
         }
       ]
     }

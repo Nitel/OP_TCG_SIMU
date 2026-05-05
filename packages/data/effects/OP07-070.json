@@ -1,16 +1,12 @@
 {
   "id": "OP07-070",
-  "name": "Big Bun",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "operator": "LessOrEqual",
+        "compareToOpponent": true
       },
       "actions": [
         {
@@ -18,10 +14,10 @@
           "filter": {
             "subType": "Foxy Pirates",
             "maxCost": 4
-          }
+          },
+          "maxTargets": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,28 +1,24 @@
 {
-  "id": "OP07-087",
-  "name": "Baskerville",
-  "cost": 3,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "scope": "OpponentBoard",
+      "filter": {
+        "cardType": "Character",
+        "cost": 0
+      }
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP07-087"
 }

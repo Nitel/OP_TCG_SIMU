@@ -1,23 +1,23 @@
 {
-  "id": "OP07-021",
-  "name": "Urouge",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Counter",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": "YourDON"
+      }
+    ]
+  },
+  "id": "OP07-021"
 }

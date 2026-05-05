@@ -1,27 +1,23 @@
 {
   "id": "OP07-052",
-  "name": "Boa Marigold",
-  "cost": 5,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasCardOnBoard",
+    "cardTypes": [
+      "Amazon Lily",
+      "Kuja Pirates"
+    ],
+    "minCount": 2
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+      "type": "ReturnToHand",
+      "target": {
+        "scope": "ChooseCharacter",
+        "maxCost": 2
       },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
+      "optional": true,
+      "quantity": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

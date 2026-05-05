@@ -1,22 +1,20 @@
 {
   "id": "OP07-006",
-  "name": "Sterry",
-  "cost": 1,
-  "power": 1000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP07-006",
+  "effectText": "[On Play] You may give your 1 active Leader −5000 power during this turn: Draw 1 card and trash 1 card from your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "optional": true,
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -5000,
           "target": {
-            "scope": "OwnLeader"
+            "scope": "OwnLeader",
+            "count": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         },
         {
           "type": "DrawCard",
@@ -25,11 +23,9 @@
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

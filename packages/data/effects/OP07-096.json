@@ -1,32 +1,26 @@
 {
-  "id": "OP07-096",
-  "name": "Tempest Kick",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "max": 1
+        },
+        "power": -3,
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "TrashCount",
+          "operator": ">=",
+          "value": 10
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-096"
 }

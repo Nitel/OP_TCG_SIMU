@@ -1,11 +1,6 @@
 {
   "id": "OP07-037",
-  "name": "More Pizza!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card other than [More Pizza!!] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,19 +8,14 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByName",
-            "name": "Supernovas"
+            "kind": "ByType",
+            "type": "Supernovas",
+            "excludeName": "More Pizza!!"
           },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+          "count": 1,
+          "destination": "hand",
+          "deckPosition": "top5",
+          "restToBottom": true
         }
       ]
     }

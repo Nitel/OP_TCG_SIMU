@@ -1,31 +1,27 @@
 {
-  "id": "OP07-111",
-  "name": "Lilith",
-  "cost": 3,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "types": [
+            "Egghead"
+          ],
+          "excludeCards": [
+            "Lilith"
+          ]
+        },
+        "destination": "hand",
+        "quantity": {
+          "min": 0,
+          "max": 1
+        },
+        "lookAtCount": 5,
+        "restToBottom": true
+      }
+    ]
+  },
+  "id": "OP07-111"
 }

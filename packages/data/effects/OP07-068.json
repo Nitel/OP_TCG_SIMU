@@ -1,24 +1,21 @@
 {
   "id": "OP07-068",
-  "name": "Hamburg",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "operator": "lessThanOrEqual",
+        "opponentHasAttachedDon": true
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "optional": true,
+          "rest": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

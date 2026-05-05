@@ -1,27 +1,22 @@
 {
-  "id": "OP07-062",
-  "name": "Vinsmoke Reiju",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 1
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "operator": "LessThanOrEqual",
+      "compareToOpponent": true
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 1,
+          "hasType": "The Vinsmoke Family",
+          "max": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP07-062"
 }

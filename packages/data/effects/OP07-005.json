@@ -1,27 +1,18 @@
 {
-  "id": "OP07-005",
-  "name": "Carina",
-  "cost": 3,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "quantity": 1,
+          "optional": true
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP07-005"
 }

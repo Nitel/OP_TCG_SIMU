@@ -1,32 +1,33 @@
 {
-  "id": "OP07-072",
-  "name": "Porche",
-  "cost": 3,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Foxy Pirates"
-          },
-          "destination": "hand"
+  "0": {
+    "trigger": "OnPlay",
+    "cost": {
+      "type": "GiveDon",
+      "amount": -1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "mode": "LookAtTop",
+        "amount": 5,
+        "filter": {
+          "type": "ByType",
+          "value": "Foxy Pirates"
         },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "color": "Purple",
-            "cardType": "Character",
-            "maxPower": 4000
-          }
+        "maxReveal": 1,
+        "destination": "hand",
+        "remaining": "BottomOfDeck"
+      },
+      {
+        "type": "PlayFromHand",
+        "maxPlay": 1,
+        "filter": {
+          "color": "Purple",
+          "cardType": "Character",
+          "maxPower": 4000
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-072"
 }

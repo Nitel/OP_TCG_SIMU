@@ -1,39 +1,23 @@
 {
-  "id": "OP07-105",
-  "name": "Pythagoras",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Egghead",
-            "cardType": "Character",
-            "maxCost": 4
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "LifeCount",
+      "value": 2,
+      "comparison": "LessOrEqual"
     },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "filter": {
+          "subType": "Egghead",
+          "cardType": "Character",
+          "maxCost": 4
+        },
+        "maxCount": 1,
+        "rested": true
+      }
+    ]
+  },
+  "id": "OP07-105"
 }

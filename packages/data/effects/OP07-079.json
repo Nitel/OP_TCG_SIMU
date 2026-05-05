@@ -1,28 +1,25 @@
 {
   "id": "OP07-079",
-  "name": "Rob Lucci",
-  "cost": 0,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[When Attacking] You may trash 2 cards from the top of your deck: Give up to 1 of your opponent's Characters −1 cost during this turn.",
   "effects": [
     {
       "trigger": "OnAttack",
+      "optional": true,
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "TrashFromDeck",
           "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -1,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -1,
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "quantity": "UpTo1"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
         }
       ]
     }

@@ -1,33 +1,27 @@
 {
   "id": "OP07-092",
-  "name": "Joseph",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "SearchDeck",
+      "optional": true,
+      "count": 2,
+      "filter": {
+        "scope": "trash",
+        "hasType": "CP"
+      },
+      "placement": "BottomOfDeck",
+      "allowAnyOrder": true,
+      "thenActions": [
         {
-          "type": "RevealFromHand",
-          "count": 2,
-          "filter": {
-            "subType": "CP"
+          "type": "KO",
+          "target": {
+            "scope": "OpponentCharacter",
+            "maxCost": 1
           },
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 1
-              }
-            }
-          ]
+          "count": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

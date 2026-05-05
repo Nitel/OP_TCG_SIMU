@@ -1,25 +1,23 @@
 {
   "id": "OP07-022",
-  "name": "Otama",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByProperties",
+        "cardColor": "green",
+        "cardType": "Land of Wano",
+        "excludeCardName": "Otama",
+        "maxResults": 1
+      },
+      "destination": "hand",
+      "deckPosition": "top5"
+    },
+    {
+      "type": "OrderDeckCards",
+      "position": "bottom",
+      "count": "remaining"
     }
-  ],
-  "counter": 2000
+  ]
 }

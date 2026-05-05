@@ -1,11 +1,17 @@
 {
   "id": "OP07-026",
-  "name": "Jewelry Bonney",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "trigger": "OnPlay",
+  "effects": [
+    {
+      "condition": "Always",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "OpponentRestingCharacterOrDon",
+          "count": 1,
+          "duration": "UntilNextOpponentRefresh"
+        }
+      ]
+    }
+  ]
 }

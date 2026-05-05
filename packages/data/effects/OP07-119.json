@@ -1,11 +1,6 @@
 {
   "id": "OP07-119",
-  "name": "Portgas.D.Ace",
-  "cost": 10,
-  "power": 10000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP07-119",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -20,7 +15,11 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "LifeCardsLessOrEqual",
+            "value": 2
+          }
         }
       ]
     }

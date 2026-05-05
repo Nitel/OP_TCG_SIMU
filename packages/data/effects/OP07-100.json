@@ -1,37 +1,22 @@
 {
-  "id": "OP07-100",
-  "name": "Edison",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "TrashCount",
+      "operator": "LessThanOrEqual",
+      "value": 2
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "filter": {}
+      }
+    ]
+  },
+  "id": "OP07-100"
 }

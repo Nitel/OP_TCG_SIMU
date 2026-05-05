@@ -1,29 +1,43 @@
 {
-  "id": "OP07-071",
-  "name": "Foxy",
-  "cost": 7,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
+  "0": {
+    "trigger": "OnAttacked",
+    "duration": "DuringOpponentTurn",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Foxy Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "OpponentCharacters"
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+        "value": -1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "activation": {
+      "phase": "Main",
+      "limit": "OncePerTurn"
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "cardType": "DON",
+        "count": 1
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-071"
 }

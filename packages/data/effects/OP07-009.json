@@ -1,11 +1,5 @@
 {
   "id": "OP07-009",
-  "name": "Dogura & Magura",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -15,12 +9,17 @@
           "keyword": "DoubleAttack",
           "target": {
             "scope": "ChooseOwnCharacter",
-            "maxCost": 1
+            "maxCost": 1,
+            "conditions": [
+              {
+                "type": "HasCardType",
+                "value": "Red"
+              }
+            ]
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

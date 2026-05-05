@@ -1,11 +1,22 @@
 {
-  "id": "OP07-069",
-  "name": "Pickles",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "Always"
+    },
+    "duration": "Permanent",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "target": "YourCharactersOfType",
+        "targetParams": {
+          "type": "Foxy Pirates",
+          "excludeName": "Pickles"
+        },
+        "keyword": "Cannot be KO'd by opponent's effects",
+        "conditionMet": "HasAttachedDon <= OpponentHasAttachedDon"
+      }
+    ]
+  },
+  "id": "OP07-069"
 }

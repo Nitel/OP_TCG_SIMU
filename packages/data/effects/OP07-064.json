@@ -1,13 +1,36 @@
 {
   "id": "OP07-064",
-  "name": "Sanji",
-  "cost": 6,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "<=",
+        "value": 0,
+        "offset": -2,
+        "against": "opponent"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "Self",
+          "modifier": -3
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

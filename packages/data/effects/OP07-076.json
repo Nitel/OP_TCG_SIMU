@@ -1,39 +1,27 @@
 {
-  "id": "OP07-076",
-  "name": "Slow-Slow Beam Sword",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "cost": {
+      "don": 1
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
           "count": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-076"
 }

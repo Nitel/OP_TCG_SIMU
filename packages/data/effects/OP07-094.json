@@ -1,35 +1,42 @@
 {
-  "id": "OP07-094",
-  "name": "Shave",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "quantity": 1
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 10
+      }
+    ],
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "quantity": 1,
+          "filters": [
+            {
+              "type": "HasType",
+              "value": "CP"
+            }
+          ]
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-094"
 }

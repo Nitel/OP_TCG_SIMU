@@ -1,27 +1,28 @@
 {
-  "id": "OP07-047",
-  "name": "Trafalgar Law",
-  "cost": 4,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "ForceDiscard",
-          "count": 1
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "comparison": ">=",
+      "count": 6,
+      "scope": "OpponentHand"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": {
+          "scope": "OpponentHand"
+        },
+        "destination": "DeckBottom"
+      }
+    ]
+  },
+  "id": "OP07-047"
 }

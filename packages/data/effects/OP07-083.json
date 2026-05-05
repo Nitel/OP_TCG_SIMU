@@ -1,48 +1,34 @@
 {
   "id": "OP07-083",
-  "name": "Gecko Moria",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Banish"
-  ],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "SearchDeck",
+      "filter": {
+        "subType": "Thriller Bark Pirates",
+        "location": "trash"
+      },
+      "count": 4,
+      "destination": "bottom_of_deck",
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Thriller Bark Pirates",
-            "cardTypes": [
-              "Character",
-              "Event",
-              "Stage"
-            ]
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
           },
-          "thenActions": [
-            {
-              "type": "GiveKeyword",
-              "keyword": "Banish",
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            },
-            {
-              "type": "PowerBoost",
-              "amount": 1000,
-              "target": {
-                "scope": "Self"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

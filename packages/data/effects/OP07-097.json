@@ -1,27 +1,26 @@
 {
-  "id": "OP07-097",
-  "name": "Vegapunk",
-  "cost": 2,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Egghead",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Egghead",
+          "maxCost": 5
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "AddLife",
+        "filter": {
+          "subType": "Egghead",
+          "maxCost": 5
+        }
+      }
+    ]
+  },
+  "id": "OP07-097"
 }

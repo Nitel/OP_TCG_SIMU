@@ -1,33 +1,26 @@
 {
   "id": "OP07-080",
-  "name": "Kaku",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "SearchDeck",
+      "filter": {
+        "type": "CP"
+      },
+      "amount": 2,
+      "destination": "BottomOfDeck",
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "CP"
+          "type": "PowerBoost",
+          "amount": -3,
+          "target": {
+            "scope": "OpponentCharacter",
+            "max": 1
           },
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": -3,
-              "target": {
-                "scope": "ChooseOpponentCharacter"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

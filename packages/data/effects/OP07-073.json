@@ -1,26 +1,23 @@
 {
-  "id": "OP07-073",
-  "name": "Monkey.D.Luffy",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 3
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "target": {
+        "scope": "Opponent",
+        "cardType": "Character"
       },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+      "count": 3,
+      "comparison": "GreaterThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP07-073"
 }
