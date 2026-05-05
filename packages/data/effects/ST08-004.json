@@ -1,24 +1,32 @@
 {
   "id": "ST08-004",
-  "name": "Koby",
-  "cost": 4,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Activate: Main] You may rest this Character: K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": false,
+          "description": "Can only activate if not already resting"
+        }
+      ],
       "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
+            "maxCost": 2,
+            "maxCount": 1
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

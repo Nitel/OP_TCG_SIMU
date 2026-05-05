@@ -1,16 +1,15 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:17:57.472Z
+Generated: 2026-05-05T14:17:58.139Z
 
-**Total patched:** 11 | **Total skipped:** 2
+**Total patched:** 10 | **Total skipped:** 1
 
-## ST-07 — 11 cartes patchées
+## ST-08 — 10 cartes patchées
 
-**critical (8):** ST07-003, ST07-004, ST07-007, ST07-008, ST07-009, ST07-010, ST07-015, ST07-016
+**critical (2):** ST08-007, ST08-015
 
-**major (3):** ST07-001, ST07-011, ST07-013
+**major (8):** ST08-001, ST08-002, ST08-004, ST08-005, ST08-006, ST08-008, ST08-009, ST08-014
 
-**skipped — type inconnu (2):**
-- ST07-005 (ActionType::AddToLife)
-- ST07-017 (no suggestedDsl)
+**skipped — type inconnu (1):**
+- ST08-013 (TargetScope::BattledOpponentCharacter)
 
