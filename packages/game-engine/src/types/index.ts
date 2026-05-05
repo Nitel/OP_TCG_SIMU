@@ -60,7 +60,14 @@ export type TargetSelector =
 
 // ─── DSL — Duration ───────────────────────────────────────────────────────────
 
-export type EffectDuration = 'EndOfTurn' | 'EndOfBattle' | 'EndOfOpponentTurn' | 'Permanent';
+/** Duration of a temporary effect.
+ * - `EndOfTurn` — expires at end of the current (active) player's turn
+ * - `DuringYourTurn` — active only during the source player's turns; cleared same as EndOfTurn
+ * - `EndOfBattle` — expires when the current battle resolves
+ * - `EndOfOpponentTurn` — expires at end of the opponent's next turn
+ * - `Permanent` — never expires
+ */
+export type EffectDuration = 'EndOfTurn' | 'DuringYourTurn' | 'EndOfBattle' | 'EndOfOpponentTurn' | 'Permanent';
 
 // ─── DSL — Deck filter ────────────────────────────────────────────────────────
 

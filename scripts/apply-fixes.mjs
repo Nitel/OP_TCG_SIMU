@@ -55,17 +55,16 @@ const KNOWN_TRIGGERS = new Set([
 
 const KNOWN_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
 
-const KNOWN_DURATIONS = new Set(['EndOfTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
+const KNOWN_DURATIONS = new Set(['EndOfTurn', 'DuringYourTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
 
 const KNOWN_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName']);
 
 // Duration aliases from LLM → engine value
 const DURATION_MAP = {
-  DuringYourTurn:       'EndOfTurn',
   DuringOpponentTurn:   'EndOfOpponentTurn',
   DuringThisBattle:     'EndOfBattle',
   UntilStartOfNextTurn: 'EndOfOpponentTurn',
-  EndOfTurnOrBattle:    'EndOfTurn',
+  EndOfTurnOrBattle:    'EndOfBattle',
 };
 
 // filter.kind aliases from LLM → engine value

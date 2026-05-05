@@ -37,7 +37,7 @@ const VALID_SCOPES = new Set([
   'OpponentLeader', 'OwnLeader',
   'ChooseOwnCharacter', 'ChooseOpponentCharacter', 'ChooseOwnCharacterOrLeader', 'ChooseOpponentCharacterOrLeader',
 ]);
-const VALID_DURATIONS = new Set(['EndOfTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
+const VALID_DURATIONS = new Set(['EndOfTurn', 'DuringYourTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
 const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName']);
 const VALID_CARD_TYPES = new Set(['Character', 'Event', 'Stage']);
 

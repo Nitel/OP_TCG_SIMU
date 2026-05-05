@@ -1857,3 +1857,77 @@ describe('Régression : OnPlay ChooseOpponentCharacter → pendingTargetInteract
     expect(afterPlay.cards[playCard.id]?.zone).toBe('board');
   });
 });
+
+// ── DY1. PowerBoost DuringYourTurn → stored in powerModifier (not powerModifierOT) ──
+
+describe('DuringYourTurn : PowerBoost stocké dans powerModifier', () => {
+  it('PowerBoost DuringYourTurn → powerModifier set, powerModifierOT undefined', () => {
+    const base = bootstrapGame();
+    const boostEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PowerBoost', amount: 2000, target: { scope: 'Self' }, duration: 'DuringYourTurn' }],
+    };
+    const card = makeChar('dyt-char', 'p1', 3000, { zone: 'hand', cost: 0, effects: [boostEffect] });
+    const state = addToHand(base, card);
+
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    expect(afterPlay.cards[card.id]?.powerModifier).toBe(2000);
+    expect(afterPlay.cards[card.id]?.powerModifierOT).toBeUndefined();
+    expect(calculatePower(card.id, afterPlay)).toBe(5000);
+  });
+});
+
+// ── DY2. DuringYourTurn → powerModifier cleared after EndPhase (End → Refresh) ──
+
+describe('DuringYourTurn : boost effacé après EndPhase (End → Refresh)', () => {
+  it('powerModifier DuringYourTurn est supprimé lors du passage End → Refresh', () => {
+    const base = bootstrapGame();
+    const boostEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'PowerBoost', amount: 2000, target: { scope: 'Self' }, duration: 'DuringYourTurn' }],
+    };
+    const card = makeChar('dyt-clear', 'p1', 3000, { zone: 'hand', cost: 0, effects: [boostEffect] });
+    const state = addToHand(base, card);
+
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    expect(afterPlay.cards[card.id]?.powerModifier).toBe(2000);
+
+    // Step 1: Main → End
+    let s = applyAction(afterPlay, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+    expect(s.cards[card.id]?.powerModifier).toBe(2000); // still active during End phase
+
+    // Step 2: End → Refresh (triggers applyReturnDon → clearPowerModifiers)
+    s = applyAction(s, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+    expect(s.cards[card.id]?.powerModifier).toBeUndefined(); // cleared
+    expect(calculatePower(card.id, s)).toBe(3000);
+  });
+});
+
+// ── DY3. GiveKeyword DuringYourTurn → stored in temporaryKeywords ──
+
+describe('DuringYourTurn : GiveKeyword stocké dans temporaryKeywords', () => {
+  it('GiveKeyword Rush DuringYourTurn → temporaryKeywords contient Rush', () => {
+    const base = bootstrapGame();
+    const kwEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'GiveKeyword', keyword: 'Rush', target: { scope: 'Self' }, duration: 'DuringYourTurn' }],
+    };
+    const card = makeChar('dyt-kw', 'p1', 2000, { zone: 'hand', cost: 0, effects: [kwEffect] });
+    const state = addToHand(base, card);
+
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+
+    expect(afterPlay.cards[card.id]?.temporaryKeywords).toContain('Rush');
+  });
+});
