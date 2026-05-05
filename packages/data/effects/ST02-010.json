@@ -1,14 +1,10 @@
 {
   "id": "ST02-010",
-  "name": "Basil Hawkins",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Once Per Turn] [Your Turn] If this Character battles your opponent's Character, set this card as active.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
+      "duration": "DuringYourTurn",
       "condition": {
         "type": "Always"
       },
@@ -17,7 +13,8 @@
           "type": "Rest",
           "target": {
             "scope": "Self"
-          }
+          },
+          "isToggle": false
         }
       ]
     }

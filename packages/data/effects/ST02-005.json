@@ -1,11 +1,5 @@
 {
   "id": "ST02-005",
-  "name": "Killer",
-  "cost": 3,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,19 +8,16 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+            "maxCost": 3,
+            "conditions": [
+              {
+                "type": "HasRestingDon"
+              }
+            ]
+          },
+          "maxAmount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

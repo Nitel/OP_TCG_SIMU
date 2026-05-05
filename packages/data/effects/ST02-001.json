@@ -1,21 +1,30 @@
 {
   "id": "ST02-001",
-  "name": "Eustass\"Captain\"Kid",
-  "cost": 0,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+      "type": "HasAttachedDon",
+      "value": 3,
+      "comparison": ">="
+    }
+  ],
+  "actions": [
+    {
+      "type": "Rest",
+      "target": "Self",
+      "count": 3,
+      "costAction": true
+    },
+    {
+      "type": "TrashFromHand",
+      "filter": {},
+      "optional": true
+    },
+    {
+      "type": "Rest",
+      "target": "Self",
+      "effectAction": true,
+      "note": "Sets Leader as active (unclear exact mechanic)"
     }
   ]
 }

@@ -1,24 +1,24 @@
 {
   "id": "ST02-009",
-  "name": "Trafalgar Law",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Set up to 1 of your {Supernovas} or {Heart Pirates} type rested Characters with a cost of 5 or less as active.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "Rest",
+          "type": "Activate",
           "target": {
             "scope": "ChooseOwnCharacter",
-            "maxCost": 5
+            "maxCount": 1,
+            "maxCost": 5,
+            "typeFilter": [
+              "Supernovas",
+              "Heart Pirates"
+            ],
+            "requireRestingDon": true
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

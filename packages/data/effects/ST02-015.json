@@ -1,24 +1,24 @@
 {
-  "id": "ST02-015",
-  "name": "Scalpel",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxAmount": 1
+        },
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "AttachDon",
+        "target": {
+          "scope": "ChooseOwnDonCards",
+          "maxAmount": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "ST02-015"
 }
