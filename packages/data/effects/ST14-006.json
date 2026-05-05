@@ -1,26 +1,27 @@
 {
-  "id": "ST14-006",
-  "name": "Nami",
-  "cost": 3,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "And",
+      "conditions": [
         {
-          "type": "DrawCard",
-          "count": 1
+          "type": "HandCount",
+          "comparison": "LessOrEqual",
+          "value": 6
+        },
+        {
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "minCost": 8
         }
       ]
-    }
-  ],
-  "counter": 1000
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST14-006"
 }

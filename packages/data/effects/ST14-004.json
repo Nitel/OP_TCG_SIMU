@@ -1,28 +1,26 @@
 {
-  "id": "ST14-004",
-  "name": "Jinbe",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "type": "HasType",
+            "value": [
+              "Black",
+              "StrawHatCrew"
+            ]
+          }
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "ST14-004"
 }

@@ -1,41 +1,48 @@
 {
-  "id": "ST14-008",
-  "name": "Haredas",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "hasType": "StrawHatCrew",
+            "color": "black"
           },
-          "duration": "EndOfTurn"
+          "maxCount": 1
         },
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+        "duration": "DuringOpponentTurn"
+      }
+    ],
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "cost": {
+            "min": 8
+          }
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ],
+    "thenActions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "TrashFromHand",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST14-008"
 }

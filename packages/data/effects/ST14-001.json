@@ -1,28 +1,34 @@
 {
-  "id": "ST14-001",
-  "name": "Monkey.D.Luffy",
-  "cost": 0,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "Permanent"
-        }
-      ],
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Character"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1,
+        "target": {
+          "scope": "OwnCharacters"
+        },
+        "duration": "Permanent"
       }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "Permanent"
+      }
+    ],
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Character",
+      "minCost": 8
     }
-  ]
+  },
+  "id": "ST14-001"
 }

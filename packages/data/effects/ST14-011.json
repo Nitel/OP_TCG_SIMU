@@ -1,32 +1,23 @@
 {
   "id": "ST14-011",
-  "name": "Heracles",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 2
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "maxCount": 1,
+        "hasType": "Straw Hat Crew",
+        "hasColor": "Black"
+      },
+      "duration": "DuringOpponentTurn"
     }
-  ],
-  "counter": 2000
+  ]
 }

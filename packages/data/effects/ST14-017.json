@@ -1,24 +1,16 @@
 {
-  "id": "ST14-017",
-  "name": "Thousand Sunny",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader with Straw Hat Crew type"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "type_name": "Straw Hat Crew"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST14-017"
 }
