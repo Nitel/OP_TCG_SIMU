@@ -1,12 +1,12 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:18:25.571Z
+Generated: 2026-05-05T14:18:26.239Z
 
-**Total patched:** 12 | **Total skipped:** 0
+**Total patched:** 4 | **Total skipped:** 0
 
-## ST-22 — 12 cartes patchées
+## ST-23 — 4 cartes patchées
 
-**critical (8):** ST22-001, ST22-002, ST22-003, ST22-005, ST22-006, ST22-007, ST22-009, ST22-012
+**critical (1):** ST23-001
 
-**major (4):** ST22-011, ST22-015, ST22-016, ST22-017
+**major (3):** ST23-002, ST23-003, ST23-004
 

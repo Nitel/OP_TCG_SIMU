@@ -1,36 +1,24 @@
 {
   "id": "ST23-003",
-  "name": "Benn.Beckman",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "typeName": "Red-Haired Pirates"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Red-Haired Pirates"
-      },
-      "actions": [
+      "type": "TrashFromHand",
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxPower": 4000
-              }
-            }
-          ]
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxBasePower": 4000,
+            "maxCount": 1
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }
