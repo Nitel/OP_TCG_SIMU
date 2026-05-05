@@ -1,11 +1,21 @@
 {
   "id": "ST21-007",
-  "name": "Sentomaru",
-  "cost": 2,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "type": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

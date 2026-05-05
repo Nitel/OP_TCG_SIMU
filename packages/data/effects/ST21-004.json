@@ -1,24 +1,14 @@
 {
   "id": "ST21-004",
-  "name": "Jewelry Bonney",
-  "cost": 1,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 2
+  },
+  "actions": [
     {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      }
+      "type": "DrawCard",
+      "count": 1
     }
   ]
 }

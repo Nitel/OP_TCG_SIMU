@@ -1,23 +1,28 @@
 {
   "id": "ST21-001",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Leader",
-  "keywords": [],
+  "cardName": "ST21-001",
+  "effectText": "[DON!! x1] [Activate: Main] [Once Per Turn] Give up to 2 rested DON!! cards to 1 of your Characters.",
   "effects": [
     {
       "trigger": "Activated",
-      "condition": { "type": "HasAttachedDon", "count": 1 },
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
           "type": "AttachDon",
-          "count": 2,
+          "count": {
+            "type": "UpTo",
+            "value": 2
+          },
           "from": "rested",
-          "target": { "scope": "ChooseOwnCharacter" }
+          "source": "self",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
         }
-      ]
+      ],
+      "frequency": "OncePerTurn"
     }
   ]
 }

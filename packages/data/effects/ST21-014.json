@@ -1,11 +1,8 @@
 {
   "id": "ST21-014",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "keywords": [
+    "Rush"
+  ],
   "effects": [
     {
       "trigger": "OnAttack",
@@ -15,6 +12,9 @@
           "count": 1,
           "target": {
             "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "filter": {
+            "state": "Rested"
           }
         }
       ]

@@ -1,14 +1,12 @@
 {
   "id": "ST21-002",
-  "name": "Usopp",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -16,14 +14,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      }
+      ]
     }
-  ],
-  "counter": 2000
+  ]
 }

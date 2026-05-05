@@ -1,24 +1,23 @@
 {
   "id": "ST21-009",
-  "name": "Nami",
-  "cost": 3,
-  "power": 1000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "frequency": "OncePerTurn",
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
+          "fromRested": true,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": {
+              "type": "HasType",
+              "value": "Straw Hat Crew"
+            }
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }
