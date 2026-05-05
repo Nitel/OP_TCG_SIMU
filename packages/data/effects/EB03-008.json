@@ -1,20 +1,18 @@
 {
   "id": "EB03-008",
-  "name": "Hibari",
-  "cost": 3,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Unblockable",
+          "keyword": "CanAttackActive",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1,
+            "filter": {
+              "type": "SWORD"
+            }
           },
           "duration": "EndOfTurn"
         }
@@ -25,9 +23,13 @@
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Unblockable",
+          "keyword": "CanAttackActive",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1,
+            "filter": {
+              "type": "SWORD"
+            }
           },
           "duration": "EndOfTurn"
         }
@@ -35,12 +37,14 @@
     },
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -1000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           },
           "duration": "EndOfTurn"
         }

@@ -1,35 +1,39 @@
 {
   "id": "EB03-001",
-  "name": "Nefeltari Vivi",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnKO",
+      "frequency": "OncePerTurn",
       "condition": {
-        "type": "TurnCount",
-        "min": 1
+        "type": "Always"
+      },
+      "targetFilter": {
+        "scope": "OwnCharacter",
+        "costMin": 4
       },
       "actions": [
         {
           "type": "TrashFromHand",
           "count": 1,
           "filter": {},
-          "thenActions": []
+          "optional": true,
+          "preventsKO": true
         }
       ]
     },
     {
       "trigger": "Activated",
+      "cost": {
+        "restLeader": true
+      },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1,
+            "optional": true
           },
           "duration": "EndOfTurn"
         },
@@ -37,7 +41,11 @@
           "type": "GiveKeyword",
           "keyword": "Rush",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "count": 1,
+            "filter": {
+              "hasNoOnAttackEffect": true
+            }
           },
           "duration": "EndOfTurn"
         }

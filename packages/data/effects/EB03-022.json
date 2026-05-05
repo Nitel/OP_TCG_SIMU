@@ -1,27 +1,27 @@
 {
   "id": "EB03-022",
-  "name": "Isuka",
-  "cost": 6,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
+          "type": "ReturnToHand",
+          "target": {
+            "kind": "Character",
+            "controller": "any",
+            "filter": {
+              "kind": "ByCost",
+              "maxCost": 4
+            }
           },
-          "destination": "board"
+          "count": 1,
+          "optional": true,
+          "destination": "BottomOfDeck"
         }
       ]
     }
   ],
-  "counter": 1000
+  "keywords": [
+    "Blocker"
+  ]
 }

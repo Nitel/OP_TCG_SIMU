@@ -1,42 +1,43 @@
 {
-  "id": "EB03-041",
-  "name": "Kujyaku",
-  "cost": 4,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "AllOwnCharacters",
-            "maxCost": 6
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Navy"
-          },
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 2
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "Sword"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "type": "Sword",
+          "maxCost": 6
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Navy"
+        },
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "id": "EB03-041"
 }

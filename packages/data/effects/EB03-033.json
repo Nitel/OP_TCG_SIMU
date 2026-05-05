@@ -1,25 +1,22 @@
 {
-  "id": "EB03-033",
-  "name": "Charlotte Brulee",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Big Mom Pirates"
+  "0": {
+    "trigger": "OnPlay",
+    "duration": "DuringOpponentTurn",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Big Mom Pirates"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "source": "DeckSearch"
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "Rest"
+      }
+    ],
+    "limit": "OncePerTurn"
+  },
+  "id": "EB03-033"
 }

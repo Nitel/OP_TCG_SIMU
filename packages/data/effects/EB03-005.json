@@ -1,16 +1,10 @@
 {
   "id": "EB03-005",
-  "name": "Sugar",
-  "cost": 3,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Sugar"
       },
       "actions": [
@@ -19,10 +13,11 @@
           "filter": {
             "subType": "Donquixote Pirates",
             "maxPower": 6000
-          }
+          },
+          "count": 1,
+          "rested": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,43 +1,43 @@
 {
-  "id": "EB03-053",
-  "name": "Nami",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "OwnLeader"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": {
+          "scope": "OwnLeader"
         },
-        {
-          "type": "FlipLife",
-          "count": 1
+        "filter": {
+          "status": "Resting"
         }
-      ],
-      "condition": {
-        "type": "Always"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "source": "Opponent"
       }
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxPower": 6000
-          }
-        }
-      ]
+    ],
+    "condition": {
+      "type": "Always"
     }
-  ],
-  "counter": 1000
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "source": "Own"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxPower": 6000
+        }
+      }
+    ]
+  },
+  "id": "EB03-053"
 }

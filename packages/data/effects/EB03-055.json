@@ -1,33 +1,35 @@
 {
-  "id": "EB03-055",
-  "name": "Nico Robin",
-  "cost": 7,
-  "power": 8000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "RemoveLife",
-          "count": 1
-        }
-      ],
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Straw Hat Crew"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "SearchDeck",
+        "count": 2,
+        "destination": "TopOfLife",
+        "optional": true
       }
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "RemoveLife",
-          "count": 1
-        }
-      ]
+    ],
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "{Straw Hat Crew}"
     }
-  ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "RemoveLife",
+        "count": 1,
+        "target": "opponent",
+        "optional": true
+      }
+    ]
+  },
+  "id": "EB03-055"
 }

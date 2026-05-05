@@ -1,42 +1,36 @@
 {
-  "id": "EB03-062",
-  "name": "Trafalgar Law",
-  "cost": 8,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "name": "Trafalgar Law",
-            "maxCost": 7
-          }
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "optional": true,
+        "filter": {}
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "SearchDeck",
+        "count": 1,
+        "optional": true,
+        "filter": {},
+        "destination": "Life"
+      },
+      {
+        "type": "PlayFromHand",
+        "count": 1,
+        "optional": true,
+        "filter": {
+          "name": "Trafalgar Law",
+          "maxCost": 7
+        }
+      }
+    ]
+  },
+  "id": "EB03-062"
 }

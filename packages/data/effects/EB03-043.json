@@ -1,23 +1,29 @@
 {
   "id": "EB03-043",
-  "name": "Stussy",
-  "cost": 7,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "conditions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
+      "type": "TrashCount",
+      "minCount": 2
+    }
+  ],
+  "actions": [
+    {
+      "type": "SearchDeck",
+      "target": {
+        "scope": "TrashWithType",
+        "type": "CP",
+        "maxCount": 2
+      },
+      "destination": "DeckBottom"
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 4
+      },
+      "maxTargets": 1
     }
   ]
 }

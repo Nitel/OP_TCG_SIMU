@@ -1,20 +1,21 @@
 {
   "id": "EB03-015",
-  "name": "Camie",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "RestSelf"
+      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 1,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "typeFilter": [
+              "Fish-Man",
+              "Merfolk"
+            ]
           }
         },
         {
@@ -26,6 +27,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

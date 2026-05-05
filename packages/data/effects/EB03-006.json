@@ -1,41 +1,37 @@
 {
   "id": "EB03-006",
-  "name": "Nami",
-  "cost": 5,
-  "power": 7000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": -5000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
           "type": "DrawCard",
-          "count": 1
+          "count": 1,
+          "cost": {
+            "type": "PowerBoost",
+            "amount": -5000,
+            "target": {
+              "scope": "OwnLeader"
+            },
+            "duration": "EndOfTurn"
+          },
+          "optional": true
         }
       ]
     },
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Alabasta"
+        "type": "LeaderHasType",
+        "leaderType": "Alabasta"
       },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -1000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           },
           "duration": "EndOfTurn"
         }

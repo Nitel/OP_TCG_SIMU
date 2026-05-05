@@ -1,20 +1,14 @@
 {
   "id": "EB03-047",
-  "name": "Miss.Valentine(Mikita)",
-  "cost": 2,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Trash 3 cards from the top of your deck.\n[On K.O.] Draw 1 card.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "ForceDiscard",
           "count": 3,
-          "filter": {},
-          "thenActions": []
+          "source": "deck"
         }
       ]
     },
@@ -27,6 +21,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

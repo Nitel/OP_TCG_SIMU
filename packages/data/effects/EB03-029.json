@@ -1,49 +1,43 @@
 {
-  "id": "EB03-029",
-  "name": "Insolent Fool!! Stand Down!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 4
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Amazon Lily",
-            "maxCost": 6,
-            "cardType": "Character"
-          }
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Kuja Pirates",
-            "maxCost": 6,
-            "cardType": "Character"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 4
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+    "leaderCondition": {
+      "type": "LeaderIsName",
+      "name": "Boa Hancock"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": [
+            "Amazon Lily",
+            "Kuja Pirates"
+          ],
+          "maxCost": 6,
+          "cardType": "Character"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "OwnCharacterOrLeader",
+          "name": "Boa Hancock"
+        },
+        "count": 1,
+        "duration": "DuringThisBattle"
+      }
+    ]
+  },
+  "id": "EB03-029"
 }

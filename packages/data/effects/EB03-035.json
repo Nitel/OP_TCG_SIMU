@@ -1,26 +1,21 @@
 {
-  "id": "EB03-035",
-  "name": "Charlotte Pudding",
-  "cost": 4,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "comparison": "LessThanOrEqual",
+      "targetDon": "opponent"
+    },
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "source": "DonDeck"
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "id": "EB03-035"
 }

@@ -1,33 +1,33 @@
 {
-  "id": "EB03-057",
-  "name": "Yamato",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 3,
-          "target": {
-            "scope": "OwnLeader"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "{Land of Wano}"
+      }
+    ],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 3,
+        "target": {
+          "scope": "OwnLeader"
         }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": {
+          "scope": "OpponentLifeDeck"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "EB03-057"
 }

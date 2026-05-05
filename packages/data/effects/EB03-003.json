@@ -1,16 +1,10 @@
 {
   "id": "EB03-003",
-  "name": "Uta",
-  "cost": 5,
-  "power": 7000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Uta"
       },
       "actions": [
@@ -20,8 +14,10 @@
         },
         {
           "type": "PlayFromHand",
+          "count": 1,
           "filter": {
-            "maxPower": 6000
+            "maxPower": 6000,
+            "noBaseEffect": true
           }
         }
       ]

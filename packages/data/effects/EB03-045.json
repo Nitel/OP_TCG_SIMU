@@ -1,37 +1,29 @@
 {
   "id": "EB03-045",
-  "name": "Perona",
-  "cost": 4,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "board",
-          "condition": {
-            "type": "HasCardOnBoard",
-            "name": "Thriller Bark Pirates"
-          }
-        }
-      ]
+      "type": "AttachDon",
+      "count": 1,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader"
+      },
+      "state": "rested"
+    },
+    {
+      "type": "PlayFromTrash",
+      "count": 1,
+      "filter": {
+        "type": "Thriller Bark Pirates",
+        "kind": "ByCost",
+        "maxCost": 2
+      },
+      "destination": "board",
+      "state": "rested",
+      "condition": {
+        "type": "TrashCount",
+        "minCount": 10
+      }
     }
   ]
 }

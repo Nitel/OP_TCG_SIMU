@@ -1,16 +1,18 @@
 {
   "id": "EB03-046",
-  "name": "Miss Doublefinger(Zala)",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] If there is a Character with a cost of 0 or with a cost of 8 or more, draw 1 card.\n[On K.O.] Trash 2 cards from the top of your deck.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "filter": {
+          "cardType": "Character",
+          "costRange": [
+            "0",
+            "8+"
+          ]
+        }
       },
       "actions": [
         {
@@ -23,13 +25,11 @@
       "trigger": "OnKO",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "ForceDiscard",
           "count": 2,
-          "filter": {},
-          "thenActions": []
+          "source": "TopOfDeck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

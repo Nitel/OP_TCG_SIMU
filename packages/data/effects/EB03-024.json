@@ -1,40 +1,36 @@
 {
   "id": "EB03-024",
-  "name": "Nefeltari Vivi",
-  "cost": 5,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "PlayFromHand",
+          "count": 1,
+          "optional": true,
           "filter": {
-            "subType": "Alabasta",
-            "maxCost": 5,
-            "cardType": "Character"
+            "anyOf": [
+              {
+                "subType": "Alabasta",
+                "maxCost": 5,
+                "cardType": "Character"
+              },
+              {
+                "subType": "Straw Hat Crew",
+                "maxCost": 5,
+                "cardType": "Character"
+              }
+            ]
           }
         }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Straw Hat Crew",
-            "maxCost": 5,
-            "cardType": "Character"
-          }
-        }
-      ]
+      ],
+      "restriction": {
+        "type": "CannotPlayCharacters",
+        "duration": "EndOfTurn"
+      }
     }
   ],
-  "counter": 1000
+  "keywords": [
+    "Blocker"
+  ]
 }

@@ -1,40 +1,40 @@
 {
-  "id": "EB03-034",
-  "name": "Charlotte Linlin",
-  "cost": 7,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasRestingDon",
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
         "count": 1
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+      {
+        "type": "ReturnToHand",
+        "count": 1,
+        "filter": {}
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "filter": {
+          "source": "DONDeck"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "AddLife",
+        "count": 1,
+        "filter": {
+          "source": "TopOfDeck"
+        }
+      }
+    ]
+  },
+  "id": "EB03-034"
 }

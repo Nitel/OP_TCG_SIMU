@@ -1,11 +1,22 @@
 {
   "id": "EB03-023",
-  "name": "Kaya",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "fromLocation": "TopOfDeck",
+          "revealToOpponent": false,
+          "selectCount": 5,
+          "toLocation": "TopOrBottomOfDeck",
+          "description": "Look at 5 cards from the top of your deck and place them at the top or bottom of the deck in any order"
+        }
+      ]
+    }
+  ]
 }

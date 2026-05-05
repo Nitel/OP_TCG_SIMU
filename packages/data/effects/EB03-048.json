@@ -1,11 +1,6 @@
 {
   "id": "EB03-048",
-  "name": "Rebecca",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
+  "keywordAbilities": [
     "Blocker"
   ],
   "effects": [
@@ -14,22 +9,26 @@
       "actions": [
         {
           "type": "SearchDeck",
+          "deckSize": 5,
           "filter": {
-            "kind": "ByName",
-            "name": "Dressrosa"
+            "kind": "ByType",
+            "type": "Dressrosa",
+            "cardType": "Stage"
           },
+          "maxResults": 1,
           "destination": "hand"
         },
         {
           "type": "PlayFromHand",
           "filter": {
-            "subType": "Dressrosa",
+            "kind": "ByType",
+            "type": "Dressrosa",
             "cardType": "Stage",
-            "maxCost": 1
-          }
+            "cost": 1
+          },
+          "maxResults": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

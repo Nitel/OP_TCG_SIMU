@@ -1,16 +1,10 @@
 {
   "id": "EB03-016",
-  "name": "Kouzuki Hiyori",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Kouzuki Oden"
       },
       "actions": [
@@ -22,12 +16,23 @@
     },
     {
       "trigger": "Activated",
+      "cost": {
+        "type": "TrashSelf"
+      },
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 1,
           "target": {
-            "scope": "OwnLeader"
+            "scope": "OwnLeader",
+            "condition": {
+              "type": "HasType",
+              "value": "Land of Wano"
+            }
           }
         }
       ]

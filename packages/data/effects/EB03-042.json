@@ -1,29 +1,61 @@
 {
-  "id": "EB03-042",
-  "name": "Koala",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Revolutionary Army"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Revolutionary Army",
-            "maxCost": 6,
-            "excludeSelf": true
-          }
+  "0": {
+    "trigger": "OnKO",
+    "duration": "DuringOpponentTurn",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "amount": "UpTo1",
+        "filter": {
+          "subType": "Revolutionary Army",
+          "maxCost": 6,
+          "excludeNames": [
+            "Koala"
+          ]
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "PlayFromHand",
+        "amount": "UpTo1",
+        "filter": {
+          "name": "Nico Robin",
+          "maxCost": 6
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "duration": "DuringOpponentTurn",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Revolutionary Army"
+    },
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "amount": "UpTo1",
+        "filter": {
+          "subType": "Revolutionary Army",
+          "maxCost": 6,
+          "excludeNames": [
+            "Koala"
+          ]
+        }
+      },
+      {
+        "type": "PlayFromTrash",
+        "amount": "UpTo1",
+        "filter": {
+          "name": "Nico Robin",
+          "maxCost": 6
+        }
+      }
+    ]
+  },
+  "id": "EB03-042"
 }

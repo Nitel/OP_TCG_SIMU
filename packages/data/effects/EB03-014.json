@@ -1,24 +1,27 @@
 {
   "id": "EB03-014",
-  "name": "Kuina",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "types": [
+          "Slash"
+        ]
+      },
+      "cost": {
+        "type": "RestSelf"
+      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
+          "source": "RestingDon",
           "target": {
             "scope": "OwnLeader"
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

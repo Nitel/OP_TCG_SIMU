@@ -1,23 +1,28 @@
 {
-  "id": "EB03-028",
-  "name": "Yu",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {},
+        "thenActions": []
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": "TrashCount",
+    "conditionValue": {
+      "operator": "<=",
+      "value": 4
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      }
+    ]
+  },
+  "id": "EB03-028"
 }

@@ -1,37 +1,17 @@
 {
-  "id": "EB03-058",
-  "name": "Lilith",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "TurnCount",
-        "min": 1
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "LifeCount",
+      "max": 2
     },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Vegapunk"
-      },
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "EB03-058"
 }

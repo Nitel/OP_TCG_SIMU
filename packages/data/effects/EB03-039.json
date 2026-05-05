@@ -1,39 +1,31 @@
 {
   "id": "EB03-039",
-  "name": "Ulti",
-  "cost": 6,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderHasType",
+    "types": [
+      "Animal Kingdom Pirates"
+    ]
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Animal Kingdom Pirates"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 6
-          },
-          "destination": "board"
-        }
-      ]
+      "type": "DrawCard",
+      "count": 1
+    },
+    {
+      "type": "ForceDiscard",
+      "count": 1,
+      "source": "hand"
+    },
+    {
+      "type": "PlayFromHand",
+      "count": 1,
+      "source": "trash",
+      "filter": {
+        "kind": "Character",
+        "maxPower": 6000,
+        "hasBaseEffect": false
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

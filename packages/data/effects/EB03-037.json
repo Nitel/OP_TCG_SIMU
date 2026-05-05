@@ -1,11 +1,25 @@
 {
-  "id": "EB03-037",
-  "name": "Lim",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 7,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "value": 1000,
+        "targets": [
+          "YourLeaderCards",
+          "YourCharacterCards"
+        ],
+        "cardTypeFilter": "ODYSSEY",
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "EB03-037"
 }

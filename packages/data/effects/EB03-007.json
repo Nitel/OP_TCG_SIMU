@@ -1,10 +1,5 @@
 {
   "id": "EB03-007",
-  "name": "Baccarat",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
   "keywords": [
     "Blocker"
   ],
@@ -14,12 +9,15 @@
       "actions": [
         {
           "type": "PlayFromHand",
+          "count": 1,
+          "optional": true,
           "filter": {
-            "maxPower": 6000
+            "type": "Character",
+            "maxPower": 6000,
+            "noBaseEffect": true
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

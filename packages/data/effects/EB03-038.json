@@ -1,35 +1,31 @@
 {
   "id": "EB03-038",
-  "name": "Thanks for the Treat. ♡",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "AllOwnCharactersAndLeader"
-          }
-        }
-      ]
+      "type": "HasCardOnBoard",
+      "scope": "OpponentField",
+      "cardType": "Don"
     },
     {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
+      "type": "LeaderHasAnyType",
+      "value": "GERMA"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Rest",
+      "target": {
+        "scope": "OwnDon"
+      },
+      "amount": 1
+    },
+    {
+      "type": "AddLife",
+      "amount": 2,
+      "target": {
+        "scope": "OwnDon"
+      }
     }
   ]
 }
