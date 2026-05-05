@@ -1,40 +1,23 @@
 {
-  "id": "ST20-004",
-  "name": "Charlotte Pudding",
-  "cost": 3,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 3,
+          "hasType": "Big Mom Pirates"
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "maxCount": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "ST20-004"
 }

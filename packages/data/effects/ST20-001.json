@@ -1,34 +1,25 @@
 {
-  "id": "ST20-001",
-  "name": "Charlotte Katakuri",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "TurnCount",
-        "max": 1
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TurnCount",
+      "max": 1
+    },
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "filter": "HasRestingDon"
         },
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "optional": true
+      }
+    ]
+  },
+  "id": "ST20-001"
 }
