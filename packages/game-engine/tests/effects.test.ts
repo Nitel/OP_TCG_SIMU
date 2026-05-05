@@ -1502,6 +1502,60 @@ describe('Condition LeaderIsName', () => {
 
 // ── Régression : OnPlay avec ChooseOpponentCharacter → engine-side (pas de blocage client) ─────
 
+describe('TrashFromDeck', () => {
+  it('#T1 — nominal : trash 3 cartes depuis le sommet du deck', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'TrashFromDeck', count: 3, thenActions: [] }],
+    };
+    const card = makeChar('trash-deck-src', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, card);
+    const deckBefore = state.players[P1]!.deck.length;
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 3);
+    expect(result.players[P1]!.trash.length).toBe(3);
+  });
+
+  it('#T2 — deck insuffisant : trash toutes les cartes restantes sans erreur', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'TrashFromDeck', count: 99, thenActions: [] }],
+    };
+    const card = makeChar('trash-deck-big', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, card);
+    const deckBefore = state.players[P1]!.deck.length;
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(0);
+    expect(result.players[P1]!.trash.length).toBe(deckBefore);
+  });
+
+  it('#T3 — thenActions exécutés après le trash', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'TrashFromDeck', count: 1, thenActions: [{ type: 'DrawCard', count: 1 }] }],
+    };
+    const card = makeChar('trash-then-draw', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, card);
+    const handBefore = state.players[P1]!.hand.length;
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: card.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Card played from hand (-1) + DrawCard (+1) = net 0 change in hand size
+    expect(result.players[P1]!.hand.length).toBe(handBefore - 1 + 1);
+    expect(result.players[P1]!.trash.length).toBe(1);
+  });
+});
+
 describe('Régression : OnPlay ChooseOpponentCharacter → pendingTargetInteraction engine-side', () => {
   it('PlayCharacterFromHand sans chosenTargetId → pendingTargetInteraction set (pas de blocage)', () => {
     const base = bootstrapGame();

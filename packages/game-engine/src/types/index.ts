@@ -141,6 +141,12 @@ export type EffectAction =
       readonly count?: number;
       readonly optional?: true;
       readonly thenActions: readonly EffectAction[];
+    }
+  /** Trash `count` cards from the top of the source player's deck, then execute thenActions. */
+  | {
+      readonly type: 'TrashFromDeck';
+      readonly count: number;
+      readonly thenActions: readonly EffectAction[];
     };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────

@@ -559,6 +559,37 @@ function resolveAction(
       };
     }
 
+    // ── TrashFromDeck ─────────────────────────────────────────────────────────
+    case 'TrashFromDeck': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      const actual = Math.min(action.count, player.deck.length);
+      if (actual === 0) {
+        let next = state;
+        for (const a of action.thenActions) next = resolveAction(a, context, next);
+        return next;
+      }
+      const toTrash = player.deck.slice(0, actual);
+      const remainingDeck = player.deck.slice(actual);
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const cardId of toTrash) {
+        const c = updatedCards[cardId];
+        if (c !== undefined) updatedCards[cardId] = { ...c, zone: 'trash' as const };
+      }
+      const updatedPlayer: PlayerState = {
+        ...player,
+        deck: remainingDeck,
+        trash: [...player.trash, ...toTrash],
+      };
+      let next: GameState = {
+        ...state,
+        cards: updatedCards as Readonly<Record<CardId, Card>>,
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+      for (const a of action.thenActions) next = resolveAction(a, context, next);
+      return next;
+    }
+
     // ── RevealFromHand ────────────────────────────────────────────────────────
     // Intercepted in resolveEffects before reaching here; this case is unreachable.
     case 'RevealFromHand':
