@@ -1702,6 +1702,135 @@ describe('PlaceAtBottomOfDeck', () => {
   });
 });
 
+describe('SearchTrash', () => {
+  it('#S1 — nominal : count=2, 2 cartes matchantes déplacées en main', () => {
+    const base = bootstrapGame();
+    const match1 = makeChar('st-match1', 'p1', 2000, { zone: 'trash', cost: 3, type: 'Character' });
+    const match2 = makeChar('st-match2', 'p1', 1000, { zone: 'trash', cost: 4, type: 'Character' });
+    const noMatch = makeChar('st-nomatch', 'p1', 2000, { zone: 'trash', cost: 10, type: 'Character' });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'SearchTrash', filter: { cardType: 'Character', maxCost: 5 }, count: 2 }],
+    };
+    const src = makeChar('search-trash-src', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Trash(base, match1);
+    state = addToP1Trash(state, match2);
+    state = addToP1Trash(state, noMatch);
+    state = addToHand(state, src);
+    const handBefore = state.players[P1]!.hand.length;
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[match1.id]?.zone).toBe('hand');
+    expect(result.cards[match2.id]?.zone).toBe('hand');
+    expect(result.cards[noMatch.id]?.zone).toBe('trash');
+    // hand: -1 (play) +2 (search) = +1
+    expect(result.players[P1]!.hand.length).toBe(handBefore - 1 + 2);
+    expect(result.players[P1]!.trash.length).toBe(1);
+  });
+
+  it('#S2 — count=1 parmi plusieurs matches → prend 1 seul', () => {
+    const base = bootstrapGame();
+    const m1 = makeChar('st2-match1', 'p1', 2000, { zone: 'trash', cost: 2, type: 'Character' });
+    const m2 = makeChar('st2-match2', 'p1', 2000, { zone: 'trash', cost: 3, type: 'Character' });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'SearchTrash', filter: { cardType: 'Character' }, count: 1 }],
+    };
+    const src = makeChar('search-trash-src2', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Trash(base, m1);
+    state = addToP1Trash(state, m2);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    const movedToHand = [m1.id, m2.id].filter((id) => result.cards[id]?.zone === 'hand');
+    expect(movedToHand.length).toBe(1);
+    expect(result.players[P1]!.trash.length).toBe(1);
+  });
+
+  it('#S3 — aucun match → state inchangé', () => {
+    const base = bootstrapGame();
+    const noMatch = makeChar('st3-nomatch', 'p1', 2000, { zone: 'trash', cost: 8, type: 'Character' });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'SearchTrash', filter: { maxCost: 3 }, count: 1 }],
+    };
+    const src = makeChar('search-trash-src3', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Trash(base, noMatch);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[noMatch.id]?.zone).toBe('trash');
+  });
+});
+
+describe('Activate', () => {
+  it('#A1 — nominal : carte tapped=true devient tapped=false', () => {
+    const base = bootstrapGame();
+    const tappedChar = makeChar('act-target', 'p1', 2000, { tapped: true });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'Activate', target: { scope: 'ChooseOwnCharacter' } }],
+    };
+    const src = makeChar('activate-src', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Board(base, tappedChar);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: src.id,
+      chosenTargetId: tappedChar.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[tappedChar.id]?.tapped).toBe(false);
+  });
+
+  it('#A2 — déjà active (tapped=false) → reste false sans erreur', () => {
+    const base = bootstrapGame();
+    const activeChar = makeChar('act-already', 'p1', 2000, { tapped: false });
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'Activate', target: { scope: 'ChooseOwnCharacter' } }],
+    };
+    const src = makeChar('activate-src2', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    let state = addToP1Board(base, activeChar);
+    state = addToHand(state, src);
+
+    const result = applyAction(state, {
+      type: 'PlayCharacterFromHand',
+      playerId: P1,
+      cardId: src.id,
+      chosenTargetId: activeChar.id,
+    });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[activeChar.id]?.tapped).toBe(false);
+  });
+
+  it('#A3 — cible introuvable (board vide) → state inchangé sans erreur', () => {
+    const base = bootstrapGame();
+    const effect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'Activate', target: { scope: 'ChooseOwnCharacter' } }],
+    };
+    const src = makeChar('activate-src3', 'p1', 1000, { zone: 'hand', cost: 0, effects: [effect] });
+    const state = addToHand(base, src);
+    const deckBefore = state.players[P1]!.deck.length;
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore);
+  });
+});
+
 describe('Régression : OnPlay ChooseOpponentCharacter → pendingTargetInteraction engine-side', () => {
   it('PlayCharacterFromHand sans chosenTargetId → pendingTargetInteraction set (pas de blocage)', () => {
     const base = bootstrapGame();

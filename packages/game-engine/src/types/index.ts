@@ -167,6 +167,17 @@ export type EffectAction =
   | {
       readonly type: 'PlaceAtBottomOfDeck';
       readonly target: TargetSelector;
+    }
+  /** Search the source player's trash for up to `count` cards matching `filter` and add them to hand. */
+  | {
+      readonly type: 'SearchTrash';
+      readonly filter: HandFilter;
+      readonly count: number;
+    }
+  /** Set a card to active (tapped: false). */
+  | {
+      readonly type: 'Activate';
+      readonly target: TargetSelector;
     };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────

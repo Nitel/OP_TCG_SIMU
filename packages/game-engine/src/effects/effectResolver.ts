@@ -686,6 +686,54 @@ function resolveAction(
       return next;
     }
 
+    // ── SearchTrash ───────────────────────────────────────────────────────────
+    case 'SearchTrash': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      const matches = player.trash.filter((id) => {
+        const c = state.cards[id];
+        if (c === undefined) return false;
+        const f = action.filter;
+        return (
+          (f.color === undefined || c.color === f.color) &&
+          (f.cardType === undefined || c.type === f.cardType) &&
+          (f.maxCost === undefined || c.cost <= f.maxCost) &&
+          (f.maxPower === undefined || c.power <= f.maxPower) &&
+          (f.subType === undefined || c.subTypes?.includes(f.subType) === true) &&
+          (f.excludeSelf !== true || id !== context.sourceCardId)
+        );
+      });
+      const toMove = matches.slice(0, action.count);
+      if (toMove.length === 0) return state;
+      const updatedCards = { ...state.cards };
+      for (const id of toMove) {
+        const c = updatedCards[id];
+        if (c !== undefined) updatedCards[id] = { ...c, zone: 'hand' as const };
+      }
+      const updatedPlayer: PlayerState = {
+        ...player,
+        trash: player.trash.filter((id) => !toMove.includes(id)),
+        hand:  [...player.hand, ...toMove],
+      };
+      return {
+        ...state,
+        cards:   updatedCards as Readonly<Record<CardId, Card>>,
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+    }
+
+    // ── Activate ─────────────────────────────────────────────────────────────
+    case 'Activate': {
+      const targets = selectTargets(action.target, context, state);
+      let next = state;
+      for (const cardId of targets) {
+        const card = next.cards[cardId];
+        if (card === undefined) continue;
+        next = { ...next, cards: { ...next.cards, [cardId]: { ...card, tapped: false } } };
+      }
+      return next;
+    }
+
     // ── RevealFromHand ────────────────────────────────────────────────────────
     // Intercepted in resolveEffects before reaching here; this case is unreachable.
     case 'RevealFromHand':
