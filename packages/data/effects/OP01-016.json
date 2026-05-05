@@ -1,24 +1,22 @@
 {
   "id": "OP01-016",
-  "name": "Nami",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Type",
+        "value": "Straw Hat Crew",
+        "excludeName": "Nami"
+      },
+      "destination": "hand",
+      "maxResults": 1,
+      "fromTopCount": 5
+    },
+    {
+      "type": "ArrangeFromDeck",
+      "destination": "deckBottom",
+      "allowAnyOrder": true
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,31 +1,42 @@
 {
   "id": "OP01-067",
-  "name": "Crocodile",
-  "cost": 7,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Banish"
-  ],
+  "effectText": "[Banish] (When this card deals damage, the target card is trashed without activating its Trigger.)<br>[DON!! x1] Give blue Events in your hand −1 cost.",
   "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "zone": "Hand",
+            "color": "Blue",
+            "cardType": "Event"
+          },
+          "description": "Banish: target card trashed without activating Trigger"
+        }
+      ]
+    },
     {
       "trigger": "Activated",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 1
       },
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "PowerBoost",
           "filter": {
+            "zone": "Hand",
             "color": "Blue",
             "cardType": "Event"
           },
-          "thenActions": []
+          "amount": -1,
+          "description": "Blue Events in hand gain −1 cost"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

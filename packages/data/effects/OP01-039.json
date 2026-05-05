@@ -1,19 +1,12 @@
 {
   "id": "OP01-039",
-  "name": "Killer",
-  "cost": 2,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
       "trigger": "OnBlock",
       "condition": {
         "type": "HasCardOnBoard",
-        "name": "Character"
+        "count": 3,
+        "cardType": "Character"
       },
       "actions": [
         {
@@ -22,6 +15,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

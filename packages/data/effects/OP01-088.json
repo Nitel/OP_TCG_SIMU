@@ -1,11 +1,6 @@
 {
   "id": "OP01-088",
-  "name": "Desert Spada",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
+  "cardNumber": "OP01-088",
   "effects": [
     {
       "trigger": "Counter",
@@ -14,24 +9,15 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
           },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+          "duration": "DuringThisBattle"
         },
         {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+          "type": "SearchDeck",
+          "count": 3,
+          "action": "ScryPlaceTopOrBottom"
         }
       ]
     }

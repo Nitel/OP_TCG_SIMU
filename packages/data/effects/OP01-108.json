@@ -1,24 +1,29 @@
 {
-  "id": "OP01-108",
-  "name": "Hitokiri Kamazo",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 5,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "AttachDon",
+        "target": {
+          "scope": "Self"
+        },
+        "value": -1
+      }
+    ]
+  },
+  "id": "OP01-108"
 }

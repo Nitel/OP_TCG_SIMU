@@ -1,23 +1,33 @@
 {
-  "id": "OP01-063",
-  "name": "Arlong",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "OpponentHand",
+          "count": 1
+        },
+        "reveal": true
+      },
+      {
+        "type": "FlipLife",
+        "target": {
+          "scope": "OpponentLife",
+          "count": 1
+        },
+        "condition": {
+          "type": "RevealedCardHasType",
+          "value": "Event"
+        }
+      }
+    ]
+  },
+  "id": "OP01-063"
 }

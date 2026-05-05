@@ -1,13 +1,6 @@
 {
   "id": "OP01-044",
-  "name": "Shachi",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardId": "OP01-044",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -20,12 +13,14 @@
         {
           "type": "PlayFromHand",
           "filter": {
-            "cardType": "Character",
-            "subType": "Heart Pirates"
+            "name": "Penguin"
+          },
+          "quantity": {
+            "type": "UpTo",
+            "value": 1
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

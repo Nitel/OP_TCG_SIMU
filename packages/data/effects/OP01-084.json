@@ -1,29 +1,26 @@
 {
   "id": "OP01-084",
-  "name": "Mr.2.Bon.Kurei(Bentham)",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "SearchDeck",
+      "searchCount": 5,
+      "filter": {
+        "type": "ByCombinedType",
+        "kind": "Event",
+        "combinedType": "Baroque Works"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
-          },
-          "destination": "hand"
-        }
-      ]
+      "selectCount": {
+        "min": 0,
+        "max": 1
+      },
+      "destination": "hand",
+      "remainingDestination": "deckBottom",
+      "remainingOrder": "any"
     }
-  ],
-  "counter": 2000
+  ]
 }

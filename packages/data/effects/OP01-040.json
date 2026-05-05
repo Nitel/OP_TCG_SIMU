@@ -1,16 +1,10 @@
 {
   "id": "OP01-040",
-  "name": "Kin'emon",
-  "cost": 6,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Kouzuki Oden"
       },
       "actions": [
@@ -31,9 +25,10 @@
       },
       "actions": [
         {
-          "type": "Rest",
+          "type": "Activate",
           "target": {
             "scope": "ChooseOwnCharacter",
+            "subType": "The Akazaya Nine",
             "maxCost": 3
           }
         }

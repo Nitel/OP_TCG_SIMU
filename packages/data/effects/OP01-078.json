@@ -1,40 +1,43 @@
 {
-  "id": "OP01-078",
-  "name": "Boa Hancock",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "count": {
+        "operator": "<=",
+        "value": 5
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+      "zone": "hand"
     },
-    {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "HasRestingDon",
+    "actions": [
+      {
+        "type": "DrawCard",
         "count": 1
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+      }
+    ],
+    "cost": {
+      "don": 1
     }
-  ],
-  "counter": 1000
+  },
+  "1": {
+    "trigger": "OnBlock",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "count": {
+        "operator": "<=",
+        "value": 5
+      },
+      "zone": "hand"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ],
+    "cost": {
+      "don": 1
+    }
+  },
+  "id": "OP01-078"
 }

@@ -1,14 +1,9 @@
 {
   "id": "OP01-091",
-  "name": "King",
-  "cost": 0,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[Your Turn] If you have 10 DON!! cards on your field, give all of your opponent's Characters −1000 power.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "StartOfTurn",
       "condition": {
         "type": "HasAttachedDon",
         "count": 10
@@ -20,7 +15,7 @@
           "target": {
             "scope": "AllOpponentCharacters"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }

@@ -1,52 +1,21 @@
 {
-  "id": "OP01-064",
-  "name": "Alvida",
-  "cost": 2,
-  "power": 3000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "ReturnToHand",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 3
-              }
+  "0": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "thenActions": [
+          {
+            "type": "ReturnToHand",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 3
             }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "ReturnToHand",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 3
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP01-064"
 }

@@ -1,29 +1,22 @@
 {
   "id": "OP01-031",
-  "name": "Kouzuki Oden",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "Always"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+      "type": "TrashFromHand",
+      "filter": {
+        "subType": "Land of Wano"
       },
-      "actions": [
+      "count": 1,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Land of Wano"
-          },
-          "thenActions": [
-            {
-              "type": "GiveDon",
-              "count": 2
-            }
-          ]
+          "type": "Rest",
+          "target": "OwnDon",
+          "count": 2,
+          "restType": "Activate"
         }
       ]
     }

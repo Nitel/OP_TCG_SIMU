@@ -1,32 +1,18 @@
 {
-  "id": "OP01-071",
-  "name": "Jinbe",
-  "cost": 4,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 3
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByCost",
+          "maxCost": 3,
+          "cardType": "Character"
+        },
+        "destination": "bottomOfDeck",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP01-071"
 }

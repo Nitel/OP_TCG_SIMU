@@ -1,33 +1,25 @@
 {
   "id": "OP01-002",
-  "name": "Trafalgar Law",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "HasCardOnBoard",
+    "name": "Character",
+    "count": 5
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Character"
-      },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "maxCost": 5
-          }
-        }
-      ]
+      "type": "ReturnToHand",
+      "target": {
+        "scope": "ChooseOwnCharacter"
+      }
+    },
+    {
+      "type": "PlayFromHand",
+      "filter": {
+        "cardType": "Character",
+        "maxCost": 5,
+        "differentColorFrom": "returnedCharacter"
+      }
     }
   ]
 }

@@ -1,29 +1,23 @@
 {
   "id": "OP01-072",
-  "name": "Smiley",
-  "cost": 3,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [Your Turn] This Character gains +1000 power for every card in your hand.",
   "effects": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ],
+      "trigger": "Trigger",
       "condition": {
         "type": "HasRestingDon",
         "count": 1
-      }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": "cardsInHand × 1000",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
-  ],
-  "counter": 1000
+  ]
 }

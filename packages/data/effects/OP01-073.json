@@ -1,26 +1,22 @@
 {
-  "id": "OP01-073",
-  "name": "Donquixote Doflamingo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnBlock",
+    "actions": [
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromDeck",
+        "count": 5,
+        "position": "top",
+        "rearrange": true
+      }
+    ]
+  },
+  "id": "OP01-073"
 }

@@ -1,23 +1,23 @@
 {
-  "id": "OP01-090",
-  "name": "Baroque Works",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Baroque Works",
+          "excludeName": "Baroque Works"
+        },
+        "destination": "hand",
+        "quantity": {
+          "min": 0,
+          "max": 1
+        },
+        "searchQuantity": 5,
+        "remainingPlacement": "BottomOfDeck"
+      }
+    ]
+  },
+  "id": "OP01-090"
 }

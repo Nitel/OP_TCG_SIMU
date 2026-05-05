@@ -1,29 +1,18 @@
 {
   "id": "OP01-049",
-  "name": "Bepo",
-  "cost": 4,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Heart Pirates",
-            "maxCost": 4,
-            "excludeSelf": true
-          }
-        }
-      ]
+      "type": "PlayFromHand",
+      "filter": {
+        "subType": "Heart Pirates",
+        "maxCost": 4,
+        "excludeName": "Bepo"
+      }
     }
-  ],
-  "counter": 2000
+  ]
 }

@@ -1,30 +1,23 @@
 {
-  "id": "OP01-014",
-  "name": "Jinbe",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "color": "Red",
-            "cardType": "Character",
-            "maxCost": 2
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnBlock",
+    "condition": {
+      "type": "Always"
+    },
+    "cost": {
+      "don": 1
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "color": "Red",
+          "cardType": "Character",
+          "maxCost": 2
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "id": "OP01-014"
 }

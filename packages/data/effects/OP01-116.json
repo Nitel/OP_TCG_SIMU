@@ -1,11 +1,6 @@
 {
   "id": "OP01-116",
-  "name": "Artificial Devil Fruit SMILE",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] Look at 5 cards from the top of your deck; play up to 1 {SMILE} type Character card with a cost of 3 or less. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "Trigger",
@@ -14,8 +9,15 @@
           "type": "SearchDeck",
           "filter": {
             "kind": "ByCost",
-            "maxCost": 3
+            "maxCost": 3,
+            "cardTypes": [
+              "Character"
+            ],
+            "types": [
+              "SMILE"
+            ]
           },
+          "count": 1,
           "destination": "board"
         }
       ]

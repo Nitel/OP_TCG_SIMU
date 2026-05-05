@@ -1,11 +1,23 @@
 {
-  "id": "OP01-032",
-  "name": "Ashura Doji",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "target": "OpponentCharacters",
+        "comparison": ">=",
+        "value": 2,
+        "state": "Rested"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": "Self",
+        "value": 2000,
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP01-032"
 }

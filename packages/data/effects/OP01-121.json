@@ -1,14 +1,32 @@
 {
   "id": "OP01-121",
-  "name": "Yamato",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "DoubleAttack",
-    "Banish"
+  "cardId": "OP01-121",
+  "effectText": "Also treat this card's name as [Kouzuki Oden] according to the rules.\n[Double Attack] (This card deals 2 damage.)\n[Banish] (When this card deals damage, the target card is trashed without activating its Trigger.)",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "Self",
+          "keyword": "DoubleAttack"
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": "Self",
+          "keyword": "Banish"
+        }
+      ],
+      "duration": "Permanent"
+    }
   ],
-  "effects": [],
-  "counter": 1000
+  "notes": "Name alias (Kouzuki Oden) is typically handled outside DSL effects array in card metadata. Double Attack and Banish are intrinsic keywords on this card."
 }

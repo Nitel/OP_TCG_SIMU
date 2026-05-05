@@ -1,18 +1,21 @@
 {
   "id": "OP01-093",
-  "name": "Ulti",
-  "cost": 2,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP01-093",
+  "effectText": "[On Play] ① (You may rest the specified number of DON!! cards in your cost area.): Add up to 1 DON!! card from your DON!! deck and rest it.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 1
+        }
+      ],
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "source": "deck"
         }
       ]
     }

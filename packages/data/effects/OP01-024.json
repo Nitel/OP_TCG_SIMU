@@ -1,24 +1,34 @@
 {
-  "id": "OP01-024",
-  "name": "Monkey.D.Luffy",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 2,
-          "target": {
-            "scope": "Self"
+  "0": {
+    "trigger": "Counter",
+    "condition": "Always",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "Attacking",
+          "filter": {
+            "hasType": "Strike"
           }
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": "OncePerTurn",
+    "conditions": [],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 2,
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "id": "OP01-024"
 }

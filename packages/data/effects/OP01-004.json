@@ -1,11 +1,23 @@
 {
   "id": "OP01-004",
-  "name": "Usopp",
-  "cost": 2,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "constraints": [
+        {
+          "type": "OncePerTurn"
+        }
+      ]
+    }
+  ]
 }

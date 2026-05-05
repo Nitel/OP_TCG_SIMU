@@ -1,30 +1,28 @@
 {
   "id": "OP01-101",
-  "name": "Sasaki",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "Always"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+      "type": "TrashFromHand",
+      "filter": {
+        "optional": true,
+        "count": 1
       },
-      "actions": [
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "GiveDon",
-              "count": 1
-            }
-          ]
+          "type": "SearchDeck",
+          "filter": {
+            "type": "DON",
+            "count": 1
+          }
+        },
+        {
+          "type": "Rest"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

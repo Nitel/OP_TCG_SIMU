@@ -1,25 +1,19 @@
 {
   "id": "OP01-069",
-  "name": "Caesar Clown",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnKO",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "PlayFromHand",
           "filter": {
             "kind": "ByName",
             "name": "Smiley"
           },
-          "destination": "board"
+          "amount": 1,
+          "source": "deck"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

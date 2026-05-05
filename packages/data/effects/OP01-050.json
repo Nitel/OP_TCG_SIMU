@@ -1,31 +1,18 @@
 {
   "id": "OP01-050",
-  "name": "Penguin",
-  "cost": 3,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasCardOnBoard",
+    "name": "Shachi",
+    "negate": true
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Shachi",
-        "negate": true
+      "type": "PlayFromHand",
+      "filter": {
+        "name": "Shachi"
       },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "subType": "Heart Pirates"
-          }
-        }
-      ]
+      "limit": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

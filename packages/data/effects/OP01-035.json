@@ -1,27 +1,23 @@
 {
   "id": "OP01-035",
-  "name": "Okiku",
-  "cost": 3,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [When Attacking] [Once Per Turn] Rest up to 1 of your opponent's Characters with a cost of 5 or less.",
   "effects": [
     {
       "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "Rest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
+            "maxCost": 5,
+            "maxCount": 1
           }
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      }
+      ]
     }
   ]
 }

@@ -1,11 +1,5 @@
 {
   "id": "OP01-086",
-  "name": "Overheat",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -14,7 +8,8 @@
           "type": "PowerBoost",
           "amount": 4000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "quantity": 1
           },
           "duration": "EndOfBattle"
         },
@@ -22,19 +17,9 @@
           "type": "ReturnToHand",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 3,
+            "quantity": 1,
+            "isActive": true
           }
         }
       ]

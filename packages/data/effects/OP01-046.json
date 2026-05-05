@@ -1,21 +1,16 @@
 {
   "id": "OP01-046",
-  "name": "Denjiro",
-  "cost": 5,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [When Attacking] If your Leader is [Kouzuki Oden], set up to 2 of your DON!! cards as active.",
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Kouzuki Oden"
       },
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "AttachDon",
           "count": 2
         }
       ]

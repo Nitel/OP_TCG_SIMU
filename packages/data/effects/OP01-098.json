@@ -1,25 +1,17 @@
 {
-  "id": "OP01-098",
-  "name": "Kurozumi Orochi",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Artificial Devil Fruit SMILE"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Artificial Devil Fruit SMILE"
+        },
+        "destination": "hand",
+        "limit": 1
+      }
+    ]
+  },
+  "id": "OP01-098"
 }

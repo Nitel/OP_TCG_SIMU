@@ -1,14 +1,12 @@
 {
   "id": "OP01-001",
-  "name": "Roronoa Zoro",
-  "cost": 5,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Leader",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -16,13 +14,9 @@
           "target": {
             "scope": "AllOwnCharacters"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
-      ],
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      }
+      ]
     }
   ]
 }

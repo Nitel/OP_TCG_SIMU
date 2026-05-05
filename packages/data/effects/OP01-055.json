@@ -1,26 +1,24 @@
 {
-  "id": "OP01-055",
-  "name": "You Can Be My Samurai!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "AllOwnCharacters"
-          }
-        },
-        {
-          "type": "DrawCard",
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "optional": true,
+        "target": {
+          "scope": "OwnCharacters",
           "count": 2
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "DrawCard",
+        "count": 2,
+        "condition": {
+          "type": "ActionResolved",
+          "action": 0
+        }
+      }
+    ]
+  },
+  "id": "OP01-055"
 }

@@ -1,27 +1,20 @@
 {
-  "id": "OP01-089",
-  "name": "Crescent Cutlass",
-  "cost": 3,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Leader with The Seven Warlords of the Sea type"
-      },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "The Seven Warlords of the Sea"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseCharacter",
+          "maxCost": 5,
+          "maxCount": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP01-089"
 }
