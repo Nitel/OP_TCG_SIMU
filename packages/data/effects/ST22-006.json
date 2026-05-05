@@ -1,21 +1,29 @@
 {
-  "id": "ST22-006",
-  "name": "Jozu",
-  "cost": 7,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "source": "TopOfDeck",
+        "count": 1
+      },
+      {
+        "type": "DrawCard",
+        "count": 2,
+        "condition": {
+          "type": "RevealedCardHasType",
+          "value": "Whitebeard Pirates"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "condition": {
+          "type": "RevealedCardHasType",
+          "value": "Whitebeard Pirates"
+        }
+      }
+    ]
+  },
+  "id": "ST22-006"
 }

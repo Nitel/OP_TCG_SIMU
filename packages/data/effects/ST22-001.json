@@ -1,18 +1,31 @@
 {
   "id": "ST22-001",
-  "name": "Ace &amp; Newgate",
-  "cost": 5,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Leader",
-  "keywords": [],
+  "cardNumber": "ST22-001",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "property": "HasType",
+          "value": "Whitebeard Pirates",
+          "location": "Hand"
+        }
+      ],
       "actions": [
+        {
+          "type": "RevealFromHand",
+          "filter": "HasType:Whitebeard Pirates",
+          "count": 1
+        },
         {
           "type": "DrawCard",
           "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "target": "RevealedCard",
+          "placement": "TopOfDeck"
         }
       ]
     }

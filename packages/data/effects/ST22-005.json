@@ -1,39 +1,48 @@
 {
-  "id": "ST22-005",
-  "name": "Kouzuki Oden",
-  "cost": 7,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "filter": {}
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseDonCards",
+          "count": 3
         }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
-        },
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter"
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "excludeSelf": true
           }
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "PlaySelf",
+        "asActive": true
+      }
+    ]
+  },
+  "id": "ST22-005"
 }

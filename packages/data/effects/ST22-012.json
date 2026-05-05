@@ -1,20 +1,20 @@
 {
   "id": "ST22-012",
-  "name": "Marco",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "note": "Conditional KO prevention requires custom condition logic not fully expressible in current DSL schema. Suggest revision to support 'OnWouldBeKO' with opponent-source condition and replacement effect.",
+  "suggested": [
     {
       "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {}
+      },
       "actions": [
         {
           "type": "TrashFromHand",
           "count": 1,
           "filter": {},
-          "thenActions": []
+          "thenActions": [],
+          "preventKO": true
         }
       ]
     },
@@ -22,10 +22,10 @@
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "RevealFromHand",
+          "type": "RevealFromDeck",
           "count": 1,
           "filter": {
-            "subType": "Whitebeard Pirates"
+            "type": "Whitebeard Pirates"
           },
           "thenActions": [
             {
@@ -34,12 +34,11 @@
               "target": {
                 "scope": "Self"
               },
-              "duration": "EndOfTurn"
+              "duration": "DuringOpponentTurn"
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

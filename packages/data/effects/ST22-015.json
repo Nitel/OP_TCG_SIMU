@@ -1,39 +1,37 @@
 {
-  "id": "ST22-015",
-  "name": "I Am Whitebeard!!",
-  "cost": 8,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Edward.Newgate"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Whitebeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "name": "Edward.Newgate"
+        },
+        "maxCount": 1
       },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "subType": "Edward.Newgate"
-          }
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "OwnLeader"
         },
-        {
-          "type": "FlipLife",
-          "count": 1
+        "duration": "DuringOpponentTurn",
+        "condition": {
+          "type": "PreviousActionResolved",
+          "action": "FlipLife"
         },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "maxCount": 1
+      }
+    ]
+  },
+  "id": "ST22-015"
 }

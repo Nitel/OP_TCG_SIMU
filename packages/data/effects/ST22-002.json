@@ -1,33 +1,42 @@
 {
-  "id": "ST22-002",
-  "name": "Izo",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "HasType",
+          "value": "Whitebeard Pirates",
+          "excludeNames": [
+            "Izo"
+          ]
+        },
+        "count": 1,
+        "destination": "hand",
+        "deckPosition": "top",
+        "deckPositionCount": 5
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": "Always",
+    "duration": "DuringOpponentTurn",
+    "optional": true,
+    "cost": {
+      "type": "TrashSelf"
     },
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "PlayFromHand",
+        "destination": "bottom",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST22-002"
 }

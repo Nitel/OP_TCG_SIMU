@@ -1,25 +1,26 @@
 {
   "id": "ST22-011",
-  "name": "Whitey Bay",
-  "cost": 1,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "conditions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "RevealFromHand",
+      "amount": 2,
+      "cardFilter": {
+        "hasType": "Whitebeard Pirates"
+      },
+      "isOptional": true
     }
   ],
-  "counter": 2000
+  "actions": [
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "OwnLeader",
+        "hasType": "Whitebeard Pirates",
+        "amount": 1
+      },
+      "duration": "DuringYourTurn"
+    }
+  ]
 }

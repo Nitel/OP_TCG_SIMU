@@ -1,24 +1,30 @@
 {
-  "id": "ST22-007",
-  "name": "Squard",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 1,
+        "source": "TopOfDeck"
+      },
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "restriction": "RestingDonOnly"
+        },
+        "condition": {
+          "type": "RevealedCardHasType",
+          "cardType": "Whitebeard Pirates"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "ST22-007"
 }

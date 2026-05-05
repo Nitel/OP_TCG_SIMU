@@ -1,39 +1,27 @@
 {
   "id": "ST22-017",
-  "name": "Fire Fist",
-  "cost": 5,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
+      "type": "RevealFromHand",
+      "count": 2,
+      "filter": {
+        "subType": "Whitebeard Pirates"
+      },
+      "optional": true,
+      "thenActions": [
         {
-          "type": "RevealFromHand",
-          "count": 2,
-          "filter": {
-            "subType": "Whitebeard Pirates"
-          },
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
+          "type": "DrawCard",
+          "count": 1
+        },
         {
-          "type": "ReturnToHand",
+          "type": "PlayFromHand",
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 3
-          }
+            "scope": "ChooseCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          },
+          "placement": "BottomOfDeck"
         }
       ]
     }

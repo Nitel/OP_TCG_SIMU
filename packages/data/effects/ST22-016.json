@@ -1,33 +1,35 @@
 {
-  "id": "ST22-016",
-  "name": "Take That Back!! Take Back What You Said!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "RevealFromDeck",
+        "count": 1,
+        "position": "top"
+      }
+    ],
+    "condition": {
+      "type": "RevealedCardHasType",
+      "value": "Whitebeard Pirates"
     }
-  ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "RevealedCardHasType",
+      "value": "Whitebeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "max": 1
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "ST22-016"
 }
