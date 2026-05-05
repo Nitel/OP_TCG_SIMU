@@ -1,28 +1,25 @@
 {
-  "id": "OP09-119",
-  "name": "Monkey.D.Luffy",
-  "cost": 9,
-  "power": 10000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP09-119"
 }

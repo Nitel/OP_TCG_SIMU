@@ -1,25 +1,20 @@
 {
-  "id": "OP09-046",
-  "name": "Crocodile",
-  "cost": 7,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Cross Guild",
-            "maxCost": 5,
-            "cardType": "Character"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "maxCost": 5,
+          "subType": [
+            "Cross Guild",
+            "Baroque Works"
+          ],
+          "typeMatch": "any"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP09-046"
 }

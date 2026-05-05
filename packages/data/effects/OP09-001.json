@@ -1,22 +1,23 @@
 {
   "id": "OP09-001",
-  "name": "Shanks",
-  "cost": 0,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[Once Per Turn] This effect can be activated when your opponent attacks. Give up to 1 of your opponent's Leader or Character cards −1000 power during this turn.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -1000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "count": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }

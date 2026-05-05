@@ -1,32 +1,32 @@
 {
-  "id": "OP09-022",
-  "name": "Lim",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 3
-      },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 3
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "cardType": "DON"
         },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "ODYSSEY",
-            "cardType": "Character",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ]
+        "count": 1
+      },
+      {
+        "type": "AttachDon",
+        "count": 1
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "ODYSSEY",
+          "cardType": "Character",
+          "maxCost": 5
+        },
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP09-022"
 }

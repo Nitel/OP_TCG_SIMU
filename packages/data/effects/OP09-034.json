@@ -1,30 +1,33 @@
 {
-  "id": "OP09-034",
-  "name": "Perona",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Dracule Mihawk"
-          },
-          "destination": "hand"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "optional": true,
+        "filter": {
+          "kind": "ByTypeOrName",
+          "typeOrName": [
+            "Dracule Mihawk",
+            "Thriller Bark Pirates"
+          ]
         },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+        "destination": "hand",
+        "maxReveal": 1
+      },
+      {
+        "type": "OrderDeckBottom",
+        "count": "remaining"
+      },
+      {
+        "type": "ForceDiscard",
+        "filter": {
+          "kind": "Any"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP09-034"
 }

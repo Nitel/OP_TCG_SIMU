@@ -1,38 +1,30 @@
 {
-  "id": "OP09-013",
-  "name": "Yasopp",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "optional": true
+        },
+        "duration": "EndOfTurn"
+      }
+    ]
+  },
+  "id": "OP09-013"
 }

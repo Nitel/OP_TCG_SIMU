@@ -1,11 +1,6 @@
 {
   "id": "OP09-003",
-  "name": "Shachi & Penguin",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[When Attacking] Give up to 1 of your opponent's Characters −2000 power during this turn.",
   "effects": [
     {
       "trigger": "OnAttack",
@@ -14,12 +9,12 @@
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "quantity": "UpTo1"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

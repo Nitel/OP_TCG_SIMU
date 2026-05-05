@@ -1,18 +1,17 @@
 {
   "id": "OP09-117",
-  "name": "Dereshi!",
-  "cost": 3,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] Look at 5 cards from the top of your deck; reveal up to 2 cards with a [Trigger] other than [Dereshi!] and add them to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnPlay",
+      "conditions": [],
       "actions": [
         {
-          "type": "DrawCard",
-          "count": 1
+          "type": "SearchDeck",
+          "count": 2,
+          "fromTop": 5,
+          "filter": "HasKeyword:Trigger;NotName:Dereshi!",
+          "destination": "Hand"
         }
       ]
     }

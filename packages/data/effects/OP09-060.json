@@ -1,32 +1,29 @@
 {
-  "id": "OP09-060",
-  "name": "Emptee Bluffs Island",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "DrawCard",
-          "count": 2
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "count": 2,
+        "filter": {},
+        "placement": "DeckBottom",
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "DrawCard",
+        "count": 2,
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Cross Guild"
+        }
+      }
+    ]
+  },
+  "id": "OP09-060"
 }

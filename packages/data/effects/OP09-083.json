@@ -1,21 +1,30 @@
 {
-  "id": "OP09-083",
-  "name": "Van Augur",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 0
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "count": -3,
+        "target": "OpponentCharacter",
+        "maxTargets": 1,
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP09-083"
 }

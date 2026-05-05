@@ -1,29 +1,33 @@
 {
-  "id": "OP09-017",
-  "name": "Wire",
-  "cost": 4,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "And",
+      "conditions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        {
+          "type": "LeaderHasType",
+          "typeValue": "Kid Pirates"
+        },
+        {
+          "type": "LeaderPower",
+          "minPower": 7000
         }
       ]
-    }
-  ],
-  "counter": 2000
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP09-017"
 }

@@ -1,25 +1,24 @@
 {
-  "id": "OP09-052",
-  "name": "Marco",
-  "cost": 3,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
+  "0": {
+    "trigger": "OnKO",
+    "duration": "DuringOpponentTurn",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {}
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlaySelf",
+        "rested": true,
+        "cost": {
           "type": "TrashFromHand",
           "filter": {},
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
+          "count": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP09-052"
 }

@@ -1,36 +1,24 @@
 {
-  "id": "OP09-079",
-  "name": "Gum-Gum Jump Rope",
-  "cost": 2,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        },
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "ReturnDonToDeck",
+      "count": 2
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 5
+        },
+        "count": 1
+      },
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP09-079"
 }

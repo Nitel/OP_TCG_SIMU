@@ -1,37 +1,38 @@
 {
-  "id": "OP09-037",
-  "name": "Lim",
-  "cost": 3,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 5,
+        "filter": {
+          "kind": "Type",
+          "value": "ODYSSEY",
+          "exclude": "Lim"
+        },
+        "revealCount": 1,
+        "destination": "hand",
+        "restToBottom": true
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "duration": "DuringYourTurn",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 3,
+      "operator": "GreaterEqual"
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "setActive": true
+      }
+    ]
+  },
+  "id": "OP09-037"
 }

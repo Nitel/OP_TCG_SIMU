@@ -1,14 +1,14 @@
 {
   "id": "OP09-106",
-  "name": "Nico Olvia",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "card": "OP09-106",
+  "effectText": "[On Play] Up to 1 of your [Nico Robin] Leader gains +3000 power during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Nico Robin"
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -16,28 +16,9 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 3
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

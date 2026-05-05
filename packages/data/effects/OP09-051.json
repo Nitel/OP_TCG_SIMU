@@ -1,19 +1,29 @@
 {
   "id": "OP09-051",
-  "name": "Buggy",
-  "cost": 10,
-  "power": 12000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
+      "type": "ReturnToBottomOfDeck",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "max": 1
+      }
+    },
+    {
+      "type": "ConditionalAction",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "cost": 5,
+        "count": {
+          "lessThan": 5
+        }
+      },
       "actions": [
         {
-          "type": "ReturnToHand",
+          "type": "ReturnToBottomOfDeck",
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "Self"
           }
         }
       ]

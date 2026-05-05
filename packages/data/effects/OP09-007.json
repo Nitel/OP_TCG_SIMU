@@ -1,14 +1,23 @@
 {
   "id": "OP09-007",
-  "name": "Heat",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    },
     {
       "trigger": "OnPlay",
       "actions": [
@@ -19,10 +28,9 @@
             "scope": "OwnLeader",
             "maxPower": 4000
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

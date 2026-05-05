@@ -1,31 +1,24 @@
 {
-  "id": "OP09-088",
-  "name": "Shiryu",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "DrawCard",
-          "count": 2
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "source": "Hand",
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 2
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP09-088"
 }

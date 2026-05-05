@@ -1,11 +1,27 @@
 {
   "id": "OP09-033",
-  "name": "Nico Robin",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CantBeKOdByEffects",
+          "filter": {
+            "hasType": [
+              "ODYSSEY",
+              "Straw Hat Crew"
+            ]
+          }
+        }
+      ],
+      "duration": "DuringOpponentTurn"
+    }
+  ]
 }

@@ -1,21 +1,20 @@
 {
-  "id": "OP09-027",
-  "name": "Sabo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "count": 3,
+        "comparison": "atleast"
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ],
+    "oncePerTurn": true
+  },
+  "id": "OP09-027"
 }

@@ -1,40 +1,29 @@
 {
-  "id": "OP09-039",
-  "name": "Gum-Gum Cuatro Jet Cross Shock Bazooka",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "ODYSSEY"
-      },
-      "actions": [
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "ODYSSEY",
+      "all": [
         {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+          "type": "HasCardOnBoard",
+          "cardType": "Character",
+          "status": "Rested",
+          "minCount": 2
         }
       ]
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnLeaderOrCharacter",
+          "maxTargets": 1
+        },
+        "duration": "DuringThisTurn"
+      }
+    ]
+  },
+  "id": "OP09-039"
 }

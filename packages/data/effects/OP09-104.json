@@ -1,37 +1,36 @@
 {
   "id": "OP09-104",
-  "name": "Sabo",
-  "cost": 7,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Add up to 1 {Revolutionary Army} type Character card from your hand to the top of your Life cards face-up. Then, if you have 2 or more Life cards, add 1 card from the top or bottom of your Life cards to your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "PlayFromHand",
+          "type": "SearchDeck",
           "filter": {
             "subType": "Revolutionary Army",
             "cardType": "Character"
-          }
-        },
-        {
-          "type": "FlipLife",
-          "count": 1
+          },
+          "count": 1,
+          "location": "hand",
+          "destination": "lifeCards"
         }
       ]
     },
     {
       "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 2
+      },
       "actions": [
         {
           "type": "DrawCard",
-          "count": 2
+          "count": 1,
+          "location": "lifeCards"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

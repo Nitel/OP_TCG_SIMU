@@ -1,12 +1,21 @@
 {
   "id": "OP09-081",
-  "name": "Marshall D Teach",
-  "cost": 0,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "Your [On Play] effects are negated. [Activate: Main] You may trash 1 card from your hand: Your opponent's [On Play] effects are negated until the end of your opponent's next turn.",
   "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "NegateOnPlay",
+          "target": "Self"
+        }
+      ]
+    },
     {
       "trigger": "Activated",
       "condition": {
@@ -17,7 +26,14 @@
           "type": "TrashFromHand",
           "count": 1,
           "filter": {},
-          "thenActions": []
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "NegateOnPlay",
+              "target": "Opponent",
+              "duration": "DuringOpponentTurn"
+            }
+          ]
         }
       ]
     }

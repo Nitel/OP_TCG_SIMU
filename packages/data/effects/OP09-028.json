@@ -1,35 +1,42 @@
 {
-  "id": "OP09-028",
-  "name": "Sanji",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true,
+        "choice": "TopOrBottom"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromTrash",
+        "count": 1,
+        "optional": true,
+        "filter": {
+          "type": [
+            "ODYSSEY",
+            "Straw Hat Crew"
+          ],
+          "maxCost": 4
         },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "ODYSSEY",
-            "maxCost": 4
-          }
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Straw Hat Crew",
-            "maxCost": 4
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "state": "rested"
+      }
+    ]
+  },
+  "id": "OP09-028"
 }

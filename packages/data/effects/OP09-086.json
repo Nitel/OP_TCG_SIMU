@@ -1,28 +1,36 @@
 {
-  "id": "OP09-086",
-  "name": "Jesus Burgess",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 0
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CantBeKOdByOpponentEffects",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Blackbeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": "TrashCount/4*1000",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP09-086"
 }

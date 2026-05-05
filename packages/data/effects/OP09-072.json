@@ -1,20 +1,24 @@
 {
   "id": "OP09-072",
-  "name": "Franky",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "cardNumber": "OP09-072",
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 2
+        }
+      ],
       "actions": [
+        {
+          "type": "AttachDon",
+          "count": -2
+        },
         {
           "type": "TrashFromHand",
           "filter": {},
+          "optional": true,
           "thenActions": [
             {
               "type": "DrawCard",
@@ -24,6 +28,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

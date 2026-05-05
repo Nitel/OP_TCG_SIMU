@@ -1,26 +1,30 @@
 {
   "id": "OP09-030",
-  "name": "Trafalgar Law",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "conditions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "ODYSSEY",
-            "cardType": "Character",
-            "maxCost": 3,
-            "excludeSelf": true
-          }
-        }
-      ]
+      "type": "Always",
+      "optional": true,
+      "cost": {
+        "type": "ReturnToHand",
+        "filter": {
+          "cardType": "Character",
+          "controller": "Self"
+        },
+        "amount": 1
+      }
     }
   ],
-  "counter": 1000
+  "actions": [
+    {
+      "type": "PlayFromHand",
+      "filter": {
+        "subType": "ODYSSEY",
+        "cardType": "Character",
+        "maxCost": 3,
+        "excludeName": "Trafalgar Law"
+      },
+      "amount": 1
+    }
+  ]
 }

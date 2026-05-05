@@ -1,29 +1,23 @@
 {
-  "id": "OP09-095",
-  "name": "Laffitte",
-  "cost": 1,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Blackbeard Pirates"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 0
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByType",
+          "type": "Blackbeard Pirates"
+        },
+        "destination": "hand",
+        "maxCount": 1,
+        "deckInspection": 5,
+        "restCharacter": true
+      }
+    ]
+  },
+  "id": "OP09-095"
 }

@@ -1,32 +1,26 @@
 {
   "id": "OP09-078",
-  "name": "Gum-Gum Giant",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "actions": [
     {
-      "trigger": "Counter",
-      "actions": [
+      "type": "TrashFromHand",
+      "filter": {},
+      "thenActions": [
         {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 4000,
-              "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
-              },
-              "duration": "EndOfBattle"
-            },
-            {
-              "type": "DrawCard",
-              "count": 2
-            }
-          ]
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnLeaderOrOneCharacter"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "Straw Hat Crew"
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
         }
       ]
     }

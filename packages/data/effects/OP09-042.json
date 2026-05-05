@@ -1,23 +1,36 @@
 {
-  "id": "OP09-042",
-  "name": "Buggy",
-  "cost": 0,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Cross Guild",
-            "cardType": "Character"
-          }
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 5
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "Self",
+        "filter": {
+          "hasAttachedDon": true
+        },
+        "quantity": 5
+      },
+      {
+        "type": "ForceDiscard",
+        "target": "Self",
+        "quantity": 1
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Cross Guild",
+          "cardType": "Character"
+        },
+        "quantity": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP09-042"
 }

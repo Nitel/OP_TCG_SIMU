@@ -1,27 +1,31 @@
 {
   "id": "OP09-064",
-  "name": "Killer",
-  "cost": 5,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP09-064",
+  "effectText": "[On Play] DON!! −1: Set up to 1 of your {Kid Pirates} type Leader as active.",
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": {
-        "type": "HasRestingDon",
+      "cost": {
+        "type": "AttachedDon",
         "count": 1
+      },
+      "condition": {
+        "type": "Always"
       },
       "actions": [
         {
-          "type": "Rest",
+          "type": "GiveKeyword",
+          "keyword": "Active",
           "target": {
-            "scope": "OwnLeader"
+            "scope": "OwnLeader",
+            "filter": {
+              "type": "LeaderHasType",
+              "value": "Kid Pirates"
+            },
+            "count": 1
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

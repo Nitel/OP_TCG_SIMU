@@ -1,11 +1,5 @@
 {
   "id": "OP09-059",
-  "name": "Murder at the Steam Bath",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -14,23 +8,23 @@
           "type": "PowerBoost",
           "amount": 3000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
           },
           "duration": "EndOfBattle"
         },
         {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+          "type": "ForceDiscard",
+          "source": "Hand",
+          "count": 2,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "ForceDiscard",
+              "source": "DeckTop",
+              "countMatchesPreviousDiscard": true
+            }
+          ]
         }
       ]
     }

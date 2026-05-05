@@ -1,10 +1,17 @@
 {
   "id": "OP09-018",
-  "name": "Get Out of Here!",
-  "cost": 3,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "KO",
+          "target": "OpponentCharacters",
+          "amount": 2,
+          "filter": "TotalPowerLessOrEqual4000"
+        }
+      ]
+    }
+  ]
 }

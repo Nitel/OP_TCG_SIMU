@@ -1,25 +1,25 @@
 {
-  "id": "OP09-069",
-  "name": "Trafalgar Law",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "deckPosition": "top",
+        "lookCount": 4,
+        "filter": {
+          "kind": "ByCost",
+          "minCost": 2,
+          "typeFilter": [
+            "Straw Hat Crew",
+            "Heart Pirates"
+          ]
+        },
+        "selectCount": 1,
+        "destination": "hand",
+        "remainderDestination": "bottomOfDeck",
+        "remainderArrangeable": true
+      }
+    ]
+  },
+  "id": "OP09-069"
 }

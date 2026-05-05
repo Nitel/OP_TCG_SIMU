@@ -1,27 +1,19 @@
 {
   "id": "OP09-036",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 2,
+    "comparison": "GreaterThanOrEqual"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 6
-          }
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "ChooseOpponentDonOrCharacter",
+        "maxCost": 6,
+        "maxCount": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

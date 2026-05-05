@@ -1,27 +1,26 @@
 {
   "id": "OP09-102",
-  "name": "Professor Clover",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP09-102",
+  "effectText": "[On Play] If your Leader is [Nico Robin], look at 3 cards from the top of your deck; reveal up to 1 card with a [Trigger] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "LeaderIsName",
+        "value": "Nico Robin"
       },
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 3,
           "filter": {
-            "kind": "Any"
+            "kind": "HasKeyword",
+            "value": "Trigger"
           },
+          "selectCount": "UpTo1",
           "destination": "hand"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

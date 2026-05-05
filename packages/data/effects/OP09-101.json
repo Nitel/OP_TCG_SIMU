@@ -1,21 +1,31 @@
 {
-  "id": "OP09-101",
-  "name": "Kuzan",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "target": "opponent",
+        "filters": {
+          "type": "Character",
+          "maxCost": 3
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": "opponentCharacter",
+        "count": 1,
+        "filters": {
+          "maxCost": 3
+        }
+      },
+      {
+        "type": "ForceDiscard",
+        "target": "opponent",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP09-101"
 }

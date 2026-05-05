@@ -1,27 +1,26 @@
 {
-  "id": "OP09-048",
-  "name": "Dracule Mihawk",
-  "cost": 6,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "source": "Hand"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker"
+      }
+    ]
+  },
+  "id": "OP09-048"
 }

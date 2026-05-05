@@ -1,11 +1,6 @@
 {
   "id": "OP09-110",
-  "name": "Pierre",
-  "cost": 2,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] Draw 2 cards and trash 2 cards from your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -16,19 +11,10 @@
         },
         {
           "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+          "count": 2,
+          "filter": {}
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,25 +1,37 @@
 {
-  "id": "OP09-084",
-  "name": "Vasco Shot",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Blackbeard Pirates"
+      }
+    ],
+    "restrictions": [
+      {
+        "type": "OncePerTurn"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "DoubleAttack",
+        "duration": "DuringOpponentTurn",
+        "target": "Self"
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Banish",
+        "duration": "DuringOpponentTurn",
+        "target": "Self"
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "duration": "DuringOpponentTurn",
+        "target": "Self"
+      }
+    ]
+  },
+  "id": "OP09-084"
 }

@@ -1,11 +1,7 @@
 {
   "id": "OP09-044",
-  "name": "Izo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP09-044",
+  "effectText": "[When Attacking] Look at 5 cards from the top of your deck; reveal up to 1 {Land of Wano} type card or card with a type including \"Whitebeard Pirates\" and add it to your hand. Then, place the rest at the bottom of your deck in any order and trash 1 card from your hand.",
   "effects": [
     {
       "trigger": "OnAttack",
@@ -13,17 +9,32 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "Or",
+            "filters": [
+              {
+                "kind": "HasType",
+                "type": "Land of Wano"
+              },
+              {
+                "kind": "HasType",
+                "type": "Whitebeard Pirates"
+              }
+            ]
           },
-          "destination": "hand"
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
+          "deckPosition": "top5",
+          "maxCards": 1,
+          "destination": "hand",
+          "thenActions": [
+            {
+              "type": "TrashFromHand",
+              "filter": {
+                "kind": "Any"
+              },
+              "maxCards": 1
+            }
+          ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

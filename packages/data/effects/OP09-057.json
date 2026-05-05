@@ -1,23 +1,23 @@
 {
-  "id": "OP09-057",
-  "name": "Cross Guild",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "CardType",
+          "value": "Cross Guild"
+        },
+        "limit": 1,
+        "scope": "Top4",
+        "reveal": true,
+        "destination": "hand",
+        "thenPlaceRest": {
+          "location": "BottomOfDeck",
+          "order": "AnyOrder"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP09-057"
 }

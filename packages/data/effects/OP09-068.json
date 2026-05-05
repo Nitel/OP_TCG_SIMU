@@ -1,25 +1,38 @@
 {
-  "id": "OP09-068",
-  "name": "Tony Tony.Chopper",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Field",
+          "filter": {
+            "type": "HasKeyword",
+            "keyword": "DON!!"
+          }
+        },
+        "amount": "1+",
+        "optional": true
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "setActive": true
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP09-068"
 }

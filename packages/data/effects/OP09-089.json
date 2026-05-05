@@ -1,35 +1,39 @@
 {
   "id": "OP09-089",
-  "name": "Stronger",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 1
-            },
-            {
-              "type": "PowerBoost",
-              "amount": -2,
-              "target": {
-                "scope": "ChooseOpponentCharacter"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ]
+      "type": "LeaderHasType",
+      "value": "Blackbeard Pirates"
     }
   ],
-  "counter": 2000
+  "actions": [
+    {
+      "type": "TrashFromHand",
+      "filter": {},
+      "optional": true
+    },
+    {
+      "type": "TrashCard",
+      "target": {
+        "scope": "Self"
+      },
+      "optional": true
+    }
+  ],
+  "thenActions": [
+    {
+      "type": "DrawCard",
+      "count": 1
+    },
+    {
+      "type": "PowerBoost",
+      "amount": -2,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCount": 1
+      },
+      "duration": "DuringYourTurn"
+    }
+  ]
 }

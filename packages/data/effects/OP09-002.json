@@ -1,24 +1,16 @@
 {
   "id": "OP09-002",
-  "name": "Uta",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "deckSize": 5,
+      "filter": {
+        "cardType": "Red-Haired Pirates"
+      },
+      "maxResults": 1,
+      "destination": "hand",
+      "remainingCards": "BottomDeckAnyOrder"
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,18 +1,20 @@
 {
   "id": "OP09-005",
-  "name": "Silvers Rayleigh",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "effectText": "[On Play] If your opponent has 2 or more Characters with a base power of 5000 or more, draw 2 cards and trash 1 card from your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "side": "opponent",
+        "filter": {
+          "basePower": {
+            "minInclusive": 5000
+          }
+        },
+        "countComparison": {
+          "min": 2
+        }
       },
       "actions": [
         {
@@ -21,12 +23,9 @@
         },
         {
           "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+          "count": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

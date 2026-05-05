@@ -1,22 +1,45 @@
 {
   "id": "OP09-061",
-  "name": "Monkey.D.Luffy",
-  "cost": 4,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
+  "effectText": "[DON!! x1] All of your Characters gain +1 cost. [Your Turn] [Once Per Turn] When 2 or more DON!! cards on your field are returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active, and add up to 1 additional DON!! card and rest it.",
   "effects": [
     {
       "trigger": "Activated",
+      "duration": "Permanent",
       "actions": [
         {
           "type": "PowerBoost",
-          "amount": 100,
+          "amount": 1,
+          "property": "cost",
           "target": {
             "scope": "AllOwnCharacters"
-          },
-          "duration": "Permanent"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "limit": 1
+        }
+      ],
+      "description": "When 2 or more DON!! cards on your field are returned to your DON!! deck",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "amount": 1,
+          "max": 1,
+          "state": "active",
+          "source": "DONDeck"
+        },
+        {
+          "type": "GiveDon",
+          "amount": 1,
+          "max": 1,
+          "state": "rested",
+          "source": "DONDeck"
         }
       ]
     }

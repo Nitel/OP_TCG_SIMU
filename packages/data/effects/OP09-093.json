@@ -1,34 +1,43 @@
 {
   "id": "OP09-093",
-  "name": "Marshall.D.Teach",
-  "cost": 10,
-  "power": 12000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
+  "trigger": "Activated",
+  "condition": {
+    "type": "AllOf",
+    "conditions": [
+      {
         "type": "LeaderHasType",
         "subType": "Blackbeard Pirates"
       },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "OpponentLeader"
-          }
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          }
-        }
-      ]
+      {
+        "type": "PlayedThisTurn",
+        "target": "Self"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "NegateLeaderEffect",
+      "target": {
+        "scope": "OpponentLeader"
+      },
+      "duration": "DuringYourTurn",
+      "limit": 1
+    },
+    {
+      "type": "NegateEffect",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "limit": 1
+      },
+      "duration": "UntilEndOfOpponentNextTurn"
+    },
+    {
+      "type": "PreventAttack",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "limit": 1
+      },
+      "duration": "UntilEndOfOpponentNextTurn"
     }
   ]
 }

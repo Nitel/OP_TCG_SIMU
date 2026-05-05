@@ -1,41 +1,33 @@
 {
-  "id": "OP09-031",
-  "name": "Donquixote Doflamingo",
-  "cost": 5,
-  "power": 6000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "OnAttacked",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "value": 2,
+      "filter": {
+        "property": "IsRested"
+      }
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP09-031"
 }

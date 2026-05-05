@@ -1,43 +1,35 @@
 {
-  "id": "OP09-090",
-  "name": "Doc Q",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Blackbeard Pirates"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "activationCost": {
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
     },
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Blackbeard Pirates"
+    },
+    "actions": [
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP09-090"
 }

@@ -1,24 +1,38 @@
 {
   "id": "OP09-056",
-  "name": "Mr.3(Galdino)",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "Or",
+        "conditions": [
+          {
+            "kind": "CardType",
+            "value": "Cross Guild"
           },
-          "destination": "hand"
-        }
-      ]
+          {
+            "kind": "And",
+            "conditions": [
+              {
+                "kind": "CardType",
+                "value": "Baroque Works"
+              },
+              {
+                "kind": "Not",
+                "condition": {
+                  "kind": "CardName",
+                  "value": "Mr.3(Galdino)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "destination": "hand",
+      "maxCards": 1,
+      "lookAtCards": 4,
+      "remainderPlacement": "BottomOfDeckInAnyOrder"
     }
-  ],
-  "counter": 1000
+  ]
 }

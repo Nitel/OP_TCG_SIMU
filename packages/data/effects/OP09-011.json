@@ -1,35 +1,33 @@
 {
-  "id": "OP09-011",
-  "name": "Hongo",
-  "cost": 3,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Red-Haired Pirates"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Red-Haired Pirates"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "quantity": 1,
+          "optional": true
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP09-011"
 }
