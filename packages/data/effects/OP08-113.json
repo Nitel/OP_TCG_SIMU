@@ -1,36 +1,29 @@
 {
-  "id": "OP08-113",
-  "name": "S-Bear",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 1,
+        "target": {
+          "scope": "OwnHand"
+        },
+        "thenActions": []
       },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PlaySelf"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+      {
+        "type": "PlaySelf"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP08-113"
 }

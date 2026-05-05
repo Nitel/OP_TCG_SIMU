@@ -1,31 +1,31 @@
 {
   "id": "OP08-016",
-  "name": "Dr.Hiriluk",
-  "cost": 3,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "cost": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
     }
   ],
-  "counter": 2000
+  "conditions": [
+    {
+      "type": "LeaderIsName",
+      "value": "Tony Tony.Chopper"
+    }
+  ],
+  "actions": [
+    {
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "AllOwnCharacters",
+        "filter": {
+          "cardName": "Tony Tony.Chopper"
+        }
+      },
+      "duration": "DuringYourTurn"
+    }
+  ]
 }

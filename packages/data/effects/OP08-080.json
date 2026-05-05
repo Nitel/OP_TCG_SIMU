@@ -1,25 +1,20 @@
 {
   "id": "OP08-080",
-  "name": "Queen",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Animal Kingdom Pirates"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByType",
+        "type": "Animal Kingdom Pirates",
+        "exclude": [
+          "Queen"
+        ]
+      },
+      "amount": 5,
+      "revealAmount": 1,
+      "destination": "hand",
+      "remainingDestination": "bottom"
     }
-  ],
-  "counter": 1000
+  ]
 }

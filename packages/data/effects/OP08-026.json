@@ -1,24 +1,29 @@
 {
   "id": "OP08-026",
-  "name": "Giovanni",
-  "cost": 2,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [When Attacking] Up to 1 of your opponent's rested Characters with a cost of 1 or less will not become active in your opponent's next Refresh Phase.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasRestingDon"
+        }
+      ],
       "actions": [
         {
-          "type": "Rest",
+          "type": "GiveKeyword",
+          "keyword": "CannotBeActivated",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
+            "maxCount": 1,
+            "maxCost": 1,
+            "filters": [
+              "HasRestingDon"
+            ]
+          },
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

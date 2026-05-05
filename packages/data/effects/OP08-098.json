@@ -1,11 +1,6 @@
 {
   "id": "OP08-098",
-  "name": "Kalgara",
-  "cost": 0,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Leader",
-  "keywords": [],
+  "cardId": "OP08-098",
   "effects": [
     {
       "trigger": "OnAttack",
@@ -19,11 +14,14 @@
           "filter": {
             "subType": "Shandian Warrior",
             "cardType": "Character"
-          }
+          },
+          "maxCost": "donOnField",
+          "count": 1
         },
         {
           "type": "FlipLife",
-          "count": 1
+          "count": 1,
+          "condition": "onlyIfPreviousActionResolved"
         }
       ]
     }

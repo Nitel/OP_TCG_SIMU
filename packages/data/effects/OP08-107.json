@@ -1,25 +1,17 @@
 {
   "id": "OP08-107",
-  "name": "Nitro",
-  "cost": 1,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "filter": {
+          "cardName": "Charlotte Pudding"
         }
-      ]
+      },
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

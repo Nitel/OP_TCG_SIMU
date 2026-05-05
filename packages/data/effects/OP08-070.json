@@ -1,27 +1,29 @@
 {
-  "id": "OP08-070",
-  "name": "Baron Tamago",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Viscount Hiyoko",
-            "maxCost": 5,
-            "cardType": "Character"
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "target": "Self",
+        "value": -1
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Viscount Hiyoko",
+          "maxCost": 5,
+          "cardType": "Character"
+        },
+        "optional": true,
+        "quantity": 1
+      }
+    ]
+  },
+  "id": "OP08-070"
 }

@@ -1,24 +1,22 @@
 {
   "id": "OP08-085",
-  "name": "Jinbe",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "cost": 1,
+  "costType": "Don",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "HasCardOnBoard",
+        "scope": "YourCharacters",
+        "minCost": 8
       },
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
+            "maxCost": 4,
+            "maxCount": 1
           }
         }
       ]

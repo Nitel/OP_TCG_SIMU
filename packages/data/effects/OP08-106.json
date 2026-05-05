@@ -1,34 +1,33 @@
 {
-  "id": "OP08-106",
-  "name": "Nami",
-  "cost": 5,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 5
-              }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "optional": true,
+        "filter": {
+          "hasKeyword": "Trigger"
+        },
+        "thenActions": [
+          {
+            "type": "KO",
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "maxCost": 5
             },
-            {
-              "type": "DrawCard",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+            "maxCount": 1
+          },
+          {
+            "condition": {
+              "type": "HasCardsInHand",
+              "maxCount": 3
+            },
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP08-106"
 }

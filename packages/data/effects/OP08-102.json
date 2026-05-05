@@ -1,31 +1,25 @@
 {
   "id": "OP08-102",
-  "name": "Charlotte Opera",
-  "cost": 6,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
+          "optional": true,
+          "count": 1,
           "thenActions": [
             {
               "type": "KO",
               "target": {
-                "scope": "ChooseOpponentCharacter"
+                "scope": "ChooseOpponentCharacter",
+                "maxCount": 1,
+                "costCondition": "<=YourLifeTotal"
               }
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

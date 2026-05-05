@@ -1,25 +1,17 @@
 {
   "id": "OP08-071",
-  "name": "Count Niwatori",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "duration": "DuringOpponentTurn",
+  "actions": [
     {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Baron Tamago"
-          },
-          "destination": "board"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByName",
+        "name": "Baron Tamago",
+        "maxCost": 4
+      },
+      "destination": "board",
+      "count": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

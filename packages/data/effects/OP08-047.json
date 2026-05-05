@@ -1,24 +1,25 @@
 {
-  "id": "OP08-047",
-  "name": "Jozu",
-  "cost": 6,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 6
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "maxCost": 6,
+          "excludeSource": true
+        },
+        "optional": true
+      },
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 6
+        },
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP08-047"
 }

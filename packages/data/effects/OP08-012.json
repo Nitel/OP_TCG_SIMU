@@ -1,28 +1,29 @@
 {
   "id": "OP08-012",
-  "name": "Lapins",
-  "cost": 3,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x2] [When Attacking] If your Leader has the {Drum Kingdom} type, K.O. up to 1 of your opponent's Characters with 4000 power or less.",
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      },
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 2
+        },
+        {
+          "type": "LeaderHasType",
+          "value": "Drum Kingdom"
+        }
+      ],
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxPower": 4000
+            "maxPower": 4000,
+            "maxCount": 1
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

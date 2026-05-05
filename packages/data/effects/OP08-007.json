@@ -1,35 +1,40 @@
 {
   "id": "OP08-007",
-  "name": "Tony Tony.Chopper",
-  "cost": 3,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[Your Turn] [On Play]/[When Attacking] Look at 5 cards from the top of your deck and play up to 1 {Animal} type Character card with 4000 power or less rested. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "conditions": [],
       "actions": [
         {
           "type": "SearchDeck",
+          "quantity": 1,
           "filter": {
-            "kind": "ByName",
-            "name": "Animal"
+            "kind": "ByType",
+            "type": "Animal",
+            "maxPower": 4000
           },
-          "destination": "board"
+          "destination": "board",
+          "state": "rested"
         }
       ]
     },
     {
       "trigger": "OnAttack",
+      "duration": "DuringYourTurn",
+      "conditions": [],
       "actions": [
         {
           "type": "SearchDeck",
+          "quantity": 1,
           "filter": {
-            "kind": "ByName",
-            "name": "Animal"
+            "kind": "ByType",
+            "type": "Animal",
+            "maxPower": 4000
           },
-          "destination": "board"
+          "destination": "board",
+          "state": "rested"
         }
       ]
     }

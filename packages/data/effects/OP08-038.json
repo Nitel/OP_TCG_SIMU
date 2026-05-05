@@ -1,23 +1,30 @@
 {
-  "id": "OP08-038",
-  "name": "We Would Never Sell a Comrade to an Enemy!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 3
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "value": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "count": 2
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "Protection",
+        "target": {
+          "scope": "OwnCharacter"
+        },
+        "duration": "DuringOpponentTurn",
+        "durationValue": 2
+      }
+    ]
+  },
+  "id": "OP08-038"
 }

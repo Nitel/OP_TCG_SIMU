@@ -1,11 +1,5 @@
 {
   "id": "OP08-097",
-  "name": "Heliceratops",
-  "cost": 3,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -13,31 +7,22 @@
         "type": "LeaderHasType",
         "subType": "Animal Kingdom Pirates"
       },
+      "duration": "DuringYourTurn",
       "actions": [
         {
-          "type": "Rest",
+          "type": "PowerBoost",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+            "upTo": 1
+          },
+          "powerBoost": -2
         },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 0
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
+            "maxCost": 0,
+            "upTo": 1
           }
         }
       ]

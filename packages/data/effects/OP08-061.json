@@ -1,16 +1,10 @@
 {
   "id": "OP08-061",
-  "name": "Charlotte Oven",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 1
       },
       "actions": [
@@ -18,11 +12,11 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
+            "maxCost": 3,
+            "maxCount": 1
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

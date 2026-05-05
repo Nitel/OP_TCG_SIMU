@@ -1,36 +1,21 @@
 {
-  "id": "OP08-117",
-  "name": "Burn Blade",
-  "cost": 5,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "RemoveLife",
-          "count": 1
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 7
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "optional": true,
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 7,
+          "maxCount": 1
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP08-117"
 }

@@ -1,13 +1,6 @@
 {
   "id": "OP08-050",
-  "name": "Namule",
-  "cost": 3,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "effectText": "[On Play] Draw 2 cards and place 2 cards from your hand at the top or bottom of your deck in any order.",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -17,13 +10,13 @@
           "count": 2
         },
         {
-          "type": "RevealFromHand",
+          "type": "PlayFromHand",
           "count": 2,
           "filter": {},
-          "thenActions": []
+          "placement": "TopOrBottomOfDeck",
+          "playerChoice": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

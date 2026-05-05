@@ -1,28 +1,18 @@
 {
   "id": "OP08-042",
-  "name": "Edward Weevil",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
+      "type": "ReturnToHand",
+      "target": {
+        "scope": "ChooseCharacter",
+        "maxCost": 3,
+        "maxTargets": 1
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

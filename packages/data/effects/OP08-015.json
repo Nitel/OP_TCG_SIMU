@@ -1,24 +1,27 @@
 {
   "id": "OP08-015",
-  "name": "Dr.Kureha",
-  "cost": 1,
-  "power": 2000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "NameOrType",
+        "names": [
+          "Tony Tony.Chopper"
+        ],
+        "types": [
+          "Drum Kingdom"
+        ],
+        "exclude": [
+          "Dr.Kureha"
+        ]
+      },
+      "count": {
+        "type": "UpTo",
+        "value": 1
+      },
+      "destination": "hand",
+      "remainingPlacement": "BottomDeckAnyOrder"
     }
-  ],
-  "counter": 1000
+  ]
 }

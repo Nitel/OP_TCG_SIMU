@@ -1,11 +1,22 @@
 {
   "id": "OP08-045",
-  "name": "Thatch",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "targets": [
+            "Self"
+          ]
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

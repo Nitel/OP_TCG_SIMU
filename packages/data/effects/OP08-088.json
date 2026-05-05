@@ -1,11 +1,5 @@
 {
   "id": "OP08-088",
-  "name": "Duval",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,12 +8,12 @@
           "type": "PowerBoost",
           "amount": 1,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "max": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

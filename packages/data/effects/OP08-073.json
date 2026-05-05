@@ -1,16 +1,12 @@
 {
   "id": "OP08-073",
-  "name": "Viscount Hiyoko",
-  "cost": 5,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP08-073",
   "effects": [
     {
       "trigger": "OnKO",
+      "duration": "DuringOpponentTurn",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 1
       },
       "actions": [
@@ -18,12 +14,13 @@
           "type": "SearchDeck",
           "filter": {
             "kind": "ByName",
-            "name": "Count Niwatori"
+            "name": "Count Niwatori",
+            "maxCost": 6
           },
-          "destination": "board"
+          "destination": "board",
+          "count": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

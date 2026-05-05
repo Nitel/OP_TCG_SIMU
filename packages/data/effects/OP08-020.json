@@ -1,27 +1,23 @@
 {
-  "id": "OP08-020",
-  "name": "Drum Kingdom",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filter": {
+            "type": "HasType",
+            "value": "Drum Kingdom"
+          }
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP08-020"
 }

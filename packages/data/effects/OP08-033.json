@@ -1,28 +1,28 @@
 {
   "id": "OP08-033",
-  "name": "Roddy",
-  "cost": 1,
-  "power": 2000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "And",
+    "conditions": [
+      {
         "type": "LeaderHasType",
         "subType": "Minks"
       },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
+      {
+        "type": "OpponentRestingCardCount",
+        "minCount": 7
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 2,
+        "restingStatus": "Resting"
+      },
+      "maxCount": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,11 +1,6 @@
 {
   "id": "OP08-055",
-  "name": "Phoenix Brand",
-  "cost": 4,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Main] You may reveal 2 cards with a type including \"Whitebeard Pirates\" from your hand: Place up to 1 Character with a cost of 6 or less at the bottom of the owner's deck.",
   "effects": [
     {
       "trigger": "Activated",
@@ -14,9 +9,20 @@
           "type": "RevealFromHand",
           "count": 2,
           "filter": {
-            "subType": "Whitebeard Pirates"
+            "type": "Whitebeard Pirates"
           },
-          "thenActions": []
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "count": 1,
+              "filter": {
+                "cardType": "Character",
+                "maxCost": 6
+              },
+              "placement": "BottomOfDeck",
+              "targetOwner": "self"
+            }
+          ]
         }
       ]
     }

@@ -1,33 +1,30 @@
 {
-  "id": "OP08-062",
-  "name": "Charlotte Katakuri",
-  "cost": 2,
-  "power": 3000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character",
-            "subType": "Charlotte Katakuri"
-          },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "cardType": "Character",
-                "subType": "Charlotte Katakuri"
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Big Mom Pirates"
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "target": "Self"
+      }
+    ],
+    "thenActions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "cardType": "Character",
+          "subType": "Charlotte Katakuri",
+          "costMin": 3,
+          "costMaxByOpponentDonCount": true
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "id": "OP08-062"
 }

@@ -1,16 +1,15 @@
 {
   "id": "OP08-086",
-  "name": "Ginrummy",
-  "cost": 2,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "owner": "opponent",
+        "filter": {
+          "cardType": "Character",
+          "cost": 0
+        }
       },
       "actions": [
         {
@@ -18,13 +17,13 @@
           "count": 2
         },
         {
-          "type": "TrashFromHand",
+          "type": "ForceDiscard",
           "count": 2,
-          "filter": {},
-          "thenActions": []
+          "filter": {
+            "zone": "hand"
+          }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,24 +1,25 @@
 {
   "id": "OP08-109",
-  "name": "Mont Blanc Noland",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "AllOf",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Shandian Warrior"
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
+      {
+        "type": "HasCardOnBoard",
+        "cardName": "Kalgara",
+        "cardType": "Character"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "DrawCard",
+      "count": 1,
+      "optional": true
     }
-  ],
-  "counter": 1000
+  ]
 }

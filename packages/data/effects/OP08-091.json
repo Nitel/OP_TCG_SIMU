@@ -1,45 +1,30 @@
 {
   "id": "OP08-091",
-  "name": "Who's.Who",
-  "cost": 5,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "Hand",
+          "count": 1
+        }
+      ],
       "actions": [
         {
           "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character",
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 3
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
+          "optional": true,
+          "count": 1
+        },
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 3
-          }
+          },
+          "maxCount": 1
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

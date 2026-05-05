@@ -1,33 +1,42 @@
 {
-  "id": "OP08-084",
-  "name": "Jack",
-  "cost": 7,
-  "power": 8000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 3
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ]
+        "amount": 4
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "cost": "Rest",
+    "window": "Main",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      },
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "OwnHand"
+        },
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 3
+        },
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP08-084"
 }

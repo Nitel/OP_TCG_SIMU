@@ -1,28 +1,21 @@
 {
   "id": "OP08-111",
-  "name": "S-Shark",
-  "cost": 4,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [When Attacking] Your opponent cannot activate [Blocker] during this battle.",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttack",
+      "cost": {
+        "don": 1
+      },
+      "conditions": [],
       "actions": [
         {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
-          "thenActions": [
-            {
-              "type": "PlaySelf"
-            }
-          ]
+          "type": "GiveKeyword",
+          "keyword": "BlockerLock",
+          "target": "opponent",
+          "duration": "DuringThisBattle"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

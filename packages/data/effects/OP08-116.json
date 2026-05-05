@@ -1,35 +1,33 @@
 {
-  "id": "OP08-116",
-  "name": "Burn Bazooka",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "max": 1
         },
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Shandian Warrior"
-          },
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "subType": "Shandian Warrior"
+            },
+            "max": 1,
+            "destination": "TopOfLife",
+            "faceUp": true
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP08-116"
 }

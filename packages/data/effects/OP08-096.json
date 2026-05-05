@@ -1,41 +1,28 @@
 {
   "id": "OP08-096",
-  "name": "People's Dreams Don't Ever End!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "TrashFromDeck",
           "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 5000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "color": "Black",
-            "cardType": "Character",
-            "maxCost": 3
-          }
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 5000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "maxCount": 1
+              },
+              "duration": "DuringBattle",
+              "condition": {
+                "type": "CardCost",
+                "operator": ">=",
+                "value": 6
+              }
+            }
+          ]
         }
       ]
     }

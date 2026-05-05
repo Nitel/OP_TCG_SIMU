@@ -1,29 +1,27 @@
 {
-  "id": "OP08-103",
-  "name": "Charlotte Custard",
-  "cost": 2,
-  "power": 3000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "amount": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "OP08-103"
 }

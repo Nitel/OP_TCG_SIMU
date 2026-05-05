@@ -1,35 +1,55 @@
 {
-  "id": "OP08-094",
-  "name": "Imperial Flame",
-  "cost": 2,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "value": 3,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "source": "Trash",
+        "destination": "DeckBottom",
+        "count": 3
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
         }
-      ]
-    },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "value": 3,
+        "comparison": "GreaterThanOrEqual"
+      }
+    ],
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "source": "Trash",
+        "destination": "DeckBottom",
+        "count": 3
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2,
+          "maxCount": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP08-094"
 }

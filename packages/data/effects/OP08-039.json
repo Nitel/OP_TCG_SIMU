@@ -1,25 +1,44 @@
 {
-  "id": "OP08-039",
-  "name": "Zou",
-  "cost": 3,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Minks"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "ActivateDon",
+        "target": {
+          "scope": "YourDon",
+          "count": 1
+        }
+      }
+    ]
+  },
+  "1": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "YourCharacters",
+          "filter": {
+            "type": "Minks"
+          },
+          "count": 1
+        }
+      }
+    ]
+  },
+  "id": "OP08-039"
 }

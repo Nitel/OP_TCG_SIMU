@@ -1,11 +1,26 @@
 {
   "id": "OP08-064",
-  "name": "Charlotte Cracker",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "name": "Biscuit Warrior"
+          },
+          "amount": 1
+        }
+      ],
+      "cost": {
+        "don": 1
+      },
+      "frequency": "OncePerTurn"
+    }
+  ]
 }

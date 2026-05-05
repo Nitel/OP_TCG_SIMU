@@ -1,29 +1,15 @@
 {
   "id": "OP08-105",
-  "name": "Jewelry Bonney",
-  "cost": 3,
-  "power": 4000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[DON!! x1] [Your Turn] [Once Per Turn] When a card is removed from your opponent's Life cards, draw 2 cards and trash 1 card from your hand.",
   "effects": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    },
-    {
       "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "DrawCard",
@@ -37,6 +23,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

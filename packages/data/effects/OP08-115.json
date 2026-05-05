@@ -1,48 +1,27 @@
 {
-  "id": "OP08-115",
-  "name": "The Earth Will Not Lose!",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Shandian Warrior"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Upper Yard"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Shandian Warrior"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         },
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": []
-        }
-      ]
-    }
-  ]
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Upper Yard"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP08-115"
 }

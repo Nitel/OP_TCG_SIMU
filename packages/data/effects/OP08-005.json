@@ -1,11 +1,6 @@
 {
   "id": "OP08-005",
-  "name": "Chess",
-  "cost": 3,
-  "power": 3000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP08-005",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -14,18 +9,25 @@
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         },
         {
           "type": "PlayFromHand",
           "filter": {
             "subType": "Kuromarimo"
+          },
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "subType": "Kuromarimo"
+            },
+            "negate": true
           }
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }
