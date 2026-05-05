@@ -1,11 +1,5 @@
 {
   "id": "ST03-017",
-  "name": "Love-Love Mellow",
-  "cost": 2,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -20,7 +14,12 @@
         },
         {
           "type": "DrawCard",
-          "count": 1
+          "count": 1,
+          "condition": {
+            "type": "HandCount",
+            "operator": "<=",
+            "value": 3
+          }
         }
       ]
     }

@@ -1,29 +1,26 @@
 {
-  "id": "ST03-007",
-  "name": "Sentomaru",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "ByCost",
+          "maxCost": 4,
+          "type": "Pacifista"
+        },
+        "destination": "board",
         "count": 1
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 4
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "ShuffleDeck"
+      }
+    ],
+    "turnLimit": 1
+  },
+  "id": "ST03-007"
 }
