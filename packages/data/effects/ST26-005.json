@@ -1,43 +1,67 @@
 {
-  "id": "ST26-005",
-  "name": "Monkey.D.Luffy",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "AND",
+      "conditions": [
         {
-          "type": "PowerBoost",
-          "amount": 7000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
+          "type": "LeaderHasAnyType",
+          "values": [
+            "Straw Hat Crew"
+          ]
+        },
+        {
+          "type": "LeaderIsMulticolored"
+        },
+        {
+          "type": "OpponentFieldDonCount",
+          "comparison": ">=",
+          "value": 5
         }
       ]
     },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 7000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "AND",
+      "conditions": [
         {
-          "type": "PowerBoost",
-          "amount": 7000,
-          "target": {
-            "scope": "OwnLeader"
-          },
-          "duration": "EndOfTurn"
+          "type": "LeaderHasAnyType",
+          "values": [
+            "Straw Hat Crew"
+          ]
+        },
+        {
+          "type": "LeaderIsMulticolored"
+        },
+        {
+          "type": "OpponentFieldDonCount",
+          "comparison": ">=",
+          "value": 5
         }
       ]
-    }
-  ]
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 7000,
+        "target": {
+          "scope": "OwnLeader"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "id": "ST26-005"
 }

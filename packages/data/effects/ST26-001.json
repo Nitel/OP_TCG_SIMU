@@ -1,22 +1,41 @@
 {
-  "id": "ST26-001",
-  "name": "Soba Mask",
-  "cost": 7,
-  "power": 9000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "AllOwnCharacters"
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "value": {
+          "cardTypes": [
+            "San-Gorou",
+            "Sanji"
+          ],
+          "minPower": 7000
         }
-      ]
-    }
-  ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "target": "Self",
+        "value": -5
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "OwnCharacters",
+          "cardTypes": [
+            "San-Gorou",
+            "Sanji"
+          ]
+        }
+      }
+    ]
+  },
+  "id": "ST26-001"
 }

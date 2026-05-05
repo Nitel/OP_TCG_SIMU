@@ -1,21 +1,20 @@
 {
-  "id": "ST26-003",
-  "name": "Nico Robin",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "comparison": ">=",
+        "value": 2
+      }
+    ],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "source": "DeckSearch"
+      }
+    ]
+  },
+  "id": "ST26-003"
 }
