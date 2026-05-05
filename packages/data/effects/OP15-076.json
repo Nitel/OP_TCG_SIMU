@@ -1,11 +1,16 @@
 {
   "id": "OP15-076",
-  "trigger": "Activated",
+  "name": "Lightning Beast Kiten",
+  "cost": 0,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "LeaderIsName",
+        "type": "HasCardOnBoard",
         "name": "Enel"
       },
       "actions": [
@@ -19,25 +24,20 @@
           "target": {
             "scope": "ChooseOpponentCharacter"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         }
       ]
     },
     {
       "trigger": "Counter",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Enel"
-      },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 2000,
+          "type": "GiveKeyword",
+          "keyword": "Rush",
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "name": "Enel"
+            "scope": "ChooseOwnCharacter"
           },
-          "duration": "DuringBattle"
+          "duration": "EndOfBattle"
         }
       ]
     }

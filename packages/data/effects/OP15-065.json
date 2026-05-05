@@ -1,28 +1,30 @@
 {
   "id": "OP15-065",
+  "name": "Goro",
+  "cost": 3,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "RevealFromDeck",
+          "type": "RevealFromHand",
           "count": 1,
+          "filter": {
+            "maxCost": 2
+          },
           "thenActions": [
             {
               "type": "GiveDon",
-              "count": 1,
-              "condition": "HasCostOrLess",
-              "conditionValue": 2
-            },
-            {
-              "type": "Rest",
-              "target": "AddedDon",
-              "condition": "HasCostOrLess",
-              "conditionValue": 2
+              "count": 1
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "counter": 2000
 }

@@ -1,6 +1,11 @@
 {
   "id": "OP07-057",
-  "effectText": "Select up to 1 of your {The Seven Warlords of the Sea} type Leader or Character cards and that card gains +2000 power during this turn. Then, if the selected card attacks during this turn, your opponent cannot activate [Blocker].",
+  "name": "Perfume Femur",
+  "cost": 2,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -9,25 +14,18 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "typeFilter": "The Seven Warlords of the Sea"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         }
       ]
     },
     {
-      "trigger": "OnAttack",
-      "conditions": [
-        {
-          "type": "IsSelectedCard"
-        }
-      ],
+      "trigger": "Trigger",
       "actions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "OpponentCannotActivateBlocker",
-          "duration": "DuringOpponentTurn"
+          "type": "DrawCard",
+          "count": 1
         }
       ]
     }

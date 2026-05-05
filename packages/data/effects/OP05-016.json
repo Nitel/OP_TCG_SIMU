@@ -1,16 +1,16 @@
 {
   "id": "OP05-016",
+  "name": "Morley",
+  "cost": 3,
+  "power": 5000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "scope": "Self",
-          "power": {
-            "min": 7000
-          }
-        }
+        "type": "Always"
       },
       "actions": [
         {
@@ -19,7 +19,23 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "DuringBattle"
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "PlaySelf"
+            }
+          ]
         }
       ]
     }

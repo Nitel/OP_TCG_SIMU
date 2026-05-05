@@ -1,32 +1,12 @@
 {
   "id": "OP14-090",
-  "effectText": "If there is a Character with a cost of 0 or with a cost of 8 or more, this Character can attack Characters on the turn in which it is played. [On Play] Rest up to 1 of your opponent's Characters with a cost of 0.",
+  "name": "Mr.1(Daz.Bonez)",
+  "cost": 5,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "scope": "YourCharacters",
-        "filter": {
-          "costMinimum": 0,
-          "costMaximum": 0
-        },
-        "operator": "OR",
-        "altCondition": {
-          "type": "HasCardOnBoard",
-          "scope": "YourCharacters",
-          "filter": {
-            "costMinimum": 8
-          }
-        }
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "CanAttackCharactersOnPlayTurn"
-        }
-      ]
-    },
     {
       "trigger": "OnPlay",
       "actions": [
@@ -34,11 +14,11 @@
           "type": "Rest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 0,
-            "maxCount": 1
+            "maxCost": 0
           }
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

@@ -1,6 +1,11 @@
 {
   "id": "OP05-051",
-  "effectText": "[On Play] Place up to 1 Character with a cost of 4 or less at the bottom of the owner's deck.",
+  "name": "Borsalino",
+  "cost": 7,
+  "power": 8000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -8,11 +13,10 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Character",
+            "kind": "ByCost",
             "maxCost": 4
           },
-          "destination": "deckBottom",
-          "amount": 1
+          "destination": "board"
         }
       ]
     }

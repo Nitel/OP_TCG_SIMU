@@ -1,7 +1,11 @@
 {
   "id": "EB04-020",
-  "cardId": "EB04-020",
-  "effectText": "[Counter] Up to 1 of your {Fish-Man} type Leader or Character cards gains +3000 power during this battle. Then, set up to 1 of your {Fish-Man} type Characters as active.",
+  "name": "Shark Brick Fist",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -10,18 +14,26 @@
           "type": "PowerBoost",
           "amount": 3000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "hasType": "Fish-Man",
-            "maxCount": 1
+            "scope": "ChooseOwnCharacterOrLeader"
           },
-          "duration": "DuringBattle"
+          "duration": "EndOfBattle"
         },
         {
-          "type": "PlayFromHand",
+          "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "hasType": "Fish-Man",
-            "maxCount": 1
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
           }
         }
       ]

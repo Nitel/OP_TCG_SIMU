@@ -1,5 +1,11 @@
 {
   "id": "OP01-057",
+  "name": "Paradise Waterfall",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -8,17 +14,26 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "maxCost": 1
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
         },
         {
-          "type": "GiveKeyword",
-          "keyword": "Active",
+          "type": "Rest",
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCount": 1
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
           }
         }
       ]

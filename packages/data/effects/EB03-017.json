@@ -1,11 +1,17 @@
 {
   "id": "EB03-017",
+  "name": "Jewelry Bonney",
+  "cost": 5,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "LeaderHasType",
-        "leaderType": "Supernovas"
+        "type": "HasCardOnBoard",
+        "name": "Supernovas"
       },
       "actions": [
         {
@@ -13,16 +19,14 @@
           "count": 1
         },
         {
-          "type": "GiveKeyword",
-          "keyword": "CannotBeRested",
+          "type": "Rest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 8,
-            "count": 1
-          },
-          "duration": "UntilEndOfOpponentNextEndPhase"
+            "maxCost": 8
+          }
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

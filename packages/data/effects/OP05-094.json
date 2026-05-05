@@ -1,25 +1,23 @@
 {
   "id": "OP05-094",
-  "effectText": "[Main] Give up to 1 of your opponent's Characters −3 cost during this turn. Then, up to 1 of your opponent's Characters with a cost of 0 will not become active in the next Refresh Phase.",
+  "name": "Haute Couture Patch★Work",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
-      "duration": "DuringYourTurn",
+      "trigger": "Trigger",
       "actions": [
         {
-          "type": "PowerBoost",
-          "target": "OpponentCharacter",
-          "count": 1,
-          "modifier": -3
+          "type": "DrawCard",
+          "count": 2
         },
         {
-          "type": "Rest",
-          "target": "OpponentCharacter",
-          "filter": {
-            "cost": 0
-          },
-          "count": 1,
-          "duration": "UntilNextRefresh"
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

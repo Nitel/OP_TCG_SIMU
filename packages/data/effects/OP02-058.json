@@ -1,6 +1,11 @@
 {
   "id": "OP02-058",
-  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 blue {Impel Down} type card other than [Buggy] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "name": "Buggy",
+  "cost": 1,
+  "power": 2000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -8,18 +13,13 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByProperties",
-            "color": "blue",
-            "type": "ImpelDown",
-            "excludeByName": [
-              "Buggy"
-            ]
+            "kind": "ByCost",
+            "maxCost": 5
           },
-          "destination": "hand",
-          "searchCount": 5,
-          "maxResults": 1
+          "destination": "hand"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

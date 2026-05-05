@@ -1,27 +1,28 @@
 {
   "id": "OP05-068",
-  "cardId": "OP05-068",
-  "effectText": "[On Play] If you have 8 or more DON!! cards on your field, set up to 1 of your purple {Straw Hat Crew} type Characters with 6000 power or less as active.",
+  "name": "Chopa-Emon",
+  "cost": 2,
+  "power": 3000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasAttachedDon",
+        "type": "HasRestingDon",
         "count": 8
       },
       "actions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "Active",
+          "type": "Rest",
           "target": {
             "scope": "ChooseOwnCharacter",
-            "color": "Purple",
-            "type": "StrawHatCrew",
-            "maxPower": 6000,
-            "maxCount": 1
+            "maxPower": 6000
           }
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

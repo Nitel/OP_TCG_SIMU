@@ -1,46 +1,41 @@
 {
   "id": "EB03-018",
+  "name": "Tashigi",
+  "cost": 4,
+  "power": 6000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnAttacked",
       "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "CannotBeKOdByOpponentEffects",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "DuringOpponentTurn"
-        },
         {
           "type": "GiveKeyword",
           "keyword": "Blocker",
           "target": {
             "scope": "Self"
           },
-          "duration": "DuringOpponentTurn"
+          "duration": "EndOfTurn"
         }
       ]
     },
     {
-      "trigger": "EndOfTurn",
-      "optional": true,
-      "costs": [
-        {
-          "type": "RestDon",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1
-        }
-      ],
+      "trigger": "Activated",
       "actions": [
         {
-          "type": "Activate",
+          "type": "Rest",
           "target": {
             "scope": "Self"
           }
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

@@ -1,11 +1,16 @@
 {
   "id": "EB04-023",
-  "cardId": "EB04-023",
-  "effectText": "[Double Attack] (This card deals 2 damage.)\n[On Play] You may give your active Leader −5000 power during this turn: Draw 2 cards.",
+  "name": "Chaka & Pell",
+  "cost": 8,
+  "power": 9000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "DoubleAttack"
+  ],
   "effects": [
     {
       "trigger": "OnPlay",
-      "condition": "Always",
       "actions": [
         {
           "type": "PowerBoost",
@@ -13,7 +18,7 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         },
         {
           "type": "DrawCard",

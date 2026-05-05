@@ -1,5 +1,11 @@
 {
   "id": "OP10-072",
+  "name": "Donquixote Rosinante",
+  "cost": 5,
+  "power": 6000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -19,20 +25,18 @@
       ]
     },
     {
-      "trigger": "EndOfTurn",
+      "trigger": "Activated",
       "condition": {
         "type": "HasRestingDon",
         "count": 7
       },
       "actions": [
         {
-          "type": "Rest",
-          "count": 2,
-          "filter": {
-            "cardType": "DON!!"
-          }
+          "type": "GiveDon",
+          "count": 2
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

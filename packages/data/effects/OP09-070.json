@@ -1,30 +1,27 @@
 {
   "id": "OP09-070",
-  "effectText": "[On Play] You may return 1 or more DON!! cards from your field to your DON!! deck: Give up to 2 rested DON!! cards to your Leader or 1 of your Characters.",
+  "name": "Nami",
+  "cost": 3,
+  "power": 2000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
-      "conditions": [],
       "actions": [
         {
-          "type": "ReturnToHand",
-          "filter": {
-            "source": "Field",
-            "cardType": "Don",
-            "minCount": 1,
-            "maxCount": null
-          },
-          "optional": true,
+          "type": "TrashFromHand",
+          "filter": {},
           "thenActions": [
             {
               "type": "GiveDon",
-              "count": 2,
-              "target": "LeaderOrOneCharacter",
-              "maxCount": 2
+              "count": 2
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "counter": 2000
 }

@@ -1,5 +1,11 @@
 {
   "id": "OP04-103",
+  "name": "Kouzuki Hiyori",
+  "cost": 2,
+  "power": 0,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -8,19 +14,23 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "count": 1
+            "scope": "ChooseOwnCharacter"
           },
-          "duration": "DuringYourTurn",
+          "duration": "EndOfTurn",
           "filter": {
-            "subType": "Land of Wano",
-            "cardType": [
-              "Leader",
-              "Character"
-            ]
+            "subType": "Land of Wano"
           }
         }
       ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
     }
-  ]
+  ],
+  "counter": 2000
 }

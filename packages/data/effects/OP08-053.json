@@ -1,25 +1,33 @@
 {
   "id": "OP08-053",
+  "name": "Thank You...for Loving Me!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
       "condition": {
-        "type": "LeaderHasAnyType",
-        "value": "Whitebeard Pirates"
+        "type": "Always"
       },
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 3,
           "filter": {
-            "kind": "Any",
-            "cardTypes": [
-              "Whitebeard Pirates",
-              "Monkey.D.Luffy"
-            ]
+            "kind": "Any"
           },
-          "maxReveal": 1,
           "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         }
       ]
     }

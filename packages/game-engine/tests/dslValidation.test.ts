@@ -25,6 +25,9 @@ const VALID_ACTIONS = new Set([
   'GiveDon', 'FlipLife', 'AttachDon', 'GiveKeyword', 'Rest',
   'RemoveLife', 'PlaySelf', 'SearchDeck', 'PlayFromHand', 'RevealFromHand',
   'TrashFromHand', 'Win',
+  // Phase 2 types
+  'TrashFromDeck', 'PlayFromTrash', 'RevealFromDeck', 'PlaceAtBottomOfDeck',
+  'SearchTrash', 'Activate',
 ]);
 const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
 const VALID_SCOPES = new Set([

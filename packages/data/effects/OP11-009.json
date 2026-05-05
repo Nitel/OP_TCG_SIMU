@@ -1,7 +1,11 @@
 {
   "id": "OP11-009",
-  "cardId": "OP11-009",
-  "effectText": "[DON!! x2] [When Attacking] Give up to 1 of your opponent's Characters −2000 power until the end of your opponent's next turn.",
+  "name": "Nico Robin",
+  "cost": 3,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
@@ -14,12 +18,12 @@
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "max": 1
+            "scope": "ChooseOpponentCharacter"
           },
-          "duration": "UntilEndOfOpponentNextTurn"
+          "duration": "EndOfTurn"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

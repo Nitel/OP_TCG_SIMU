@@ -1,13 +1,20 @@
 {
   "id": "OP14-081",
-  "cardNumber": "OP14-081",
+  "name": "Spider Mice",
+  "cost": 1,
+  "power": 1000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "TrashFromDeck",
-          "count": 3
+          "type": "TrashFromHand",
+          "count": 3,
+          "filter": {},
+          "thenActions": []
         }
       ]
     },
@@ -18,11 +25,11 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCount": 1,
             "maxCost": 1
           }
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

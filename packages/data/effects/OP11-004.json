@@ -1,47 +1,43 @@
 {
   "id": "OP11-004",
-  "name": "OP11-004",
-  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Navy} type card other than [Kujyaku] and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[Activate: Main] You may trash this Character: Up to 1 of your Characters gains +1000 power during this turn.",
+  "name": "Kujyaku",
+  "cost": 1,
+  "power": 0,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
-          "peek": 5,
           "filter": {
-            "type": "Navy",
-            "excludeName": "Kujyaku"
+            "kind": "Any"
           },
-          "count": 1,
-          "destination": "hand",
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "description": "Place remaining peeked cards at bottom of deck in any order"
-            }
-          ]
+          "destination": "hand"
         }
       ]
     },
     {
       "trigger": "Activated",
-      "condition": "Always",
-      "cost": {
-        "trashSelf": true
-      },
       "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        },
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "count": 1,
-            "optional": true
+            "scope": "ChooseOwnCharacter"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

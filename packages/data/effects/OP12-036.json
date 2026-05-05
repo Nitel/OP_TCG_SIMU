@@ -1,12 +1,17 @@
 {
   "id": "OP12-036",
-  "effectText": "This card in your hand cannot be played by effects. If your Leader has the <Slash> attribute, this Character cannot be K.O.'d in battle by <Slash> attribute cards and gains +1000 power.",
+  "name": "Roronoa Zoro",
+  "cost": 4,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnPlay",
       "condition": {
-        "type": "LeaderHasType",
-        "value": "Slash"
+        "type": "HasCardOnBoard",
+        "name": "Leader"
       },
       "actions": [
         {
@@ -16,16 +21,9 @@
             "scope": "Self"
           },
           "duration": "Permanent"
-        },
-        {
-          "type": "GiveKeyword",
-          "keyword": "CannotBeKOedBySlashAttributes",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

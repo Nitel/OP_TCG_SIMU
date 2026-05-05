@@ -1,17 +1,22 @@
 {
   "id": "EB02-048",
+  "name": "Brook",
+  "cost": 5,
+  "power": 6000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "ReturnToHand",
-          "source": "trash",
+          "type": "SearchDeck",
           "filter": {
             "kind": "ByName",
             "name": "Laboon"
           },
-          "count": 1
+          "destination": "hand"
         }
       ]
     },
@@ -28,5 +33,6 @@
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

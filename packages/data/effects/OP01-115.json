@@ -1,7 +1,11 @@
 {
   "id": "OP01-115",
-  "cardId": "OP01-115",
-  "effectText": "[Main] K.O. up to 1 of your opponent's Characters with a cost of 2 or less, then add up to 1 DON!! card from your DON!! deck and set it as active.",
+  "name": "Elephant's Marchoo",
+  "cost": 4,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
@@ -10,20 +14,12 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2,
-            "maxCount": 1
+            "maxCost": 2
           }
         },
         {
-          "type": "SearchDeck",
-          "target": {
-            "cardType": "DON!!",
-            "maxCount": 1
-          },
-          "then": {
-            "type": "PlayFromHand",
-            "setActive": true
-          }
+          "type": "GiveDon",
+          "count": 1
         }
       ]
     }

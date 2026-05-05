@@ -1,29 +1,29 @@
 {
   "id": "ST09-004",
-  "effectText": "[DON!! x1] If you have 2 or less Life cards, this Character cannot be K.O.'d in battle.",
+  "name": "Kaido",
+  "cost": 4,
+  "power": 5000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttacked",
-      "condition": [
-        {
-          "type": "HasAttachedDon",
-          "min": 1
-        },
-        {
-          "type": "LifeCount",
-          "max": 2
-        }
-      ],
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 1
+      },
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "CantBeKO",
+          "keyword": "Banish",
           "target": {
             "scope": "Self"
           },
-          "duration": "DuringBattle"
+          "duration": "EndOfBattle"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

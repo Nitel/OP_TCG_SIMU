@@ -1,37 +1,24 @@
 {
   "id": "OP07-077",
-  "effectText": "[Main] If your Leader has the {Animal Kingdom Pirates} or {Big Mom Pirates} type, look at 5 cards from the top of your deck; reveal up to 1 {Animal Kingdom Pirates} or {Big Mom Pirates} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "name": "We're Going to Claim the One Piece!!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
       "condition": {
-        "type": "LeaderHasAnyType",
-        "types": [
-          "Animal Kingdom Pirates",
-          "Big Mom Pirates"
-        ]
+        "type": "Always"
       },
       "actions": [
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "HasAnyType",
-            "types": [
-              "Animal Kingdom Pirates",
-              "Big Mom Pirates"
-            ]
+            "kind": "Any"
           },
-          "destination": "hand",
-          "amount": "upTo1",
-          "searchFrom": "top5"
-        },
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "kind": "Remaining"
-          },
-          "destination": "bottomOfDeck",
-          "allowReorder": true
+          "destination": "hand"
         }
       ]
     }

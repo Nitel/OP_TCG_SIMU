@@ -1,7 +1,11 @@
 {
   "id": "OP01-119",
-  "cardNumber": "OP01-119",
-  "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +4000 power during this battle. Then, if you have 2 or less Life cards, add up to 1 DON!! card from your DON!! deck and rest it.",
+  "name": "Thunder Bagua",
+  "cost": 2,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Counter",
@@ -10,20 +14,18 @@
           "type": "PowerBoost",
           "amount": 4000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "count": 1
+            "scope": "ChooseOwnCharacterOrLeader"
           },
-          "duration": "DuringBattle"
-        },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
         {
           "type": "GiveDon",
-          "count": 1,
-          "restAfter": true,
-          "condition": {
-            "type": "TrashCount",
-            "operator": "<=",
-            "value": 2
-          }
+          "count": 1
         }
       ]
     }

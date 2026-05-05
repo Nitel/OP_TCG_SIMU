@@ -1,31 +1,18 @@
 {
   "id": "OP11-080",
-  "cardNumber": "OP11-080",
-  "name": "[Main/Counter]",
+  "name": "Gear Two",
+  "cost": 1,
+  "power": 0,
+  "color": "Purple",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
-      "conditions": [
-        {
-          "type": "LeaderHasAnyType",
-          "values": [
-            "blue"
-          ]
-        }
-      ],
-      "cost": {
-        "type": "Rest",
-        "count": 2,
-        "target": {
-          "scope": "OwnDon"
-        }
-      },
       "actions": [
         {
-          "type": "AttachDon",
-          "count": 1,
-          "source": "DonDeck",
-          "rest": true
+          "type": "GiveDon",
+          "count": 1
         }
       ]
     },
@@ -36,10 +23,9 @@
           "type": "PowerBoost",
           "amount": 3000,
           "target": {
-            "scope": "OwnLeader",
-            "count": 1
+            "scope": "OwnLeader"
           },
-          "duration": "DuringThisBattle"
+          "duration": "EndOfBattle"
         }
       ]
     }

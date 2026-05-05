@@ -1,7 +1,11 @@
 {
   "id": "ST24-002",
-  "cardId": "ST24-002",
-  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Supernovas} type card and add it to your hand. Then, place the rest at the bottom of your deck in any order.\n[On Your Opponent's Attack] You may trash this Character: Set up to 1 of your DON!! cards as active.",
+  "name": "Kid & Killer",
+  "cost": 2,
+  "power": 2000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -9,36 +13,12 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Type",
-            "value": "Supernovas"
+            "kind": "Any"
           },
-          "destination": "hand",
-          "maxCount": 1,
-          "deckViewCount": 5,
-          "orderRest": "BottomInAnyOrder"
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttacked",
-      "conditions": [
-        {
-          "type": "Always"
-        }
-      ],
-      "actions": [
-        {
-          "type": "ForceDiscard",
-          "target": "SelfCharacter",
-          "condition": "optional"
-        },
-        {
-          "type": "Rest",
-          "target": "YourDONCards",
-          "maxCount": 1,
-          "setAsActive": true
+          "destination": "hand"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

@@ -1,6 +1,11 @@
 {
   "id": "OP05-106",
-  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Sky Island} type card other than [Shura] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "name": "Shura",
+  "cost": 2,
+  "power": 2000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
@@ -8,17 +13,20 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "HasCardType",
-            "cardType": "Sky Island",
-            "excludeNames": [
-              "Shura"
-            ]
+            "kind": "Any"
           },
-          "limit": 1,
-          "destination": "hand",
-          "lookAtCount": 5
+          "destination": "hand"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlaySelf"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

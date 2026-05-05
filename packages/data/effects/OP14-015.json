@@ -1,6 +1,11 @@
 {
   "id": "OP14-015",
-  "effectText": "[When Attacking] Give up to 1 of your opponent's Characters −1000 power during this turn.",
+  "name": "Roronoa Zoro",
+  "cost": 7,
+  "power": 8000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
@@ -9,10 +14,9 @@
           "type": "PowerBoost",
           "amount": -1000,
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "quantity": 1
+            "scope": "ChooseOpponentCharacter"
           },
-          "duration": "DuringTurn"
+          "duration": "EndOfTurn"
         }
       ]
     }

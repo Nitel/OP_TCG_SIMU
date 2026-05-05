@@ -1,34 +1,20 @@
 {
   "id": "OP15-022",
-  "cardId": "OP15-022",
-  "effectText": "[Activate: Main] [Once Per Turn] Trash 4 cards from the top of your deck. Then, if your deck has 0 cards, set up to 1 of your Characters as active.",
+  "name": "Brook",
+  "cost": 0,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
-      "conditions": [
-        {
-          "type": "Always"
-        }
-      ],
       "actions": [
         {
-          "type": "TrashFromDeck",
+          "type": "TrashFromHand",
           "count": 4,
-          "source": "top"
-        }
-      ],
-      "thenActions": [
-        {
-          "type": "Rest",
-          "target": "Character",
-          "count": 1,
-          "filter": {
-            "controlledBy": "you"
-          },
-          "condition": {
-            "type": "TrashCount",
-            "equals": 0
-          }
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

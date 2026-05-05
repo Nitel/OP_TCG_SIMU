@@ -1,6 +1,11 @@
 {
   "id": "OP08-002",
-  "cardId": "OP08-002",
+  "name": "Marco",
+  "cost": 0,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
@@ -14,19 +19,12 @@
           "count": 1
         },
         {
-          "type": "PlayFromHand",
-          "zone": "Deck",
-          "position": "TopOrBottom"
-        },
-        {
           "type": "PowerBoost",
           "amount": -2000,
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "optional": true,
-            "maxCount": 1
+            "scope": "ChooseOpponentCharacter"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         }
       ]
     }

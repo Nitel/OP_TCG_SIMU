@@ -1,7 +1,11 @@
 {
   "id": "OP01-015",
-  "cardId": "OP01-015",
-  "effectText": "[DON!! x1] [When Attacking] You may trash 1 card from your hand: Add up to 1 {Straw Hat Crew} type Character card other than [Tony Tony Chopper] with a cost of 4 or less from your trash to your hand.",
+  "name": "Tony Tony.Chopper",
+  "cost": 3,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
@@ -11,26 +15,20 @@
       },
       "actions": [
         {
-          "type": "ForceDiscard",
-          "count": 1,
-          "optional": true,
-          "source": "hand",
+          "type": "TrashFromHand",
+          "filter": {},
           "thenActions": [
             {
-              "type": "PlayFromHand",
-              "count": 1,
-              "source": "trash",
-              "destination": "hand",
+              "type": "SearchDeck",
               "filter": {
-                "type": "{Straw Hat Crew}",
-                "kind": "Character",
-                "maxCost": 4,
-                "excludeName": "[Tony Tony Chopper]"
-              }
+                "kind": "Any"
+              },
+              "destination": "hand"
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

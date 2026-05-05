@@ -1,27 +1,22 @@
 {
   "id": "OP09-096",
-  "effectText": "Look at 3 cards from the top of your deck; reveal up to 1 {Blackbeard Pirates} type card other than [My Era...Begins!!] and add it to your hand. Then, trash the rest.",
+  "name": "My Era...Begins!!",
+  "cost": 1,
+  "power": 0,
+  "color": "Black",
+  "cardType": "Event",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Trigger",
       "actions": [
         {
           "type": "SearchDeck",
-          "deckDepth": 3,
           "filter": {
-            "kind": "ByCardType",
-            "cardType": "Blackbeard Pirates",
-            "excludeNames": [
-              "My Era...Begins!!"
-            ]
+            "kind": "ByCost",
+            "maxCost": 3
           },
-          "selectUpTo": 1,
           "destination": "hand"
-        },
-        {
-          "type": "ForceDiscard",
-          "source": "RemainingLookedCards",
-          "count": "all"
         }
       ]
     }

@@ -1,48 +1,36 @@
 {
   "id": "OP12-014",
-  "cardId": "OP12-014",
+  "name": "Boa Hancock",
+  "cost": 2,
+  "power": 3000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
-          "cardCount": 5,
-          "revealCount": 1,
           "filter": {
-            "kind": "Or",
-            "conditions": [
-              {
-                "kind": "Name",
-                "value": "Monkey.D.Luffy"
-              },
-              {
-                "kind": "Type",
-                "value": "red Event"
-              }
-            ]
+            "kind": "Any"
           },
-          "destination": "hand",
-          "orderPlacement": "bottom"
+          "destination": "hand"
         }
       ]
     },
     {
       "trigger": "Activated",
-      "activationType": "Main",
-      "cost": {
-        "type": "TrashSelf"
-      },
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "AttachDon",
           "count": 2,
-          "source": "rested",
           "target": {
             "scope": "ChooseOwnCharacterOrLeader"
           }
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

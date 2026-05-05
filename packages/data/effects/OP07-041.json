@@ -1,41 +1,24 @@
 {
   "id": "OP07-041",
-  "cardId": "OP07-041",
-  "effectText": "[On Play] Look at 5 cards from the top of your deck; reveal up to 1 {Amazon Lily} or {Kuja Pirates} type card other than [Gloriosa (Grandma Nyon)] and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
+  "name": "Gloriosa (Grandma Nyon)",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
-          "searchFromTop": 5,
           "filter": {
-            "kind": "Or",
-            "conditions": [
-              {
-                "type": "HasType",
-                "value": "Amazon Lily"
-              },
-              {
-                "type": "HasType",
-                "value": "Kuja Pirates"
-              }
-            ],
-            "excludeNames": [
-              "Gloriosa (Grandma Nyon)"
-            ]
+            "kind": "Any"
           },
-          "quantity": {
-            "min": 0,
-            "max": 1
-          },
-          "destination": "hand",
-          "remainingCards": {
-            "destination": "deckBottom",
-            "playerChoice": true
-          }
+          "destination": "hand"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

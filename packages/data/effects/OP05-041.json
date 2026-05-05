@@ -1,5 +1,11 @@
 {
   "id": "OP05-041",
+  "name": "Sakazuki",
+  "cost": 0,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
@@ -8,12 +14,11 @@
           "type": "TrashFromHand",
           "count": 1,
           "filter": {},
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 1
-            }
-          ]
+          "thenActions": []
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
         }
       ]
     },
@@ -21,14 +26,12 @@
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "ReduceCost",
-          "amount": -1,
+          "type": "PowerBoost",
+          "amount": -1000,
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "count": 1
+            "scope": "ChooseOpponentCharacter"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         }
       ]
     }

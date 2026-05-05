@@ -1,30 +1,24 @@
 {
   "id": "OP04-090",
-  "effectText": "[Activate: Main] [Once Per Turn] You may return 7 cards from your trash to the bottom of your deck in any order: Set this Character as active. Then, this Character will not become active in your next Refresh Phase.",
+  "name": "Monkey.D.Luffy",
+  "cost": 7,
+  "power": 7000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "Activated",
       "condition": {
-        "type": "Always"
+        "type": "TurnCount",
+        "min": 1
       },
       "actions": [
         {
-          "type": "SearchDeck",
-          "source": "Trash",
+          "type": "TrashFromHand",
           "count": 7,
-          "destination": "DeckBottom",
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": "Self",
-              "setToActive": true
-            },
-            {
-              "type": "GiveKeyword",
-              "target": "Self",
-              "keyword": "CannotBecomeActiveNextRefresh"
-            }
-          ]
+          "filter": {},
+          "thenActions": []
         }
       ]
     }

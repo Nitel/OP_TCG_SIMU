@@ -1,29 +1,31 @@
 {
   "id": "OP09-073",
+  "name": "Brook",
+  "cost": 6,
+  "power": 7000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnAttack",
       "actions": [
         {
-          "type": "ReturnToHand",
-          "filter": {
-            "hasCardProperty": "DON!!"
-          },
-          "minAmount": 1,
-          "optional": true,
+          "type": "TrashFromHand",
+          "filter": {},
           "thenActions": [
             {
               "type": "PowerBoost",
               "amount": -2000,
               "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCount": 2
+                "scope": "ChooseOpponentCharacter"
               },
-              "duration": "DuringYourTurn"
+              "duration": "EndOfTurn"
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

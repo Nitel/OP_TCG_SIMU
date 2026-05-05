@@ -1,44 +1,26 @@
 {
   "id": "EB03-010",
+  "name": "Monet",
+  "cost": 5,
+  "power": 6000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
   "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "target": "self",
-          "keyword": "Blocker",
-          "duration": "Permanent"
-        }
-      ]
-    },
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 5,
           "filter": {
-            "kind": "Or",
-            "filters": [
-              {
-                "kind": "Character",
-                "power": {
-                  "operator": "<=",
-                  "value": 1000
-                }
-              },
-              {
-                "kind": "Event"
-              }
-            ]
+            "kind": "Any"
           },
-          "amount": 1,
-          "destination": "hand",
-          "remainingCardsDestination": "bottomOfDeck",
-          "reveal": true
+          "destination": "hand"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

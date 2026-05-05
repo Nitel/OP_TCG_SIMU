@@ -1,20 +1,22 @@
 {
   "id": "OP01-061",
-  "cost": {
-    "don": 1
-  },
+  "name": "Kaido",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnKO",
-      "duration": "DuringYourTurn",
+      "trigger": "Activated",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "count": 1
       },
       "actions": [
         {
-          "type": "AttachDon",
-          "count": 1,
-          "source": "deck"
+          "type": "GiveDon",
+          "count": 1
         }
       ]
     }

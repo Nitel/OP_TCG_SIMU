@@ -1,21 +1,25 @@
 {
   "id": "OP03-042",
-  "effectText": "[On Play] Add up to 1 blue [Usopp] from your trash to your hand.",
+  "name": "Usopp's Pirate Crew",
+  "cost": 1,
+  "power": 0,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "ReturnToHand",
+          "type": "SearchDeck",
           "filter": {
             "kind": "ByName",
-            "name": "Usopp",
-            "color": "blue"
+            "name": "Usopp"
           },
-          "source": "trash",
-          "amount": 1
+          "destination": "hand"
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

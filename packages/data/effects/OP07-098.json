@@ -1,19 +1,23 @@
 {
   "id": "OP07-098",
-  "effectText": "If you have less Life cards than your opponent, this Character cannot be K.O.'d in battle.",
+  "name": "Atlas",
+  "cost": 5,
+  "power": 6000,
+  "color": "Yellow",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "Trigger",
       "condition": {
         "type": "Always"
       },
       "actions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "CannotBeKO'd"
+          "type": "PlaySelf"
         }
-      ],
-      "duration": "DuringYourTurn"
+      ]
     }
-  ]
+  ],
+  "counter": 1000
 }

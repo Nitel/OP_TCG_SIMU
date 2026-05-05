@@ -1,45 +1,41 @@
 {
   "id": "OP11-119",
-  "cardId": "OP11-119",
+  "name": "Koby",
+  "cost": 8,
+  "power": 9000,
+  "color": "Black",
+  "cardType": "Character",
+  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "CanAttackActiveCharacters",
+          "keyword": "Unblockable",
           "target": {
-            "scope": "ChooseOwnCharacter",
-            "amount": 1
+            "scope": "ChooseOwnCharacter"
           },
-          "duration": "DuringYourTurn"
+          "duration": "EndOfTurn"
         }
       ]
     },
     {
       "trigger": "OnAttack",
-      "condition": {
-        "type": "TrashCount",
-        "amount": 2,
-        "comparison": ">="
-      },
       "actions": [
         {
-          "type": "SearchDeck",
-          "amount": 2,
+          "type": "PlayFromHand",
           "filter": {
-            "source": "Trash"
-          },
-          "placement": "BottomOfDeck"
+            "cardType": "Character"
+          }
         },
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "amount": 1
+            "scope": "ChooseOwnCharacterOrLeader"
           },
-          "duration": "DuringOpponentTurn"
+          "duration": "EndOfTurn"
         }
       ]
     }
