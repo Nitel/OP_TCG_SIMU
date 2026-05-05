@@ -1,11 +1,6 @@
 {
   "id": "P-075",
-  "name": "Monkey.D.Luffy",
-  "cost": 7,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "P-075",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -15,6 +10,9 @@
           "count": 1,
           "target": {
             "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "filter": {
+            "rested": true
           }
         }
       ]
@@ -23,7 +21,11 @@
       "trigger": "OnAttack",
       "condition": {
         "type": "HasCardOnBoard",
-        "name": "Character with cost 8 or more"
+        "filter": {
+          "cost": {
+            "min": 8
+          }
+        }
       },
       "actions": [
         {
@@ -33,8 +35,7 @@
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         }
       ]
     }

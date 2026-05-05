@@ -1,23 +1,46 @@
 {
-  "id": "P-084",
-  "name": "Buggy",
-  "cost": 7,
-  "power": 8000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Cross Guild",
-            "maxCost": 6
-          }
+  "0": {
+    "trigger": "Permanent",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotAttack",
+        "target": "Self"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Permanent",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Buggy"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotAttack",
+        "target": "AllCharactersOnBoard",
+        "filter": {
+          "cost": [
+            3,
+            4
+          ]
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "2": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "upTo": 1,
+        "filter": {
+          "subType": "Cross Guild",
+          "maxCost": 6
+        }
+      }
+    ]
+  },
+  "id": "P-084"
 }

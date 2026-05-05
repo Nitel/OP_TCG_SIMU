@@ -1,25 +1,26 @@
 {
-  "id": "P-073",
-  "name": "Sabo",
-  "cost": 5,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "TurnCount",
+        "value": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "FlipLife",
+        "amount": 1
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "P-073"
 }
