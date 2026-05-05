@@ -1,26 +1,21 @@
 {
-  "id": "OP11-107",
-  "name": "Topknot Neptunian",
-  "cost": 5,
-  "power": 6000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Shirahoshi"
+    },
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "Rest",
+        "target": "Self",
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP11-107"
 }

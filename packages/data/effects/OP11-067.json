@@ -1,30 +1,25 @@
 {
-  "id": "OP11-067",
-  "name": "Charlotte Katakuri",
-  "cost": 8,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "minCost": 3,
-            "subType": "Big Mom Pirates"
-          }
-        },
-        {
-          "type": "GiveDon",
-          "count": 1
+  "0": {
+    "trigger": "EndOfTurn",
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "minCost": 3,
+          "subType": "Big Mom Pirates",
+          "count": 2,
+          "maxCount": 2
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "rest": true,
+        "source": "DONDeck"
+      }
+    ]
+  },
+  "id": "OP11-067"
 }

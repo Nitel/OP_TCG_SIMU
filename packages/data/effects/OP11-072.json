@@ -1,27 +1,33 @@
 {
-  "id": "OP11-072",
-  "name": "Charlotte Mont-d'or",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
         },
-        {
-          "type": "FlipLife",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+        "optional": true
+      },
+      {
+        "type": "ForceDiscard",
+        "target": {
+          "scope": "Opponent",
+          "zone": "Trash"
+        },
+        "count": 2,
+        "destination": "DeckBottom"
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      }
+    ]
+  },
+  "id": "OP11-072"
 }

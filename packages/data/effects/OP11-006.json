@@ -1,29 +1,20 @@
 {
   "id": "OP11-006",
-  "name": "Zephyr",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnAttack",
+  "condition": {
+    "type": "HasRestingDon",
+    "count": 1
+  },
+  "actions": [
     {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+      "type": "PowerBoost",
+      "amount": -5000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "attribute": "Special",
+        "maxTargets": 1
       },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -5000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

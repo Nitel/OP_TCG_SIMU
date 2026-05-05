@@ -1,27 +1,27 @@
 {
-  "id": "OP11-088",
-  "name": "Shu",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 5000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "OnAttack",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "target": {
+          "scope": "Opponent",
+          "filters": {
+            "hasAttribute": "Slash"
+          }
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 5000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP11-088"
 }

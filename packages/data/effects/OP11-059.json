@@ -1,44 +1,41 @@
 {
-  "id": "OP11-059",
-  "name": "Gum-Gum King Cobra",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxAmount": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
-    }
-  ]
+        "duration": "EndOfBattle"
+      }
+    ],
+    "conditions": [
+      {
+        "type": "Always"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Trigger",
+    "conditions": [
+      {
+        "type": "HandCount",
+        "maxCards": 4
+      }
+    ],
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "PreviouslyTargetedCharacter"
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP11-059"
 }

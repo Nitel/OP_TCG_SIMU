@@ -1,32 +1,32 @@
 {
-  "id": "OP11-050",
-  "name": "Gotti",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "subType": "Firetank Pirates"
-          },
-          "thenActions": [
-            {
-              "type": "ReturnToHand",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 1
-              }
-            }
-          ]
+  "0": {
+    "trigger": "OnAttack",
+    "cost": {
+      "type": "TrashFromHand",
+      "filter": {
+        "subType": "Firetank Pirates"
+      },
+      "optional": true
+    },
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 1,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      },
+      {
+        "type": "PlayFromHand",
+        "target": {
+          "scope": "OpponentCharacter",
+          "maxCost": 1,
+          "maxCount": 1,
+          "placement": "BottomOfDeck"
+        }
+      }
+    ]
+  },
+  "id": "OP11-050"
 }

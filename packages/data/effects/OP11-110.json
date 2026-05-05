@@ -1,39 +1,48 @@
 {
-  "id": "OP11-110",
-  "name": "Fukaboshi",
-  "cost": 3,
-  "power": 5000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxCost": 3
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "scope": "ChooseOwnCharacter",
+        "filter": {
+          "types": [
+            "Fish-Man Island"
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "filter": {
+            "types": [
+              "Fish-Man Island"
+            ]
           }
         }
-      ]
-    },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1,
+        "optional": true
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
-        }
-      ]
-    }
-  ]
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP11-110"
 }

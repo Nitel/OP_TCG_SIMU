@@ -1,32 +1,23 @@
 {
   "id": "OP11-002",
-  "name": "Ain",
-  "cost": 3,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 0
-          }
-        }
-      ]
+      "type": "PowerBoost",
+      "amount": -1000,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxAmount": 1
+      },
+      "duration": "DuringYourTurn"
+    },
+    {
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxAmount": 1,
+        "maxPower": 0
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

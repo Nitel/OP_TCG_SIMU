@@ -1,21 +1,22 @@
 {
-  "id": "OP11-069",
-  "name": "Charlotte Brulee",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "AddDon",
+        "count": 1,
+        "source": "deck",
+        "setActive": true,
+        "condition": {
+          "type": "LeaderHasType",
+          "value": "Big Mom Pirates"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "OP11-069"
 }

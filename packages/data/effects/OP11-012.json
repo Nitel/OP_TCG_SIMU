@@ -1,11 +1,22 @@
 {
   "id": "OP11-012",
-  "name": "Franky",
-  "cost": 4,
-  "power": 4000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "triggerContext": "OpponentActivatesEvent",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "AllYourCharacters",
+          "value": 2000
+        }
+      ]
+    }
+  ]
 }

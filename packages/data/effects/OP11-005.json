@@ -1,13 +1,29 @@
 {
   "id": "OP11-005",
-  "name": "Smoker",
-  "cost": 4,
-  "power": 5000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "self"
+        }
+      ],
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack"
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "target": "attacker",
+          "negate": true,
+          "attribute": "Special"
+        }
+      ],
+      "actions": [],
+      "description": "This Character cannot be K.O.'d by effects of Characters without the ＜Special＞ attribute"
+    }
+  ]
 }

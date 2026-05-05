@@ -1,26 +1,25 @@
 {
-  "id": "OP11-029",
-  "name": "Charlotte Praline",
-  "cost": 3,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 1,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnBlock",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker"
+      }
+    ]
+  },
+  "id": "OP11-029"
 }

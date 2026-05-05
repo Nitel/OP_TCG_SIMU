@@ -1,24 +1,22 @@
 {
-  "id": "OP11-063",
-  "name": "Little Sadi",
-  "cost": 2,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "LeaderHasType",
+        "value": "Impel Down"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ]
+  },
+  "id": "OP11-063"
 }

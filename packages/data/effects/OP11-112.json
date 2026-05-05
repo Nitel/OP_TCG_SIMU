@@ -1,13 +1,6 @@
 {
   "id": "OP11-112",
-  "name": "Megalo",
-  "cost": 3,
-  "power": 2000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
+  "name": "OP11-112",
   "effects": [
     {
       "trigger": "OnBlock",
@@ -21,9 +14,9 @@
       ]
     },
     {
-      "trigger": "OnAttacked",
+      "trigger": "Trigger",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Shirahoshi"
       },
       "actions": [
@@ -33,10 +26,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

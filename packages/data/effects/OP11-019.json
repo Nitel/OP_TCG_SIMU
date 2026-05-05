@@ -1,45 +1,30 @@
 {
-  "id": "OP11-019",
-  "name": "Glorp Web!!",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+        "duration": "DuringThisBattle"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "count": 1
+        },
+        "duration": "EndOfTurn",
+        "condition": {
+          "type": "OpponentHasCharacterWithPowerOrMore",
+          "power": 6000
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP11-019"
 }

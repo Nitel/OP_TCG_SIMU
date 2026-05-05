@@ -1,37 +1,36 @@
 {
   "id": "OP11-082",
-  "name": "Aramaki",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderHasType",
+    "value": "Navy"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 0,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+      "type": "TrashFromHand",
+      "count": 1,
+      "filter": {
+        "self": true
+      }
+    },
+    {
+      "type": "GiveKeyword",
+      "keyword": "CanAttackActiveCharacters",
+      "count": 1,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "filter": {
+          "type": "Navy"
         }
-      ]
+      },
+      "duration": "DuringYourTurn"
+    },
+    {
+      "type": "TrashFromHand",
+      "count": 2,
+      "filter": {
+        "fromTop": true
+      }
     }
-  ],
-  "counter": 2000
+  ]
 }

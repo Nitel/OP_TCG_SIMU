@@ -1,26 +1,33 @@
 {
-  "id": "OP11-021",
-  "name": "Jinbe",
-  "cost": 5,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "EndOfTurn",
+    "condition": {
+      "type": "HandCount",
+      "value": 6,
+      "comparison": "LessOrEqual"
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "filter": {
+          "type": [
+            "Fish-Man",
+            "Merfolk"
+          ]
+        },
+        "maxTargets": 1,
+        "target": "YourCharacters"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+      {
+        "type": "Rest",
+        "filter": {
+          "kind": "DON"
+        },
+        "maxTargets": 1,
+        "target": "YourBoard"
+      }
+    ],
+    "duration": "Permanent"
+  },
+  "id": "OP11-021"
 }

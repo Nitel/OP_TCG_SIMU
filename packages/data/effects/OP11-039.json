@@ -1,43 +1,29 @@
 {
-  "id": "OP11-039",
-  "name": "Vagabond Drill",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "types": [
+            "Fish-Man",
+            "Merfolk"
+          ],
+          "maxCount": 1
         },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 3,
+          "maxCount": 1
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
-          }
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP11-039"
 }

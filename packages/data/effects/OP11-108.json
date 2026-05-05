@@ -1,21 +1,19 @@
 {
   "id": "OP11-108",
-  "name": "Neptune",
-  "cost": 5,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "OP11-108",
+  "effectText": "[On Play] If your Leader is [Shirahoshi], you may turn 1 card from the top of your Life cards face-down: Draw 2 cards and trash 1 card from your hand.",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "LeaderIsName",
+        "name": "Shirahoshi"
       },
       "actions": [
         {
           "type": "FlipLife",
-          "count": 1
+          "count": 1,
+          "optional": true
         },
         {
           "type": "DrawCard",

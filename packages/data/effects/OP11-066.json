@@ -1,28 +1,31 @@
 {
   "id": "OP11-066",
-  "name": "Charlotte Oven",
-  "cost": 4,
-  "power": 5000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP11-066",
+  "effectText": "[Activate: Main] You may rest this Character: Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, K.O. up to 1 of your opponent's Characters with a base cost of 3 or less. Then, add up to 1 DON!! card from your DON!! deck and rest it.",
   "effects": [
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "RevealedCardCostMatch"
+        }
+      ],
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCost": 3
-          }
+          },
+          "maxCount": 1
         },
         {
           "type": "GiveDon",
-          "count": 1
+          "count": 1,
+          "source": "DonDeck",
+          "rest": true
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

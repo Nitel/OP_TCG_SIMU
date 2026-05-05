@@ -1,11 +1,7 @@
 {
   "id": "OP11-071",
-  "name": "Charlotte Perospero",
-  "cost": 5,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardNumber": "OP11-071",
+  "effectText": "[Activate: Main] [Once Per Turn] You may trash 1 card from your hand: Choose a cost and reveal 1 card from the top of your opponent's deck. If the revealed card has the chosen cost, draw 1 card and add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
       "trigger": "Activated",
@@ -15,12 +11,20 @@
           "filter": {},
           "thenActions": [
             {
-              "type": "DrawCard",
-              "count": 1
-            },
-            {
-              "type": "GiveDon",
-              "count": 1
+              "type": "RevealFromHand",
+              "source": "OpponentDeck",
+              "count": 1,
+              "condition": "CostMatch",
+              "thenActions": [
+                {
+                  "type": "DrawCard",
+                  "count": 1
+                },
+                {
+                  "type": "GiveDon",
+                  "count": 1
+                }
+              ]
             }
           ]
         }

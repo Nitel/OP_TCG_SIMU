@@ -1,36 +1,35 @@
 {
-  "id": "OP11-024",
-  "name": "Aladine",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "ChooseOwnCharacter"
-              }
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "KOByOpponentEffect"
+    },
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "filter": {},
+        "thenActions": [
+          {
+            "type": "Rest",
+            "target": {
+              "scope": "ChooseOwnDonCard"
             },
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "subType": "Fish-Man",
-                "maxCost": 6
+            "thenActions": [
+              {
+                "type": "PlayFromHand",
+                "filter": {
+                  "anyType": [
+                    "Fish-Man",
+                    "Merfolk"
+                  ],
+                  "maxCost": 6
+                }
               }
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "id": "OP11-024"
 }

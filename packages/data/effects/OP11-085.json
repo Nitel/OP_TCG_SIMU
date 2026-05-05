@@ -1,25 +1,20 @@
 {
   "id": "OP11-085",
-  "name": "Kurozumi Orochi",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "SearchDeck",
+          "type": "ReturnToHand",
+          "source": "trash",
           "filter": {
             "kind": "ByCost",
-            "maxCost": 5
+            "maxCost": 5,
+            "type": "SMILE"
           },
-          "destination": "hand"
+          "maxAmount": 1
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

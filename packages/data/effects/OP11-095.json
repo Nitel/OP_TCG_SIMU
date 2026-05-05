@@ -1,39 +1,41 @@
 {
   "id": "OP11-095",
-  "name": "Monkey.D.Garp",
-  "cost": 8,
-  "power": 8000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "RevealFromHand",
-          "count": 3,
-          "filter": {
-            "subType": "Navy"
-          },
-          "thenActions": [
-            {
-              "type": "AttachDon",
-              "count": 1,
-              "target": {
-                "scope": "OwnLeader"
-              }
-            },
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 7
-              }
-            }
-          ]
-        }
-      ]
+      "type": "SearchDeck",
+      "count": 3,
+      "filter": {
+        "subType": "Navy"
+      },
+      "destination": "DeckBottom",
+      "optional": true
+    },
+    {
+      "type": "AttachDon",
+      "count": 1,
+      "target": {
+        "scope": "OwnLeader"
+      },
+      "filter": {
+        "state": "Resting"
+      }
+    },
+    {
+      "type": "KO",
+      "count": 1,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 7
+      },
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Character",
+          "minCost": 9
+        },
+        "scope": "Board"
+      }
     }
   ]
 }

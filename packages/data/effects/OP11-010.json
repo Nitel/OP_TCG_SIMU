@@ -1,37 +1,42 @@
 {
-  "id": "OP11-010",
-  "name": "Hibari",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -2000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "count": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "GiveKeyword",
+        "keyword": "CanAttackActiveCharacters",
+        "target": {
+          "scope": "ChooseLeader",
+          "count": 1,
+          "filter": {
+            "type": "Navy"
+          }
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "id": "OP11-010"
 }

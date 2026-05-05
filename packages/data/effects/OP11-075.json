@@ -1,16 +1,16 @@
 {
   "id": "OP11-075",
-  "name": "Jaguar.D.Saul",
-  "cost": 6,
-  "power": 6000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "Always"
+        "type": "LeaderIsName",
+        "value": "Nico Robin",
+        "compound": {
+          "type": "HasAttachedDon",
+          "value": 7,
+          "operator": "GreaterThanOrEqual"
+        }
       },
       "actions": [
         {

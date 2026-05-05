@@ -1,27 +1,21 @@
 {
-  "id": "OP11-040",
-  "name": "Monkey.D.Luffy",
-  "cost": 3,
-  "power": 6000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 8
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 8
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Straw Hat Crew"
+        },
+        "count": 1,
+        "destination": "hand"
+      }
+    ]
+  },
+  "id": "OP11-040"
 }

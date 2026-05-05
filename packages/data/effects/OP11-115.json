@@ -1,40 +1,21 @@
 {
-  "id": "OP11-115",
-  "name": "You're Just Not My Type!",
-  "cost": 1,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Shirahoshi"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 4000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
+  "0": {
+    "trigger": "Counter",
+    "condition": {
+      "type": "LeaderIsName",
+      "name": "Shirahoshi"
     },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 4000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "maxAmount": 1
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "OP11-115"
 }

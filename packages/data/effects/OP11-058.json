@@ -1,13 +1,28 @@
 {
   "id": "OP11-058",
-  "name": "Monkey.D.Luffy",
-  "cost": 5,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effectText": "If you have 5 or more cards in your hand, this Character cannot attack. [Blocker]",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": "Always",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "condition": "Always",
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "Self"
+        }
+      ]
+    }
+  ]
 }

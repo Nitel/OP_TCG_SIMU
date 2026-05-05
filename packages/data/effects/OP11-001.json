@@ -1,24 +1,46 @@
 {
-  "id": "OP11-001",
-  "name": "Koby",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "cardType": "SWORD"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Rush",
+        "target": {
+          "scope": "AllOwnCharacters",
+          "filters": [
+            {
+              "type": "CardType",
+              "value": "SWORD"
+            }
+          ]
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnKO",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "cardType": "Navy",
+        "powerThreshold": 7000
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "source": "Trash",
+        "count": 3,
+        "target": "DeckBottom"
+      }
+    ]
+  },
+  "id": "OP11-001"
 }

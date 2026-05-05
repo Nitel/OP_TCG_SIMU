@@ -1,11 +1,6 @@
 {
   "id": "OP11-097",
-  "name": "After All These Years I'm Losing My Edge!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
+  "cardNumber": "OP11-097",
   "effects": [
     {
       "trigger": "Counter",
@@ -14,17 +9,27 @@
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "optional": true,
+            "maxTargets": 1
           },
           "duration": "EndOfBattle"
         },
         {
-          "type": "SearchDeck",
+          "type": "SearchTrash",
           "filter": {
             "kind": "ByCost",
-            "maxCost": 3
+            "maxCost": 3,
+            "color": "black",
+            "cardType": "Character"
           },
-          "destination": "hand"
+          "maxTargets": 1,
+          "destination": "hand",
+          "condition": {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 10
+          }
         }
       ]
     }

@@ -1,30 +1,22 @@
 {
-  "id": "OP11-065",
-  "name": "Charlotte Anana",
-  "cost": 1,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardType": "Purple",
+      "hasType": "Big Mom Pirates",
+      "excludeName": "Charlotte Anana"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP11-065"
 }

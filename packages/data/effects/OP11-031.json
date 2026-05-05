@@ -1,11 +1,6 @@
 {
   "id": "OP11-031",
-  "name": "Jinbe",
-  "cost": 6,
-  "power": 8000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP11-031",
   "effects": [
     {
       "trigger": "OnPlay",
@@ -21,21 +16,34 @@
           "type": "Rest",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
+            "maxCost": 5,
+            "maxCount": 1
           }
         }
       ]
     },
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "subTypes": [
+          "Fish-Man",
+          "Merfolk"
+        ]
+      },
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Unblockable",
+          "keyword": "CanAttackCharacters",
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "subTypes": [
+              "Fish-Man",
+              "Merfolk"
+            ],
+            "maxCount": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }

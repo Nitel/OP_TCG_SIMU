@@ -1,13 +1,25 @@
 {
   "id": "OP11-101",
-  "name": "Capone\"Gang\"Bege",
-  "cost": 2,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "value": [
+            "Supernovas"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "target": "Self"
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true,
+      "oncePer": "Turn"
+    }
+  ]
 }

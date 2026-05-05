@@ -1,10 +1,17 @@
 {
   "id": "OP11-061",
-  "name": "Gum-Gum Jet Culverin",
-  "cost": 3,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "targets": "OpponentCharactersWithBaseCostUpTo4",
+          "count": 1,
+          "destination": "BottomOfDeck"
+        }
+      ]
+    }
+  ]
 }

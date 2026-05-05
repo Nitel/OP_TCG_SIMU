@@ -1,23 +1,35 @@
 {
-  "id": "OP11-022",
-  "name": "Shirahoshi",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "board"
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "Always",
+        "timing": "Main"
+      }
+    ],
+    "actions": [
+      {
+        "type": "Rest",
+        "target": "card",
+        "filter": {
+          "keyword": "Don"
+        },
+        "count": 1
+      },
+      {
+        "type": "FlipLife",
+        "count": 1
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "type": "Neptunian",
+          "archetype": "Megalo"
+        },
+        "maxCount": 1,
+        "costConstraint": "<=DonCardsOnField"
+      }
+    ]
+  },
+  "id": "OP11-022"
 }

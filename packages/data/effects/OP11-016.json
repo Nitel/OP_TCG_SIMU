@@ -1,11 +1,7 @@
 {
   "id": "OP11-016",
-  "name": "Roronoa Zoro",
-  "cost": 5,
-  "power": 6000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP11-016",
+  "effectText": "[Activate: Main] [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
   "effects": [
     {
       "trigger": "Activated",
@@ -14,14 +10,17 @@
       },
       "actions": [
         {
-          "type": "AttachDon",
+          "type": "GiveDon",
           "count": 1,
+          "source": {
+            "scope": "OwnRestedDon"
+          },
           "target": {
             "scope": "ChooseOwnCharacterOrLeader"
           }
         }
-      ]
+      ],
+      "frequency": "OncePerTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

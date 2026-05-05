@@ -1,36 +1,22 @@
 {
   "id": "OP11-051",
-  "name": "Sanji",
-  "cost": 6,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnKO",
+  "conditions": [
     {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 5
-          },
-          "destination": "board"
-        }
-      ]
-    },
+      "type": "OpponentCausedKO"
+    }
+  ],
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "maxPower": 5000
-          }
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByTypeAndCost",
+        "type": "Straw Hat Crew",
+        "maxCost": 5
+      },
+      "maxResults": 1,
+      "destination": "board",
+      "remainderPlacement": "BottomOfDeckInAnyOrder"
     }
   ]
 }

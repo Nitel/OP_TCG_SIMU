@@ -1,20 +1,13 @@
 {
   "id": "OP11-084",
-  "name": "Kuzan",
-  "cost": 4,
-  "power": 5000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "OP11-084",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "TrashFromHand",
-          "count": 3,
-          "filter": {},
-          "thenActions": []
+          "type": "TrashFromDeck",
+          "count": 3
         }
       ]
     },
@@ -23,14 +16,17 @@
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Unblockable",
+          "keyword": "CanAttackActive",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1,
+            "filter": {
+              "hasType": "Navy"
+            }
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

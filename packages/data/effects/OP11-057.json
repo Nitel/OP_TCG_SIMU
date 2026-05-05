@@ -1,13 +1,21 @@
 {
-  "id": "OP11-057",
-  "name": "Pedro",
-  "cost": 1,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [],
-  "counter": 1000
+  "0": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "Always"
+    },
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "condition": {
+          "type": "CardCountInHand",
+          "comparison": "LessOrEqual",
+          "value": 4
+        }
+      }
+    ]
+  },
+  "id": "OP11-057"
 }

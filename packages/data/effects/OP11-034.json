@@ -1,37 +1,30 @@
 {
   "id": "OP11-034",
-  "name": "Hatchan",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderHasAnyType",
+    "subTypes": [
+      "Fish-Man",
+      "Merfolk"
+    ]
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasAnyType",
-        "subTypes": [
-          "Fish-Man",
-          "Merfolk"
-        ]
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
       },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
-          }
-        }
-      ]
+      "optional": true
+    },
+    {
+      "type": "GiveKeyword",
+      "keyword": "CannotBeRested",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 3,
+        "maxCount": 1
+      },
+      "duration": "DuringOpponentTurn"
     }
-  ],
-  "counter": 1000
+  ]
 }

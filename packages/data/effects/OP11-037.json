@@ -1,32 +1,23 @@
 {
-  "id": "OP11-037",
-  "name": "Ancient Weapon Poseidon",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "Activated",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 4,
+        "filter": {
+          "kind": "Any",
+          "cardTypes": [
+            "Neptunian",
+            "Fish-Man Island"
+          ],
+          "cardKind": "Character"
+        },
+        "maxResults": 1,
+        "destination": "hand",
+        "remainingDestination": "bottomOfDeck"
+      }
+    ]
+  },
+  "id": "OP11-037"
 }

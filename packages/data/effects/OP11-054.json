@@ -1,26 +1,23 @@
 {
-  "id": "OP11-054",
-  "name": "Nami",
-  "cost": 5,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 3
-        }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "types": [
+        "multicolor"
       ]
-    }
-  ],
-  "counter": 1000
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 3
+      },
+      {
+        "type": "SearchDeck",
+        "count": 2,
+        "destination": "TopOrBottomOfDeck"
+      }
+    ]
+  },
+  "id": "OP11-054"
 }

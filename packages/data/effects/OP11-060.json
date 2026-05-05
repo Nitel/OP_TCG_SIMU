@@ -1,26 +1,29 @@
 {
-  "id": "OP11-060",
-  "name": "Let's Crash This Wedding!!!",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "value": [
+        "multicolored"
       ]
-    }
-  ]
+    },
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "filter": {
+          "kind": "Type",
+          "value": "Straw Hat Crew",
+          "exclude": [
+            "Let's Crash This Wedding!!!"
+          ]
+        },
+        "destination": "hand",
+        "maxCount": 1,
+        "deckPosition": "top",
+        "deckLookCount": 5,
+        "remainderPlacement": "bottom"
+      }
+    ]
+  },
+  "id": "OP11-060"
 }

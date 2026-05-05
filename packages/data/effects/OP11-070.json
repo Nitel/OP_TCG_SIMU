@@ -1,25 +1,45 @@
 {
-  "id": "OP11-070",
-  "name": "Charlotte Pudding",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "lookCount": 5,
+        "filter": {
+          "kind": "ByType",
+          "type": "BigMomPirates",
+          "minCost": 2
+        },
+        "selectCount": 1,
+        "destination": "hand",
+        "remaining": "bottom_reorder"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "HasAttachedDon",
+        "count": 1
+      }
+    ],
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": -1
+      },
+      {
+        "type": "Rest",
+        "target": "self"
+      },
+      {
+        "type": "RevealFromDeck",
+        "count": 1,
+        "source": "opponent",
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP11-070"
 }

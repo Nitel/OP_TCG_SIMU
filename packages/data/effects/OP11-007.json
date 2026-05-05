@@ -1,36 +1,28 @@
 {
-  "id": "OP11-007",
-  "name": "Tashigi",
-  "cost": 1,
-  "power": 1000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "LeaderHasType",
-        "subType": "Navy"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderHasType",
+      "subType": "Navy"
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacter",
+          "subType": "Navy",
+          "maxCount": 1
         },
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacter",
-            "subType": "Navy"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+        "duration": "DuringYourTurn"
+      }
+    ],
+    "cost": {
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
     }
-  ],
-  "counter": 1000
+  },
+  "id": "OP11-007"
 }

@@ -1,16 +1,15 @@
 {
   "id": "OP11-096",
-  "name": "Ripper",
-  "cost": 1,
-  "power": 1000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "If you have a black {Navy} type Character other than [Ripper], this Character gains [Blocker].",
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Trigger",
       "condition": {
-        "type": "Always"
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "cardColor": "Black",
+        "cardSubType": "Navy",
+        "excludeCard": "[Ripper]"
       },
       "actions": [
         {
@@ -23,6 +22,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,24 +1,36 @@
 {
-  "id": "OP11-048",
-  "name": "Capone\"Gang\"Bege",
-  "cost": 1,
-  "power": 2000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 4,
+        "reveal": 1,
+        "filter": {
+          "kind": "And",
+          "conditions": [
+            {
+              "kind": "HasAnyType",
+              "types": [
+                "Firetank Pirates",
+                "Straw Hat Crew"
+              ]
+            },
+            {
+              "kind": "Cost",
+              "value": 2,
+              "comparison": ">="
+            }
+          ]
+        },
+        "destination": "hand"
+      },
+      {
+        "type": "ArrangeDeck",
+        "zone": "bottom",
+        "arrangeMode": "anyOrder"
+      }
+    ]
+  },
+  "id": "OP11-048"
 }

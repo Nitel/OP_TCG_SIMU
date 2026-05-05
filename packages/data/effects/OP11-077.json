@@ -1,11 +1,26 @@
 {
   "id": "OP11-077",
-  "name": "Randolph",
-  "cost": 1,
-  "power": 2000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, up to 1 of your {Big Mom Pirates} type Characters gains +2 cost until the end of your opponent's next turn.",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "DON!!"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": "YourCharactersOfType",
+          "targetValue": "Big Mom Pirates",
+          "value": 2,
+          "quantity": 1,
+          "durationOverride": "UntilEndOfOpponentNextTurn"
+        }
+      ]
+    }
+  ]
 }

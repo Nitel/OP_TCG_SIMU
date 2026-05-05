@@ -1,41 +1,51 @@
 {
-  "id": "OP11-046",
-  "name": "Vinsmoke Yonji",
-  "cost": 4,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnAttacked",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "cost": {
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "DuringOpponentTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "StartOfTurn",
+    "condition": {
+      "type": "LeaderHasAnyType",
+      "value": "GERMA",
+      "scope": "AllCharactersOnBoard"
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeKOdByOpponentEffects",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
       },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeRestedByOpponentEffects",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "OP11-046"
 }

@@ -1,32 +1,27 @@
 {
   "id": "OP11-117",
-  "name": "Fish-Man Island",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Stage",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "LeaderIsName",
+    "value": "Shirahoshi"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Shirahoshi"
+      "type": "FlipLife",
+      "count": 1
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 1000,
+      "target": {
+        "scope": "ChooseOwnCharacter",
+        "types": [
+          "Neptunian",
+          "Fish-Man",
+          "Merfolk"
+        ]
       },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
   ]
 }

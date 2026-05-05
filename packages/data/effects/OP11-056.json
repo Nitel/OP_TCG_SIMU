@@ -1,27 +1,17 @@
 {
   "id": "OP11-056",
-  "name": "Brook",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 1
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByCost",
+        "maxCost": 1,
+        "cardType": "Character"
+      },
+      "destination": "deck",
+      "position": "bottom",
+      "amount": 1
     }
-  ],
-  "counter": 1000
+  ]
 }

@@ -1,28 +1,26 @@
 {
   "id": "OP11-036",
-  "name": "Spotted Neptunian",
-  "cost": 4,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "LeaderIsName",
+    "name": "Shirahoshi"
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByTypeOrName",
+        "type": "Neptunian",
+        "name": "Shirahoshi"
       },
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Shirahoshi"
-          },
-          "destination": "hand"
-        }
-      ]
+      "limit": 1,
+      "destination": "hand",
+      "deckSize": 5
+    },
+    {
+      "type": "ReorderDeck",
+      "destination": "bottom",
+      "count": "remaining"
     }
-  ],
-  "counter": 1000
+  ]
 }

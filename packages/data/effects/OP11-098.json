@@ -1,24 +1,34 @@
 {
-  "id": "OP11-098",
-  "name": "Blue Hole",
-  "cost": 3,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "Activated",
+    "conditions": [
+      {
+        "type": "TrashCount",
+        "value": 3,
+        "scope": "TopOfDeck"
+      }
+    ],
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "amount": 3,
+        "target": {
+          "scope": "TopOfDeck"
         }
-      ]
-    }
-  ]
+      },
+      {
+        "type": "KO",
+        "amount": 1,
+        "target": {
+          "scope": "OpponentCharacter",
+          "filter": {
+            "cost": {
+              "max": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  "id": "OP11-098"
 }

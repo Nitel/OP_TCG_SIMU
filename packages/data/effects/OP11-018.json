@@ -1,43 +1,25 @@
 {
-  "id": "OP11-018",
-  "name": "Honesty Impact",
-  "cost": 6,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -4000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -4000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxTargets": 1
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 6000
-          }
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 6000,
+          "maxTargets": 1
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 6000
-          }
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP11-018"
 }

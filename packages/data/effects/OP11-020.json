@@ -1,45 +1,29 @@
 {
-  "id": "OP11-020",
-  "name": "X Calibur",
-  "cost": 2,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
+  "0": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
+        "duration": "EndOfBattle"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
+        },
+        "duration": "EndOfTurn",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "scope": "OpponentCharacter",
+          "power": 6000
         }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "OP11-020"
 }

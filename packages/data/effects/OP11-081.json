@@ -1,20 +1,24 @@
 {
-  "id": "OP11-081",
-  "name": "Cognac Mama-Mash",
-  "cost": 6,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "source": "OpponentDeck",
+        "count": 1
+      },
+      {
+        "type": "KO",
+        "target": "OpponentCharacter",
+        "conditions": [
+          {
+            "type": "Always"
+          }
+        ],
+        "maxTargets": 1,
+        "costLimit": 8
+      }
+    ]
+  },
+  "id": "OP11-081"
 }

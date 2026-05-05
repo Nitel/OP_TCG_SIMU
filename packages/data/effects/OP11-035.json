@@ -1,48 +1,54 @@
 {
-  "id": "OP11-035",
-  "name": "Fisher Tiger",
-  "cost": 6,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardTypes": [
-              "Character"
-            ],
-            "subType": "Fish-Man",
-            "maxCost": 4
-          },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "subType": "Fish-Man",
-                "maxCost": 4,
-                "cardType": "Character"
-              }
-            }
-          ]
-        }
-      ]
+  "0": {
+    "trigger": "OnKO",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "scope": "opponent"
     },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter"
+    "actions": [
+      {
+        "type": "AttachDon",
+        "target": {
+          "scope": "self",
+          "filter": {
+            "restingDon": true
           }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+        },
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PlayFromHand",
+            "filter": {
+              "cardType": "Character",
+              "subType": [
+                "Fish-Man",
+                "Merfolk"
+              ],
+              "maxCost": 4
+            },
+            "count": 1,
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "opponent",
+          "filter": {
+            "cardType": "Character"
+          }
+        },
+        "count": 1,
+        "optional": true
+      }
+    ]
+  },
+  "id": "OP11-035"
 }
