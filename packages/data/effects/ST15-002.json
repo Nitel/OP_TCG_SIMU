@@ -1,41 +1,40 @@
 {
-  "id": "ST15-002",
-  "name": "Edward.Newgate",
-  "cost": 7,
-  "power": 8000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
-        }
-      ]
-    },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "AttachDon",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader"
         },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxPower": 5000
-          }
+        "condition": {
+          "type": "HasRestingDon",
+          "count": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "cost": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "type": "KO",
+        "count": 1,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxPower": 5000
+        }
+      }
+    ]
+  },
+  "id": "ST15-002"
 }
