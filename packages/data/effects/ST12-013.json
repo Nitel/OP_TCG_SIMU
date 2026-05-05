@@ -1,11 +1,36 @@
 {
   "id": "ST12-013",
-  "name": "Zeff",
-  "cost": 5,
-  "power": 5000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 1000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": "top",
+          "description": "Look at 3 cards from top of deck and arrange in any order at top or bottom"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": "top",
+          "description": "Reveal 1 card from top of deck"
+        },
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": "Character with cost 2",
+          "restCondition": true,
+          "description": "Play up to 1 Character card with cost 2 rested"
+        }
+      ]
+    }
+  ]
 }

@@ -1,11 +1,33 @@
 {
   "id": "ST12-007",
-  "name": "Rika",
-  "cost": 2,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [],
-  "counter": 2000
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 2
+        },
+        {
+          "type": "LeaderHasAnyType",
+          "value": [
+            "Opponent"
+          ],
+          "condition": "OpponentLifeCount>=3"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "YourCharacter",
+          "filter": {
+            "attribute": "Slash",
+            "maxCost": 4
+          },
+          "amount": 1
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

@@ -1,44 +1,26 @@
 {
-  "id": "ST12-006",
-  "name": "Yosaku & Johnny",
-  "cost": 2,
-  "power": 3000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasAttachedDon",
+      "count": 1
     },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          }
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 2
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      },
+      {
+        "type": "KO",
+        "target": {
+          "scope": "ChooseOpponentCharacterRested",
+          "maxCost": 2
+        }
+      }
+    ]
+  },
+  "id": "ST12-006"
 }

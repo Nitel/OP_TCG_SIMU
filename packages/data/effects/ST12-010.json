@@ -1,34 +1,42 @@
 {
-  "id": "ST12-010",
-  "name": "Emporio.Ivankov",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByCost",
-            "maxCost": 2
-          },
-          "destination": "board"
-        }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "RevealFromHand",
+        "count": 1,
+        "source": "DeckTop"
+      },
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "kind": "Character",
+          "maxCost": 2
+        },
+        "destination": "board",
+        "optional": true
+      },
+      {
+        "type": "SearchDeck",
+        "destination": "DeckTopOrBottom"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "frequency": "OncePerTurn",
+    "conditions": [
+      {
+        "type": "HandCount",
+        "maxCards": 6
+      }
+    ],
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "ST12-010"
 }

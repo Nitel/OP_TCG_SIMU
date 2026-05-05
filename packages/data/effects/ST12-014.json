@@ -1,26 +1,13 @@
 {
-  "id": "ST12-014",
-  "name": "Duval",
-  "cost": 2,
-  "power": 1000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ScryDeck",
+        "count": 3,
+        "destination": "top_or_bottom"
+      }
+    ]
+  },
+  "id": "ST12-014"
 }

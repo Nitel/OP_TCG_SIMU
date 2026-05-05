@@ -1,39 +1,31 @@
 {
   "id": "ST12-017",
-  "name": "Plastic Surgery Shot",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Counter",
+  "actions": [
     {
-      "trigger": "Counter",
-      "actions": [
+      "type": "PowerBoost",
+      "amount": 2000,
+      "target": {
+        "scope": "ChooseOwnCharacterOrLeader",
+        "count": 1
+      },
+      "duration": "EndOfBattle"
+    },
+    {
+      "type": "RevealFromDeck",
+      "count": 1,
+      "thenActions": [
         {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        },
-        {
-          "type": "RevealFromHand",
-          "count": 1,
+          "type": "PlayFromDeck",
           "filter": {
             "cardType": "Character",
             "maxCost": 2
           },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "cardType": "Character",
-                "maxCost": 2
-              }
-            }
-          ]
+          "count": 1
+        },
+        {
+          "type": "PlaceOnDeck",
+          "position": "TopOrBottom"
         }
       ]
     }
