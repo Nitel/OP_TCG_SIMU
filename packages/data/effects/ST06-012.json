@@ -1,32 +1,24 @@
 {
   "id": "ST06-012",
-  "name": "Monkey.D.Garp",
-  "cost": 5,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "KO",
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 4,
+        "maxCount": 1
+      },
+      "costs": [
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "optional": true
         },
         {
           "type": "Rest",
           "target": {
             "scope": "Self"
-          }
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 4
           }
         }
       ]

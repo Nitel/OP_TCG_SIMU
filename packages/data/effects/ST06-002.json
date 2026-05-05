@@ -1,33 +1,21 @@
 {
   "id": "ST06-002",
-  "name": "Koby",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "optional": true,
+  "cost": {
+    "type": "TrashFromHand",
+    "quantity": 1
+  },
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character",
-            "excludeSelf": true
-          },
-          "thenActions": [
-            {
-              "type": "KO",
-              "target": {
-                "scope": "ChooseOpponentCharacter",
-                "maxCost": 0
-              }
-            }
-          ]
+      "type": "KO",
+      "target": {
+        "scope": "OpponentCharacter",
+        "quantity": 1,
+        "filter": {
+          "maxCost": 0
         }
-      ]
+      }
     }
-  ],
-  "counter": 1000
+  ]
 }

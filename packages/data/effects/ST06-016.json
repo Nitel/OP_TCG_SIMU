@@ -1,11 +1,6 @@
 {
   "id": "ST06-016",
-  "name": "White Out",
-  "cost": 1,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
+  "effectText": "[Counter] Up to 1 of your Leader or Character cards gains +2000 power during this battle.",
   "effects": [
     {
       "trigger": "Counter",
@@ -14,18 +9,10 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacter",
+            "count": 1
           },
           "duration": "EndOfBattle"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
         }
       ]
     }

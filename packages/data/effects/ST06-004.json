@@ -1,17 +1,12 @@
 {
   "id": "ST06-004",
-  "name": "Smoker",
-  "cost": 5,
-  "power": 7000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "This Character cannot be K.O.'d by effects. [DON!! x1] If there is a Character with a cost of 0, this Character gains [Double Attack].",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Trigger",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 1
+        "type": "HasCardOnBoard",
+        "cost": 0
       },
       "actions": [
         {
@@ -20,7 +15,7 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "Permanent"
         }
       ]
     }
