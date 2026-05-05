@@ -1,22 +1,24 @@
 {
   "id": "EB04-010",
-  "name": "Lulucia Kingdom",
-  "cost": 7,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Stage",
-  "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "AllOwnCharacters",
+          "baseCost": 1
+        }
+      ],
+      "duration": "DuringOpponentTurn",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 5000,
           "target": {
-            "scope": "AllOwnCharacters"
-          },
-          "duration": "EndOfTurn"
+            "scope": "AllOwnCharacters",
+            "baseCost": 1
+          }
         }
       ]
     },
@@ -25,11 +27,12 @@
       "actions": [
         {
           "type": "PowerBoost",
-          "amount": -5000,
+          "amount": -99999,
           "target": {
-            "scope": "ChooseOpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         }
       ]
     }

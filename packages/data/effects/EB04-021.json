@@ -1,16 +1,11 @@
 {
   "id": "EB04-021",
-  "name": "Igaram",
-  "cost": 3,
-  "power": 4000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
+  "card": "EB04-021",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
+        "type": "LeaderIsName",
         "name": "Nefeltari Vivi"
       },
       "actions": [
@@ -21,29 +16,35 @@
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {},
-          "thenActions": []
+          "filter": {}
         }
       ]
     },
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "limit": 1
+      },
       "actions": [
         {
           "type": "TrashFromHand",
+          "count": 1,
           "filter": {},
           "thenActions": [
             {
               "type": "AttachDon",
               "count": 1,
               "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
+                "scope": "ChooseOwnCharacterOrLeader",
+                "filter": {
+                  "resting": true
+                }
               }
             }
           ]
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

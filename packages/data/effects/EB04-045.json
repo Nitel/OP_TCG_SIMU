@@ -1,34 +1,28 @@
 {
   "id": "EB04-045",
-  "name": "Ginny",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "condition": {
+    "type": "HasCardOnBoard",
+    "filter": {
+      "cost": "8+"
+    },
+    "count": "2+"
+  },
+  "actions": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
+      "type": "Rest",
+      "target": {
+        "scope": "Self"
+      }
+    },
+    {
+      "type": "PowerBoost",
+      "amount": 1000,
+      "target": {
+        "scope": "ChooseOwnRevolutionaryArmyCharacterOrLeader",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+      "duration": "DuringYourTurn"
     }
-  ],
-  "counter": 2000
+  ]
 }

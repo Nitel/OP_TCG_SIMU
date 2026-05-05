@@ -1,26 +1,22 @@
 # DSL Fix Summary
 
-Generated: 2026-05-05T14:16:58.436Z
+Generated: 2026-05-05T14:17:00.148Z
 
-**Total patched:** 47 | **Total skipped:** 12
+**Total patched:** 53 | **Total skipped:** 8
 
-## EB-03 — 47 cartes patchées
+## EB-04 — 53 cartes patchées
 
-**critical (19):** EB03-001, EB03-010, EB03-011, EB03-017, EB03-018, EB03-022, EB03-023, EB03-024, EB03-033, EB03-034, EB03-037, EB03-038, EB03-045, EB03-052, EB03-053, EB03-054, EB03-055, EB03-058, EB03-061
+**critical (20):** EB04-001, EB04-005, EB04-010, EB04-011, EB04-013, EB04-014, EB04-027, EB04-028, EB04-029, EB04-031, EB04-035, EB04-041, EB04-042, EB04-043, EB04-044, EB04-051, EB04-055, EB04-057, EB04-058, EB04-059
 
-**major (28):** EB03-003, EB03-005, EB03-006, EB03-007, EB03-008, EB03-009, EB03-013, EB03-014, EB03-015, EB03-016, EB03-028, EB03-029, EB03-032, EB03-035, EB03-036, EB03-039, EB03-041, EB03-042, EB03-043, EB03-044, EB03-046, EB03-047, EB03-048, EB03-049, EB03-050, EB03-057, EB03-060, EB03-062
+**major (33):** EB04-003, EB04-004, EB04-006, EB04-007, EB04-009, EB04-015, EB04-016, EB04-017, EB04-018, EB04-019, EB04-020, EB04-021, EB04-022, EB04-023, EB04-024, EB04-026, EB04-030, EB04-032, EB04-033, EB04-034, EB04-036, EB04-037, EB04-038, EB04-039, EB04-040, EB04-045, EB04-047, EB04-048, EB04-049, EB04-050, EB04-053, EB04-056, EB04-061
 
-**skipped — type inconnu (12):**
-- EB03-004 (ConditionType::And)
-- EB03-012 (TargetScope::ChooseOpponentDonOrCharacter)
-- EB03-019 (no suggestedDsl)
-- EB03-020 (TargetScope::SameAsFirstAction)
-- EB03-021 (TargetScope::ChooseCharacter)
-- EB03-025 (TargetScope::ChooseCharacter)
-- EB03-026 (no suggestedDsl)
-- EB03-027 (TargetScope::ChooseCharacter)
-- EB03-031 (ActionType::ActivateEffect)
-- EB03-051 (TargetScope::YourLifeCards)
-- EB03-056 (TargetScope::OpponentCharacter)
-- EB03-059 (ConditionType::AND)
+**skipped — type inconnu (8):**
+- EB04-002 (no suggestedDsl)
+- EB04-008 (ConditionType::HasLifeCards, TargetScope::OpponentCharacter)
+- EB04-012 (ActionType::SetLeaderActive)
+- EB04-025 (ActionType::ReturnToBottom)
+- EB04-046 (TargetScope::YourField)
+- EB04-052 (ConditionType::HasLife)
+- EB04-054 (no suggestedDsl)
+- EB04-060 (TargetScope::YourLifeCards)
 

@@ -1,30 +1,48 @@
 {
-  "id": "EB04-057",
-  "name": "Vegapunk",
-  "cost": 2,
-  "power": 0,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "TurnCount",
-        "min": 0,
-        "max": 0
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfTurn"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "cardProperty": "hasType",
+      "value": "Scientist",
+      "count": 1
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "CannotBeRemovedByOpponentEffects",
+        "target": {
+          "scope": "AllCharactersControlled",
+          "filter": {
+            "types": [
+              "Scientist"
+            ],
+            "colors": [
+              "Yellow"
+            ]
+          }
+        },
+        "duration": "Permanent",
+        "condition": {
+          "type": "HasCardOnBoard",
+          "cardProperty": "lifeCards",
+          "max": 2
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "EB04-057"
 }

@@ -1,31 +1,24 @@
 {
   "id": "EB04-051",
-  "name": "Emet",
-  "cost": 8,
-  "power": 7000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "This Character cannot attack unless there is a Character with 12000 base power or more.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "AllOpponentCharacters",
+        "basePower": 12000,
+        "comparison": "GreaterThanOrEqual",
+        "count": 0
+      },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": -3000,
+          "type": "KO",
           "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
-        },
-        {
-          "type": "PlaySelf"
+            "scope": "Self"
+          }
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 0
-      }
+      ]
     }
   ]
 }

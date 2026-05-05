@@ -1,25 +1,37 @@
 {
-  "id": "EB04-014",
-  "name": "Kozuki Sukiyaki",
-  "cost": 3,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "target": {
-            "scope": "OwnLeader"
-          }
+  "0": {
+    "trigger": "OnAttacked",
+    "description": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
+    "actions": [
+      {
+        "type": "Rest"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "activationType": "Main",
+    "activationLimit": "OncePerTurn",
+    "description": "Give up to 1 rested DON!! card to your {Land of Wano} type Leader.",
+    "conditions": [
+      {
+        "type": "HasRestingDon",
+        "value": 1
+      },
+      {
+        "type": "LeaderHasType",
+        "value": "Land of Wano"
+      }
+    ],
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "target": {
+          "scope": "OwnLeader"
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "EB04-014"
 }

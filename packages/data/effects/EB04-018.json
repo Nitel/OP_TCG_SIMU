@@ -1,14 +1,11 @@
 {
   "id": "EB04-018",
-  "name": "Megalo",
-  "cost": 4,
-  "power": 4000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "EB04-018",
+  "effectText": "[On Play] You may rest this Character: K.O. up to 1 of your opponent's rested Characters with 8000 power or less.",
   "effects": [
     {
       "trigger": "OnPlay",
+      "optional": true,
       "actions": [
         {
           "type": "Rest",
@@ -20,11 +17,16 @@
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxPower": 8000
-          }
+            "maxPower": 8000,
+            "conditions": [
+              {
+                "type": "HasRestingDon"
+              }
+            ]
+          },
+          "maxTargets": 1
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

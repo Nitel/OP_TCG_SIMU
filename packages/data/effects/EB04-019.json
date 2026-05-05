@@ -1,39 +1,44 @@
 {
-  "id": "EB04-019",
-  "name": "Eleclaw",
-  "cost": 1,
-  "power": 0,
-  "color": "Green",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Minks"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOwnCharacter"
-          }
+  "0": {
+    "trigger": "Activated",
+    "cost": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOwnCharacter"
         }
-      ]
+      }
+    ],
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Minks"
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 3000,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          },
-          "duration": "EndOfBattle"
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "amount": 3,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "limit": 1
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 3000,
+        "target": {
+          "scope": "ChooseOwnCharacterOrLeader",
+          "type": "Minks",
+          "limit": 1
+        },
+        "duration": "EndOfBattle"
+      }
+    ]
+  },
+  "id": "EB04-019"
 }

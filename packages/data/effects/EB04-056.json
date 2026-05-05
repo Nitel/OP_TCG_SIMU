@@ -1,29 +1,24 @@
 {
-  "id": "EB04-056",
-  "name": "Pacifista",
-  "cost": 1,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Jewelry Bonney"
-      },
-      "actions": [
-        {
-          "type": "GiveKeyword",
-          "keyword": "Blocker",
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
-    }
-  ],
-  "counter": 2000
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Jewelry Bonney",
+      "and": {
+        "type": "LeaderLife",
+        "value": 0
+      }
+    },
+    "actions": [
+      {
+        "type": "GiveKeyword",
+        "keyword": "Blocker",
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "id": "EB04-056"
 }

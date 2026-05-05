@@ -1,35 +1,47 @@
 {
-  "id": "EB04-031",
-  "name": "King",
-  "cost": 6,
-  "power": 7000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnKO",
-      "actions": [
+  "0": {
+    "trigger": "OnKO",
+    "optional": true,
+    "actions": [
+      {
+        "type": "ReturnToHand",
+        "target": {
+          "scope": "Field",
+          "type": "DON!!"
+        },
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "All",
+      "conditions": [
         {
-          "type": "ReturnToHand",
-          "target": {
-            "scope": "Self"
-          }
+          "type": "LeaderHasType",
+          "value": "Animal Kingdom Pirates"
+        },
+        {
+          "type": "HasCardOnBoard",
+          "name": "[King]",
+          "count": 0
         }
       ]
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Animal Kingdom Pirates"
+    "limit": "OncePerTurn",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "state": "active"
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 2
-        }
-      ]
-    }
-  ]
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "state": "rested"
+      }
+    ]
+  },
+  "id": "EB04-031"
 }

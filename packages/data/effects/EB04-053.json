@@ -1,26 +1,17 @@
 {
-  "id": "EB04-053",
-  "name": "Sentomaru",
-  "cost": 2,
-  "power": 1000,
-  "color": "Yellow",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnBlock",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+  "0": {
+    "trigger": "OnBlock",
+    "condition": {
+      "type": "HasLife",
+      "value": 2,
+      "comparison": "LessThanOrEqual"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
+      }
+    ]
+  },
+  "id": "EB04-053"
 }

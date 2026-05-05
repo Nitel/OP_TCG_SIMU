@@ -1,60 +1,71 @@
 {
-  "id": "EB04-029",
-  "name": "I Heard the Sound...of a Lady's Teardrops Falling",
-  "cost": 1,
-  "power": 0,
-  "color": "Blue",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Sanji"
-      },
-      "actions": [
-        {
-          "type": "RevealFromHand",
-          "count": 3,
-          "filter": {
-            "cardTypes": [
-              "Character",
-              "Event"
-            ],
-            "subType": "Sanji"
-          },
-          "thenActions": [
-            {
-              "type": "SearchDeck",
-              "filter": {
-                "kind": "Any"
-              },
-              "destination": "hand"
-            }
-          ]
-        }
-      ]
+  "0": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "LeaderIsName",
+      "value": "Sanji"
     },
-    {
-      "trigger": "Counter",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": 4000,
-              "target": {
-                "scope": "ChooseOwnCharacter",
-                "subType": "Sanji"
-              },
-              "duration": "EndOfBattle"
-            }
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "count": 3,
+        "filter": {
+          "cardTypes": [
+            "Character",
+            "Event"
+          ],
+          "subType": [
+            "Sanji"
           ]
-        }
-      ]
-    }
-  ]
+        },
+        "reveal": true,
+        "thenActions": [
+          {
+            "type": "RevealFromHand",
+            "count": 1,
+            "filter": {
+              "cardTypes": [
+                "Character",
+                "Event"
+              ],
+              "subType": [
+                "Sanji"
+              ]
+            },
+            "destination": "hand",
+            "thenActions": [
+              {
+                "type": "ForceDiscard",
+                "source": "SearchResults",
+                "remaining": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Counter",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": 4000,
+            "target": {
+              "scope": "ChooseOwnCharacter",
+              "subType": "Sanji",
+              "count": 1
+            },
+            "duration": "EndOfBattle"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "EB04-029"
 }

@@ -1,49 +1,61 @@
 {
-  "id": "EB04-022",
-  "name": "Issho",
-  "cost": 5,
-  "power": 7000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "ForceDiscard",
-              "count": 2
-            }
-          ]
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 2,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "ReturnToHand",
+            "count": 2,
+            "source": "OpponentHand",
+            "destination": "OpponentDeck",
+            "position": "Bottom",
+            "condition": {
+              "type": "TrashCount",
+              "comparison": ">=",
+              "value": 2
+            },
+            "thenActions": [
+              {
+                "type": "ReturnToHand",
+                "scope": "OpponentHand",
+                "count": 2,
+                "optional": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasRestingDon",
+      "count": 1
     },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {},
-          "thenActions": [
-            {
-              "type": "PowerBoost",
-              "amount": -2000,
-              "target": {
-                "scope": "ChooseOpponentCharacter"
-              },
-              "duration": "EndOfTurn"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "TrashFromHand",
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "PowerBoost",
+            "amount": -2000,
+            "target": {
+              "scope": "ChooseOpponentCharacter",
+              "optional": true,
+              "max": 1
+            },
+            "duration": "DuringYourTurn"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "EB04-022"
 }

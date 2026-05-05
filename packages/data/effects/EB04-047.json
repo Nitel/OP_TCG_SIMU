@@ -1,37 +1,25 @@
 {
   "id": "EB04-047",
-  "name": "Helmeppo",
-  "cost": 3,
-  "power": 3000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "conditions": [],
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
+      "type": "TrashFromHand",
+      "target": "self",
+      "optional": true,
+      "thenActions": [
         {
-          "type": "TrashFromHand",
+          "type": "PlayFromHand",
           "filter": {
             "cardType": "Character",
-            "maxCost": 3,
             "subType": "SWORD",
-            "excludeSelf": true
+            "maxCost": 3,
+            "excludeName": "Helmeppo"
           },
-          "thenActions": [
-            {
-              "type": "PlayFromHand",
-              "filter": {
-                "cardType": "Character",
-                "maxCost": 3,
-                "subType": "SWORD",
-                "excludeSelf": true
-              }
-            }
-          ]
+          "amount": 1,
+          "optional": true
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

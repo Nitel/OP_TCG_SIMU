@@ -1,23 +1,37 @@
 {
-  "id": "EB04-043",
-  "name": "Kaku",
-  "cost": 3,
-  "power": 4000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
+  "0": {
+    "trigger": "Counter",
+    "conditions": [
+      {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "color": "black",
+          "baseCost": {
+            "max": 5
+          }
         }
-      ]
-    }
-  ],
-  "counter": 2000
+      }
+    ],
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "source": "trash",
+        "count": 3,
+        "destination": "bottomOfDeck",
+        "filter": {}
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "ForceDiscard",
+        "count": 2,
+        "filter": {},
+        "source": "deck"
+      }
+    ]
+  },
+  "id": "EB04-043"
 }

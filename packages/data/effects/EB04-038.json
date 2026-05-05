@@ -1,29 +1,23 @@
 {
-  "id": "EB04-038",
-  "name": "Rosinante & Law",
-  "cost": 6,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "Always"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "HasAttachedDon",
+      "operator": "lessThanOrEqual",
+      "targetPlayer": "self",
+      "comparisonPlayer": "opponent"
+    },
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "GiveDon",
-          "count": 1
-        }
-      ]
-    }
-  ]
+      {
+        "type": "GiveDon",
+        "count": 1,
+        "upTo": true
+      }
+    ]
+  },
+  "id": "EB04-038"
 }

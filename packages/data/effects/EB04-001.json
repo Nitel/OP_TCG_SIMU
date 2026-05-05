@@ -1,41 +1,50 @@
 {
-  "id": "EB04-001",
-  "name": "Jewelry Bonney",
-  "cost": 0,
-  "power": 5000,
-  "color": "Multi",
-  "cardType": "Leader",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "TurnCount",
-        "min": 1
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "Always"
     },
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      },
-      "actions": [
-        {
-          "type": "FlipLife",
-          "count": 1
+    "duration": "DuringOpponentTurn",
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 2000,
+        "target": {
+          "scope": "Self"
+        },
+        "condition": {
+          "type": "TrashCount",
+          "max": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "condition": {
+      "type": "TurnCount",
+      "min": 1
+    },
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1000,
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "optional": true,
+          "max": 1
+        },
+        "duration": "DuringYourTurn"
+      },
+      {
+        "type": "DrawCard",
+        "count": 1,
+        "condition": {
+          "type": "TrashCount",
+          "min": 2
+        }
+      }
+    ]
+  },
+  "id": "EB04-001"
 }

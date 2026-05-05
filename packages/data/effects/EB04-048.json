@@ -1,46 +1,57 @@
 {
-  "id": "EB04-048",
-  "name": "Rob Lucci",
-  "cost": 4,
-  "power": 6000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "CP"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "perTrashedCard": true,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "Permanent"
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "CP"
     },
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Character"
-          },
-          "thenActions": [
-            {
-              "type": "DrawCard",
-              "count": 1
-            }
-          ]
-        }
-      ]
-    }
-  ]
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": 1000,
+        "perMultipleCards": {
+          "cardLocation": "Trash",
+          "threshold": 5
+        },
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      },
+      {
+        "type": "PowerBoost",
+        "amount": 2,
+        "costModifier": true,
+        "perMultipleCards": {
+          "cardLocation": "Trash",
+          "threshold": 5
+        },
+        "target": {
+          "scope": "Self"
+        },
+        "duration": "Permanent"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "actions": [
+      {
+        "type": "KO",
+        "filter": {
+          "cardType": "Character",
+          "scope": "Your"
+        },
+        "count": 1,
+        "optional": true,
+        "thenActions": [
+          {
+            "type": "DrawCard",
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  "id": "EB04-048"
 }

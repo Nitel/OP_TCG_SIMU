@@ -1,29 +1,18 @@
 {
   "id": "EB04-049",
-  "name": "Finger Pistol Yellow Lotus",
-  "cost": 4,
-  "power": 0,
-  "color": "Black",
-  "cardType": "Event",
-  "keywords": [],
-  "effects": [
+  "trigger": "Activated",
+  "actions": [
     {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
-        }
-      ]
+      "type": "KO",
+      "count": 1,
+      "target": {
+        "scope": "ChooseOpponentCharacter",
+        "maxCost": 5
+      },
+      "cost": {
+        "type": "TrashFromDeck",
+        "count": 2
+      }
     }
   ]
 }

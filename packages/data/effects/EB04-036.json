@@ -1,46 +1,47 @@
 {
-  "id": "EB04-036",
-  "name": "Foxy",
-  "cost": 8,
-  "power": 9000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Foxy Pirates"
-      },
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 2
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 9
-          }
-        }
-      ]
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Foxy Pirates"
     },
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveDon",
+    "actions": [
+      {
+        "type": "DrawCard",
+        "count": 2
+      },
+      {
+        "type": "ForceDiscard",
+        "count": 1
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 9,
           "count": 1
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "1": {
+    "trigger": "Activated",
+    "cost": 1,
+    "condition": {
+      "type": "Always"
+    },
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1
+      },
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      }
+    ]
+  },
+  "id": "EB04-036"
 }

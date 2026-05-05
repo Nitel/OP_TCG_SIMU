@@ -1,31 +1,43 @@
 {
   "id": "EB04-039",
-  "name": "Eustass\"Captain\"Kid",
-  "cost": 7,
-  "power": 8000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [],
+  "cardId": "EB04-039",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "SearchDeck",
+          "filter": {
+            "cardType": "DON"
+          },
+          "count": 1
+        },
+        {
+          "type": "AttachDon",
           "count": 1
         }
       ]
     },
     {
       "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
       "actions": [
+        {
+          "type": "KO",
+          "target": "Self"
+        },
         {
           "type": "PlayFromHand",
           "filter": {
             "subType": "Kid Pirates",
             "maxCost": 5,
             "cardType": "Character"
-          }
+          },
+          "count": 1
         }
       ]
     }

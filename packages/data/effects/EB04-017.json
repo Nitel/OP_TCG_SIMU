@@ -1,45 +1,38 @@
 {
-  "id": "EB04-017",
-  "name": "Mystoms",
-  "cost": 6,
-  "power": 5000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
-      "actions": [
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "AllOpponentCharacters"
-          },
-          "duration": "EndOfTurn"
-        }
-      ]
+  "0": {
+    "trigger": "Trigger",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "subType": "Minks",
+      "minCount": 3
     },
-    {
-      "trigger": "OnPlay",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Minks"
-      },
-      "actions": [
-        {
-          "type": "PlayFromHand",
-          "filter": {
-            "subType": "Minks",
-            "cardType": "Character",
-            "maxCost": 5
-          }
-        }
-      ]
-    }
-  ],
-  "counter": 1000
+    "actions": [
+      {
+        "type": "PowerBoost",
+        "amount": -1,
+        "target": {
+          "scope": "AllOpponentCharacters"
+        },
+        "duration": "DuringYourTurn"
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "Minks"
+    },
+    "actions": [
+      {
+        "type": "PlayFromHand",
+        "filter": {
+          "subType": "Minks",
+          "cardType": "Character",
+          "maxCost": 5
+        },
+        "maxCount": 1
+      }
+    ]
+  },
+  "id": "EB04-017"
 }

@@ -1,16 +1,15 @@
 {
   "id": "EB04-003",
-  "name": "Smoker & Tashigi",
-  "cost": 8,
-  "power": 8000,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
+  "effectText": "[Opponent's Turn] Your {Navy} type Leader's base power becomes 7000.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "StartOfTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Navy"
+        }
+      ],
       "actions": [
         {
           "type": "PowerBoost",
@@ -18,7 +17,7 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringOpponentTurn"
         }
       ]
     }

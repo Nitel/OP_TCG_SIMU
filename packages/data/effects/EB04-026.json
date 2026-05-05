@@ -1,21 +1,17 @@
 {
   "id": "EB04-026",
-  "name": "Bluegrass",
-  "cost": 4,
-  "power": 6000,
-  "color": "Blue",
-  "cardType": "Character",
-  "keywords": [],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "ReturnToHand",
+          "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 1
-          }
+            "maxCost": 1,
+            "maxTargets": 1
+          },
+          "placement": "BottomOfDeck"
         }
       ]
     },
@@ -28,9 +24,7 @@
         },
         {
           "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
+          "count": 1
         }
       ]
     }

@@ -1,36 +1,31 @@
 {
-  "id": "EB04-016",
-  "name": "Bird Neptunian",
-  "cost": 5,
-  "power": 7000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "actions": [
-        {
-          "type": "GiveDon",
+  "0": {
+    "trigger": "Activated",
+    "duration": "DuringYourTurn",
+    "actions": [
+      {
+        "type": "GiveDon",
+        "count": 1
+      }
+    ]
+  },
+  "1": {
+    "trigger": "OnAttack",
+    "condition": {
+      "type": "HasCardOnBoard",
+      "name": "Neptunian",
+      "minCount": 3
+    },
+    "actions": [
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "ChooseOpponentCharacter",
+          "maxCost": 8,
           "count": 1
         }
-      ]
-    },
-    {
-      "trigger": "OnAttack",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Neptunian"
-      },
-      "actions": [
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 8
-          }
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  "id": "EB04-016"
 }

@@ -1,28 +1,31 @@
 {
   "id": "EB04-034",
-  "name": "Charlotte Pudding",
-  "cost": 2,
-  "power": 1000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "cardType": "Event",
+          "comparison": ">=",
+          "value": 4
+        }
+      ],
+      "limit": {
+        "type": "PerTurn",
+        "value": 1
+      },
       "actions": [
         {
           "type": "TrashFromHand",
-          "filter": {
-            "cardType": "Event"
-          },
+          "optional": true,
           "thenActions": [
             {
               "type": "PowerBoost",
               "amount": 2000,
               "target": {
-                "scope": "ChooseOwnCharacterOrLeader"
+                "scope": "ChooseOwnCharacterOrLeader",
+                "count": 1
               },
               "duration": "EndOfBattle"
             }
@@ -30,6 +33,5 @@
         }
       ]
     }
-  ],
-  "counter": 1000
+  ]
 }

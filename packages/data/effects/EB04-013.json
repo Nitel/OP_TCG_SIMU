@@ -1,10 +1,22 @@
 {
   "id": "EB04-013",
-  "name": "Carrot",
-  "cost": 8,
-  "power": 9000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Minks"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": "UpTo2MinkTypeCharactersAndLeader",
+          "count": 2
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

@@ -1,23 +1,25 @@
 {
   "id": "EB04-042",
-  "name": "Alpha",
-  "cost": 1,
-  "power": 2000,
-  "color": "Black",
-  "cardType": "Character",
-  "keywords": [],
+  "effectText": "[On Play] You may trash 3 cards from the top of your deck: Give up to 1 of your opponent's Characters −1 cost during this turn.",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "TrashFromHand",
+          "type": "TrashFromDeck",
           "count": 3,
-          "filter": {},
-          "thenActions": []
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "value": -1,
+              "target": "OpponentCharacter",
+              "maxTargets": 1,
+              "duration": "DuringYourTurn"
+            }
+          ]
         }
       ]
     }
-  ],
-  "counter": 2000
+  ]
 }

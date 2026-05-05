@@ -1,22 +1,19 @@
 {
   "id": "EB04-040",
-  "name": "Flame Dragon Torch",
-  "cost": 1,
-  "power": 0,
-  "color": "Purple",
-  "cardType": "Event",
-  "keywords": [],
+  "cardNumber": "EB04-040",
   "effects": [
     {
       "trigger": "Activated",
+      "condition": "HasAttachedDon:6",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 3000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacter",
+            "filter": "HasCardType:Kaido"
           },
-          "duration": "EndOfTurn"
+          "duration": "DuringYourTurn"
         },
         {
           "type": "Rest",
@@ -28,6 +25,7 @@
     },
     {
       "trigger": "Counter",
+      "condition": "HasAttachedDon:1",
       "actions": [
         {
           "type": "PowerBoost",
@@ -35,7 +33,7 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "EndOfBattle"
+          "duration": "DuringBattle"
         }
       ]
     }

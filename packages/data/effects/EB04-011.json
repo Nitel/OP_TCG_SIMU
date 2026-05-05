@@ -1,29 +1,29 @@
 {
   "id": "EB04-011",
-  "name": "Scaled Neptunian",
-  "cost": 7,
-  "power": 8000,
-  "color": "Green",
-  "cardType": "Character",
-  "keywords": [
-    "Rush"
-  ],
-  "effects": [
-    {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {},
-          "thenActions": []
-        }
-      ]
+  "trigger": "OnPlay",
+  "condition": {
+    "type": "HasCardOnBoard",
+    "filter": {
+      "type": "Neptunian"
     }
-  ],
-  "counter": 1000
+  },
+  "actions": [
+    {
+      "type": "DrawCard",
+      "count": {
+        "countCardOnBoard": {
+          "type": "Neptunian"
+        }
+      }
+    },
+    {
+      "type": "ForceDiscard",
+      "source": "Hand",
+      "count": {
+        "countCardOnBoard": {
+          "type": "Neptunian"
+        }
+      }
+    }
+  ]
 }

@@ -1,33 +1,25 @@
 {
-  "id": "EB04-035",
-  "name": "Hitokiri Kamazo",
-  "cost": 3,
-  "power": 4000,
-  "color": "Purple",
-  "cardType": "Character",
-  "keywords": [
-    "Blocker"
-  ],
-  "effects": [
-    {
-      "trigger": "Activated",
-      "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Kid Pirates"
+  "0": {
+    "trigger": "OnPlay",
+    "condition": {
+      "type": "LeaderHasType",
+      "value": "Kid Pirates"
+    },
+    "duration": "DuringYourTurn",
+    "frequency": "OncePerTurn",
+    "actions": [
+      {
+        "type": "SearchDeck",
+        "cardType": "DON!!",
+        "count": 1
       },
-      "actions": [
-        {
-          "type": "GiveDon",
-          "count": 1
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+      {
+        "type": "Rest",
+        "target": {
+          "scope": "LastSearched"
         }
-      ]
-    }
-  ],
-  "counter": 1000
+      }
+    ]
+  },
+  "id": "EB04-035"
 }

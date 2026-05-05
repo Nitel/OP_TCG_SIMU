@@ -1,25 +1,19 @@
 {
   "id": "EB04-006",
-  "name": "Moda",
-  "cost": 1,
-  "power": 0,
-  "color": "Red",
-  "cardType": "Character",
-  "keywords": [],
-  "effects": [
+  "trigger": "OnPlay",
+  "actions": [
     {
-      "trigger": "OnPlay",
-      "actions": [
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "ByName",
-            "name": "Lulucia Kingdom"
-          },
-          "destination": "hand"
-        }
-      ]
+      "type": "SearchDeck",
+      "filter": {
+        "kind": "ByName",
+        "name": "Lulucia Kingdom"
+      },
+      "deckZone": "top",
+      "deckZoneCount": 7,
+      "maxSearch": 1,
+      "destination": "hand",
+      "restPlacement": "bottom",
+      "restOrder": "any"
     }
-  ],
-  "counter": 2000
+  ]
 }
