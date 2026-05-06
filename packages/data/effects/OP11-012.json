@@ -6,6 +6,28 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnOpponentPlaysEvent",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "constraints": [
+        {
+          "type": "OncePerTurn"
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

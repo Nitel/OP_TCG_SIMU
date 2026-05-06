@@ -1,18 +1,31 @@
 {
   "id": "OP06-048",
-  "effectText": "[Your Turn] When your opponent activates [Blocker] or an Event, if your Leader has the {East Blue} type, you may trash 4 cards from the top of your deck.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnOpponentBlock",
       "condition": {
-        "type": "Always"
+        "type": "LeaderHasType",
+        "subType": "East Blue"
       },
-      "duration": "DuringYourTurn",
       "actions": [
         {
-          "type": "ForceDiscard",
-          "target": "DeckTop",
-          "amount": 4
+          "type": "TrashFromDeck",
+          "count": 4,
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "OnOpponentPlaysEvent",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "East Blue"
+      },
+      "actions": [
+        {
+          "type": "TrashFromDeck",
+          "count": 4,
+          "thenActions": []
         }
       ]
     }

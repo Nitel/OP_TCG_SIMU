@@ -2,19 +2,19 @@
   "id": "OP06-044",
   "effects": [
     {
-      "trigger": "Counter",
+      "trigger": "OnOpponentPlaysEvent",
       "condition": {
         "type": "Always"
       },
-      "duration": "DuringYourTurn",
-      "once": "PerTurn",
-      "effect": "When your opponent activates an Event, your opponent must place 1 card from their hand at the bottom of their deck.",
       "actions": [
         {
           "type": "ForceDiscard",
-          "target": "OpponentHand",
-          "amount": 1,
-          "destination": "DeckBottom"
+          "count": 1
+        }
+      ],
+      "constraints": [
+        {
+          "type": "OncePerTurn"
         }
       ]
     }
