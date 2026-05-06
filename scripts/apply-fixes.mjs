@@ -102,8 +102,16 @@ function collectUnknown(dsl) {
       if (a.keyword !== undefined && !KNOWN_KEYWORDS.has(a.keyword)) {
         unknown.push(`Keyword::${a.keyword}`);
       }
-      if (a.target?.scope && !KNOWN_TARGET_SCOPES.has(a.target.scope)) {
-        unknown.push(`TargetScope::${a.target.scope}`);
+      // target must be an object with a known scope, not a bare string or {type/kind/...}
+      if (a.target !== undefined) {
+        if (typeof a.target !== 'object' || a.target === null) {
+          unknown.push(`InvalidTarget::${a.type}(notObject)`);
+        } else if (!a.target.scope) {
+          // target exists but has no scope field (e.g. {type:"Self"} or {kind:"Character"})
+          unknown.push(`InvalidTarget::${a.type}(noScope)`);
+        } else if (!KNOWN_TARGET_SCOPES.has(a.target.scope)) {
+          unknown.push(`TargetScope::${a.target.scope}`);
+        }
       }
       // Require target for actions that need it
       if (['KO', 'ReturnToHand', 'PowerBoost', 'GiveKeyword', 'Rest', 'Activate',
@@ -114,9 +122,17 @@ function collectUnknown(dsl) {
         const resolved = DURATION_MAP[a.duration] ?? a.duration;
         if (!KNOWN_DURATIONS.has(resolved)) unknown.push(`Duration::${a.duration}`);
       }
-      if (a.filter?.kind !== undefined) {
-        const resolved = FILTER_KIND_MAP[a.filter.kind] ?? a.filter.kind;
-        if (!KNOWN_FILTER_KINDS.has(resolved)) unknown.push(`FilterKind::${a.filter.kind}`);
+      if (a.filter !== undefined) {
+        if (a.filter?.kind !== undefined) {
+          const resolved = FILTER_KIND_MAP[a.filter.kind] ?? a.filter.kind;
+          if (!KNOWN_FILTER_KINDS.has(resolved)) unknown.push(`FilterKind::${a.filter.kind}`);
+        }
+        // filter.cardType must be a single string from valid card types, not an array
+        if (a.filter.cardType !== undefined) {
+          if (!['Character', 'Event', 'Stage'].includes(a.filter.cardType)) {
+            unknown.push(`InvalidFilterCardType::${JSON.stringify(a.filter.cardType)}`);
+          }
+        }
       }
       if (Array.isArray(a.thenActions)) checkActions(a.thenActions);
     }
@@ -127,8 +143,31 @@ function collectUnknown(dsl) {
     if (eff.trigger && !KNOWN_TRIGGERS.has(eff.trigger)) {
       unknown.push(`Trigger::${eff.trigger}`);
     }
-    if (eff.condition?.type && !KNOWN_CONDITION_TYPES.has(eff.condition.type)) {
-      unknown.push(`ConditionType::${eff.condition.type}`);
+    // condition must be an object with a known type, not a bare string
+    if (eff.condition !== undefined && eff.condition !== null) {
+      if (typeof eff.condition !== 'object') {
+        unknown.push(`InvalidCondition::string`);
+      } else if (!eff.condition.type) {
+        unknown.push(`InvalidCondition::noType`);
+      } else if (!KNOWN_CONDITION_TYPES.has(eff.condition.type)) {
+        unknown.push(`ConditionType::${eff.condition.type}`);
+      }
+    }
+    // conditions (plural array) is not a valid engine format
+    if (Array.isArray(eff.conditions)) {
+      unknown.push(`InvalidConditions::array`);
+    }
+    // LeaderHasAnyType requires subTypes (not types) field
+    if (eff.condition?.type === 'LeaderHasAnyType' && !Array.isArray(eff.condition.subTypes)) {
+      unknown.push(`InvalidCondition::LeaderHasAnyType(noSubTypes)`);
+    }
+    // LeaderHasType requires subType (singular) field
+    if (eff.condition?.type === 'LeaderHasType' && !eff.condition.subType) {
+      unknown.push(`InvalidCondition::LeaderHasType(noSubType)`);
+    }
+    // LeaderIsName requires name field
+    if (eff.condition?.type === 'LeaderIsName' && !eff.condition.name) {
+      unknown.push(`InvalidCondition::LeaderIsName(noName)`);
     }
     checkActions(eff.actions);
   }
