@@ -1,18 +1,22 @@
 {
   "id": "EB03-036",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 1
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 3,
-        "maxCount": 2
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 2
+          }
+        }
+      ]
     }
   ]
 }

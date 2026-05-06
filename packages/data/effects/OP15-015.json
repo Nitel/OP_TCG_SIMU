@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "source": "OpponentRestingDon",
-        "target": {
-          "scope": "ChooseOpponentCharacter"
-        }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -1000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "condition": "HasAttachedDon"
+  "id": "OP15-015",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "OpponentRestingDon",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP15-015"
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "condition": "HasAttachedDon"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

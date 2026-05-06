@@ -1,20 +1,4 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "name": "Trafalgar Law"
-    },
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "destination": "hand"
-      }
-    ],
-    "duration": "Permanent",
-    "note": "Prevents KO; instead flips 1 Life to hand"
-  },
   "1": {
     "trigger": "Activated",
     "cost": "DON!! -1",
@@ -35,5 +19,23 @@
       }
     ]
   },
-  "id": "OP12-061"
+  "id": "OP12-061",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Trafalgar Law"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "destination": "hand"
+        }
+      ],
+      "duration": "Permanent",
+      "note": "Prevents KO; instead flips 1 Life to hand"
+    }
+  ]
 }

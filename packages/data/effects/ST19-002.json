@@ -1,24 +1,28 @@
 {
   "id": "ST19-002",
-  "trigger": "OnPlay",
-  "actions": [
-    {
-      "type": "TrashFromHand",
-      "count": 2,
-      "filter": {
-        "color": "Black",
-        "subType": "Navy"
-      }
-    }
-  ],
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Navy"
-  },
   "thenActions": [
     {
       "type": "DrawCard",
       "count": 3
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {
+            "color": "Black",
+            "subType": "Navy"
+          }
+        }
+      ],
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Navy"
+      }
     }
   ]
 }

@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "reveal": true,
-        "filter": {
-          "type": "Or",
-          "conditions": [
-            {
-              "hasType": "Amazon Lily"
-            },
-            {
-              "hasType": "Kuja Pirates"
-            }
-          ]
+  "id": "OP14-113",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "reveal": true,
+          "filter": {
+            "type": "Or",
+            "conditions": [
+              {
+                "hasType": "Amazon Lily"
+              },
+              {
+                "hasType": "Kuja Pirates"
+              }
+            ]
+          },
+          "destination": "hand",
+          "maxReveal": 1
         },
-        "destination": "hand",
-        "maxReveal": 1
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {}
-      }
-    ]
-  },
-  "id": "OP14-113"
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ]
 }

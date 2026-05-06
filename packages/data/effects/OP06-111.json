@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "filter": {
-          "kind": "ByType",
-          "cardType": "Stage",
-          "cost": 1
+  "id": "OP06-111",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Stage",
+            "cost": 1
+          },
+          "destination": "deck",
+          "position": "bottom"
         },
-        "destination": "deck",
-        "position": "bottom"
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4,
-          "maxAmount": 1
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxAmount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP06-111"
+      ]
+    }
+  ]
 }

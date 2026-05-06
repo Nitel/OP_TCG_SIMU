@@ -1,25 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "types": [
-        "Thriller Bark Pirates"
-      ]
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 2,
-        "filter": {},
-        "thenActions": []
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "condition": {
@@ -41,5 +20,28 @@
       }
     ]
   },
-  "id": "OP06-082"
+  "id": "OP06-082",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "types": [
+          "Thriller Bark Pirates"
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ]
 }

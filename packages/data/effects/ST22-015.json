@@ -1,37 +1,39 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Whitebeard Pirates"
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "name": "Edward.Newgate"
-        },
-        "maxCount": 1
+  "id": "ST22-015",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Whitebeard Pirates"
       },
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "OwnLeader"
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "name": "Edward.Newgate"
+          },
+          "maxCount": 1
         },
-        "duration": "EndOfOpponentTurn",
-        "condition": {
-          "type": "PreviousActionResolved",
-          "action": "FlipLife"
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
         },
-        "maxCount": 1
-      }
-    ]
-  },
-  "id": "ST22-015"
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn",
+          "condition": {
+            "type": "PreviousActionResolved",
+            "action": "FlipLife"
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ]
 }

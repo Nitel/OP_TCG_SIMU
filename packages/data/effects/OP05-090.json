@@ -1,19 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxAmount": 1,
-          "type": "Dressrosa"
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -29,5 +14,22 @@
       }
     ]
   },
-  "id": "OP05-090"
+  "id": "OP05-090",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxAmount": 1,
+            "type": "Dressrosa"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxTargets": 1
+  "id": "OP14-077",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "AttachDon",
-        "amount": 1,
-        "source": "Deck",
-        "condition": {
-          "type": "OpponentHasCharacterWithPowerOrMore",
-          "power": 6000
-        },
-        "effects": [
-          {
-            "type": "Rest",
-            "target": {
-              "scope": "AttachedDon"
+        {
+          "type": "AttachDon",
+          "amount": 1,
+          "source": "Deck",
+          "condition": {
+            "type": "OpponentHasCharacterWithPowerOrMore",
+            "power": 6000
+          },
+          "effects": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "AttachedDon"
+              }
             }
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP14-077"
+          ]
+        }
+      ]
+    }
+  ]
 }

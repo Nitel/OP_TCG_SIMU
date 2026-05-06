@@ -1,30 +1,32 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "types": [
-            "Character"
-          ],
-          "includesType": "CP",
-          "excludesName": [
-            "Stussy"
-          ],
-          "maxCost": 2
+  "id": "OP04-084",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "Character"
+            ],
+            "includesType": "CP",
+            "excludesName": [
+              "Stussy"
+            ],
+            "maxCost": 2
+          },
+          "destination": "board",
+          "maxCount": 1,
+          "lookAtCount": 3
         },
-        "destination": "board",
-        "maxCount": 1,
-        "lookAtCount": 3
-      },
-      {
-        "type": "ForceDiscard",
-        "source": "deck",
-        "count": "remaining"
-      }
-    ]
-  },
-  "id": "OP04-084"
+        {
+          "type": "ForceDiscard",
+          "source": "deck",
+          "count": "remaining"
+        }
+      ]
+    }
+  ]
 }

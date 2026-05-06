@@ -1,35 +1,37 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "type": "Dressrosa"
-          }
+  "id": "OP10-097",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            }
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "type": "Dressrosa"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            }
+          },
+          "duration": "DuringYourTurn",
+          "condition": {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 10
           }
-        },
-        "duration": "DuringYourTurn",
-        "condition": {
-          "type": "TrashCount",
-          "comparison": ">=",
-          "value": 10
         }
-      }
-    ]
-  },
-  "id": "OP10-097"
+      ]
+    }
+  ]
 }

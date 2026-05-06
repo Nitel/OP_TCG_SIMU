@@ -1,25 +1,29 @@
 {
   "id": "OP12-007",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "GiveKeyword",
-      "keyword": "Rush",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "conditions": [
-          {
-            "type": "HasCardType",
-            "cardType": "Roger Pirates"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "conditions": [
+              {
+                "type": "HasCardType",
+                "cardType": "Roger Pirates"
+              },
+              {
+                "type": "IsNotName",
+                "name": "Shanks"
+              }
+            ],
+            "count": 1
           },
-          {
-            "type": "IsNotName",
-            "name": "Shanks"
-          }
-        ],
-        "count": 1
-      },
-      "duration": "EndOfTurn"
+          "duration": "EndOfTurn"
+        }
+      ]
     }
   ]
 }

@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "filters": [
-            {
-              "type": "HasCardType",
-              "value": "FILM"
-            }
-          ]
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
   "1": {
     "trigger": "Trigger",
     "conditions": [
@@ -36,5 +17,26 @@
       }
     ]
   },
-  "id": "ST05-017"
+  "id": "ST05-017",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filters": [
+              {
+                "type": "HasCardType",
+                "value": "FILM"
+              }
+            ]
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

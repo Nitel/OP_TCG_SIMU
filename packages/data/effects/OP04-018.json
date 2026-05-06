@@ -1,19 +1,23 @@
 {
   "id": "OP04-018",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderHasType",
-    "subType": "Alabasta"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxTargets": 2
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Alabasta"
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 2
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

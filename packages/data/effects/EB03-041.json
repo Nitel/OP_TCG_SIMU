@@ -1,27 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "conditions": [
-      {
-        "type": "LeaderHasAnyType",
-        "types": [
-          "Sword"
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "AllOwnCharacters",
-          "type": "Sword",
-          "maxCost": 6
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "actions": [
@@ -39,5 +16,30 @@
       }
     ]
   },
-  "id": "EB03-041"
+  "id": "EB03-041",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "types": [
+            "Sword"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "type": "Sword",
+            "maxCost": 6
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "cardType": "Celestial Dragons",
-      "isOnly": true
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -4,
-        "target": {
-          "scope": "AllOpponentCharacters"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP05-084"
+  "id": "OP05-084",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Celestial Dragons",
+        "isOnly": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

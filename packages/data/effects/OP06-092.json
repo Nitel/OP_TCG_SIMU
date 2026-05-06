@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "conditions": [
-            {
-              "type": "HasMaxCost",
-              "value": 4
-            }
-          ],
-          "maxTargets": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "actions": [
@@ -30,5 +12,25 @@
       }
     ]
   },
-  "id": "OP06-092"
+  "id": "OP06-092",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "conditions": [
+              {
+                "type": "HasMaxCost",
+                "value": 4
+              }
+            ],
+            "maxTargets": 1
+          }
+        }
+      ]
+    }
+  ]
 }

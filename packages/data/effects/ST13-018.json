@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxChoose": 1
+  "id": "ST13-018",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxChoose": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "condition": {
-          "type": "TrashCount",
-          "value": 0
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "value": 0
+          }
         }
-      }
-    ]
-  },
-  "id": "ST13-018"
+      ]
+    }
+  ]
 }

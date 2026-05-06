@@ -1,18 +1,22 @@
 {
   "id": "OP09-021",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderHasType",
-    "subType": "Red-Haired Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -1000,
-      "target": {
-        "scope": "ChooseOpponentCharacter"
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Red-Haired Pirates"
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

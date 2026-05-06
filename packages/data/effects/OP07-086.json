@@ -1,21 +1,25 @@
 {
   "id": "OP07-086",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "ForceDiscard",
-      "count": 2,
-      "source": "Deck",
-      "filter": {}
-    },
-    {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "optional": true
-      },
-      "duration": "EndOfTurn"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "source": "Deck",
+          "filter": {}
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "optional": true
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
     }
   ]
 }

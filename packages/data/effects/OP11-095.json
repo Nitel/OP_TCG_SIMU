@@ -1,41 +1,45 @@
 {
   "id": "OP11-095",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "count": 3,
-      "filter": {
-        "subType": "Navy"
-      },
-      "destination": "DeckBottom",
-      "optional": true
-    },
-    {
-      "type": "AttachDon",
-      "count": 1,
-      "target": {
-        "scope": "OwnLeader"
-      },
-      "filter": {
-        "state": "Resting"
-      }
-    },
-    {
-      "type": "KO",
-      "count": 1,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 7
-      },
-      "condition": {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "type": "Character",
-          "minCost": 9
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": {
+            "subType": "Navy"
+          },
+          "destination": "DeckBottom",
+          "optional": true
         },
-        "scope": "Board"
-      }
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "filter": {
+            "state": "Resting"
+          }
+        },
+        {
+          "type": "KO",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7
+          },
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "type": "Character",
+              "minCost": 9
+            },
+            "scope": "Board"
+          }
+        }
+      ]
     }
   ]
 }

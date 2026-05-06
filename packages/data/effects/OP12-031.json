@@ -1,24 +1,28 @@
 {
   "id": "OP12-031",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 6,
-        "maxCount": 1
-      }
-    },
-    {
-      "type": "AttachDon",
-      "count": 3,
-      "target": {
-        "scope": "OwnLeader"
-      },
-      "condition": {
-        "type": "HasRestingDon"
-      }
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 3,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "condition": {
+            "type": "HasRestingDon"
+          }
+        }
+      ]
     }
   ]
 }

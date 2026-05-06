@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        },
-        "condition": {
-          "type": "LifeComparison",
-          "comparison": "LessOrEqual"
-        }
+  "id": "OP10-114",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4,
-          "maxCount": 1
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "condition": {
+            "type": "LifeComparison",
+            "comparison": "LessOrEqual"
+          }
         },
-        "condition": {
-          "type": "LifeComparison",
-          "comparison": "LessOrEqual"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          },
+          "condition": {
+            "type": "LifeComparison",
+            "comparison": "LessOrEqual"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP10-114"
+      ]
+    }
+  ]
 }

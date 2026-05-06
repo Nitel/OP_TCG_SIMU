@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxAmount": 1
-        },
-        "duration": "EndOfBattle"
-      }
-    ],
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ]
-  },
   "1": {
     "trigger": "Trigger",
     "conditions": [
@@ -37,5 +18,26 @@
       }
     ]
   },
-  "id": "OP11-059"
+  "id": "OP11-059",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ]
+    }
+  ]
 }

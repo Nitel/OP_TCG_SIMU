@@ -1,22 +1,26 @@
 {
   "id": "OP07-003",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "Self"
-      }
-    },
-    {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "count": 2,
-        "maxCount": true
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 2,
+            "maxCount": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

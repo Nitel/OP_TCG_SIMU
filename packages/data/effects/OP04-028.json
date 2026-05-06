@@ -1,16 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "EndOfTurn",
     "condition": {
@@ -28,5 +16,19 @@
       }
     ]
   },
-  "id": "OP04-028"
+  "id": "OP04-028",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

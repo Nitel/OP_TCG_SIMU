@@ -1,20 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 7000
-        }
-      }
-    ],
-    "duration": "DuringYourTurn"
-  },
   "1": {
     "trigger": "Trigger",
     "condition": {
@@ -31,5 +15,23 @@
     ],
     "duration": "EndOfOpponentTurn"
   },
-  "id": "OP14-027"
+  "id": "OP14-027",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 7000
+          }
+        }
+      ],
+      "duration": "DuringYourTurn"
+    }
+  ]
 }

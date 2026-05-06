@@ -1,18 +1,22 @@
 {
   "id": "OP06-119",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "RevealFromHand",
-      "count": 1,
-      "filter": {
-        "kind": "ByCost",
-        "maxCost": 9,
-        "excludeNames": [
-          "Sanji"
-        ]
-      },
-      "destination": "board"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 9,
+            "excludeNames": [
+              "Sanji"
+            ]
+          },
+          "destination": "board"
+        }
+      ]
     }
   ]
 }

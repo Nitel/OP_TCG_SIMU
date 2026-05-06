@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "Always"
-    },
-    "cost": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP07-024",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxCost": 5,
-          "typeFilter": "Fish-Man"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP07-024"
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 5,
+            "typeFilter": "Fish-Man"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

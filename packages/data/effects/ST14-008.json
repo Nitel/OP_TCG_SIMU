@@ -1,48 +1,50 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        },
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "hasType": "StrawHatCrew",
-            "color": "black"
+  "id": "ST14-008",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
           },
-          "maxCount": 1
+          "optional": true
         },
-        "duration": "EndOfOpponentTurn"
-      }
-    ],
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "cost": {
-            "min": 8
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "StrawHatCrew",
+              "color": "black"
+            },
+            "maxCount": 1
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ],
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cost": {
+              "min": 8
+            }
           }
         }
-      }
-    ],
-    "thenActions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 1
-      }
-    ]
-  },
-  "id": "ST14-008"
+      ],
+      "thenActions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

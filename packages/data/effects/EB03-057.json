@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "{Land of Wano}"
-      }
-    ],
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 3,
-        "target": {
-          "scope": "OwnLeader"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -29,5 +11,25 @@
       }
     ]
   },
-  "id": "EB03-057"
+  "id": "EB03-057",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "{Land of Wano}"
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 3,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    }
+  ]
 }

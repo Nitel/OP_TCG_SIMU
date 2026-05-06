@@ -1,36 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 2,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "ReturnToHand",
-            "count": 2,
-            "source": "OpponentHand",
-            "destination": "OpponentDeck",
-            "position": "Bottom",
-            "condition": {
-              "type": "TrashCount",
-              "comparison": ">=",
-              "value": 2
-            },
-            "thenActions": [
-              {
-                "type": "ReturnToHand",
-                "scope": "OpponentHand",
-                "count": 2,
-                "optional": false
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "condition": {
@@ -57,5 +25,39 @@
       }
     ]
   },
-  "id": "EB04-022"
+  "id": "EB04-022",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "count": 2,
+              "source": "OpponentHand",
+              "destination": "OpponentDeck",
+              "position": "Bottom",
+              "condition": {
+                "type": "TrashCount",
+                "comparison": ">=",
+                "value": 2
+              },
+              "thenActions": [
+                {
+                  "type": "ReturnToHand",
+                  "scope": "OpponentHand",
+                  "count": 2,
+                  "optional": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,24 +1,28 @@
 {
   "id": "OP02-070",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderIsName",
-    "name": "Emporio.Ivankov"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 1
-    },
-    {
-      "type": "TrashFromHand",
-      "count": 1,
-      "filter": {}
-    },
-    {
-      "type": "TrashFromHand",
-      "count": 3,
-      "filter": {}
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Emporio.Ivankov"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 3,
+          "filter": {}
+        }
+      ]
     }
   ]
 }

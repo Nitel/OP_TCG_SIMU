@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "actions": [
@@ -26,5 +13,20 @@
       }
     ]
   },
-  "id": "OP09-013"
+  "id": "OP09-013",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

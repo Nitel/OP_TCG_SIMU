@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "subType": "Rock"
-      },
-      "negate": true
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
+  "id": "OP10-008",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
         "filter": {
           "subType": "Rock"
         },
-        "maxCount": 1
-      }
-    ]
-  },
-  "id": "OP10-008"
+        "negate": true
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Rock"
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ]
 }

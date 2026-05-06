@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "types": [
-          "Water Seven"
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "isTarget": true
-        },
-        "thenActions": [
-          {
-            "type": "GiveDon",
-            "count": 1,
-            "source": "DonDeck"
+  "id": "OP04-061",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "types": [
+            "Water Seven"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "isTarget": true
           },
-          {
-            "type": "Rest",
-            "target": "justAddedDon"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP04-061"
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1,
+              "source": "DonDeck"
+            },
+            {
+              "type": "Rest",
+              "target": "justAddedDon"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

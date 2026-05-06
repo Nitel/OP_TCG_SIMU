@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4,
-          "conditions": [
-            {
-              "type": "IsRested"
-            }
-          ]
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "actions": [
@@ -33,5 +16,24 @@
       }
     ]
   },
-  "id": "OP15-036"
+  "id": "OP15-036",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "conditions": [
+              {
+                "type": "IsRested"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

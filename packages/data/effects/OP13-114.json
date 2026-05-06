@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "count": 1
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "actions": [
@@ -37,5 +18,26 @@
       }
     ]
   },
-  "id": "OP13-114"
+  "id": "OP13-114",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

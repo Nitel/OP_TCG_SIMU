@@ -1,22 +1,26 @@
 {
   "id": "OP01-031",
-  "trigger": "Activated",
-  "condition": {
-    "type": "Always"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "subType": "Land of Wano"
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      "count": 1,
-      "thenActions": [
+      "actions": [
         {
-          "type": "Rest",
-          "target": "OwnDon",
-          "count": 2,
-          "restType": "Activate"
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Land of Wano"
+          },
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": "OwnDon",
+              "count": 2,
+              "restType": "Activate"
+            }
+          ]
         }
       ]
     }

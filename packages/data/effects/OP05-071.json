@@ -1,24 +1,28 @@
 {
   "id": "OP05-071",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasAttachedDon",
-    "scope": "Opponent",
-    "comparison": "GreaterThan",
-    "value": {
-      "type": "HasAttachedDon",
-      "scope": "Self"
-    }
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxTargets": 1
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "scope": "Opponent",
+        "comparison": "GreaterThan",
+        "value": {
+          "type": "HasAttachedDon",
+          "scope": "Self"
+        }
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

@@ -1,38 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "CP"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "perMultipleCards": {
-          "cardLocation": "Trash",
-          "threshold": 5
-        },
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 2,
-        "costModifier": true,
-        "perMultipleCards": {
-          "cardLocation": "Trash",
-          "threshold": 5
-        },
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "actions": [
@@ -53,5 +19,41 @@
       }
     ]
   },
-  "id": "EB04-048"
+  "id": "EB04-048",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "CP"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perMultipleCards": {
+            "cardLocation": "Trash",
+            "threshold": 5
+          },
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2,
+          "costModifier": true,
+          "perMultipleCards": {
+            "cardLocation": "Trash",
+            "threshold": 5
+          },
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

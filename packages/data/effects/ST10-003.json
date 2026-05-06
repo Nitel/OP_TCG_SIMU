@@ -1,24 +1,4 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "amount": 4,
-        "comparison": ">="
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -1000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "actions": [
@@ -32,5 +12,27 @@
       }
     ]
   },
-  "id": "ST10-003"
+  "id": "ST10-003",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 4,
+          "comparison": ">="
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

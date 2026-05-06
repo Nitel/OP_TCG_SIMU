@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "cost": {
-      "type": "GiveDon",
-      "amount": -1
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "mode": "LookAtTop",
-        "amount": 5,
-        "filter": {
-          "type": "ByType",
-          "value": "Foxy Pirates"
-        },
-        "maxReveal": 1,
-        "destination": "hand",
-        "remaining": "BottomOfDeck"
+  "id": "OP07-072",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "GiveDon",
+        "amount": -1
       },
-      {
-        "type": "PlayFromHand",
-        "maxPlay": 1,
-        "filter": {
-          "color": "Purple",
-          "cardType": "Character",
-          "maxPower": 4000
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "mode": "LookAtTop",
+          "amount": 5,
+          "filter": {
+            "type": "ByType",
+            "value": "Foxy Pirates"
+          },
+          "maxReveal": 1,
+          "destination": "hand",
+          "remaining": "BottomOfDeck"
+        },
+        {
+          "type": "PlayFromHand",
+          "maxPlay": 1,
+          "filter": {
+            "color": "Purple",
+            "cardType": "Character",
+            "maxPower": 4000
+          }
         }
-      }
-    ]
-  },
-  "id": "OP07-072"
+      ]
+    }
+  ]
 }

@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
+  "id": "OP05-115",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfTurn"
         },
-        "duration": "EndOfTurn"
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4
-        },
-        "condition": {
-          "type": "LifeCount",
-          "value": 1,
-          "comparison": "LessOrEqual"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "condition": {
+            "type": "LifeCount",
+            "value": 1,
+            "comparison": "LessOrEqual"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP05-115"
+      ]
+    }
+  ]
 }

@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "LeaderHasType",
-      "subType": "Shandian Warrior"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
-        },
-        "duration": "EndOfBattle"
+  "id": "OP08-115",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Shandian Warrior"
       },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Upper Yard"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
         },
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP08-115"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Upper Yard"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

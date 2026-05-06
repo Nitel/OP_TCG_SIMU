@@ -1,28 +1,32 @@
 {
   "id": "OP06-064",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "GiveDon",
-      "value": -1
-    },
-    {
-      "type": "TrashFromHand",
-      "filter": {
-        "excludeSelf": true
-      },
-      "condition": {
-        "type": "LeaderHasType",
-        "value": "GERMA 66"
-      },
-      "thenActions": [
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "PlayFromHand",
+          "type": "GiveDon",
+          "value": -1
+        },
+        {
+          "type": "TrashFromHand",
           "filter": {
-            "name": "Vinsmoke Niji",
-            "maxCost": 5
+            "excludeSelf": true
           },
-          "amount": 1
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "GERMA 66"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "name": "Vinsmoke Niji",
+                "maxCost": 5
+              },
+              "amount": 1
+            }
+          ]
         }
       ]
     }

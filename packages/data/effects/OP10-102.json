@@ -1,21 +1,25 @@
 {
   "id": "OP10-102",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 1000,
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "maxCharacters": 3,
-        "condition": "HasType",
-        "value": "RevolutionaryArmy"
-      },
-      "duration": "DuringYourTurn"
-    },
-    {
-      "type": "FlipLife",
-      "count": 1
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCharacters": 3,
+            "condition": "HasType",
+            "value": "RevolutionaryArmy"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
     }
   ]
 }

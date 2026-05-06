@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "count": 1,
-      "operator": "<="
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP02-050"
+  "id": "OP02-050",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "count": 1,
+        "operator": "<="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

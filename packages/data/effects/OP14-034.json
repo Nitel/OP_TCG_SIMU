@@ -1,36 +1,4 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "duration": "DuringYourTurn",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "color": "green",
-          "types": [
-            "Straw Hat Crew"
-          ],
-          "baseCostMin": 4
-        }
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "AllOwnCharacters",
-          "filter": {
-            "color": "green",
-            "types": [
-              "Straw Hat Crew"
-            ],
-            "baseCostMin": 4
-          }
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "conditions": [
@@ -48,5 +16,39 @@
       }
     ]
   },
-  "id": "OP14-034"
+  "id": "OP14-034",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "color": "green",
+            "types": [
+              "Straw Hat Crew"
+            ],
+            "baseCostMin": 4
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "color": "green",
+              "types": [
+                "Straw Hat Crew"
+              ],
+              "baseCostMin": 4
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

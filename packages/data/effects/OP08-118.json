@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -3000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1
+  "id": "OP08-118",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "EndOfOpponentTurn"
         },
-        "duration": "EndOfOpponentTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "EndOfOpponentTurn"
         },
-        "duration": "EndOfOpponentTurn"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 3000,
-          "maxCount": 1
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP08-118"
+      ]
+    }
+  ]
 }

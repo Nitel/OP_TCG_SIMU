@@ -1,20 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "cardType": "DON"
-    },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "target": {
-          "scope": "OwnLeader"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "condition": {
@@ -33,5 +17,23 @@
       }
     ]
   },
-  "id": "OP13-003"
+  "id": "OP13-003",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "DON"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    }
+  ]
 }

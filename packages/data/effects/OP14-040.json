@@ -1,27 +1,31 @@
 {
   "id": "OP14-040",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "excludeSelf": true
-      },
-      "optional": true,
-      "thenActions": [
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "AttachDon",
-          "count": 2,
-          "requireRested": true,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "typeFilter": {
-              "anyOf": [
-                "Fish-Man",
-                "Merfolk"
-              ]
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 2,
+              "requireRested": true,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "typeFilter": {
+                  "anyOf": [
+                    "Fish-Man",
+                    "Merfolk"
+                  ]
+                }
+              }
             }
-          }
+          ]
         }
       ]
     }

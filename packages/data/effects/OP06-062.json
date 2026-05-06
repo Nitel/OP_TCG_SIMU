@@ -1,39 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "cost": {
-      "type": "GiveDon",
-      "amount": 1,
-      "optional": true
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 2,
-        "optional": true,
-        "filter": {
-          "cardTypes": [
-            "Character",
-            "Event",
-            "Stage"
-          ]
-        },
-        "thenActions": [
-          {
-            "type": "PlayFromHand",
-            "filter": {
-              "subType": "GERMA 66",
-              "cardType": "Character",
-              "maxPower": 4000
-            },
-            "maxCount": 4,
-            "differentNames": true,
-            "source": "Trash"
-          }
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "cost": {
@@ -56,5 +21,42 @@
       }
     ]
   },
-  "id": "OP06-062"
+  "id": "OP06-062",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "type": "GiveDon",
+        "amount": 1,
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "optional": true,
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event",
+              "Stage"
+            ]
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "GERMA 66",
+                "cardType": "Character",
+                "maxPower": 4000
+              },
+              "maxCount": 4,
+              "differentNames": true,
+              "source": "Trash"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

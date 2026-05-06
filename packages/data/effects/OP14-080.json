@@ -1,32 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "TurnCount",
-        "limit": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "hasType": "Thriller Bark Pirates"
-          }
-        }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "AllOwnCharactersAndLeader"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "actions": [
@@ -45,5 +17,35 @@
       }
     ]
   },
-  "id": "OP14-080"
+  "id": "OP14-080",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "limit": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "Thriller Bark Pirates"
+            }
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

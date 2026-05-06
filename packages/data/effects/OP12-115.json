@@ -1,28 +1,32 @@
 {
   "id": "OP12-115",
-  "trigger": "Counter",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "ChooseOwnCharacterOrLeader",
-        "count": 1
-      },
-      "duration": "EndOfBattle"
-    },
-    {
-      "type": "ReturnToHand",
-      "filter": {
-        "name": "Trafalgar Law"
-      },
-      "source": "Trash",
-      "count": 1,
-      "condition": {
-        "type": "LifeCount",
-        "value": 2,
-        "comparison": "LessThanOrEqual"
-      }
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "name": "Trafalgar Law"
+          },
+          "source": "Trash",
+          "count": 1,
+          "condition": {
+            "type": "LifeCount",
+            "value": 2,
+            "comparison": "LessThanOrEqual"
+          }
+        }
+      ]
     }
   ]
 }

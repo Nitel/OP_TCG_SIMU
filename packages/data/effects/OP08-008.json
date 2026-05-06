@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -1000,
-        "target": {
-          "scope": "ChooseOpponentCharacter"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "actions": [
@@ -29,5 +16,20 @@
       }
     ]
   },
-  "id": "OP08-008"
+  "id": "OP08-008",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

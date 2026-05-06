@@ -1,18 +1,22 @@
 {
   "id": "OP01-050",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "name": "Shachi",
-    "negate": true
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "filter": {
-        "name": "Shachi"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Shachi",
+        "negate": true
       },
-      "limit": 1
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "name": "Shachi"
+          },
+          "limit": 1
+        }
+      ]
     }
   ]
 }

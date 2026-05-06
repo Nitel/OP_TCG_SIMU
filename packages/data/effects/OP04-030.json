@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 5,
-          "rested": true
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Trigger",
     "condition": {
@@ -29,5 +16,20 @@
       }
     ]
   },
-  "id": "OP04-030"
+  "id": "OP04-030",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "rested": true
+          }
+        }
+      ]
+    }
+  ]
 }

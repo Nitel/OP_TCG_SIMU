@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "scope": "OwnCharacterOrLeader"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
+  "id": "OP14-036",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "OwnCharacterOrLeader"
         }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxTargets": 1
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
         },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP14-036"
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

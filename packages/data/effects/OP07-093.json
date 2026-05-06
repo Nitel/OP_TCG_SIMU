@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "source": "trash",
-        "destination": "bottomOfDeck",
-        "count": 3,
-        "optional": true
-      },
-      {
-        "type": "ForceDiscard",
-        "target": "opponent",
-        "count": 1
-      },
-      {
-        "type": "SearchDeck",
-        "source": "opponentTrash",
-        "destination": "opponentBottomOfDeck",
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP07-093"
+  "id": "OP07-093",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "source": "trash",
+          "destination": "bottomOfDeck",
+          "count": 3,
+          "optional": true
+        },
+        {
+          "type": "ForceDiscard",
+          "target": "opponent",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "source": "opponentTrash",
+          "destination": "opponentBottomOfDeck",
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

@@ -1,20 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "condition": {
@@ -47,5 +31,23 @@
       }
     ]
   },
-  "id": "OP02-114"
+  "id": "OP02-114",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

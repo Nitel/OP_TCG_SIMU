@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4,
-          "isRested": true
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -25,5 +12,20 @@
       }
     ]
   },
-  "id": "OP06-036"
+  "id": "OP06-036",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "isRested": true
+          }
+        }
+      ]
+    }
+  ]
 }

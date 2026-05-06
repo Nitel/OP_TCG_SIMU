@@ -1,34 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxAmount": 1
-        },
-        "duration": "EndOfTurn"
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4,
-          "maxAmount": 1
-        },
-        "condition": {
-          "type": "OpponentLifeCount",
-          "comparison": "<=",
-          "value": 2
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -56,5 +26,37 @@
       }
     ]
   },
-  "id": "OP07-116"
+  "id": "OP07-116",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxAmount": 1
+          },
+          "condition": {
+            "type": "OpponentLifeCount",
+            "comparison": "<=",
+            "value": 2
+          }
+        }
+      ]
+    }
+  ]
 }

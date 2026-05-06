@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "cost": {
-      "type": "AttachDon",
-      "amount": 1,
-      "optional": true
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": "OpponentAttackingUnitPower",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP04-069"
+  "id": "OP04-069",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "cost": {
+        "type": "AttachDon",
+        "amount": 1,
+        "optional": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": "OpponentAttackingUnitPower",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

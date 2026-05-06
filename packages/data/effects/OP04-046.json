@@ -1,21 +1,25 @@
 {
   "id": "OP04-046",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Animal Kingdom Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByName",
-        "name": "Plague Rounds|Ice Oni"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Animal Kingdom Pirates"
       },
-      "lookAtCount": 7,
-      "maxReveal": 2,
-      "destination": "hand",
-      "placeRest": "bottom"
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Plague Rounds|Ice Oni"
+          },
+          "lookAtCount": 7,
+          "maxReveal": 2,
+          "destination": "hand",
+          "placeRest": "bottom"
+        }
+      ]
     }
   ]
 }

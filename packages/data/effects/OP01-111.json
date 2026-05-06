@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnBlock",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "amount": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "AttachDon",
-        "amount": -1,
-        "target": {
-          "scope": "Self"
+  "id": "OP01-111",
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 1
         }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "amount": -1,
+          "target": {
+            "scope": "Self"
+          }
         },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP01-111"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,26 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "type": "Rest",
-      "target": {
-        "scope": "Self"
-      }
-    },
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "StartOfTurn",
     "condition": {
@@ -47,5 +25,29 @@
       }
     ]
   },
-  "id": "OP11-046"
+  "id": "OP11-046",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

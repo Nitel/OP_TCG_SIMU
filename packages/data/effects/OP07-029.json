@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Supernovas"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "condition": {
@@ -31,5 +14,24 @@
     ],
     "limitPerTurn": 1
   },
-  "id": "OP07-029"
+  "id": "OP07-029",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

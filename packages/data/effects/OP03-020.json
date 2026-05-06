@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "value": "Portgas.D.Ace"
-    },
-    "cost": {
-      "type": "HasRestingDon",
-      "count": 2
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "cardType": "Event"
-        },
-        "searchCount": 5,
-        "revealCount": 1,
-        "destination": "hand",
-        "remainder": "BottomOfDeck"
-      }
-    ]
-  },
-  "id": "OP03-020"
+  "id": "OP03-020",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Portgas.D.Ace"
+      },
+      "cost": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Event"
+          },
+          "searchCount": 5,
+          "revealCount": 1,
+          "destination": "hand",
+          "remainder": "BottomOfDeck"
+        }
+      ]
+    }
+  ]
 }

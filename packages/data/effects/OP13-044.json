@@ -1,27 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "conditions": [
-          {
-            "type": "HasRestingDon"
-          }
-        ],
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "filter": {
-            "type": "HasAnyType",
-            "values": [
-              "Whitebeard Pirates"
-            ]
-          }
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -31,5 +8,30 @@
       }
     ]
   },
-  "id": "OP13-044"
+  "id": "OP13-044",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "conditions": [
+            {
+              "type": "HasRestingDon"
+            }
+          ],
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": {
+              "type": "HasAnyType",
+              "values": [
+                "Whitebeard Pirates"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

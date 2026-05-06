@@ -1,19 +1,23 @@
 {
   "id": "OP05-072",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 8
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "limit": 2
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 8
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "limit": 2
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

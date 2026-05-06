@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Buggy"
-    },
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {}
+  "id": "ST25-004",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Buggy"
       },
-      {
-        "type": "KO",
-        "target": "self"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Cross Guild",
-          "cardType": "Character",
-          "maxCost": 6
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {}
         },
-        "optional": true
-      }
-    ]
-  },
-  "id": "ST25-004"
+        {
+          "type": "KO",
+          "target": "self"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Cross Guild",
+            "cardType": "Character",
+            "maxCost": 6
+          },
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

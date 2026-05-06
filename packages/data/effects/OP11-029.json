@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 1,
-          "maxCount": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnBlock",
     "actions": [
@@ -21,5 +8,20 @@
       }
     ]
   },
-  "id": "OP11-029"
+  "id": "OP11-029",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ]
 }

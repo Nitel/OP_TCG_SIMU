@@ -1,18 +1,22 @@
 {
   "id": "OP03-024",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "subType": "East Blue"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 4,
-        "maxCount": 2
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "East Blue"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 2
+          }
+        }
+      ]
     }
   ]
 }

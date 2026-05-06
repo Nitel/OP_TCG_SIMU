@@ -1,25 +1,29 @@
 {
   "id": "OP14-087",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Baroque Works"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "type": "Baroque Works",
-        "excludeName": "Miss.Valentine(Mikita)"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Baroque Works"
       },
-      "searchCount": 4,
-      "selectCount": {
-        "min": 0,
-        "max": 1
-      },
-      "destination": "hand",
-      "trashRest": true
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Baroque Works",
+            "excludeName": "Miss.Valentine(Mikita)"
+          },
+          "searchCount": 4,
+          "selectCount": {
+            "min": 0,
+            "max": 1
+          },
+          "destination": "hand",
+          "trashRest": true
+        }
+      ]
     }
   ]
 }

@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TrashCount",
-      "value": 7,
-      "comparison": ">="
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "condition": {
@@ -36,5 +18,25 @@
       }
     ]
   },
-  "id": "OP13-080"
+  "id": "OP13-080",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "value": 7,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

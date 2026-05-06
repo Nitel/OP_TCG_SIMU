@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": ">=",
-      "value": 10
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "amount": 1
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP08-095"
+  "id": "OP08-095",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 10
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "amount": 1
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

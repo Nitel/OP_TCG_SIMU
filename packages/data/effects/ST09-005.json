@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "DoubleAttack",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -35,5 +18,24 @@
       }
     ]
   },
-  "id": "ST09-005"
+  "id": "ST09-005",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

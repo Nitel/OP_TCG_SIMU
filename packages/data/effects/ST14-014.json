@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "name": "Character",
-      "minCost": 8
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxTargets": 1
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "ST14-014"
+  "id": "ST14-014",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

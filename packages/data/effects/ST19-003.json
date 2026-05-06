@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Smoker"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -4000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "count": 1
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "condition": {
@@ -38,5 +20,25 @@
       "requiresPlayedThisTurn": true
     }
   },
-  "id": "ST19-003"
+  "id": "ST19-003",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Smoker"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,20 +1,24 @@
 {
   "id": "OP13-069",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 1
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "ReturnToHand",
-      "filter": {
-        "kind": "ByType",
-        "cardType": "Stage",
-        "maxCost": 3,
-        "source": "trash"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      "count": 1
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Stage",
+            "maxCost": 3,
+            "source": "trash"
+          },
+          "count": 1
+        }
+      ]
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "cardType": "Character",
-        "minPower": 8000
-      }
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxCount": 1
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP14-018"
+  "id": "OP14-018",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "cardType": "Character",
+          "minPower": 8000
+        }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

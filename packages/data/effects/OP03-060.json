@@ -1,21 +1,25 @@
 {
   "id": "OP03-060",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 1
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 2
-    },
-    {
-      "type": "ForceDiscard",
-      "count": 1,
-      "filter": {
-        "zone": "hand"
-      }
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "zone": "hand"
+          }
+        }
+      ]
     }
   ]
 }

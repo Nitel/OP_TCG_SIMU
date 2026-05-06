@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true
+  "id": "ST07-004",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "ST07-004"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

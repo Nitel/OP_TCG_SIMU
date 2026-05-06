@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Any",
-          "type": "Supernovas"
-        },
-        "maxCards": 1,
-        "destination": "hand",
-        "deckPosition": "Top",
-        "limit": 5
-      }
-    ]
-  },
-  "id": "ST02-007"
+  "id": "ST02-007",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any",
+            "type": "Supernovas"
+          },
+          "maxCards": 1,
+          "destination": "hand",
+          "deckPosition": "Top",
+          "limit": 5
+        }
+      ]
+    }
+  ]
 }

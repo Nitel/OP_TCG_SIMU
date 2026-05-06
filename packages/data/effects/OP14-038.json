@@ -1,28 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "count": 2
-        }
-      },
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 7000,
-          "count": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -36,5 +12,31 @@
       }
     ]
   },
-  "id": "OP14-038"
+  "id": "OP14-038",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 2
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 7000,
+            "count": 1
+          }
+        }
+      ]
+    }
+  ]
 }

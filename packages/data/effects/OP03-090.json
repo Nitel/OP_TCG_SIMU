@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -30,5 +13,24 @@
       }
     ]
   },
-  "id": "OP03-090"
+  "id": "OP03-090",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "optional": true,
-        "filter": {}
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "Self"
+  "id": "EB03-062",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "optional": true,
+          "filter": {}
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "optional": true,
+          "filter": {},
+          "destination": "Life"
+        },
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "name": "Trafalgar Law",
+            "maxCost": 7
+          }
         }
-      },
-      {
-        "type": "SearchDeck",
-        "count": 1,
-        "optional": true,
-        "filter": {},
-        "destination": "Life"
-      },
-      {
-        "type": "PlayFromHand",
-        "count": 1,
-        "optional": true,
-        "filter": {
-          "name": "Trafalgar Law",
-          "maxCost": 7
-        }
-      }
-    ]
-  },
-  "id": "EB03-062"
+      ]
+    }
+  ]
 }

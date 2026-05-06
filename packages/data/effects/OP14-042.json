@@ -1,23 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Fish-Man"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByCost",
-          "minCost": 2
-        },
-        "destination": "hand",
-        "limit": 1,
-        "deckPosition": "top4",
-        "restToBottom": true
-      }
-    ]
-  },
-  "id": "OP14-042"
+  "id": "OP14-042",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Fish-Man"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "minCost": 2
+          },
+          "destination": "hand",
+          "limit": 1,
+          "deckPosition": "top4",
+          "restToBottom": true
+        }
+      ]
+    }
+  ]
 }

@@ -1,18 +1,22 @@
 {
   "id": "OP13-094",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "filter": {
-          "hasType": "CelestialDragons"
-        },
-        "maxTargets": 1
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "CelestialDragons"
+            },
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

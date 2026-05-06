@@ -1,29 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "cardType": "SWORD"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "AllOwnCharacters",
-          "filters": [
-            {
-              "type": "CardType",
-              "value": "SWORD"
-            }
-          ]
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "conditions": [
@@ -42,5 +17,32 @@
       }
     ]
   },
-  "id": "OP11-001"
+  "id": "OP11-001",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "cardType": "SWORD"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filters": [
+              {
+                "type": "CardType",
+                "value": "SWORD"
+              }
+            ]
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

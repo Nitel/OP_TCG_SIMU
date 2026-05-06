@@ -1,23 +1,27 @@
 {
   "id": "OP05-043",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Multicolor"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "Any"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Multicolor"
       },
-      "count": {
-        "min": 0,
-        "max": 1
-      },
-      "destination": "hand",
-      "searchFromTop": 3,
-      "note": "Look at 3 cards from top; add up to 1 to hand; place rest at top or bottom of deck in any order"
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": {
+            "min": 0,
+            "max": 1
+          },
+          "destination": "hand",
+          "searchFromTop": 3,
+          "note": "Look at 3 cards from top; add up to 1 to hand; place rest at top or bottom of deck in any order"
+        }
+      ]
     }
   ]
 }

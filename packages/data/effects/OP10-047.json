@@ -1,28 +1,32 @@
 {
   "id": "OP10-047",
-  "trigger": "OnAttack",
-  "actions": [
+  "effects": [
     {
-      "type": "ReturnToHand",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "minCost": 3,
-        "filters": [
-          {
-            "attribute": "type",
-            "value": "Revolutionary Army"
-          }
-        ]
-      },
-      "optional": true
-    },
-    {
-      "type": "PowerBoost",
-      "amount": 3000,
-      "target": {
-        "scope": "Self"
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 3,
+            "filters": [
+              {
+                "attribute": "type",
+                "value": "Revolutionary Army"
+              }
+            ]
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

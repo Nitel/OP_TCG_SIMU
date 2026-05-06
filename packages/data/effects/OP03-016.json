@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Portgas.D.Ace"
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 8000
-        },
-        "maxTargets": 1
+  "id": "OP03-016",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Portgas.D.Ace"
       },
-      {
-        "type": "GiveKeyword",
-        "keyword": "DoubleAttack",
-        "target": {
-          "scope": "OwnLeader"
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 8000
+          },
+          "maxTargets": 1
         },
-        "duration": "EndOfTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "OwnLeader"
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
         },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP03-016"
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

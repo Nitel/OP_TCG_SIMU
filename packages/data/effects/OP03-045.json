@@ -1,15 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "StartOfTurn",
     "condition": {
@@ -28,5 +17,18 @@
       }
     ]
   },
-  "id": "OP03-045"
+  "id": "OP03-045",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

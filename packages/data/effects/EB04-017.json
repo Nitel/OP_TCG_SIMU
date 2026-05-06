@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "subType": "Minks",
-      "minCount": 3
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -1,
-        "target": {
-          "scope": "AllOpponentCharacters"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "condition": {
@@ -34,5 +16,25 @@
       }
     ]
   },
-  "id": "EB04-017"
+  "id": "EB04-017",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "subType": "Minks",
+        "minCount": 3
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

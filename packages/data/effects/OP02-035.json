@@ -1,35 +1,39 @@
 {
   "id": "OP02-035",
-  "trigger": "Activated",
-  "conditions": [
+  "effects": [
     {
-      "type": "HasAttachedDon",
-      "value": 1
-    }
-  ],
-  "actions": [
-    {
-      "type": "Rest",
-      "target": {
-        "scope": "Self"
-      },
-      "count": 1
-    },
-    {
-      "type": "ReturnToHand",
-      "target": {
-        "scope": "Self"
-      },
-      "optional": true
-    },
-    {
-      "type": "PlayFromHand",
-      "filter": {
-        "cardType": "Character",
-        "maxCost": 3
-      },
-      "count": 1,
-      "optional": true
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 3
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
     }
   ]
 }

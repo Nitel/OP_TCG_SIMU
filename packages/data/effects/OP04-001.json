@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "count": 2
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "optional": true
+  "id": "OP04-001",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP04-001"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "optional": true
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

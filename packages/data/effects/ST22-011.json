@@ -1,26 +1,30 @@
 {
   "id": "ST22-011",
-  "trigger": "OnPlay",
-  "conditions": [
+  "effects": [
     {
-      "type": "RevealFromHand",
-      "amount": 2,
-      "cardFilter": {
-        "hasType": "Whitebeard Pirates"
-      },
-      "isOptional": true
-    }
-  ],
-  "actions": [
-    {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "OwnLeader",
-        "hasType": "Whitebeard Pirates",
-        "amount": 1
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "RevealFromHand",
+          "amount": 2,
+          "cardFilter": {
+            "hasType": "Whitebeard Pirates"
+          },
+          "isOptional": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader",
+            "hasType": "Whitebeard Pirates",
+            "amount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

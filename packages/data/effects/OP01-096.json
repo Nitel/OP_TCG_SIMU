@@ -1,27 +1,31 @@
 {
   "id": "OP01-096",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 2
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 3,
-        "maxCount": 1
-      }
-    },
-    {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 2,
-        "maxCount": 1,
-        "excludePreviouslyTargeted": true
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1,
+            "excludePreviouslyTargeted": true
+          }
+        }
+      ]
     }
   ]
 }

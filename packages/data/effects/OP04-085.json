@@ -1,26 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "subType": "Dressrosa"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "count": 1
-        },
-        "duration": "EndOfTurn"
-      },
-      {
-        "type": "TrashFromDeck",
-        "count": 1
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "condition": {
@@ -43,5 +21,29 @@
       }
     ]
   },
-  "id": "OP04-085"
+  "id": "OP04-085",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Dressrosa"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,23 +1,27 @@
 {
   "id": "OP08-001",
-  "trigger": "Activated",
-  "condition": {
-    "type": "Always"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "AttachDon",
-      "count": 1,
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "count": 3,
-        "filter": {
-          "hasType": [
-            "Animal",
-            "Drum Kingdom"
-          ]
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 3,
+            "filter": {
+              "hasType": [
+                "Animal",
+                "Drum Kingdom"
+              ]
+            }
+          }
         }
-      }
+      ]
     }
   ]
 }

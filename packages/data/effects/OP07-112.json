@@ -1,39 +1,41 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "Always"
-    },
-    "limit": "OncePerTurn",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "source": "TopOrBottom",
-        "optional": true
+  "id": "OP07-112",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4
+      "limit": "OncePerTurn",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "TopOrBottom",
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Any"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "optional": true
         },
-        "destination": "TopOfLife",
-        "count": 1,
-        "condition": {
-          "type": "TrashCount",
-          "value": 1,
-          "comparison": "LessOrEqual"
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "TopOfLife",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "value": 1,
+            "comparison": "LessOrEqual"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP07-112"
+      ]
+    }
+  ]
 }

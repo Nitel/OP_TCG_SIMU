@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "scope": "AnyCharacter",
-        "costComparison": "equal",
-        "costValue": 0
-      }
-    ],
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "quantity": 1
+  "id": "OP02-093",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "AnyCharacter",
+          "costComparison": "equal",
+          "costValue": 0
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1
+          },
+          "modifyCost": -1,
+          "duration": "DuringYourTurn"
         },
-        "modifyCost": -1,
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP02-093"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

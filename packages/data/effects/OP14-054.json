@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Fish-Man"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 3
-      }
-    ]
-  },
   "1": {
     "trigger": "EndOfTurn",
     "duration": "DuringYourTurn",
@@ -26,5 +13,20 @@
       }
     ]
   },
-  "id": "OP14-054"
+  "id": "OP14-054",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Fish-Man"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        }
+      ]
+    }
+  ]
 }

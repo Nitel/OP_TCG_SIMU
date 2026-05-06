@@ -1,22 +1,26 @@
 {
   "id": "OP04-040",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "cardAttribute": "cost",
-    "comparison": ">=",
-    "value": 8
-  },
-  "actions": [
+  "note": "Full implementation requires custom condition for 'total 4 or less in Life+hand' and conditional action selection between DrawCard and FlipLife",
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 1
-    },
-    {
-      "type": "FlipLife",
-      "count": 1,
-      "source": "DeckTop"
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardAttribute": "cost",
+        "comparison": ">=",
+        "value": 8
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "DeckTop"
+        }
+      ]
     }
-  ],
-  "note": "Full implementation requires custom condition for 'total 4 or less in Life+hand' and conditional action selection between DrawCard and FlipLife"
+  ]
 }

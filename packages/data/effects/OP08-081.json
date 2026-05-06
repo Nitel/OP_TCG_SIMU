@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "TrashCount",
-        "minCount": 3,
-        "cardTypeFilter": "CP"
-      }
-    ],
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "source": "trash",
-        "count": 3,
-        "cardTypeFilter": "CP",
-        "destination": "deckBottom",
-        "optional": true
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 0
+  "id": "OP08-081",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "minCount": 3,
+          "cardTypeFilter": "CP"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "source": "trash",
+          "count": 3,
+          "cardTypeFilter": "CP",
+          "destination": "deckBottom",
+          "optional": true
         },
-        "maxCount": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP08-081"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 0
+          },
+          "maxCount": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

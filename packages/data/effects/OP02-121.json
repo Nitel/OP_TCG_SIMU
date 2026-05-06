@@ -1,18 +1,4 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "duration": "DuringYourTurn",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "AllOpponentCharacters"
-        },
-        "amount": -5
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "actions": [
@@ -26,5 +12,21 @@
       }
     ]
   },
-  "id": "OP02-121"
+  "id": "OP02-121",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "duration": "DuringYourTurn",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "amount": -5
+        }
+      ]
+    }
+  ]
 }

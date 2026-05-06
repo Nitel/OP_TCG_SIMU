@@ -1,26 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "subType": "Supernovas",
-          "excludeSelf": true
-        },
-        "thenActions": [
-          {
-            "type": "GiveKeyword",
-            "keyword": "Rush",
-            "target": {
-              "scope": "Self"
-            },
-            "duration": "DuringYourTurn"
-          }
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "actions": [
@@ -39,5 +17,29 @@
       }
     ]
   },
-  "id": "OP15-099"
+  "id": "OP15-099",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Supernovas",
+            "excludeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

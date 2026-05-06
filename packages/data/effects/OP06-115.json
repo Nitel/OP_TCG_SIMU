@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "count": 1
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "PowerBoost",
-            "amount": 3000,
-            "target": {
-              "scope": "ChooseOwnCharacterOrLeader",
-              "count": 1
-            },
-            "duration": "EndOfBattle"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-115"
+  "id": "OP06-115",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "count": 1
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 3000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "count": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

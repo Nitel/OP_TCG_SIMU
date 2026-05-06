@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "restState": "Rested"
+  "id": "OP10-025",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "restState": "Rested"
+        },
+        "count": 2,
+        "comparison": "GreaterThanOrEqual"
       },
-      "count": 2,
-      "comparison": "GreaterThanOrEqual"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 3
-      },
-      {
-        "type": "ForceDiscard",
-        "count": 2
-      }
-    ]
-  },
-  "id": "OP10-025"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2
+        }
+      ]
+    }
+  ]
 }

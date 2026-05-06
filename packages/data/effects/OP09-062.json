@@ -1,26 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "subType": "Trigger"
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "GiveDon",
-            "count": 1
-          },
-          {
-            "type": "Rest",
-            "target": "addedDon"
-          }
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "description": "Banish - When this card deals damage, the target card is trashed without activating its Trigger",
@@ -32,5 +10,29 @@
       }
     ]
   },
-  "id": "OP09-062"
+  "id": "OP09-062",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Trigger"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "GiveDon",
+              "count": 1
+            },
+            {
+              "type": "Rest",
+              "target": "addedDon"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

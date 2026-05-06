@@ -1,19 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "DoubleAttack",
-        "target": {
-          "scope": "AllOwnCharacters",
-          "condition": "HasCardType",
-          "conditionValue": "Ohm"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "Trigger",
     "conditions": [
@@ -34,5 +19,22 @@
       }
     ]
   },
-  "id": "OP15-071"
+  "id": "OP15-071",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "condition": "HasCardType",
+            "conditionValue": "Ohm"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

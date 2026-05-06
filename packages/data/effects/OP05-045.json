@@ -1,22 +1,5 @@
 {
   "id": "OP05-045",
-  "trigger": "Activated",
-  "conditions": [
-    {
-      "type": "Always"
-    }
-  ],
-  "actions": [
-    {
-      "type": "SearchDeck",
-      "filter": {
-        "maxCost": 2,
-        "type": "Character"
-      },
-      "placement": "BottomOfDeck",
-      "optional": true
-    }
-  ],
   "costs": [
     {
       "type": "ForceDiscard",
@@ -28,6 +11,27 @@
       "target": {
         "scope": "Self"
       }
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "maxCost": 2,
+            "type": "Character"
+          },
+          "placement": "BottomOfDeck",
+          "optional": true
+        }
+      ]
     }
   ]
 }

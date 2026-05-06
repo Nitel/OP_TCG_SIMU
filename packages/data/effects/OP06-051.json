@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "kind": "Any"
-        },
-        "count": 2,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "ReturnToHand",
-            "target": {
-              "scope": "ChooseOpponentCharacter"
-            },
-            "count": 1
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-051"
+  "id": "OP06-051",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 2,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter"
+              },
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

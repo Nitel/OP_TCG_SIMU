@@ -1,29 +1,33 @@
 {
   "id": "OP15-039",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "OwnLeader"
-      }
-    },
-    {
-      "type": "ReturnToHand",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "filter": {
-          "subType": "Dressrosa"
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "subType": "Dressrosa"
+            }
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 3
+          }
         }
-      }
-    },
-    {
-      "type": "PlayFromHand",
-      "filter": {
-        "subType": "Dressrosa",
-        "cardType": "Character",
-        "maxCost": 3
-      }
+      ]
     }
   ]
 }

@@ -1,25 +1,29 @@
 {
   "id": "OP01-002",
-  "trigger": "Activated",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "name": "Character",
-    "count": 5
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "ReturnToHand",
-      "target": {
-        "scope": "ChooseOwnCharacter"
-      }
-    },
-    {
-      "type": "PlayFromHand",
-      "filter": {
-        "cardType": "Character",
-        "maxCost": 5,
-        "differentColorFrom": "returnedCharacter"
-      }
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "count": 5
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5,
+            "differentColorFrom": "returnedCharacter"
+          }
+        }
+      ]
     }
   ]
 }

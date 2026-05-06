@@ -1,27 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "filter": {
-          "status": "Resting"
-        }
-      },
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "source": "Opponent"
-      }
-    ],
-    "condition": {
-      "type": "Always"
-    }
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -39,5 +16,30 @@
       }
     ]
   },
-  "id": "EB03-053"
+  "id": "EB03-053",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "filter": {
+            "status": "Resting"
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "source": "Opponent"
+        }
+      ],
+      "condition": {
+        "type": "Always"
+      }
+    }
+  ]
 }

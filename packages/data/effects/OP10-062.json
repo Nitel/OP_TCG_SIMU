@@ -1,6 +1,5 @@
 {
   "id": "OP10-062",
-  "trigger": "OnKO",
   "costs": [
     {
       "type": "GiveDon",
@@ -8,20 +7,25 @@
       "amount": -1
     }
   ],
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Donquixote Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "color": "purple",
-        "cardType": "Event"
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Donquixote Pirates"
       },
-      "source": "trash",
-      "destination": "hand",
-      "amount": 1
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "color": "purple",
+            "cardType": "Event"
+          },
+          "source": "trash",
+          "destination": "hand",
+          "amount": 1
+        }
+      ]
     }
   ]
 }

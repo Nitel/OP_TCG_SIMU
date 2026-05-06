@@ -1,22 +1,26 @@
 {
   "id": "EB03-060",
-  "trigger": "Trigger",
-  "condition": {
-    "type": "LeaderIsName",
-    "name": "Nami"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByCost",
-        "minCost": 2,
-        "maxCost": 8
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Nami"
       },
-      "destination": "hand",
-      "optional": true,
-      "deckLookSize": 4,
-      "reveal": true
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "minCost": 2,
+            "maxCost": 8
+          },
+          "destination": "hand",
+          "optional": true,
+          "deckLookSize": 4,
+          "reveal": true
+        }
+      ]
     }
   ]
 }

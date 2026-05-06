@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 3000,
+  "id": "ST10-001",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxAmount": 1
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 4
+          },
           "maxAmount": 1
         }
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "cardType": "Character",
-          "maxCost": 4
-        },
-        "maxAmount": 1
-      }
-    ]
-  },
-  "id": "ST10-001"
+      ]
+    }
+  ]
 }

@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "operator": "LessThanOrEqual",
-      "opponentComparison": true
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
+  "id": "OP12-078",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "LessThanOrEqual",
+        "opponentComparison": true
       },
-      {
-        "type": "PowerBoost",
-        "amount": -3000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP12-078"
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

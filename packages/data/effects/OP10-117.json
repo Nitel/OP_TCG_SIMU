@@ -1,29 +1,33 @@
 {
   "id": "OP10-117",
-  "trigger": "Counter",
-  "condition": {
-    "type": "HasRestingDon",
-    "amount": {
-      "max": 1
-    }
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 3000,
-      "target": {
-        "scope": "ChooseOwnCharacterOrLeader",
-        "maxCount": 1
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasRestingDon",
+        "amount": {
+          "max": 1
+        }
       },
-      "duration": "EndOfBattle"
-    },
-    {
-      "type": "Activate",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "maxCost": 5,
-        "maxCount": 1
-      }
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        }
+      ]
     }
   ]
 }

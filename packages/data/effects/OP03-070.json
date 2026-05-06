@@ -1,22 +1,26 @@
 {
   "id": "OP03-070",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "optional": true,
-      "filter": {
-        "cardType": "Character",
-        "cost": 5
-      },
-      "thenActions": [
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
+          "type": "TrashFromHand",
+          "optional": true,
+          "filter": {
+            "cardType": "Character",
+            "cost": 5
           },
-          "duration": "DuringYourTurn"
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
         }
       ]
     }

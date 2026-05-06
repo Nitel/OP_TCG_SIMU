@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCostDynamic": "YourLifeCards+OpponentLifeCards"
+  "id": "OP04-112",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCostDynamic": "YourLifeCards+OpponentLifeCards"
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "condition": "HasAttachedDon",
+          "conditionValue": "≤1"
         }
-      },
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "condition": "HasAttachedDon",
-        "conditionValue": "≤1"
-      }
-    ]
-  },
-  "id": "OP04-112"
+      ]
+    }
+  ]
 }

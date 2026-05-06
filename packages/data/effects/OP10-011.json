@@ -1,15 +1,4 @@
 {
-  "0": {
-    "trigger": "OnBlock",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "StartOfTurn",
     "conditions": [
@@ -29,5 +18,18 @@
       }
     ]
   },
-  "id": "OP10-011"
+  "id": "OP10-011",
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

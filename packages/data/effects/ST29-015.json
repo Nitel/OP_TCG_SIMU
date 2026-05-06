@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "count": 1
+  "id": "ST29-015",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseOpponentCharacterOrLeader",
-          "count": 1
-        },
-        "duration": "EndOfTurn",
-        "condition": {
-          "type": "LifeCount",
-          "comparison": "<=",
-          "value": 1
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfTurn",
+          "condition": {
+            "type": "LifeCount",
+            "comparison": "<=",
+            "value": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "ST29-015"
+      ]
+    }
+  ]
 }

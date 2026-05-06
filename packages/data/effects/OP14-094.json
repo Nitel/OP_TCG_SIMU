@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "type": "Character",
-          "costCondition": "OR",
-          "costs": [
-            0,
-            8,
-            9,
-            10,
-            11,
-            12
-          ]
+  "id": "OP14-094",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "type": "Character",
+            "costCondition": "OR",
+            "costs": [
+              0,
+              8,
+              9,
+              10,
+              11,
+              12
+            ]
+          }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "source": "Hand"
-      }
-    ]
-  },
-  "id": "OP14-094"
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "Hand"
+        }
+      ]
+    }
+  ]
 }

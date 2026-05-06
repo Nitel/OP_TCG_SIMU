@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "lookCount": 5,
-        "filter": {
-          "kind": "ByType",
-          "type": "BigMomPirates",
-          "minCost": 2
-        },
-        "selectCount": 1,
-        "destination": "hand",
-        "remaining": "bottom_reorder"
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "conditions": [
@@ -41,5 +24,24 @@
       }
     ]
   },
-  "id": "OP11-070"
+  "id": "OP11-070",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "lookCount": 5,
+          "filter": {
+            "kind": "ByType",
+            "type": "BigMomPirates",
+            "minCost": 2
+          },
+          "selectCount": 1,
+          "destination": "hand",
+          "remaining": "bottom_reorder"
+        }
+      ]
+    }
+  ]
 }

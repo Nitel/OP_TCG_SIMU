@@ -1,19 +1,23 @@
 {
   "id": "OP03-017",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderHasType",
-    "subType": "Whitebeard Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -4000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "quantity": 1
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Whitebeard Pirates"
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

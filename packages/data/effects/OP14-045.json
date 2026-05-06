@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "conditions": [
-      {
-        "type": "TrashFromHand"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -26,5 +8,25 @@
       }
     ]
   },
-  "id": "OP14-045"
+  "id": "OP14-045",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "TrashFromHand"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

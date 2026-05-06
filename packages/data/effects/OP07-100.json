@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "TrashCount",
-      "operator": "LessThanOrEqual",
-      "value": 2
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
+  "id": "OP07-100",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TrashCount",
+        "operator": "LessThanOrEqual",
+        "value": 2
       },
-      {
-        "type": "TrashFromHand",
-        "count": 2,
-        "filter": {}
-      }
-    ]
-  },
-  "id": "OP07-100"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ]
 }

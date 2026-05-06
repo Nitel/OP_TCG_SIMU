@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "optional": true,
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnLeader"
-        }
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 1
+  "id": "OP04-081",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "optional": true,
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
         },
-        "optional": true
-      },
-      {
-        "type": "TrashFromDeck",
-        "count": 2
-      }
-    ]
-  },
-  "id": "OP04-081"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          },
+          "optional": true
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2
+        }
+      ]
+    }
+  ]
 }

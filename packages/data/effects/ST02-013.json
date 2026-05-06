@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ],
-    "duration": "EndOfOpponentTurn"
-  },
   "1": {
     "trigger": "EndOfTurn",
     "conditions": [
@@ -29,5 +16,20 @@
       }
     ]
   },
-  "id": "ST02-013"
+  "id": "ST02-013",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "EndOfOpponentTurn"
+    }
+  ]
 }

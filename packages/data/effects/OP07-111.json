@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "types": [
-            "Egghead"
-          ],
-          "excludeCards": [
-            "Lilith"
-          ]
-        },
-        "destination": "hand",
-        "quantity": {
-          "min": 0,
-          "max": 1
-        },
-        "lookAtCount": 5,
-        "restToBottom": true
-      }
-    ]
-  },
-  "id": "OP07-111"
+  "id": "OP07-111",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "Egghead"
+            ],
+            "excludeCards": [
+              "Lilith"
+            ]
+          },
+          "destination": "hand",
+          "quantity": {
+            "min": 0,
+            "max": 1
+          },
+          "lookAtCount": 5,
+          "restToBottom": true
+        }
+      ]
+    }
+  ]
 }

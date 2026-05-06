@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "filter": {
-          "kind": "ByType",
-          "value": "ODYSSEY",
-          "exclude": "Lim"
-        },
-        "revealCount": 1,
-        "destination": "hand",
-        "restToBottom": true
-      }
-    ]
-  },
   "1": {
     "trigger": "EndOfTurn",
     "duration": "DuringYourTurn",
@@ -34,5 +17,24 @@
       }
     ]
   },
-  "id": "OP09-037"
+  "id": "OP09-037",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "filter": {
+            "kind": "ByType",
+            "value": "ODYSSEY",
+            "exclude": "Lim"
+          },
+          "revealCount": 1,
+          "destination": "hand",
+          "restToBottom": true
+        }
+      ]
+    }
+  ]
 }

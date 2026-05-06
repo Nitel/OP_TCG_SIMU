@@ -1,20 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Thriller Bark Pirates"
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 5,
-        "filter": {
-          "source": "TopOfDeck"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "condition": {
@@ -29,5 +13,23 @@
       }
     ]
   },
-  "id": "OP15-084"
+  "id": "OP15-084",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Thriller Bark Pirates"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 5,
+          "filter": {
+            "source": "TopOfDeck"
+          }
+        }
+      ]
+    }
+  ]
 }

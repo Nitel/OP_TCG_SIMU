@@ -1,18 +1,22 @@
 {
   "id": "OP15-100",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "FlipLife",
-      "count": 1
-    },
-    {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 6
-      },
-      "maxCount": 1
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "maxCount": 1
+        }
+      ]
     }
   ]
 }

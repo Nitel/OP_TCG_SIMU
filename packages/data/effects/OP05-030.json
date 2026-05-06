@@ -1,15 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "duration": "EndOfOpponentTurn",
@@ -27,5 +16,18 @@
       }
     ]
   },
-  "id": "OP05-030"
+  "id": "OP05-030",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

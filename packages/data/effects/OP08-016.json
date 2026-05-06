@@ -1,6 +1,5 @@
 {
   "id": "OP08-016",
-  "trigger": "Activated",
   "cost": [
     {
       "type": "Rest",
@@ -9,23 +8,28 @@
       }
     }
   ],
-  "conditions": [
+  "effects": [
     {
-      "type": "LeaderIsName",
-      "value": "Tony Tony.Chopper"
-    }
-  ],
-  "actions": [
-    {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "AllOwnCharacters",
-        "filter": {
-          "cardName": "Tony Tony.Chopper"
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderIsName",
+          "value": "Tony Tony.Chopper"
         }
-      },
-      "duration": "DuringYourTurn"
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "cardName": "Tony Tony.Chopper"
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

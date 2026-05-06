@@ -1,35 +1,39 @@
 {
   "id": "OP12-015",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "RevealFromHand",
-      "count": 2,
-      "optional": true,
-      "filter": {
-        "cardType": "Event"
-      },
-      "thenActions": [
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "PlayFromHand",
-          "count": 1,
+          "type": "RevealFromHand",
+          "count": 2,
           "optional": true,
           "filter": {
-            "color": "Red",
-            "cardType": "Character",
-            "maxPower": 3000
-          }
-        },
-        {
-          "type": "AttachDon",
-          "count": 1,
-          "optional": true,
-          "filter": {
-            "hasRestingDon": true
+            "cardType": "Event"
           },
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "count": 1,
+              "optional": true,
+              "filter": {
+                "color": "Red",
+                "cardType": "Character",
+                "maxPower": 3000
+              }
+            },
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "optional": true,
+              "filter": {
+                "hasRestingDon": true
+              },
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
+            }
+          ]
         }
       ]
     }

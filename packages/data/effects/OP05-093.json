@@ -1,37 +1,39 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "source": "Trash",
-          "count": 3
+  "id": "OP05-093",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "source": "Trash",
+            "count": 3
+          },
+          "destination": "DeckBottom"
         },
-        "destination": "DeckBottom"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2,
-          "maxCount": 1
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
         }
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 1,
-          "maxCount": 1
-        }
-      }
-    ]
-  },
-  "id": "OP05-093"
+      ]
+    }
+  ]
 }

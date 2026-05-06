@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "HasAttachedDon",
-      "operator": "LessThanOrEqual",
-      "target": "Self",
-      "comparison": "OpponentAttachedDon"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "condition": {
@@ -34,5 +15,26 @@
       }
     ]
   },
-  "id": "OP06-067"
+  "id": "OP06-067",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "LessThanOrEqual",
+        "target": "Self",
+        "comparison": "OpponentAttachedDon"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

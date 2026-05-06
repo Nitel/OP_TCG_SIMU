@@ -1,18 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "EndOfTurn",
     "condition": {
@@ -40,5 +26,21 @@
       }
     ]
   },
-  "id": "ST11-002"
+  "id": "ST11-002",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

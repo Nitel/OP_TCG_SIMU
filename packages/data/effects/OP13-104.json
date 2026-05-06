@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "conditions": [
-      {
-        "type": "LeaderHasAnyType",
-        "value": [
-          "Red",
-          "Blue",
-          "Green",
-          "Purple",
-          "Black",
-          "White"
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "SearchDeck",
-            "count": 1,
-            "destination": "Life",
-            "position": "Top"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP13-104"
+  "id": "OP13-104",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "value": [
+            "Red",
+            "Blue",
+            "Green",
+            "Purple",
+            "Black",
+            "White"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "count": 1,
+              "destination": "Life",
+              "position": "Top"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

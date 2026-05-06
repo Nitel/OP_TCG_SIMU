@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "TrashCount",
-        "value": 2,
-        "comparison": "GreaterOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "source": "Trash",
-        "cardType": "Thriller Bark Pirates",
-        "count": 2,
-        "destination": "DeckBottom",
-        "cost": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "exclude": "[Perona]",
-          "count": 1
+  "id": "OP10-092",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "value": 2,
+          "comparison": "GreaterOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "source": "Trash",
+          "cardType": "Thriller Bark Pirates",
+          "count": 2,
+          "destination": "DeckBottom",
+          "cost": true
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP10-092"
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "exclude": "[Perona]",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

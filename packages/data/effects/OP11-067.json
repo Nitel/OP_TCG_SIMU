@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "duration": "DuringYourTurn",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "minCost": 3,
-          "subType": "Big Mom Pirates",
-          "count": 2,
-          "maxCount": 2
+  "id": "OP11-067",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 3,
+            "subType": "Big Mom Pirates",
+            "count": 2,
+            "maxCount": 2
+          }
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true,
+          "source": "DONDeck"
         }
-      },
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "rest": true,
-        "source": "DONDeck"
-      }
-    ]
-  },
-  "id": "OP11-067"
+      ]
+    }
+  ]
 }

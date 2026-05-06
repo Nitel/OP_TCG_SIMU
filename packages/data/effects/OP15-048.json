@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "cardType": "Event"
-        },
-        "thenActions": [
-          {
-            "type": "DrawCard",
-            "count": 2
-          }
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "duration": "EndOfOpponentTurn",
@@ -28,5 +11,24 @@
       }
     ]
   },
-  "id": "OP15-048"
+  "id": "OP15-048",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

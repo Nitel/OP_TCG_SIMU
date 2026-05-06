@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "power": {
-            "lessThanOrEqual": 6000
+  "id": "OP10-010",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "power": {
+              "lessThanOrEqual": 6000
+            }
+          },
+          "count": {
+            "lessThanOrEqual": 1
           }
-        },
-        "count": {
-          "lessThanOrEqual": 1
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP10-010"
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

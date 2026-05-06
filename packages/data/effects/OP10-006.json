@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "RevealFromHand",
-            "count": 1,
-            "filter": {
-              "subType": "Smiley"
-            },
-            "thenActions": [
-              {
-                "type": "PlayFromHand",
-                "count": 1,
-                "filter": {
-                  "subType": "Smiley"
+  "id": "OP10-006",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 5,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "RevealFromHand",
+              "count": 1,
+              "filter": {
+                "subType": "Smiley"
+              },
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "count": 1,
+                  "filter": {
+                    "subType": "Smiley"
+                  }
                 }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP10-006"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

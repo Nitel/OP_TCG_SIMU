@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "OncePerTurn"
-      }
-    ],
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "minCost": 2
+  "id": "ST12-001",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "OncePerTurn"
         }
-      },
-      {
-        "type": "PlaySelf",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxPower": 7000
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 2
+          }
+        },
+        {
+          "type": "PlaySelf",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxPower": 7000
+          }
         }
-      }
-    ]
-  },
-  "id": "ST12-001"
+      ]
+    }
+  ]
 }

@@ -1,31 +1,35 @@
 {
   "id": "OP07-048",
   "cost": 2,
-  "trigger": "Activated",
-  "conditions": [
+  "effects": [
     {
-      "type": "Always"
-    }
-  ],
-  "actions": [
-    {
-      "type": "RevealFromHand",
-      "source": "deck",
-      "count": 1,
-      "position": "top"
-    },
-    {
-      "type": "PlayFromHand",
-      "filter": {
-        "type": "The Seven Warlords of the Sea",
-        "maxCost": 4
-      },
-      "destination": "board",
-      "restCondition": true
-    },
-    {
-      "type": "PlaySelf",
-      "destination": "deckBottom"
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "source": "deck",
+          "count": 1,
+          "position": "top"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "The Seven Warlords of the Sea",
+            "maxCost": 4
+          },
+          "destination": "board",
+          "restCondition": true
+        },
+        {
+          "type": "PlaySelf",
+          "destination": "deckBottom"
+        }
+      ]
     }
   ]
 }

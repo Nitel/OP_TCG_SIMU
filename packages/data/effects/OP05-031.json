@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasRestingDon",
-      "minCount": 2
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxCost": 1,
-          "mustBeResting": true
-        },
-        "effect": "setActive"
-      }
-    ],
-    "once": "PerTurn"
-  },
-  "id": "OP05-031"
+  "id": "OP05-031",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "minCount": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1,
+            "mustBeResting": true
+          },
+          "effect": "setActive"
+        }
+      ],
+      "once": "PerTurn"
+    }
+  ]
 }

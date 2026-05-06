@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Baroque Works"
-      }
-    ],
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Any"
-        },
-        "count": 1,
-        "destination": "life"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "conditions": [
@@ -40,5 +21,26 @@
       }
     ]
   },
-  "id": "OP04-060"
+  "id": "OP04-060",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Baroque Works"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1,
+          "destination": "life"
+        }
+      ]
+    }
+  ]
 }

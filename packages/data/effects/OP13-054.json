@@ -1,22 +1,26 @@
 {
   "id": "OP13-054",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "max": 3
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 2
-    },
-    {
-      "type": "GiveDon",
-      "count": 1,
-      "target": {
-        "scope": "OwnLeader"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "max": 3
       },
-      "restriction": "rested"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "restriction": "rested"
+        }
+      ]
     }
   ]
 }

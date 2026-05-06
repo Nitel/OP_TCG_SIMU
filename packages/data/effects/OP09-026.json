@@ -1,19 +1,23 @@
 {
   "id": "OP09-026",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasRestingDon",
-    "value": 2,
-    "comparison": ">="
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 5,
-        "maxCount": 1
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "value": 2,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        }
+      ]
     }
   ]
 }

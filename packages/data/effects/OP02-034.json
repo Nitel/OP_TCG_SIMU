@@ -1,15 +1,19 @@
 {
   "id": "OP02-034",
-  "trigger": "OnAttack",
   "cost": 1,
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 2,
-        "maxCount": 1
-      }
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
+        }
+      ]
     }
   ]
 }

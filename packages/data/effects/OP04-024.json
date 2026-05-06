@@ -1,34 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "triggerSource": "Opponent",
-    "triggerCondition": "HasCardType",
-    "triggerConditionParams": {
-      "cardType": "Character"
-    },
-    "duration": "EndOfOpponentTurn",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Donquixote Pirates"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxAmount": 1
-        }
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "actions": [
@@ -42,5 +12,37 @@
       }
     ]
   },
-  "id": "OP04-024"
+  "id": "OP04-024",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "triggerSource": "Opponent",
+      "triggerCondition": "HasCardType",
+      "triggerConditionParams": {
+        "cardType": "Character"
+      },
+      "duration": "EndOfOpponentTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Donquixote Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxAmount": 1
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP12-101",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "condition": {
+            "type": "LeaderHasType",
+            "typeId": "Supernovas"
+          },
+          "duration": "EndOfOpponentTurn"
         }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "condition": {
-          "type": "LeaderHasType",
-          "typeId": "Supernovas"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP12-101"
+      ]
+    }
+  ]
 }

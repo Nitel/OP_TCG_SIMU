@@ -1,21 +1,25 @@
 {
   "id": "OP10-103",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 1,
-      "optional": true,
-      "source": "Life"
-    },
-    {
-      "type": "PlayFromHand",
-      "filter": {
-        "cardType": "Character",
-        "subType": "Supernovas"
-      },
-      "count": 1,
-      "destination": "Life"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "optional": true,
+          "source": "Life"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "subType": "Supernovas"
+          },
+          "count": 1,
+          "destination": "Life"
+        }
+      ]
     }
   ]
 }

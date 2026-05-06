@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 7,
-        "filter": {
-          "source": "Deck",
-          "position": "Top"
-        },
-        "optional": true
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -31,5 +13,25 @@
       }
     ]
   },
-  "id": "OP03-051"
+  "id": "OP03-051",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 7,
+          "filter": {
+            "source": "Deck",
+            "position": "Top"
+          },
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

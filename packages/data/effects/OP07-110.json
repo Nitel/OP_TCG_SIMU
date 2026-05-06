@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2
+  "id": "OP07-110",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
         },
-        "condition": "LifeFlipped"
-      }
-    ]
-  },
-  "id": "OP07-110"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          },
+          "condition": "LifeFlipped"
+        }
+      ]
+    }
+  ]
 }

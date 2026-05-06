@@ -1,29 +1,33 @@
 {
   "id": "EB04-011",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "filter": {
-      "type": "Neptunian"
-    }
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": {
-        "countCardOnBoard": {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
           "type": "Neptunian"
         }
-      }
-    },
-    {
-      "type": "ForceDiscard",
-      "source": "Hand",
-      "count": {
-        "countCardOnBoard": {
-          "type": "Neptunian"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": {
+            "countCardOnBoard": {
+              "type": "Neptunian"
+            }
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "Hand",
+          "count": {
+            "countCardOnBoard": {
+              "type": "Neptunian"
+            }
+          }
         }
-      }
+      ]
     }
   ]
 }

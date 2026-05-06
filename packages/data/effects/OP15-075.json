@@ -1,28 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Enel"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
-        },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 3000
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -37,5 +13,31 @@
       }
     ]
   },
-  "id": "OP15-075"
+  "id": "OP15-075",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Enel"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    }
+  ]
 }

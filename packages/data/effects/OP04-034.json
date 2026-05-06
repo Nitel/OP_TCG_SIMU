@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 3
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 3,
-          "isRested": true
-        },
-        "maxTargets": 1
-      }
-    ]
-  },
-  "id": "OP04-034"
+  "id": "OP04-034",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "isRested": true
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ]
 }

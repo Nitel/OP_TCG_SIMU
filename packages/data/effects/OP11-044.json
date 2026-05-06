@@ -1,29 +1,33 @@
 {
   "id": "OP11-044",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "cardTypes": [
-          "Character",
-          "Event",
-          "Stage"
-        ]
-      },
-      "thenActions": [
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "AllOwnCharacters",
-            "typeFilter": {
-              "types": [
-                "GERMA 66"
-              ]
-            }
+          "type": "TrashFromHand",
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event",
+              "Stage"
+            ]
           },
-          "duration": "DuringYourTurn"
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "target": {
+                "scope": "AllOwnCharacters",
+                "typeFilter": {
+                  "types": [
+                    "GERMA 66"
+                  ]
+                }
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
         }
       ]
     }

@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnBlock",
-    "conditions": [
-      {
-        "type": "HandCount",
-        "operator": "<=",
-        "value": 3
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
+  "id": "OP05-047",
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [
+        {
+          "type": "HandCount",
+          "operator": "<=",
+          "value": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP05-047"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

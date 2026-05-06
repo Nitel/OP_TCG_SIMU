@@ -1,21 +1,25 @@
 {
   "id": "OP05-048",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 1
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByCost",
-        "maxCost": 2,
-        "cardType": "Character"
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      "destination": "deck",
-      "position": "bottom",
-      "maxResults": 1
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 2,
+            "cardType": "Character"
+          },
+          "destination": "deck",
+          "position": "bottom",
+          "maxResults": 1
+        }
+      ]
     }
   ]
 }

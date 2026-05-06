@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "condition": {
@@ -30,5 +17,20 @@
       }
     ]
   },
-  "id": "OP15-063"
+  "id": "OP15-063",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

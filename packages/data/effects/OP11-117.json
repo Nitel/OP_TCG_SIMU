@@ -1,27 +1,31 @@
 {
   "id": "OP11-117",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderIsName",
-    "value": "Shirahoshi"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "FlipLife",
-      "count": 1
-    },
-    {
-      "type": "PowerBoost",
-      "amount": 1000,
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "types": [
-          "Neptunian",
-          "Fish-Man",
-          "Merfolk"
-        ]
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Shirahoshi"
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "types": [
+              "Neptunian",
+              "Fish-Man",
+              "Merfolk"
+            ]
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

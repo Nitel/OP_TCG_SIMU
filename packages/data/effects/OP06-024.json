@@ -1,23 +1,27 @@
 {
   "id": "OP06-024",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "New Fish-Man Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "count": 1,
-      "filter": {
-        "cardType": "Character",
-        "subType": "Fish-Man",
-        "maxCost": 4
-      }
-    },
-    {
-      "type": "FlipLife",
-      "count": 1
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "New Fish-Man Pirates"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "subType": "Fish-Man",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
     }
   ]
 }

@@ -1,27 +1,31 @@
 {
   "id": "OP15-116",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderHasType",
-    "typeFilter": [
-      "Straw Hat Crew"
-    ]
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "RemoveLife",
-      "count": 1
-    },
-    {
-      "type": "SearchDeck",
-      "count": 1,
-      "filter": {},
-      "destination": "TopOfLifeCards"
-    },
-    {
-      "type": "TrashFromHand",
-      "count": 1,
-      "filter": {}
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "typeFilter": [
+          "Straw Hat Crew"
+        ]
+      },
+      "actions": [
+        {
+          "type": "RemoveLife",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {},
+          "destination": "TopOfLifeCards"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
     }
   ]
 }

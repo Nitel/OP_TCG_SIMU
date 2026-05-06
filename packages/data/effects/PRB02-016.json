@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "PRB02-016",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
         }
-      },
-      {
-        "type": "FlipLife",
-        "amount": 1
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "maxCount": 1
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "PRB02-016"
+        {
+          "type": "FlipLife",
+          "amount": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

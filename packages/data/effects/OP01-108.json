@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 5,
-          "maxCount": 1
+  "id": "OP01-108",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
         }
-      },
-      {
-        "type": "AttachDon",
-        "target": {
-          "scope": "Self"
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
         },
-        "value": -1
-      }
-    ]
-  },
-  "id": "OP01-108"
+        {
+          "type": "AttachDon",
+          "target": {
+            "scope": "Self"
+          },
+          "value": -1
+        }
+      ]
+    }
+  ]
 }

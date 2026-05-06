@@ -1,22 +1,26 @@
 {
   "id": "OP03-102",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 2
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "FlipLife",
-      "count": 1
-    },
-    {
-      "type": "SearchDeck",
-      "count": 1,
-      "filter": {
-        "kind": "Any"
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
       },
-      "destination": "life"
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "life"
+        }
+      ]
     }
   ]
 }

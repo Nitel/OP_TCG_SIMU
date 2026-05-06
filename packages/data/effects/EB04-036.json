@@ -1,29 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Foxy Pirates"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "ForceDiscard",
-        "count": 1
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 9,
-          "count": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "cost": 1,
@@ -43,5 +18,32 @@
       }
     ]
   },
-  "id": "EB04-036"
+  "id": "EB04-036",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Foxy Pirates"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 9,
+            "count": 1
+          }
+        }
+      ]
+    }
+  ]
 }

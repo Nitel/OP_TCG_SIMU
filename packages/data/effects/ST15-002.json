@@ -1,20 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
-        },
-        "condition": {
-          "type": "HasRestingDon",
-          "count": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "cost": [
@@ -36,5 +20,23 @@
       }
     ]
   },
-  "id": "ST15-002"
+  "id": "ST15-002",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "condition": {
+            "type": "HasRestingDon",
+            "count": 1
+          }
+        }
+      ]
+    }
+  ]
 }

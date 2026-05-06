@@ -1,20 +1,24 @@
 {
   "id": "OP04-088",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "OwnLeader"
-      }
-    },
-    {
-      "type": "PowerBoost",
-      "amount": -4000,
-      "target": {
-        "scope": "ChooseOpponentCharacter"
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

@@ -1,18 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "duration": "DuringYourTurn",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 3000
-        },
-        "maxCount": 1
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "condition": {
@@ -35,5 +21,21 @@
       }
     ]
   },
-  "id": "OP03-013"
+  "id": "OP03-013",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ]
 }

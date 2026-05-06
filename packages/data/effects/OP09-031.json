@@ -1,15 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "EndOfTurn",
     "condition": {
@@ -29,5 +18,18 @@
       }
     ]
   },
-  "id": "OP09-031"
+  "id": "OP09-031",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

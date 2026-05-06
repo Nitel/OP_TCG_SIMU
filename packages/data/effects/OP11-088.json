@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "target": {
-          "scope": "Opponent",
-          "filters": {
-            "hasAttribute": "Slash"
+  "id": "OP11-088",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "target": {
+            "scope": "Opponent",
+            "filters": {
+              "hasAttribute": "Slash"
+            }
           }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 5000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP11-088"
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 5000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

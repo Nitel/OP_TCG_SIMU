@@ -1,29 +1,33 @@
 {
   "id": "PRB01-001",
-  "trigger": "Activated",
-  "conditions": [
+  "effects": [
     {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "cardType": "Character",
-        "hasOnPlayEffect": false,
-        "maxCost": 8
-      }
-    }
-  ],
-  "actions": [
-    {
-      "type": "GiveKeyword",
-      "keyword": "Rush",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "filter": {
-          "hasOnPlayEffect": false,
-          "maxCost": 8
-        },
-        "quantity": 1
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "cardType": "Character",
+            "hasOnPlayEffect": false,
+            "maxCost": 8
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasOnPlayEffect": false,
+              "maxCost": 8
+            },
+            "quantity": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

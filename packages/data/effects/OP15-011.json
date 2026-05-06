@@ -1,28 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "duration": "EndOfOpponentTurn",
-    "condition": {
-      "type": "LeaderHasType",
-      "type_name": "East Blue"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "condition": {
@@ -40,5 +16,31 @@
       }
     ]
   },
-  "id": "OP15-011"
+  "id": "OP15-011",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "duration": "EndOfOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "type_name": "East Blue"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

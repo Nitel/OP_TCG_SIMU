@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TurnCount",
-      "min": 2
-    },
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "state": "active"
+  "id": "OP15-058",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "min": 2
       },
-      {
-        "type": "GiveDon",
-        "count": 4,
-        "state": "rested"
-      },
-      {
-        "type": "AttachDon",
-        "count": 4,
-        "target": {
-          "scope": "ChooseOwnCharacter"
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "state": "active"
+        },
+        {
+          "type": "GiveDon",
+          "count": 4,
+          "state": "rested"
+        },
+        {
+          "type": "AttachDon",
+          "count": 4,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP15-058"
+      ]
+    }
+  ]
 }

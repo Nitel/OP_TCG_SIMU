@@ -1,18 +1,22 @@
 {
   "id": "OP13-071",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 8
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxPower": 3000
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 8
       },
-      "maxTargets": 1
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          },
+          "maxTargets": 1
+        }
+      ]
     }
   ]
 }

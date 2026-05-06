@@ -1,29 +1,33 @@
 {
   "id": "EB03-045",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "AttachDon",
-      "count": 1,
-      "target": {
-        "scope": "ChooseOwnCharacterOrLeader"
-      },
-      "state": "rested"
-    },
-    {
-      "type": "PlayFromTrash",
-      "count": 1,
-      "filter": {
-        "type": "Thriller Bark Pirates",
-        "kind": "ByCost",
-        "maxCost": 2
-      },
-      "destination": "board",
-      "state": "rested",
-      "condition": {
-        "type": "TrashCount",
-        "minCount": 10
-      }
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "state": "rested"
+        },
+        {
+          "type": "PlayFromTrash",
+          "count": 1,
+          "filter": {
+            "type": "Thriller Bark Pirates",
+            "kind": "ByCost",
+            "maxCost": 2
+          },
+          "destination": "board",
+          "state": "rested",
+          "condition": {
+            "type": "TrashCount",
+            "minCount": 10
+          }
+        }
+      ]
     }
   ]
 }

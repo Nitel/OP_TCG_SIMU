@@ -1,33 +1,4 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "duration": "EndOfOpponentTurn",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Revolutionary Army"
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "amount": "UpTo1",
-        "filter": {
-          "subType": "Revolutionary Army",
-          "maxCost": 6,
-          "excludeNames": [
-            "Koala"
-          ]
-        }
-      },
-      {
-        "type": "PlayFromHand",
-        "amount": "UpTo1",
-        "filter": {
-          "name": "Nico Robin",
-          "maxCost": 6
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "duration": "EndOfOpponentTurn",
@@ -57,5 +28,36 @@
       }
     ]
   },
-  "id": "EB03-042"
+  "id": "EB03-042",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "duration": "EndOfOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "amount": "UpTo1",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxCost": 6,
+            "excludeNames": [
+              "Koala"
+            ]
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "amount": "UpTo1",
+          "filter": {
+            "name": "Nico Robin",
+            "maxCost": 6
+          }
+        }
+      ]
+    }
+  ]
 }

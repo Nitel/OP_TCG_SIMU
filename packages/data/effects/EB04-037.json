@@ -1,21 +1,25 @@
 {
   "id": "EB04-037",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Foxy Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "amount": 5,
-      "filter": {
-        "kind": "ByType",
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
         "value": "Foxy Pirates"
       },
-      "maxReveal": 1,
-      "destination": "hand",
-      "restToBottom": true
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "amount": 5,
+          "filter": {
+            "kind": "ByType",
+            "value": "Foxy Pirates"
+          },
+          "maxReveal": 1,
+          "destination": "hand",
+          "restToBottom": true
+        }
+      ]
     }
   ]
 }

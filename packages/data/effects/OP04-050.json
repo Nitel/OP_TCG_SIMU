@@ -1,30 +1,34 @@
 {
   "id": "OP04-050",
-  "trigger": "Activated",
-  "duration": "Permanent",
-  "conditions": [],
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 1,
-      "conditions": [
+      "trigger": "Activated",
+      "duration": "Permanent",
+      "conditions": [],
+      "actions": [
         {
-          "type": "HasCardInHand",
-          "scope": "Self"
-        }
-      ],
-      "optional": true,
-      "costs": [
-        {
-          "type": "TrashFromHand",
+          "type": "DrawCard",
           "count": 1,
-          "filter": {}
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
+          "conditions": [
+            {
+              "type": "HasCardInHand",
+              "scope": "Self"
+            }
+          ],
+          "optional": true,
+          "costs": [
+            {
+              "type": "TrashFromHand",
+              "count": 1,
+              "filter": {}
+            },
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            }
+          ]
         }
       ]
     }

@@ -1,24 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "Always"
-    },
-    "duration": "EndOfOpponentTurn",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "Self"
-        },
-        "condition": {
-          "type": "TrashCount",
-          "max": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "condition": {
@@ -46,5 +26,27 @@
       }
     ]
   },
-  "id": "EB04-001"
+  "id": "EB04-001",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "condition": {
+            "type": "TrashCount",
+            "max": 1
+          }
+        }
+      ]
+    }
+  ]
 }

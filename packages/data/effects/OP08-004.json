@@ -1,18 +1,22 @@
 {
   "id": "OP08-004",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "cardName": "Chess"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxPower": 3000,
-        "maxCount": 1
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardName": "Chess"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "maxCount": 1
+          }
+        }
+      ]
     }
   ]
 }

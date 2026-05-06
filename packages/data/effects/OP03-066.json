@@ -1,37 +1,39 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 2
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "target": {
-          "hasType": "DON"
-        },
-        "count": 1
+  "id": "OP03-066",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
       },
-      {
-        "type": "AttachDon",
-        "count": 1
-      },
-      {
-        "type": "KO",
-        "condition": {
-          "type": "HasCardOnBoard",
-          "scope": "YourCharacter",
-          "hasType": "DON",
-          "minCount": 8
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "target": {
+            "hasType": "DON"
+          },
+          "count": 1
         },
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4
+        {
+          "type": "AttachDon",
+          "count": 1
         },
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP03-066"
+        {
+          "type": "KO",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "YourCharacter",
+            "hasType": "DON",
+            "minCount": 8
+          },
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

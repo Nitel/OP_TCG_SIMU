@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "compareOperator": "LessThanOrEqual",
-      "opponentComparison": true
-    },
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1
+  "id": "OP12-073",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "compareOperator": "LessThanOrEqual",
+        "opponentComparison": true
       },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "AllOwnCharacters",
-          "filterType": [
-            "Donquixote Rosinante",
-            "Heart Pirates"
-          ]
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
         },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP12-073"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filterType": [
+              "Donquixote Rosinante",
+              "Heart Pirates"
+            ]
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

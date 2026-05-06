@@ -1,30 +1,34 @@
 {
   "id": "OP09-030",
-  "trigger": "OnPlay",
-  "conditions": [
+  "effects": [
     {
-      "type": "Always",
-      "optional": true,
-      "cost": {
-        "type": "ReturnToHand",
-        "filter": {
-          "cardType": "Character",
-          "controller": "Self"
-        },
-        "amount": 1
-      }
-    }
-  ],
-  "actions": [
-    {
-      "type": "PlayFromHand",
-      "filter": {
-        "subType": "ODYSSEY",
-        "cardType": "Character",
-        "maxCost": 3,
-        "excludeName": "Trafalgar Law"
-      },
-      "amount": 1
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always",
+          "optional": true,
+          "cost": {
+            "type": "ReturnToHand",
+            "filter": {
+              "cardType": "Character",
+              "controller": "Self"
+            },
+            "amount": 1
+          }
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "ODYSSEY",
+            "cardType": "Character",
+            "maxCost": 3,
+            "excludeName": "Trafalgar Law"
+          },
+          "amount": 1
+        }
+      ]
     }
   ]
 }

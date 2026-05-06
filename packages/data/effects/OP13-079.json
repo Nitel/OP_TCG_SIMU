@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "activation": "Main",
-    "oncePerTurn": true,
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "filter": {
-          "type": "Character",
-          "subType": "Celestial Dragons"
+  "id": "OP13-079",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "activation": "Main",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "type": "Character",
+            "subType": "Celestial Dragons"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
         },
-        "thenActions": [
-          {
-            "type": "DrawCard",
-            "count": 1
-          }
-        ]
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "thenActions": [
-          {
-            "type": "DrawCard",
-            "count": 1
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP13-079"
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

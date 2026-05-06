@@ -1,27 +1,4 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "conditions": [
-      {
-        "type": "TrashCount",
-        "comparison": ">=",
-        "value": 5
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "perTrashedCard": true,
-        "cardType": "Event",
-        "divisor": 5,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "conditions": [
@@ -42,5 +19,30 @@
     ],
     "duration": "EndOfOpponentTurn"
   },
-  "id": "OP12-070"
+  "id": "OP12-070",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "TrashCount",
+          "comparison": ">=",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perTrashedCard": true,
+          "cardType": "Event",
+          "divisor": 5,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

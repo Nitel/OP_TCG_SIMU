@@ -1,19 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxCount": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "condition": {
@@ -31,5 +16,22 @@
       }
     ]
   },
-  "id": "ST17-002"
+  "id": "ST17-002",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ]
 }

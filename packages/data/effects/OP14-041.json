@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "duration": "EndOfOpponentTurn",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "condition": {
@@ -34,5 +21,20 @@
       "count": 1
     }
   },
-  "id": "OP14-041"
+  "id": "OP14-041",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "duration": "EndOfOpponentTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

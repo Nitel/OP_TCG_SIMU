@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "zone": "hand",
-        "cardType": "Character",
-        "power": 6000
-      }
-    ],
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {
+  "id": "PRB02-003",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "zone": "hand",
           "cardType": "Character",
           "power": 6000
         }
-      },
-      {
-        "type": "DrawCard",
-        "count": 2
-      }
-    ]
-  },
-  "id": "PRB02-003"
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {
+            "cardType": "Character",
+            "power": 6000
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
+    }
+  ]
 }

@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Nefeltari Vivi"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -3000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1
-        },
-        "duration": "DuringYourTurn"
+  "id": "OP04-008",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Nefeltari Vivi"
       },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 0,
-          "maxCount": 1
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 0,
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP04-008"
+      ]
+    }
+  ]
 }

@@ -1,26 +1,30 @@
 {
   "id": "OP06-001",
-  "trigger": "OnAttack",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "subType": "FILM"
-      },
-      "thenActions": [
+      "trigger": "OnAttack",
+      "actions": [
         {
-          "type": "PowerBoost",
-          "amount": -2000,
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "count": 1
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "FILM"
           },
-          "duration": "DuringYourTurn"
-        },
-        {
-          "type": "GiveDon",
-          "count": 1,
-          "rest": true
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "count": 1
+              },
+              "duration": "DuringYourTurn"
+            },
+            {
+              "type": "GiveDon",
+              "count": 1,
+              "rest": true
+            }
+          ]
         }
       ]
     }

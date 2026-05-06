@@ -1,25 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "type": "Rest",
-      "target": {
-        "scope": "OwnDonCards",
-        "count": 1
-      }
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 3000,
-          "count": 1
-        },
-        "placement": "BottomOfDeck"
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -33,5 +12,28 @@
       }
     ]
   },
-  "id": "OP13-058"
+  "id": "OP13-058",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "Rest",
+        "target": {
+          "scope": "OwnDonCards",
+          "count": 1
+        }
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000,
+            "count": 1
+          },
+          "placement": "BottomOfDeck"
+        }
+      ]
+    }
+  ]
 }

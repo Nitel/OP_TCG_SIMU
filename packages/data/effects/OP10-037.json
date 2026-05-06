@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "type": "HasType",
-            "value": "ODYSSEY"
-          },
-          "quantity": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "EndOfTurn",
     "condition": {
@@ -39,5 +20,26 @@
       }
     ]
   },
-  "id": "OP10-037"
+  "id": "OP10-037",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "HasType",
+              "value": "ODYSSEY"
+            },
+            "quantity": 1
+          }
+        }
+      ]
+    }
+  ]
 }

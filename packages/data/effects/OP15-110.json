@@ -1,16 +1,20 @@
 {
   "id": "OP15-110",
-  "trigger": "OnKO",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Shandian Warrior"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "count": 1,
-      "optional": true,
-      "destination": "TopOfLife"
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Shandian Warrior"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "optional": true,
+          "destination": "TopOfLife"
+        }
+      ]
     }
   ]
 }

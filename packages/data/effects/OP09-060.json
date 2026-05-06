@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "count": 2,
-        "filter": {},
-        "placement": "DeckBottom",
-        "optional": true
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP09-060",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 2,
+          "filter": {},
+          "placement": "DeckBottom",
+          "optional": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "LeaderHasType",
+            "value": "Cross Guild"
+          }
         }
-      },
-      {
-        "type": "DrawCard",
-        "count": 2,
-        "condition": {
-          "type": "LeaderHasType",
-          "value": "Cross Guild"
-        }
-      }
-    ]
-  },
-  "id": "OP09-060"
+      ]
+    }
+  ]
 }

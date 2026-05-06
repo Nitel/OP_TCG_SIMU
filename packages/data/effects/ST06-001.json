@@ -1,24 +1,28 @@
 {
   "id": "ST06-001",
-  "trigger": "Activated",
   "cost": 3,
-  "condition": {
-    "type": "Always"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {},
-      "optional": true
-    },
-    {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "costEquals": 0,
-        "maxChoose": 1
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      "optional": true
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "costEquals": 0,
+            "maxChoose": 1
+          },
+          "optional": true
+        }
+      ]
     }
   ]
 }

@@ -1,24 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "SearchDeck",
-        "count": 2,
-        "destination": "TopOfLife",
-        "optional": true
-      }
-    ],
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "{Straw Hat Crew}"
-    }
-  },
   "1": {
     "trigger": "OnKO",
     "duration": "EndOfOpponentTurn",
@@ -31,5 +11,27 @@
       }
     ]
   },
-  "id": "EB03-055"
+  "id": "EB03-055",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "destination": "TopOfLife",
+          "optional": true
+        }
+      ],
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "{Straw Hat Crew}"
+      }
+    }
+  ]
 }

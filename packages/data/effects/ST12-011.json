@@ -1,19 +1,23 @@
 {
   "id": "ST12-011",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "TrashCount",
-    "comparison": "LessThanOrEqual",
-    "value": 5
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "Self"
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": "LessThanOrEqual",
+        "value": 5
       },
-      "duration": "EndOfOpponentTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
     }
   ]
 }

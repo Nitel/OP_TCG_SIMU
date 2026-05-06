@@ -1,27 +1,31 @@
 {
   "id": "OP11-104",
-  "trigger": "OnPlay",
-  "conditions": [
+  "effects": [
     {
-      "type": "Always"
-    }
-  ],
-  "actions": [
-    {
-      "type": "FlipLife",
-      "count": 1,
-      "optional": true
-    },
-    {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "value": "Fish-Man Island"
-      },
-      "count": 1,
-      "destination": "hand",
-      "reveal": true,
-      "deckOrdering": "AnyOrder"
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "value": "Fish-Man Island"
+          },
+          "count": 1,
+          "destination": "hand",
+          "reveal": true,
+          "deckOrdering": "AnyOrder"
+        }
+      ]
     }
   ]
 }

@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasRestingDon",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      },
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "target": {
-          "scope": "AllOwnCharacters",
-          "filter": {
-            "hasType": "Alabasta"
+  "id": "OP04-004",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "target": {
+            "scope": "Self"
           }
         }
-      }
-    ]
-  },
-  "id": "OP04-004"
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "hasType": "Alabasta"
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -1,26 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 1,
-        "comparison": "GreaterThanOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Donquixote Pirates",
-          "cardType": "Character",
-          "maxCost": 5
-        },
-        "optional": true,
-        "count": 1
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttacked",
     "conditions": [
@@ -47,5 +25,29 @@
     ],
     "oncePerTurn": true
   },
-  "id": "OP10-071"
+  "id": "OP10-071",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Donquixote Pirates",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "optional": true,
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

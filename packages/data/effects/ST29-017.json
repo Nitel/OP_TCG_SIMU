@@ -1,30 +1,34 @@
 {
   "id": "ST29-017",
-  "trigger": "Counter",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 4000,
-      "target": {
-        "scope": "ChooseOwnCharacterOrLeader",
-        "maxCount": 1
-      },
-      "duration": "EndOfBattle"
-    },
-    {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 3,
-        "maxCount": 1
-      },
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          },
+          "condition": {
+            "type": "HasLifeOrLess",
+            "value": 2
+          }
+        }
+      ],
       "condition": {
-        "type": "HasLifeOrLess",
-        "value": 2
+        "type": "Always"
       }
     }
-  ],
-  "condition": {
-    "type": "Always"
-  }
+  ]
 }

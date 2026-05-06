@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "scope": "Opponent",
-      "filter": {
-        "cardType": "Character",
-        "powerThreshold": 5000
-      }
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "ST10-004"
+  "id": "ST10-004",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "Opponent",
+        "filter": {
+          "cardType": "Character",
+          "powerThreshold": 5000
+        }
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

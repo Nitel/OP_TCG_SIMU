@@ -1,24 +1,28 @@
 {
   "id": "OP05-015",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "type": "RevolutionaryArmy",
-        "exclusions": [
-          "Belo Betty"
-        ]
-      },
-      "count": {
-        "min": 0,
-        "max": 1
-      },
-      "reveal": true,
-      "destination": "hand",
-      "remainingDestination": "deckBottom",
-      "remainingOrder": "any"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "RevolutionaryArmy",
+            "exclusions": [
+              "Belo Betty"
+            ]
+          },
+          "count": {
+            "min": 0,
+            "max": 1
+          },
+          "reveal": true,
+          "destination": "hand",
+          "remainingDestination": "deckBottom",
+          "remainingOrder": "any"
+        }
+      ]
     }
   ]
 }

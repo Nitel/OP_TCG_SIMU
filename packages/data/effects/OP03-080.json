@@ -1,23 +1,27 @@
 {
   "id": "OP03-080",
-  "trigger": "OnPlay",
   "optional": true,
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "type": "CP"
-      },
-      "quantity": 2,
-      "placement": "BottomOfDeck",
-      "thenActions": [
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3
+          "type": "SearchDeck",
+          "filter": {
+            "type": "CP"
           },
-          "quantity": 1
+          "quantity": 2,
+          "placement": "BottomOfDeck",
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3
+              },
+              "quantity": 1
+            }
+          ]
         }
       ]
     }

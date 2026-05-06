@@ -1,24 +1,28 @@
 {
   "id": "ST11-004",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderIsName",
-    "name": "Uta"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "type": "FILM",
-        "excludeName": "New Genesis"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Uta"
       },
-      "maxResults": 1,
-      "destination": "hand"
-    },
-    {
-      "type": "Rest",
-      "target": "DON!!",
-      "maxResults": 1
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "type": "FILM",
+            "excludeName": "New Genesis"
+          },
+          "maxResults": 1,
+          "destination": "hand"
+        },
+        {
+          "type": "Rest",
+          "target": "DON!!",
+          "maxResults": 1
+        }
+      ]
     }
   ]
 }

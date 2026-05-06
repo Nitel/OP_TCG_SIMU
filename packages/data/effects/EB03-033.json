@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "duration": "EndOfOpponentTurn",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Big Mom Pirates"
-    },
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "source": "DeckSearch"
+  "id": "EB03-033",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "duration": "EndOfOpponentTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Big Mom Pirates"
       },
-      {
-        "type": "Rest"
-      }
-    ],
-    "limit": "OncePerTurn"
-  },
-  "id": "EB03-033"
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "DeckSearch"
+        },
+        {
+          "type": "Rest"
+        }
+      ],
+      "limit": "OncePerTurn"
+    }
+  ]
 }

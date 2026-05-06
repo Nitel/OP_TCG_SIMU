@@ -1,20 +1,24 @@
 {
   "id": "OP04-105",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "hasKeyword": "Trigger"
-      },
-      "thenActions": [
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "Rest",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2,
-            "maxCount": 1
-          }
+          "type": "TrashFromHand",
+          "filter": {
+            "hasKeyword": "Trigger"
+          },
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 2,
+                "maxCount": 1
+              }
+            }
+          ]
         }
       ]
     }

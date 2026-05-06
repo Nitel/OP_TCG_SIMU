@@ -1,22 +1,26 @@
 {
   "id": "ST23-003",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "typeName": "Red-Haired Pirates"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "optional": true,
-      "thenActions": [
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "typeName": "Red-Haired Pirates"
+      },
+      "actions": [
         {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxBasePower": 4000,
-            "maxCount": 1
-          }
+          "type": "TrashFromHand",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxBasePower": 4000,
+                "maxCount": 1
+              }
+            }
+          ]
         }
       ]
     }

@@ -1,15 +1,19 @@
 {
   "id": "OP15-014",
-  "trigger": "Counter",
-  "conditions": [],
-  "actions": [
+  "notes": "This Counter prevents the KO by discarding an Event from hand instead. The second effect (OnPlay) is correctly structured.",
+  "effects": [
     {
-      "type": "ForceDiscard",
-      "filter": {
-        "cardType": "Event",
-        "owner": "self"
-      }
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "cardType": "Event",
+            "owner": "self"
+          }
+        }
+      ]
     }
-  ],
-  "notes": "This Counter prevents the KO by discarding an Event from hand instead. The second effect (OnPlay) is correctly structured."
+  ]
 }

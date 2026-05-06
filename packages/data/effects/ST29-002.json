@@ -1,18 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "filter": "CostLessOrEqual",
-          "filterValue": "OpponentLifeCount",
-          "upTo": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "actions": [
@@ -27,5 +13,21 @@
       }
     ]
   },
-  "id": "ST29-002"
+  "id": "ST29-002",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "filter": "CostLessOrEqual",
+            "filterValue": "OpponentLifeCount",
+            "upTo": 1
+          }
+        }
+      ]
+    }
+  ]
 }

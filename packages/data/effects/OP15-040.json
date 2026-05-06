@@ -1,18 +1,22 @@
 {
   "id": "OP15-040",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "depth": 3,
-      "filter": {
-        "type": "Dressrosa"
-      },
-      "maxCount": 1,
-      "reveal": true,
-      "destination": "hand",
-      "remaining": "bottomOfDeck",
-      "remainingOrder": "any"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "depth": 3,
+          "filter": {
+            "type": "Dressrosa"
+          },
+          "maxCount": 1,
+          "reveal": true,
+          "destination": "hand",
+          "remaining": "bottomOfDeck",
+          "remainingOrder": "any"
+        }
+      ]
     }
   ]
 }

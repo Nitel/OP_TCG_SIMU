@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -4000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxTargets": 1
+  "id": "OP11-018",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 6000,
-          "maxTargets": 1
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 6000,
+            "maxTargets": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP11-018"
+      ]
+    }
+  ]
 }

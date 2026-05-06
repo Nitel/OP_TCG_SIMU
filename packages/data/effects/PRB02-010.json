@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Big Mom Pirates"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2,
-        "condition": {
-          "type": "HasAttachedDon",
-          "target": "opponent",
-          "minCount": 6
-        }
+  "id": "PRB02-010",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Big Mom Pirates"
       },
-      {
-        "type": "PlayFromHand",
-        "count": 1,
-        "filter": {
-          "subType": "Big Mom Pirates",
-          "cardType": "Character",
-          "minPower": 6000,
-          "maxPower": 8000
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "HasAttachedDon",
+            "target": "opponent",
+            "minCount": 6
+          }
         },
-        "condition": {
-          "type": "HasAttachedDon",
-          "target": "opponent",
-          "minCount": 6
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Big Mom Pirates",
+            "cardType": "Character",
+            "minPower": 6000,
+            "maxPower": 8000
+          },
+          "condition": {
+            "type": "HasAttachedDon",
+            "target": "opponent",
+            "minCount": 6
+          }
         }
-      }
-    ]
-  },
-  "id": "PRB02-010"
+      ]
+    }
+  ]
 }

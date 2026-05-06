@@ -1,18 +1,22 @@
 {
   "id": "OP02-115",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 2
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxAmount": 1,
-        "costFilter": 0
-      }
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxAmount": 1,
+            "costFilter": 0
+          }
+        }
+      ]
     }
   ]
 }

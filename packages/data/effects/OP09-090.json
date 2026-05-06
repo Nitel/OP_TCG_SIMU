@@ -1,27 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "activationCost": {
-      "type": "Rest",
-      "target": {
-        "scope": "Self"
-      }
-    },
-    "condition": {
-      "type": "LeaderHasType",
-      "subType": "Blackbeard Pirates"
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 1,
-          "maxCount": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -31,5 +8,30 @@
       }
     ]
   },
-  "id": "OP09-090"
+  "id": "OP09-090",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "activationCost": {
+        "type": "Rest",
+        "target": {
+          "scope": "Self"
+        }
+      },
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ]
 }

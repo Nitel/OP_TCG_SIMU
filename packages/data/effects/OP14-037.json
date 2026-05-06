@@ -1,22 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "type": "RestOwnCards",
-      "count": 3
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxBasePower": 7000,
-          "isRested": true,
-          "maxChoices": 1
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -30,5 +12,25 @@
       }
     ]
   },
-  "id": "OP14-037"
+  "id": "OP14-037",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "RestOwnCards",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxBasePower": 7000,
+            "isRested": true,
+            "maxChoices": 1
+          }
+        }
+      ]
+    }
+  ]
 }

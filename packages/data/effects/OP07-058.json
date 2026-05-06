@@ -1,34 +1,38 @@
 {
   "id": "OP07-058",
-  "trigger": "Activated",
-  "condition": {
-    "type": "Always"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "count": 1,
-      "thenActions": [
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
         {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          },
+          "type": "TrashFromHand",
+          "count": 1,
           "thenActions": [
             {
-              "type": "ReturnToHand",
+              "type": "Rest",
               "target": {
-                "scope": "ChooseOwnCharacter",
-                "subType": [
-                  "Amazon Lily",
-                  "Kuja Pirates"
-                ],
-                "max": 1
+                "scope": "Self"
               },
-              "condition": {
-                "type": "LeaderHasType",
-                "value": "Kuja Pirates"
-              }
+              "thenActions": [
+                {
+                  "type": "ReturnToHand",
+                  "target": {
+                    "scope": "ChooseOwnCharacter",
+                    "subType": [
+                      "Amazon Lily",
+                      "Kuja Pirates"
+                    ],
+                    "max": 1
+                  },
+                  "condition": {
+                    "type": "LeaderHasType",
+                    "value": "Kuja Pirates"
+                  }
+                }
+              ]
             }
           ]
         }

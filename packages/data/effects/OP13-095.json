@@ -1,29 +1,33 @@
 {
   "id": "OP13-095",
-  "trigger": "OnPlay",
-  "conditions": [
+  "effects": [
     {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "type": "Celestial Dragons"
-      },
-      "scope": "YourCharacters"
-    }
-  ],
-  "actions": [
-    {
-      "type": "TrashFromHand",
-      "filter": {
-        "maxCount": 1
-      },
-      "thenActions": [
+      "trigger": "OnPlay",
+      "conditions": [
         {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 3,
-            "maxCount": 2
-          }
+          "type": "HasCardOnBoard",
+          "filter": {
+            "type": "Celestial Dragons"
+          },
+          "scope": "YourCharacters"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "maxCount": 1
+          },
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 3,
+                "maxCount": 2
+              }
+            }
+          ]
         }
       ]
     }

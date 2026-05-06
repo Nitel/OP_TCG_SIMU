@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1,
-          "maxCost": 5
+  "id": "OP13-038",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "duration": "EndOfTurn"
         }
-      },
-      {
-        "type": "AttachDon",
-        "count": 2,
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP13-038"
+      ]
+    }
+  ]
 }

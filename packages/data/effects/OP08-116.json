@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "max": 1
+  "id": "OP08-116",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "PlayFromHand",
-            "filter": {
-              "subType": "Shandian Warrior"
-            },
-            "max": 1,
-            "destination": "TopOfLife",
-            "faceUp": true
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP08-116"
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "subType": "Shandian Warrior"
+              },
+              "max": 1,
+              "destination": "TopOfLife",
+              "faceUp": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

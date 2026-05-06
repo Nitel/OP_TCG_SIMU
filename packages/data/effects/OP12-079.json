@@ -1,20 +1,24 @@
 {
   "id": "OP12-079",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderIsName",
-    "name": "Sanji"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "lookCount": 3,
-      "filter": {
-        "kind": "Any",
-        "maxCount": 1
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Sanji"
       },
-      "destination": "hand",
-      "thenPlaceRest": "bottom"
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "lookCount": 3,
+          "filter": {
+            "kind": "Any",
+            "maxCount": 1
+          },
+          "destination": "hand",
+          "thenPlaceRest": "bottom"
+        }
+      ]
     }
   ]
 }

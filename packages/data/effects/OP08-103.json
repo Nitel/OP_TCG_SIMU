@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "amount": 1
+  "id": "OP08-103",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "optional": true
         },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP08-103"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "amount": 1
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

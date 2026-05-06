@@ -1,18 +1,22 @@
 {
   "id": "OP01-049",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 1
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "filter": {
-        "subType": "Heart Pirates",
-        "maxCost": 4,
-        "excludeName": "Bepo"
-      }
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Heart Pirates",
+            "maxCost": 4,
+            "excludeName": "Bepo"
+          }
+        }
+      ]
     }
   ]
 }

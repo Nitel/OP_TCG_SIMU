@@ -1,35 +1,37 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "thenActions": [
-          {
-            "type": "ForceDiscard",
-            "count": 2,
-            "source": "deck",
-            "thenActions": [
-              {
-                "type": "PlayFromHand",
-                "filter": {
-                  "type": "Thriller Bark Pirates",
-                  "kind": "ByCost",
-                  "maxCost": 4
-                },
-                "source": "trash",
-                "count": 1
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-080"
+  "id": "OP06-080",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "ForceDiscard",
+              "count": 2,
+              "source": "deck",
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "filter": {
+                    "type": "Thriller Bark Pirates",
+                    "kind": "ByCost",
+                    "maxCost": 4
+                  },
+                  "source": "trash",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
+  "id": "ST14-015",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
         }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "minCost": 8
       }
-    ],
-    "condition": {
-      "type": "HasCardOnBoard",
-      "cardType": "Character",
-      "minCost": 8
     }
-  },
-  "id": "ST14-015"
+  ]
 }

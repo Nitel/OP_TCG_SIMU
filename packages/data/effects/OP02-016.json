@@ -1,21 +1,25 @@
 {
   "id": "OP02-016",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 3000,
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "maxCost": 1,
-        "conditions": [
-          {
-            "type": "HasCardType",
-            "value": "Red"
-          }
-        ]
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 1,
+            "conditions": [
+              {
+                "type": "HasCardType",
+                "value": "Red"
+              }
+            ]
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

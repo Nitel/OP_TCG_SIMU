@@ -1,20 +1,24 @@
 {
   "id": "OP08-080",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "type": "Animal Kingdom Pirates",
-        "exclude": [
-          "Queen"
-        ]
-      },
-      "amount": 5,
-      "revealAmount": 1,
-      "destination": "hand",
-      "remainingDestination": "bottom"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "type": "Animal Kingdom Pirates",
+            "exclude": [
+              "Queen"
+            ]
+          },
+          "amount": 5,
+          "revealAmount": 1,
+          "destination": "hand",
+          "remainingDestination": "bottom"
+        }
+      ]
     }
   ]
 }

@@ -1,33 +1,37 @@
 {
   "id": "OP02-092",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "kind": "Any"
-      },
-      "optional": true,
-      "thenActions": [
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "SearchDeck",
-          "lookAtCount": 3,
+          "type": "TrashFromHand",
           "filter": {
-            "kind": "ByType",
-            "type": "Impel Down"
+            "kind": "Any"
           },
-          "maxReveal": 1,
-          "destination": "hand",
-          "thenPlaceRest": {
-            "destination": "bottomOfDeck",
-            "order": "any"
-          }
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            },
+            {
+              "type": "SearchDeck",
+              "lookAtCount": 3,
+              "filter": {
+                "kind": "ByType",
+                "type": "Impel Down"
+              },
+              "maxReveal": 1,
+              "destination": "hand",
+              "thenPlaceRest": {
+                "destination": "bottomOfDeck",
+                "order": "any"
+              }
+            }
+          ]
         }
       ]
     }

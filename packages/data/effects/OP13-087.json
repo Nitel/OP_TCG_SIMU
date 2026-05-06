@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "filter": {
-          "source": "Deck"
-        },
-        "thenActions": []
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "condition": "Always",
@@ -22,5 +9,20 @@
       }
     ]
   },
-  "id": "OP13-087"
+  "id": "OP13-087",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "source": "Deck"
+          },
+          "thenActions": []
+        }
+      ]
+    }
+  ]
 }

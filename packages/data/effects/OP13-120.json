@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacter"
-        },
-        "duration": "EndOfOpponentTurn"
+  "id": "OP13-120",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "target": {
-          "scope": "OwnLeader",
-          "condition": {
-            "type": "HasRestingDon"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfOpponentTurn"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader",
+            "condition": {
+              "type": "HasRestingDon"
+            }
           }
         }
-      }
-    ]
-  },
-  "id": "OP13-120"
+      ]
+    }
+  ]
 }

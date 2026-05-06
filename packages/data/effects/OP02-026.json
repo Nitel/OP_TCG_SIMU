@@ -1,19 +1,21 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "value": 3,
-      "comparison": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 2,
-        "target": "OwnDonCards"
-      }
-    ],
-    "frequency": "OncePerTurn"
-  },
-  "id": "OP02-026"
+  "id": "OP02-026",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "value": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": "OwnDonCards"
+        }
+      ],
+      "frequency": "OncePerTurn"
+    }
+  ]
 }

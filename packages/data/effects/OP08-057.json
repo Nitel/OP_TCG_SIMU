@@ -1,18 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ],
-    "condition": {
-      "type": "TrashCount",
-      "operator": "<=",
-      "value": 5
-    }
-  },
   "1": {
     "trigger": "Activated",
     "actions": [
@@ -30,5 +16,21 @@
       "type": "Always"
     }
   },
-  "id": "OP08-057"
+  "id": "OP08-057",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "condition": {
+        "type": "TrashCount",
+        "operator": "<=",
+        "value": 5
+      }
+    }
+  ]
 }

@@ -1,25 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "amount": 3,
-        "reveal": true,
-        "filter": {
-          "type": "FILM",
-          "excludeName": "Nami"
-        },
-        "selectUpTo": 1,
-        "destination": "hand",
-        "remainingToBottom": true
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "condition": {
@@ -41,5 +20,28 @@
       }
     ]
   },
-  "id": "OP02-036"
+  "id": "OP02-036",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "amount": 3,
+          "reveal": true,
+          "filter": {
+            "type": "FILM",
+            "excludeName": "Nami"
+          },
+          "selectUpTo": 1,
+          "destination": "hand",
+          "remainingToBottom": true
+        }
+      ]
+    }
+  ]
 }

@@ -1,31 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TrashCount",
-      "value": 15,
-      "comparison": ">="
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": "HasAttachedDon"
-        },
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "filter": "LeaderHasAnyType:StrawHatCrew"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "condition": {
@@ -44,5 +17,34 @@
       }
     ]
   },
-  "id": "OP15-095"
+  "id": "OP15-095",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "value": 15,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": "HasAttachedDon"
+          },
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": "LeaderHasAnyType:StrawHatCrew"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

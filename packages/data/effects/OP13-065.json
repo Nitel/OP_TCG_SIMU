@@ -1,20 +1,24 @@
 {
   "id": "OP13-065",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "value": "Roger Pirates",
-        "exclude": [
-          "Shanks"
-        ]
-      },
-      "reveal": true,
-      "selectUpTo": 1,
-      "destination": "hand",
-      "organizeRemainder": "BottomOfDeck"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "value": "Roger Pirates",
+            "exclude": [
+              "Shanks"
+            ]
+          },
+          "reveal": true,
+          "selectUpTo": 1,
+          "destination": "hand",
+          "organizeRemainder": "BottomOfDeck"
+        }
+      ]
     }
   ]
 }

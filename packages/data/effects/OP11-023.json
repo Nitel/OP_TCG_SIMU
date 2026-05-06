@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Fish-Man"
-      },
-      {
-        "type": "LeaderLife",
-        "comparison": "<=",
-        "value": 3
-      },
-      {
-        "type": "OpponentRestingCards",
-        "comparison": ">=",
-        "value": 5
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "Self",
-          "location": "Hand"
+  "id": "OP11-023",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "value": "Fish-Man"
         },
-        "costModifier": -3
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP11-023"
+        {
+          "type": "LeaderLife",
+          "comparison": "<=",
+          "value": 3
+        },
+        {
+          "type": "OpponentRestingCards",
+          "comparison": ">=",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self",
+            "location": "Hand"
+          },
+          "costModifier": -3
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

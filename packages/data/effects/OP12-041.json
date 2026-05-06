@@ -1,21 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "cardType": "Event",
-          "subType": "Straw Hat Crew",
-          "maxCost": 3
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnAttack",
     "condition": {
@@ -32,5 +15,24 @@
       }
     ]
   },
-  "id": "OP12-041"
+  "id": "OP12-041",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Event",
+            "subType": "Straw Hat Crew",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ]
 }

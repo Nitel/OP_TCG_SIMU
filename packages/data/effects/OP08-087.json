@@ -1,19 +1,4 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ],
-    "duration": "Permanent"
-  },
   "1": {
     "trigger": "Activated",
     "condition": {
@@ -31,5 +16,22 @@
       }
     ]
   },
-  "id": "OP08-087"
+  "id": "OP08-087",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

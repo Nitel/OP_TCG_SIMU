@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderHasType",
-      "subType": "Navy"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
+  "id": "OP11-007",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Navy"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Navy",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "cost": {
+        "type": "Rest",
         "target": {
-          "scope": "ChooseOwnCharacter",
-          "subType": "Navy",
-          "maxCount": 1
-        },
-        "duration": "DuringYourTurn"
-      }
-    ],
-    "cost": {
-      "type": "Rest",
-      "target": {
-        "scope": "Self"
+          "scope": "Self"
+        }
       }
     }
-  },
-  "id": "OP11-007"
+  ]
 }

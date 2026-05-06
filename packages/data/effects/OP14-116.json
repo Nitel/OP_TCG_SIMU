@@ -1,27 +1,31 @@
 {
   "id": "OP14-116",
-  "trigger": "Counter",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "ChooseOwnCharacterOrLeader",
-        "maxCount": 1
-      },
-      "duration": "EndOfBattle"
-    },
-    {
-      "type": "PlayFromHand",
-      "maxCount": 1,
-      "filter": {
-        "cardType": "Character",
-        "subTypes": [
-          "Amazon Lily",
-          "Kuja Pirates"
-        ],
-        "maxCost": 4
-      }
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PlayFromHand",
+          "maxCount": 1,
+          "filter": {
+            "cardType": "Character",
+            "subTypes": [
+              "Amazon Lily",
+              "Kuja Pirates"
+            ],
+            "maxCost": 4
+          }
+        }
+      ]
     }
   ]
 }

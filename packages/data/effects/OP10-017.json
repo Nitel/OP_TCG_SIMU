@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "subType": "Scotch"
-        },
-        "negate": true
-      }
-    ],
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Scotch"
-        },
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP10-017"
+  "id": "OP10-017",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "subType": "Scotch"
+          },
+          "negate": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Scotch"
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

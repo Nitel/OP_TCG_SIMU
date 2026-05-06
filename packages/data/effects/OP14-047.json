@@ -1,22 +1,26 @@
 {
   "id": "OP14-047",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 1
-    },
-    {
-      "type": "PlayFromHand",
-      "count": 1,
-      "optional": true,
-      "filter": {
-        "cardTypes": [
-          "Fish-Man",
-          "Merfolk"
-        ],
-        "maxCost": 3
-      }
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "cardTypes": [
+              "Fish-Man",
+              "Merfolk"
+            ],
+            "maxCost": 3
+          }
+        }
+      ]
     }
   ]
 }

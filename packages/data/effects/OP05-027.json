@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "target": {
-          "scope": "Self"
+  "id": "OP05-027",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 3,
-          "maxCount": 1
-        },
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP05-027"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          },
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

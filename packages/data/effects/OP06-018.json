@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacter"
+  "id": "OP06-018",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "ChooseOwnCharacter"
-        },
-        "duration": "DuringYourTurn",
-        "condition": {
-          "type": "HasCardOnBoard",
-          "scope": "OpponentCharacter",
-          "minPower": 7000
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "DuringYourTurn",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "OpponentCharacter",
+            "minPower": 7000
+          }
         }
-      }
-    ]
-  },
-  "id": "OP06-018"
+      ]
+    }
+  ]
 }

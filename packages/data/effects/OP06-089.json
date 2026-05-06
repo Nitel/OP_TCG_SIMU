@@ -1,17 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 3,
-        "filter": {
-          "source": "Deck"
-        },
-        "thenActions": []
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -25,5 +12,20 @@
       }
     ]
   },
-  "id": "OP06-089"
+  "id": "OP06-089",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 3,
+          "filter": {
+            "source": "Deck"
+          },
+          "thenActions": []
+        }
+      ]
+    }
+  ]
 }

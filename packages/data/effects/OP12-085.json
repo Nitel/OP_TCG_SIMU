@@ -1,18 +1,20 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Revolutionary Army"
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "target": "OpponentHand"
-      }
-    ],
-    "requirementCheck": "OpponentHandCount >= 5"
-  },
-  "id": "OP12-085"
+  "id": "OP12-085",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "value": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": "OpponentHand"
+        }
+      ],
+      "requirementCheck": "OpponentHandCount >= 5"
+    }
+  ]
 }

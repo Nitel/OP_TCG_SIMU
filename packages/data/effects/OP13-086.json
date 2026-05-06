@@ -1,31 +1,35 @@
 {
   "id": "OP13-086",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "type": "Celestial Dragons",
-        "excludeNames": [
-          "Saint Shalria"
-        ]
-      },
-      "destination": "hand",
-      "maxCount": 1,
-      "lookAtCount": 3,
-      "thenActions": [
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "ForceDiscard",
-          "count": 2,
+          "type": "SearchDeck",
           "filter": {
-            "source": "deckLookAt"
-          }
-        },
-        {
-          "type": "TrashFromHand",
-          "count": 1,
-          "filter": {}
+            "kind": "ByType",
+            "type": "Celestial Dragons",
+            "excludeNames": [
+              "Saint Shalria"
+            ]
+          },
+          "destination": "hand",
+          "maxCount": 1,
+          "lookAtCount": 3,
+          "thenActions": [
+            {
+              "type": "ForceDiscard",
+              "count": 2,
+              "filter": {
+                "source": "deckLookAt"
+              }
+            },
+            {
+              "type": "TrashFromHand",
+              "count": 1,
+              "filter": {}
+            }
+          ]
         }
       ]
     }

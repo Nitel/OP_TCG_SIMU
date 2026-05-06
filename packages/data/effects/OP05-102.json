@@ -1,14 +1,18 @@
 {
   "id": "OP05-102",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": "OpponentLifeCount",
-        "maxTargets": 1
-      }
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": "OpponentLifeCount",
+            "maxTargets": 1
+          }
+        }
+      ]
     }
   ]
 }

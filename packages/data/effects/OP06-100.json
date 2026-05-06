@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "KO",
-            "count": 1,
-            "target": {
-              "scope": "ChooseOpponentCharacter",
-              "filter": {
-                "costLessThanOrEqual": "OpponentLifeCount"
+  "id": "OP06-100",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "KO",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "filter": {
+                  "costLessThanOrEqual": "OpponentLifeCount"
+                }
               }
             }
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-100"
+          ]
+        }
+      ]
+    }
+  ]
 }

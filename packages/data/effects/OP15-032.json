@@ -1,19 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "quantity": {
-            "type": "UpTo",
-            "value": 1
-          }
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Activated",
     "conditions": [
@@ -47,5 +32,22 @@
       }
     ]
   },
-  "id": "OP15-032"
+  "id": "OP15-032",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "quantity": {
+              "type": "UpTo",
+              "value": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

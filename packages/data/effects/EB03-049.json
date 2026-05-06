@@ -1,37 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Perona"
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Thriller Bark Pirates",
-          "cardType": "Character",
-          "maxCost": 6
-        },
-        "source": [
-          "hand",
-          "trash"
-        ]
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Thriller Bark Pirates",
-          "cardType": "Character",
-          "maxCost": 4
-        },
-        "source": [
-          "hand",
-          "trash"
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -45,5 +12,40 @@
       }
     ]
   },
-  "id": "EB03-049"
+  "id": "EB03-049",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Perona"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 6
+          },
+          "source": [
+            "hand",
+            "trash"
+          ]
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Thriller Bark Pirates",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "source": [
+            "hand",
+            "trash"
+          ]
+        }
+      ]
+    }
+  ]
 }

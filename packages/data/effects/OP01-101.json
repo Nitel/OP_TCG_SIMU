@@ -1,26 +1,30 @@
 {
   "id": "OP01-101",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "Always"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "optional": true,
-        "count": 1
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
       },
-      "thenActions": [
+      "actions": [
         {
-          "type": "SearchDeck",
+          "type": "TrashFromHand",
           "filter": {
-            "type": "DON",
+            "optional": true,
             "count": 1
-          }
-        },
-        {
-          "type": "Rest"
+          },
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "type": "DON",
+                "count": 1
+              }
+            },
+            {
+              "type": "Rest"
+            }
+          ]
         }
       ]
     }

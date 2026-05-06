@@ -1,18 +1,22 @@
 {
   "id": "OP08-021",
-  "trigger": "Activated",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "cardType": "Minks"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 5,
-        "maxCount": 1
-      }
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Minks"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "maxCount": 1
+          }
+        }
+      ]
     }
   ]
 }

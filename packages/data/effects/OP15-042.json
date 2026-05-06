@@ -1,29 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Rebecca"
-    },
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "optional": true,
-        "filter": {
-          "excludeSelf": true
-        },
-        "count": 1
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "1": {
     "trigger": "OnKO",
     "actions": [
@@ -35,5 +10,32 @@
       }
     ]
   },
-  "id": "OP15-042"
+  "id": "OP15-042",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Rebecca"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "optional": true,
+          "filter": {
+            "excludeSelf": true
+          },
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "types": [
-            "Neptunian",
-            "Fish-Man Island"
-          ]
-        },
-        "maxCards": 1,
-        "deckPosition": "top",
-        "deckPositionValue": 5,
-        "destination": "hand"
-      }
-    ]
-  },
-  "id": "OP11-030"
+  "id": "OP11-030",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "Neptunian",
+              "Fish-Man Island"
+            ]
+          },
+          "maxCards": 1,
+          "deckPosition": "top",
+          "deckPositionValue": 5,
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
 }

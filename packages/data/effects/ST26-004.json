@@ -1,19 +1,23 @@
 {
   "id": "ST26-004",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 2
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
         "count": 2
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 2
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

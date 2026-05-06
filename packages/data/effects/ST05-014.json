@@ -1,18 +1,22 @@
 {
   "id": "ST05-014",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "value": "FILM",
-        "excludeName": "Buena Festa"
-      },
-      "limit": 1,
-      "inspectTop": 5,
-      "destination": "hand",
-      "notes": "Remaining 4 cards placed at bottom of deck in any order"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "value": "FILM",
+            "excludeName": "Buena Festa"
+          },
+          "limit": 1,
+          "inspectTop": 5,
+          "destination": "hand",
+          "notes": "Remaining 4 cards placed at bottom of deck in any order"
+        }
+      ]
     }
   ]
 }

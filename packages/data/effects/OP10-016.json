@@ -1,31 +1,35 @@
 {
   "id": "OP10-016",
-  "trigger": "Activated",
   "cost": {
     "type": "Rest",
     "target": {
       "scope": "Self"
     }
   },
-  "actions": [
+  "effects": [
     {
-      "type": "AttachDon",
-      "count": 2,
-      "target": {
-        "scope": "ChooseOwnCharacterOrLeader"
-      },
-      "condition": {
-        "type": "HasRestingDon"
-      }
-    },
-    {
-      "type": "PowerBoost",
-      "amount": -1000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "count": 1
-      },
-      "duration": "DuringYourTurn"
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "condition": {
+            "type": "HasRestingDon"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "conditions": [
-      {
-        "type": "DuringYourTurn"
-      }
-    ],
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "filters": {
-            "isRested": true,
-            "maxCost": 3
-          },
-          "maxCount": 1
+  "id": "ST10-007",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "DuringYourTurn"
         }
-      }
-    ]
-  },
-  "id": "ST10-007"
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "filters": {
+              "isRested": true,
+              "maxCost": 3
+            },
+            "maxCount": 1
+          }
+        }
+      ]
+    }
+  ]
 }

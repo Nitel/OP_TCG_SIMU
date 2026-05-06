@@ -1,23 +1,27 @@
 {
   "id": "EB04-047",
-  "trigger": "Activated",
-  "conditions": [],
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "target": "self",
-      "optional": true,
-      "thenActions": [
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
         {
-          "type": "PlayFromHand",
-          "filter": {
-            "cardType": "Character",
-            "subType": "SWORD",
-            "maxCost": 3,
-            "excludeName": "Helmeppo"
-          },
-          "amount": 1,
-          "optional": true
+          "type": "TrashFromHand",
+          "target": "self",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "cardType": "Character",
+                "subType": "SWORD",
+                "maxCost": 3,
+                "excludeName": "Helmeppo"
+              },
+              "amount": 1,
+              "optional": true
+            }
+          ]
         }
       ]
     }

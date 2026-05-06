@@ -1,20 +1,24 @@
 {
   "id": "OP11-006",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 1
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -5000,
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "attribute": "Special",
-        "maxTargets": 1
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "attribute": "Special",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
   ]
 }

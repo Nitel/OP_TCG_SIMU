@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 2,
-        "filter": {
-          "type": "CP"
-        },
-        "source": "Trash",
-        "placement": "BottomOfDeck",
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "GiveKeyword",
-            "keyword": "Rush",
-            "target": {
-              "scope": "Self"
-            },
-            "duration": "DuringYourTurn"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP03-092"
+  "id": "OP03-092",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "filter": {
+            "type": "CP"
+          },
+          "source": "Trash",
+          "placement": "BottomOfDeck",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

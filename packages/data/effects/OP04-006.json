@@ -1,23 +1,27 @@
 {
   "id": "OP04-006",
-  "trigger": "OnAttack",
-  "actions": [
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -5000,
-      "target": {
-        "scope": "OwnLeader"
-      },
-      "duration": "EndOfTurn",
-      "optional": true
-    },
-    {
-      "type": "PowerBoost",
-      "amount": 2000,
-      "target": {
-        "scope": "Self"
-      },
-      "duration": "EndOfOpponentTurn"
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn",
+          "optional": true
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
     }
   ]
 }

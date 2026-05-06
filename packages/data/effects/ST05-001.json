@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "cardTypes": [
-            "FILM"
-          ],
-          "isCharacter": true
-        }
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "AllOwnCharacters",
+  "id": "ST05-001",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
           "filter": {
             "cardTypes": [
               "FILM"
-            ]
+            ],
+            "isCharacter": true
           }
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "ST05-001"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "cardTypes": [
+                "FILM"
+              ]
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

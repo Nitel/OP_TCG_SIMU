@@ -1,50 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "value": "Sanji"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 3,
-        "filter": {
-          "cardTypes": [
-            "Character",
-            "Event"
-          ],
-          "subType": [
-            "Sanji"
-          ]
-        },
-        "reveal": true,
-        "thenActions": [
-          {
-            "type": "RevealFromHand",
-            "count": 1,
-            "filter": {
-              "cardTypes": [
-                "Character",
-                "Event"
-              ],
-              "subType": [
-                "Sanji"
-              ]
-            },
-            "destination": "hand",
-            "thenActions": [
-              {
-                "type": "ForceDiscard",
-                "source": "SearchResults",
-                "remaining": true
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "actions": [
@@ -67,5 +21,53 @@
       }
     ]
   },
-  "id": "EB04-029"
+  "id": "EB04-029",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Sanji"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 3,
+          "filter": {
+            "cardTypes": [
+              "Character",
+              "Event"
+            ],
+            "subType": [
+              "Sanji"
+            ]
+          },
+          "reveal": true,
+          "thenActions": [
+            {
+              "type": "RevealFromHand",
+              "count": 1,
+              "filter": {
+                "cardTypes": [
+                  "Character",
+                  "Event"
+                ],
+                "subType": [
+                  "Sanji"
+                ]
+              },
+              "destination": "hand",
+              "thenActions": [
+                {
+                  "type": "ForceDiscard",
+                  "source": "SearchResults",
+                  "remaining": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

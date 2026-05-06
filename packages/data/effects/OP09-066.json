@@ -1,18 +1,22 @@
 {
   "id": "OP09-066",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "comparison": "OpponentGreater"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 3
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "OpponentGreater"
       },
-      "maxTargets": 1
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          },
+          "maxTargets": 1
+        }
+      ]
     }
   ]
 }

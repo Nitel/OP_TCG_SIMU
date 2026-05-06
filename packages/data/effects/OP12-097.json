@@ -1,24 +1,28 @@
 {
   "id": "OP12-097",
-  "trigger": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByType",
-        "value": "Revolutionary Army",
-        "excludeNames": [
-          "Captains Assembled"
-        ]
-      },
-      "destination": "hand",
-      "limit": 1,
-      "searchCount": 3
-    },
-    {
-      "type": "ForceDiscard",
-      "target": "RemainingViewedCards",
-      "destination": "trash"
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "value": "Revolutionary Army",
+            "excludeNames": [
+              "Captains Assembled"
+            ]
+          },
+          "destination": "hand",
+          "limit": 1,
+          "searchCount": 3
+        },
+        {
+          "type": "ForceDiscard",
+          "target": "RemainingViewedCards",
+          "destination": "trash"
+        }
+      ]
     }
   ]
 }

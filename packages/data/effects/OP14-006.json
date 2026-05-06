@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "PowerCheck",
-        "value": 5000,
-        "operator": ">="
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "max": 1
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP14-006"
+  "id": "OP14-006",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "PowerCheck",
+          "value": 5000,
+          "operator": ">="
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

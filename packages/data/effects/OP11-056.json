@@ -1,17 +1,21 @@
 {
   "id": "OP11-056",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "ByCost",
-        "maxCost": 1,
-        "cardType": "Character"
-      },
-      "destination": "deck",
-      "position": "bottom",
-      "amount": 1
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 1,
+            "cardType": "Character"
+          },
+          "destination": "deck",
+          "position": "bottom",
+          "amount": 1
+        }
+      ]
     }
   ]
 }

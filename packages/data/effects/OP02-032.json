@@ -1,21 +1,25 @@
 {
   "id": "OP02-032",
-  "trigger": "OnPlay",
-  "conditions": [
+  "effects": [
     {
-      "type": "HasAttachedDon",
-      "amount": 2
-    }
-  ],
-  "actions": [
-    {
-      "type": "Activate",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "type": "Minks",
-        "maxCost": 5,
-        "maxSelect": 1
-      }
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "amount": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "type": "Minks",
+            "maxCost": 5,
+            "maxSelect": 1
+          }
+        }
+      ]
     }
   ]
 }

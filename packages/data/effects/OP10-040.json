@@ -1,23 +1,4 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasRestingDon",
-        "scope": "ChooseOpponentCharacter"
-      }
-    ],
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 7,
-          "rested": true
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "Counter",
     "conditions": [
@@ -37,5 +18,26 @@
       }
     ]
   },
-  "id": "OP10-040"
+  "id": "OP10-040",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "scope": "ChooseOpponentCharacter"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "rested": true
+          }
+        }
+      ]
+    }
+  ]
 }

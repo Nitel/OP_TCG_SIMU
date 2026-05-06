@@ -1,30 +1,4 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Lucy"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "filter": {}
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "type": "Dressrosa",
-          "cardType": "Character",
-          "maxCost": 4
-        }
-      }
-    ]
-  },
   "1": {
     "trigger": "OnPlay",
     "condition": {
@@ -40,5 +14,33 @@
       }
     ]
   },
-  "id": "OP15-054"
+  "id": "OP15-054",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Lucy"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {}
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Dressrosa",
+            "cardType": "Character",
+            "maxCost": 4
+          }
+        }
+      ]
+    }
+  ]
 }

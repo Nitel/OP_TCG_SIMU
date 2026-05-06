@@ -1,30 +1,32 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 2
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "minCost": 2,
-          "subType": "Punk Hazard"
-        },
-        "optional": true
+  "id": "OP10-002",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
       },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 4000,
-          "count": 1
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 2,
+            "subType": "Punk Hazard"
+          },
+          "optional": true
         },
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP10-002"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 4000,
+            "count": 1
+          },
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

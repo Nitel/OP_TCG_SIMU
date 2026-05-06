@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "max": 1
+  "id": "OP07-096",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         },
-        "power": -3,
-        "duration": "EndOfOpponentTurn",
-        "condition": {
-          "type": "TrashCount",
-          "operator": ">=",
-          "value": 10
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "max": 1
+          },
+          "power": -3,
+          "duration": "EndOfOpponentTurn",
+          "condition": {
+            "type": "TrashCount",
+            "operator": ">=",
+            "value": 10
+          }
         }
-      }
-    ]
-  },
-  "id": "OP07-096"
+      ]
+    }
+  ]
 }

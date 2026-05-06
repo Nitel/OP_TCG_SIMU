@@ -1,23 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
+  "id": "ST04-005",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
       },
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "filter": {
-          "location": "hand"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "filter": {
+            "location": "hand"
+          }
         }
-      }
-    ]
-  },
-  "id": "ST04-005"
+      ]
+    }
+  ]
 }

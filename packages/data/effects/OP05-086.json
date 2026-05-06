@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "TrashCount",
-      "value": 10,
-      "comparison": "GreaterThanOrEqual"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP05-086"
+  "id": "OP05-086",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "value": 10,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

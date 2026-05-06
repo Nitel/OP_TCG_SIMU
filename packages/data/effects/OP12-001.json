@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TurnCount",
-      "limit": 1
-    },
-    "actions": [
-      {
-        "type": "RevealFromHand",
-        "count": 2,
-        "filter": {
-          "cardType": "Event"
-        },
-        "thenActions": [
-          {
-            "type": "PowerBoost",
-            "amount": 2000,
-            "target": {
-              "scope": "ChooseOwnCharacter",
-              "maxPower": 4000,
-              "maxCount": 1
-            },
-            "duration": "EndOfTurn"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP12-001"
+  "id": "OP12-001",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "limit": 1
+      },
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "cardType": "Event"
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "maxPower": 4000,
+                "maxCount": 1
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

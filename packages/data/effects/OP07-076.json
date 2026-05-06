@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "cost": {
-      "don": 1
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "count": 1
-        },
-        "duration": "EndOfBattle"
+  "id": "OP07-076",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "cost": {
+        "don": 1
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "count": 1
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP07-076"
+      ]
+    }
+  ]
 }

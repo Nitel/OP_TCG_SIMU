@@ -1,23 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "operator": "lessThanOrEqual",
-      "targetPlayer": "self",
-      "comparisonPlayer": "opponent"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
+  "id": "EB04-038",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "lessThanOrEqual",
+        "targetPlayer": "self",
+        "comparisonPlayer": "opponent"
       },
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "upTo": true
-      }
-    ]
-  },
-  "id": "EB04-038"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "upTo": true
+        }
+      ]
+    }
+  ]
 }

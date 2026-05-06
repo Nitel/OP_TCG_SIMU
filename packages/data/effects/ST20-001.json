@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TurnCount",
-      "max": 1
-    },
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1
+  "id": "ST20-001",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TurnCount",
+        "max": 1
       },
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "filter": "HasRestingDon"
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
         },
-        "optional": true
-      }
-    ]
-  },
-  "id": "ST20-001"
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filter": "HasRestingDon"
+          },
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

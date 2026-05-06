@@ -1,27 +1,31 @@
 {
   "id": "OP04-098",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "filter": {
-        "subType": "Land of Wano",
-        "count": 2
-      },
-      "optional": true,
-      "condition": {
-        "type": "Always"
-      },
-      "thenActions": [
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "FlipLife",
-          "count": 1,
+          "type": "TrashFromHand",
+          "filter": {
+            "subType": "Land of Wano",
+            "count": 2
+          },
+          "optional": true,
           "condition": {
-            "type": "HasCardOnBoard",
-            "cardAttribute": "YourLifeCards",
-            "comparison": "<=",
-            "value": 1
-          }
+            "type": "Always"
+          },
+          "thenActions": [
+            {
+              "type": "FlipLife",
+              "count": 1,
+              "condition": {
+                "type": "HasCardOnBoard",
+                "cardAttribute": "YourLifeCards",
+                "comparison": "<=",
+                "value": 1
+              }
+            }
+          ]
         }
       ]
     }

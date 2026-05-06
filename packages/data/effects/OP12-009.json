@@ -1,29 +1,33 @@
 {
   "id": "OP12-009",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "RevealFromHand",
-      "count": 2,
-      "filter": {
-        "cardType": "Event"
-      },
-      "thenActions": [
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "GiveKeyword",
-          "keyword": "Rush",
-          "target": {
-            "scope": "Self"
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "cardType": "Event"
           },
-          "duration": "DuringYourTurn"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "target": {
-            "scope": "Self"
-          },
-          "duration": "EndOfOpponentTurn"
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "Rush",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            },
+            {
+              "type": "PowerBoost",
+              "amount": 1000,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfOpponentTurn"
+            }
+          ]
         }
       ]
     }

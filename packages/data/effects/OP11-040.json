@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 8
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "value": "Straw Hat Crew"
-        },
-        "count": 1,
-        "destination": "hand"
-      }
-    ]
-  },
-  "id": "OP11-040"
+  "id": "OP11-040",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 8
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "value": "Straw Hat Crew"
+          },
+          "count": 1,
+          "destination": "hand"
+        }
+      ]
+    }
+  ]
 }
