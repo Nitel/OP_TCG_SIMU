@@ -1931,3 +1931,191 @@ describe('DuringYourTurn : GiveKeyword stocké dans temporaryKeywords', () => {
     expect(afterPlay.cards[card.id]?.temporaryKeywords).toContain('Rush');
   });
 });
+
+// ── OPE1. OnOpponentPlaysEvent — DrawCard déclenché quand P2 joue un Event ──────
+
+describe('OnOpponentPlaysEvent : nominal', () => {
+  it("P2 joue un Event pendant le tour de P1 → DrawCard déclenché sur la carte de P1", () => {
+    const base = bootstrapGame(); // activePlayerId = P1, phase = Main
+
+    const watcherEffect: CardEffect = {
+      trigger: 'OnOpponentPlaysEvent',
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const watcher = makeChar('ope-watcher', 'p1', 2000, { effects: [watcherEffect] });
+
+    const eventCard: Card = {
+      id: makeCardId('p2-event'),
+      name: 'P2 Counter Event',
+      cost: 0,
+      power: 0,
+      color: 'Red',
+      type: 'Event',
+      zone: 'hand',
+      ownerId: P2,
+      tapped: false,
+      attachedTo: null,
+      effects: [],
+    };
+
+    let state = addToP1Board(base, watcher);
+    // Add event card to P2's hand
+    state = {
+      ...state,
+      cards: { ...state.cards, [eventCard.id]: eventCard },
+      players: {
+        ...state.players,
+        [P2]: { ...state.players[P2]!, hand: [...state.players[P2]!.hand, eventCard.id] },
+      },
+    };
+
+    const deckBefore = state.players[P1]!.deck.length;
+
+    const result = applyAction(state, { type: 'PlayEvent', playerId: P2, cardId: eventCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // P1 drew a card from the OnOpponentPlaysEvent trigger
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 1);
+  });
+});
+
+// ── OPE2. OnOpponentPlaysEvent — pas déclenché quand c'est le tour de P2 ─────────
+
+describe('OnOpponentPlaysEvent : mauvais tour', () => {
+  it("P1 joue un Event pendant le tour de P2 → OnOpponentPlaysEvent de P2 ne se déclenche pas", () => {
+    const base = bootstrapGame(); // activePlayerId = P1
+    // Switch to P2's turn
+    const p2TurnState: GameState = { ...base, activePlayerId: P2, phase: 'Main' };
+
+    const watcherEffect: CardEffect = {
+      trigger: 'OnOpponentPlaysEvent',
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const watcher = makeChar('ope-watcher-p2', 'p2', 2000, { effects: [watcherEffect] });
+
+    const eventCard: Card = {
+      id: makeCardId('p1-event'),
+      name: 'P1 Event',
+      cost: 0,
+      power: 0,
+      color: 'Red',
+      type: 'Event',
+      zone: 'hand',
+      ownerId: P1,
+      tapped: false,
+      attachedTo: null,
+      effects: [],
+    };
+
+    let state = addToP2Board(p2TurnState, watcher);
+    state = addToHand(state, eventCard);
+
+    const deckBefore = state.players[P2]!.deck.length;
+
+    // P1 plays their Event during P2's turn — P1 is the NON-active player
+    // OnOpponentPlaysEvent should fire on P2's cards (active player)
+    // But P1 is NOT the non-active player in this case — P1 IS non-active → should NOT fire for P2
+    // Wait: P2 is active, P1 plays Event → fires on P2's cards (active = P2, event by non-active P1) ✓
+    // The test verifies the REVERSE: P2 is active, P1 plays Event → P2's watcher SHOULD fire
+    // Actually this is the same as OPE1 but with roles reversed. Let me adjust the test.
+
+    // Corrected intent: when P1 plays an Event and P2 is active, P2's watcher fires.
+    // This test was meant to check the WRONG-TURN case. Let me re-do:
+    // Wrong turn = P2 is active, P2 plays their OWN Event → OnOpponentPlaysEvent does NOT fire.
+    const p2OwnEvent: Card = {
+      id: makeCardId('p2-own-event'),
+      name: 'P2 Own Event',
+      cost: 0,
+      power: 0,
+      color: 'Red',
+      type: 'Event',
+      zone: 'hand',
+      ownerId: P2,
+      tapped: false,
+      attachedTo: null,
+      effects: [],
+    };
+    state = {
+      ...p2TurnState,
+      cards: { ...p2TurnState.cards, [watcher.id]: { ...watcher, zone: 'board' }, [p2OwnEvent.id]: p2OwnEvent },
+      players: {
+        ...p2TurnState.players,
+        [P2]: {
+          ...p2TurnState.players[P2]!,
+          board: [...p2TurnState.players[P2]!.board, watcher.id],
+          hand: [...p2TurnState.players[P2]!.hand, p2OwnEvent.id],
+        },
+      },
+    };
+
+    const p2DeckBefore = state.players[P2]!.deck.length;
+
+    // P2 plays their OWN event (same player = active player) → should NOT trigger OnOpponentPlaysEvent
+    const result = applyAction(state, { type: 'PlayEvent', playerId: P2, cardId: p2OwnEvent.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // P2's deck should NOT have changed from the watcher effect (no trigger)
+    expect(result.players[P2]!.deck.length).toBe(p2DeckBefore);
+  });
+});
+
+// ── OPE3. OnOpponentPlaysEvent — OncePerTurn: deuxième Event ignoré ──────────────
+
+describe('OnOpponentPlaysEvent : OncePerTurn', () => {
+  it("P2 joue deux Events → OnOpponentPlaysEvent de P1 ne se déclenche qu'une fois", () => {
+    const base = bootstrapGame(); // activePlayerId = P1
+
+    const watcherEffect: CardEffect = {
+      trigger: 'OnOpponentPlaysEvent',
+      actions: [{ type: 'DrawCard', count: 1 }],
+      // TypeScript: cast to include constraints
+    } as unknown as CardEffect;
+    // Inject constraints onto the effect object directly
+    (watcherEffect as Record<string, unknown>)['constraints'] = [{ type: 'OncePerTurn' }];
+
+    const watcher = makeChar('ope-once-watcher', 'p1', 2000, { effects: [watcherEffect] });
+
+    const makeP2Event = (suffix: string): Card => ({
+      id: makeCardId(`p2-event-${suffix}`),
+      name: `P2 Event ${suffix}`,
+      cost: 0,
+      power: 0,
+      color: 'Red',
+      type: 'Event',
+      zone: 'hand',
+      ownerId: P2,
+      tapped: false,
+      attachedTo: null,
+      effects: [],
+    });
+
+    const event1 = makeP2Event('1');
+    const event2 = makeP2Event('2');
+
+    let state = addToP1Board(base, watcher);
+    state = {
+      ...state,
+      cards: { ...state.cards, [event1.id]: event1, [event2.id]: event2 },
+      players: {
+        ...state.players,
+        [P2]: { ...state.players[P2]!, hand: [...state.players[P2]!.hand, event1.id, event2.id] },
+      },
+    };
+
+    const deckBefore = state.players[P1]!.deck.length;
+
+    // P2 plays first event → P1 draws 1
+    let s = applyAction(state, { type: 'PlayEvent', playerId: P2, cardId: event1.id });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+    expect(s.players[P1]!.deck.length).toBe(deckBefore - 1);
+
+    // P2 plays second event → OncePerTurn: P1 should NOT draw again
+    s = applyAction(s, { type: 'PlayEvent', playerId: P2, cardId: event2.id });
+    expect(isGameError(s)).toBe(false);
+    if (isGameError(s)) return;
+    expect(s.players[P1]!.deck.length).toBe(deckBefore - 1); // still only -1
+  });
+});

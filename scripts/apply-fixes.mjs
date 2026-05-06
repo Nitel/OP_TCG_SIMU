@@ -49,7 +49,7 @@ const KNOWN_TARGET_SCOPES = new Set([
 
 const KNOWN_TRIGGERS = new Set([
   'OnPlay', 'OnAttack', 'OnAttacked', 'OnKO', 'OnLeaveField', 'OnBlock',
-  'OnOpponentBlock', 'Counter', 'Trigger', 'Activated',
+  'OnOpponentBlock', 'OnOpponentPlaysEvent', 'Counter', 'Trigger', 'Activated',
   'StartOfTurn', 'StartOfOpponentTurn', 'StartOfMainPhase', 'EndOfTurn',
 ]);
 

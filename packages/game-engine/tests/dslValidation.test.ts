@@ -15,6 +15,7 @@ const EFFECTS_DIR = path.join(__dirname, '../../data/effects');
 const VALID_TRIGGERS = new Set([
   'Activated', 'OnPlay', 'OnAttack', 'OnAttacked', 'OnBlock', 'OnKO', 'OnLeaveField', 'Counter', 'Trigger',
   'StartOfTurn', 'StartOfOpponentTurn', 'StartOfMainPhase', 'EndOfTurn', 'OnOpponentBlock',
+  'OnOpponentPlaysEvent',
 ]);
 const VALID_CONDITIONS = new Set([
   'Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon', 'TrashCount', 'HasCardOnBoard',

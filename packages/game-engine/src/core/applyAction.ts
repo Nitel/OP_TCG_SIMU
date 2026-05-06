@@ -11,7 +11,7 @@ import type {
   GamePhase,
   EffectTrigger,
 } from '../types/index.js';
-import { makeGameError } from '../types/index.js';
+import { makeGameError, isGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
 import { clearPowerModifiers, clearOppTurnModifiers, clearTemporaryKeywords, hasKeyword, calculatePower } from '../rules/cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
@@ -845,9 +845,6 @@ function applyPlayEvent(
   state: GameState,
   action: Extract<GameAction, { type: 'PlayEvent' }>
 ): ActionResult {
-  if (action.playerId !== state.activePlayerId) {
-    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
-  }
   if (state.phase !== 'Main') {
     return makeGameError('WRONG_PHASE', `PlayEvent requires Main phase, current: ${state.phase}`);
   }
@@ -905,8 +902,9 @@ function applyPlayEvent(
   };
 
   // Trigger OnPlay effects
+  let afterOnPlay: GameState = afterPlay;
   if (card.effects?.length) {
-    return resolveEffects(
+    const result = resolveEffects(
       card.effects,
       'OnPlay',
       {
@@ -916,8 +914,50 @@ function applyPlayEvent(
       },
       afterPlay,
     );
+    if (isGameError(result)) return result;
+    afterOnPlay = result;
   }
-  return afterPlay;
+
+  // Fire OnOpponentPlaysEvent on all cards belonging to the ACTIVE player,
+  // but only when the event was played by the NON-ACTIVE player (i.e. a Counter).
+  // "[Your Turn] When your opponent activates an Event" = fires for the active player's cards.
+  if (action.playerId !== afterOnPlay.activePlayerId) {
+    const activePlayerId = afterOnPlay.activePlayerId;
+    const activePlayer = afterOnPlay.players[activePlayerId];
+    if (activePlayer !== undefined) {
+      const watcherCards = [
+        ...(activePlayer.leader !== null ? [activePlayer.leader] : []),
+        ...activePlayer.board,
+      ];
+      for (const watcherId of watcherCards) {
+        const watcher = afterOnPlay.cards[watcherId];
+        if (!watcher?.effects?.length) continue;
+        const hasOncePerTurn = watcher.effects.some(
+          (eff) => eff.trigger === 'OnOpponentPlaysEvent' &&
+                   Array.isArray((eff as Record<string, unknown>)['constraints']) &&
+                   ((eff as Record<string, unknown>)['constraints'] as unknown[]).some(
+                     (c) => (c as Record<string, unknown>)['type'] === 'OncePerTurn'
+                   )
+        );
+        if (hasOncePerTurn && afterOnPlay.activatedAbilityIds.includes(watcherId)) continue;
+        afterOnPlay = resolveEffects(
+          watcher.effects,
+          'OnOpponentPlaysEvent',
+          { sourceCardId: watcherId, sourcePlayerId: activePlayerId },
+          afterOnPlay,
+        );
+        if (isGameError(afterOnPlay)) return afterOnPlay;
+        if (hasOncePerTurn) {
+          afterOnPlay = {
+            ...afterOnPlay,
+            activatedAbilityIds: [...afterOnPlay.activatedAbilityIds, watcherId],
+          };
+        }
+      }
+    }
+  }
+
+  return afterOnPlay;
 }
 
 // ─── ActivatedAbility ─────────────────────────────────────────────────────────

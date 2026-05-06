@@ -196,9 +196,10 @@ export type EffectTrigger =
   | 'OnKO'                // When this card is KO'd (by any means)
   | 'OnLeaveField'        // When this card leaves the board (KO or returned to hand)
   | 'OnBlock'             // When this card becomes a blocker
-  | 'OnOpponentBlock'     // When the opponent activates a Blocker against this card's controller's attack
-  | 'Counter'             // When this card is played from hand during the opponent's attack window
-  | 'Trigger'             // When this card is revealed from the Life zone
+  | 'OnOpponentBlock'         // When the opponent activates a Blocker against this card's controller's attack
+  | 'OnOpponentPlaysEvent'    // [Your Turn] When the opponent activates an Event card (requires activationCost)
+  | 'Counter'                 // When this card is played from hand during the opponent's attack window
+  | 'Trigger'                 // When this card is revealed from the Life zone
   | 'Activated'           // Activated ability during Main phase — [DON!! xN] cost
   | 'StartOfTurn'         // At the start of the card owner's turn (Refresh phase)
   | 'StartOfOpponentTurn' // At the start of the opponent's turn
