@@ -1,41 +1,36 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "amount": 4
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnCostArea",
-          "maxDon": 4
+  "id": "OP01-003",
+  "name": "Monkey.D.Luffy",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 4
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 5,
+            "subType": "Supernovas"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
         }
-      },
-      {
-        "type": "PlaySelf",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxCost": 5,
-          "types": [
-            "Supernovas",
-            "Straw Hat Crew"
-          ]
-        },
-        "setActive": true
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "LastTargetedCharacter"
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP01-003"
+      ]
+    }
+  ]
 }

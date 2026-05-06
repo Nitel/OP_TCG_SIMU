@@ -1,22 +1,17 @@
 {
   "id": "OP01-111",
+  "name": "Black Maria",
+  "cost": 4,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
   "effects": [
     {
       "trigger": "OnBlock",
-      "conditions": [
-        {
-          "type": "HasAttachedDon",
-          "amount": 1
-        }
-      ],
       "actions": [
-        {
-          "type": "AttachDon",
-          "amount": -1,
-          "target": {
-            "scope": "Self"
-          }
-        },
         {
           "type": "PowerBoost",
           "amount": 1000,
@@ -27,5 +22,6 @@
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

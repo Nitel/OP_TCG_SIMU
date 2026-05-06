@@ -1,19 +1,29 @@
 {
   "id": "OP01-022",
-  "trigger": "OnAttack",
-  "condition": {
-    "type": "HasRestingDon",
-    "count": 1
-  },
-  "actions": [
+  "name": "Brook",
+  "cost": 4,
+  "power": 5000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -2000,
-      "target": {
-        "scope": "OpponentCharacters",
-        "count": 2
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
       },
-      "duration": "DuringYourTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     }
-  ]
+  ],
+  "counter": 1000
 }

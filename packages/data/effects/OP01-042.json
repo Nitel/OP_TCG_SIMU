@@ -1,27 +1,28 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Kouzuki Oden"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "count": 3,
-        "source": "cost"
+  "id": "OP01-042",
+  "name": "Komurasaki",
+  "cost": 1,
+  "power": 0,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Kouzuki Oden"
       },
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByTypeAndCost",
-          "type": "Land of Wano",
-          "maxCost": 3
-        },
-        "destination": "board",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP01-042"
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Land of Wano",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
+  "counter": 1000
 }

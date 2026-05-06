@@ -1,17 +1,26 @@
 {
   "id": "OP01-094",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Animal Kingdom Pirates"
-  },
-  "actions": [
+  "name": "Kaido",
+  "cost": 10,
+  "power": 12000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "AllCharactersExcept",
-        "name": "OP01-094"
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Animal Kingdom Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          }
+        }
+      ]
     }
   ]
 }

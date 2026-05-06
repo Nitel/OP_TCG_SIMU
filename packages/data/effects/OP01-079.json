@@ -1,22 +1,29 @@
 {
   "id": "OP01-079",
-  "cardId": "OP01-079",
-  "effectText": "[On K.O.] If your Leader has the {Baroque Works} type, add up to 1 Event from your trash to your hand.",
+  "name": "Ms. All Sunday",
+  "cost": 3,
+  "power": 1000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [
+    "Blocker"
+  ],
   "effects": [
     {
       "trigger": "OnKO",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Baroque Works"
+        "subType": "Baroque Works"
       },
       "actions": [
         {
-          "type": "ReturnToHand",
-          "from": "trash",
-          "cardType": "Event",
-          "count": 1
+          "type": "PlayFromTrash",
+          "filter": {
+            "cardType": "Event"
+          }
         }
       ]
     }
-  ]
+  ],
+  "counter": 1000
 }

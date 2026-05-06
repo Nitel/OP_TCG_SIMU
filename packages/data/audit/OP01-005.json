@@ -2,22 +2,17 @@
   "id": "OP01-005",
   "name": "Uta",
   "set": "OP-01",
-  "verdict": "critical",
+  "verdict": "major",
   "issues": [
     {
-      "severity": "critical",
-      "field": "actions[0].type",
-      "description": "SearchDeck searches from deck, but effect specifies searching from trash. Should be PlayFromHand or a trash-search action."
-    },
-    {
-      "severity": "critical",
-      "field": "actions[0].filter",
-      "description": "Filter missing color requirement (red) and exclusion of [Uta]. Filter should include color:'red' and exclude card name 'Uta'."
+      "severity": "major",
+      "field": "effects[0].actions[0].type",
+      "description": "Action type 'PlayFromTrash' is not valid. The correct action for adding a card from trash to hand is 'ReturnToHand'. 'PlayFromTrash' would play the card directly onto the board, which contradicts the effect text 'add...to your hand'."
     },
     {
       "severity": "major",
-      "field": "actions[0]",
-      "description": "Action should search/retrieve from trash, not deck. Correct action type needed for trash retrieval."
+      "field": "effects[0].actions[0].filter",
+      "description": "Filter missing 'type' constraint. Card must be a Character (type). Current filter only specifies color and cost, missing the type requirement."
     }
   ],
   "suggestedDsl": {
@@ -26,17 +21,14 @@
       {
         "type": "ReturnToHand",
         "filter": {
-          "kind": "ByCost",
+          "color": "Red",
+          "type": "Character",
           "maxCost": 3,
-          "color": "red",
-          "excludeNames": [
-            "Uta"
-          ]
+          "excludeSelf": true
         },
-        "source": "trash",
-        "max": 1
+        "amount": 1
       }
     ]
   },
-  "auditedAt": "2026-05-05T09:18:21.119Z"
+  "auditedAt": "2026-05-06T13:13:38.519Z"
 }

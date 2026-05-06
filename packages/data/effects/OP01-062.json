@@ -1,27 +1,24 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "triggerTarget": "Event",
-    "condition": {
-      "type": "And",
-      "conditions": [
+  "id": "OP01-062",
+  "name": "Crocodile",
+  "cost": 4,
+  "power": 5000,
+  "color": "Multi",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnOpponentPlaysEvent",
+      "condition": {
+        "type": "LeaderHasAttachedDon",
+        "count": 1
+      },
+      "actions": [
         {
-          "type": "HandSize",
-          "comparison": "LessOrEqual",
-          "value": 4
-        },
-        {
-          "type": "NotDrawnThisTurnByLeader"
+          "type": "DrawCard",
+          "count": 1
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP01-062"
+    }
+  ]
 }

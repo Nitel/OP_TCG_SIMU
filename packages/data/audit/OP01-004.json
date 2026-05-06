@@ -2,37 +2,27 @@
   "id": "OP01-004",
   "name": "Usopp",
   "set": "OP-01",
-  "verdict": "critical",
+  "verdict": "major",
   "issues": [
     {
-      "severity": "critical",
-      "field": "effects",
-      "description": "Card has effect text but effects array is empty. Should contain trigger (OnPlay or Activated), condition (Once Per Turn), and action (DrawCard)"
+      "severity": "major",
+      "field": "effects[0]",
+      "description": "Missing duration constraint. Text '[Your Turn]' requires duration:'DuringYourTurn' to ensure the effect only works during your turn, not opponent's turn."
     },
     {
       "severity": "major",
       "field": "effects[0].trigger",
-      "description": "Missing trigger. Text describes activation of opponent's Event, should use 'Trigger' or similar event listener"
-    },
-    {
-      "severity": "major",
-      "field": "effects[0].condition",
-      "description": "Missing 'Once Per Turn' condition constraint"
-    },
-    {
-      "severity": "major",
-      "field": "effects[0].duration",
-      "description": "'[Your Turn]' in text indicates duration should be 'DuringYourTurn', not Permanent or EndOfTurn"
+      "description": "Trigger 'OnOpponentPlaysEvent' is not in official trigger list. Should use 'Trigger' with appropriate condition or use a valid trigger type."
     }
   ],
   "suggestedDsl": {
+    "effectText": "[DON!! x1] [Your Turn] [Once Per Turn] Draw 1 card when your opponent activates an Event.",
     "effects": [
       {
         "trigger": "Trigger",
         "condition": {
           "type": "Always"
         },
-        "duration": "DuringYourTurn",
         "actions": [
           {
             "type": "DrawCard",
@@ -43,9 +33,10 @@
           {
             "type": "OncePerTurn"
           }
-        ]
+        ],
+        "duration": "DuringYourTurn"
       }
     ]
   },
-  "auditedAt": "2026-05-05T09:18:16.199Z"
+  "auditedAt": "2026-05-06T13:13:30.717Z"
 }

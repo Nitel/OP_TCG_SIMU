@@ -1,20 +1,28 @@
 {
   "id": "OP01-085",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Baroque Works"
-  },
-  "actions": [
+  "name": "Mr.3(Galdino)",
+  "cost": 2,
+  "power": 3000,
+  "color": "Blue",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
     {
-      "type": "GiveKeyword",
-      "keyword": "CannotAttack",
-      "duration": "EndOfOpponentTurn",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 4,
-        "maxSelect": 1
-      }
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        }
+      ]
     }
-  ]
+  ],
+  "counter": 1000
 }

@@ -6,18 +6,13 @@
   "issues": [
     {
       "severity": "major",
-      "field": "condition",
-      "description": "Condition checks 'HasCardOnBoard' with name 'Character' (generic type), but should verify exactly 5 Characters on board. Current condition is too permissive."
+      "field": "effects[0].actions[1]",
+      "description": "PlayFromHand action missing 'count' or 'quantity' constraint. Card text states 'play up to 1 Character', requiring explicit limit of 1, not implicit."
     },
     {
       "severity": "major",
       "field": "effects[0].actions[1].filter",
-      "description": "PlayFromHand filter missing 'differentColor' constraint. Effect text requires played Character is 'different color than the returned Character' — this dependency is not captured in DSL."
-    },
-    {
-      "severity": "minor",
-      "field": "trigger",
-      "description": "Trigger 'Activated' is correct, but DSL should reflect '[Activate: Main] [Once Per Turn] ➁' metadata. This is typically a formatting/metadata issue rather than logic error."
+      "description": "'differentColorFrom' is not a standard filter property. Should use 'excludeColor' or similar, or reference the returned character's color via a constraint mechanism. Current syntax is non-standard."
     }
   ],
   "suggestedDsl": {
@@ -36,13 +31,14 @@
       },
       {
         "type": "PlayFromHand",
+        "count": 1,
         "filter": {
           "cardType": "Character",
           "maxCost": 5,
-          "differentColorFrom": "returnedCharacter"
+          "excludeColor": "returnedCharacter"
         }
       }
     ]
   },
-  "auditedAt": "2026-05-05T09:18:12.759Z"
+  "auditedAt": "2026-05-06T13:13:21.688Z"
 }

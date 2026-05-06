@@ -6,59 +6,52 @@
   "issues": [
     {
       "severity": "major",
-      "field": "effects[0]",
-      "description": "Missing 'Rest' action for the cost requirement (➃ costs 4 DON!!). The DSL only includes PowerBoost but omits the Rest action that must occur when activating."
+      "field": "effects[0].actions[0]",
+      "description": "Action type 'PlayFromHand' is incorrect. The effect sets up a character already on board (activates it from resting state to active), not plays from hand. Should use 'Rest' with a negation or a dedicated 'Activate' action, or clarify as setting a character on board as active."
     },
     {
       "severity": "major",
-      "field": "effects[0].actions[0].target",
-      "description": "Target scope is incomplete. Must filter for {Supernovas} OR {Straw Hat Crew} type characters AND cost ≤5. Current target lacks type filtering."
+      "field": "effects[0].actions[0].filter.subType",
+      "description": "Filter only includes 'Supernovas' but card text says 'Supernovas' OR 'Straw Hat Crew'. Filter must support both types via OR logic or array."
     },
     {
       "severity": "major",
-      "field": "effects[0].actions",
-      "description": "Missing action to set character as active. The card text states 'Set up to 1 of your... Character cards as active' but DSL has no action for this state change."
+      "field": "effects[0].actions[1].target",
+      "description": "Target scope 'Self' is incorrect. The power boost applies to the character that was set up (the target of the first action), not to the card performing the activation. Target should reference the selected character."
     }
   ],
   "suggestedDsl": [
     {
       "trigger": "Activated",
-      "conditions": [
-        {
-          "type": "HasAttachedDon",
-          "amount": 4
-        }
-      ],
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 4
+      },
       "actions": [
         {
           "type": "Rest",
           "target": {
-            "scope": "OwnCostArea",
-            "maxDon": 4
-          }
-        },
-        {
-          "type": "PlaySelf",
-          "target": {
-            "scope": "ChooseOwnCharacter",
+            "scope": "Board",
+            "cardType": "Character",
             "maxCost": 5,
-            "types": [
+            "subType": [
               "Supernovas",
               "Straw Hat Crew"
             ]
           },
-          "setActive": true
+          "setActive": true,
+          "count": 1
         },
         {
           "type": "PowerBoost",
           "amount": 1000,
           "target": {
-            "scope": "LastTargetedCharacter"
+            "scope": "SelectedCharacter"
           },
           "duration": "EndOfTurn"
         }
       ]
     }
   ],
-  "auditedAt": "2026-05-05T09:18:14.770Z"
+  "auditedAt": "2026-05-06T13:13:29.901Z"
 }

@@ -1,20 +1,25 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 2
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "count": 1,
-        "target": {
-          "scope": "Board",
-          "filter": "RestingDon"
+  "id": "OP01-034",
+  "name": "Inuarashi",
+  "cost": 3,
+  "power": 4000,
+  "color": "Green",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
         }
-      }
-    ]
-  },
-  "id": "OP01-034"
+      ]
+    }
+  ],
+  "counter": 1000
 }

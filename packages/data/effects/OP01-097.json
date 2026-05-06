@@ -1,27 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
+  "id": "OP01-097",
+  "name": "Queen",
+  "cost": 6,
+  "power": 5000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
         },
-        "duration": "EndOfTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseUpToOneOpponentCharacter"
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP01-097"
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
 }

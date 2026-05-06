@@ -1,19 +1,24 @@
 {
   "id": "OP01-005",
-  "trigger": "OnPlay",
-  "actions": [
+  "name": "Uta",
+  "cost": 4,
+  "power": 4000,
+  "color": "Red",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
     {
-      "type": "ReturnToHand",
-      "filter": {
-        "kind": "ByCost",
-        "maxCost": 3,
-        "color": "red",
-        "excludeNames": [
-          "Uta"
-        ]
-      },
-      "source": "trash",
-      "max": 1
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "color": "Red",
+            "maxCost": 3,
+            "excludeSelf": true
+          }
+        }
+      ]
     }
   ]
 }

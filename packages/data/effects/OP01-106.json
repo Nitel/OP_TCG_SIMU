@@ -1,17 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "source": "DONDeck"
-      },
-      {
-        "type": "Rest",
-        "target": "LastAttachedDon"
-      }
-    ]
-  },
-  "id": "OP01-106"
+  "id": "OP01-106",
+  "name": "Basil Hawkins",
+  "cost": 4,
+  "power": 2000,
+  "color": "Purple",
+  "cardType": "Character",
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PlaySelf"
+        }
+      ]
+    }
+  ],
+  "counter": 1000
 }
