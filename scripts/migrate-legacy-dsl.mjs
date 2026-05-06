@@ -58,8 +58,9 @@ function migrateFile(raw) {
   // Already in canonical form
   if (Array.isArray(raw.effects)) return { migrated: false, type: null, output: raw };
 
-  // Variant B: has a "0" numeric key
-  if (raw['0'] !== undefined && typeof raw['0'] === 'object') {
+  // Variant B: numeric key "0" present and no effects array
+  const isVariantB = !raw.effects && raw['0'] !== undefined;
+  if (isVariantB) {
     const effectBlock = raw['0'];
     const meta = {};
     for (const [k, v] of Object.entries(raw)) {
