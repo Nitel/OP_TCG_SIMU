@@ -88,7 +88,7 @@ function normalizeCardType(t: string): 'Leader' | 'Character' | 'Event' | 'Stage
 
 interface EffectDef {
   readonly id: string;
-  readonly keywords: readonly CardKeyword[];
+  readonly keywords?: readonly CardKeyword[];
   readonly effects: readonly CardEffect[];
 }
 
@@ -136,7 +136,7 @@ function rawToCard(
     ...base,
     ...(raw.counter !== null ? { counter: raw.counter } : {}),
     ...(raw.subTypes !== undefined ? { subTypes: raw.subTypes } : {}),
-    ...(eff !== undefined && eff.keywords.length > 0 ? { keywords: eff.keywords } : {}),
+    ...(eff !== undefined && (eff.keywords?.length ?? 0) > 0 ? { keywords: eff.keywords } : {}),
     ...(eff !== undefined && eff.effects.length > 0 ? { effects: eff.effects } : {}),
   };
 }

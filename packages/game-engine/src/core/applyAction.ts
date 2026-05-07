@@ -39,12 +39,15 @@ function placeLifeCards(state: GameState, playerId: PlayerId): GameState {
   for (const id of lifeIds) {
     updatedCards[id] = { ...updatedCards[id]!, zone: 'life' };
   }
+  // OPTCG rule B2: the first card dealt (deck top) goes to the BOTTOM of the life pile.
+  // We store life[0] = TOP (last dealt), so reverse from deck order.
+  const lifeOrdered = [...lifeIds].reverse();
   return {
     ...state,
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: {
       ...state.players,
-      [playerId]: { ...player, life: lifeIds, deck: remainingDeck },
+      [playerId]: { ...player, life: lifeOrdered, deck: remainingDeck },
     },
   };
 }
@@ -121,6 +124,15 @@ function applyRefresh(state: GameState, playerId: PlayerId): GameState {
   }
 
   let next: GameState = { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+
+  // Clear eventCostReduction for the new active player
+  const playerState = next.players[playerId];
+  if (playerState !== undefined && (playerState.eventCostReduction ?? 0) !== 0) {
+    next = {
+      ...next,
+      players: { ...next.players, [playerId]: { ...playerState, eventCostReduction: 0 } },
+    };
+  }
 
   // Clear EndOfOpponentTurn modifiers: the opponent's turn just ended, it's now this player's turn
   next = clearOppTurnModifiers(next, playerId);
@@ -303,6 +315,7 @@ function buildPlayerState(
     donDeck: donIds,
     donArea: [],
     trash: [],
+    eventCostReduction: 0,
   };
 }
 
@@ -391,6 +404,8 @@ function applyStartGame(
     pendingRevealInteraction: null,
     pendingTrashInteraction: null,
     pendingSearchInteraction: null,
+    pendingForceDiscardInteraction: null,
+    pendingForcedAttack: null,
   };
 }
 
@@ -638,10 +653,10 @@ function applyDeclareAttack(
   if (state.activeCombat !== null) {
     return makeGameError('COMBAT_ALREADY_ACTIVE', 'Another combat is already pending resolution');
   }
-  // OPTCG rule: only the first player's very first turn (turnNumber 1) bans all attacks.
-  // The second player can attack freely on their first turn (turnNumber 2).
-  if (state.turnNumber <= 1) {
-    return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed on the first player\'s first turn');
+  // OPTCG rule: neither player can attack on their own first turn.
+  // Turn 1 = first player's first turn; turn 2 = second player's first turn.
+  if (state.turnNumber <= 2) {
+    return makeGameError('NO_ATTACK_FIRST_TURN', 'No attacks allowed during either player\'s first turn');
   }
   if (state.winner !== null) {
     return makeGameError('GAME_OVER', 'The game has already ended');
@@ -660,10 +675,19 @@ function applyDeclareAttack(
     return makeGameError('ATTACKER_TAPPED', `Card ${action.attackerId} is rested and cannot attack`);
   }
 
+  // Forced attack bypasses summon sickness — the effect explicitly instructs the card to attack.
+  const isForcedAttack = state.pendingForcedAttack?.attackerCardId === action.attackerId;
+  if (isForcedAttack && state.pendingForcedAttack!.ownerId !== action.playerId) {
+    return makeGameError('INVALID_ATTACKER', `Forced attacker belongs to a different player`);
+  }
   const isNewCard = state.newBoardIds.includes(action.attackerId);
   const hasRush   = hasKeyword(attacker, 'Rush');
-  if (isNewCard && !hasRush) {
+  if (isNewCard && !hasRush && !isForcedAttack) {
     return makeGameError('SUMMON_SICKNESS', `Card ${action.attackerId} was played this turn and cannot attack without Rush`);
+  }
+  // While a forced attack is pending, only the forced card may attack.
+  if (state.pendingForcedAttack !== null && !isForcedAttack) {
+    return makeGameError('FORCED_ATTACK_PENDING', `Must attack with the forced attacker first`);
   }
 
   // Attacker must be on the active player's board or be their leader
@@ -700,7 +724,7 @@ function applyDeclareAttack(
     return makeGameError('TARGET_NOT_RESTED', `Card ${action.targetId} must be rested to be attacked`);
   }
 
-  // Tap (rest) the attacker
+  // Tap (rest) the attacker; clear pendingForcedAttack if this was a forced attack
   const afterAttack: GameState = {
     ...state,
     cards: {
@@ -713,6 +737,7 @@ function applyDeclareAttack(
       blockerId:    null,
       counterPower: 0,
     },
+    ...(isForcedAttack ? { pendingForcedAttack: null } : {}),
   };
 
   // Trigger OnAttack effects for the attacker
@@ -728,23 +753,41 @@ function applyDeclareAttack(
     if (
       afterOnAttack.pendingTargetInteraction !== null ||
       afterOnAttack.pendingRevealInteraction !== null ||
-      afterOnAttack.pendingTrashInteraction  !== null
+      afterOnAttack.pendingTrashInteraction  !== null ||
+      afterOnAttack.pendingForceDiscardInteraction !== null
     ) {
       return afterOnAttack;
     }
   }
 
-  // Trigger OnAttacked effects for the target card
-  const targetCard = afterOnAttack.cards[action.targetId];
-  if (targetCard?.effects?.length) {
-    return resolveEffects(
-      targetCard.effects,
+  // OPTCG rule KE15: [On Your Opponent's Attack] fires for ALL cards on the defending side,
+  // not only the attacked card. Fire OnAttacked for every card the opponent controls.
+  const defenderPlayer = afterOnAttack.players[opponentId];
+  const defenderCardIds: readonly CardId[] = [
+    ...(defenderPlayer?.board ?? []),
+    ...(defenderPlayer?.leader != null ? [defenderPlayer.leader] : []),
+  ];
+  let afterOnAttacked = afterOnAttack;
+  for (const cardId of defenderCardIds) {
+    const card = afterOnAttacked.cards[cardId];
+    if (!card?.effects?.length) continue;
+    afterOnAttacked = resolveEffects(
+      card.effects,
       'OnAttacked',
-      { sourceCardId: action.targetId, sourcePlayerId: opponentId },
-      afterOnAttack,
+      { sourceCardId: cardId, sourcePlayerId: opponentId },
+      afterOnAttacked,
     );
+    // Stop if a pending interaction was set mid-loop
+    if (
+      afterOnAttacked.pendingTargetInteraction !== null ||
+      afterOnAttacked.pendingRevealInteraction !== null ||
+      afterOnAttacked.pendingTrashInteraction  !== null ||
+      afterOnAttacked.pendingForceDiscardInteraction !== null
+    ) {
+      return afterOnAttacked;
+    }
   }
-  return afterOnAttack;
+  return afterOnAttacked;
 }
 
 // ─── DeclareBlock ─────────────────────────────────────────────────────────────
@@ -777,6 +820,10 @@ function applyDeclareBlock(
   }
   if (!player.board.includes(action.blockerId)) {
     return makeGameError('INVALID_BLOCKER', `Card ${action.blockerId} is not on ${action.playerId}'s board`);
+  }
+  // OPTCG rule KE2: the attacked card cannot be its own blocker
+  if (action.blockerId === state.activeCombat.targetId) {
+    return makeGameError('INVALID_BLOCKER', `The attacked card cannot activate its own Blocker`);
   }
   if (blocker.tapped) {
     return makeGameError('BLOCKER_TAPPED', `Card ${action.blockerId} is rested and cannot block`);
@@ -871,15 +918,19 @@ function applyPlayEvent(
     return don !== undefined && !don.tapped && don.attachedTo === null;
   });
 
-  if (activeDonIds.length < card.cost) {
+  // Apply eventCostReduction (from ReduceEventCost effects like Crocodile)
+  const costReduction = player.eventCostReduction ?? 0;
+  const effectiveCost = Math.max(0, card.cost - costReduction);
+
+  if (activeDonIds.length < effectiveCost) {
     return makeGameError(
       'INSUFFICIENT_DON',
-      `Card costs ${card.cost} DON but only ${activeDonIds.length} active DON available`
+      `Card costs ${effectiveCost} DON but only ${activeDonIds.length} active DON available`
     );
   }
 
-  // Auto-rest exactly card.cost DON cards
-  const donToRest = activeDonIds.slice(0, card.cost);
+  // Auto-rest exactly effectiveCost DON cards
+  const donToRest = activeDonIds.slice(0, effectiveCost);
   const updatedCards: Record<string, Card> = { ...state.cards };
 
   for (const donId of donToRest) {
@@ -934,8 +985,8 @@ function applyPlayEvent(
         if (!watcher?.effects?.length) continue;
         const hasOncePerTurn = watcher.effects.some(
           (eff) => eff.trigger === 'OnOpponentPlaysEvent' &&
-                   Array.isArray((eff as Record<string, unknown>)['constraints']) &&
-                   ((eff as Record<string, unknown>)['constraints'] as unknown[]).some(
+                   Array.isArray((eff as unknown as Record<string, unknown>)['constraints']) &&
+                   ((eff as unknown as Record<string, unknown>)['constraints'] as unknown[]).some(
                      (c) => (c as Record<string, unknown>)['type'] === 'OncePerTurn'
                    )
         );
@@ -1341,6 +1392,62 @@ function applyResolveRevealInteraction(
   return next;
 }
 
+// ─── ResolveForceDiscardInteraction ───────────────────────────────────────────
+
+function applyResolveForceDiscardInteraction(
+  state: GameState,
+  action: Extract<GameAction, { type: 'ResolveForceDiscardInteraction' }>,
+): ActionResult {
+  const pending = state.pendingForceDiscardInteraction;
+  if (pending === null) return makeGameError('NO_PENDING_INTERACTION', 'No pending force-discard interaction');
+  if (pending.playerId !== action.playerId) return makeGameError('WRONG_PLAYER', 'Wrong player resolving force-discard');
+
+  const player = state.players[pending.playerId];
+  if (player === undefined) return makeGameError('UNKNOWN_PLAYER', `Player ${pending.playerId} not found`);
+
+  // Validate that the chosen cards are actually in the player's hand
+  const discarded = action.discardedCardIds.slice(0, pending.count);
+  for (const id of discarded) {
+    if (!player.hand.includes(id)) {
+      return makeGameError('INVALID_CARD', `Card ${id} is not in player's hand`);
+    }
+  }
+
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const id of discarded) {
+    updatedCards[id] = { ...updatedCards[id]!, zone: 'trash' as const };
+  }
+  let next: GameState = {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: {
+      ...state.players,
+      [pending.playerId]: {
+        ...player,
+        hand:  player.hand.filter(id => !discarded.includes(id)),
+        trash: [...player.trash, ...discarded],
+      },
+    },
+    pendingForceDiscardInteraction: null,
+  };
+
+  // Continue any remaining effect actions that were paused
+  if (pending.pendingEffectActions.length > 0 || pending.pendingEffects.length > 0) {
+    const [p1p] = next.playerOrder;
+    const sourcePlayerId = pending.playerId === p1p
+      ? (next.playerOrder[1] as PlayerId)
+      : (next.playerOrder[0] as PlayerId);
+    const fakeEffect = { trigger: pending.trigger, actions: pending.pendingEffectActions } as unknown as import('../types/index.js').CardEffect;
+    next = resolveEffects(
+      [fakeEffect, ...pending.pendingEffects],
+      pending.trigger,
+      { sourceCardId: 'resume' as CardId, sourcePlayerId },
+      next,
+    );
+  }
+  return next;
+}
+
 // ─── ResolveSearchInteraction ─────────────────────────────────────────────────
 
 function applyResolveSearchInteraction(
@@ -1362,24 +1469,41 @@ function applyResolveSearchInteraction(
   const chosen = action.chosenCardId;
 
   if (chosen !== null && revealedSet.has(chosen)) {
-    // Play the chosen card to its destination
     const chosenCard = state.cards[chosen];
-    const dest = (pending.destination === 'board' && chosenCard?.type === 'Character') ? 'board' : 'hand';
     const restIds = pending.revealedCardIds.filter((id) => id !== chosen);
-    const updatedPlayer: PlayerState = {
-      ...player,
-      deck: [...restIds, ...newDeck], // return rest to top
-      hand:  dest === 'hand'  ? [...player.hand,  chosen] : player.hand,
-      board: dest === 'board' ? [...player.board, chosen] : player.board,
-    };
-    next = {
-      ...next,
-      cards: { ...next.cards, [chosen]: { ...next.cards[chosen]!, zone: dest } } as Readonly<Record<CardId, Card>>,
-      players: { ...next.players, [pending.playerId]: updatedPlayer },
-    };
+
+    if (pending.destination === 'bottomOfDeck') {
+      // Place chosen card at bottom of deck; rest go back to top
+      const updatedPlayer: PlayerState = {
+        ...player,
+        deck: [...restIds, ...newDeck, chosen] as readonly CardId[],
+      };
+      next = { ...next, players: { ...next.players, [pending.playerId]: updatedPlayer } };
+    } else {
+      const dest = (pending.destination === 'board' && chosenCard?.type === 'Character') ? 'board' : 'hand';
+      const restToBottom = pending.restTo === 'bottom';
+      const updatedDeck: readonly CardId[] = restToBottom
+        ? ([...newDeck, ...restIds] as CardId[])  // rest go to bottom
+        : ([...restIds, ...newDeck] as CardId[]);  // rest go to top (default)
+      const updatedPlayer: PlayerState = {
+        ...player,
+        deck: updatedDeck,
+        hand:  dest === 'hand'  ? [...player.hand,  chosen] : player.hand,
+        board: dest === 'board' ? [...player.board, chosen] : player.board,
+      };
+      next = {
+        ...next,
+        cards: { ...next.cards, [chosen]: { ...next.cards[chosen]!, zone: dest } } as Readonly<Record<CardId, Card>>,
+        players: { ...next.players, [pending.playerId]: updatedPlayer },
+      };
+    }
   } else {
-    // Player passed — return all revealed cards to top of deck
-    const updatedPlayer: PlayerState = { ...player, deck: [...pending.revealedCardIds, ...newDeck] };
+    // Player passed — return all revealed cards to top or bottom
+    const restToBottom = pending.restTo === 'bottom';
+    const updatedDeck: readonly CardId[] = restToBottom
+      ? ([...newDeck, ...pending.revealedCardIds] as CardId[])
+      : ([...pending.revealedCardIds, ...newDeck] as CardId[]);
+    const updatedPlayer: PlayerState = { ...player, deck: updatedDeck };
     next = { ...next, players: { ...next.players, [pending.playerId]: updatedPlayer } };
   }
 
@@ -1547,6 +1671,8 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyResolveTrashInteraction(state, action);
     case 'ResolveSearchInteraction':
       return applyResolveSearchInteraction(state, action);
+    case 'ResolveForceDiscardInteraction':
+      return applyResolveForceDiscardInteraction(state, action);
     default: {
       const _exhaustive: never = action;
       return makeGameError('UNKNOWN_ACTION', `Unknown action type: ${JSON.stringify(_exhaustive)}`);

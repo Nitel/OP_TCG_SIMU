@@ -81,86 +81,71 @@ function selectTargets(
 
     case 'ChooseOpponentCharacter': {
       const pool = opponent?.board ?? [];
-      // If player pre-chose a target, validate it against filters
-      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
-        const chosen = state.cards[context.chosenTargetId];
-        if (chosen !== undefined) {
-          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
-          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
-          if (costOk && powerOk) return [context.chosenTargetId];
-        }
-      }
-      // Auto-select: first opponent character satisfying optional filters
-      const candidates = pool.filter((id) => {
+      const matchesFilters = (id: CardId): boolean => {
         const card = state.cards[id];
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
+        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
         return true;
-      });
+      };
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
+        return [context.chosenTargetId];
+      }
+      const candidates = pool.filter(matchesFilters);
       return candidates.length > 0 ? [candidates[0]!] : [];
     }
 
     case 'ChooseOwnCharacter': {
       const pool = ownPlayer?.board ?? [];
-      // If player pre-chose a target, validate it against filters
-      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
-        const chosen = state.cards[context.chosenTargetId];
-        if (chosen !== undefined) {
-          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
-          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
-          if (costOk && powerOk) return [context.chosenTargetId];
-        }
-      }
-      const candidates = pool.filter((id) => {
+      const matchesFilters = (id: CardId): boolean => {
         const card = state.cards[id];
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
+        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
         return true;
-      });
+      };
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
+        return [context.chosenTargetId];
+      }
+      const candidates = pool.filter(matchesFilters);
       return candidates.length > 0 ? [candidates[0]!] : [];
     }
 
     case 'ChooseOwnCharacterOrLeader': {
       const pool: CardId[] = [...(ownPlayer?.board ?? [])];
       if (ownPlayer?.leader !== null && ownPlayer?.leader !== undefined) pool.push(ownPlayer.leader);
-      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
-        const chosen = state.cards[context.chosenTargetId];
-        if (chosen !== undefined) {
-          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
-          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
-          if (costOk && powerOk) return [context.chosenTargetId];
-        }
-      }
-      const candidates = pool.filter((id) => {
+      const matchesFilters = (id: CardId): boolean => {
         const card = state.cards[id];
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
+        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
         return true;
-      });
+      };
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
+        return [context.chosenTargetId];
+      }
+      const candidates = pool.filter(matchesFilters);
       return candidates.length > 0 ? [candidates[0]!] : [];
     }
 
     case 'ChooseOpponentCharacterOrLeader': {
       const pool: CardId[] = [...(opponent?.board ?? [])];
       if (opponent?.leader !== null && opponent?.leader !== undefined) pool.push(opponent.leader);
-      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId)) {
-        const chosen = state.cards[context.chosenTargetId];
-        if (chosen !== undefined) {
-          const costOk  = selector.maxCost  === undefined || chosen.cost <= selector.maxCost;
-          const powerOk = selector.maxPower === undefined || calculatePower(context.chosenTargetId, state) <= selector.maxPower;
-          if (costOk && powerOk) return [context.chosenTargetId];
-        }
-      }
-      const candidates = pool.filter((id) => {
+      const matchesFilters = (id: CardId): boolean => {
         const card = state.cards[id];
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
+        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
         return true;
-      });
+      };
+      if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
+        return [context.chosenTargetId];
+      }
+      const candidates = pool.filter(matchesFilters);
       return candidates.length > 0 ? [candidates[0]!] : [];
     }
   }
@@ -229,28 +214,10 @@ function resolveAction(
     }
 
     // ── ForceDiscard ──────────────────────────────────────────────────────────
-    // Opponent must discard `count` cards from their hand (they choose; bot picks from end).
-    // TODO: create pendingForceDiscardInteraction for human opponents.
-    case 'ForceDiscard': {
-      const opponent = state.players[opponentId];
-      if (opponent === undefined || opponent.hand.length === 0) return state;
-      const count = Math.min(action.count, opponent.hand.length);
-      const toDiscard = opponent.hand.slice(-count);
-      const updatedCards: Record<string, Card> = { ...state.cards };
-      for (const id of toDiscard) {
-        updatedCards[id] = { ...updatedCards[id]!, zone: 'trash' as const };
-      }
-      const updatedOpponent: PlayerState = {
-        ...opponent,
-        hand:  opponent.hand.slice(0, opponent.hand.length - count),
-        trash: [...opponent.trash, ...toDiscard],
-      };
-      return {
-        ...state,
-        cards: updatedCards as Readonly<Record<CardId, Card>>,
-        players: { ...state.players, [opponentId]: updatedOpponent },
-      };
-    }
+    // Intercepted in resolveEffects before reaching here (sets pendingForceDiscardInteraction).
+    // This case is unreachable during normal effect resolution.
+    case 'ForceDiscard':
+      return state;
 
     // ── FlipLife ──────────────────────────────────────────────────────────────
     // Sets pendingFlipLifeInteraction for player to choose which Life card(s) to flip face-up.
@@ -405,7 +372,8 @@ function resolveAction(
       const updatedCards: Record<string, Card> = { ...state.cards };
       for (const id of targets) {
         const card = state.cards[id];
-        if (card !== undefined) {
+        // Attached DON!! cards cannot be tapped/untapped by effects (OPTCG rule)
+        if (card !== undefined && !(card.type === 'DON' && card.attachedTo !== null)) {
           updatedCards[id] = { ...card, tapped: true };
         }
       }
@@ -417,14 +385,15 @@ function resolveAction(
       const player = state.players[context.sourcePlayerId];
       if (player === undefined || player.life.length === 0) return state;
       const count = Math.min(action.count, player.life.length);
-      const toTrash = player.life.slice(-count);
+      // life[0] = TOP; remove from top
+      const toTrash = player.life.slice(0, count);
       const updatedCards: Record<string, Card> = { ...state.cards };
       for (const id of toTrash) {
         updatedCards[id] = { ...updatedCards[id]!, zone: 'trash' as const };
       }
       const updatedPlayer: PlayerState = {
         ...player,
-        life: player.life.slice(0, player.life.length - count),
+        life: player.life.slice(count),
         trash: [...player.trash, ...toTrash],
       };
       return {
@@ -484,11 +453,14 @@ function resolveAction(
       const validIds = player.hand.filter((id) => {
         const c = state.cards[id];
         if (c === undefined) return false;
+        if (f.name !== undefined && c.name !== f.name) return false;
         if (f.color !== undefined && c.color !== f.color) return false;
         if (f.cardType !== undefined && c.type !== f.cardType) return false;
+        if (f.cardTypes !== undefined && !f.cardTypes.includes(c.type as 'Character' | 'Event' | 'Stage')) return false;
+        if (f.maxCost !== undefined && c.cost > f.maxCost) return false;
         if (f.maxPower !== undefined && c.power > f.maxPower) return false;
         if (f.excludeSelf === true && id === context.sourceCardId) return false;
-        if (f.subType !== undefined && c.subTypes !== undefined && !c.subTypes.includes(f.subType)) return false;
+        if (f.subType !== undefined && !(c.subTypes ?? '').includes(f.subType)) return false;
         return true;
       });
       if (validIds.length === 0) return state; // no valid cards — skip silently
@@ -517,7 +489,8 @@ function resolveAction(
             playerId: context.sourcePlayerId,
             revealedCardIds,
             filter: action.filter,
-            destination: action.destination,
+            destination: action.destination as 'hand' | 'board' | 'bottomOfDeck',
+            ...(action.restTo !== undefined ? { restTo: action.restTo } : {}),
             sourceCardId: context.sourceCardId,
             sourcePlayerId: context.sourcePlayerId,
           },
@@ -531,8 +504,15 @@ function resolveAction(
         switch (action.filter.kind) {
           case 'Any': return true;
           case 'ByType': return card.type === action.filter.cardType;
-          case 'ByCost': return card.cost <= action.filter.maxCost;
+          case 'ByCost': {
+            const typeOk = action.filter.cardType === undefined || card.type === action.filter.cardType;
+            return typeOk && card.cost <= action.filter.maxCost;
+          }
           case 'ByName': return card.name === action.filter.name;
+          case 'BySubType': {
+            const typeOk = action.filter.cardType === undefined || card.type === action.filter.cardType;
+            return typeOk && (card.subTypes ?? '').includes(action.filter.subType);
+          }
         }
       });
 
@@ -541,6 +521,19 @@ function resolveAction(
       const foundId = player.deck[foundIdx]!;
       const newDeck = player.deck.filter((_, i) => i !== foundIdx);
       const foundCard = state.cards[foundId];
+
+      if (action.destination === 'bottomOfDeck') {
+        // Place card at the bottom of the deck (not removing from deck, just repositioning)
+        const deckWithout = player.deck.filter((_, i) => i !== foundIdx);
+        return {
+          ...state,
+          players: {
+            ...state.players,
+            [context.sourcePlayerId]: { ...player, deck: [...deckWithout, foundId] as readonly CardId[] },
+          },
+        };
+      }
+
       const dest = (action.destination === 'board' && foundCard?.type === 'Character') ? 'board' : 'hand';
       const updatedCards: Record<string, Card> = {
         ...state.cards,
@@ -728,10 +721,80 @@ function resolveAction(
       let next = state;
       for (const cardId of targets) {
         const card = next.cards[cardId];
-        if (card === undefined) continue;
+        // Attached DON!! cards cannot be tapped/untapped by effects (OPTCG rule)
+        if (card === undefined || (card.type === 'DON' && card.attachedTo !== null)) continue;
         next = { ...next, cards: { ...next.cards, [cardId]: { ...card, tapped: false } } };
       }
       return next;
+    }
+
+    // ── DynamicPowerBoost ─────────────────────────────────────────────────────
+    case 'DynamicPowerBoost': {
+      const handSize = state.players[context.sourcePlayerId]?.hand.length ?? 0;
+      const amount = handSize * action.multiplier;
+      const targets = selectTargets(action.target, context, state);
+      let next = state;
+      for (const cardId of targets) {
+        const card = next.cards[cardId];
+        if (card === undefined) continue;
+        const field = action.duration === 'EndOfOpponentTurn' ? 'powerModifierOT' : 'powerModifier';
+        const current = card[field] ?? 0;
+        next = { ...next, cards: { ...next.cards, [cardId]: { ...card, [field]: current + amount } } };
+      }
+      return next;
+    }
+
+    // ── TakeFromLife ─────────────────────────────────────────────────────────
+    case 'TakeFromLife': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined || player.life.length === 0) return state;
+      // optional: if true the player *may* take — for bot/auto resolution, always take
+      const actual = Math.min(action.count, player.life.length);
+      // life[0] = TOP; take from top
+      const taken = player.life.slice(0, actual);
+      const updatedCards: Record<string, Card> = { ...state.cards };
+      for (const id of taken) {
+        updatedCards[id] = { ...state.cards[id]!, zone: 'hand' };
+      }
+      const updatedPlayer: PlayerState = {
+        ...player,
+        life: player.life.slice(actual),
+        hand: [...player.hand, ...taken],
+      };
+      return {
+        ...state,
+        cards: updatedCards as Readonly<Record<CardId, Card>>,
+        players: { ...state.players, [context.sourcePlayerId]: updatedPlayer },
+      };
+    }
+
+    // ── ReduceEventCost ───────────────────────────────────────────────────────
+    case 'ReduceEventCost': {
+      const player = state.players[context.sourcePlayerId];
+      if (player === undefined) return state;
+      const current = player.eventCostReduction ?? 0;
+      return {
+        ...state,
+        players: {
+          ...state.players,
+          [context.sourcePlayerId]: { ...player, eventCostReduction: current + action.amount },
+        },
+      };
+    }
+
+    // ── ForceAttack ───────────────────────────────────────────────────────────
+    // Forces a chosen character (context.chosenTargetId) to immediately attack once.
+    // The engine pauses via pendingForcedAttack; the client must dispatch DeclareAttack
+    // with attackerId === attackerCardId to resume the combat flow.
+    case 'ForceAttack': {
+      if (context.chosenTargetId === undefined) return state;
+      return {
+        ...state,
+        pendingForcedAttack: {
+          attackerCardId: context.chosenTargetId,
+          ownerId: context.sourcePlayerId,
+        },
+      };
     }
 
     // ── RevealFromHand ────────────────────────────────────────────────────────
@@ -769,6 +832,21 @@ export function resolveEffects(
   for (let ei = 0; ei < effects.length; ei++) {
     const effect = effects[ei]!;
     if (effect.trigger !== trigger) continue;
+
+    // Check and pay effect-level DON cost (e.g. OnBlock abilities that cost 1 DON)
+    if (effect.cost !== undefined && effect.cost.don > 0) {
+      const player = next.players[context.sourcePlayerId];
+      const activeDon = (player?.donArea ?? []).filter((id) => {
+        const d = next.cards[id];
+        return d !== undefined && !d.tapped && d.attachedTo === null;
+      });
+      if (activeDon.length < effect.cost.don) continue; // can't pay — skip effect
+      // Pay by resting N active DON
+      for (const donId of activeDon.slice(0, effect.cost.don)) {
+        next = { ...next, cards: { ...next.cards, [donId]: { ...next.cards[donId]!, tapped: true } } };
+      }
+    }
+
     // Evaluate optional condition
     if (effect.condition !== undefined) {
       const cond = effect.condition;
@@ -821,7 +899,33 @@ export function resolveEffects(
         const hasCard = Object.values(next.cards).some(
           (c) => c.ownerId === context.sourcePlayerId && c.zone === 'board' && c.name === cond.name,
         );
-        if (!hasCard) continue;
+        const passes = cond.negate === true ? !hasCard : hasCard;
+        if (!passes) continue;
+      }
+      if (cond.type === 'HasBoardCount') {
+        const count = Object.values(next.cards).filter((c) =>
+          c.ownerId === context.sourcePlayerId &&
+          c.zone === 'board' &&
+          (cond.cardType === undefined || c.type === cond.cardType),
+        ).length;
+        if (count < cond.min) continue;
+      }
+      if (cond.type === 'HasHandCount') {
+        const handSize = next.players[context.sourcePlayerId]?.hand.length ?? 0;
+        const passes =
+          cond.operator === '<=' ? handSize <= cond.count :
+          cond.operator === '>=' ? handSize >= cond.count :
+          handSize === cond.count;
+        if (!passes) continue;
+      }
+      if (cond.type === 'HasTotalAttachedDon') {
+        const totalDon = Object.values(next.cards).filter(
+          (d) => d.type === 'DON' && d.attachedTo !== null && (() => {
+            const owner = next.cards[d.attachedTo!];
+            return owner?.ownerId === context.sourcePlayerId;
+          })(),
+        ).length;
+        if (totalDon < cond.min) continue;
       }
       if (cond.type === 'AnyPlayerHasNoLife') {
         const anyEmpty = Object.values(next.players).some((p) => p.life.length === 0);
@@ -862,6 +966,7 @@ export function resolveEffects(
             const chooseScope = scope as 'ChooseOwnCharacter' | 'ChooseOpponentCharacter' | 'ChooseOwnCharacterOrLeader' | 'ChooseOpponentCharacterOrLeader';
             const maxCost  = (t as { maxCost?: number }).maxCost;
             const maxPower = (t as { maxPower?: number }).maxPower;
+            const subType  = (t as { subType?: string }).subType;
             return {
               ...next,
               pendingTargetInteraction: {
@@ -871,6 +976,7 @@ export function resolveEffects(
                 sourcePlayerId: context.sourcePlayerId,
                 ...(maxCost  !== undefined ? { maxCost }  : {}),
                 ...(maxPower !== undefined ? { maxPower } : {}),
+                ...(subType  !== undefined ? { subType }  : {}),
                 pendingAction: action,
                 pendingEffectActions: effect.actions.slice(ai + 1),
                 pendingEffects: effects.slice(ei + 1),
@@ -918,11 +1024,34 @@ export function resolveEffects(
         };
       }
 
+      // Detect ForceDiscard — pause so the opponent can choose which cards to discard
+      if (action.type === 'ForceDiscard') {
+        const [fp1, fp2] = next.playerOrder;
+        const oppId = context.sourcePlayerId === fp1 ? fp2 : fp1;
+        const opp = next.players[oppId];
+        if (opp !== undefined && opp.hand.length > 0) {
+          return {
+            ...next,
+            pendingForceDiscardInteraction: {
+              playerId: oppId,
+              count: Math.min(action.count, opp.hand.length),
+              pendingEffectActions: effect.actions.slice(ai + 1),
+              pendingEffects: effects.slice(ei + 1),
+              trigger,
+            },
+          };
+        }
+        // Opponent has empty hand — nothing to discard, continue
+        continue;
+      }
+
       next = resolveAction(action, context, next);
-      // Propagate if a nested resolveEffects call set pendingTargetInteraction
+      // Propagate if a nested resolveEffects call set a pending interaction
       if (next.pendingTargetInteraction !== null) return next;
       if (next.pendingRevealInteraction !== null) return next;
       if (next.pendingTrashInteraction !== null) return next;
+      if (next.pendingForceDiscardInteraction !== null) return next;
+      if (next.pendingForcedAttack !== null) return next;
     }
   }
   return next;

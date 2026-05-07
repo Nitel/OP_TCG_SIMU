@@ -822,12 +822,11 @@ describe('DeclareAttack — restriction premier tour', () => {
     if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
   });
 
-  it('turnNumber === 2 (premier tour J2) — peut attaquer (OPTCG : seul J1 est bloqué au tour 1)', () => {
+  it('turnNumber === 2 (premier tour J2) — ne peut pas attaquer non plus (règle OPTCG : aucun joueur au tour 1)', () => {
     const base = bootstrapGame();
-    // Build state with P2 active, turnNumber 2, with an untapped attacker for P2
-    const p2Attacker = makeChar('p2-attacker', 'p2', 3000); // untapped by default
+    const p2Attacker = makeChar('p2-attacker', 'p2', 3000);
     const p1Target   = makeChar('p1-target',   'p1', 1000, { tapped: true });
-    let state: GameState = {
+    const state: GameState = {
       ...base,
       turnNumber: 2,
       activePlayerId: P2,
@@ -842,8 +841,8 @@ describe('DeclareAttack — restriction premier tour', () => {
     const result = applyAction(state, {
       type: 'DeclareAttack', playerId: P2, attackerId: p2Attacker.id, targetId: p1Target.id,
     });
-    // P2 can attack on their first turn — only P1's turn 1 is banned
-    expect(isGameError(result)).toBe(false);
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
   });
 
   it('autorise l\'attaque à turnNumber === 3 (dès le 3e tour)', () => {

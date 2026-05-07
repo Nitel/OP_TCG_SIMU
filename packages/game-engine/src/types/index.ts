@@ -53,10 +53,10 @@ export type TargetSelector =
   | { readonly scope: 'AllOwnCharactersAndLeader'; readonly maxPower?: number }
   | { readonly scope: 'OpponentLeader' }
   | { readonly scope: 'OwnLeader' }
-  | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number }
-  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number }
-  | { readonly scope: 'ChooseOwnCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number }
-  | { readonly scope: 'ChooseOpponentCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number };
+  | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number; readonly subType?: string }
+  | { readonly scope: 'ChooseOwnCharacter'; readonly maxCost?: number; readonly maxPower?: number; readonly subType?: string }
+  | { readonly scope: 'ChooseOwnCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number; readonly subType?: string }
+  | { readonly scope: 'ChooseOpponentCharacterOrLeader'; readonly maxCost?: number; readonly maxPower?: number; readonly subType?: string };
 
 // ─── DSL — Duration ───────────────────────────────────────────────────────────
 
@@ -74,8 +74,10 @@ export type EffectDuration = 'EndOfTurn' | 'DuringYourTurn' | 'EndOfBattle' | 'E
 export type DeckFilter =
   | { readonly kind: 'Any' }
   | { readonly kind: 'ByType'; readonly cardType: 'Character' | 'Event' | 'Stage' }
-  | { readonly kind: 'ByCost'; readonly maxCost: number }
-  | { readonly kind: 'ByName'; readonly name: string };
+  | { readonly kind: 'ByCost'; readonly maxCost: number; readonly cardType?: 'Character' | 'Event' | 'Stage' }
+  | { readonly kind: 'ByName'; readonly name: string }
+  /** Match cards whose subTypes string includes the given affiliation/group */
+  | { readonly kind: 'BySubType'; readonly subType: string; readonly cardType?: 'Character' | 'Event' | 'Stage' };
 
 // ─── DSL — Hand filter (used by PlayFromHand / RevealFromHand) ────────────────
 
@@ -85,6 +87,9 @@ export interface HandFilter {
   /** OR filter: matches cards whose type is any of these values */
   readonly cardTypes?: readonly ('Character' | 'Event' | 'Stage')[];
   readonly maxPower?: number;
+  readonly maxCost?: number;
+  /** Exact card name match */
+  readonly name?: string;
   /** Exclude the source card itself (the card that triggered the OnKO) */
   readonly excludeSelf?: boolean;
   /**
@@ -110,7 +115,7 @@ export type EffectAction =
    * When `count` is provided, sets pendingSearchInteraction for player choice.
    * When `count` is omitted, auto-picks the first matching card (bot-friendly).
    */
-  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board'; readonly count?: number }
+  | { readonly type: 'SearchDeck'; readonly filter: DeckFilter; readonly destination: 'hand' | 'board' | 'bottomOfDeck'; readonly count?: number; readonly restTo?: 'top' | 'bottom' }
   /** Flip `count` Life cards face-up (player chooses); cards stay in the Life zone but become visible. */
   | { readonly type: 'FlipLife'; readonly count: number }
   /** Force the opponent to discard `count` cards from their hand (opponent chooses which). */
@@ -185,7 +190,34 @@ export type EffectAction =
   | {
       readonly type: 'Activate';
       readonly target: TargetSelector;
-    };
+    }
+  /**
+   * Power boost whose amount is calculated dynamically at resolution time.
+   * - `HandSize`: amount = player's current hand size × multiplier
+   */
+  | {
+      readonly type: 'DynamicPowerBoost';
+      readonly factor: 'HandSize';
+      readonly multiplier: number;
+      readonly target: TargetSelector;
+      readonly duration: EffectDuration;
+    }
+  /**
+   * Reduce the cost of Event cards the source player plays this turn by `amount` (min 0).
+   * Stored on PlayerState.eventCostReduction; cleared at end of turn.
+   */
+  | { readonly type: 'ReduceEventCost'; readonly amount: number; readonly duration: EffectDuration }
+  /**
+   * Source player takes `count` cards from the top of their Life zone into their hand.
+   * If optional=true the player may choose not to take any.
+   */
+  | { readonly type: 'TakeFromLife'; readonly count: number; readonly optional?: true }
+  /**
+   * Force a chosen character to immediately attack once during Main Phase.
+   * (ST21-003 Sanji "[On Play] Select 1 of your Characters with 6000 power or less. Have it attack once.")
+   * Engine implementation: sets forcedAttacker on game state; not yet fully wired into the combat loop.
+   */
+  | { readonly type: 'ForceAttack'; readonly target: TargetSelector };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
@@ -216,10 +248,25 @@ export type EffectCondition =
   | { readonly type: 'LeaderHasAttachedDon'; readonly count: number }
   /** True when the source card itself has at least `count` DON!! attached to it */
   | { readonly type: 'HasAttachedDon'; readonly count: number }
+  /** True when total DON!! attached to ALL source player's cards (leader + characters) is ≥ min */
+  | { readonly type: 'HasTotalAttachedDon'; readonly min: number }
   /** True when the source player's trash contains at least `min` cards */
   | { readonly type: 'TrashCount'; readonly min: number }
-  /** True when the source player has a character named `name` on the board */
-  | { readonly type: 'HasCardOnBoard'; readonly name: string }
+  /**
+   * True when the source player has a character named `name` on the board.
+   * If `negate` is true, the condition is inverted (true when the card is NOT on board).
+   */
+  | { readonly type: 'HasCardOnBoard'; readonly name: string; readonly negate?: true }
+  /**
+   * True when the source player has at least `min` cards of the given type on the board.
+   * If cardType is omitted, counts all characters.
+   */
+  | { readonly type: 'HasBoardCount'; readonly min: number; readonly cardType?: 'Character' | 'Event' | 'Stage' }
+  /**
+   * True when the source player's hand satisfies the given size constraint.
+   * operator: '<=' (≤ count), '>=' (≥ count), '==' (exact).
+   */
+  | { readonly type: 'HasHandCount'; readonly operator: '<=' | '>=' | '=='; readonly count: number }
   /** True when either player has 0 Life cards (used by Gol.D.Roger OnOpponentBlock win condition) */
   | { readonly type: 'AnyPlayerHasNoLife' }
   /** True when the source player's leader card's subTypes includes `subType` */
@@ -235,6 +282,12 @@ export interface CardEffect {
   readonly trigger: EffectTrigger;
   readonly condition?: EffectCondition;
   readonly actions: readonly EffectAction[];
+  /**
+   * DON!! cost required to activate this effect.
+   * The player must have `cost.don` resting DON!! cards; they are consumed (removed from donArea)
+   * before the effect resolves. Used for OnBlock and Counter abilities that pay DON.
+   */
+  readonly cost?: { readonly don: number };
 }
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
@@ -290,6 +343,11 @@ export interface PlayerState {
   /** Active DON cards (includes attached DON, identified by card.attachedTo !== null) */
   readonly donArea: readonly CardId[];
   readonly trash: readonly CardId[];
+  /**
+   * Total cost reduction applied to Event cards this player plays (from ReduceEventCost effects).
+   * Cleared at end of turn. Defaults to 0.
+   */
+  readonly eventCostReduction: number;
 }
 
 // ─── Combat state ─────────────────────────────────────────────────────────────
@@ -347,6 +405,7 @@ export interface GameState {
     readonly sourcePlayerId: PlayerId;
     readonly maxCost?: number;
     readonly maxPower?: number;
+    readonly subType?: string;
     /** The EffectAction that needs the chosen target to execute */
     readonly pendingAction: EffectAction;
     /** Remaining actions in the same effect (after pendingAction) */
@@ -400,9 +459,31 @@ export interface GameState {
     readonly playerId: PlayerId;
     readonly revealedCardIds: readonly CardId[];
     readonly filter: DeckFilter;
-    readonly destination: 'hand' | 'board';
+    readonly destination: 'hand' | 'board' | 'bottomOfDeck';
+    /** Where to place the un-chosen revealed cards after the player picks one. Default: 'top'. */
+    readonly restTo?: 'top' | 'bottom';
     readonly sourceCardId: CardId;
     readonly sourcePlayerId: PlayerId;
+  } | null;
+  /**
+   * Set when a ForceDiscard effect fires: the opponent must choose `count` cards from their hand
+   * to discard. Cleared when the opponent dispatches ResolveForceDiscardInteraction.
+   */
+  readonly pendingForceDiscardInteraction: {
+    readonly playerId: PlayerId;
+    readonly count: number;
+    readonly pendingEffectActions: readonly EffectAction[];
+    readonly pendingEffects: readonly CardEffect[];
+    readonly trigger: EffectTrigger;
+  } | null;
+  /**
+   * Set when a ForceAttack effect fires: the named card must make one attack immediately.
+   * The player must dispatch DeclareAttack with attackerId === attackerCardId.
+   * Cleared when that DeclareAttack is accepted.
+   */
+  readonly pendingForcedAttack: {
+    readonly attackerCardId: CardId;
+    readonly ownerId: PlayerId;
   } | null;
 }
 
@@ -563,6 +644,13 @@ export interface ResolveSearchInteractionAction {
   readonly chosenCardId: CardId | null;
 }
 
+export interface ResolveForceDiscardInteractionAction {
+  readonly type: 'ResolveForceDiscardInteraction';
+  readonly playerId: PlayerId;
+  /** IDs of hand cards the player chose to discard. */
+  readonly discardedCardIds: readonly CardId[];
+}
+
 export type GameAction =
   | MulliganAction
   | DrawCardAction
@@ -581,7 +669,8 @@ export type GameAction =
   | ResolveTargetInteractionAction
   | ResolveRevealInteractionAction
   | ResolveTrashInteractionAction
-  | ResolveSearchInteractionAction;
+  | ResolveSearchInteractionAction
+  | ResolveForceDiscardInteractionAction;
 
 // ─── Result ───────────────────────────────────────────────────────────────────
 
@@ -615,6 +704,7 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     donDeck: [],
     donArea: [],
     trash: [],
+    eventCostReduction: 0,
   });
 
   return {
@@ -638,5 +728,7 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     pendingRevealInteraction: null,
     pendingTrashInteraction: null,
     pendingSearchInteraction: null,
+    pendingForceDiscardInteraction: null,
+    pendingForcedAttack: null,
   };
 }

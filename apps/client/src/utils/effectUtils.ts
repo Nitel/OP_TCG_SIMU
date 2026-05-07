@@ -8,17 +8,28 @@ import type { CardEffect } from 'game-engine';
  * @param effects - The card's effect list
  * @param trigger - If provided, only inspect effects matching this trigger
  */
+type ChooseScope =
+  | 'ChooseOpponentCharacter'
+  | 'ChooseOwnCharacter'
+  | 'ChooseOwnCharacterOrLeader'
+  | 'ChooseOpponentCharacterOrLeader';
+
 export function getEffectTargetScope(
   effects: readonly CardEffect[],
   trigger?: string,
-): 'ChooseOpponentCharacter' | 'ChooseOwnCharacter' | null {
+): ChooseScope | null {
+  const CHOOSE_SCOPES = new Set<string>([
+    'ChooseOpponentCharacter',
+    'ChooseOwnCharacter',
+    'ChooseOwnCharacterOrLeader',
+    'ChooseOpponentCharacterOrLeader',
+  ]);
   for (const eff of effects) {
     if (trigger !== undefined && eff.trigger !== trigger) continue;
     for (const action of eff.actions) {
       if ('target' in action) {
         const scope = (action as { target: { scope: string } }).target.scope;
-        if (scope === 'ChooseOpponentCharacter') return 'ChooseOpponentCharacter';
-        if (scope === 'ChooseOwnCharacter') return 'ChooseOwnCharacter';
+        if (CHOOSE_SCOPES.has(scope)) return scope as ChooseScope;
       }
     }
   }

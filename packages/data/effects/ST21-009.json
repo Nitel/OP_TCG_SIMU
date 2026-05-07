@@ -4,17 +4,18 @@
     {
       "trigger": "Activated",
       "frequency": "OncePerTurn",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
-          "fromRested": true,
+          "from": "rested",
           "target": {
             "scope": "ChooseOwnCharacterOrLeader",
-            "filter": {
-              "type": "HasType",
-              "value": "Straw Hat Crew"
-            }
+            "subType": "Straw Hat Crew"
           }
         }
       ]

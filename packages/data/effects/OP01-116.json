@@ -3,22 +3,18 @@
   "effectText": "[Main] Look at 5 cards from the top of your deck; play up to 1 {SMILE} type Character card with a cost of 3 or less. Then, place the rest at the bottom of your deck in any order.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnPlay",
       "actions": [
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByCost",
-            "maxCost": 3,
-            "cardTypes": [
-              "Character"
-            ],
-            "types": [
-              "SMILE"
-            ]
+            "kind": "BySubType",
+            "subType": "SMILE",
+            "cardType": "Character"
           },
-          "count": 1,
-          "destination": "board"
+          "count": 5,
+          "destination": "board",
+          "restTo": "bottom"
         }
       ]
     }

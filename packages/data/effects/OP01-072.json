@@ -3,15 +3,16 @@
   "effectText": "[DON!! x1] [Your Turn] This Character gains +1000 power for every card in your hand.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "StartOfTurn",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 1
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": "cardsInHand × 1000",
+          "type": "DynamicPowerBoost",
+          "factor": "HandSize",
+          "multiplier": 1000,
           "target": {
             "scope": "Self"
           },

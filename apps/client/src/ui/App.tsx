@@ -415,6 +415,41 @@ export function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState?.pendingSearchInteraction]);
 
+  // ── Detect pendingForceDiscardInteraction — show discard UI for human, auto for bot ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingForceDiscardInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      setUiState((prev) => ({
+        ...prev,
+        selectionMode: 'forceDiscard',
+        forceDiscardInteraction: { count: pending.count, playerId: pending.playerId, selectedCardIds: [] },
+      }));
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'forceDiscard' ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingForceDiscardInteraction]);
+
+  // ── Detect pendingForcedAttack — auto-select the forced attacker for the human ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const forced = gameState.pendingForcedAttack;
+    if (forced !== null) {
+      setUiState((prev) => ({
+        ...prev,
+        selectionMode: 'attack',
+        selectedCardId: forced.attackerCardId,
+        forcedAttackerId: forced.attackerCardId,
+      }));
+    } else {
+      setUiState((prev) => prev.forcedAttackerId !== undefined ? { ...IDLE_UI } : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingForcedAttack]);
+
   // ── Greedy bot (vsBot mode) ───────────────────────────────────────────────
 
   useEffect(() => {
@@ -426,13 +461,15 @@ export function App() {
     const isBotDefender = activeCombat !== null
       && activePlayerId !== BOT_ID
       && gameState.cards[activeCombat.targetId]?.ownerId === BOT_ID;
-    const isBotPendingTarget = gameState.pendingTargetInteraction?.playerId === BOT_ID;
-    const isBotPendingOnKO   = gameState.pendingOnKOInteraction?.playerId   === BOT_ID;
-    const isBotPendingReveal = gameState.pendingRevealInteraction?.playerId  === BOT_ID;
-    const isBotPendingTrash  = gameState.pendingTrashInteraction?.playerId   === BOT_ID;
-    const isBotPendingSearch = gameState.pendingSearchInteraction?.playerId  === BOT_ID;
+    const isBotPendingTarget      = gameState.pendingTargetInteraction?.playerId      === BOT_ID;
+    const isBotPendingOnKO        = gameState.pendingOnKOInteraction?.playerId        === BOT_ID;
+    const isBotPendingReveal      = gameState.pendingRevealInteraction?.playerId      === BOT_ID;
+    const isBotPendingTrash       = gameState.pendingTrashInteraction?.playerId       === BOT_ID;
+    const isBotPendingSearch      = gameState.pendingSearchInteraction?.playerId      === BOT_ID;
+    const isBotPendingForceDiscard = gameState.pendingForceDiscardInteraction?.playerId === BOT_ID;
+    const isBotForcedAttack       = gameState.pendingForcedAttack?.ownerId            === BOT_ID;
 
-    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash && !isBotPendingSearch) return;
+    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash && !isBotPendingSearch && !isBotPendingForceDiscard && !isBotForcedAttack) return;
 
     const action = greedyBotDecide(gameState, BOT_ID);
     if (action === null) return;
@@ -532,9 +569,14 @@ export function App() {
         const { pendingTargetAction, targetScope } = prev;
         if (targetScope === undefined) return IDLE_UI;
         const opponentId = activeId === p1Id ? p2Id : p1Id;
-        const pool = targetScope === 'ChooseOpponentCharacter'
-          ? (gameState.players[opponentId]?.board ?? [])
-          : (gameState.players[activeId]?.board ?? []);
+        const isOpponentScope = targetScope === 'ChooseOpponentCharacter' || targetScope === 'ChooseOpponentCharacterOrLeader';
+        const isOrLeader = targetScope === 'ChooseOwnCharacterOrLeader' || targetScope === 'ChooseOpponentCharacterOrLeader';
+        const targetPlayerId = isOpponentScope ? opponentId : activeId;
+        const targetPlayer = gameState.players[targetPlayerId];
+        const pool = [
+          ...(targetPlayer?.board ?? []),
+          ...(isOrLeader && targetPlayer?.leader != null ? [targetPlayer.leader] : []),
+        ];
         if (pool.includes(cardId)) {
           const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? activeId;
           if (pendingTargetAction !== undefined) {
@@ -595,6 +637,20 @@ export function App() {
           ? trashInteraction.selectedCardIds.filter((id) => id !== cardId)
           : [...trashInteraction.selectedCardIds, cardId];
         return { ...prev, trashInteraction: { ...trashInteraction, selectedCardIds: newSelected } };
+      }
+
+      if (selectionMode === 'forceDiscard') {
+        const { forceDiscardInteraction } = prev;
+        if (forceDiscardInteraction === undefined) return IDLE_UI;
+        if (card.zone !== 'hand' || card.ownerId !== forceDiscardInteraction.playerId) return prev;
+        // Toggle selection (capped at required count)
+        const alreadySelected = forceDiscardInteraction.selectedCardIds.includes(cardId);
+        const newSelected = alreadySelected
+          ? forceDiscardInteraction.selectedCardIds.filter((id) => id !== cardId)
+          : forceDiscardInteraction.selectedCardIds.length < forceDiscardInteraction.count
+            ? [...forceDiscardInteraction.selectedCardIds, cardId]
+            : forceDiscardInteraction.selectedCardIds; // cap reached
+        return { ...prev, forceDiscardInteraction: { ...forceDiscardInteraction, selectedCardIds: newSelected } };
       }
 
       if (selectedCardId !== null) {
@@ -948,6 +1004,91 @@ export function App() {
                     }}
                   >
                     {ti.selectedCardIds.length === 0 ? 'Passer (0 carte)' : `Défausser (${ti.selectedCardIds.length})`}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ── Force-discard overlay ───────────────────────────────────────── */}
+        {uiState.selectionMode === 'forceDiscard' && uiState.forceDiscardInteraction !== undefined && (() => {
+          const fdi = uiState.forceDiscardInteraction;
+          const playerHand = gameState.players[fdi.playerId]?.hand ?? [];
+          const handCards = playerHand
+            .map((id) => gameState.cards[id])
+            .filter((c): c is NonNullable<typeof c> => c !== undefined);
+          const CDN_BASE_FD: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 460,
+              background: 'rgba(0,0,0,0.82)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'auto',
+            }}>
+              <div style={{
+                background: 'rgba(24,4,4,0.97)',
+                border: '1px solid rgba(255,60,60,0.55)',
+                borderRadius: 10,
+                padding: 20,
+                maxWidth: '80vw',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
+                display: 'flex', flexDirection: 'column', gap: 16,
+              }}>
+                <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#ff4444', textAlign: 'center', letterSpacing: 1 }}>
+                  {String(fdi.playerId)} : défaussez {fdi.count} carte{fdi.count > 1 ? 's' : ''} de votre main
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${Math.min(Math.max(handCards.length, 1), 7)}, 86px)`,
+                  gap: 8,
+                  justifyContent: 'center',
+                }}>
+                  {handCards.map((card) => {
+                    const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
+                    const imgUrl = templateId !== undefined ? `${CDN_BASE_FD}/card-images/${templateId}.png` : null;
+                    const isSelected = fdi.selectedCardIds.includes(card.id);
+                    return (
+                      <div
+                        key={card.id}
+                        onClick={() => handleCardClick(card.id)}
+                        style={{
+                          width: 86, height: 120, borderRadius: 4, overflow: 'hidden',
+                          cursor: 'pointer', flexShrink: 0,
+                          border: isSelected ? '2px solid #ff4444' : '1px solid rgba(255,60,60,0.25)',
+                          boxShadow: isSelected ? '0 0 8px rgba(255,60,60,0.6)' : 'none',
+                          transition: 'border-color 0.1s, box-shadow 0.1s',
+                        }}
+                      >
+                        {imgUrl !== null ? (
+                          <img src={imgUrl} alt={card.name} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{ width: '100%', height: '100%', background: '#2a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4, boxSizing: 'border-box' }}>
+                            <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 9, textAlign: 'center' }}>{card.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+                  <span style={{ color: '#ffaaaa', fontFamily: 'monospace', fontSize: 12 }}>
+                    {fdi.selectedCardIds.length}/{fdi.count} sélectionnée{fdi.count > 1 ? 's' : ''}
+                  </span>
+                  <button
+                    disabled={fdi.selectedCardIds.length !== fdi.count}
+                    onClick={() => dispatch({ type: 'ResolveForceDiscardInteraction', playerId: fdi.playerId, discardedCardIds: fdi.selectedCardIds })}
+                    style={{
+                      padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                      border: `1px solid ${fdi.selectedCardIds.length === fdi.count ? '#ff4444' : 'rgba(255,60,60,0.3)'}`,
+                      borderRadius: 4,
+                      cursor: fdi.selectedCardIds.length === fdi.count ? 'pointer' : 'default',
+                      background: '#2a0a0a', color: fdi.selectedCardIds.length === fdi.count ? '#ff4444' : '#884444',
+                      fontWeight: 'bold',
+                      opacity: fdi.selectedCardIds.length === fdi.count ? 1 : 0.5,
+                    }}
+                  >
+                    Défausser ({fdi.selectedCardIds.length}/{fdi.count})
                   </button>
                 </div>
               </div>

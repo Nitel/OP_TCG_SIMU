@@ -1,45 +1,35 @@
 {
-  "1": {
-    "trigger": "OnBlock",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "count": {
-        "operator": "<=",
-        "value": 5
-      },
-      "zone": "hand"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ],
-    "cost": {
-      "don": 1
-    }
-  },
   "id": "OP01-078",
   "effects": [
     {
       "trigger": "OnAttack",
       "condition": {
-        "type": "HasCardOnBoard",
-        "count": {
-          "operator": "<=",
-          "value": 5
-        },
-        "zone": "hand"
+        "type": "HasHandCount",
+        "operator": "<=",
+        "count": 5
       },
+      "cost": { "don": 1 },
       "actions": [
         {
           "type": "DrawCard",
           "count": 1
         }
-      ],
-      "cost": {
-        "don": 1
-      }
+      ]
+    },
+    {
+      "trigger": "OnBlock",
+      "condition": {
+        "type": "HasHandCount",
+        "operator": "<=",
+        "count": 5
+      },
+      "cost": { "don": 1 },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
     }
   ]
 }

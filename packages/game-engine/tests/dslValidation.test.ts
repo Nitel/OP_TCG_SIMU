@@ -20,6 +20,8 @@ const VALID_TRIGGERS = new Set([
 const VALID_CONDITIONS = new Set([
   'Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon', 'TrashCount', 'HasCardOnBoard',
   'AnyPlayerHasNoLife', 'LeaderHasType', 'LeaderHasAnyType', 'LeaderIsName',
+  // Phase OP01 additions
+  'HasTotalAttachedDon', 'HasBoardCount', 'HasHandCount',
 ]);
 const VALID_ACTIONS = new Set([
   'DrawCard', 'KO', 'ReturnToHand', 'PowerBoost', 'ForceDiscard', 'AddLife',
@@ -29,6 +31,10 @@ const VALID_ACTIONS = new Set([
   // Phase 2 types
   'TrashFromDeck', 'PlayFromTrash', 'RevealFromDeck', 'PlaceAtBottomOfDeck',
   'SearchTrash', 'Activate',
+  // Phase OP01 additions
+  'DynamicPowerBoost', 'ReduceEventCost', 'TakeFromLife',
+  // Phase ST21 additions
+  'ForceAttack',
 ]);
 const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
 const VALID_SCOPES = new Set([
@@ -39,7 +45,7 @@ const VALID_SCOPES = new Set([
   'ChooseOwnCharacter', 'ChooseOpponentCharacter', 'ChooseOwnCharacterOrLeader', 'ChooseOpponentCharacterOrLeader',
 ]);
 const VALID_DURATIONS = new Set(['EndOfTurn', 'DuringYourTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
-const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName']);
+const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName', 'BySubType']);
 const VALID_CARD_TYPES = new Set(['Character', 'Event', 'Stage']);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

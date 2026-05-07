@@ -258,6 +258,30 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
     return { type: 'ResolveTargetInteraction', playerId: botId, targetCardId: candidates[0]!.id };
   }
 
+  // Handle pending force-discard interaction — bot discards weakest cards first
+  if (state.pendingForceDiscardInteraction !== null && state.pendingForceDiscardInteraction.playerId === botId) {
+    const pending = state.pendingForceDiscardInteraction;
+    const player = state.players[botId];
+    const hand = (player?.hand ?? [])
+      .map((id) => state.cards[id])
+      .filter((c): c is NonNullable<typeof c> => c !== undefined)
+      .sort((a, b) => a.power - b.power);
+    const toDiscard = hand.slice(0, pending.count).map((c) => c.id);
+    return { type: 'ResolveForceDiscardInteraction', playerId: botId, discardedCardIds: toDiscard };
+  }
+
+  // Handle pending forced attack — bot attacks opponent leader with the forced card
+  if (state.pendingForcedAttack !== null && state.pendingForcedAttack.ownerId === botId) {
+    const forced = state.pendingForcedAttack;
+    const opponentId = state.playerOrder.find((id) => id !== botId);
+    if (opponentId === undefined) return null;
+    const opponent = state.players[opponentId];
+    if (opponent === undefined) return null;
+    const targetId = opponent.leader ?? (opponent.board.find((id) => state.cards[id]?.tapped === true) ?? null);
+    if (targetId === null) return null;
+    return { type: 'DeclareAttack', playerId: botId, attackerId: forced.attackerCardId, targetId };
+  }
+
   // Handle pending OnKO interaction — bot picks the strongest valid card or skips
   if (state.pendingOnKOInteraction !== null && state.pendingOnKOInteraction.playerId === botId) {
     const pending = state.pendingOnKOInteraction;

@@ -1,4 +1,4 @@
-import type { CardId, DeckFilter, GameAction, HandFilter } from 'game-engine';
+import type { CardId, DeckFilter, GameAction, HandFilter, PlayerId } from 'game-engine';
 
 export type SelectionMode =
   | 'play'
@@ -10,7 +10,8 @@ export type SelectionMode =
   | 'resolveOnKO'
   | 'revealFromHand'
   | 'trashFromHand'
-  | 'searchDeck';
+  | 'searchDeck'
+  | 'forceDiscard';
 
 export interface UIState {
   selectedCardId: CardId | null;
@@ -39,8 +40,16 @@ export interface UIState {
   searchInteraction?: {
     revealedCardIds: readonly CardId[];
     filter: DeckFilter;
-    destination: 'hand' | 'board';
+    destination: 'hand' | 'board' | 'bottomOfDeck';
   };
+  /** Set when selectionMode === 'forceDiscard' — opponent must choose N cards to discard */
+  forceDiscardInteraction?: {
+    count: number;
+    playerId: PlayerId;
+    selectedCardIds: CardId[];
+  };
+  /** Set when a ForceAttack is pending — the card that must attack this turn */
+  forcedAttackerId?: CardId;
 }
 
 export const IDLE_UI: UIState = {

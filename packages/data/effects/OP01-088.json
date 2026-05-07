@@ -1,6 +1,5 @@
 {
   "id": "OP01-088",
-  "cardNumber": "OP01-088",
   "effects": [
     {
       "trigger": "Counter",
@@ -9,15 +8,15 @@
           "type": "PowerBoost",
           "amount": 2000,
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader",
-            "max": 1
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
         },
         {
-          "type": "SearchDeck",
+          "type": "RevealFromDeck",
           "count": 3,
-          "action": "ScryPlaceTopOrBottom"
+          "returnTo": "top",
+          "thenActions": []
         }
       ]
     }

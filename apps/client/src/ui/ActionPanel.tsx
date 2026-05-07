@@ -119,7 +119,7 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
             {/* Choose target hint */}
             {uiState.selectionMode === 'chooseTarget' && (
               <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ffcc44' }}>
-                Cliquez une carte {uiState.targetScope === 'ChooseOpponentCharacter' ? 'adverse' : 'alliée'} sur le plateau comme cible
+                Cliquez une carte {uiState.targetScope === 'ChooseOpponentCharacter' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? 'adverse' : 'alliée'} sur le plateau comme cible {uiState.targetScope === 'ChooseOwnCharacterOrLeader' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? '(leader inclus)' : ''}
               </span>
             )}
 

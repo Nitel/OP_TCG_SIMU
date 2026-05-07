@@ -6,17 +6,14 @@
     {
       "trigger": "Activated",
       "condition": {
-        "type": "Always"
+        "type": "HasAttachedDon",
+        "count": 1
       },
       "actions": [
         {
           "type": "AttachDon",
-          "count": {
-            "type": "UpTo",
-            "value": 2
-          },
+          "count": 2,
           "from": "rested",
-          "source": "self",
           "target": {
             "scope": "ChooseOwnCharacter"
           }

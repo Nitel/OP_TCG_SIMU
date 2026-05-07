@@ -117,6 +117,30 @@ describe('Restrictions premier tour — premier joueur tour 1', () => {
 // ─── Second joueur, tour 1 (= turnNumber 2) ───────────────────────────────────
 
 describe('Restrictions premier tour — second joueur, son premier tour', () => {
+  it('le second joueur ne peut pas attaquer lors de son premier tour (turnNumber 2)', () => {
+    const base = bootstrapAfterMulligan(P1);
+    // Manually place P2's leader on board with a character to attack with
+    const p2 = base.players[P2]!;
+    const leaderCard = base.cards[p2.leader!]!;
+    const p1 = base.players[P1]!;
+    const mainState: GameState = {
+      ...base,
+      phase: 'Main',
+      activePlayerId: P2,
+      turnNumber: 2,
+    };
+    const result = applyAction(mainState, {
+      type: 'DeclareAttack',
+      playerId: P2,
+      attackerId: leaderCard.id,
+      targetId: p1.leader!,
+    });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) {
+      expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
+    }
+  });
+
   it('le second joueur pioche 1 carte normalement', () => {
     // P2 first turn = turnNumber 2
     const base = bootstrapAfterMulligan(P1);
@@ -195,8 +219,7 @@ describe('Restrictions premier tour — premier joueur à partir du tour 2', () 
   });
 
   it('turnNumber=1 mais activePlayer !== firstPlayer → pioche normalement', () => {
-    // Edge case: turnNumber=1 but a different player is active (shouldn't happen in real game
-    // but ensures the restriction only targets firstPlayer on turn 1)
+    // Edge case: turnNumber=1 but a different player is active (shouldn't happen in real game)
     const base = bootstrapAfterMulligan(P1);
     const edgeState: GameState = {
       ...base,

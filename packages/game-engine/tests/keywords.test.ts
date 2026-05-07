@@ -687,34 +687,32 @@ describe('[Rush] régression — règle du premier tour', () => {
     if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
   });
 
-  it('turnNumber 2 (premier tour J2) — peut attaquer avec un personnage déjà en jeu', () => {
-    // OPTCG : le second joueur peut attaquer dès son premier tour.
+  it('turnNumber 2 (premier tour J2) — ne peut pas attaquer (aucun joueur ne peut attaquer à son tour 1)', () => {
     const base = bootstrapGame();
     const char = makeChar('p2-veteran', 'p2', 3000);
     const target = makeChar('p1-target', 'p1', 1000, { tapped: true });
     let s = addToP2Board(base, char);
     s = addToP1Board(s, target);
-    // Force turnNumber 2 (premier tour de J2, phase Main)
     s = { ...s, turnNumber: 2, activePlayerId: P2, phase: 'Main' };
     const result = applyAction(s, {
       type: 'DeclareAttack', playerId: P2, attackerId: char.id, targetId: target.id,
     });
-    expect(isGameError(result)).toBe(false);
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('NO_ATTACK_FIRST_TURN');
   });
 
-  it('turnNumber 2 — personnage avec Rush posé ce tour peut attaquer', () => {
-    // Rush doit fonctionner dès le premier tour du second joueur.
+  it('turnNumber 4 (deuxième tour J2) — personnage avec Rush posé ce tour peut attaquer', () => {
+    // Rush bypasses summon sickness — test on P2's second turn (turnNumber 4) to clear first-turn restriction.
     const base = bootstrapGame();
     const rushChar = makeChar('rush-p2', 'p2', 3000, { zone: 'hand', cost: 0, keywords: ['Rush'] });
     const target = makeChar('p1-target', 'p1', 1000, { tapped: true });
     let s = addToP1Board(base, target);
-    // Add rush char to P2 hand
     s = {
       ...s,
       cards: { ...s.cards, [rushChar.id]: { ...rushChar, zone: 'hand' } },
       players: { ...s.players, [P2]: { ...s.players[P2]!, hand: [...s.players[P2]!.hand, rushChar.id] } },
     };
-    s = { ...s, turnNumber: 2, activePlayerId: P2, phase: 'Main' };
+    s = { ...s, turnNumber: 4, activePlayerId: P2, phase: 'Main' };
 
     const afterPlay = applyAction(s, {
       type: 'PlayCharacterFromHand', playerId: P2, cardId: rushChar.id,
@@ -728,7 +726,7 @@ describe('[Rush] régression — règle du premier tour', () => {
     expect(isGameError(result)).toBe(false);
   });
 
-  it('turnNumber 2 — personnage sans Rush posé ce tour → SUMMON_SICKNESS', () => {
+  it('turnNumber 4 (deuxième tour J2) — personnage sans Rush posé ce tour → SUMMON_SICKNESS', () => {
     const base = bootstrapGame();
     const char = makeChar('no-rush-p2', 'p2', 3000, { zone: 'hand', cost: 0 });
     const target = makeChar('p1-target', 'p1', 1000, { tapped: true });
@@ -738,7 +736,7 @@ describe('[Rush] régression — règle du premier tour', () => {
       cards: { ...s.cards, [char.id]: { ...char, zone: 'hand' } },
       players: { ...s.players, [P2]: { ...s.players[P2]!, hand: [...s.players[P2]!.hand, char.id] } },
     };
-    s = { ...s, turnNumber: 2, activePlayerId: P2, phase: 'Main' };
+    s = { ...s, turnNumber: 4, activePlayerId: P2, phase: 'Main' };
 
     const afterPlay = applyAction(s, {
       type: 'PlayCharacterFromHand', playerId: P2, cardId: char.id,
