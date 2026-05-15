@@ -22,6 +22,8 @@ const VALID_CONDITIONS = new Set([
   'AnyPlayerHasNoLife', 'LeaderHasType', 'LeaderHasAnyType', 'LeaderIsName',
   // Phase OP01 additions
   'HasTotalAttachedDon', 'HasBoardCount', 'HasHandCount',
+  // Phase ST21 additions
+  'HasCharacterWithMinPower',
 ]);
 const VALID_ACTIONS = new Set([
   'DrawCard', 'KO', 'ReturnToHand', 'PowerBoost', 'ForceDiscard', 'AddLife',
@@ -34,7 +36,7 @@ const VALID_ACTIONS = new Set([
   // Phase OP01 additions
   'DynamicPowerBoost', 'ReduceEventCost', 'TakeFromLife',
   // Phase ST21 additions
-  'ForceAttack',
+  'ForceAttack', 'DisableBlocker', 'SuppressBlockerForAttacker',
 ]);
 const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
 const VALID_SCOPES = new Set([

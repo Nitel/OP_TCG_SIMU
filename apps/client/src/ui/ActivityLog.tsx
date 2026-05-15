@@ -5,7 +5,7 @@ export interface ActivityEntry {
   text: string;
 }
 
-const MAX_ENTRIES = 20;
+const MAX_ENTRIES = 60;
 const COLLAPSED_ENTRIES = 4;
 
 interface Props {
@@ -37,7 +37,9 @@ export function ActivityLog({ entries, right = 16, top = '50%', transform = 'tra
         gap: 4,
         zIndex,
         pointerEvents: 'auto',
-        maxWidth: expanded ? 340 : 240,
+        maxWidth: expanded ? 400 : 240,
+        maxHeight: expanded ? 420 : undefined,
+        overflowY: expanded ? 'auto' : 'visible',
         transition: 'max-width 0.15s ease',
       }}
     >

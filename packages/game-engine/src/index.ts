@@ -37,6 +37,7 @@ export type {
   DeckFilter,
   HandFilter,
   ResolveOnKOInteractionAction,
+  GameLogEntry,
 } from './types/index.js';
 
 export {
@@ -50,7 +51,7 @@ export {
 export { applyAction } from './core/applyAction.js';
 
 // cardUtils — primary source for these functions
-export { calculatePower, sendToTrash, drawCards, returnToHand, clearPowerModifiers } from './rules/cardUtils.js';
+export { calculatePower, sendToTrash, drawCards, returnToHand, clearPowerModifiers, countAttachedDon } from './rules/cardUtils.js';
 
 // combat — re-exports calculatePower and sendToTrash from cardUtils for backwards compat
 export { applyLeaderDamage, resolveCombat } from './rules/combat.js';

@@ -48,9 +48,9 @@ export type TargetSelector =
   | { readonly scope: 'Self' }
   | { readonly scope: 'Attacker' }
   | { readonly scope: 'OriginalTarget' }
-  | { readonly scope: 'AllOpponentCharacters'; readonly maxPower?: number }
-  | { readonly scope: 'AllOwnCharacters'; readonly maxPower?: number }
-  | { readonly scope: 'AllOwnCharactersAndLeader'; readonly maxPower?: number }
+  | { readonly scope: 'AllOpponentCharacters'; readonly maxPower?: number; readonly subType?: string }
+  | { readonly scope: 'AllOwnCharacters'; readonly maxPower?: number; readonly subType?: string }
+  | { readonly scope: 'AllOwnCharactersAndLeader'; readonly maxPower?: number; readonly subType?: string }
   | { readonly scope: 'OpponentLeader' }
   | { readonly scope: 'OwnLeader' }
   | { readonly scope: 'ChooseOpponentCharacter'; readonly maxCost?: number; readonly maxPower?: number; readonly subType?: string }
@@ -92,6 +92,8 @@ export interface HandFilter {
   readonly name?: string;
   /** Exclude the source card itself (the card that triggered the OnKO) */
   readonly excludeSelf?: boolean;
+  /** Exclude all cards whose name exactly matches this string (e.g. ST21-015 Zoro: "other than [Roronoa Zoro]") */
+  readonly excludeName?: string;
   /**
    * Subtype/affiliation substring check — matches cards whose subTypes string
    * includes this value (e.g. "Whitebeard Pirates").
@@ -217,7 +219,20 @@ export type EffectAction =
    * (ST21-003 Sanji "[On Play] Select 1 of your Characters with 6000 power or less. Have it attack once.")
    * Engine implementation: sets forcedAttacker on game state; not yet fully wired into the combat loop.
    */
-  | { readonly type: 'ForceAttack'; readonly target: TargetSelector };
+  | { readonly type: 'ForceAttack'; readonly target: TargetSelector }
+  /**
+   * Disable the Blocker keyword on targeted card(s) until end of turn.
+   * A card with a disabled Blocker cannot intercept attacks even if it has the Blocker keyword.
+   * (ST21-016 Borsalino: "[Trigger] Your opponent cannot activate [Blocker] on their Characters ≤5000 power until end of turn.")
+   */
+  | { readonly type: 'DisableBlocker'; readonly target: TargetSelector; readonly duration: EffectDuration }
+  /**
+   * Mark a chosen ally character so that, if it attacks this turn, the opponent cannot
+   * activate Blocker against that specific attack.
+   * (ST21-003 Sanji: "[On Play] Choose 1 of your Characters. If it attacks this turn, your opponent cannot activate [Blocker].")
+   * Unlike DisableBlocker (which targets the blocker card), this marks the *attacker*.
+   */
+  | { readonly type: 'SuppressBlockerForAttacker'; readonly target: TargetSelector };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
@@ -274,7 +289,15 @@ export type EffectCondition =
   /** True when the source player's leader card's subTypes includes ANY of the given types */
   | { readonly type: 'LeaderHasAnyType'; readonly subTypes: readonly string[] }
   /** True when the source player's leader card's name includes `name` */
-  | { readonly type: 'LeaderIsName'; readonly name: string };
+  | { readonly type: 'LeaderIsName'; readonly name: string }
+  /**
+   * True when the specified player has at least one Character on the board
+   * with current power (base + DON!! + modifiers) >= minPower.
+   * controller: 'Self' (default) = source player's board; 'Opponent' = opponent's board.
+   * Leader is excluded — only Character-type cards count.
+   * (ST21-017 Gum-Gum Mole Pistol: "if you have a Character with 6000 power or more")
+   */
+  | { readonly type: 'HasCharacterWithMinPower'; readonly minPower: number; readonly controller?: 'Self' | 'Opponent' };
 
 // ─── DSL — CardEffect ─────────────────────────────────────────────────────────
 
@@ -282,6 +305,12 @@ export interface CardEffect {
   readonly trigger: EffectTrigger;
   readonly condition?: EffectCondition;
   readonly actions: readonly EffectAction[];
+  /**
+   * "[Opponent's Turn]" abilities set timing: 'OpponentTurn'.
+   * They may only be activated during the OPPONENT's Main phase (inactive player activates).
+   * Omitting this field (or any other value) means the effect is used during the card owner's own turn.
+   */
+  readonly timing?: 'OpponentTurn';
   /**
    * DON!! cost required to activate this effect.
    * The player must have `cost.don` resting DON!! cards; they are consumed (removed from donArea)
@@ -363,6 +392,29 @@ export interface CombatState {
   readonly counterPower: number;
 }
 
+// ─── Game log ─────────────────────────────────────────────────────────────────
+
+export interface GameLogEntry {
+  /** Monotonic sequence number */
+  readonly seq: number;
+  readonly event:
+    | 'KO'
+    | 'ON_KO_TRIGGER'
+    | 'EFFECT_CANDIDATES'
+    | 'PROMPT_CREATED'
+    | 'EFFECT_SKIPPED'
+    | 'PLAYER_CHOICE'
+    | 'CARD_PLAYED_VIA_EFFECT'
+    | 'QUEUED_TRIGGER';
+  /** How the KO was caused — only present on KO / ON_KO_TRIGGER events */
+  readonly cause?: 'battle' | 'effect';
+  /** Compact human-readable message */
+  readonly message: string;
+  readonly cardId?: CardId | undefined;
+  readonly cardName?: string | undefined;
+  readonly playerId?: PlayerId | undefined;
+}
+
 // ─── Game state ───────────────────────────────────────────────────────────────
 
 export interface GameState {
@@ -393,6 +445,17 @@ export interface GameState {
     readonly filter: HandFilter;
     readonly sourceCardId: CardId;
   } | null;
+  /**
+   * FIFO queue of PlayFromHand prompts that fired while pendingOnKOInteraction was set.
+   * Order matches the order OnKO triggers fired (target iteration order for KO effects;
+   * koCard call order for battle KOs). Each entry is promoted to pendingOnKOInteraction
+   * exactly once, after the previous prompt is resolved (played or skipped).
+   */
+  readonly pendingOnKOQueue: readonly {
+    readonly playerId: PlayerId;
+    readonly filter: HandFilter;
+    readonly sourceCardId: CardId;
+  }[];
   /**
    * Set when a ChooseOwnCharacter / ChooseOpponentCharacter effect fires during OnAttack,
    * OnBlock, Trigger, or OnKO and requires the player to pick a board target.
@@ -485,6 +548,22 @@ export interface GameState {
     readonly attackerCardId: CardId;
     readonly ownerId: PlayerId;
   } | null;
+  /**
+   * Card IDs whose Blocker keyword has been suppressed this turn.
+   * Cleared at end of turn (turn switch). Cards in this list cannot use Blocker.
+   */
+  readonly blockerDisabledIds: readonly CardId[];
+  /**
+   * Attacker card IDs for which Blocker activation is suppressed this turn.
+   * When an attacker's ID is in this list, the opponent cannot declare a Blocker against it.
+   * Cleared at end of turn (turn switch). Does NOT affect Event Counter plays.
+   */
+  readonly blockerSuppressedForAttackerIds: readonly CardId[];
+  /**
+   * Structured engine log for debugging trigger pipelines (KO, OnKO, prompts, choices).
+   * Entries are appended; never mutated. Monotonically increasing `seq`.
+   */
+  readonly gameLog: readonly GameLogEntry[];
 }
 
 // ─── Player setup (used in StartGame) ────────────────────────────────────────
@@ -601,6 +680,15 @@ export interface PlayEventAction {
   readonly chosenTargetId?: CardId;
 }
 
+/** Play a Stage card from hand, paying its DON cost. If a Stage is already in play it is sent to Trash (not KO'd). */
+export interface PlayStageAction {
+  readonly type: 'PlayStage';
+  readonly playerId: PlayerId;
+  readonly cardId: CardId;
+  /** Pre-chosen target for Choose* effect selectors */
+  readonly chosenTargetId?: CardId;
+}
+
 /** Activate an Activated ability on a board card or leader */
 export interface ActivatedAbilityAction {
   readonly type: 'ActivatedAbility';
@@ -620,7 +708,8 @@ export interface ResolveOnKOInteractionAction {
 export interface ResolveTargetInteractionAction {
   readonly type: 'ResolveTargetInteraction';
   readonly playerId: PlayerId;
-  readonly targetCardId: CardId;
+  /** The chosen board target, or null to skip (no valid targets / "up to 1" skip). */
+  readonly targetCardId: CardId | null;
 }
 
 export interface ResolveRevealInteractionAction {
@@ -664,6 +753,7 @@ export type GameAction =
   | ResolveCombatAction
   | PlayCounterAction
   | PlayEventAction
+  | PlayStageAction
   | ActivatedAbilityAction
   | ResolveOnKOInteractionAction
   | ResolveTargetInteractionAction
@@ -724,11 +814,15 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     newBoardIds: [],
     activatedAbilityIds: [],
     pendingOnKOInteraction: null,
+    pendingOnKOQueue: [],
     pendingTargetInteraction: null,
     pendingRevealInteraction: null,
     pendingTrashInteraction: null,
     pendingSearchInteraction: null,
     pendingForceDiscardInteraction: null,
     pendingForcedAttack: null,
+    blockerDisabledIds: [],
+    blockerSuppressedForAttackerIds: [],
+    gameLog: [],
   };
 }

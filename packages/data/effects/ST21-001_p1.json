@@ -9,19 +9,21 @@
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
+          "from": "rested",
           "target": {
             "scope": "ChooseOwnCharacter"
           }
         }
       ],
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      }
+      "frequency": "OncePerTurn"
     }
   ]
 }

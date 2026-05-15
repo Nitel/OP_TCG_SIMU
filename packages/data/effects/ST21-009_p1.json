@@ -9,12 +9,19 @@
   "effects": [
     {
       "trigger": "Activated",
+      "frequency": "OncePerTurn",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
       "actions": [
         {
           "type": "AttachDon",
           "count": 2,
+          "from": "rested",
           "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
+            "scope": "ChooseOwnCharacterOrLeader",
+            "subType": "Straw Hat Crew"
           }
         }
       ]

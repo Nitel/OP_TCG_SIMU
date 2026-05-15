@@ -2,7 +2,7 @@
   "id": "ST21-017",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
       "actions": [
         {
           "type": "PowerBoost",
@@ -11,7 +11,39 @@
             "scope": "ChooseOpponentCharacter"
           },
           "duration": "EndOfTurn"
-        },
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": { "type": "HasCharacterWithMinPower", "minPower": 6000 },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -5000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Trigger",
+      "condition": { "type": "HasCharacterWithMinPower", "minPower": 6000 },
+      "actions": [
         {
           "type": "KO",
           "target": {

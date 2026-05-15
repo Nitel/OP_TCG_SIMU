@@ -13,7 +13,7 @@ import type {
 } from '../types/index.js';
 import { makeGameError, isGameError } from '../types/index.js';
 import { resolveCombat } from '../rules/combat.js';
-import { clearPowerModifiers, clearOppTurnModifiers, clearTemporaryKeywords, hasKeyword, calculatePower } from '../rules/cardUtils.js';
+import { clearPowerModifiers, clearOppTurnModifiers, clearTemporaryKeywords, hasKeyword, calculatePower, countAttachedDon } from '../rules/cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
 import type { EffectContext } from '../effects/effectResolver.js';
 
@@ -120,7 +120,8 @@ function applyRefresh(state: GameState, playerId: PlayerId): GameState {
     updatedCards[id] = { ...updatedCards[id]!, tapped: false };
   }
   for (const id of player.donArea) {
-    updatedCards[id] = { ...updatedCards[id]!, tapped: false };
+    // DON return: detach and untap at start of owner's turn (official Refresh phase rule)
+    updatedCards[id] = { ...updatedCards[id]!, attachedTo: null, tapped: false };
   }
 
   let next: GameState = { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
@@ -400,12 +401,16 @@ function applyStartGame(
     newBoardIds: [],
     activatedAbilityIds: [],
     pendingOnKOInteraction: null,
+    pendingOnKOQueue: [],
     pendingTargetInteraction: null,
     pendingRevealInteraction: null,
     pendingTrashInteraction: null,
     pendingSearchInteraction: null,
     pendingForceDiscardInteraction: null,
     pendingForcedAttack: null,
+    blockerDisabledIds: [],
+    blockerSuppressedForAttackerIds: [],
+    gameLog: [],
   };
 }
 
@@ -480,6 +485,12 @@ function applyPlayCharacterFromHand(
   }
   if (!player.hand.includes(action.cardId)) {
     return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in ${action.playerId}'s hand`);
+  }
+
+  // Official rule: maximum 5 Characters per player on the board
+  const characterCount = player.board.filter((id) => state.cards[id]?.type === 'Character').length;
+  if (characterCount >= 5) {
+    return makeGameError('BOARD_FULL', 'Cannot play a Character: board already has 5 Characters');
   }
 
   // Active DON = in donArea, not tapped, not attached
@@ -573,13 +584,46 @@ function applyAssignDon(
     );
   }
 
-  return {
+  let next: GameState = {
     ...state,
     cards: {
       ...state.cards,
       [action.donCardId]: { ...donCard, attachedTo: action.targetCardId },
     },
   };
+
+  // Auto-grant Rush for "[DON!! xN] This Character gains Rush" passive effects
+  const target = next.cards[action.targetCardId];
+  if (target !== undefined) {
+    for (const eff of target.effects ?? []) {
+      if (
+        eff.trigger === 'Activated' &&
+        eff.condition?.type === 'HasRestingDon' &&
+        eff.actions.some(
+          (a) => a.type === 'GiveKeyword' &&
+            (a as { keyword?: string }).keyword === 'Rush' &&
+            (a as { target?: { scope?: string } }).target?.scope === 'Self',
+        )
+      ) {
+        const threshold = (eff.condition as { type: 'HasRestingDon'; count: number }).count;
+        const attachedCount = countAttachedDon(next.cards, action.targetCardId);
+        if (attachedCount >= threshold && !(target.keywords ?? []).includes('Rush')) {
+          next = {
+            ...next,
+            cards: {
+              ...next.cards,
+              [action.targetCardId]: {
+                ...next.cards[action.targetCardId]!,
+                keywords: [...(next.cards[action.targetCardId]!.keywords ?? []), 'Rush'],
+              },
+            },
+          };
+        }
+      }
+    }
+  }
+
+  return next;
 }
 
 // ─── EndPhase ─────────────────────────────────────────────────────────────────
@@ -595,8 +639,13 @@ function applyEndPhase(
   }
 
   if (state.phase === 'End') {
-    // Return all assigned DON for the current player
-    let next = applyReturnDon(state, state.activePlayerId);
+    // Clear power modifiers and temporary keywords at end of turn
+    // (DON return happens at the start of the next player's Refresh phase — official rule)
+    const endPlayer = state.players[state.activePlayerId];
+    const boardAndLeader: CardId[] = endPlayer !== undefined ? [...endPlayer.board] : [];
+    if (endPlayer?.leader !== null && endPlayer?.leader !== undefined) boardAndLeader.push(endPlayer.leader);
+    let next = clearPowerModifiers(state, boardAndLeader);
+    next = clearTemporaryKeywords(next);
 
     // Switch active player, reset to Refresh, increment turn counter
     const currentIndex = next.playerOrder.indexOf(next.activePlayerId);
@@ -610,6 +659,8 @@ function applyEndPhase(
       turnNumber: next.turnNumber + 1,
       newBoardIds: [],
       activatedAbilityIds: [],
+      blockerDisabledIds: [],
+      blockerSuppressedForAttackerIds: [],
     };
 
     // Untap the new active player's cards + fire StartOfTurn / StartOfOpponentTurn
@@ -790,6 +841,24 @@ function applyDeclareAttack(
   return afterOnAttacked;
 }
 
+// ─── Combat step guard ────────────────────────────────────────────────────────
+
+/**
+ * Returns true if any pending interaction must be resolved before the Block step,
+ * the Counter step, or combat resolution can proceed.
+ * Per OPTCG rules, [When Attacking] effects resolve entirely before Blocker/Counter/Resolve.
+ */
+function hasBlockingPending(state: GameState): boolean {
+  return (
+    state.pendingTargetInteraction       !== null ||
+    state.pendingRevealInteraction       !== null ||
+    state.pendingTrashInteraction        !== null ||
+    state.pendingSearchInteraction       !== null ||
+    state.pendingForceDiscardInteraction !== null ||
+    state.pendingOnKOInteraction         !== null
+  );
+}
+
 // ─── DeclareBlock ─────────────────────────────────────────────────────────────
 
 function applyDeclareBlock(
@@ -798,6 +867,9 @@ function applyDeclareBlock(
 ): ActionResult {
   if (state.activeCombat === null) {
     return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+  }
+  if (hasBlockingPending(state)) {
+    return makeGameError('PENDING_INTERACTION', 'Resolve all pending interactions before the Block step');
   }
   if (state.activeCombat.blockerId !== null) {
     return makeGameError('BLOCKER_ALREADY_SET', 'A blocker has already been assigned');
@@ -835,8 +907,17 @@ function applyDeclareBlock(
     return makeGameError('UNBLOCKABLE', 'The attacker has the Unblockable keyword and cannot be blocked');
   }
 
+  // SuppressBlockerForAttacker check (e.g. Sanji ST21-003)
+  if (state.blockerSuppressedForAttackerIds.includes(state.activeCombat.attackerId)) {
+    return makeGameError('BLOCKER_SUPPRESSED', 'Blocker cannot be activated against this attacker this turn');
+  }
+
   if (!hasKeyword(blocker, 'Blocker')) {
     return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
+  }
+
+  if (state.blockerDisabledIds.includes(action.blockerId)) {
+    return makeGameError('BLOCKER_DISABLED', `Card ${action.blockerId}'s Blocker has been disabled this turn`);
   }
 
   // Tap the blocker
@@ -1011,15 +1092,110 @@ function applyPlayEvent(
   return afterOnPlay;
 }
 
+// ─── PlayStage ────────────────────────────────────────────────────────────────
+
+function applyPlayStage(
+  state: GameState,
+  action: Extract<GameAction, { type: 'PlayStage' }>
+): ActionResult {
+  if (action.playerId !== state.activePlayerId) {
+    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+  }
+  if (state.phase !== 'Main') {
+    return makeGameError('WRONG_PHASE', `PlayStage requires Main phase, current: ${state.phase}`);
+  }
+
+  const player = state.players[action.playerId];
+  if (player === undefined) {
+    return makeGameError('UNKNOWN_PLAYER', `Player ${action.playerId} not found`);
+  }
+
+  const card = state.cards[action.cardId];
+  if (card === undefined) {
+    return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+  }
+  if (card.type !== 'Stage') {
+    return makeGameError('INVALID_CARD_TYPE', `Card ${action.cardId} is not a Stage (got ${card.type})`);
+  }
+  if (!player.hand.includes(action.cardId)) {
+    return makeGameError('CARD_NOT_IN_HAND', `Card ${action.cardId} is not in ${action.playerId}'s hand`);
+  }
+
+  // Active DON = in donArea, not tapped, not attached
+  const activeDonIds = player.donArea.filter((donId) => {
+    const don = state.cards[donId];
+    return don !== undefined && !don.tapped && don.attachedTo === null;
+  });
+
+  if (activeDonIds.length < card.cost) {
+    return makeGameError(
+      'INSUFFICIENT_DON',
+      `Card costs ${card.cost} DON but only ${activeDonIds.length} active DON available`
+    );
+  }
+
+  // Auto-rest exactly card.cost DON cards
+  const donToRest = activeDonIds.slice(0, card.cost);
+  const updatedCards: Record<string, Card> = { ...state.cards };
+
+  for (const donId of donToRest) {
+    updatedCards[donId] = { ...updatedCards[donId]!, tapped: true };
+  }
+
+  // Find any existing Stage on this player's board — trash it (replacement, not KO)
+  const existingStageId = player.board.find((id) => state.cards[id]?.type === 'Stage');
+  let updatedPlayer: PlayerState = player;
+
+  if (existingStageId !== undefined) {
+    updatedCards[existingStageId] = { ...updatedCards[existingStageId]!, zone: 'trash' };
+    updatedPlayer = {
+      ...updatedPlayer,
+      board: updatedPlayer.board.filter((id) => id !== existingStageId),
+      trash: [...updatedPlayer.trash, existingStageId],
+    };
+  }
+
+  // Move new Stage from hand to board
+  updatedCards[action.cardId] = { ...card, zone: 'board' };
+  updatedPlayer = {
+    ...updatedPlayer,
+    hand: updatedPlayer.hand.filter((id) => id !== action.cardId),
+    board: [...updatedPlayer.board, action.cardId],
+  };
+
+  const afterPlay: GameState = {
+    ...state,
+    cards: updatedCards as Readonly<Record<CardId, Card>>,
+    players: { ...state.players, [action.playerId]: updatedPlayer },
+    newBoardIds: [...state.newBoardIds, action.cardId],
+  };
+
+  // Trigger OnPlay effects
+  let afterOnPlay: GameState = afterPlay;
+  if (card.effects?.length) {
+    const result = resolveEffects(
+      card.effects,
+      'OnPlay',
+      {
+        sourceCardId: action.cardId,
+        sourcePlayerId: action.playerId,
+        ...(action.chosenTargetId !== undefined ? { chosenTargetId: action.chosenTargetId } : {}),
+      },
+      afterPlay,
+    );
+    if (isGameError(result)) return result;
+    afterOnPlay = result;
+  }
+
+  return afterOnPlay;
+}
+
 // ─── ActivatedAbility ─────────────────────────────────────────────────────────
 
 function applyActivatedAbility(
   state: GameState,
   action: Extract<GameAction, { type: 'ActivatedAbility' }>
 ): ActionResult {
-  if (action.playerId !== state.activePlayerId) {
-    return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
-  }
   if (state.phase !== 'Main') {
     return makeGameError('WRONG_PHASE', `ActivatedAbility requires Main phase, current: ${state.phase}`);
   }
@@ -1032,6 +1208,21 @@ function applyActivatedAbility(
   const card = state.cards[action.cardId];
   if (card === undefined) {
     return makeGameError('UNKNOWN_CARD', `Card ${action.cardId} not found`);
+  }
+
+  // "[Opponent's Turn]" effects are marked timing:'OpponentTurn' in the DSL — must be used during opponent's Main phase.
+  // All other Activated effects require the active player.
+  const isOpponentTurnAbility = (card.effects ?? []).some(
+    (e) => e.trigger === 'Activated' && e.timing === 'OpponentTurn',
+  );
+  if (isOpponentTurnAbility) {
+    if (action.playerId === state.activePlayerId) {
+      return makeGameError('WRONG_TURN', `[Opponent's Turn] ability cannot be used on your own turn`);
+    }
+  } else {
+    if (action.playerId !== state.activePlayerId) {
+      return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
+    }
   }
 
   const isOnBoard = player.board.includes(action.cardId) || player.leader === action.cardId;
@@ -1078,6 +1269,9 @@ function applyPlayCounter(
 ): ActionResult {
   if (state.activeCombat === null) {
     return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
+  }
+  if (hasBlockingPending(state)) {
+    return makeGameError('PENDING_INTERACTION', 'Resolve all pending interactions before playing a counter');
   }
   if (state.phase !== 'Main') {
     return makeGameError('WRONG_PHASE', `PlayCounter requires Main phase, current: ${state.phase}`);
@@ -1149,11 +1343,36 @@ function applyResolveCombat(
   if (state.activeCombat === null) {
     return makeGameError('NO_ACTIVE_COMBAT', 'No attack has been declared yet');
   }
+  if (hasBlockingPending(state)) {
+    return makeGameError('PENDING_INTERACTION', 'Resolve all pending interactions before combat resolution');
+  }
   if (state.winner !== null) {
     return makeGameError('GAME_OVER', 'The game has already ended');
   }
 
   return resolveCombat(state);
+}
+
+// ─── Queue helper ─────────────────────────────────────────────────────────────
+
+/** After clearing pendingOnKOInteraction, promote the next queued entry (if any). */
+function promoteQueuedOnKO(state: GameState): GameState {
+  if (state.pendingOnKOInteraction !== null) return state;
+  if (state.pendingOnKOQueue.length === 0) return state;
+  const nextPending = state.pendingOnKOQueue[0]!;
+  const qSeq = state.gameLog.length;
+  return {
+    ...state,
+    pendingOnKOInteraction: nextPending,
+    pendingOnKOQueue: state.pendingOnKOQueue.slice(1),
+    gameLog: [...state.gameLog, {
+      seq: qSeq,
+      event: 'QUEUED_TRIGGER' as const,
+      message: `Queued OnKO prompt promoted for [${nextPending.playerId}] — source: ${nextPending.sourceCardId}`,
+      playerId: nextPending.playerId,
+      cardId: nextPending.sourceCardId,
+    }],
+  };
 }
 
 // ─── ResolveOnKOInteraction ───────────────────────────────────────────────────
@@ -1172,7 +1391,18 @@ function applyResolveOnKOInteraction(
 
   // Clearing the pending interaction (skip case — no valid cards or player skips)
   if (action.cardId === null) {
-    return { ...state, pendingOnKOInteraction: null };
+    const seq = state.gameLog.length;
+    const afterSkip: GameState = {
+      ...state,
+      pendingOnKOInteraction: null,
+      gameLog: [...state.gameLog, {
+        seq,
+        event: 'PLAYER_CHOICE' as const,
+        message: `[${action.playerId}] skipped OnKO effect (played 0 cards)`,
+        playerId: action.playerId,
+      }],
+    };
+    return promoteQueuedOnKO(afterSkip);
   }
 
   const card = state.cards[action.cardId];
@@ -1203,8 +1433,19 @@ function applyResolveOnKOInteraction(
   if (f.excludeSelf === true && action.cardId === pending.sourceCardId) {
     return makeGameError('INVALID_CHOICE', 'Cannot choose the card that triggered the OnKO effect');
   }
+  if (f.excludeName !== undefined && card.name === f.excludeName) {
+    return makeGameError('INVALID_CHOICE', `Cards named "${f.excludeName}" cannot be chosen for this effect`);
+  }
   if (f.subType !== undefined && card.subTypes !== undefined && !card.subTypes.includes(f.subType)) {
     return makeGameError('INVALID_CHOICE', `Card subtype "${card.subTypes}" does not include required "${f.subType}"`);
+  }
+
+  // Board limit: can't play a Character onto a full board (5/5)
+  if (card.type === 'Character') {
+    const characterCount = player.board.filter((id) => state.cards[id]?.type === 'Character').length;
+    if (characterCount >= 5) {
+      return makeGameError('BOARD_FULL', 'Cannot play a Character: board already has 5 Characters');
+    }
   }
 
   // Play the chosen card for free (remove from hand, add to board)
@@ -1213,6 +1454,7 @@ function applyResolveOnKOInteraction(
     hand: player.hand.filter((id) => id !== action.cardId),
     board: [...player.board, action.cardId],
   };
+  const choiceSeq = state.gameLog.length;
   let next: GameState = {
     ...state,
     pendingOnKOInteraction: null,
@@ -1221,6 +1463,24 @@ function applyResolveOnKOInteraction(
       [action.cardId]: { ...card, zone: 'board' as const, tapped: false },
     },
     players: { ...state.players, [action.playerId]: updatedPlayer },
+    gameLog: [...state.gameLog,
+      {
+        seq: choiceSeq,
+        event: 'PLAYER_CHOICE' as const,
+        message: `[${action.playerId}] chose to play "${card.name}" via OnKO effect`,
+        playerId: action.playerId,
+        cardId: action.cardId,
+        cardName: card.name,
+      },
+      {
+        seq: choiceSeq + 1,
+        event: 'CARD_PLAYED_VIA_EFFECT' as const,
+        message: `"${card.name}" played from hand via OnKO effect by [${action.playerId}]`,
+        playerId: action.playerId,
+        cardId: action.cardId,
+        cardName: card.name,
+      },
+    ],
   };
 
   // Trigger OnPlay effects of the played card
@@ -1233,7 +1493,7 @@ function applyResolveOnKOInteraction(
     );
   }
 
-  return next;
+  return promoteQueuedOnKO(next);
 }
 
 // ─── ResolveTargetInteraction ─────────────────────────────────────────────────
@@ -1248,6 +1508,25 @@ function applyResolveTargetInteraction(
   }
   if (pending.playerId !== action.playerId) {
     return makeGameError('WRONG_PLAYER', `Player ${action.playerId} cannot resolve another player's target choice`);
+  }
+
+  // null targetCardId = skip (no valid targets or "up to 1" pass)
+  if (action.targetCardId === null) {
+    let next: GameState = { ...state, pendingTargetInteraction: null };
+    const ctxSkip: EffectContext = { sourceCardId: pending.sourceCardId, sourcePlayerId: pending.sourcePlayerId };
+    if (pending.pendingEffectActions.length > 0) {
+      next = resolveEffects(
+        [{ trigger: pending.trigger, actions: pending.pendingEffectActions }],
+        pending.trigger,
+        ctxSkip,
+        next,
+      );
+      if (next.pendingTargetInteraction !== null) return next;
+    }
+    if (pending.pendingEffects.length > 0) {
+      next = resolveEffects(pending.pendingEffects, pending.trigger, ctxSkip, next);
+    }
+    return next;
   }
 
   const target = state.cards[action.targetCardId];
@@ -1659,6 +1938,8 @@ export function applyAction(state: GameState, action: GameAction): ActionResult 
       return applyPlayCounter(state, action);
     case 'PlayEvent':
       return applyPlayEvent(state, action);
+    case 'PlayStage':
+      return applyPlayStage(state, action);
     case 'ActivatedAbility':
       return applyActivatedAbility(state, action);
     case 'ResolveOnKOInteraction':

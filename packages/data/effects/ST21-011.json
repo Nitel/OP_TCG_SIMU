@@ -2,9 +2,9 @@
   "id": "ST21-011",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "StartOfOpponentTurn",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 2
       },
       "actions": [
@@ -13,7 +13,7 @@
           "amount": 1000,
           "target": {
             "scope": "AllOwnCharacters",
-            "type": "Straw Hat Crew",
+            "subType": "Straw Hat Crew",
             "maxPower": 4000
           },
           "duration": "EndOfOpponentTurn"

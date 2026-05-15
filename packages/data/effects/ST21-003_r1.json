@@ -9,12 +9,13 @@
   "effects": [
     {
       "trigger": "OnPlay",
+      "_TODO_minPower": "ChooseOwnCharacter missing minPower filter — official text requires ≥6000 power; add minPower to TargetSelector when implemented",
       "actions": [
         {
-          "type": "ForceAttack",
+          "type": "SuppressBlockerForAttacker",
           "target": {
             "scope": "ChooseOwnCharacter",
-            "maxPower": 6000
+            "subType": "Straw Hat Crew"
           }
         }
       ]

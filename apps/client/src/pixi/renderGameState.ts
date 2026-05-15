@@ -825,6 +825,12 @@ function isValidTarget(
     if (scope === 'ChooseOwnCharacter') {
       return card.zone === 'board' && card.ownerId === activePlayerId;
     }
+    if (scope === 'ChooseOwnCharacterOrLeader') {
+      return (card.zone === 'board' || card.type === 'Leader') && card.ownerId === activePlayerId;
+    }
+    if (scope === 'ChooseOpponentCharacterOrLeader') {
+      return (card.zone === 'board' || card.type === 'Leader') && card.ownerId !== activePlayerId;
+    }
   }
   if (uiState.selectionMode === 'resolveOnKO') {
     const ok = uiState.onKOInteraction;
@@ -920,10 +926,14 @@ function renderPlayer(
   if (player.leader !== null) {
     const lc = allCards[player.leader];
     if (lc !== undefined) {
-      // attack: opponent's leader is valid; assignDon: only OWN leader is valid
+      // attack: opponent; assignDon: own; chooseTarget OrLeader scopes: per scope
       const isTarget = uiState.selectionMode === 'attack'
         ? !isActive
-        : uiState.selectionMode === 'assignDon' && isActive;
+        : uiState.selectionMode === 'assignDon' && isActive
+          || (uiState.selectionMode === 'chooseTarget' && (
+            (uiState.targetScope === 'ChooseOwnCharacterOrLeader' && isActive)
+            || (uiState.targetScope === 'ChooseOpponentCharacterOrLeader' && !isActive)
+          ));
       // Count DON attached to this leader
       const donCount = Object.values(allCards).filter(
         c => c.type === 'DON' && c.attachedTo === player.leader

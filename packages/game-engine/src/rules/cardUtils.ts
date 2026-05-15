@@ -1,5 +1,25 @@
 import type { Card, CardId, CardKeyword, GameState, PlayerState, PlayerId } from '../types/index.js';
 
+// ─── countAttachedDon ────────────────────────────────────────────────────────
+
+/**
+ * Counts DON!! cards physically attached to `cardId`, regardless of tapped/untapped state.
+ *
+ * Official OPTCG rule: [DON!! xN] condition = "this card has at least N DON!! cards attached
+ * to it". The tapped/untapped state of the attached DON is irrelevant for this check.
+ *
+ * Use this for ALL [DON!! xN] condition checks (HasAttachedDon, LeaderHasAttachedDon,
+ * HasRestingDon on OnAttack, Rush auto-grant). Do NOT use for: cost payment (active free
+ * DON), power calculation (owner's-turn gate), or structural detach operations.
+ */
+export function countAttachedDon(cards: Readonly<Record<CardId, Card>>, cardId: CardId): number {
+  let count = 0;
+  for (const c of Object.values(cards)) {
+    if (c.type === 'DON' && c.attachedTo === cardId) count++;
+  }
+  return count;
+}
+
 // ─── hasKeyword ───────────────────────────────────────────────────────────────
 
 /**
@@ -13,15 +33,21 @@ export function hasKeyword(card: Card, kw: CardKeyword): boolean {
 // ─── calculatePower ───────────────────────────────────────────────────────────
 
 /**
- * Total power of a card = base power + 1 000 per DON!! attached + powerModifier.
+ * Total power of a card = base power + 1 000 per DON!! attached (owner's turn only) + powerModifier.
+ *
+ * OPTCG rule: the +1 000 static bonus from attached DON!! only applies during the card owner's turn.
+ * DON!! remain physically attached during the opponent's turn and still count for conditional
+ * effect checks (HasAttachedDon, DON!! xN), but they do not contribute to combat power.
  */
 export function calculatePower(cardId: CardId, state: GameState): number {
   const card = state.cards[cardId];
   if (card === undefined) return 0;
 
-  const donAttached = Object.values(state.cards).filter(
-    (c) => c.type === 'DON' && c.attachedTo === cardId,
-  ).length;
+  // +1000 per attached DON only counts during the card owner's own turn
+  const isOwnersTurn = state.activePlayerId === card.ownerId;
+  const donAttached = isOwnersTurn
+    ? Object.values(state.cards).filter((c) => c.type === 'DON' && c.attachedTo === cardId).length
+    : 0;
 
   return card.power + donAttached * 1000 + (card.powerModifier ?? 0) + (card.powerModifierOT ?? 0);
 }
@@ -97,7 +123,7 @@ export function clearTemporaryKeywords(state: GameState): GameState {
 
 /**
  * Move a card to its owner's trash.
- * Any DON attached to it are detached and returned to donArea (untapped).
+ * Any DON attached to it are detached and returned to donArea as rested (OPTCG rule 7-1-5).
  * Does NOT trigger OnKO effects — callers must do that separately.
  */
 export function sendToTrash(state: GameState, cardId: CardId): GameState {
@@ -109,10 +135,10 @@ export function sendToTrash(state: GameState, cardId: CardId): GameState {
 
   const updatedCards: Record<string, Card> = { ...state.cards };
 
-  // Detach DON attached to the KO'd card
+  // Detach DON attached to the KO'd card — returned rested per OPTCG rule 7-1-5
   for (const [id, c] of Object.entries(state.cards)) {
     if (c.type === 'DON' && c.attachedTo === cardId) {
-      updatedCards[id] = { ...c, attachedTo: null, tapped: false };
+      updatedCards[id] = { ...c, attachedTo: null, tapped: true };
     }
   }
 

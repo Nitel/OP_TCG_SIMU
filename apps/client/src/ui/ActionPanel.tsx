@@ -47,6 +47,15 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
   const defenderId  = activePlayerId === playerOrder[0] ? playerOrder[1] : playerOrder[0];
   const isMyTurn    = !myPlayerId || myPlayerId === activePlayerId;
   const amIDefender = !!myPlayerId && myPlayerId === defenderId && activeCombat !== null;
+  // True while any pending interaction blocks the Block/Counter/Resolve step (OPTCG rules).
+  // Uses game state as source of truth — does not depend on uiState being in sync.
+  const isCombatPaused =
+    gameState.pendingTargetInteraction       !== null ||
+    gameState.pendingRevealInteraction       !== null ||
+    gameState.pendingTrashInteraction        !== null ||
+    gameState.pendingSearchInteraction       !== null ||
+    gameState.pendingForceDiscardInteraction !== null ||
+    gameState.pendingOnKOInteraction         !== null;
   if (winner !== null) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>
@@ -58,8 +67,16 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
   }
 
   // ── Opponent's turn: no action bar ───────────────────────────────────────
+  // Allow through if the inactive player has an [Opponent's Turn] ability selected
+  // OR if they have a pending OnKO interaction to resolve
   if (!isMyTurn && !amIDefender) {
-    return null;
+    const _sc = uiState.selectedCardId !== null ? gameState.cards[uiState.selectedCardId] : undefined;
+    const _hasOTA = !!myPlayerId && _sc?.ownerId === myPlayerId &&
+      (_sc?.effects ?? []).some(
+        (e) => e.trigger === 'Activated' && (e as { timing?: string }).timing === 'OpponentTurn',
+      );
+    const _hasPendingOnKO = !!myPlayerId && gameState.pendingOnKOInteraction?.playerId === myPlayerId;
+    if (!_hasOTA && !_hasPendingOnKO) return null;
   }
 
   return (
@@ -113,15 +130,22 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           </>
         )}
 
+        {/* Choose target hint — shown during Main phase AND during combat (e.g. OnAttack effects) */}
+        {isMyTurn && uiState.selectionMode === 'chooseTarget' && (
+          <>
+            <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ffcc44' }}>
+              Cliquez une carte {uiState.targetScope === 'ChooseOpponentCharacter' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? 'adverse' : 'alliée'} sur le plateau comme cible {uiState.targetScope === 'ChooseOwnCharacterOrLeader' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? '(leader inclus)' : ''}
+            </span>
+            <button style={btnStyle} onClick={() => onAction({ type: 'ResolveTargetInteraction', playerId: activePlayerId, targetCardId: null })}>
+              Passer
+            </button>
+          </>
+        )}
+
         {/* Main phase */}
         {isMyTurn && phase === 'Main' && activeCombat === null && (
           <>
-            {/* Choose target hint */}
-            {uiState.selectionMode === 'chooseTarget' && (
-              <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ffcc44' }}>
-                Cliquez une carte {uiState.targetScope === 'ChooseOpponentCharacter' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? 'adverse' : 'alliée'} sur le plateau comme cible {uiState.targetScope === 'ChooseOwnCharacterOrLeader' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? '(leader inclus)' : ''}
-              </span>
-            )}
+            {/* Choose target hint already rendered above when selectionMode === 'chooseTarget' */}
 
             {/* OnKO interaction — player must choose a hand card to play */}
             {uiState.selectionMode === 'resolveOnKO' && uiState.onKOInteraction && (
@@ -169,7 +193,14 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
                   return attached >= cond.count;
                 }
                 if (cond.type === 'HasRestingDon') {
-                  const active = allCards.filter(d => d.type === 'DON' && d.ownerId === activePlayerId && !d.tapped && d.attachedTo === null).length;
+                  const hasAttachFromRested = eff.actions?.some(
+                    (a: { type: string; from?: string }) => a.type === 'AttachDon' && a.from === 'rested',
+                  );
+                  if (hasAttachFromRested) {
+                    const rested = allCards.filter(d => d.type === 'DON' && d.zone === 'donArea' && d.ownerId === activePlayerId && d.tapped && d.attachedTo === null).length;
+                    return rested >= 1; // "up to N" — need ≥1 rested DON to activate
+                  }
+                  const active = allCards.filter(d => d.type === 'DON' && d.zone === 'donArea' && d.ownerId === activePlayerId && !d.tapped && d.attachedTo === null).length;
                   return active >= cond.count;
                 }
                 return true;
@@ -195,10 +226,53 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           </>
         )}
 
+        {/* ── [Opponent's Turn] Activate — inactive player's EndOfOpponentTurn abilities ── */}
+        {phase === 'Main' && activeCombat === null && uiState.selectedCardId !== null && (() => {
+          const selCard = gameState.cards[uiState.selectedCardId];
+          const oppTurnEffects = (selCard?.effects ?? []).filter(
+            (e) => e.trigger === 'Activated' && (e as { timing?: string }).timing === 'OpponentTurn',
+          );
+          if (oppTurnEffects.length === 0) return null;
+          const cardOwner = selCard?.ownerId;
+          if (cardOwner === undefined || cardOwner === activePlayerId) return null;
+          if (myPlayerId !== null && cardOwner !== myPlayerId) return null;
+          const cardOwnerPlayer = gameState.players[cardOwner];
+          const isOnBoard = cardOwnerPlayer !== undefined &&
+            (cardOwnerPlayer.board.includes(uiState.selectedCardId) || cardOwnerPlayer.leader === uiState.selectedCardId);
+          if (!isOnBoard) return null;
+
+          const alreadyUsed = gameState.activatedAbilityIds.includes(uiState.selectedCardId);
+          const allCards = Object.values(gameState.cards);
+          const conditionMet = oppTurnEffects.some((eff) => {
+            const cond = eff.condition;
+            if (!cond || cond.type === 'Always') return true;
+            if (cond.type === 'HasAttachedDon') {
+              const attached = allCards.filter(d => d.type === 'DON' && d.attachedTo === uiState.selectedCardId!).length;
+              return attached >= cond.count;
+            }
+            if (cond.type === 'HasRestingDon') {
+              const active = allCards.filter(d => d.type === 'DON' && d.zone === 'donArea' && d.ownerId === cardOwner && !d.tapped && d.attachedTo === null).length;
+              return active >= cond.count;
+            }
+            return true;
+          });
+
+          const canActivate = conditionMet && !alreadyUsed;
+          return (
+            <button
+              style={{ ...primaryBtn, background: canActivate ? '#1a2a1a' : '#1a1a2a', border: `1px solid ${canActivate ? '#44aa44' : '#334433'}`, color: canActivate ? '#88ee88' : '#557755', cursor: canActivate ? 'pointer' : 'not-allowed' }}
+              disabled={!canActivate}
+              title={alreadyUsed ? 'Déjà activé ce tour' : !conditionMet ? 'Conditions non remplies' : undefined}
+              onClick={() => onAction({ type: 'ActivatedAbility', playerId: cardOwner, cardId: uiState.selectedCardId! } satisfies ActivatedAbilityAction)}>
+              Activer [↩ Adv.]{alreadyUsed ? ' ✓' : ''}
+            </button>
+          );
+        })()}
+
         {/* ── Combat ───────────────────────────────────────────────────── */}
 
-        {/* Combat power summary */}
-        {activeCombat !== null && (() => {
+        {/* Combat power summary — hidden while any pending interaction blocks the Block step */}
+        {activeCombat !== null && !isCombatPaused && (() => {
           const attacker     = gameState.cards[activeCombat.attackerId];
           const target       = gameState.cards[activeCombat.targetId];
           const isDoubleAtk  = (attacker?.keywords ?? []).includes('DoubleAttack');
@@ -225,8 +299,8 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           );
         })()}
 
-        {/* Combat: defender actions — shown to defender only (or both in hotseat when myPlayerId is null) */}
-        {activeCombat !== null && (!myPlayerId || amIDefender) && (() => {
+        {/* Combat: defender actions — hidden while any pending interaction blocks the Block step */}
+        {activeCombat !== null && !isCombatPaused && (!myPlayerId || amIDefender) && (() => {
           const blockerSelected = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
           const counterStaged   = uiState.selectionMode === 'playCounter'  && uiState.selectedCardId !== null;
           const counterPlayed   = activeCombat.counterPower > 0;
@@ -293,8 +367,8 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           );
         })()}
 
-        {/* Attacker resolves — only in vsBot/network mode (hotseat uses the defender section above) */}
-        {activeCombat !== null && isMyTurn && !!myPlayerId && !amIDefender && (
+        {/* Attacker resolves — hidden while any pending interaction blocks combat resolution */}
+        {activeCombat !== null && !isCombatPaused && isMyTurn && !!myPlayerId && !amIDefender && (
           <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveCombat', playerId: activePlayerId })}>
             Résoudre le combat ⚔
           </button>
@@ -309,6 +383,18 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
         {isMyTurn && uiState.selectionMode === 'assignDon' && (
           <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#cc88ff' }}>
             Cliquez sur votre leader ou un personnage pour assigner ce DON
+          </span>
+        )}
+
+        {/* ── OnKO interaction for inactive player (e.g. Zoro KO'd during opponent's attack) ── */}
+        {!isMyTurn && uiState.selectionMode === 'resolveOnKO' && uiState.onKOInteraction &&
+          (!myPlayerId || gameState.pendingOnKOInteraction?.playerId === myPlayerId) && (
+          <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ff9955' }}>
+            Effet [On K.O.] : jouez{
+              uiState.onKOInteraction.filter.color ? ` un personnage ${uiState.onKOInteraction.filter.color}` : ' un personnage'
+            }{
+              uiState.onKOInteraction.filter.maxPower !== undefined ? ` ≤${uiState.onKOInteraction.filter.maxPower}` : ''
+            } depuis votre main (surligné)
           </span>
         )}
 

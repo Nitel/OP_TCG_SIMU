@@ -9,6 +9,10 @@
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
       "actions": [
         {
           "type": "PowerBoost",
@@ -16,13 +20,9 @@
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfTurn"
+          "duration": "EndOfOpponentTurn"
         }
-      ],
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 2
-      }
+      ]
     }
   ],
   "counter": 2000

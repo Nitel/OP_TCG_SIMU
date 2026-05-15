@@ -457,8 +457,8 @@ describe('[End of Your Turn] (EndOfTurn) trigger', () => {
 
 // ─── 4. CONDITIONS ────────────────────────────────────────────────────────────
 
-describe('HasRestingDon condition (passive)', () => {
-  it('OnAttack avec HasRestingDon — passe si DON épuisés suffisants', () => {
+describe('HasRestingDon condition (OnAttack = presence check on attached DON)', () => {
+  it('OnAttack avec HasRestingDon — passe si 1 DON attaché à l\'attaquant', () => {
     const base = bootstrapGame();
     const eff: CardEffect = {
       trigger: 'OnAttack',
@@ -466,16 +466,21 @@ describe('HasRestingDon condition (passive)', () => {
       actions: [{ type: 'DrawCard', count: 1 }],
     };
     const attacker = makeChar('hrd-atk', 'p1', 3000, { effects: [eff] });
-    const restedDon = makeDon('hrd-don', 'p1', { tapped: true });
+    const don = makeDon('hrd-don', 'p1');
     let s = addToP1Board(base, attacker);
-    s = addRestedDon(s, [restedDon]);
+    // Attach 1 DON to attacker (tapped=true, as is standard for attached DON)
+    s = {
+      ...s,
+      cards: { ...s.cards, [don.id]: { ...don, zone: 'donArea', tapped: true, attachedTo: attacker.id } },
+      players: { ...s.players, [P1]: { ...s.players[P1]!, donArea: [...s.players[P1]!.donArea, don.id] } },
+    };
+    const deckBefore = s.players[P1]!.deck.length;
     s = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId: attacker.id, targetId: makeCardId('p2-leader') }) as GameState;
-    // Effect fires (1 rested DON present)
-    const deckBefore = base.players[P1]!.deck.length;
+    // Effect fires: 1 DON attached → condition satisfied → drew 1 card
     expect(s.players[P1]!.deck.length).toBe(deckBefore - 1);
   });
 
-  it('OnAttack avec HasRestingDon — ignoré si pas assez de DON épuisés', () => {
+  it('OnAttack avec HasRestingDon — ignoré si pas assez de DON attachés (0 attachés, besoin de 2)', () => {
     const base = bootstrapGame();
     const eff: CardEffect = {
       trigger: 'OnAttack',

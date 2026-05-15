@@ -104,13 +104,13 @@ function declareAttack(state: GameState, botId: PlayerId): GameAction | null {
 }
 
 function decideMain(state: GameState, botId: PlayerId): GameAction {
-  // 1. Assign a DON if possible
-  const donAction = assignOneDon(state, botId);
-  if (donAction !== null) return donAction;
-
-  // 2. Play best affordable character
+  // 1. Play best affordable character (uses free DON as cost payment)
   const playAction = playBestCard(state, botId);
   if (playAction !== null) return playAction;
+
+  // 2. Assign leftover free DON to boost power on board
+  const donAction = assignOneDon(state, botId);
+  if (donAction !== null) return donAction;
 
   // 3. Declare an attack
   const attackAction = declareAttack(state, botId);
@@ -307,6 +307,16 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
   if (activeCombat !== null && activePlayerId !== botId) {
     const targetCard = state.cards[activeCombat.targetId];
     if (targetCard?.ownerId === botId) {
+      // Block until the active player resolves any pending interaction (e.g. [When Attacking])
+      const humanHasPending = [
+        state.pendingTargetInteraction,
+        state.pendingOnKOInteraction,
+        state.pendingRevealInteraction,
+        state.pendingTrashInteraction,
+        state.pendingSearchInteraction,
+        state.pendingForceDiscardInteraction,
+      ].some((p) => p !== null && p.playerId !== botId);
+      if (humanHasPending) return null;
       return decideCombatDefense(state, botId);
     }
     return null;
@@ -321,11 +331,10 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
       return { type: 'EndPhase', playerId: botId };
     case 'Draw':
       return { type: 'DrawPhase', playerId: botId };
-    case 'DON': {
-      const donAction = assignOneDon(state, botId);
-      if (donAction !== null) return donAction;
+    case 'DON':
+      // Skip DON attachment here — keep DON free for card costs in Main phase.
+      // Any leftover DON are attached in decideMain after cards are played.
       return { type: 'EndPhase', playerId: botId };
-    }
     case 'Main':
       if (activeCombat !== null) {
         return { type: 'ResolveCombat', playerId: botId };

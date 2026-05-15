@@ -81,8 +81,36 @@ export function resolveCombat(state: GameState): GameState {
 
   /** Send `cardId` to trash or removed-from-game depending on Banish, then fire OnKO + OnLeaveField. */
   function koCard(s: GameState, cardId: CardId, card: typeof attacker): GameState {
-    let r = attackerBanishes ? sendToRemoved(s, cardId) : sendToTrash(s, cardId);
+    const koSeq = s.gameLog.length;
+    let r: GameState = {
+      ...(attackerBanishes ? sendToRemoved(s, cardId) : sendToTrash(s, cardId)),
+      gameLog: [...s.gameLog, {
+        seq: koSeq,
+        event: 'KO' as const,
+        cause: 'battle' as const,
+        message: `"${card?.name ?? cardId}" (${cardId}) KO'd [battle] — owner: [${card?.ownerId ?? '?'}]`,
+        cardId,
+        cardName: card?.name,
+        playerId: card?.ownerId,
+      }],
+    };
     if (card?.effects?.length) {
+      const hasOnKO = card.effects.some((e) => e.trigger === 'OnKO');
+      if (hasOnKO) {
+        const triggerSeq = r.gameLog.length;
+        r = {
+          ...r,
+          gameLog: [...r.gameLog, {
+            seq: triggerSeq,
+            event: 'ON_KO_TRIGGER' as const,
+            cause: 'battle' as const,
+            message: `OnKO trigger for "${card.name}" (${cardId}) [battle]`,
+            cardId,
+            cardName: card.name,
+            playerId: card.ownerId,
+          }],
+        };
+      }
       r = resolveEffects(card.effects, 'OnKO', { sourceCardId: cardId, sourcePlayerId: card.ownerId }, r);
       r = resolveEffects(card.effects, 'OnLeaveField', { sourceCardId: cardId, sourcePlayerId: card.ownerId }, r);
     }
@@ -111,9 +139,15 @@ export function resolveCombat(state: GameState): GameState {
       if (target.type === 'Leader') {
         if (attacker !== undefined) {
           next = applyLeaderDamage(next, attacker.ownerId);
-          // DoubleAttack: second leader damage if still alive
+          // DoubleAttack: second damage only if defender still has life cards.
+          // Q&A: "If my opponent has 1 Life card, can I win using Double Attack? No."
+          // A player wins only when damage is applied to an already-empty life pile.
           if (hasKeyword(attacker, 'DoubleAttack') && next.winner === null) {
-            next = applyLeaderDamage(next, attacker.ownerId);
+            const [p1Id, p2Id] = next.playerOrder;
+            const defenderId = attacker.ownerId === p1Id ? p2Id : p1Id;
+            if ((next.players[defenderId]?.life.length ?? 0) > 0) {
+              next = applyLeaderDamage(next, attacker.ownerId);
+            }
           }
         }
       } else {

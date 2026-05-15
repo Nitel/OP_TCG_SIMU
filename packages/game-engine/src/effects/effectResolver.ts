@@ -9,7 +9,7 @@ import type {
   EffectAction,
   TargetSelector,
 } from '../types/index.js';
-import { calculatePower, sendToTrash, drawCards, returnToHand } from '../rules/cardUtils.js';
+import { calculatePower, sendToTrash, drawCards, returnToHand, countAttachedDon } from '../rules/cardUtils.js';
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
@@ -23,6 +23,15 @@ export interface EffectContext {
 }
 
 // ─── Target selection ─────────────────────────────────────────────────────────
+
+/** Check if a card has a given subType. Handles "/" separator (official rules) and space-separated legacy data. */
+function hasSubType(cardSubTypes: string | undefined, filter: string): boolean {
+  if (!cardSubTypes) return false;
+  if (cardSubTypes.includes('/')) {
+    return cardSubTypes.split('/').some((t) => t.trim() === filter);
+  }
+  return cardSubTypes.includes(filter);
+}
 
 /**
  * Resolve a TargetSelector to a list of CardIds.
@@ -64,11 +73,20 @@ function selectTargets(
       }
       return opponent?.board ?? [];
 
-    case 'AllOwnCharacters':
-      if (selector.maxPower !== undefined) {
-        return (ownPlayer?.board ?? []).filter((id) => (state.cards[id]?.power ?? 0) <= selector.maxPower!);
+    case 'AllOwnCharacters': {
+      // Fallback to legacy DSL field "type" (e.g. ST21-011.json uses "type": "Straw Hat Crew")
+      const subType = selector.subType ?? (selector as { type?: string }).type;
+      if (selector.maxPower !== undefined || subType !== undefined) {
+        return (ownPlayer?.board ?? []).filter((id) => {
+          const card = state.cards[id];
+          if (card === undefined) return false;
+          if (selector.maxPower !== undefined && (card.power ?? 0) > selector.maxPower) return false;
+          if (subType !== undefined && !hasSubType(card.subTypes, subType)) return false;
+          return true;
+        });
       }
       return ownPlayer?.board ?? [];
+    }
 
     case 'AllOwnCharactersAndLeader': {
       const all: CardId[] = [...(ownPlayer?.board ?? [])];
@@ -86,7 +104,7 @@ function selectTargets(
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
-        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
+        if (selector.subType  !== undefined && !hasSubType(card.subTypes, selector.subType)) return false;
         return true;
       };
       if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
@@ -103,7 +121,7 @@ function selectTargets(
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
-        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
+        if (selector.subType  !== undefined && !hasSubType(card.subTypes, selector.subType)) return false;
         return true;
       };
       if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
@@ -121,7 +139,7 @@ function selectTargets(
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
-        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
+        if (selector.subType  !== undefined && !hasSubType(card.subTypes, selector.subType)) return false;
         return true;
       };
       if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
@@ -139,7 +157,7 @@ function selectTargets(
         if (card === undefined) return false;
         if (selector.maxCost  !== undefined && card.cost > selector.maxCost) return false;
         if (selector.maxPower !== undefined && calculatePower(id, state) > selector.maxPower) return false;
-        if (selector.subType  !== undefined && !(card.subTypes ?? '').includes(selector.subType)) return false;
+        if (selector.subType  !== undefined && !hasSubType(card.subTypes, selector.subType)) return false;
         return true;
       };
       if (context.chosenTargetId !== undefined && pool.includes(context.chosenTargetId) && matchesFilters(context.chosenTargetId)) {
@@ -172,9 +190,39 @@ function resolveAction(
       let next = state;
       for (const id of targets) {
         const card = next.cards[id]; // read BEFORE trash
-        next = sendToTrash(next, id);
+        const koSeq = next.gameLog.length;
+        next = {
+          ...sendToTrash(next, id),
+          gameLog: [...next.gameLog, {
+            seq: koSeq,
+            event: 'KO' as const,
+            cause: 'effect' as const,
+            message: `"${card?.name ?? id}" (${id}) KO'd [effect] — owner: [${card?.ownerId ?? '?'}]`,
+            cardId: id,
+            cardName: card?.name,
+            playerId: card?.ownerId,
+          }],
+        };
         if (card?.effects?.length) {
+          // Fire OnKO for every KO'd card — PlayFromHand will queue if a prompt is already active.
+          const hasOnKO = card.effects.some((e) => e.trigger === 'OnKO');
+          if (hasOnKO) {
+            const tSeq = next.gameLog.length;
+            next = {
+              ...next,
+              gameLog: [...next.gameLog, {
+                seq: tSeq,
+                event: 'ON_KO_TRIGGER' as const,
+                cause: 'effect' as const,
+                message: `OnKO trigger for "${card.name}" (${id}) [effect]`,
+                cardId: id,
+                cardName: card.name,
+                playerId: card.ownerId,
+              }],
+            };
+          }
           next = resolveEffects(card.effects, 'OnKO', { sourceCardId: id, sourcePlayerId: card.ownerId }, next);
+          // Always fire OnLeaveField (no player interaction needed)
           next = resolveEffects(card.effects, 'OnLeaveField', { sourceCardId: id, sourcePlayerId: card.ownerId }, next);
         }
       }
@@ -183,6 +231,7 @@ function resolveAction(
 
     // ── ReturnToHand ──────────────────────────────────────────────────────────
     case 'ReturnToHand': {
+      if (!action.target) return state; // filter-based (from trash) variant — not yet implemented
       const targets = selectTargets(action.target, context, state);
       let next = state;
       for (const id of targets) {
@@ -316,6 +365,7 @@ function resolveAction(
 
     // ── AttachDon ─────────────────────────────────────────────────────────────
     case 'AttachDon': {
+      if (!action.target) return state; // unresolved target — no-op
       const targets = selectTargets(action.target, context, state);
       if (targets.length === 0) return state;
       const targetId = targets[0]!;
@@ -334,7 +384,38 @@ function resolveAction(
       for (const id of toAttach) {
         updatedCards[id] = { ...updatedCards[id]!, tapped: true, attachedTo: targetId as CardId };
       }
-      return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+      let attachResult: GameState = { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+      // Auto-grant Rush for "[DON!! xN] This Character gains Rush" passive effects
+      const attachTarget = attachResult.cards[targetId];
+      if (attachTarget !== undefined) {
+        for (const eff of attachTarget.effects ?? []) {
+          if (
+            eff.trigger === 'Activated' &&
+            eff.condition?.type === 'HasRestingDon' &&
+            eff.actions.some(
+              (a) => a.type === 'GiveKeyword' &&
+                (a as { keyword?: string }).keyword === 'Rush' &&
+                (a as { target?: { scope?: string } }).target?.scope === 'Self',
+            )
+          ) {
+            const threshold = (eff.condition as { type: 'HasRestingDon'; count: number }).count;
+            const attachedCount = countAttachedDon(attachResult.cards, targetId as CardId);
+            if (attachedCount >= threshold && !(attachResult.cards[targetId]?.keywords ?? []).includes('Rush')) {
+              attachResult = {
+                ...attachResult,
+                cards: {
+                  ...attachResult.cards,
+                  [targetId]: {
+                    ...attachResult.cards[targetId]!,
+                    keywords: [...(attachResult.cards[targetId]!.keywords ?? []), 'Rush'],
+                  },
+                },
+              };
+            }
+          }
+        }
+      }
+      return attachResult;
     }
 
     // ── GiveKeyword ───────────────────────────────────────────────────────────
@@ -417,6 +498,10 @@ function resolveAction(
       if (card === undefined) return state;
       const cid = context.sourceCardId;
       if (player.board.includes(cid)) return state; // already on board, no-op
+      if (card.type === 'Character') {
+        const charCount = player.board.filter((id) => state.cards[id]?.type === 'Character').length;
+        if (charCount >= 5) return state; // board full — silent skip
+      }
       const tapped = action.rested === true; // rested=true for Marco-style resurrection
       const updatedPlayer: PlayerState = {
         ...player,
@@ -447,9 +532,20 @@ function resolveAction(
 
     // ── PlayFromHand ──────────────────────────────────────────────────────────
     case 'PlayFromHand': {
+      const f = action.filter;
+      // Guard: a prompt is already open — queue this one for later
+      if (state.pendingOnKOInteraction !== null) {
+        return {
+          ...state,
+          pendingOnKOQueue: [...state.pendingOnKOQueue, {
+            playerId: context.sourcePlayerId,
+            filter: f,
+            sourceCardId: context.sourceCardId,
+          }],
+        };
+      }
       const player = state.players[context.sourcePlayerId];
       if (player === undefined) return state;
-      const f = action.filter;
       const validIds = player.hand.filter((id) => {
         const c = state.cards[id];
         if (c === undefined) return false;
@@ -460,11 +556,27 @@ function resolveAction(
         if (f.maxCost !== undefined && c.cost > f.maxCost) return false;
         if (f.maxPower !== undefined && c.power > f.maxPower) return false;
         if (f.excludeSelf === true && id === context.sourceCardId) return false;
-        if (f.subType !== undefined && !(c.subTypes ?? '').includes(f.subType)) return false;
+        if (f.excludeName !== undefined && c.name === f.excludeName) return false;
+        if (f.subType !== undefined && !hasSubType(c.subTypes, f.subType)) return false;
         return true;
       });
-      if (validIds.length === 0) return state; // no valid cards — skip silently
-      // Store pending interaction so the player (or bot) can choose which card to play
+      if (validIds.length === 0) {
+        // No eligible cards — resolve silently (effect fires but player has no choice)
+        const skipSeq = state.gameLog.length;
+        return {
+          ...state,
+          gameLog: [...state.gameLog, {
+            seq: skipSeq,
+            event: 'EFFECT_SKIPPED' as const,
+            message: `PlayFromHand: no eligible cards in hand for [${context.sourcePlayerId}] — effect resolves with no play`,
+            playerId: context.sourcePlayerId,
+            cardId: context.sourceCardId,
+          }],
+        };
+      }
+      // Log candidates and create the prompt
+      const candidateSeq = state.gameLog.length;
+      const candidateNames = validIds.map((id) => state.cards[id]?.name ?? id).join(', ');
       return {
         ...state,
         pendingOnKOInteraction: {
@@ -472,6 +584,22 @@ function resolveAction(
           filter: f,
           sourceCardId: context.sourceCardId,
         },
+        gameLog: [...state.gameLog,
+          {
+            seq: candidateSeq,
+            event: 'EFFECT_CANDIDATES' as const,
+            message: `PlayFromHand candidates for [${context.sourcePlayerId}]: [${candidateNames}]`,
+            playerId: context.sourcePlayerId,
+            cardId: context.sourceCardId,
+          },
+          {
+            seq: candidateSeq + 1,
+            event: 'PROMPT_CREATED' as const,
+            message: `OnKO prompt created for [${context.sourcePlayerId}] — awaiting card choice`,
+            playerId: context.sourcePlayerId,
+            cardId: context.sourceCardId,
+          },
+        ],
       };
     }
 
@@ -511,7 +639,7 @@ function resolveAction(
           case 'ByName': return card.name === action.filter.name;
           case 'BySubType': {
             const typeOk = action.filter.cardType === undefined || card.type === action.filter.cardType;
-            return typeOk && (card.subTypes ?? '').includes(action.filter.subType);
+            return typeOk && hasSubType(card.subTypes, action.filter.subType);
           }
         }
       });
@@ -534,7 +662,8 @@ function resolveAction(
         };
       }
 
-      const dest = (action.destination === 'board' && foundCard?.type === 'Character') ? 'board' : 'hand';
+      const charCount = player.board.filter((id) => state.cards[id]?.type === 'Character').length;
+      const dest = (action.destination === 'board' && foundCard?.type === 'Character' && charCount < 5) ? 'board' : 'hand';
       const updatedCards: Record<string, Card> = {
         ...state.cards,
         [foundId]: { ...state.cards[foundId]!, zone: dest },
@@ -595,12 +724,16 @@ function resolveAction(
         if (f.cardType !== undefined && c.type !== f.cardType) return false;
         if (f.maxCost !== undefined && c.cost > f.maxCost) return false;
         if (f.maxPower !== undefined && c.power > f.maxPower) return false;
-        if (f.subType !== undefined && !(c.subTypes ?? '').includes(f.subType)) return false;
+        if (f.subType !== undefined && !hasSubType(c.subTypes, f.subType)) return false;
         if (f.excludeSelf === true && id === context.sourceCardId) return false;
         return true;
       });
       if (match === undefined) return state;
       const card = state.cards[match]!;
+      if (card.type === 'Character') {
+        const charCount = player.board.filter((id) => state.cards[id]?.type === 'Character').length;
+        if (charCount >= 5) return state; // board full — silent skip
+      }
       const updatedCards: Record<string, Card> = {
         ...state.cards,
         [match]: { ...card, zone: 'board' as const, tapped: false },
@@ -692,7 +825,7 @@ function resolveAction(
           (f.cardType === undefined || c.type === f.cardType) &&
           (f.maxCost === undefined || c.cost <= f.maxCost) &&
           (f.maxPower === undefined || c.power <= f.maxPower) &&
-          (f.subType === undefined || c.subTypes?.includes(f.subType) === true) &&
+          (f.subType === undefined || hasSubType(c.subTypes, f.subType)) &&
           (f.excludeSelf !== true || id !== context.sourceCardId)
         );
       });
@@ -797,6 +930,24 @@ function resolveAction(
       };
     }
 
+    // ── SuppressBlockerForAttacker ────────────────────────────────────────────
+    case 'SuppressBlockerForAttacker': {
+      const targets = selectTargets(action.target, context, state);
+      if (targets.length === 0) return state;
+      const toAdd = targets.filter((id) => !state.blockerSuppressedForAttackerIds.includes(id));
+      if (toAdd.length === 0) return state;
+      return { ...state, blockerSuppressedForAttackerIds: [...state.blockerSuppressedForAttackerIds, ...toAdd] };
+    }
+
+    // ── DisableBlocker ────────────────────────────────────────────────────────
+    case 'DisableBlocker': {
+      const targets = selectTargets(action.target, context, state);
+      if (targets.length === 0) return state;
+      const toAdd = targets.filter((id) => !state.blockerDisabledIds.includes(id));
+      if (toAdd.length === 0) return state;
+      return { ...state, blockerDisabledIds: [...state.blockerDisabledIds, ...toAdd] };
+    }
+
     // ── RevealFromHand ────────────────────────────────────────────────────────
     // Intercepted in resolveEffects before reaching here; this case is unreachable.
     case 'RevealFromHand':
@@ -858,38 +1009,48 @@ export function resolveEffects(
       if (cond.type === 'HasRestingDon') {
         const player = next.players[context.sourcePlayerId];
         if (trigger === 'Activated') {
-          // Guard: "[DON!! xN]" = need N active DON!! to activate; pay cost by resting them.
+          // "Give up to N rested DON!!" — check already-rested DON, no cost payment
+          const hasAttachDonFromRested = effect.actions.some(
+            (a) => a.type === 'AttachDon' && (a as { from?: string }).from === 'rested',
+          );
+          if (hasAttachDonFromRested) {
+            const restedDon = (player?.donArea ?? []).filter((id) => {
+              const d = next.cards[id];
+              return d !== undefined && d.tapped && d.attachedTo === null;
+            });
+            if (restedDon.length < 1) continue; // "up to N" — need ≥1 rested DON to activate
+          } else {
+            // Standard "[DON!! xN]" cost: rest N active DON!!
+            const activeDon = (player?.donArea ?? []).filter((id) => {
+              const d = next.cards[id];
+              return d !== undefined && !d.tapped && d.attachedTo === null;
+            });
+            if (activeDon.length < cond.count) continue;
+            for (const donId of activeDon.slice(0, cond.count)) {
+              next = { ...next, cards: { ...next.cards, [donId]: { ...next.cards[donId]!, tapped: true } } };
+            }
+          }
+        } else if (trigger === 'OnAttack') {
+          // [DON!! xN] [When Attacking]: use countAttachedDon — tapped/untapped irrelevant.
+          if (countAttachedDon(next.cards, context.sourceCardId) < cond.count) continue;
+        } else {
+          // Other non-Activated triggers (OnKO, OnPlay, etc.):
+          // rest N active (untapped, unattached) DON as the cost to activate the effect.
           const activeDon = (player?.donArea ?? []).filter((id) => {
             const d = next.cards[id];
             return d !== undefined && !d.tapped && d.attachedTo === null;
           });
           if (activeDon.length < cond.count) continue;
-          // Pay activation cost: rest N active DON!!
           for (const donId of activeDon.slice(0, cond.count)) {
             next = { ...next, cards: { ...next.cards, [donId]: { ...next.cards[donId]!, tapped: true } } };
           }
-        } else {
-          // Passive condition: "if you have N or more rested DON!!"
-          const resting = (player?.donArea ?? []).filter((id) => {
-            const d = next.cards[id];
-            return d !== undefined && d.tapped && d.attachedTo === null;
-          }).length;
-          if (resting < cond.count) continue;
         }
       }
       if (cond.type === 'LeaderHasAttachedDon') {
-        // Source card (leader) must have at least `count` DON!! attached to it
-        const attached = Object.values(next.cards).filter(
-          (d) => d.type === 'DON' && d.attachedTo === context.sourceCardId,
-        ).length;
-        if (attached < cond.count) continue;
+        if (countAttachedDon(next.cards, context.sourceCardId) < cond.count) continue;
       }
       if (cond.type === 'HasAttachedDon') {
-        // Source card must have at least `count` DON!! attached to it
-        const attached = Object.values(next.cards).filter(
-          (d) => d.type === 'DON' && d.attachedTo === context.sourceCardId,
-        ).length;
-        if (attached < cond.count) continue;
+        if (countAttachedDon(next.cards, context.sourceCardId) < cond.count) continue;
       }
       if (cond.type === 'TrashCount') {
         const trashSize = next.players[context.sourcePlayerId]?.trash.length ?? 0;
@@ -935,19 +1096,34 @@ export function resolveEffects(
         const leaderId = next.players[context.sourcePlayerId]?.leader;
         if (!leaderId) continue;
         const leader = next.cards[leaderId];
-        if (leader?.subTypes?.includes(cond.subType) !== true) continue;
+        if (!hasSubType(leader?.subTypes, cond.subType)) continue;
       }
       if (cond.type === 'LeaderHasAnyType') {
         const leaderId = next.players[context.sourcePlayerId]?.leader;
         if (!leaderId) continue;
         const leader = next.cards[leaderId];
-        if (!cond.subTypes.some((t) => leader?.subTypes?.includes(t) === true)) continue;
+        if (!cond.subTypes.some((t) => hasSubType(leader?.subTypes, t))) continue;
       }
       if (cond.type === 'LeaderIsName') {
         const leaderId = next.players[context.sourcePlayerId]?.leader;
         if (!leaderId) continue;
         const leader = next.cards[leaderId];
         if (leader?.name.includes(cond.name) !== true) continue;
+      }
+      if (cond.type === 'HasCharacterWithMinPower') {
+        // Spec (docs/spec-st21.md §4.1): use CURRENT power (base + DON!! + modifiers).
+        // Leader is excluded — only 'Character' type cards on the board count.
+        const [cp1, cp2] = next.playerOrder;
+        const checkOpponent = cond.controller === 'Opponent';
+        const targetPlayerId = checkOpponent
+          ? (context.sourcePlayerId === cp1 ? cp2 : cp1)
+          : context.sourcePlayerId;
+        const board = next.players[targetPlayerId]?.board ?? [];
+        const hasOne = board.some((id) => {
+          const c = next.cards[id];
+          return c !== undefined && c.type === 'Character' && calculatePower(id, next) >= cond.minPower;
+        });
+        if (!hasOne) continue;
       }
       // 'Always' → always passes
     }
@@ -967,6 +1143,32 @@ export function resolveEffects(
             const maxCost  = (t as { maxCost?: number }).maxCost;
             const maxPower = (t as { maxPower?: number }).maxPower;
             const subType  = (t as { subType?: string }).subType;
+
+            // Check whether at least one valid target exists. Skip (auto-pass) if none.
+            const [np1, np2] = next.playerOrder;
+            const isOpponentScope = chooseScope === 'ChooseOpponentCharacter' || chooseScope === 'ChooseOpponentCharacterOrLeader';
+            const isOrLeader      = chooseScope === 'ChooseOwnCharacterOrLeader' || chooseScope === 'ChooseOpponentCharacterOrLeader';
+            const targetPlayerId  = isOpponentScope
+              ? (context.sourcePlayerId === np1 ? np2 : np1)
+              : context.sourcePlayerId;
+            const targetPlayer = next.players[targetPlayerId];
+            const pool: readonly CardId[] = [
+              ...(targetPlayer?.board ?? []),
+              ...(isOrLeader && targetPlayer?.leader != null ? [targetPlayer.leader] : []),
+            ];
+            const hasValidTarget = pool.some((id) => {
+              const c = next.cards[id];
+              if (c === undefined) return false;
+              if (chooseScope === 'ChooseOwnCharacter' || chooseScope === 'ChooseOpponentCharacter') {
+                if (c.type !== 'Character' || c.zone !== 'board') return false;
+              }
+              if (maxCost  !== undefined && c.cost  > maxCost)                       return false;
+              if (maxPower !== undefined && calculatePower(id, next) > maxPower)      return false;
+              if (subType  !== undefined && !hasSubType(c.subTypes, subType))           return false;
+              return true;
+            });
+            if (!hasValidTarget) continue; // no targets → skip this ChooseTarget action
+
             return {
               ...next,
               pendingTargetInteraction: {
@@ -1047,6 +1249,7 @@ export function resolveEffects(
 
       next = resolveAction(action, context, next);
       // Propagate if a nested resolveEffects call set a pending interaction
+      if (next.pendingOnKOInteraction !== null) return next;
       if (next.pendingTargetInteraction !== null) return next;
       if (next.pendingRevealInteraction !== null) return next;
       if (next.pendingTrashInteraction !== null) return next;

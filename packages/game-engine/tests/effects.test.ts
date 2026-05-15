@@ -657,7 +657,7 @@ describe('Condition HasRestingDon', () => {
     expect(result.players[P1]!.deck.length).toBe(deckBefore);
   });
 
-  it("l'effet se déclenche quand 2 DON reposés sont présents", () => {
+  it("l'effet se déclenche quand 2 DON actifs sont disponibles (coût payé → reposés)", () => {
     const base = bootstrapGame();
     const condEffect: CardEffect = {
       trigger: 'OnPlay',
@@ -670,19 +670,17 @@ describe('Condition HasRestingDon', () => {
       effects: [condEffect],
     });
 
-    // Inject 2 tapped (resting) DON into P1's donArea
+    // Inject 2 active (untapped) DON — rested as cost when trigger fires
     const don1 = makeDon('p1-resting-don-1', 'p1');
     const don2 = makeDon('p1-resting-don-2', 'p1');
-    const tappedDon1 = { ...don1, tapped: true };
-    const tappedDon2 = { ...don2, tapped: true };
 
     const p1 = base.players[P1]!;
     let state: GameState = {
       ...base,
-      cards: { ...base.cards, [tappedDon1.id]: tappedDon1, [tappedDon2.id]: tappedDon2 },
+      cards: { ...base.cards, [don1.id]: don1, [don2.id]: don2 },
       players: {
         ...base.players,
-        [P1]: { ...p1, donArea: [...p1.donArea, tappedDon1.id, tappedDon2.id] },
+        [P1]: { ...p1, donArea: [...p1.donArea, don1.id, don2.id] },
       },
     };
     state = addToHand(state, playCard);

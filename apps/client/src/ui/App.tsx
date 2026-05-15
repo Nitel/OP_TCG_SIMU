@@ -6,8 +6,9 @@ import {
   isGameError,
   greedyBotDecide,
 } from 'game-engine';
-import type { CardId, GameAction, GameState, PlayerId, StartGameAction } from 'game-engine';
+import type { CardId, GameAction, GameState, GameLogEntry, PlayerId, StartGameAction } from 'game-engine';
 import { GameCanvas } from '../pixi/GameCanvas';
+import { formatGameLogEntry } from '../utils/gameLogFormatter';
 import { PLAY_ZONE_ID } from '../pixi/renderGameState';
 import { GameUI } from './GameUI';
 import { ActionPanel } from './ActionPanel';
@@ -126,6 +127,7 @@ export function App() {
   const [notification, setNotification]   = useState<{ cardId: CardId; label: string } | null>(null);
   const [activityLog, setActivityLog]     = useState<ActivityEntry[]>([]);
   const activitySeqRef                    = useRef(0);
+  const lastGameLogSeqRef                 = useRef(-1);
   const [socketStatus, setSocketStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
   const [opponentDisconnected, setOpponentDisconnected] = useState<{ deadline: number } | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -142,6 +144,7 @@ export function App() {
     setNeedsCombatHandoff(false);
     setNotification(null);
     setActivityLog([]);
+    lastGameLogSeqRef.current = -1;
     setOpponentDisconnected(null);
     prevGameStateRef.current = null;
 
@@ -308,6 +311,19 @@ export function App() {
         ]);
       }
     }
+  }, [gameState]);
+
+  // ── Sync engine gameLog → activityLog ────────────────────────────────────
+  useEffect(() => {
+    if (gameState === null) return;
+    const log = gameState.gameLog as readonly GameLogEntry[];
+    // Detect game reset: seq counter restarted
+    if (log.length === 0) { lastGameLogSeqRef.current = -1; return; }
+    const newEntries = log.filter((e) => e.seq > lastGameLogSeqRef.current);
+    if (newEntries.length === 0) return;
+    lastGameLogSeqRef.current = log[log.length - 1]!.seq;
+    const texts = newEntries.map((e) => ({ id: ++activitySeqRef.current, text: formatGameLogEntry(e) }));
+    setActivityLog((prev) => [...prev, ...texts].slice(-59));
   }, [gameState]);
 
   // ── Detect pendingTargetInteraction — show chooseTarget UI for human player ──
