@@ -324,6 +324,17 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
 
   if (activePlayerId !== botId) return null;
 
+  // Wait if the human player has any unresolved pending interaction (e.g. OnKO during bot's turn).
+  const humanHasAnyPending = [
+    state.pendingTargetInteraction,
+    state.pendingOnKOInteraction,
+    state.pendingRevealInteraction,
+    state.pendingTrashInteraction,
+    state.pendingSearchInteraction,
+    state.pendingForceDiscardInteraction,
+  ].some((p) => p !== null && p.playerId !== botId);
+  if (humanHasAnyPending) return null;
+
   switch (phase) {
     case 'Mulligan':
       return decideMulligan(state, botId);

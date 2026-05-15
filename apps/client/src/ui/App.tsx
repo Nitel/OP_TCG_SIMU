@@ -552,7 +552,14 @@ export function App() {
       const defId = gameState.activePlayerId === p1Id ? p2Id : p1Id;
       const amIActive   = humanId === gameState.activePlayerId;
       const amIDefender = humanId === defId && gameState.activeCombat !== null;
-      if (!amIActive && !amIDefender) return;
+      const humanHasPending =
+        gameState.pendingOnKOInteraction?.playerId         === humanId ||
+        gameState.pendingTargetInteraction?.playerId       === humanId ||
+        gameState.pendingRevealInteraction?.playerId       === humanId ||
+        gameState.pendingTrashInteraction?.playerId        === humanId ||
+        gameState.pendingSearchInteraction?.playerId       === humanId ||
+        gameState.pendingForceDiscardInteraction?.playerId === humanId;
+      if (!amIActive && !amIDefender && !humanHasPending) return;
     }
     setUiState(prev => {
       const { selectedCardId, selectionMode } = prev;

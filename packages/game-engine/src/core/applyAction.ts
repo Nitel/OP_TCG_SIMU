@@ -637,6 +637,9 @@ function applyEndPhase(
   if (action.playerId !== state.activePlayerId) {
     return makeGameError('NOT_ACTIVE_PLAYER', `Player ${action.playerId} is not the active player`);
   }
+  if (hasBlockingPending(state)) {
+    return makeGameError('PENDING_INTERACTION', 'Resolve all pending interactions before ending the phase');
+  }
 
   if (state.phase === 'End') {
     // Clear power modifiers and temporary keywords at end of turn

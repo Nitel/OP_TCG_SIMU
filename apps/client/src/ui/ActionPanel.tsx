@@ -75,8 +75,11 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
       (_sc?.effects ?? []).some(
         (e) => e.trigger === 'Activated' && (e as { timing?: string }).timing === 'OpponentTurn',
       );
-    const _hasPendingOnKO = !!myPlayerId && gameState.pendingOnKOInteraction?.playerId === myPlayerId;
-    if (!_hasOTA && !_hasPendingOnKO) return null;
+    const _hasPendingInteraction = !!myPlayerId && (
+      gameState.pendingOnKOInteraction?.playerId    === myPlayerId ||
+      gameState.pendingTargetInteraction?.playerId  === myPlayerId
+    );
+    if (!_hasOTA && !_hasPendingInteraction) return null;
   }
 
   return (
@@ -130,13 +133,14 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
           </>
         )}
 
-        {/* Choose target hint — shown during Main phase AND during combat (e.g. OnAttack effects) */}
-        {isMyTurn && uiState.selectionMode === 'chooseTarget' && (
+        {/* Choose target hint — shown when human has a pending target interaction (own or bot's turn) */}
+        {uiState.selectionMode === 'chooseTarget' &&
+          (isMyTurn || (!myPlayerId || gameState.pendingTargetInteraction?.playerId === myPlayerId)) && (
           <>
             <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ffcc44' }}>
               Cliquez une carte {uiState.targetScope === 'ChooseOpponentCharacter' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? 'adverse' : 'alliée'} sur le plateau comme cible {uiState.targetScope === 'ChooseOwnCharacterOrLeader' || uiState.targetScope === 'ChooseOpponentCharacterOrLeader' ? '(leader inclus)' : ''}
             </span>
-            <button style={btnStyle} onClick={() => onAction({ type: 'ResolveTargetInteraction', playerId: activePlayerId, targetCardId: null })}>
+            <button style={btnStyle} onClick={() => onAction({ type: 'ResolveTargetInteraction', playerId: gameState.pendingTargetInteraction?.playerId ?? activePlayerId, targetCardId: null })}>
               Passer
             </button>
           </>
@@ -149,13 +153,18 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
 
             {/* OnKO interaction — player must choose a hand card to play */}
             {uiState.selectionMode === 'resolveOnKO' && uiState.onKOInteraction && (
-              <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ff9955' }}>
-                Effet OnKO : jouez{
-                  uiState.onKOInteraction.filter.color ? ` un personnage ${uiState.onKOInteraction.filter.color}` : ' un personnage'
-                }{
-                  uiState.onKOInteraction.filter.maxPower !== undefined ? ` ≤${uiState.onKOInteraction.filter.maxPower}` : ''
-                } depuis votre main (surligné)
-              </span>
+              <>
+                <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ff9955' }}>
+                  Effet OnKO : jouez{
+                    uiState.onKOInteraction.filter.color ? ` un personnage ${uiState.onKOInteraction.filter.color}` : ' un personnage'
+                  }{
+                    uiState.onKOInteraction.filter.maxPower !== undefined ? ` ≤${uiState.onKOInteraction.filter.maxPower}` : ''
+                  } depuis votre main (surligné)
+                </span>
+                <button style={btnStyle} onClick={() => onAction({ type: 'ResolveOnKOInteraction', playerId: activePlayerId, cardId: null })}>
+                  Passer
+                </button>
+              </>
             )}
 
             {/* Play selected hand card */}
@@ -389,13 +398,18 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
         {/* ── OnKO interaction for inactive player (e.g. Zoro KO'd during opponent's attack) ── */}
         {!isMyTurn && uiState.selectionMode === 'resolveOnKO' && uiState.onKOInteraction &&
           (!myPlayerId || gameState.pendingOnKOInteraction?.playerId === myPlayerId) && (
-          <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ff9955' }}>
-            Effet [On K.O.] : jouez{
-              uiState.onKOInteraction.filter.color ? ` un personnage ${uiState.onKOInteraction.filter.color}` : ' un personnage'
-            }{
-              uiState.onKOInteraction.filter.maxPower !== undefined ? ` ≤${uiState.onKOInteraction.filter.maxPower}` : ''
-            } depuis votre main (surligné)
-          </span>
+          <>
+            <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ff9955' }}>
+              Effet [On K.O.] : jouez{
+                uiState.onKOInteraction.filter.color ? ` un personnage ${uiState.onKOInteraction.filter.color}` : ' un personnage'
+              }{
+                uiState.onKOInteraction.filter.maxPower !== undefined ? ` ≤${uiState.onKOInteraction.filter.maxPower}` : ''
+              } depuis votre main (surligné)
+            </span>
+            <button style={btnStyle} onClick={() => onAction({ type: 'ResolveOnKOInteraction', playerId: myPlayerId!, cardId: null })}>
+              Passer
+            </button>
+          </>
         )}
 
       </div>
