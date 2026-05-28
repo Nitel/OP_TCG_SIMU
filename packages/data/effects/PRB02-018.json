@@ -1,36 +1,21 @@
 {
   "id": "PRB02-018",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasCardOnBoard",
-    "name": "Life"
-  },
-  "actions": [
+  "keywords": [],
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "filter": {
-        "kind": "ByNames",
-        "names": [
-          "Sabo",
-          "Portgas.D.Ace",
-          "Monkey.D.Luffy"
-        ],
-        "cost": 2
-      },
-      "limit": 1
-    },
-    {
-      "type": "PlayFromTrash",
-      "filter": {
-        "kind": "ByNames",
-        "names": [
-          "Sabo",
-          "Portgas.D.Ace",
-          "Monkey.D.Luffy"
-        ],
-        "cost": 2
-      },
-      "limit": 1
+      "trigger": "OnPlay",
+      "condition": { "type": "FaceUpLifeCard" },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByNames",
+            "names": ["Sabo", "Portgas.D.Ace", "Monkey.D.Luffy"],
+            "maxCost": 2
+          }
+        }
+      ],
+      "_TODO": "PlayFromTrash variant (same filter) not yet supported"
     }
   ]
 }

@@ -1,20 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": "self",
-        "duration": "Permanent"
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 2,
-        "filter": {},
-        "thenActions": []
-      }
-    ]
-  },
-  "id": "OP11-083"
+  "id": "OP11-083",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

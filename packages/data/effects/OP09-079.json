@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "type": "ReturnDonToDeck",
-      "count": 2
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 5
-        },
-        "count": 1
+  "id": "OP09-079",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "ReturnDonToDeck",
+        "count": 2
       },
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP09-079"
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          },
+          "count": 1
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

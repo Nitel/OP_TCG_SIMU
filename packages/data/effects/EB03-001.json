@@ -3,13 +3,9 @@
   "effects": [
     {
       "trigger": "OnKO",
-      "frequency": "OncePerTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always"
-      },
-      "targetFilter": {
-        "scope": "OwnCharacter",
-        "costMin": 4
       },
       "actions": [
         {
@@ -19,10 +15,16 @@
           "optional": true,
           "preventsKO": true
         }
-      ]
+      ],
+      "frequency": "OncePerTurn",
+      "targetFilter": {
+        "scope": "OwnCharacter",
+        "costMin": 4
+      }
     },
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "cost": {
         "restLeader": true
       },

@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "comparison": ">=",
-      "count": 6,
-      "scope": "OpponentHand"
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "Self"
-        }
+  "id": "OP07-047",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "comparison": ">=",
+        "count": 6,
+        "scope": "OpponentHand"
       },
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "target": {
-          "scope": "OpponentHand"
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "destination": "DeckBottom"
-      }
-    ]
-  },
-  "id": "OP07-047"
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "OpponentLeader"
+          },
+          "destination": "DeckBottom"
+        }
+      ]
+    }
+  ]
 }

@@ -1,54 +1,56 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "scope": "opponent"
-    },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "target": {
-          "scope": "self",
-          "filter": {
-            "restingDon": true
-          }
-        },
-        "count": 1,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "PlayFromHand",
+  "id": "OP11-035",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "scope": "opponent"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "target": {
+            "scope": "Self",
             "filter": {
-              "cardType": "Character",
-              "subType": [
-                "Fish-Man",
-                "Merfolk"
-              ],
-              "maxCost": 4
-            },
-            "count": 1,
-            "optional": true
-          }
-        ]
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "opponent",
-          "filter": {
-            "cardType": "Character"
-          }
-        },
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP11-035"
+              "restingDon": true
+            }
+          },
+          "count": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "cardType": "Character",
+                "subType": [
+                  "Fish-Man",
+                  "Merfolk"
+                ],
+                "maxCost": 4
+              },
+              "count": 1,
+              "optional": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "filter": {
+              "cardType": "Character"
+            }
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

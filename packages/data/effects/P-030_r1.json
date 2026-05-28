@@ -6,6 +6,23 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "destination": "bottomOfDeck",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

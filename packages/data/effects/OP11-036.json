@@ -13,14 +13,29 @@
         "type": "Neptunian",
         "name": "Shirahoshi"
       },
-      "limit": 1,
       "destination": "hand",
-      "deckSize": 5
+      "deckSize": 5,
+      "count": 1
     },
     {
       "type": "ReorderDeck",
       "destination": "bottom",
       "count": "remaining"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Shirahoshi"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 5
+        }
+      ]
     }
   ]
 }

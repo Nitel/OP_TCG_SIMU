@@ -1,38 +1,29 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "ReturnToHand",
-            "target": {
-              "scope": "ChooseOpponentCharacter",
-              "maxCost": 2
-            },
-            "optional": true
-          }
-        ]
+  "id": "OP02-064",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      {
-        "trigger": "EndOfTurn",
-        "actions": [
-          {
-            "type": "ReturnToHand",
-            "target": {
-              "scope": "Self"
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 2
+              },
+              "optional": true
             }
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP02-064"
+          ]
+        }
+      ]
+    }
+  ]
 }

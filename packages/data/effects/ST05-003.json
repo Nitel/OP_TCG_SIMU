@@ -1,18 +1,26 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "ST05-003"
+  "id": "ST05-003",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

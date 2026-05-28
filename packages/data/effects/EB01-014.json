@@ -2,23 +2,21 @@
   "id": "EB01-014",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "YourTurn",
       "condition": {
         "type": "HasRestingDon",
         "count": 3
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 1000,
+          "type": "ProportionalPowerBoost",
           "target": {
             "scope": "Self"
           },
+          "amount": 1000,
+          "per": "RestingDon",
           "duration": "DuringYourTurn",
-          "scalingFactor": {
-            "type": "RestingDonCount",
-            "divisor": 3
-          }
+          "divisor": 3
         }
       ]
     }

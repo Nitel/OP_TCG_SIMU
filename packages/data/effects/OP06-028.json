@@ -1,34 +1,30 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "LeaderHasType",
-      "types": [
-        "New Fish-Man Pirates"
-      ]
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Board",
-          "filter": "DON",
+  "id": "OP06-028",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": "DON",
+            "count": 1
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "FlipLife",
           "count": 1
         }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "FlipLife",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP06-028"
+      ]
+    }
+  ]
 }

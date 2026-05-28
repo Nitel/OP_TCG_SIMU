@@ -2,12 +2,10 @@
   "id": "OP15-116",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
       "condition": {
         "type": "LeaderHasType",
-        "typeFilter": [
-          "Straw Hat Crew"
-        ]
+        "subType": "Straw Hat Crew"
       },
       "actions": [
         {
@@ -18,12 +16,27 @@
           "type": "SearchDeck",
           "count": 1,
           "filter": {},
-          "destination": "TopOfLifeCards"
+          "destination": "TopOfLife",
+          "optional": true
         },
         {
           "type": "TrashFromHand",
           "count": 1,
-          "filter": {}
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
         }
       ]
     }

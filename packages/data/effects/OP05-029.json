@@ -4,12 +4,12 @@
   "effectText": "[On Your Opponent's Attack] [Once Per Turn] ➀: Rest up to 1 of your opponent's Characters with a cost of 6 or less.",
   "effects": [
     {
-      "trigger": "OnAttack",
-      "frequency": "OncePerTurn",
-      "cost": 1,
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always"
       },
+      "cost": 1,
       "actions": [
         {
           "type": "Rest",
@@ -19,7 +19,8 @@
             "maxAmount": 1
           }
         }
-      ]
+      ],
+      "frequency": "OncePerTurn"
     }
   ]
 }

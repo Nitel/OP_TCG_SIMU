@@ -6,5 +6,21 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "SuppressBlockerForAttacker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

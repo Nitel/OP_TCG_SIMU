@@ -1,15 +1,20 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1
-      },
-      {
-        "type": "Rest"
-      }
-    ]
-  },
-  "id": "ST05-002"
+  "id": "ST05-002",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

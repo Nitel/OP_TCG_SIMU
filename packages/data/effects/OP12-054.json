@@ -1,18 +1,12 @@
 {
   "id": "OP12-054",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "The Seven Warlords of the Sea"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "ReturnToHand",
-      "target": {
-        "scope": "OpponentCharacter",
-        "maxCost": 1,
-        "excludeSelf": true
-      },
-      "maxCount": 1
+      "trigger": "OnPlay",
+      "condition": { "type": "LeaderHasType", "subType": "The Seven Warlords of the Sea" },
+      "actions": [
+        { "type": "ReturnToHand", "target": { "scope": "ChooseOpponentCharacter", "maxCost": 1 }, "maxTargets": 1 }
+      ]
     }
   ]
 }

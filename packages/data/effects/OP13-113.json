@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "And",
-          "conditions": [
-            {
-              "kind": "HasKeyword",
-              "keyword": "Trigger"
-            },
-            {
-              "kind": "Not",
-              "condition": {
-                "kind": "HasCardName",
-                "name": "Lilith"
+  "id": "OP13-113",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "conditions": [
+              {
+                "kind": "HasKeyword",
+                "keyword": "Trigger"
+              },
+              {
+                "kind": "Not",
+                "condition": {
+                  "kind": "HasCardName",
+                  "name": "Lilith"
+                }
               }
-            }
-          ]
+            ]
+          },
+          "destination": "hand",
+          "reveal": true,
+          "count": 1,
+          "lookCount": 4
         },
-        "maxCount": 1,
-        "searchCount": 4,
-        "destination": "hand",
-        "reveal": true
-      },
-      {
-        "type": "ReorderDeck",
-        "position": "bottom",
-        "count": 3
-      }
-    ]
-  },
-  "id": "OP13-113"
+        {
+          "type": "ReorderLifeCards",
+          "position": "bottom",
+          "count": 3
+        }
+      ]
+    }
+  ]
 }

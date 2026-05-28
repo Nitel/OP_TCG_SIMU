@@ -3,11 +3,12 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "duration": "EndOfOpponentTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasType",
-        "value": "Big Mom Pirates"
+        "subType": "Big Mom Pirates"
       },
+      "duration": "EndOfOpponentTurn",
       "actions": [
         {
           "type": "GiveDon",
@@ -15,7 +16,10 @@
           "source": "DeckSearch"
         },
         {
-          "type": "Rest"
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         }
       ],
       "limit": "OncePerTurn"

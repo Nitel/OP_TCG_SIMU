@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Supernovas",
-      "additionalCondition": {
-        "type": "TrashCount",
-        "operator": ">=",
-        "value": 3,
-        "player": "opponent"
-      }
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeKOdInBattle",
-        "target": {
-          "scope": "Self"
+  "id": "OP10-104",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "LeaderHasType",
+        "additionalCondition": {
+          "type": "TrashCount",
+          "operator": ">=",
+          "value": 3,
+          "player": "opponent"
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP10-104"
+        "subType": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

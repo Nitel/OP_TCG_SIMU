@@ -27,8 +27,22 @@
       },
       "selectMax": 1,
       "destination": "hand",
-      "reveal": true,
-      "placeRest": "BottomOfDeck"
+      "count": true,
+      "restTo": "bottom"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 4
+        }
+      ]
     }
   ]
 }

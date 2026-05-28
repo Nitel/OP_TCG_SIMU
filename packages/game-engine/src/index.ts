@@ -37,6 +37,7 @@ export type {
   DeckFilter,
   HandFilter,
   ResolveOnKOInteractionAction,
+  ResolveKOSubstituteAction,
   GameLogEntry,
 } from './types/index.js';
 
@@ -60,5 +61,5 @@ export { checkVictoryCondition } from './rules/victory.js';
 
 export { greedyBotDecide } from './ai/greedyBot.js';
 
-export { resolveEffects } from './effects/effectResolver.js';
+export { resolveEffects, computePlayCost } from './effects/effectResolver.js';
 export type { EffectContext } from './effects/effectResolver.js';

@@ -3,23 +3,30 @@
   "effects": [
     {
       "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "conditions": [
         {
           "type": "LeaderHasAnyType",
-          "value": [
+          "subTypes": [
             "Supernovas"
           ]
         }
       ],
+      "duration": "Permanent",
       "actions": [
         {
           "type": "FlipLife",
-          "target": "Self"
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1
         }
       ],
-      "duration": "Permanent",
       "optional": true,
       "oncePer": "Turn"
     }
+  ],
+  "keywords": [
+    "Blocker"
   ]
 }

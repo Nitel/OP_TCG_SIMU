@@ -1,21 +1,27 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1
-      },
-      {
-        "type": "Rest"
-      }
-    ]
-  },
-  "id": "OP04-102"
+  "id": "OP04-102",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

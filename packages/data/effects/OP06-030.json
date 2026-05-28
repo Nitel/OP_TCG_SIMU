@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "New Fish-Man Pirates"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeKOdInBattle",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfOpponentTurn"
+  "id": "OP06-030",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "New Fish-Man Pirates"
       },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
         },
-        "duration": "EndOfOpponentTurn"
-      },
-      {
-        "type": "FlipLife",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP06-030"
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

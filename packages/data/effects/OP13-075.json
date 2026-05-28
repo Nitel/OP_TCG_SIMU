@@ -1,51 +1,57 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Gol.D.Roger"
+  "id": "OP13-075",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Gol.D.Roger"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self",
+            "cardType": "Don"
+          },
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "cardType": "Don",
+          "count": 1,
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnField",
-          "cardType": "Don"
-        },
-        "count": 1
-      },
-      {
-        "type": "SearchDeck",
-        "cardType": "Don",
-        "count": 1
-      },
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "target": {
-          "scope": "OwnLeader"
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
         }
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnLeader"
-        }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP13-075"
+      ]
+    }
+  ]
 }

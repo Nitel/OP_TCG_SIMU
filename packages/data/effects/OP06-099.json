@@ -6,6 +6,19 @@
   "color": "Yellow",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ChooseOne",
+          "choices": [
+            { "label": "Move top of own life card", "actions": [{ "type": "MoveLifeCard", "target": "own" }] },
+            { "label": "Move top of opponent's life card", "actions": [{ "type": "MoveLifeCard", "target": "opponent" }] }
+          ]
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

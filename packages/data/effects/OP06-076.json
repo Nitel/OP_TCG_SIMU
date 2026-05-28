@@ -3,21 +3,14 @@
   "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, K.O. up to 1 of your opponent's Characters with a cost of 2 or less.",
   "effects": [
     {
-      "trigger": "Trigger",
-      "duration": "DuringYourTurn",
-      "conditions": [
-        {
-          "type": "TurnCount",
-          "value": 1
-        }
-      ],
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2,
-            "count": 1
+            "maxCost": 2
           }
         }
       ]

@@ -7,9 +7,12 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 3,
-          "filter": "top",
-          "description": "Look at 3 cards from top of deck and arrange in any order at top or bottom"
+          "filter": {
+            "kind": "Any"
+          },
+          "description": "Look at 3 cards from top of deck and arrange in any order at top or bottom",
+          "destination": "hand",
+          "lookCount": 3
         }
       ]
     },
@@ -20,13 +23,18 @@
         {
           "type": "RevealFromHand",
           "count": 1,
-          "filter": "top",
-          "description": "Reveal 1 card from top of deck"
+          "filter": {
+            "kind": "Any"
+          },
+          "description": "Reveal 1 card from top of deck",
+          "thenActions": []
         },
         {
           "type": "PlayFromHand",
           "count": 1,
-          "filter": "Character with cost 2",
+          "filter": {
+            "kind": "Any"
+          },
           "restCondition": true,
           "description": "Play up to 1 Character card with cost 2 rested"
         }

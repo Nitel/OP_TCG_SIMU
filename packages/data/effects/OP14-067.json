@@ -1,27 +1,30 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "rest": true
-      },
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "filter": {
-          "kind": "ByType",
-          "type": "Donquixote Pirates"
+  "id": "OP14-067",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true
         },
-        "maxReveal": 1,
-        "destination": "hand"
-      },
-      {
-        "type": "OrderDeckBottom",
-        "count": 4
-      }
-    ]
-  },
-  "id": "OP14-067"
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Donquixote Pirates"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "restTo": "bottom"
+        },
+        {
+          "type": "OrderDeckBottom",
+          "count": 4
+        }
+      ]
+    }
+  ]
 }

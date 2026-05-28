@@ -1,13 +1,21 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "Rest"
-      }
-    ],
-    "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
-  },
-  "id": "ST03-013"
+  "id": "ST03-013",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

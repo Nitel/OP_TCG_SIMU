@@ -6,6 +6,18 @@
   "color": "Black",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": { "type": "OnlyTypeOnBoard", "subType": "Celestial Dragons" },
+      "actions": [
+        {
+          "type": "GiveTemporaryCostModifier",
+          "target": { "scope": "AllOpponentCharacters" },
+          "amount": -6
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

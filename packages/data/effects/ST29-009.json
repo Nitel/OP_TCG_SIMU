@@ -1,16 +1,24 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest"
-      }
-    ],
-    "duration": "Permanent",
-    "optional": true
-  },
-  "id": "ST29-009"
+  "id": "ST29-009",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

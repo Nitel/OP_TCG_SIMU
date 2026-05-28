@@ -1,25 +1,12 @@
 {
   "id": "OP07-080",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "type": "CP"
-      },
-      "amount": 2,
-      "destination": "BottomOfDeck",
-      "optional": true,
-      "thenActions": [
-        {
-          "type": "PowerBoost",
-          "amount": -3,
-          "target": {
-            "scope": "OpponentCharacter",
-            "max": 1
-          },
-          "duration": "DuringYourTurn"
-        }
+      "trigger": "OnPlay",
+      "condition": { "type": "TrashCount", "minCount": 2 },
+      "actions": [
+        { "type": "RecoverTrashToDeck", "count": 2, "filter": { "subType": "CP" } },
+        { "type": "PowerBoost", "amount": -3000, "target": { "scope": "ChooseOpponentCharacter" }, "duration": "DuringYourTurn" }
       ]
     }
   ]

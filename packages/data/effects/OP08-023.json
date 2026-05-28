@@ -1,22 +1,14 @@
 {
   "id": "OP08-023",
-  "trigger": "OnPlay",
-  "conditions": [
+  "effects": [
     {
-      "type": "HasRestingDon",
-      "scope": "ChooseOpponentCharacter",
-      "maxCost": 7
-    }
-  ],
-  "actions": [
-    {
-      "type": "SkipActivation",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 7,
-        "maxQuantity": 1
-      },
-      "duration": "UntilOpponentNextRefreshPhase"
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PreventRefresh",
+          "target": { "scope": "ChooseOpponentCharacter", "maxCost": 7, "maxCount": 1 }
+        }
+      ]
     }
   ]
 }

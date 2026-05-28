@@ -235,6 +235,15 @@ export function GameUI({ gameState, uiState, myPlayerId, notification, onDismiss
         );
       })()}
 
+      {/* Global animation keyframes */}
+      <style>{`
+        @keyframes pending-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255, 200, 0, 0.7); }
+          50%       { box-shadow: 0 0 0 8px rgba(255, 200, 0, 0); }
+        }
+        .pending-pulse { animation: pending-pulse 1.2s ease-in-out infinite; }
+      `}</style>
+
       {/* Error flash */}
       {uiState.errorMessage !== null && (
         <div style={{

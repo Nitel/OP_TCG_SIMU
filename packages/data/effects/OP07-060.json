@@ -1,32 +1,35 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Foxy Pirates"
-      },
-      {
-        "type": "HasCardOnBoard",
-        "value": "Itomimizu",
-        "negate": true
-      }
-    ],
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "source": "DONDeck",
-        "then": [
-          {
-            "type": "Rest",
-            "target": "AttachedDon"
-          }
-        ]
-      }
-    ],
-    "duration": "Permanent",
-    "frequency": "OncePerTurn"
-  },
-  "id": "OP07-060"
+  "id": "OP07-060",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Foxy Pirates"
+        },
+        {
+          "type": "HasCardOnBoard",
+          "value": "Itomimizu",
+          "negate": true
+        }
+      ],
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DONDeck",
+          "then": [
+            {
+              "type": "Rest",
+              "target": "AttachedDon"
+            }
+          ]
+        }
+      ],
+      "frequency": "OncePerTurn"
+    }
+  ]
 }

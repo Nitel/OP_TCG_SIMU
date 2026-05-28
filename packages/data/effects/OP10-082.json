@@ -1,42 +1,47 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "duration": "Main",
-    "actions": [
-      {
-        "type": "TrashSelf",
-        "thenActions": [
-          {
-            "type": "DrawCard",
-            "count": 1
-          },
-          {
-            "type": "PlayFromTrash",
-            "count": 1,
-            "filter": {
-              "kind": "ByType",
-              "type": "Blackbeard Pirates",
-              "maxCost": 5,
-              "notName": "Kuzan"
+  "id": "OP10-082",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "duration": "Main",
+      "actions": [
+        {
+          "type": "TrashSelf",
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            },
+            {
+              "type": "PlayFromTrash",
+              "count": 1,
+              "filter": {
+                "kind": "BySubType",
+                "subType": "Blackbeard Pirates",
+                "maxCost": 5,
+                "notName": "Kuzan"
+              }
             }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "Permanent",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects",
+          "target": {
+            "scope": "Self"
           }
-        ]
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Passive",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeRemovedByOpponentEffects"
-      }
-    ]
-  },
-  "id": "OP10-082"
+        }
+      ]
+    }
+  ]
 }

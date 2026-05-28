@@ -8,6 +8,25 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "subType": "Supernovas",
+        "color": "yellow",
+        "excludeName": "Scratchmen Apoo"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

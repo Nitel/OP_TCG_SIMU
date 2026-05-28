@@ -1,20 +1,38 @@
 {
   "id": "OP15-055",
-  "triggers": "Activated",
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 2
-    },
-    {
-      "type": "GiveKeyword",
-      "keyword": "Blocker",
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "typeFilter": "Dressrosa",
-        "maxCount": 1
-      },
-      "duration": "EndOfOpponentTurn"
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "ChooseOne",
+          "choices": [
+            {
+              "label": "Draw 2 cards",
+              "actions": [
+                {
+                  "type": "DrawCard",
+                  "count": 2
+                }
+              ]
+            },
+            {
+              "label": "Give 1 Dressrosa Character Blocker until end of opponent's turn",
+              "actions": [
+                {
+                  "type": "GiveKeyword",
+                  "keyword": "Blocker",
+                  "target": {
+                    "scope": "ChooseOwnCharacter",
+                    "subType": "Dressrosa"
+                  },
+                  "duration": "EndOfOpponentTurn"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

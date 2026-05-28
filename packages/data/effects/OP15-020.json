@@ -1,42 +1,47 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "Leader"
+  "id": "OP15-020",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -8000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1
+        {
+          "type": "PowerBoost",
+          "amount": -8000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "EndOfOpponentTurn"
         },
-        "duration": "EndOfOpponentTurn"
-      },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "Hand",
-          "maxCount": 2
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self",
+            "maxCount": 2
+          },
+          "conditional": true,
+          "count": 1
         },
-        "conditional": true
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1,
-          "maxPower": 0
-        },
-        "condition": "OnlyIfTrashSucceeded"
-      }
-    ]
-  },
-  "id": "OP15-020"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxPower": 0
+          },
+          "condition": {
+            "type": "OnlyIfTrashSucceeded"
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -1,36 +1,40 @@
 {
-  "0": {
-    "trigger": "Permanent",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "scope": "YourCharacters",
-        "cardType": "Sky Island",
-        "minPower": 7000
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "ThisCardInHand"
-        },
-        "costReduction": 3
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": "OpponentLifeCardCount"
-        },
-        "maxTargets": 1
-      }
-    ]
-  },
-  "id": "OP15-102"
+  "id": "OP15-102",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "scope": "YourCharacters",
+          "cardType": "Sky Island",
+          "minPower": 7000
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "costReduction": 3,
+          "amount": 0,
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": "OpponentLifeCardCount"
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ]
 }

@@ -5,9 +5,21 @@
   "power": 0,
   "color": "Green",
   "cardType": "Character",
-  "keywords": [
-    "Blocker"
+  "keywords": ["Blocker"],
+  "effects": [
+    {
+      "trigger": "StartOfOpponentTurn",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "LeaderHasType", "subType": "Slash" },
+          { "type": "HasRestingDon", "count": 6 }
+        ]
+      },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeRested", "target": { "scope": "Self" }, "duration": "EndOfOpponentTurn" }
+      ]
+    }
   ],
-  "effects": [],
   "counter": 1000
 }

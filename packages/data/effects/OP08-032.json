@@ -5,13 +5,15 @@
       "trigger": "Activated",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Minks"
+        "subType": "Minks"
       },
       "actions": [
         {
           "type": "AttachDon",
           "count": 1,
-          "target": "self"
+          "target": {
+            "scope": "Self"
+          }
         }
       ]
     }

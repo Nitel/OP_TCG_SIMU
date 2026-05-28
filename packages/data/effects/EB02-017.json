@@ -6,18 +6,20 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 5,
           "revealCount": 1,
           "filter": {
-            "kind": "ByType",
-            "type": "Straw Hat Crew",
-            "exclude": {
-              "kind": "ByName",
-              "name": "Nami"
-            }
+            "kind": "BySubType",
+            "subType": "Straw Hat Crew",
+            "excludeNames": [
+              {
+                "kind": "ByName",
+                "name": "Nami"
+              }
+            ]
           },
           "destination": "hand",
-          "remainingCardsDestination": "bottomOfDeck"
+          "remainingCardsDestination": "bottomOfDeck",
+          "lookCount": 5
         }
       ]
     }

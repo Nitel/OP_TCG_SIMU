@@ -1,20 +1,22 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 2
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 4,
-          "maxTargets": 1
+  "id": "OP09-040",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxTargets": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP09-040"
+      ]
+    }
+  ]
 }

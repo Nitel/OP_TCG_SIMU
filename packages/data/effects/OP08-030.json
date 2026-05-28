@@ -1,30 +1,35 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCard",
-          "cardType": "DON",
-          "maxCount": 1
+  "id": "OP08-030",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "cardType": "DON",
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 6,
-          "rested": true,
-          "maxCount": 1
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "rested": true,
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP08-030"
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

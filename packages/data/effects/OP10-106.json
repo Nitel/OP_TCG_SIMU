@@ -12,19 +12,34 @@
         "kind": "Or",
         "filters": [
           {
-            "kind": "ByType",
-            "value": "Supernovas"
+            "kind": "BySubType",
+            "subType": "Supernovas"
           },
           {
-            "kind": "ByType",
-            "value": "Kid Pirates"
+            "kind": "BySubType",
+            "subType": "Kid Pirates"
           }
         ]
       },
-      "deckLookCount": 3,
-      "maxReveal": 1,
       "destination": "hand",
-      "remainingDestination": "bottomOfDeck"
+      "lookCount": 3,
+      "count": 1,
+      "restTo": "bottom"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 3
+        }
+      ]
     }
   ]
 }

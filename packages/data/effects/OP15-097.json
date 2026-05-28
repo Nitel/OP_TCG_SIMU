@@ -17,5 +17,14 @@
       },
       "duration": "EndOfOpponentTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": { "type": "TrashCount", "min": 10 },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotAttack", "target": { "scope": "ChooseOpponentCharacter", "maxCost": 5 }, "duration": "EndOfOpponentTurn" }
+      ]
+    }
   ]
 }

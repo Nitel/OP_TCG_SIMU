@@ -1,23 +1,22 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "CardType",
-          "value": "Cross Guild"
-        },
-        "limit": 1,
-        "scope": "Top4",
-        "reveal": true,
-        "destination": "hand",
-        "thenPlaceRest": {
-          "location": "BottomOfDeck",
-          "order": "AnyOrder"
+  "id": "OP09-057",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Cross Guild"
+          },
+          "scope": "Top4",
+          "reveal": true,
+          "destination": "hand",
+          "count": 1,
+          "lookCount": 4
         }
-      }
-    ]
-  },
-  "id": "OP09-057"
+      ]
+    }
+  ]
 }

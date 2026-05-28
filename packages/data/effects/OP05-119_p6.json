@@ -6,5 +6,20 @@
   "color": "Purple",
   "cardType": "Character",
   "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        { "type": "PlaceAllCharactersAtBottom" }
+      ],
+      "_TODO": "ExtraTurn not implemented"
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
+        { "type": "AddDon", "count": 1, "active": true }
+      ]
+    }
+  ]
 }

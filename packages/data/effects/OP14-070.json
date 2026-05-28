@@ -1,31 +1,36 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "Field",
-          "filter": {
-            "cardType": "DON"
+  "id": "OP14-070",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self",
+            "filter": {
+              "cardType": "DON"
+            },
+            "count": 1
           },
-          "count": 1
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        },
-        "value": false
-      }
-    ]
-  },
-  "id": "OP14-070"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "value": false
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

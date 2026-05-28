@@ -1,47 +1,36 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "optional": true,
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "Field",
-          "type": "DON!!"
-        },
-        "count": 1
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "All",
-      "conditions": [
+  "id": "EB04-031",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
         {
-          "type": "LeaderHasType",
-          "value": "Animal Kingdom Pirates"
-        },
-        {
-          "type": "HasCardOnBoard",
-          "name": "[King]",
-          "count": 0
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self",
+            "type": "DON!!"
+          },
+          "count": 1
         }
-      ]
+      ],
+      "optional": true
     },
-    "limit": "OncePerTurn",
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "state": "active"
-      },
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "state": "rested"
-      }
-    ]
-  },
-  "id": "EB04-031"
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "state": "active"
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "state": "rested"
+        }
+      ],
+      "limit": "OncePerTurn"
+    }
+  ]
 }

@@ -6,21 +6,21 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "searchCount": 5,
           "filter": {
             "type": "Supernovas",
             "exclude": [
               "Monkey.D.Luffy"
             ]
           },
-          "maxResults": 1,
           "destination": "hand",
           "thenAction": {
             "type": "ReturnToHand",
             "source": "SearchRemainder",
             "destination": "DeckBottom",
             "allowReorder": true
-          }
+          },
+          "count": 1,
+          "lookCount": 5
         }
       ]
     },

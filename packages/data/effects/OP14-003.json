@@ -1,20 +1,24 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PreventKO",
-        "target": "Self",
-        "source": "OpponentCharacterWithMaxBasePower",
-        "maxBasePower": 5000
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP14-003"
+  "id": "OP14-003",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PreventKO",
+          "target": {
+            "scope": "Self"
+          },
+          "source": "OpponentCharacterWithMaxBasePower",
+          "maxBasePower": 5000
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

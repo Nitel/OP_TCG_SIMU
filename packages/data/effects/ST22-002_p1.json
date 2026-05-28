@@ -12,21 +12,43 @@
       "actions": [
         {
           "type": "SearchDeck",
+          "lookCount": 5,
+          "count": 1,
           "filter": {
-            "kind": "Any"
+            "kind": "BySubType",
+            "subType": "Whitebeard Pirates",
+            "cardType": "Character",
+            "excludeNames": [
+              "Izo"
+            ]
           },
-          "destination": "hand"
+          "destination": "hand",
+          "restTo": "bottom"
         }
       ]
     },
     {
       "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "type": "TrashSelf"
+      },
+      "duration": "EndOfOpponentTurn",
       "actions": [
         {
           "type": "DrawCard",
           "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "destination": "bottom",
+          "count": 1,
+          "filter": {}
         }
-      ]
+      ],
+      "optional": true
     }
   ],
   "counter": 1000

@@ -9,13 +9,31 @@
         "type": "purple",
         "cardType": "{Straw Hat Crew}"
       },
-      "maxReveal": 1,
-      "destination": "hand"
+      "destination": "hand",
+      "lookCount": 1
     },
     {
       "type": "ReorderDeck",
       "zone": "bottom",
       "remaining": true
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand",
+          "lookCount": 5
+        }
+      ]
     }
   ]
 }

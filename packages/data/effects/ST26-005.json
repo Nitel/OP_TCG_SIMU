@@ -1,67 +1,31 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "AND",
-      "conditions": [
+  "id": "ST26-005",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "LeaderHasAnyType",
-          "values": [
-            "Straw Hat Crew"
-          ]
-        },
-        {
-          "type": "LeaderIsMulticolored"
-        },
-        {
-          "type": "OpponentFieldDonCount",
-          "comparison": ">=",
-          "value": 5
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
         }
       ]
     },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 7000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "AND",
-      "conditions": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
         {
-          "type": "LeaderHasAnyType",
-          "values": [
-            "Straw Hat Crew"
-          ]
-        },
-        {
-          "type": "LeaderIsMulticolored"
-        },
-        {
-          "type": "OpponentFieldDonCount",
-          "comparison": ">=",
-          "value": 5
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 7000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "ST26-005"
+    }
+  ]
 }

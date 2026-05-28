@@ -30,5 +30,28 @@
       },
       "optional": true
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
+        }
+      ]
+    }
   ]
 }

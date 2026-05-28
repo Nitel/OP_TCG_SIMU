@@ -1,23 +1,24 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "GERMA"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "HasType",
-          "value": "GERMA"
-        },
-        "limit": 1,
-        "destination": "hand",
-        "depth": 5,
-        "orderRest": "Any"
-      }
-    ]
-  },
-  "id": "OP10-063"
+  "id": "OP10-063",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "GERMA"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "GERMA"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

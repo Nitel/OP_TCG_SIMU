@@ -1,50 +1,53 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "LifeCount",
-      "value": 2,
-      "comparison": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Leader"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "cost": {
-      "type": "ReturnDon",
-      "amount": 2
-    },
-    "limitPerTurn": 1,
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfTurn"
+  "id": "ST28-004",
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": {
+        "type": "LifeCount",
+        "value": 2,
+        "comparison": "LessOrEqual"
       },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "cost": {
+        "type": "ReturnDon",
+        "amount": 2
+      },
+      "limitPerTurn": 1,
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
         },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "ST28-004"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,16 +1,26 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "Rest",
-        "filter": {
-          "self": true
+  "id": "OP04-104",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "filter": {
+            "self": true
+          },
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP04-104"
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

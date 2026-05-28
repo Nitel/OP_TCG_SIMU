@@ -6,6 +6,14 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": { "type": "AllDonRested" },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeKOdByEffect", "target": { "scope": "Self" }, "duration": "DuringYourTurn" }
+      ]
+    }
+  ],
   "counter": 1000
 }

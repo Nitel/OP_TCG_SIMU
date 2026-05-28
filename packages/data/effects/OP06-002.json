@@ -1,23 +1,28 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "condition": {
-          "type": "CardPowerThreshold",
-          "threshold": 7000,
-          "operator": ">="
+  "id": "OP06-002",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "conditions": [
+        {
+          "type": "Always"
         }
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP06-002"
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "condition": {
+            "type": "CardPowerThreshold",
+            "threshold": 7000,
+            "operator": ">="
+          },
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

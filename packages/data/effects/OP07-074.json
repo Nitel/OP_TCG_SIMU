@@ -1,27 +1,33 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Foxy Pirates"
-      }
-    ],
-    "actions": [
-      {
-        "type": "KO",
-        "target": "this"
-      },
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "source": "deck"
-      },
-      {
-        "type": "Rest",
-        "target": "addedCard"
-      }
-    ]
-  },
-  "id": "OP07-074"
+  "id": "OP07-074",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Foxy Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "deck"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

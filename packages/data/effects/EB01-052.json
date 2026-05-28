@@ -8,6 +8,39 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ChooseOne",
+          "choices": [
+            {
+              "label": "Look at top 3 of opponent's deck",
+              "actions": [
+                {
+                  "type": "RevealFromDeck",
+                  "count": 3,
+                  "thenActions": [],
+                  "returnTo": "top"
+                }
+              ]
+            },
+            {
+              "label": "Trash 1 card from opponent's hand",
+              "actions": [
+                {
+                  "type": "ForceDiscard",
+                  "count": 1,
+                  "target": { "scope": "Opponent" }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "_NOTE": "partial: RevealFromDeck targets own deck; opponent deck reveal not implemented"
+    }
+  ],
   "counter": 1000
 }

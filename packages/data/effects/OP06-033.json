@@ -1,63 +1,67 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ConditionalAction",
-        "condition": "CanTrashFromHandOrField",
-        "description": "Player may choose: trash 1 Fish-Man from hand OR trash 1 [The Ark Noah] from hand/field",
-        "options": [
-          {
-            "optionName": "TrashFishMan",
-            "actions": [
-              {
-                "type": "TrashFromHand",
-                "filter": {
-                  "subType": "Fish-Man"
-                },
-                "thenActions": [
-                  {
-                    "type": "KO",
-                    "target": {
-                      "scope": "ChooseOpponentCharacter",
-                      "condition": "IsRested"
-                    },
-                    "count": {
-                      "type": "UpTo",
-                      "value": 1
-                    }
-                  }
-                ]
-              }
-            ]
+  "id": "OP06-033",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ConditionalAction",
+          "condition": {
+            "type": "CanTrashFromHandOrField"
           },
-          {
-            "optionName": "TrashArkNoah",
-            "actions": [
-              {
-                "type": "TrashFromHandOrField",
-                "filter": {
-                  "cardName": "[The Ark Noah]"
-                },
-                "thenActions": [
-                  {
-                    "type": "KO",
-                    "target": {
-                      "scope": "ChooseOpponentCharacter",
-                      "condition": "IsRested"
-                    },
-                    "count": {
-                      "type": "UpTo",
-                      "value": 1
+          "description": "Player may choose: trash 1 Fish-Man from hand OR trash 1 [The Ark Noah] from hand/field",
+          "options": [
+            {
+              "optionName": "TrashFishMan",
+              "actions": [
+                {
+                  "type": "TrashFromHand",
+                  "filter": {
+                    "subType": "Fish-Man"
+                  },
+                  "thenActions": [
+                    {
+                      "type": "KO",
+                      "target": {
+                        "scope": "ChooseOpponentCharacter",
+                        "condition": "IsRested"
+                      },
+                      "count": {
+                        "type": "UpTo",
+                        "value": 1
+                      }
                     }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-033"
+                  ]
+                }
+              ]
+            },
+            {
+              "optionName": "TrashArkNoah",
+              "actions": [
+                {
+                  "type": "TrashFromHandOrField",
+                  "filter": {
+                    "cardName": "[The Ark Noah]"
+                  },
+                  "thenActions": [
+                    {
+                      "type": "KO",
+                      "target": {
+                        "scope": "ChooseOpponentCharacter",
+                        "condition": "IsRested"
+                      },
+                      "count": {
+                        "type": "UpTo",
+                        "value": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

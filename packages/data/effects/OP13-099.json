@@ -1,55 +1,58 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "duration": "DuringYourTurn",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": ">=",
-      "value": 19
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "LeaderCard"
-        },
-        "value": 1000
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "activation": "Main",
-    "condition": {
-      "type": "HasAttachedDon",
-      "comparison": ">=",
-      "value": 3
-    },
-    "cost": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
+  "id": "OP13-099",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "duration": "DuringYourTurn",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 19
       },
-      {
-        "type": "GiveDon",
-        "value": -3
-      }
-    ],
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "color": "Black",
-          "subType": "Five Elders",
-          "cardType": "Character",
-          "costComparison": "<=",
-          "costReference": "DONCardsOnField"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "amount": 1000,
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "activation": "Main",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": ">=",
+        "value": 3
+      },
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "amount": 1
-      }
-    ]
-  },
-  "id": "OP13-099"
+        {
+          "type": "GiveDon",
+          "value": -3
+        }
+      ],
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "subType": "Five Elders",
+            "cardType": "Character",
+            "costComparison": "<=",
+            "costReference": "DONCardsOnField"
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ]
 }

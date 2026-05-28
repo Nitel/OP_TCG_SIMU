@@ -4,11 +4,12 @@
   "effects": [
     {
       "trigger": "OnKO",
-      "duration": "DuringYourTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasType",
-        "value": "Whitebeard Pirates"
+        "subType": "Whitebeard Pirates"
       },
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "DrawCard",
@@ -17,7 +18,9 @@
         {
           "type": "SearchDeck",
           "count": 1,
-          "from": "Hand"
+          "from": "Hand",
+          "filter": {},
+          "destination": "hand"
         }
       ]
     }

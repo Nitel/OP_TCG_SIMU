@@ -1,13 +1,10 @@
 import { Container, Graphics, Text, Sprite, Texture, Assets } from 'pixi.js';
 import type { Card, CardId, GameState, PlayerId, PlayerState } from 'game-engine';
+import { computePlayCost } from 'game-engine';
 // combatViewDefenderId: when set, show that player's hand and hide the attacker's hand
 import type { UIState } from '../ui/uiState';
 import { flashLife, koFade, scaleIn, hoverLift, hoverReset, killContainerTweens } from './animations';
-
-// CDN base URL — set VITE_CDN_BASE_URL in .env to serve card images from Cloudflare R2.
-// Empty string means images are served from the local /card-images/ public folder.
-const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
-function cardImageUrl(filename: string): string { return `${CDN_BASE}/card-images/${filename}`; }
+import { cardImageUrl } from '../utils/imageUtils';
 
 /**
  * Extract the card template ID from a game-state card ID.
@@ -1039,6 +1036,7 @@ function drawHandFan(
   blockerLocked: boolean,
   phase: string,
   availableDon: number,
+  gameState?: GameState,
 ): void {
   const ids = player.hand;
   const n   = ids.length;
@@ -1076,13 +1074,16 @@ function drawHandFan(
       && card.ownerId === counterDefenderId
       && card.zone === 'hand'
       && (card.counter ?? 0) > 0;
+    const effectiveCost = (gameState !== undefined && card.type !== 'DON')
+      ? computePlayCost(id, gameState, player.id)
+      : card.cost;
     const isPlayable = !faceDown
       && !isCounter
       && counterDefenderId === null
       && player.id === activePlayerId
       && phase === 'Main'
       && card.type !== 'DON'
-      && card.cost <= availableDon;
+      && effectiveCost <= availableDon;
 
     const cardContainer = new Container();
     cardContainer.pivot.set(HAND_W / 2, HAND_H);
@@ -1351,6 +1352,6 @@ export function renderGameState(
     : hideCards || (combatViewDefenderId !== null ? me.id !== combatViewDefenderId : me.id !== state.activePlayerId);
   const blockerLockedGlobal = uiState.selectionMode === 'declareBlock' && uiState.selectedCardId !== null;
 
-  drawHandFan(scene, op, state.cards, P2_HAND_Y, opHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal, state.phase, availableDon);
-  drawHandFan(scene, me, state.cards, P1_HAND_Y, meHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal, state.phase, availableDon);
+  drawHandFan(scene, op, state.cards, P2_HAND_Y, opHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal, state.phase, availableDon, state);
+  drawHandFan(scene, me, state.cards, P1_HAND_Y, meHandFaceDown, uiState, state.activePlayerId, onCardClick, newBoardIds, counterDefenderId, blockerLockedGlobal, state.phase, availableDon, state);
 }

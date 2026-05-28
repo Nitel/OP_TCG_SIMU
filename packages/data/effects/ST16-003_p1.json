@@ -6,6 +6,33 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "subType": "FILM"
+          },
+          {
+            "type": "HasRestedCards",
+            "count": 6
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 2000,
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

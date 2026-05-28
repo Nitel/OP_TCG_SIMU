@@ -49,7 +49,7 @@ export function calculatePower(cardId: CardId, state: GameState): number {
     ? Object.values(state.cards).filter((c) => c.type === 'DON' && c.attachedTo === cardId).length
     : 0;
 
-  return card.power + donAttached * 1000 + (card.powerModifier ?? 0) + (card.powerModifierOT ?? 0);
+  return card.power + donAttached * 1000 + (card.powerModifier ?? 0) + (card.powerModifierOT ?? 0) + (card.powerModifierBattle ?? 0) + (card.permanentPowerModifier ?? 0);
 }
 
 // ─── clearPowerModifiers ──────────────────────────────────────────────────────
@@ -59,17 +59,92 @@ export function calculatePower(cardId: CardId, state: GameState): number {
  */
 export function clearPowerModifiers(state: GameState, cardIds: readonly CardId[]): GameState {
   const updatedCards: Record<string, Card> = { ...state.cards };
-  let changed = false;
+  const expired: Array<{ id: CardId; name: string | undefined; amount: number }> = [];
   for (const id of cardIds) {
-    if (updatedCards[id]?.powerModifier !== undefined) {
+    const pm = updatedCards[id]?.powerModifier;
+    if (pm !== undefined) {
       const { powerModifier: _pm, ...rest } = updatedCards[id]!;
       void _pm;
+      updatedCards[id] = rest;
+      expired.push({ id, name: state.cards[id]?.name, amount: pm });
+    }
+  }
+  if (expired.length === 0) return state;
+  const newState: GameState = { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+  const expiredLogs = expired.map((e, i) => ({
+    seq: newState.gameLog.length + i,
+    event: 'POWER_BOOST_EXPIRED' as const,
+    message: `Power modifier ${e.amount > 0 ? '+' : ''}${e.amount} expired on "${e.name ?? e.id}"`,
+    cardId: e.id,
+    cardName: e.name,
+    turn: newState.turnNumber,
+  }));
+  return { ...newState, gameLog: [...newState.gameLog, ...expiredLogs] };
+}
+
+// ─── clearCostModifiers ───────────────────────────────────────────────────────
+
+/**
+ * Clear `costModifier` (temporary cost changes) from all cards at end of turn.
+ */
+export function clearCostModifiers(state: GameState): GameState {
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  let changed = false;
+  for (const [id, card] of Object.entries(state.cards)) {
+    if (card.costModifier !== undefined) {
+      const { costModifier: _cm, ...rest } = card;
+      void _cm;
       updatedCards[id] = rest;
       changed = true;
     }
   }
-  if (!changed) return state;
-  return { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+  // Clear lifeToHandBlocked on all players
+  const updatedPlayers = { ...state.players };
+  let playerChanged = false;
+  for (const [pid, player] of Object.entries(state.players)) {
+    if (player.lifeToHandBlocked === true) {
+      const { lifeToHandBlocked: _ltb, ...rest } = player;
+      void _ltb;
+      updatedPlayers[pid as import('../types/index.js').PlayerId] = rest;
+      playerChanged = true;
+    }
+  }
+  if (!changed && !playerChanged) return state;
+  return {
+    ...state,
+    ...(changed ? { cards: updatedCards as Readonly<Record<import('../types/index.js').CardId, Card>> } : {}),
+    ...(playerChanged ? { players: updatedPlayers as typeof state.players } : {}),
+  };
+}
+
+// ─── clearBattlePowerModifiers ────────────────────────────────────────────────
+
+/**
+ * Clear `powerModifierBattle` (EndOfBattle duration) from ALL cards in play.
+ * Called at the end of every combat resolution.
+ */
+export function clearBattlePowerModifiers(state: GameState): GameState {
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  const expired: Array<{ id: CardId; name: string | undefined; amount: number }> = [];
+  for (const [id, card] of Object.entries(state.cards)) {
+    if (card.powerModifierBattle !== undefined) {
+      const { powerModifierBattle: _pmb, ...rest } = card;
+      void _pmb;
+      updatedCards[id] = rest;
+      expired.push({ id: id as CardId, name: card.name, amount: card.powerModifierBattle });
+    }
+  }
+  if (expired.length === 0) return state;
+  const newState: GameState = { ...state, cards: updatedCards as Readonly<Record<CardId, Card>> };
+  const logs = expired.map((e, i) => ({
+    seq: newState.gameLog.length + i,
+    event: 'POWER_BOOST_EXPIRED' as const,
+    message: `Battle power modifier ${e.amount > 0 ? '+' : ''}${e.amount} expired on "${e.name ?? e.id}"`,
+    cardId: e.id,
+    cardName: e.name,
+    turn: newState.turnNumber,
+  }));
+  return { ...newState, gameLog: [...newState.gameLog, ...logs] };
 }
 
 // ─── clearOppTurnModifiers ────────────────────────────────────────────────────
@@ -102,15 +177,15 @@ export function clearOppTurnModifiers(state: GameState, playerId: PlayerId): Gam
 // ─── clearTemporaryKeywords ───────────────────────────────────────────────────
 
 /**
- * Remove all `temporaryKeywords` from every card in state (called at end of turn).
+ * Remove all `temporaryKeywords` and `effectsNegated` from every card in state (called at end of turn).
  */
 export function clearTemporaryKeywords(state: GameState): GameState {
   const updatedCards: Record<string, Card> = { ...state.cards };
   let changed = false;
   for (const [id, card] of Object.entries(state.cards)) {
-    if (card.temporaryKeywords !== undefined && card.temporaryKeywords.length > 0) {
-      const { temporaryKeywords: _tk, ...rest } = card;
-      void _tk;
+    if ((card.temporaryKeywords !== undefined && card.temporaryKeywords.length > 0) || card.effectsNegated === true) {
+      const { temporaryKeywords: _tk, effectsNegated: _en, ...rest } = card;
+      void _tk; void _en;
       updatedCards[id] = rest;
       changed = true;
     }
@@ -142,9 +217,9 @@ export function sendToTrash(state: GameState, cardId: CardId): GameState {
     }
   }
 
-  // Move card to trash, clear power modifier
-  const { powerModifier: _trashPm, ...cardNoModifier } = card;
-  void _trashPm;
+  // Move card to trash, clear power modifiers
+  const { powerModifier: _trashPm, powerModifierBattle: _trashPmb, ...cardNoModifier } = card;
+  void _trashPm; void _trashPmb;
   updatedCards[cardId] = { ...cardNoModifier, zone: 'trash' };
 
   const updatedOwner: PlayerState = {
@@ -183,8 +258,8 @@ export function sendToRemoved(state: GameState, cardId: CardId): GameState {
     }
   }
 
-  const { powerModifier: _pm, ...cardNoModifier } = card;
-  void _pm;
+  const { powerModifier: _pm, powerModifierBattle: _pmb, ...cardNoModifier } = card;
+  void _pm; void _pmb;
   updatedCards[cardId] = { ...cardNoModifier, zone: 'removed' };
 
   const updatedOwner: PlayerState = {
@@ -256,8 +331,8 @@ export function returnToHand(state: GameState, cardId: CardId): GameState {
     }
   }
 
-  const { powerModifier: _pm, ...cardWithoutModifier } = card;
-  void _pm;
+  const { powerModifier: _pm, powerModifierBattle: _pmb2, ...cardWithoutModifier } = card;
+  void _pm; void _pmb2;
   updatedCards[cardId] = { ...cardWithoutModifier, zone: 'hand', tapped: false };
 
   const updatedOwner: PlayerState = {

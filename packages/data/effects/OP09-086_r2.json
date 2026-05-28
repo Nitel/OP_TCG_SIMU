@@ -15,13 +15,14 @@
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "perTrashedCard": true,
+          "type": "ProportionalPowerBoost",
           "target": {
             "scope": "Self"
           },
-          "duration": "Permanent"
+          "amount": 1000,
+          "per": "CardsInTrash",
+          "duration": "Permanent",
+          "divisor": 4
         }
       ]
     }

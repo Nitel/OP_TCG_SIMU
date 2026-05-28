@@ -5,7 +5,7 @@
       "trigger": "OnPlay",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Multicolor"
+        "subType": "Multicolor"
       },
       "actions": [
         {
@@ -13,13 +13,10 @@
           "filter": {
             "kind": "Any"
           },
-          "count": {
-            "min": 0,
-            "max": 1
-          },
+          "count": 1,
           "destination": "hand",
-          "searchFromTop": 3,
-          "note": "Look at 3 cards from top; add up to 1 to hand; place rest at top or bottom of deck in any order"
+          "note": "Look at 3 cards from top; add up to 1 to hand; place rest at top or bottom of deck in any order",
+          "lookCount": 3
         }
       ]
     }

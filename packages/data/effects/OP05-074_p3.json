@@ -8,6 +8,18 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "AddDon",
+          "count": 1,
+          "active": true
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

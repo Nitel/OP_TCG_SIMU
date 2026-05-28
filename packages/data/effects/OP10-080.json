@@ -1,36 +1,23 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "max": 1
-        },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ],
-    "condition": {
-      "type": "All",
-      "conditions": [
+  "id": "OP10-080",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
         {
-          "type": "HasAttachedDon",
-          "value": 7,
-          "comparison": "GreaterThanOrEqual"
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "max": 1
+          },
+          "duration": "EndOfBattle"
         },
         {
-          "type": "HandCount",
-          "value": 5,
-          "comparison": "LessThanOrEqual"
+          "type": "DrawCard",
+          "count": 1
         }
       ]
     }
-  },
-  "id": "OP10-080"
+  ]
 }

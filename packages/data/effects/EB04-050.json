@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CanAttackActive",
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "filters": [
-            {
-              "type": "HasCardType",
-              "cardType": "SWORD"
-            }
-          ],
-          "count": 1
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "DuringBattle"
-      }
-    ]
-  },
-  "id": "EB04-050"
+  "id": "EB04-050",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackActive",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "filters": [
+              {
+                "type": "HasCardType",
+                "cardType": "SWORD"
+              }
+            ],
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

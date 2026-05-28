@@ -6,5 +6,20 @@
   "color": "Blue",
   "cardType": "Leader",
   "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HandCount",
+        "max": 5
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

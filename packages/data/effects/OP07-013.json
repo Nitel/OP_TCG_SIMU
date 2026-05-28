@@ -33,5 +33,24 @@
         "order": "any"
       }
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Portgas.D.Ace"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand",
+          "lookCount": 5
+        }
+      ]
+    }
   ]
 }

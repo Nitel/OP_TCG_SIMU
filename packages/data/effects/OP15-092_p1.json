@@ -8,11 +8,54 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 10
+      },
       "actions": [
         {
           "type": "PowerBoost",
-          "amount": 2000,
+          "amount": 9000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent",
+          "isBasePower": true
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 20
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn",
+          "isBasePower": true
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 30
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
           "target": {
             "scope": "Self"
           },

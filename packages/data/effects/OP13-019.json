@@ -1,40 +1,42 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 4
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -3000,
-        "target": {
-          "scope": "ChooseOpponentCharacter"
-        },
-        "duration": "DuringThisTurn"
+  "id": "OP13-019",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 4
       },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 3000
-        }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "OwnLeader"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP13-019"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 3000
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

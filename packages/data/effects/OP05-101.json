@@ -1,42 +1,48 @@
 {
-  "0": {
-    "trigger": "Always",
-    "condition": {
-      "type": "HasLifeCards",
-      "value": 2,
-      "operator": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "power": 1000
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "searchCount": 5,
-        "filter": {
-          "kind": "BySubType",
-          "subType": "Holly"
-        },
-        "maxResults": 1,
-        "destination": "hand",
-        "reveal": true
+  "id": "OP05-101",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasLifeCards",
+        "value": 2,
+        "operator": "LessOrEqual"
       },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "BySubType",
-          "subType": "Holly"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "amount": 1000,
+          "duration": "EndOfBattle"
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Holly"
+          },
+          "destination": "hand",
+          "reveal": true,
+          "count": 1,
+          "lookCount": 5
         },
-        "maxPlay": 1
-      }
-    ]
-  },
-  "id": "OP05-101"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Holly"
+          },
+          "maxPlay": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,24 +1,13 @@
 {
   "id": "OP13-063",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 1
-  },
-  "actions": [
+  "keywords": ["Blocker"],
+  "effects": [
     {
-      "type": "SearchDeck",
-      "filter": {
-        "kind": "DON"
-      },
-      "destination": "board",
-      "maxCount": 1
-    },
-    {
-      "type": "Rest",
-      "target": {
-        "scope": "LastSearched"
-      }
+      "trigger": "OnPlay",
+      "condition": { "type": "HasAttachedDon", "count": 1 },
+      "actions": [
+        { "type": "AddDon", "count": 1, "active": true }
+      ]
     }
   ]
 }

@@ -5,7 +5,7 @@
       "trigger": "OnPlay",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Fish-Man"
+        "subType": "Fish-Man"
       },
       "actions": [
         {
@@ -15,9 +15,9 @@
             "minCost": 2
           },
           "destination": "hand",
-          "limit": 1,
-          "deckPosition": "top4",
-          "restToBottom": true
+          "count": 1,
+          "restTo": "bottom",
+          "lookCount": 4
         }
       ]
     }

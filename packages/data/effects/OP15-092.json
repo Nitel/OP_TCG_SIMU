@@ -1,67 +1,61 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": ">=",
-      "value": 10
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 9000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent",
-        "isBasePower": true
+  "id": "OP15-092",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 10
       },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Cost+10",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": ">=",
-      "value": 20
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 9000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent",
+          "isBasePower": true
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 7000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfOpponentTurn",
-        "isBasePower": true
-      }
-    ]
-  },
-  "2": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": ">=",
-      "value": 30
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 20
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 7000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn",
+          "isBasePower": true
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP15-092"
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 30
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

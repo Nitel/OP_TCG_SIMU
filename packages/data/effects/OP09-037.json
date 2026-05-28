@@ -24,15 +24,17 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 5,
           "filter": {
-            "kind": "ByType",
-            "value": "ODYSSEY",
-            "exclude": "Lim"
+            "kind": "BySubType",
+            "subType": "ODYSSEY",
+            "excludeNames": [
+              "Lim"
+            ]
           },
           "revealCount": 1,
           "destination": "hand",
-          "restToBottom": true
+          "restTo": "bottom",
+          "lookCount": 5
         }
       ]
     }

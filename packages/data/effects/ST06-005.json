@@ -1,16 +1,22 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [],
-    "duration": "DuringYourTurn",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": "OpponentCharacter",
-        "maxTargets": 1,
-        "modifier": -4
-      }
-    ]
-  },
-  "id": "ST06-005"
+  "id": "ST06-005",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "maxTargets": 1,
+          "modifier": -4,
+          "amount": 0,
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

@@ -6,6 +6,25 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "color": "red",
+            "minCost": 3,
+            "excludeSelf": true
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

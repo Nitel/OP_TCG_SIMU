@@ -1,23 +1,25 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "count": 1
+  "id": "ST13-017",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "ReorderLifeCards",
-        "target": {
-          "scope": "OwnLifeCards"
+        {
+          "type": "ReorderLifeCards",
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ]
-  },
-  "id": "ST13-017"
+      ]
+    }
+  ]
 }

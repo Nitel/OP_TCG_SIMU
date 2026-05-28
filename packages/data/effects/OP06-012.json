@@ -6,6 +6,19 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasCharacterWithMinPower",
+        "minPower": 6000,
+        "controller": "Opponent",
+        "includeLeader": true
+      },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeKOdInBattle", "target": { "scope": "Self" }, "duration": "DuringYourTurn" }
+      ]
+    }
+  ],
   "counter": 1000
 }

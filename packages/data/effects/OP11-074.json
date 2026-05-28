@@ -1,46 +1,51 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "type": "DON",
-      "amount": 1
-    },
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP11-074",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "Always"
         }
+      ],
+      "cost": {
+        "type": "DON",
+        "amount": 1
       },
-      {
-        "type": "RevealFromHand",
-        "target": {
-          "scope": "OpponentDeck",
-          "amount": 1,
-          "position": "top"
-        }
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4
-        },
-        "conditions": [
-          {
-            "type": "CostMatch",
-            "compareToRevealed": true
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
           }
-        ],
-        "optional": true,
-        "maxTargets": 1
-      }
-    ]
-  },
-  "id": "OP11-074"
+        },
+        {
+          "type": "RevealFromHand",
+          "target": {
+            "scope": "OpponentLeader",
+            "amount": 1,
+            "position": "top"
+          },
+          "thenActions": [],
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          },
+          "conditions": [
+            {
+              "type": "CostMatch",
+              "compareToRevealed": true
+            }
+          ],
+          "optional": true,
+          "maxTargets": 1
+        }
+      ]
+    }
+  ]
 }

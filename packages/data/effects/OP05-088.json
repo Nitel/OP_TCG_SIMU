@@ -1,37 +1,41 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasAttachedDon",
-      "minCount": 1
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "self"
+  "id": "OP05-088",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "minCount": 1
       },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "zone": "trash",
-          "count": 2
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "destination": "deckBottom"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "ByCost",
-          "minCost": 3,
-          "maxCost": 5,
-          "color": "black",
-          "type": "Character"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "zone": "trash",
+            "count": 2
+          },
+          "destination": "deckBottom"
         },
-        "destination": "hand",
-        "maxCount": 1,
-        "zone": "trash"
-      }
-    ]
-  },
-  "id": "OP05-088"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByCost",
+            "minCost": 3,
+            "maxCost": 5,
+            "color": "black",
+            "type": "Character"
+          },
+          "destination": "hand",
+          "maxCount": 1,
+          "zone": "trash"
+        }
+      ]
+    }
+  ]
 }

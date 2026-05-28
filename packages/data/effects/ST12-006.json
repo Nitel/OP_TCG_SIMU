@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2
-        }
+  "id": "ST12-006",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
       },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacterRested",
-          "maxCost": 2
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
         }
-      }
-    ]
-  },
-  "id": "ST12-006"
+      ]
+    }
+  ]
 }

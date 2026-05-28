@@ -194,6 +194,72 @@ describe('ActivatedAbility', () => {
     }
   });
 
+  it('ACT1 — carte dans newBoardIds (jouée ce tour) peut activer [Activate: Main]', () => {
+    // Engine must NOT gate ActivatedAbility on newBoardIds (only attacks are summoning-sick)
+    const base = bootstrapGame();
+    const activatedEffect: CardEffect = {
+      trigger: 'Activated',
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const card = makeChar('activ-new', 'p1', 3000, { effects: [activatedEffect] });
+    // Place the card AND mark it as newly played this turn
+    let state = addToP1Board(base, card);
+    state = { ...state, newBoardIds: [...state.newBoardIds, card.id] };
+
+    const deckBefore = state.players[P1]!.deck.length;
+    const result = applyAction(state, {
+      type: 'ActivatedAbility',
+      playerId: P1,
+      cardId: card.id,
+    });
+
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.players[P1]!.deck.length).toBe(deckBefore - 1);
+  });
+
+  it('ACT2 — Once Per Turn : deuxième activation rejetée avec ALREADY_ACTIVATED', () => {
+    const base = bootstrapGame();
+    const activatedEffect: CardEffect = {
+      trigger: 'Activated',
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const card = makeChar('activ-otp', 'p1', 3000, { effects: [activatedEffect] });
+    const state = addToP1Board(base, card);
+
+    // First activation succeeds
+    const after1 = applyAction(state, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(after1)).toBe(false);
+    if (isGameError(after1)) return;
+
+    // Second activation rejected
+    const after2 = applyAction(after1, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(after2)).toBe(true);
+    if (isGameError(after2)) expect(after2.code).toBe('ALREADY_ACTIVATED');
+  });
+
+  it('ACT3 — après changement de tour, Once Per Turn est réinitialisé', () => {
+    const base = bootstrapGame();
+    const activatedEffect: CardEffect = {
+      trigger: 'Activated',
+      actions: [{ type: 'DrawCard', count: 1 }],
+    };
+    const card = makeChar('activ-reset', 'p1', 3000, { effects: [activatedEffect] });
+    const state = addToP1Board(base, card);
+
+    // Activate this turn
+    const after1 = applyAction(state, { type: 'ActivatedAbility', playerId: P1, cardId: card.id }) as GameState;
+    expect(isGameError(after1)).toBe(false);
+    expect(after1.activatedAbilityIds).toContain(card.id);
+
+    // Simulate turn change — activatedAbilityIds is cleared at EndPhase
+    const nextTurn: GameState = { ...after1, activatedAbilityIds: [], activePlayerId: P1, newBoardIds: [] };
+
+    // Can activate again
+    const after2 = applyAction(nextTurn, { type: 'ActivatedAbility', playerId: P1, cardId: card.id });
+    expect(isGameError(after2)).toBe(false);
+  });
+
   it('chosenTargetId applique PowerBoost à la cible choisie', () => {
     const base = bootstrapGame();
     const target = makeChar('target-char', 'p2', 5000);

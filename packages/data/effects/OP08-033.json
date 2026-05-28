@@ -1,28 +1,32 @@
 {
   "id": "OP08-033",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "And",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "subType": "Minks"
-      },
-      {
-        "type": "OpponentRestingCardCount",
-        "minCount": 7
-      }
-    ]
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "KO",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 2,
-        "restingStatus": "Resting"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          {
+            "type": "LeaderHasType",
+            "subType": "Minks"
+          },
+          {
+            "type": "HasRestedCards",
+            "count": 7,
+            "player": "opponent"
+          }
+        ]
       },
-      "maxCount": 1
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ],
+      "_NOTE": "partial: rested-only filter on target not implemented"
     }
   ]
 }

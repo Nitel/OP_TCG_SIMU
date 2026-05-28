@@ -6,22 +6,23 @@
   "effects": [
     {
       "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasType",
-        "cardType": "Baroque Works"
+        "subType": "Baroque Works"
       },
       "cost": {
         "type": "ReturnDon",
         "count": 1
       },
-      "restriction": "OncePerTurn",
       "actions": [
         {
           "type": "GiveDon",
           "count": 1,
           "active": true
         }
-      ]
+      ],
+      "restriction": "OncePerTurn"
     }
   ]
 }

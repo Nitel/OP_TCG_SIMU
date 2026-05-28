@@ -5,13 +5,12 @@ import type { UIState } from '../ui/uiState';
 import { renderGameState, setRerenderCallback, setCardHoverCallback, setTrashClickCallback, preloadAllTextures, setupBgLayer, setupDragLayer } from './renderGameState';
 import { ActivityLog } from '../ui/ActivityLog';
 import type { ActivityEntry } from '../ui/ActivityLog';
-
-const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
+import { IMAGE_BASE } from '../utils/imageUtils';
 
 function CardPreviewPanel({ card, scale }: { card: Card; scale: number }) {
   const [imgErr, setImgErr] = useState(false);
   const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0] ?? card.id;
-  const imgUrl = `${CDN_BASE}/card-images/${templateId}.png`;
+  const imgUrl = `${IMAGE_BASE}/card-images/${templateId}.png`;
   const W = Math.round(420 * scale);
   const H = Math.round(588 * scale);
   const fs = (n: number) => Math.max(9, Math.round(n * scale));
@@ -103,7 +102,7 @@ function TrashViewPanel({ cards, onClose }: { cards: Card[]; onClose: () => void
           }}>
             {cards.map(card => {
               const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-              const imgUrl = templateId !== undefined ? `${CDN_BASE}/card-images/${templateId}.png` : null;
+              const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
               const errKey = templateId ?? card.id;
               const isHovered = hovered?.id === card.id;
               return (
@@ -140,7 +139,7 @@ function TrashViewPanel({ cards, onClose }: { cards: Card[]; onClose: () => void
         <div style={{ width: 300, flexShrink: 0, minHeight: 420 }}>
           {hovered !== null && (() => {
             const templateId = hovered.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-            const imgUrl = templateId !== undefined ? `${CDN_BASE}/card-images/${templateId}.png` : null;
+            const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
             const infoParts: string[] = [hovered.type];
             if (hovered.type !== 'DON' && hovered.type !== 'Leader') infoParts.push(`Coût ${hovered.cost}`);
             if (hovered.power > 0) infoParts.push(`Power ${hovered.power}`);

@@ -1,22 +1,25 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "value": "Donquixote Pirates"
+  "id": "OP04-036",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Donquixote Pirates"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "count": 1
         },
-        "destination": "hand",
-        "limit": 1,
-        "deckLookCount": 5
-      },
-      {
-        "type": "PlayFromHand",
-        "destination": "bottom_of_deck"
-      }
-    ]
-  },
-  "id": "OP04-036"
+        {
+          "type": "PlayFromHand",
+          "destination": "bottom_of_deck",
+          "filter": {}
+        }
+      ]
+    }
+  ]
 }

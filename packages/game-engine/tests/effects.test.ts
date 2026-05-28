@@ -1638,7 +1638,20 @@ describe('RevealFromDeck', () => {
     // top2 revealed cards go to the bottom after the effect
     const top2 = deckBefore.slice(0, 2);
 
-    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    // RevealFromDeck now pauses for player acknowledgment
+    const afterPlay = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: src.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    expect(afterPlay.pendingRevealInteraction).not.toBeNull();
+    const revealedIds = afterPlay.pendingRevealInteraction!.revealedCardIds!;
+    expect(revealedIds.length).toBe(2);
+
+    // Player acknowledges
+    const result = applyAction(afterPlay, {
+      type: 'ResolveRevealInteraction',
+      playerId: P1,
+      revealedCardIds: revealedIds,
+    });
     expect(isGameError(result)).toBe(false);
     if (isGameError(result)) return;
     const deckAfter = result.players[P1]!.deck;
@@ -2115,5 +2128,763 @@ describe('OnOpponentPlaysEvent : OncePerTurn', () => {
     expect(isGameError(s)).toBe(false);
     if (isGameError(s)) return;
     expect(s.players[P1]!.deck.length).toBe(deckBefore - 1); // still only -1
+  });
+});
+
+// ─── OP1-OP5: OP05-106 SearchDeck Sky Island (bug regression) ────────────────
+
+import type { CardId } from '../src/index.js';
+
+/** OP05-106 effect: look at top 5, reveal up to 1 Sky Island Character (not Shura) → hand, rest → bottom */
+const op05106SearchEffect: CardEffect = {
+  trigger: 'OnPlay',
+  actions: [
+    {
+      type: 'SearchDeck',
+      lookCount: 5,
+      count: 1,
+      filter: {
+        kind: 'BySubType',
+        subType: 'Sky Island',
+        cardType: 'Character',
+        excludeNames: ['Shura'],
+      },
+      destination: 'hand',
+      restTo: 'bottom',
+    },
+  ],
+} as unknown as CardEffect;
+
+/** Inject named deck cards at the top of P1's deck for OP tests. */
+function injectOP05Deck(
+  state: GameState,
+  entries: Array<{ id: string; name: string; subTypes?: string }>,
+): GameState {
+  const newCards = entries.map((e) => ({
+    id: makeCardId(e.id),
+    name: e.name,
+    cost: 2,
+    power: 3000,
+    color: 'Yellow' as const,
+    type: 'Character' as const,
+    zone: 'deck' as const,
+    ownerId: P1,
+    tapped: false,
+    attachedTo: null,
+    ...(e.subTypes !== undefined ? { subTypes: e.subTypes } : {}),
+  }));
+  const newMap = Object.fromEntries(newCards.map((c) => [c.id, c]));
+  const newTopIds = newCards.map((c) => c.id as CardId);
+  const p1 = state.players[P1]!;
+  return {
+    ...state,
+    cards: { ...state.cards, ...newMap },
+    players: { ...state.players, [P1]: { ...p1, deck: [...newTopIds, ...p1.deck] as readonly CardId[] } },
+  };
+}
+
+/** Add OP05-106 card to P1's hand. */
+function addOP05106ToHand(state: GameState): { state: GameState; cardId: CardId } {
+  const card = makeChar('op05-106', 'p1', 2000, {
+    cost: 0,
+    zone: 'hand',
+    effects: [op05106SearchEffect],
+  });
+  const s: GameState = {
+    ...state,
+    cards: { ...state.cards, [card.id]: card },
+    players: { ...state.players, [P1]: { ...state.players[P1]!, hand: [...state.players[P1]!.hand, card.id] } },
+  };
+  return { state: s, cardId: card.id as CardId };
+}
+
+describe('OP1: OP05-106 [On Play] → pendingSearchInteraction with lookCount:5, Sky Island filter, Shura excluded', () => {
+  it('OP1: playing OP05-106 creates pendingSearchInteraction (5 revealed, maxSelect:1, restTo:bottom)', () => {
+    let s = bootstrapGame();
+    s = injectOP05Deck(s, [
+      { id: 'op-shura', name: 'Shura', subTypes: 'Sky Island' },
+      { id: 'op-gan', name: 'Gan Fall', subTypes: 'Sky Island' },
+      { id: 'op-wiper', name: 'Wiper', subTypes: 'Sky Island' },
+      { id: 'op-conis', name: 'Conis', subTypes: 'Sky Island' },
+      { id: 'op-other', name: 'Arlong', subTypes: 'Arlong Pirates' },
+    ]);
+    const { state: s2, cardId } = addOP05106ToHand(s);
+
+    const afterPlay = applyAction(s2, { type: 'PlayCharacterFromHand', playerId: P1, cardId }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+    expect(afterPlay.pendingSearchInteraction).not.toBeNull();
+    expect(afterPlay.pendingSearchInteraction?.revealedCardIds.length).toBe(5);
+    expect(afterPlay.pendingSearchInteraction?.maxSelect).toBe(1);
+    expect(afterPlay.pendingSearchInteraction?.restTo).toBe('bottom');
+  });
+});
+
+describe('OP2: OP05-106 [On Play] — player picks valid Sky Island → in hand, remaining at bottom', () => {
+  it('OP2: picking Gan Fall → hand, 4 others to deck bottom', () => {
+    let s = bootstrapGame();
+    s = injectOP05Deck(s, [
+      { id: 'op2-shura', name: 'Shura', subTypes: 'Sky Island' },
+      { id: 'op2-gan', name: 'Gan Fall', subTypes: 'Sky Island' },
+      { id: 'op2-wiper', name: 'Wiper', subTypes: 'Sky Island' },
+      { id: 'op2-conis', name: 'Conis', subTypes: 'Sky Island' },
+      { id: 'op2-other', name: 'Arlong', subTypes: 'Arlong Pirates' },
+    ]);
+    const { state: s2, cardId } = addOP05106ToHand(s);
+    const deckSizeBefore = s2.players[P1]!.deck.length;
+
+    const afterPlay = applyAction(s2, { type: 'PlayCharacterFromHand', playerId: P1, cardId }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+
+    const ganId = makeCardId('op2-gan');
+    const afterPick = applyAction(afterPlay, {
+      type: 'ResolveSearchInteraction',
+      playerId: P1,
+      chosenCardId: ganId,
+    }) as GameState;
+    expect(isGameError(afterPick)).toBe(false);
+    expect(afterPick.pendingSearchInteraction).toBeNull();
+
+    // Gan Fall is now in hand
+    expect(afterPick.players[P1]!.hand).toContain(ganId);
+    expect(afterPick.cards[ganId]?.zone).toBe('hand');
+
+    // Deck size = before - 5 revealed + 4 put back at bottom = before - 1
+    expect(afterPick.players[P1]!.deck.length).toBe(deckSizeBefore - 1);
+
+    // The 4 non-selected cards are at the deck bottom
+    const deck = afterPick.players[P1]!.deck;
+    const bottom4 = deck.slice(-4);
+    expect(bottom4).toContain(makeCardId('op2-shura'));
+    expect(bottom4).toContain(makeCardId('op2-wiper'));
+    expect(bottom4).toContain(makeCardId('op2-conis'));
+    expect(bottom4).toContain(makeCardId('op2-other'));
+  });
+});
+
+describe('OP3: OP05-106 [On Play] — player passes → all 5 cards placed at deck bottom', () => {
+  it('OP3: passing returns all 5 revealed cards to deck bottom, deck size unchanged', () => {
+    let s = bootstrapGame();
+    s = injectOP05Deck(s, [
+      { id: 'op3-a', name: 'Gan Fall', subTypes: 'Sky Island' },
+      { id: 'op3-b', name: 'Wiper', subTypes: 'Sky Island' },
+      { id: 'op3-c', name: 'Conis', subTypes: 'Sky Island' },
+      { id: 'op3-d', name: 'Pagaya', subTypes: 'Sky Island' },
+      { id: 'op3-e', name: 'Arlong', subTypes: 'Arlong Pirates' },
+    ]);
+    const { state: s2, cardId } = addOP05106ToHand(s);
+    const deckSizeBefore = s2.players[P1]!.deck.length;
+
+    const afterPlay = applyAction(s2, { type: 'PlayCharacterFromHand', playerId: P1, cardId }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+
+    const afterPass = applyAction(afterPlay, {
+      type: 'ResolveSearchInteraction',
+      playerId: P1,
+      chosenCardId: null,
+    }) as GameState;
+    expect(isGameError(afterPass)).toBe(false);
+    expect(afterPass.pendingSearchInteraction).toBeNull();
+
+    // All 5 revealed cards go to bottom → deck size unchanged
+    expect(afterPass.players[P1]!.deck.length).toBe(deckSizeBefore);
+
+    const deck = afterPass.players[P1]!.deck;
+    const bottom5 = deck.slice(-5);
+    expect(bottom5).toContain(makeCardId('op3-a'));
+    expect(bottom5).toContain(makeCardId('op3-b'));
+    expect(bottom5).toContain(makeCardId('op3-c'));
+    expect(bottom5).toContain(makeCardId('op3-d'));
+    expect(bottom5).toContain(makeCardId('op3-e'));
+  });
+});
+
+describe('OP4: OP05-106 [On Play] — Shura in top 5 → filter carries excludeNames for UI enforcement', () => {
+  it('OP4: pendingSearchInteraction.filter has excludeNames [Shura]; Shura is in revealedCardIds', () => {
+    let s = bootstrapGame();
+    s = injectOP05Deck(s, [
+      { id: 'op4-shura', name: 'Shura', subTypes: 'Sky Island' },
+      { id: 'op4-other1', name: 'Arlong', subTypes: 'Arlong Pirates' },
+      { id: 'op4-other2', name: 'Luffy', subTypes: 'Straw Hat Crew' },
+      { id: 'op4-other3', name: 'Zoro', subTypes: 'Straw Hat Crew' },
+      { id: 'op4-other4', name: 'Nami', subTypes: 'Straw Hat Crew' },
+    ]);
+    const { state: s2, cardId } = addOP05106ToHand(s);
+
+    const afterPlay = applyAction(s2, { type: 'PlayCharacterFromHand', playerId: P1, cardId }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+    expect(afterPlay.pendingSearchInteraction).not.toBeNull();
+
+    // Shura IS among the revealed cards (it is looked at)
+    const shuraId = makeCardId('op4-shura');
+    expect(afterPlay.pendingSearchInteraction?.revealedCardIds).toContain(shuraId);
+
+    // Filter carries excludeNames so UI can mark Shura as non-selectable
+    const filter = afterPlay.pendingSearchInteraction?.filter;
+    expect(filter?.kind).toBe('BySubType');
+    if (filter?.kind === 'BySubType') {
+      expect(filter.subType).toBe('Sky Island');
+      expect(filter.excludeNames).toContain('Shura');
+    }
+  });
+});
+
+describe('OP5: Audit — interactive OnPlay action types produce the correct pending interactions', () => {
+  it('OP5a: OnPlay SearchDeck with lookCount → sets pendingSearchInteraction', () => {
+    let s = bootstrapGame();
+    s = injectOP05Deck(s, [
+      { id: 'op5a-1', name: 'A', subTypes: 'Sky Island' },
+      { id: 'op5a-2', name: 'B' },
+      { id: 'op5a-3', name: 'C' },
+      { id: 'op5a-4', name: 'D' },
+      { id: 'op5a-5', name: 'E' },
+    ]);
+    const { state: s2, cardId } = addOP05106ToHand(s);
+    const afterPlay = applyAction(s2, { type: 'PlayCharacterFromHand', playerId: P1, cardId }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+    expect(afterPlay.pendingSearchInteraction).not.toBeNull();
+    // Resolving clears it
+    const afterResolve = applyAction(afterPlay, {
+      type: 'ResolveSearchInteraction',
+      playerId: P1,
+      chosenCardId: null,
+    }) as GameState;
+    expect(isGameError(afterResolve)).toBe(false);
+    expect(afterResolve.pendingSearchInteraction).toBeNull();
+  });
+
+  it('OP5b: OnPlay TrashFromHand with count → sets pendingTrashInteraction', () => {
+    const base = bootstrapGame();
+    const trashEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'TrashFromHand', count: 1, target: { scope: 'Self' } }],
+    } as unknown as CardEffect;
+    const handFiller = makeChar('filler-discard', 'p1', 1000, { zone: 'hand', cost: 0 });
+    const playCard = makeChar('op5b-card', 'p1', 2000, { zone: 'hand', cost: 0, effects: [trashEffect] });
+    let s: GameState = {
+      ...base,
+      cards: { ...base.cards, [handFiller.id]: handFiller, [playCard.id]: playCard },
+      players: {
+        ...base.players,
+        [P1]: {
+          ...base.players[P1]!,
+          hand: [...base.players[P1]!.hand, handFiller.id, playCard.id],
+        },
+      },
+    };
+    const afterPlay = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+    expect(afterPlay.pendingTrashInteraction).not.toBeNull();
+  });
+});
+
+// ─── SD1: SearchDeck count-only → maxSelect defaults to 1 ───────────────────
+describe('SD1: SearchDeck with count but no lookCount — maxSelect must be 1', () => {
+  it('SD1a: count:5 alone → reveals 5, maxSelect undefined (picks 1)', () => {
+    const searchEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'SearchDeck',
+        filter: { kind: 'BySubType', subType: 'Straw Hat Crew', cardType: 'Character' },
+        destination: 'hand',
+        count: 5,
+      }],
+    } as unknown as CardEffect;
+    const base = bootstrapGame();
+    const deck = Array.from({ length: 6 }, (_, i) => makeChar(`sd1-d${i}`, 'p1', 2000, { zone: 'deck', cost: 1, subTypes: 'Straw Hat Crew' }));
+    const playCard = makeChar('sd1-play', 'p1', 2000, { zone: 'hand', cost: 0, effects: [searchEffect] });
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, ...Object.fromEntries(deck.map((c) => [c.id, c])), [playCard.id]: playCard },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, deck: deck.map((c) => c.id) as readonly CardId[], hand: [...base.players[P1]!.hand, playCard.id] },
+      },
+    };
+    const after = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.pendingSearchInteraction).not.toBeNull();
+    expect(after.pendingSearchInteraction?.revealedCardIds.length).toBe(5);
+    // maxSelect must be undefined (UI defaults to 1 — pick one card)
+    expect(after.pendingSearchInteraction?.maxSelect).toBeUndefined();
+  });
+
+  it('SD1b: lookCount:5 count:2 → reveals 5, maxSelect:2', () => {
+    const searchEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'SearchDeck',
+        filter: { kind: 'BySubType', subType: 'Straw Hat Crew', cardType: 'Character' },
+        destination: 'hand',
+        lookCount: 5,
+        count: 2,
+      }],
+    } as unknown as CardEffect;
+    const base = bootstrapGame();
+    const deck = Array.from({ length: 6 }, (_, i) => makeChar(`sd1b-d${i}`, 'p1', 2000, { zone: 'deck', cost: 1, subTypes: 'Straw Hat Crew' }));
+    const playCard = makeChar('sd1b-play', 'p1', 2000, { zone: 'hand', cost: 0, effects: [searchEffect] });
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, ...Object.fromEntries(deck.map((c) => [c.id, c])), [playCard.id]: playCard },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, deck: deck.map((c) => c.id) as readonly CardId[], hand: [...base.players[P1]!.hand, playCard.id] },
+      },
+    };
+    const after = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.pendingSearchInteraction).not.toBeNull();
+    expect(after.pendingSearchInteraction?.revealedCardIds.length).toBe(5);
+    expect(after.pendingSearchInteraction?.maxSelect).toBe(2);
+  });
+});
+
+// ─── And condition + HasPowerThreshold (OP05-001 Sabo pattern) ────────────────
+
+describe('And condition + HasPowerThreshold', () => {
+  // Use AllOpponentCharacters to avoid the ChooseTarget interaction pause.
+  const koAllEffect: CardEffect = {
+    trigger: 'OnPlay',
+    actions: [{ type: 'KO', target: { scope: 'AllOpponentCharacters' } }],
+  } as unknown as CardEffect;
+
+  const saboEffect: CardEffect = {
+    trigger: 'OnWouldBeKOByEffect',
+    oncePerTurn: true,
+    condition: {
+      type: 'And',
+      conditions: [
+        { type: 'HasAttachedDon', count: 1 },
+        { type: 'HasPowerThreshold', power: 5000, comparison: 'GreaterOrEqual' },
+      ],
+    },
+    actions: [
+      { type: 'PowerBoost', amount: -1000, target: { scope: 'Self' }, duration: 'EndOfOpponentTurn' },
+    ],
+  } as unknown as CardEffect;
+
+  function buildKOState(targetPower: number, attachDon: boolean, targetId = 'sabo-tgt'): GameState {
+    const base = bootstrapGame();
+    const target = makeChar(targetId, 'p1', targetPower, { effects: [saboEffect] } as unknown as Partial<Card>);
+    const koSrc = makeChar('ko-all-src-' + targetId, 'p2', 1000, { zone: 'hand', cost: 0, effects: [koAllEffect] });
+
+    let s: GameState = {
+      ...base,
+      cards: { ...base.cards, [target.id]: target, [koSrc.id]: koSrc },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, target.id] },
+        [P2]: { ...base.players[P2]!, hand: [...base.players[P2]!.hand, koSrc.id] },
+      },
+      phase: 'Main',
+      activePlayerId: P2,
+    };
+
+    if (attachDon) {
+      const don = makeDon('don-' + targetId, 'p1');
+      const attached: Card = { ...don, attachedTo: target.id, tapped: true };
+      s = {
+        ...s,
+        cards: { ...s.cards, [don.id]: attached },
+        players: { ...s.players, [P1]: { ...s.players[P1]!, donArea: [...s.players[P1]!.donArea, don.id] } },
+      };
+    }
+    return s;
+  }
+
+  it('AND-1: both conditions met (power 5000+DON=6000, has DON) → KO substitute offered', () => {
+    // power 5000 + 1 DON = 6000 ≥ 5000 ✓, has 1 DON ✓
+    const s = buildKOState(5000, true, 'sabo-and1');
+    const targetId = s.players[P1]!.board.find((id) => id.includes('sabo-and1'))!;
+    const koSrcId = [...s.players[P2]!.hand].pop()!;
+
+    const result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P2, cardId: koSrcId }) as GameState;
+    expect(isGameError(result)).toBe(false);
+    expect(result.pendingKOSubstituteInteraction).not.toBeNull();
+    expect(result.pendingKOSubstituteInteraction?.cardId).toBe(targetId);
+    expect(result.pendingKOSubstituteInteraction?.costType).toBe('Auto');
+  });
+
+  it('AND-2: HasPowerThreshold fails (3000+DON=4000 < 5000) → no substitute, card KO\'d', () => {
+    // power 3000 + 1 DON = 4000 < 5000 ✗ → And fails
+    const s = buildKOState(3000, true, 'sabo-and2');
+    const targetId = s.players[P1]!.board.find((id) => id.includes('sabo-and2'))!;
+    const koSrcId = [...s.players[P2]!.hand].pop()!;
+
+    const result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P2, cardId: koSrcId }) as GameState;
+    expect(isGameError(result)).toBe(false);
+    expect(result.pendingKOSubstituteInteraction).toBeNull();
+    expect(result.cards[targetId]?.zone).toBe('trash');
+  });
+
+  it('AND-3: HasPowerThreshold LessOrEqual — power 3000 ≤ 5000 → condition met', () => {
+    // A different saboEffect: LessOrEqual(5000). power 3000 + 1 DON = 4000 ≤ 5000 ✓
+    const saboEffectLE: CardEffect = {
+      trigger: 'OnWouldBeKOByEffect',
+      condition: {
+        type: 'And',
+        conditions: [
+          { type: 'HasAttachedDon', count: 1 },
+          { type: 'HasPowerThreshold', power: 5000, comparison: 'LessOrEqual' },
+        ],
+      },
+      actions: [
+        { type: 'PowerBoost', amount: -1000, target: { scope: 'Self' }, duration: 'EndOfOpponentTurn' },
+      ],
+    } as unknown as CardEffect;
+
+    const base = bootstrapGame();
+    const target = makeChar('sabo-and3', 'p1', 3000, { effects: [saboEffectLE] } as unknown as Partial<Card>);
+    const koSrc = makeChar('ko-src-and3', 'p2', 1000, { zone: 'hand', cost: 0, effects: [koAllEffect] });
+    const don = makeDon('don-and3', 'p1');
+    const attached: Card = { ...don, attachedTo: target.id, tapped: true };
+
+    let s: GameState = {
+      ...base,
+      cards: { ...base.cards, [target.id]: target, [koSrc.id]: koSrc, [don.id]: attached },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, target.id], donArea: [...base.players[P1]!.donArea, don.id] },
+        [P2]: { ...base.players[P2]!, hand: [...base.players[P2]!.hand, koSrc.id] },
+      },
+      phase: 'Main',
+      activePlayerId: P2,
+    };
+    const koSrcId = koSrc.id;
+
+    const result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P2, cardId: koSrcId }) as GameState;
+    expect(isGameError(result)).toBe(false);
+    // 3000 + 1000 (DON) = 4000 ≤ 5000 ✓, 1 DON attached ✓ → condition met → substitute offered
+    expect(result.pendingKOSubstituteInteraction).not.toBeNull();
+  });
+
+  it('AND-4: HasAttachedDon fails (no DON) → And fails → no substitute, card KO\'d', () => {
+    // power 6000 but no DON attached → HasAttachedDon(1) fails → And fails
+    const s = buildKOState(6000, false, 'sabo-and4');
+    const targetId = s.players[P1]!.board.find((id) => id.includes('sabo-and4'))!;
+    const koSrcId = [...s.players[P2]!.hand].pop()!;
+
+    const result = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P2, cardId: koSrcId }) as GameState;
+    expect(isGameError(result)).toBe(false);
+    expect(result.pendingKOSubstituteInteraction).toBeNull();
+    expect(result.cards[targetId]?.zone).toBe('trash');
+  });
+});
+
+// ─── MT: normalizeFilter + multi-type BySubType matching ─────────────────────
+// Tests that SearchDeck auto-pick works when filter.kind is absent (DSL has no `kind`
+// field) and that multi-type subType strings are matched correctly.
+describe('MT: normalizeFilter and multi-type BySubType matching', () => {
+  function makeSearchState(
+    filterRaw: unknown,
+    deckCards: Card[],
+  ): GameState {
+    const base = bootstrapGame();
+    const searchEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{ type: 'SearchDeck', filter: filterRaw, destination: 'hand' }],
+    } as unknown as CardEffect;
+    const playCard = makeChar('mt-play', 'p1', 2000, { zone: 'hand', cost: 0, effects: [searchEffect] });
+    return {
+      ...base,
+      cards: { ...base.cards, ...Object.fromEntries(deckCards.map((c) => [c.id, c])), [playCard.id]: playCard },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, deck: deckCards.map((c) => c.id) as readonly CardId[], hand: [...base.players[P1]!.hand, playCard.id] },
+      },
+    };
+  }
+
+  it('MT1: filter {} (no kind) → Any → auto-picks first deck card', () => {
+    const card = makeChar('mt1-c', 'p1', 2000, { zone: 'deck', subTypes: 'Sky Island' });
+    const after = applyAction(makeSearchState({}, [card]), { type: 'PlayCharacterFromHand', playerId: P1, cardId: makeCardId('mt-play') }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.cards[card.id]?.zone).toBe('hand');
+  });
+
+  it('MT2: filter { type: "Sky Island" } (no kind) → BySubType → picks card with subTypes "Sky Island"', () => {
+    const card = makeChar('mt2-c', 'p1', 2000, { zone: 'deck', subTypes: 'Sky Island' });
+    const other = makeChar('mt2-o', 'p1', 2000, { zone: 'deck', subTypes: 'Straw Hat Crew' });
+    const after = applyAction(makeSearchState({ type: 'Sky Island' }, [other, card]), { type: 'PlayCharacterFromHand', playerId: P1, cardId: makeCardId('mt-play') }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.cards[card.id]?.zone).toBe('hand');
+    expect(after.cards[other.id]?.zone).toBe('deck');
+  });
+
+  it('MT3: filter { type: "Sky Island" } → matches card with "/" multi-type "Sky Island/Straw Hat Crew"', () => {
+    const card = makeChar('mt3-c', 'p1', 2000, { zone: 'deck', subTypes: 'Sky Island/Straw Hat Crew' });
+    const after = applyAction(makeSearchState({ type: 'Sky Island' }, [card]), { type: 'PlayCharacterFromHand', playerId: P1, cardId: makeCardId('mt-play') }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.cards[card.id]?.zone).toBe('hand');
+  });
+
+  it('MT4: filter { type: "Straw Hat Crew" } → matches card with "/" multi-type "Sky Island/Straw Hat Crew"', () => {
+    const card = makeChar('mt4-c', 'p1', 2000, { zone: 'deck', subTypes: 'Sky Island/Straw Hat Crew' });
+    const after = applyAction(makeSearchState({ type: 'Straw Hat Crew' }, [card]), { type: 'PlayCharacterFromHand', playerId: P1, cardId: makeCardId('mt-play') }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.cards[card.id]?.zone).toBe('hand');
+  });
+
+  it('MT5: filter { type: "Sky Island" } → matches card with space-sep "Sky Island Straw Hat Crew"', () => {
+    const card = makeChar('mt5-c', 'p1', 2000, { zone: 'deck', subTypes: 'Sky Island Straw Hat Crew' });
+    const after = applyAction(makeSearchState({ type: 'Sky Island' }, [card]), { type: 'PlayCharacterFromHand', playerId: P1, cardId: makeCardId('mt-play') }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.cards[card.id]?.zone).toBe('hand');
+  });
+
+  it('MT6: filter { subType: "Navy" } (no kind) → BySubType → picks card with subTypes "Navy"', () => {
+    const card = makeChar('mt6-c', 'p1', 2000, { zone: 'deck', subTypes: 'Navy' });
+    const other = makeChar('mt6-o', 'p1', 2000, { zone: 'deck' });
+    const after = applyAction(makeSearchState({ subType: 'Navy' }, [other, card]), { type: 'PlayCharacterFromHand', playerId: P1, cardId: makeCardId('mt-play') }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    expect(after.cards[card.id]?.zone).toBe('hand');
+    expect(after.cards[other.id]?.zone).toBe('deck');
+  });
+});
+
+// ─── EV: OP15-116 "Gum-Gum Golden Rifle" full sequence ───────────────────────
+// [Main] LeaderHasType:SHC → RemoveLife(1) → SearchDeck→TopOfLife(up to 1) → TrashFromHand(1)
+// [Counter] Leader +4000 EndOfBattle
+describe('EV: OP15-116 full effect sequence', () => {
+  const shcLeaderEffect: CardEffect = {
+    trigger: 'OnPlay',
+    condition: { type: 'LeaderHasType', subType: 'Straw Hat Crew' },
+    actions: [
+      { type: 'RemoveLife', count: 1 },
+      { type: 'SearchDeck', count: 1, filter: {}, destination: 'TopOfLife', optional: true } as unknown as CardEffect['actions'][number],
+      { type: 'TrashFromHand', count: 1, filter: {}, thenActions: [] },
+    ],
+  } as unknown as CardEffect;
+
+  const counterEffect: CardEffect = {
+    trigger: 'Counter',
+    actions: [
+      { type: 'PowerBoost', amount: 4000, target: { scope: 'OwnLeader' }, duration: 'EndOfBattle' },
+    ],
+  } as unknown as CardEffect;
+
+  function makeEVState(): GameState {
+    const base = bootstrapGame();
+    // Make leader Straw Hat Crew type
+    const leaderId = base.players[P1]!.leader!;
+    const shcLeader = { ...base.cards[leaderId]!, subTypes: 'Straw Hat Crew' };
+    // Deck card that will be revealed (for AddToLife search)
+    const deckCard = makeChar('ev-deck-1', 'p1', 2000, { zone: 'deck' });
+    // Hand card to be discarded + the event card
+    const handCard = makeChar('ev-hand-1', 'p1', 2000, { zone: 'hand', cost: 1 });
+    const eventCard: Card = { ...makeChar('ev-event', 'p1', 0, { zone: 'hand', cost: 1, type: 'Event' as const, effects: [shcLeaderEffect, counterEffect] }) };
+    // Life: one card at top
+    const lifeCard = makeChar('ev-life-1', 'p1', 2000, { zone: 'life' });
+
+    return {
+      ...base,
+      cards: { ...base.cards, [shcLeader.id]: shcLeader, [deckCard.id]: deckCard, [handCard.id]: handCard, [eventCard.id]: eventCard, [lifeCard.id]: lifeCard },
+      players: {
+        ...base.players,
+        [P1]: {
+          ...base.players[P1]!,
+          leader: leaderId,
+          life: [lifeCard.id] as readonly ReturnType<typeof makeCardId>[],
+          deck: [deckCard.id] as readonly ReturnType<typeof makeCardId>[],
+          hand: [...base.players[P1]!.hand, handCard.id, eventCard.id],
+          donArea: Array.from({ length: 3 }, (_, i) => makeChar(`ev-don${i}`, 'p1', 0, { zone: 'donArea' as const, type: 'DON' as const }).id),
+        },
+      },
+    };
+  }
+
+  it('EV1: Leader SHC → RemoveLife fires, then SearchDeck→TopOfLife pauses (pendingSearchInteraction)', () => {
+    const s = makeEVState();
+    const eventId = [...s.players[P1]!.hand].find((id) => s.cards[id]?.type === 'Event')!;
+    // Add DON to state for payment
+    const donCards = Array.from({ length: 3 }, (_, i) => makeChar(`ev1-don${i}`, 'p1', 0, { zone: 'donArea' as const, type: 'DON' as const }));
+    const s2: GameState = {
+      ...s,
+      cards: { ...s.cards, ...Object.fromEntries(donCards.map((d) => [d.id, d])) },
+      players: { ...s.players, [P1]: { ...s.players[P1]!, donArea: donCards.map((d) => d.id) as readonly ReturnType<typeof makeCardId>[] } },
+    };
+    const after = applyAction(s2, { type: 'PlayEvent', playerId: P1, cardId: eventId }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    // Life card should be trashed (RemoveLife)
+    expect(after.players[P1]?.life.length).toBe(0);
+    expect(after.cards[makeCardId('ev-life-1')]?.zone).toBe('trash');
+    // Should pause at SearchDeck
+    expect(after.pendingSearchInteraction).not.toBeNull();
+    expect(after.pendingSearchInteraction?.destination).toBe('TopOfLife');
+    expect(after.pendingSearchInteraction?.revealedCardIds.length).toBe(1);
+    // Remaining action (TrashFromHand) stored for resumption
+    expect(after.pendingSearchInteraction?.pendingEffectActions?.length).toBe(1);
+  });
+
+  it('EV2: Leader non-SHC → effect does NOT trigger', () => {
+    const s = makeEVState();
+    // Remove subTypes from leader
+    const leaderId = s.players[P1]!.leader!;
+    const s2 = { ...s, cards: { ...s.cards, [leaderId]: { ...s.cards[leaderId]!, subTypes: undefined } } };
+    const eventId = [...s2.players[P1]!.hand].find((id) => s2.cards[id]?.type === 'Event')!;
+    const donCards = Array.from({ length: 3 }, (_, i) => makeChar(`ev2-don${i}`, 'p1', 0, { zone: 'donArea' as const, type: 'DON' as const }));
+    const s3: GameState = {
+      ...s2,
+      cards: { ...s2.cards, ...Object.fromEntries(donCards.map((d) => [d.id, d])) },
+      players: { ...s2.players, [P1]: { ...s2.players[P1]!, donArea: donCards.map((d) => d.id) as readonly ReturnType<typeof makeCardId>[] } },
+    };
+    const after = applyAction(s3, { type: 'PlayEvent', playerId: P1, cardId: eventId }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    // Life untouched
+    expect(after.players[P1]?.life.length).toBe(1);
+    expect(after.pendingSearchInteraction).toBeNull();
+  });
+
+  it('EV3: player takes deck card → card moves to top of life; then TrashFromHand prompt fires', () => {
+    const s = makeEVState();
+    const eventId = [...s.players[P1]!.hand].find((id) => s.cards[id]?.type === 'Event')!;
+    const donCards = Array.from({ length: 3 }, (_, i) => makeChar(`ev3-don${i}`, 'p1', 0, { zone: 'donArea' as const, type: 'DON' as const }));
+    const s2: GameState = {
+      ...s,
+      cards: { ...s.cards, ...Object.fromEntries(donCards.map((d) => [d.id, d])) },
+      players: { ...s.players, [P1]: { ...s.players[P1]!, donArea: donCards.map((d) => d.id) as readonly ReturnType<typeof makeCardId>[] } },
+    };
+    const afterPlay = applyAction(s2, { type: 'PlayEvent', playerId: P1, cardId: eventId }) as GameState;
+    expect(isGameError(afterPlay)).toBe(false);
+    expect(afterPlay.pendingSearchInteraction).not.toBeNull();
+
+    // Player takes the deck card into life
+    const deckCardId = makeCardId('ev-deck-1');
+    const afterSearch = applyAction(afterPlay, { type: 'ResolveSearchInteraction', playerId: P1, chosenCardId: deckCardId }) as GameState;
+    expect(isGameError(afterSearch)).toBe(false);
+    // Deck card is now in life
+    expect(afterSearch.cards[deckCardId]?.zone).toBe('life');
+    expect(afterSearch.players[P1]?.life[0]).toBe(deckCardId);
+    // pendingSearchInteraction cleared
+    expect(afterSearch.pendingSearchInteraction).toBeNull();
+    // TrashFromHand prompt fires next
+    expect(afterSearch.pendingTrashInteraction).not.toBeNull();
+    expect(afterSearch.pendingTrashInteraction?.playerId).toBe(P1);
+  });
+
+  it('EV3b: player skips AddToLife (pass null) → life unchanged, TrashFromHand prompt fires', () => {
+    const s = makeEVState();
+    const eventId = [...s.players[P1]!.hand].find((id) => s.cards[id]?.type === 'Event')!;
+    const donCards = Array.from({ length: 3 }, (_, i) => makeChar(`ev3b-don${i}`, 'p1', 0, { zone: 'donArea' as const, type: 'DON' as const }));
+    const s2: GameState = {
+      ...s,
+      cards: { ...s.cards, ...Object.fromEntries(donCards.map((d) => [d.id, d])) },
+      players: { ...s.players, [P1]: { ...s.players[P1]!, donArea: donCards.map((d) => d.id) as readonly ReturnType<typeof makeCardId>[] } },
+    };
+    const afterPlay = applyAction(s2, { type: 'PlayEvent', playerId: P1, cardId: eventId }) as GameState;
+    const afterPass = applyAction(afterPlay, { type: 'ResolveSearchInteraction', playerId: P1, chosenCardId: null }) as GameState;
+    expect(isGameError(afterPass)).toBe(false);
+    expect(afterPass.players[P1]?.life.length).toBe(0); // life was trashed, deck card not added
+    expect(afterPass.pendingSearchInteraction).toBeNull();
+    expect(afterPass.pendingTrashInteraction).not.toBeNull();
+  });
+
+  it('EV4: Counter trigger → P2 Leader gains +4000 power EndOfBattle', () => {
+    // P1 is active (attacker), P2 is defender and plays the counter card
+    const base = bootstrapGame();
+    const p2LeaderId = base.players[P2]!.leader!;
+    const p2Leader = base.cards[p2LeaderId]!;
+    const eventCard: Card = { ...makeChar('ev4-event', 'p2', 0, { zone: 'hand', cost: 0, type: 'Event' as const, effects: [counterEffect] }) };
+    const fakeAttacker = makeChar('ev4-atk', 'p1', 5000, { zone: 'board' });
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [eventCard.id]: eventCard, [fakeAttacker.id]: fakeAttacker },
+      players: {
+        ...base.players,
+        [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, fakeAttacker.id] },
+        [P2]: { ...base.players[P2]!, hand: [...base.players[P2]!.hand, eventCard.id] },
+      },
+      activePlayerId: P1,
+      phase: 'Main',
+      activeCombat: { attackerId: fakeAttacker.id, targetId: p2LeaderId, isLeaderAttack: false, blockerId: null, counterPower: 0 },
+    };
+    const after = applyAction(s, { type: 'PlayCounter', playerId: P2, cardId: eventCard.id }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    // PowerBoost EndOfBattle → stored in powerModifierBattle; calculatePower adds it
+    expect(calculatePower(p2LeaderId, after)).toBe(p2Leader.power + 4000);
+  });
+});
+
+// ─── ProportionalPowerBoost tests ─────────────────────────────────────────────
+
+describe('ProportionalPowerBoost', () => {
+  // PP1: 3 cards in trash → +3000 power (per: CardsInTrash, amount: 1000, divisor: 1)
+  it('PP1 — +1000 per card in trash (3 cards → +3000)', () => {
+    const base = bootstrapGame();
+    const ppEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'ProportionalPowerBoost',
+        target: { scope: 'Self' },
+        amount: 1000,
+        per: 'CardsInTrash',
+        duration: 'DuringYourTurn',
+      }],
+    };
+    const playCard = makeChar('pp1-char', 'p1', 3000, { effects: [ppEffect] });
+    // Seed 3 cards in P1 trash
+    const trash1 = makeChar('pp1-trash-1', 'p1', 0);
+    const trash2 = makeChar('pp1-trash-2', 'p1', 0);
+    const trash3 = makeChar('pp1-trash-3', 'p1', 0);
+    let s = addToHand(base, playCard);
+    s = addToP1Trash(s, trash1);
+    s = addToP1Trash(s, trash2);
+    s = addToP1Trash(s, trash3);
+    const after = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    // 3 cards in trash × 1000 = +3000
+    expect(calculatePower(playCard.id, after)).toBe(playCard.power + 3000);
+  });
+
+  // PP2: max cap respected — 10 cards in trash but max: 5000 → +5000 not +10000
+  it('PP2 — max cap: 10 cards in trash, max 5000 → +5000', () => {
+    const base = bootstrapGame();
+    const ppEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'ProportionalPowerBoost',
+        target: { scope: 'Self' },
+        amount: 1000,
+        per: 'CardsInTrash',
+        max: 5000,
+        duration: 'DuringYourTurn',
+      }],
+    };
+    const playCard = makeChar('pp2-char', 'p1', 3000, { effects: [ppEffect] });
+    // Seed 10 cards in trash (would be +10000 without cap)
+    let s = addToHand(base, playCard);
+    for (let i = 0; i < 10; i++) {
+      s = addToP1Trash(s, makeChar(`pp2-trash-${i}`, 'p1', 0));
+    }
+    const after = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    // Capped at 5000
+    expect(calculatePower(playCard.id, after)).toBe(playCard.power + 5000);
+  });
+
+  // PP3: divisor=3, RestingDon — "+1000 per 3 rested DON!!" (6 rested → +2000)
+  it('PP3 — +1000 per 3 rested DON!! (6 rested → +2000)', () => {
+    const base = bootstrapGame();
+    const ppEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'ProportionalPowerBoost',
+        target: { scope: 'Self' },
+        amount: 1000,
+        per: 'RestingDon',
+        divisor: 3,
+        duration: 'DuringYourTurn',
+      }],
+    };
+    const playCard = makeChar('pp3-char', 'p1', 4000, { effects: [ppEffect] });
+    // 6 rested DON!! (tapped: true) in P1's donArea
+    const restingDons = Array.from({ length: 6 }, (_, i) =>
+      ({ ...makeDon(`pp3-don-${i}`, 'p1'), tapped: true, zone: 'donArea' as const }),
+    );
+    let s = addToHand(base, playCard);
+    s = addDonCards(s, restingDons as Card[]);
+    const after = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: playCard.id }) as GameState;
+    expect(isGameError(after)).toBe(false);
+    // floor(6/3) × 1000 = +2000
+    expect(calculatePower(playCard.id, after)).toBe(playCard.power + 2000);
   });
 });

@@ -1,39 +1,45 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
+  "id": "ST27-005",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 3,
-          "maxCount": 1
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseFromTrash",
-          "filter": {
-            "color": "Black"
-          },
-          "maxCount": 1
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "color": "Black"
+            },
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "ST27-005"
+      ]
+    }
+  ]
 }

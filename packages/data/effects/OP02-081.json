@@ -1,14 +1,22 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP02-081"
+  "id": "OP02-081",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

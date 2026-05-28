@@ -1,37 +1,39 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
+  "id": "OP03-004",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Restricted",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn",
+          "restriction": "CannotAttackLeader"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Restricted",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn",
-        "restriction": "CannotAttackLeader"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP03-004"
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

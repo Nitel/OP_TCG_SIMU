@@ -1,41 +1,43 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "types": [
-        "Multicolored"
+  "id": "OP12-060",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "Multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4,
+            "maxCount": 1
+          }
+        }
       ]
     },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4,
-          "maxCount": 1
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "Multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2,
+          "condition": {
+            "type": "HandCount",
+            "maxCount": 6
+          }
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "types": [
-        "Multicolored"
       ]
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2,
-        "condition": {
-          "type": "HandCount",
-          "maxCount": 6
-        }
-      }
-    ]
-  },
-  "id": "OP12-060"
+    }
+  ]
 }

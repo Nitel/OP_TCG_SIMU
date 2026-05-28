@@ -8,6 +8,21 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

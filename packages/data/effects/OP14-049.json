@@ -1,41 +1,43 @@
 {
-  "0": {
-    "trigger": "OnTrash",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "cost": {
-      "restDon": 2
+  "id": "OP14-049",
+  "effects": [
+    {
+      "trigger": "OnTrash",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
+    {
+      "trigger": "OnPlay",
+      "cost": {
+        "restDon": 2
       },
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "maxCost": 7
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
         },
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP14-049"
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCost": 7
+          },
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

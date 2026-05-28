@@ -32,7 +32,21 @@
       "destination": "hand",
       "maxCards": 1,
       "lookAtCards": 4,
-      "remainderPlacement": "BottomOfDeckInAnyOrder"
+      "restTo": "bottom"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 4
+        }
+      ]
     }
   ]
 }

@@ -1,26 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "HasType",
-          "value": "Baroque Works"
+  "id": "OP04-066",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Baroque Works"
+          },
+          "peekCount": 5,
+          "destination": "hand",
+          "count": 1,
+          "lookCount": 5
         },
-        "limit": 1,
-        "peekCount": 5,
-        "destination": "hand"
-      },
-      {
-        "type": "ReturnToHand",
-        "filter": {
-          "kind": "Remaining"
-        },
-        "placement": "Bottom",
-        "order": "Any"
-      }
-    ]
-  },
-  "id": "OP04-066"
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "placement": "Bottom",
+          "order": "Any"
+        }
+      ]
+    }
+  ]
 }

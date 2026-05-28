@@ -20,8 +20,27 @@
             "minCost": 3
           },
           "destination": "hand",
-          "maxResults": 1,
-          "note": "Limitation: cannot express 'look at 4 cards' constraint or 'place rest at bottom in order' mechanic"
+          "note": "Limitation: cannot express 'look at 4 cards' constraint or 'place rest at bottom in order' mechanic",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Sabo"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand",
+          "lookCount": 4
         }
       ]
     }

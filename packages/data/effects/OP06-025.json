@@ -4,7 +4,6 @@
   "actions": [
     {
       "type": "SearchDeck",
-      "lookAtCount": 4,
       "filter": {
         "kind": "Or",
         "conditions": [
@@ -21,13 +20,23 @@
           "Camie"
         ]
       },
-      "selectCount": {
-        "min": 0,
-        "max": 1
-      },
       "destination": "hand",
-      "remainingDestination": "deck-bottom",
-      "remainingOrder": "any"
+      "lookCount": 4,
+      "restTo": "bottom"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 4
+        }
+      ]
     }
   ]
 }

@@ -1,34 +1,41 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "SelfCharacter"
+  "id": "PRB02-004",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ],
-    "duration": "EndOfOpponentTurn"
-  },
-  "1": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "OncePerTurn"
+      ]
     },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnDon",
-          "count": 1
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "OncePerTurn"
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 1
+          }
         }
-      }
-    ],
-    "duration": "EndOfOpponentTurn"
-  },
-  "id": "PRB02-004"
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

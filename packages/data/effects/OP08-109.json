@@ -1,25 +1,18 @@
 {
   "id": "OP08-109",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "AllOf",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Shandian Warrior"
-      },
-      {
-        "type": "HasCardOnBoard",
-        "cardName": "Kalgara",
-        "cardType": "Character"
-      }
-    ]
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "DrawCard",
-      "count": 1,
-      "optional": true
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "LeaderHasType", "subType": "Shandian Warrior" },
+          { "type": "HasCardOnBoard", "name": "Kalgara" }
+        ]
+      },
+      "actions": [
+        { "type": "AddLife", "count": 1 }
+      ]
     }
   ]
 }

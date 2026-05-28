@@ -1,14 +1,22 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "ST06-007"
+  "id": "ST06-007",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

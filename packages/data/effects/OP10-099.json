@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "duration": "DuringYourTurn",
-    "optional": true,
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Board",
-          "filter": {
-            "subType": "Supernovas",
-            "minCost": 3,
-            "maxCost": 8
-          }
+  "id": "OP10-099",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "duration": "DuringYourTurn",
+      "optional": true,
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
         },
-        "count": 1
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "LastAffected"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "subType": "Supernovas",
+              "minCost": 3,
+              "maxCost": 8
+            }
+          },
+          "count": 1
         },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP10-099"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

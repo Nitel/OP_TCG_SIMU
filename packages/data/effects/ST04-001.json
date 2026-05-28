@@ -3,6 +3,7 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "condition": {
         "type": "HasAttachedDon",
         "count": 7
@@ -11,7 +12,9 @@
         {
           "type": "ForceDiscard",
           "count": 1,
-          "target": "opponent"
+          "target": {
+            "scope": "Self"
+          }
         }
       ]
     }

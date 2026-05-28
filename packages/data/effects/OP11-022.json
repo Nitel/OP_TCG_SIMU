@@ -1,35 +1,40 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always",
-        "timing": "Main"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "card",
-        "filter": {
-          "keyword": "Don"
+  "id": "OP11-022",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "Always",
+          "timing": "Main"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "filter": {
+            "keyword": "Don"
+          },
+          "count": 1
         },
-        "count": 1
-      },
-      {
-        "type": "FlipLife",
-        "count": 1
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "type": "Neptunian",
-          "archetype": "Megalo"
+        {
+          "type": "FlipLife",
+          "count": 1
         },
-        "maxCount": 1,
-        "costConstraint": "<=DonCardsOnField"
-      }
-    ]
-  },
-  "id": "OP11-022"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Neptunian",
+            "archetype": "Megalo"
+          },
+          "maxCount": 1,
+          "costConstraint": "<=DonCardsOnField"
+        }
+      ]
+    }
+  ]
 }

@@ -1,72 +1,75 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {},
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "PowerBoost",
-            "amount": -2000,
-            "target": {
-              "scope": "ChooseOpponentCharacterOrLeader",
-              "count": 1
-            },
-            "duration": "DuringBattle"
-          }
-        ]
-      }
-    ],
-    "frequency": "OncePerTurn"
-  },
-  "1": {
-    "trigger": "OnDamage",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ],
-    "frequency": "OncePerTurn",
-    "cost": {
-      "don": 1
-    }
-  },
-  "2": {
-    "trigger": "OnKO",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "basePower": {
-            "min": 6000
+  "id": "OP13-002",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -2000,
+              "target": {
+                "scope": "ChooseOpponentCharacterOrLeader",
+                "count": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ],
+      "frequency": "OncePerTurn"
+    },
+    {
+      "trigger": "OnDamage",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "frequency": "OncePerTurn"
+    },
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "basePower": {
+              "min": 6000
+            }
           }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ],
-    "frequency": "OncePerTurn",
-    "cost": {
-      "don": 1
+      ],
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "frequency": "OncePerTurn"
     }
-  },
-  "id": "OP13-002"
+  ]
 }

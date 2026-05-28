@@ -5,7 +5,29 @@
   "power": 6000,
   "color": "Black",
   "cardType": "Character",
-  "keywords": [],
-  "effects": [],
+  "keywords": [
+    "Blocker",
+    "Banish"
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

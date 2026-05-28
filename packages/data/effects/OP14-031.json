@@ -1,24 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 8,
-          "maxCount": 2
-        }
-      },
-      {
-        "type": "ActivateDon",
-        "target": {
-          "scope": "YourDon",
-          "maxCount": 5
+  "id": "OP14-031",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 8,
+            "maxCount": 2
+          }
         },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP14-031"
+        {
+          "type": "ActivateDon",
+          "target": {
+            "scope": "Self",
+            "maxCount": 5
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

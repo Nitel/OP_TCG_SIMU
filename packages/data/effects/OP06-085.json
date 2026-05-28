@@ -2,21 +2,21 @@
   "id": "OP06-085",
   "effects": [
     {
-      "trigger": "StartOfTurn",
+      "trigger": "YourTurn",
       "condition": {
         "type": "HasRestingDon",
         "count": 2
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "perXCards": 5,
-          "cardSource": "trash",
+          "type": "ProportionalPowerBoost",
           "target": {
             "scope": "Self"
           },
-          "duration": "DuringYourTurn"
+          "amount": 1000,
+          "per": "CardsInTrash",
+          "duration": "DuringYourTurn",
+          "divisor": 5
         }
       ]
     }

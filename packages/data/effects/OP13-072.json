@@ -1,32 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "AllOf",
-      "conditions": [
+  "id": "OP13-072",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "LeaderHasType",
-          "name": "Roger Pirates"
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "board"
         },
         {
-          "type": "HasAttachedDon"
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "DON!!"
-        },
-        "destination": "board",
-        "amount": 1
-      },
-      {
-        "type": "Rest",
-        "target": "LastSearched"
-      }
-    ]
-  },
-  "id": "OP13-072"
+    }
+  ]
 }

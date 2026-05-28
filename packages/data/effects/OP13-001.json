@@ -1,38 +1,40 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnDONCards",
-          "count": "Any"
-        },
-        "optional": true
+  "id": "OP13-001",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "perRestedCard": true,
-        "target": {
-          "scope": "OrTarget",
-          "options": [
-            {
-              "scope": "OwnLeader"
-            },
-            {
-              "scope": "ChooseOwnCharacter",
-              "subType": "Straw Hat Crew",
-              "count": 1
-            }
-          ]
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self",
+            "count": "Any"
+          },
+          "optional": true
         },
-        "duration": "DuringBattle"
-      }
-    ]
-  },
-  "id": "OP13-001"
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "perRestedCard": true,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "options": [
+              {
+                "scope": "OwnLeader"
+              },
+              {
+                "scope": "ChooseOwnCharacter",
+                "subType": "Straw Hat Crew",
+                "count": 1
+              }
+            ]
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

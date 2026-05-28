@@ -2,23 +2,23 @@
   "id": "EB02-023",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "YourTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always"
       },
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 3,
           "filter": {
             "kind": "Any"
           },
           "destination": "deck",
-          "reorder": true
+          "reorder": true,
+          "lookCount": 3
         }
       ],
-      "duration": "DuringYourTurn",
-      "oncePerTurn": true,
       "activationCondition": "OpponentCharacterReturnedToHandByYourEffect"
     }
   ]

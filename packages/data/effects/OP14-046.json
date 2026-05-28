@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "TrashFromPlay",
-        "filter": {
-          "includeSelf": true
-        },
-        "thenActions": [
-          {
-            "type": "PowerBoost",
-            "amount": 2000,
-            "target": {
-              "scope": "ChooseOwnCharacterOrLeader",
-              "subTypes": [
-                "Fish-Man",
-                "Merfolk"
-              ]
-            },
-            "duration": "DuringYourTurn"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP14-046"
+  "id": "OP14-046",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "TrashFromPlay",
+          "filter": {
+            "includeSelf": true
+          },
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "subTypes": [
+                  "Fish-Man",
+                  "Merfolk"
+                ]
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

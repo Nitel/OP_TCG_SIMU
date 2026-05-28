@@ -35,5 +35,25 @@
       },
       "duration": "DuringYourTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
+        }
+      ]
+    }
   ]
 }

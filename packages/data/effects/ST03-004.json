@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "filter": {
-          "kind": "ByType",
-          "types": [
-            "The Seven Warlords of the Sea",
-            "Thriller Bark Pirates"
-          ],
-          "typeMatchMode": "any"
-        },
-        "additionalFilters": [
-          {
-            "kind": "ByCost",
-            "maxCost": 4
+  "id": "ST03-004",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "The Seven Warlords of the Sea",
+              "Thriller Bark Pirates"
+            ],
+            "typeMatchMode": "any"
           },
-          {
-            "kind": "ExcludeByName",
-            "names": [
-              "Gecko Moria"
-            ]
-          }
-        ],
-        "source": "trash",
-        "maxCount": 1
-      }
-    ]
-  },
-  "id": "ST03-004"
+          "additionalFilters": [
+            {
+              "kind": "ByCost",
+              "maxCost": 4
+            },
+            {
+              "kind": "ExcludeByName",
+              "names": [
+                "Gecko Moria"
+              ]
+            }
+          ],
+          "source": "trash",
+          "maxCount": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,35 +1,42 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2,
-          "maxCount": 1
+  "id": "OP07-091",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          },
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "source": "Trash",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "minCost": 4,
+            "maxCount": -1
+          },
+          "placement": "BottomOfDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "perCards": 3,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
         }
-      },
-      {
-        "type": "SearchDeck",
-        "source": "Trash",
-        "target": {
-          "scope": "CharacterCard",
-          "minCost": 4,
-          "maxCount": -1
-        },
-        "placement": "BottomOfDeck"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "perCards": 3,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP07-091"
+      ]
+    }
+  ]
 }

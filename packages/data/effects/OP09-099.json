@@ -6,14 +6,12 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "amount": 3,
           "revealUp": 1,
           "filter": {
-            "kind": "ByType",
-            "type": "Blackbeard Pirates"
+            "kind": "BySubType",
+            "subType": "Blackbeard Pirates"
           },
           "destination": "hand",
-          "remaining": "bottom",
           "optional": true,
           "thenActions": [
             {
@@ -28,7 +26,10 @@
               "filter": {},
               "optional": true
             }
-          ]
+          ],
+          "restTo": "bottom",
+          "lookCount": 3,
+          "count": 1
         }
       ]
     }

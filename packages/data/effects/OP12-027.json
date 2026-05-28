@@ -8,6 +8,14 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnWouldBeKOByEffect",
+      "protects": { "scope": "AllOwnCharacters", "subType": "Slash" },
+      "actions": [
+        { "type": "Rest", "target": { "scope": "Self" } }
+      ]
+    }
+  ],
   "counter": 1000
 }

@@ -1,43 +1,47 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP05-099",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "Opponent",
-          "source": "Life"
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "source": "Life"
+          },
+          "count": 1,
+          "optional": true
         },
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "Opponent",
-          "type": [
-            "Leader",
-            "Character"
-          ]
-        },
-        "count": 1,
-        "power": -2000,
-        "duration": "EndOfOpponentTurn",
-        "condition": "IfOpponentDidNotTrash"
-      }
-    ]
-  },
-  "id": "OP05-099"
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "type": [
+              "Leader",
+              "Character"
+            ]
+          },
+          "count": 1,
+          "duration": "EndOfOpponentTurn",
+          "condition": {
+            "type": "IfOpponentDidNotTrash"
+          },
+          "amount": -2000
+        }
+      ]
+    }
+  ]
 }

@@ -6,6 +6,20 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "OR",
+        "conditions": [
+          { "type": "HasCardOnBoard", "name": "Buggy" },
+          { "type": "HasCardOnBoard", "name": "Mohji" }
+        ]
+      },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeKOdInBattle", "target": { "scope": "Self" }, "duration": "Permanent" }
+      ]
+    }
+  ],
   "counter": 2000
 }

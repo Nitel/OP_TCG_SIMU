@@ -1,26 +1,30 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 6000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "maxCount": 1
+  "id": "OP04-116",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "DuringBattle"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2,
-          "maxCount": 1
-        },
-        "condition": "TotalLifeCards4OrLess"
-      }
-    ]
-  },
-  "id": "OP04-116"
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          },
+          "condition": {
+            "type": "TotalLifeCards4OrLess"
+          }
+        }
+      ]
+    }
+  ]
 }

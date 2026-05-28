@@ -6,6 +6,28 @@
   "color": "Black",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GiveTemporaryCostModifier",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "amount": -2
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "LeaderHasType",
-      "subType": "ODYSSEY",
-      "all": [
+  "id": "OP09-039",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "ODYSSEY",
+        "all": [
+          {
+            "type": "HasCardOnBoard",
+            "cardType": "Character",
+            "status": "Rested",
+            "minCount": 2
+          }
+        ]
+      },
+      "actions": [
         {
-          "type": "HasCardOnBoard",
-          "cardType": "Character",
-          "status": "Rested",
-          "minCount": 2
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "DuringYourTurn"
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "maxTargets": 1
-        },
-        "duration": "DuringThisTurn"
-      }
-    ]
-  },
-  "id": "OP09-039"
+    }
+  ]
 }

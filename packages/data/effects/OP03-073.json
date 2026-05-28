@@ -1,29 +1,18 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "All",
-      "conditions": [
+  "id": "OP03-073",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "HasRestingDon",
-          "count": 1
-        },
-        {
-          "type": "LeaderHasType",
-          "typeId": "Water Seven"
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2,
+            "maxCount": 1
+          }
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 2,
-          "maxCount": 1
-        }
-      }
-    ]
-  },
-  "id": "OP03-073"
+    }
+  ]
 }

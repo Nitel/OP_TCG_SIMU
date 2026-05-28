@@ -16,11 +16,12 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 5,
           "destination": "reveal",
           "filter": {
             "kind": "Any"
-          }
+          },
+          "lookCount": 5,
+          "count": 2
         },
         {
           "type": "RevealFromHand",
@@ -30,11 +31,13 @@
           "filter": {
             "hasType": "Dressrosa",
             "excludeName": "Leo"
-          }
+          },
+          "thenActions": []
         },
         {
           "type": "PlayFromHand",
-          "description": "Place remaining cards at bottom of deck in any order"
+          "description": "Place remaining cards at bottom of deck in any order",
+          "filter": {}
         },
         {
           "type": "TrashFromHand",

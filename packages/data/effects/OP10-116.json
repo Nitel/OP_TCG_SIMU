@@ -1,23 +1,28 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "source": "OpponentOrOwn",
-        "count": 1,
-        "placement": "TopOrBottom"
-      },
-      {
-        "type": "KO",
-        "filter": {
-          "controller": "Opponent",
-          "type": "Character",
-          "maxCost": 5
+  "id": "OP10-116",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "source": "OpponentOrOwn",
+          "count": 1,
+          "placement": "TopOrBottom"
         },
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP10-116"
+        {
+          "type": "KO",
+          "filter": {
+            "controller": "Opponent",
+            "type": "Character",
+            "maxCost": 5
+          },
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    }
+  ]
 }

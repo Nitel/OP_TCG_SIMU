@@ -4,6 +4,7 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "conditions": [
         {
           "type": "HasCardOnBoard",
@@ -15,8 +16,11 @@
       "actions": [
         {
           "type": "RevealFromHand",
-          "filter": "HasType:Whitebeard Pirates",
-          "count": 1
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1,
+          "thenActions": []
         },
         {
           "type": "DrawCard",
@@ -24,8 +28,12 @@
         },
         {
           "type": "SearchDeck",
-          "target": "RevealedCard",
-          "placement": "TopOfDeck"
+          "target": {
+            "scope": "Self"
+          },
+          "placement": "TopOfDeck",
+          "filter": {},
+          "destination": "hand"
         }
       ]
     }

@@ -1,21 +1,27 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": "OpponentCharacter",
-        "amount": "SwapWith",
-        "count": 2,
-        "filter": "BasePowerLessOrEqual9000",
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP14-017"
+  "id": "OP14-017",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": "SwapWith",
+          "count": 2,
+          "filter": {
+            "kind": "Any"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

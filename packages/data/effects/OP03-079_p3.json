@@ -6,6 +6,23 @@
   "color": "Black",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

@@ -3,11 +3,11 @@
   "effects": [
     {
       "trigger": "Activated",
-      "phase": "Main",
-      "restriction": "OncePerTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "HasRestingDon"
       },
+      "phase": "Main",
       "actions": [
         {
           "type": "AttachDon",
@@ -16,7 +16,8 @@
             "scope": "ChooseOwnCharacterOrLeader"
           }
         }
-      ]
+      ],
+      "restriction": "OncePerTurn"
     }
   ]
 }

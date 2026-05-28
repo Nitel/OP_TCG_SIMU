@@ -1,42 +1,9 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Choice",
-        "options": [
-          {
-            "actions": [
-              {
-                "type": "KO",
-                "target": {
-                  "scope": "ChooseOpponentCharacter",
-                  "maxCost": 5
-                }
-              }
-            ]
-          },
-          {
-            "condition": {
-              "type": "HasLifeCount",
-              "count": 1,
-              "target": "opponent"
-            },
-            "actions": [
-              {
-                "type": "RemoveLife",
-                "target": "opponent",
-                "count": 1
-              },
-              {
-                "type": "FlipLife",
-                "count": 1
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-116"
+  "id": "OP06-116",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": []
+    }
+  ]
 }

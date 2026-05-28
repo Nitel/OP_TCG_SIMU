@@ -5,23 +5,22 @@
       "trigger": "OnPlay",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Baroque Works"
+        "subType": "Baroque Works"
       },
       "actions": [
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByType",
-            "type": "Baroque Works",
-            "excludeName": "Miss.Valentine(Mikita)"
-          },
-          "searchCount": 4,
-          "selectCount": {
-            "min": 0,
-            "max": 1
+            "kind": "BySubType",
+            "subType": "Baroque Works",
+            "excludeNames": [
+              "Miss.Valentine(Mikita)"
+            ]
           },
           "destination": "hand",
-          "trashRest": true
+          "trashRest": true,
+          "lookCount": 4,
+          "count": 1
         }
       ]
     }

@@ -6,6 +6,19 @@
   "color": "Black",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": { "type": "TrashCount", "min": 10 },
+      "actions": [
+        {
+          "type": "SetBasePower",
+          "amount": 8000,
+          "target": { "scope": "AllOwnCharacters", "subType": "Five Elder Stars" }
+        }
+      ],
+      "_NOTE": "partial: exact base power amount and subType approximate; Five Elder Stars type assumed"
+    }
+  ],
   "counter": 2000
 }

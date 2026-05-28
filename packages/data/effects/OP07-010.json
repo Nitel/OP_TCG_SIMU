@@ -1,29 +1,35 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "Always"
-    },
-    "optional": true,
-    "limitPerTurn": 1,
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {},
-        "thenActions": [
-          {
-            "type": "PowerBoost",
-            "amount": 2000,
-            "target": {
-              "scope": "ChooseOwnCharacterOrLeader",
-              "maxCount": 1
-            },
-            "duration": "DuringBattle"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP07-010"
+  "id": "OP07-010",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "limitPerTurn": 1,
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader",
+                "maxCount": 1
+              },
+              "duration": "EndOfBattle"
+            }
+          ]
+        }
+      ],
+      "optional": true
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

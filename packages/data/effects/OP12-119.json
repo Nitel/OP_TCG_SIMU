@@ -1,39 +1,40 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "excludeSelf": true
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "FlipLife",
-            "count": 1
+  "id": "OP12-119",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "excludeSelf": true
           },
-          {
-            "type": "PowerBoost",
-            "amount": 2,
-            "target": {
-              "scope": "Self"
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "FlipLife",
+              "count": 1
             },
-            "duration": "UntilEndOfOpponentNextEndPhase"
-          }
-        ]
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "condition": "DuringOpponentTurn",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP12-119"
+            {
+              "type": "PowerBoost",
+              "amount": 2,
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "EndOfOpponentTurn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

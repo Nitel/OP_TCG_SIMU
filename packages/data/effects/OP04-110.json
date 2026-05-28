@@ -1,4 +1,15 @@
 {
   "id": "OP04-110",
-  "note": "This effect cannot be accurately expressed with standard OPTCG DSL actions. 'AddLife' adds life totals, not Characters to Life cards. A custom action or extension is needed to represent 'move opponent Character to opponent's Life cards (face-up)'. Recommend flagging for manual implementation or DSL expansion."
+  "note": "This effect cannot be accurately expressed with standard OPTCG DSL actions. 'AddLife' adds life totals, not Characters to Life cards. A custom action or extension is needed to represent 'move opponent Character to opponent's Life cards (face-up)'. Recommend flagging for manual implementation or DSL expansion.",
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        { "type": "PlaceAtBottomOfDeck", "target": { "scope": "ChooseOpponentCharacter", "maxCost": 3 } }
+      ]
+    }
+  ]
 }

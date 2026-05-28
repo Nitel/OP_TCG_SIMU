@@ -1,37 +1,46 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "description": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)",
-    "actions": [
-      {
-        "type": "Rest"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "activationType": "Main",
-    "activationLimit": "OncePerTurn",
-    "description": "Give up to 1 rested DON!! card to your {Land of Wano} type Leader.",
-    "conditions": [
-      {
-        "type": "HasRestingDon",
-        "value": 1
-      },
-      {
-        "type": "LeaderHasType",
-        "value": "Land of Wano"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "target": {
-          "scope": "OwnLeader"
+  "id": "EB04-014",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ]
-  },
-  "id": "EB04-014"
+      ],
+      "description": "[Blocker] (After your opponent declares an attack, you may rest this card to make it the new target of the attack.)"
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 1
+        },
+        {
+          "type": "LeaderHasType",
+          "subType": "Land of Wano"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
+        }
+      ],
+      "activationType": "Main",
+      "activationLimit": "OncePerTurn",
+      "description": "Give up to 1 rested DON!! card to your {Land of Wano} type Leader."
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

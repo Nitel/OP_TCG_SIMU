@@ -4,24 +4,19 @@
   "effects": [
     {
       "trigger": "Activated",
-      "conditions": [],
       "actions": [
         {
+          "type": "TrashSelf"
+        },
+        {
           "type": "KO",
-          "count": 1,
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "maxCost": 2,
-            "hasKeyword": "Rested"
-          },
-          "optional": true,
-          "cost": [
-            {
-              "type": "TrashSelf"
-            }
-          ]
+            "maxCost": 2
+          }
         }
-      ]
+      ],
+      "_NOTE": "partial: rested-only filter on target not implemented in engine"
     }
   ]
 }

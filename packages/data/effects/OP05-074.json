@@ -3,20 +3,18 @@
   "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, add up to 1 DON!! card from your DON!! deck and set it as active.",
   "effects": [
     {
-      "trigger": "OnPlay",
-      "conditions": [
-        {
-          "type": "DuringYourTurn"
-        }
-      ],
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "AddDon",
           "count": 1,
-          "source": "DonDeck",
-          "oncePerTurn": true
+          "active": true
         }
       ]
     }
+  ],
+  "keywords": [
+    "Blocker"
   ]
 }

@@ -8,6 +8,25 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "TrashCount",
+        "cardType": "Event",
+        "value": 4,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

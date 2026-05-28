@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "OwnCharactersAndLeader",
-          "filter": {
-            "type": "HasAnyType",
-            "types": [
-              "Supernovas",
-              "Navy"
-            ]
-          }
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "ST02-014"
+  "id": "ST02-014",
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader",
+            "filter": {
+              "type": "HasAnyType",
+              "types": [
+                "Supernovas",
+                "Navy"
+              ]
+            }
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

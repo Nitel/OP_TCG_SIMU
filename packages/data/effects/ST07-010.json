@@ -1,5 +1,24 @@
 {
   "id": "ST07-010",
-  "trigger": "OnPlay",
-  "note": "Requires choice mechanic not fully represented in standard DSL. Suggest: either two separate conditional effects based on opponent choice state, or extended DSL with 'choice' field: [{'trigger':'OnPlay','choice':{'prompt':'Choose one:','options':[{'description':'Trash 1 from opponent Life','actions':[{'type':'TrashOpponentLife','count':1}]},{'description':'Add 1 from your deck to your Life','actions':[{'type':'AddDeckToLife','count':1}]}]}}]"
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ChooseOne",
+          "forOpponent": true,
+          "choices": [
+            {
+              "label": "Trash top of source player's life",
+              "actions": [{ "type": "RemoveLife", "count": 1, "scope": "opponent" }]
+            },
+            {
+              "label": "Add top of own deck to own life",
+              "actions": [{ "type": "AddLife", "count": 1 }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

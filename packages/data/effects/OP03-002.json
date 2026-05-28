@@ -5,7 +5,26 @@
   "power": 5000,
   "color": "Red",
   "cardType": "Character",
-  "keywords": [],
-  "effects": [],
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "DisableBlocker",
+          "target": {
+            "scope": "AllOpponentCharacters",
+            "maxPower": 2000
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

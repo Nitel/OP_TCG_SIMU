@@ -3,14 +3,8 @@
   "effectText": "[Your Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, draw 1 card.",
   "effects": [
     {
-      "trigger": "Trigger",
-      "duration": "DuringYourTurn",
-      "conditions": [
-        {
-          "type": "TurnCount",
-          "value": 1
-        }
-      ],
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "DrawCard",

@@ -3,6 +3,7 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderIsName",
         "value": "Shirahoshi"
@@ -14,10 +15,15 @@
         },
         {
           "type": "Rest",
-          "target": "Self",
+          "target": {
+            "scope": "Self"
+          },
           "duration": "DuringYourTurn"
         }
       ]
     }
+  ],
+  "keywords": [
+    "Blocker"
   ]
 }

@@ -1,22 +1,26 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Fish-Man"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "Leader"
-      },
-      {
-        "type": "FlipLife",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP15-033"
+  "id": "OP15-033",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Fish-Man"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

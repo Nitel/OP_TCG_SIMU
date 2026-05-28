@@ -1,43 +1,46 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "filter": {
-          "scope": "OwnLeaderOrStage",
-          "hasType": "Dressrosa"
+  "id": "OP10-091",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "filter": {
+            "scope": "OwnLeaderOrStage",
+            "hasType": "Dressrosa"
+          }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader",
+            "hasType": "Dressrosa",
+            "count": 1
+          }
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "count": 1
+          }
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "thenActions": []
         }
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnLeaderOrStage",
-          "hasType": "Dressrosa",
-          "count": 1
-        }
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 1,
-          "count": 1
-        }
-      },
-      {
-        "type": "TrashDeck",
-        "count": 2
-      }
-    ]
-  },
-  "id": "OP10-091"
+      ]
+    }
+  ]
 }

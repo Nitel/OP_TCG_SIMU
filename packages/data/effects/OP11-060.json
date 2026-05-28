@@ -1,29 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "value": [
-        "multicolored"
+  "id": "OP11-060",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Straw Hat Crew",
+            "excludeNames": [
+              "Let's Crash This Wedding!!!"
+            ]
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "count": 1,
+          "restTo": "bottom"
+        }
       ]
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "value": "Straw Hat Crew",
-          "exclude": [
-            "Let's Crash This Wedding!!!"
-          ]
-        },
-        "destination": "hand",
-        "maxCount": 1,
-        "deckPosition": "top",
-        "deckLookCount": 5,
-        "remainderPlacement": "bottom"
-      }
-    ]
-  },
-  "id": "OP11-060"
+    }
+  ]
 }

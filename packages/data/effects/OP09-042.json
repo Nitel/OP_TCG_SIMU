@@ -1,36 +1,43 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 5
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "Self",
-        "filter": {
-          "hasAttachedDon": true
+  "id": "OP09-042",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "filter": {
+            "hasAttachedDon": true
+          },
+          "quantity": 5
         },
-        "quantity": 5
-      },
-      {
-        "type": "ForceDiscard",
-        "target": "Self",
-        "quantity": 1
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Cross Guild",
-          "cardType": "Character"
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self"
+          },
+          "quantity": 1,
+          "count": 1
         },
-        "quantity": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP09-042"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Cross Guild",
+            "cardType": "Character"
+          },
+          "quantity": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

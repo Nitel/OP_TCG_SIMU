@@ -1,51 +1,54 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "target": {
-          "scope": "Opponent"
-        }
+  "id": "OP11-062",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttacked",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "target": {
-          "scope": "Opponent"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
         }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
       },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP11-062"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

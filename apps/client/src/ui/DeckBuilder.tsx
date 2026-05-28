@@ -5,14 +5,9 @@ import {
   ALL_CARD_TEMPLATES, saveDeckToStorage,
   loadDecksFromStorage, deleteDeckFromStorage, cardSetFromId, baseCardId,
 } from '../data/deckBuilder';
+import { IMAGE_BASE } from '../utils/imageUtils';
 
-// ─── CDN image URL ────────────────────────────────────────────────────────────
-
-const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
-function cdnCardUrl(id: string): string {
-  const filename = `${id}.png`;
-  return CDN_BASE !== '' ? `${CDN_BASE}/card-images/${filename}` : `/card-images/${filename}`;
-}
+function cdnCardUrl(id: string): string { return `${IMAGE_BASE}/card-images/${id}.png`; }
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

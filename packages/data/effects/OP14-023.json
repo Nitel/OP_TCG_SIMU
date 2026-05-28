@@ -1,19 +1,23 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "Self",
-        "setActive": true
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP14-023"
+  "id": "OP14-023",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "setActive": true
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

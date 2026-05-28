@@ -1,23 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "ODYSSEY"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Character",
-          "type": "ODYSSEY"
-        },
-        "maxResults": 2,
-        "destination": "hand",
-        "deckLookCount": 5,
-        "restToBottom": true
-      }
-    ]
-  },
-  "id": "OP10-039"
+  "id": "OP10-039",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "ODYSSEY"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "ODYSSEY"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "count": 2,
+          "restTo": "bottom"
+        }
+      ]
+    }
+  ]
 }

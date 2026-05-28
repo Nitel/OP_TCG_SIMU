@@ -6,6 +6,23 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

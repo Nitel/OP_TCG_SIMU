@@ -19,8 +19,8 @@
   "id": "OP14-034",
   "effects": [
     {
-      "trigger": "StartOfTurn",
-      "duration": "DuringYourTurn",
+      "trigger": "YourTurn",
+      "oncePerTurn": true,
       "conditions": [
         {
           "type": "HasCardOnBoard",
@@ -33,6 +33,7 @@
           }
         }
       ],
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "PowerBoost",
@@ -46,7 +47,8 @@
               ],
               "baseCostMin": 4
             }
-          }
+          },
+          "duration": "DuringYourTurn"
         }
       ]
     }

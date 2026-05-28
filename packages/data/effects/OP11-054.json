@@ -1,23 +1,31 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "types": [
-        "multicolor"
-      ]
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 3
+  "id": "OP11-054",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "multicolor"
+        ]
       },
-      {
-        "type": "SearchDeck",
-        "count": 2,
-        "destination": "TopOrBottomOfDeck"
-      }
-    ]
-  },
-  "id": "OP11-054"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 3
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "destination": "TopOrBottomOfDeck",
+          "filter": {
+            "kind": "Any"
+          }
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

@@ -2,22 +2,21 @@
   "id": "EB01-027",
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "OnPlay",
       "condition": {
         "type": "LeaderHasType",
-        "leaderType": "Baroque Works"
+        "subType": "Baroque Works"
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "target": "Self",
-          "amount": 1000,
-          "multiplier": {
-            "type": "TrashCount",
-            "cardType": "Event",
-            "divideBy": 2
+          "type": "ProportionalPowerBoost",
+          "target": {
+            "scope": "Self"
           },
-          "duration": "Permanent"
+          "amount": 1000,
+          "per": "EventsInTrash",
+          "duration": "Permanent",
+          "divisor": 2
         }
       ]
     },

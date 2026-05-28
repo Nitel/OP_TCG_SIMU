@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 3
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "UntilEndOfOpponentNextEndPhase"
+  "id": "OP13-064",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 3
       },
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "AllOpponentCharacters"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
         },
-        "duration": "UntilEndOfOpponentNextEndPhase"
-      }
-    ]
-  },
-  "id": "OP13-064"
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

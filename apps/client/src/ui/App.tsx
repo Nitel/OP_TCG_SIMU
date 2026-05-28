@@ -22,6 +22,7 @@ import { LobbyScreen } from './LobbyScreen';
 import type { GameConfig } from './LobbyScreen';
 import { DeckBuilder } from './DeckBuilder';
 import type { ActivityEntry } from './ActivityLog';
+import { IMAGE_BASE } from '../utils/imageUtils';
 
 // ─── Action → human-readable description ─────────────────────────────────────
 
@@ -175,10 +176,12 @@ export function App() {
     const client = new SocketClient(SERVER_URL, {
       onRoomJoined: (state, assignedPlayerId) => {
         setMyPlayerId(assignedPlayerId);
-        setGameState(() => { setUiState(IDLE_UI); return state; });
+        setGameState(() => state);
+        setUiState(IDLE_UI);
       },
       onStateUpdate: (state) => {
-        setGameState(() => { setUiState(IDLE_UI); return state; });
+        setGameState(() => state);
+        setUiState(IDLE_UI);
       },
       onError: (msg) => setUiState(u => ({ ...u, errorMessage: msg })),
       onConnect: () => setSocketStatus('connected'),
@@ -261,9 +264,15 @@ export function App() {
         setNeedsHandoff(true);
         prevActivePlayerRef.current = result.activePlayerId;
       }
-      setUiState(IDLE_UI);
       return result;
     });
+    // Reset UI synchronously in the same batch as setGameState so it is processed
+    // before useEffects that re-activate pending-interaction modes (trashFromHand,
+    // forceDiscard, searchDeck…). Calling setUiState inside the setGameState updater
+    // is a React anti-pattern: updaters may run after effects, leaving the UI stuck.
+    if (willSucceed) {
+      setUiState(IDLE_UI);
+    }
     if (willSucceed && logText !== null) {
       const id = ++activitySeqRef.current;
       setActivityLog(prev => [...prev.slice(-19), { id, text: logText }]);
@@ -375,10 +384,12 @@ export function App() {
         ...prev,
         selectionMode: 'revealFromHand',
         revealInteraction: {
-          filter: pending.filter,
+          ...(pending.filter !== undefined ? { filter: pending.filter } : {}),
           count: pending.count,
           sourceCardId: pending.sourceCardId,
           selectedCardIds: [],
+          ...(pending.optional !== undefined ? { optional: pending.optional } : {}),
+          ...(pending.revealedCardIds !== undefined ? { revealedDeckCardIds: pending.revealedCardIds } : {}),
         },
       }));
     } else if (pending === null) {
@@ -423,6 +434,9 @@ export function App() {
           revealedCardIds: pending.revealedCardIds,
           filter: pending.filter,
           destination: pending.destination,
+          ...(pending.maxSelect !== undefined ? { maxSelect: pending.maxSelect } : {}),
+          ...(pending.source !== undefined ? { source: pending.source } : {}),
+          ...(pending.source === 'trash' ? { selectedCardIds: [] } : {}),
         },
       }));
     } else if (pending === null) {
@@ -448,6 +462,37 @@ export function App() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState?.pendingForceDiscardInteraction]);
+
+  // ── Detect pendingKOSubstituteInteraction — ask human to discard or let KO happen ──
+  useEffect(() => {
+    if (gameState === null) return;
+    const pending = gameState.pendingKOSubstituteInteraction;
+    const humanId = isVsBot ? makePlayerId('P1') : isNetwork ? myPlayerId : null;
+
+    if (pending !== null && (humanId === null || pending.playerId === humanId)) {
+      const isAuto = pending.costType === 'Auto';
+      const protName = pending.protectorCardId ? ` (${gameState.cards[pending.protectorCardId]?.name ?? '?'})` : '';
+      const costLabel = isAuto
+        ? `${protName} absorbs the effect`
+        : 'Discard 1 card from hand';
+      setUiState((prev) => ({
+        ...prev,
+        selectionMode: 'koSubstitute',
+        koSubstituteInteraction: {
+          cardId: pending.cardId,
+          playerId: pending.playerId,
+          filter: pending.filter,
+          sourceCardId: pending.sourceCardId,
+          ...(pending.protectorCardId !== undefined ? { protectorCardId: pending.protectorCardId } : {}),
+          costType: pending.costType,
+          costLabel,
+        },
+      }));
+    } else if (pending === null) {
+      setUiState((prev) => prev.selectionMode === 'koSubstitute' ? IDLE_UI : prev);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.pendingKOSubstituteInteraction]);
 
   // ── Detect pendingForcedAttack — auto-select the forced attacker for the human ──
   useEffect(() => {
@@ -477,15 +522,33 @@ export function App() {
     const isBotDefender = activeCombat !== null
       && activePlayerId !== BOT_ID
       && gameState.cards[activeCombat.targetId]?.ownerId === BOT_ID;
-    const isBotPendingTarget      = gameState.pendingTargetInteraction?.playerId      === BOT_ID;
-    const isBotPendingOnKO        = gameState.pendingOnKOInteraction?.playerId        === BOT_ID;
-    const isBotPendingReveal      = gameState.pendingRevealInteraction?.playerId      === BOT_ID;
-    const isBotPendingTrash       = gameState.pendingTrashInteraction?.playerId       === BOT_ID;
-    const isBotPendingSearch      = gameState.pendingSearchInteraction?.playerId      === BOT_ID;
-    const isBotPendingForceDiscard = gameState.pendingForceDiscardInteraction?.playerId === BOT_ID;
-    const isBotForcedAttack       = gameState.pendingForcedAttack?.ownerId            === BOT_ID;
+    const isBotPendingTarget          = gameState.pendingTargetInteraction?.playerId          === BOT_ID;
+    const isBotPendingOnKO            = gameState.pendingOnKOInteraction?.playerId            === BOT_ID;
+    const isBotPendingReveal          = gameState.pendingRevealInteraction?.playerId          === BOT_ID;
+    const isBotPendingTrash           = gameState.pendingTrashInteraction?.playerId           === BOT_ID;
+    const isBotPendingSearch          = gameState.pendingSearchInteraction?.playerId          === BOT_ID;
+    const isBotPendingForceDiscard    = gameState.pendingForceDiscardInteraction?.playerId    === BOT_ID;
+    const isBotPendingKOSubstitute    = gameState.pendingKOSubstituteInteraction?.playerId    === BOT_ID;
+    const isBotPendingChoice          = gameState.pendingChoiceInteraction?.playerId          === BOT_ID;
+    const isBotPendingRestSubstitute  = gameState.pendingRestSubstituteInteraction?.playerId  === BOT_ID;
+    const isBotForcedAttack           = gameState.pendingForcedAttack?.ownerId                === BOT_ID;
 
-    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash && !isBotPendingSearch && !isBotPendingForceDiscard && !isBotForcedAttack) return;
+    // Bot must not act while a non-bot player has a pending interaction to resolve
+    // (e.g. ForceDiscard on the human triggered by the bot's own card effect)
+    const nonBotPending = (
+      (gameState.pendingForceDiscardInteraction    !== null && gameState.pendingForceDiscardInteraction.playerId    !== BOT_ID) ||
+      (gameState.pendingOnKOInteraction            !== null && gameState.pendingOnKOInteraction.playerId            !== BOT_ID) ||
+      (gameState.pendingRevealInteraction          !== null && gameState.pendingRevealInteraction.playerId          !== BOT_ID) ||
+      (gameState.pendingTrashInteraction           !== null && gameState.pendingTrashInteraction.playerId           !== BOT_ID) ||
+      (gameState.pendingSearchInteraction          !== null && gameState.pendingSearchInteraction.playerId          !== BOT_ID) ||
+      (gameState.pendingTargetInteraction          !== null && gameState.pendingTargetInteraction.playerId          !== BOT_ID) ||
+      (gameState.pendingKOSubstituteInteraction    !== null && gameState.pendingKOSubstituteInteraction.playerId    !== BOT_ID) ||
+      (gameState.pendingChoiceInteraction          !== null && gameState.pendingChoiceInteraction.playerId          !== BOT_ID) ||
+      (gameState.pendingRestSubstituteInteraction  !== null && gameState.pendingRestSubstituteInteraction.playerId  !== BOT_ID)
+    );
+    if (nonBotPending) return;
+
+    if (!isBotTurn && !isBotDefender && !isBotPendingTarget && !isBotPendingOnKO && !isBotPendingReveal && !isBotPendingTrash && !isBotPendingSearch && !isBotPendingForceDiscard && !isBotPendingKOSubstitute && !isBotPendingChoice && !isBotPendingRestSubstitute && !isBotForcedAttack) return;
 
     const action = greedyBotDecide(gameState, BOT_ID);
     if (action === null) return;
@@ -553,12 +616,15 @@ export function App() {
       const amIActive   = humanId === gameState.activePlayerId;
       const amIDefender = humanId === defId && gameState.activeCombat !== null;
       const humanHasPending =
-        gameState.pendingOnKOInteraction?.playerId         === humanId ||
-        gameState.pendingTargetInteraction?.playerId       === humanId ||
-        gameState.pendingRevealInteraction?.playerId       === humanId ||
-        gameState.pendingTrashInteraction?.playerId        === humanId ||
-        gameState.pendingSearchInteraction?.playerId       === humanId ||
-        gameState.pendingForceDiscardInteraction?.playerId === humanId;
+        gameState.pendingOnKOInteraction?.playerId           === humanId ||
+        gameState.pendingTargetInteraction?.playerId         === humanId ||
+        gameState.pendingRevealInteraction?.playerId         === humanId ||
+        gameState.pendingTrashInteraction?.playerId          === humanId ||
+        gameState.pendingSearchInteraction?.playerId         === humanId ||
+        gameState.pendingForceDiscardInteraction?.playerId   === humanId ||
+        gameState.pendingKOSubstituteInteraction?.playerId   === humanId ||
+        gameState.pendingChoiceInteraction?.playerId         === humanId ||
+        gameState.pendingRestSubstituteInteraction?.playerId === humanId;
       if (!amIActive && !amIDefender && !humanHasPending) return;
     }
     setUiState(prev => {
@@ -591,10 +657,13 @@ export function App() {
       if (selectionMode === 'chooseTarget') {
         const { pendingTargetAction, targetScope } = prev;
         if (targetScope === undefined) return IDLE_UI;
-        const opponentId = activeId === p1Id ? p2Id : p1Id;
         const isOpponentScope = targetScope === 'ChooseOpponentCharacter' || targetScope === 'ChooseOpponentCharacterOrLeader';
         const isOrLeader = targetScope === 'ChooseOwnCharacterOrLeader' || targetScope === 'ChooseOpponentCharacterOrLeader';
-        const targetPlayerId = isOpponentScope ? opponentId : activeId;
+        // Use the effect's source player as reference for "own"/"opponent" — not the active player.
+        // This is required for Counter effects played during the opponent's turn.
+        const sourceId = gameState.pendingTargetInteraction?.sourcePlayerId ?? activeId;
+        const sourceOpponentId = sourceId === p1Id ? p2Id : p1Id;
+        const targetPlayerId = isOpponentScope ? sourceOpponentId : sourceId;
         const targetPlayer = gameState.players[targetPlayerId];
         const pool = [
           ...(targetPlayer?.board ?? []),
@@ -619,6 +688,7 @@ export function App() {
         if (revealInteraction === undefined) return IDLE_UI;
         if (card.zone !== 'hand') return prev;
         const f = revealInteraction.filter;
+        if (f === undefined) return prev; // deck-sourced reveals: no hand card selection
         const valid =
           (f.color === undefined || card.color === f.color) &&
           (f.cardType === undefined || card.type === f.cardType) &&
@@ -705,13 +775,18 @@ export function App() {
       if (card.zone === 'hand' && card.ownerId === activeId && phase === 'Main') {
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'play' };
       }
-      if ((card.zone === 'board' || card.type === 'Leader') && card.ownerId === activeId && phase === 'Main' && !card.tapped && gameState.turnNumber > 2) {
-        return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'attack' };
+      if ((card.zone === 'board' || card.type === 'Leader') && card.ownerId === activeId && phase === 'Main' && !card.tapped) {
+        // Summoning sickness applies to attacks only, not to [Activate: Main] abilities.
+        // Allow selection regardless; set 'attack' mode only when the card can legally attack.
+        const hasRush = (card.keywords ?? []).includes('Rush') || (card.temporaryKeywords ?? []).includes('Rush');
+        const canAttack = gameState.turnNumber > 2 && (!gameState.newBoardIds.includes(cardId) || hasRush);
+        return { ...IDLE_UI, selectedCardId: cardId, selectionMode: canAttack ? 'attack' : null };
       }
       if (card.type === 'DON' && card.zone === 'donArea' && card.ownerId === activeId && (phase === 'DON' || phase === 'Main') && !card.tapped) {
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'assignDon' };
       }
-      if (activeCombat !== null && card.ownerId === defenderId && card.zone === 'hand' && (card.counter ?? 0) > 0) {
+      if (activeCombat !== null && card.ownerId === defenderId && card.zone === 'hand' &&
+          ((card.counter ?? 0) > 0 || (card.effects?.some((e) => e.trigger === 'Counter') ?? false))) {
         if (activeCombat.blockerId !== null) {
           return { ...IDLE_UI, errorMessage: 'Impossible : un bloqueur est déjà engagé dans ce combat.' };
         }
@@ -821,43 +896,99 @@ export function App() {
           activityLog={activityLog}
         />
 
-        {/* ── Reveal-from-hand overlay ────────────────────────────────────── */}
+        {/* ── Reveal overlay (deck-sourced or hand-sourced) ───────────────── */}
         {uiState.selectionMode === 'revealFromHand' && uiState.revealInteraction !== undefined && (() => {
           const ri = uiState.revealInteraction;
           const humanId = isVsBot ? makePlayerId('P1') : myPlayerId ?? gameState.activePlayerId;
+          const overlayStyle: React.CSSProperties = {
+            position: 'absolute', inset: 0, zIndex: 460,
+            background: 'rgba(0,0,0,0.82)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            pointerEvents: 'auto',
+          };
+          const panelStyle: React.CSSProperties = {
+            background: 'rgba(4,8,24,0.97)',
+            border: '1px solid rgba(85,187,255,0.55)',
+            borderRadius: 10, padding: 20, maxWidth: '80vw',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
+            display: 'flex', flexDirection: 'column', gap: 16,
+            animation: 'pending-pulse 1.2s ease-in-out infinite',
+          };
+
+          // ── Deck-sourced reveal: show the auto-revealed card, player just acknowledges ──
+          if (ri.revealedDeckCardIds !== undefined) {
+            const deckCards = ri.revealedDeckCardIds
+              .map((id) => gameState.cards[id])
+              .filter((c): c is NonNullable<typeof c> => c !== undefined);
+            return (
+              <div style={overlayStyle}>
+                <div style={panelStyle}>
+                  <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#55bbff', textAlign: 'center', letterSpacing: 1 }}>
+                    Carte{deckCards.length > 1 ? 's' : ''} révélée{deckCards.length > 1 ? 's' : ''} du dessus de votre deck :
+                  </div>
+                  <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                    {deckCards.map((card) => {
+                      const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
+                      const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
+                      return (
+                        <div key={card.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                          <div style={{ width: 120, height: 168, borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(85,187,255,0.4)' }}>
+                            {imgUrl !== null ? (
+                              <img src={imgUrl} alt={card.name} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                            ) : (
+                              <div style={{ width: '100%', height: '100%', background: '#1a1a3a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 10, textAlign: 'center' }}>{card.name}</span>
+                              </div>
+                            )}
+                          </div>
+                          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ccddff', textAlign: 'center', maxWidth: 120 }}>{card.name}</span>
+                          {card.subTypes !== undefined && (
+                            <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#8899bb', textAlign: 'center', maxWidth: 120 }}>{card.subTypes}</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button
+                      onClick={() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: ri.revealedDeckCardIds! as CardId[] })}
+                      style={{
+                        padding: '8px 28px', fontFamily: 'monospace', fontSize: 13,
+                        border: '1px solid #55bbff', borderRadius: 4,
+                        cursor: 'pointer', background: '#0a1a3a', color: '#55bbff', fontWeight: 'bold',
+                      }}
+                    >
+                      OK
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          // ── Hand-sourced reveal: player selects cards from hand ────────────
           const playerHand = gameState.players[humanId]?.hand ?? [];
           const validCards = playerHand
             .map((id) => gameState.cards[id])
             .filter((c): c is NonNullable<typeof c> => {
               if (c === undefined) return false;
               const f = ri.filter;
+              if (f === undefined) return true;
               return (
                 (f.color === undefined || c.color === f.color) &&
                 (f.cardType === undefined || c.type === f.cardType) &&
                 (f.maxPower === undefined || c.power <= f.maxPower) &&
-                (f.excludeSelf !== true || c.id !== ri.sourceCardId)
+                (f.excludeSelf !== true || c.id !== ri.sourceCardId) &&
+                (f.subType === undefined || c.subTypes === undefined || c.subTypes.includes(f.subType))
               );
             });
-          const CDN_BASE: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
+          const canSkip = ri.optional === true || validCards.length < ri.count;
           return (
-            <div style={{
-              position: 'absolute', inset: 0, zIndex: 460,
-              background: 'rgba(0,0,0,0.82)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              pointerEvents: 'auto',
-            }}>
-              <div style={{
-                background: 'rgba(4,8,24,0.97)',
-                border: '1px solid rgba(85,187,255,0.55)',
-                borderRadius: 10,
-                padding: 20,
-                maxWidth: '80vw',
-                boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
-                display: 'flex', flexDirection: 'column', gap: 16,
-              }}>
+            <div style={overlayStyle}>
+              <div style={panelStyle}>
                 <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#55bbff', textAlign: 'center', letterSpacing: 1 }}>
                   Révélez {ri.count} carte{ri.count > 1 ? 's' : ''}
-                  {ri.filter.color !== undefined ? ` [${ri.filter.color}]` : ''} de votre main
+                  {ri.filter?.color !== undefined ? ` [${ri.filter.color}]` : ''} de votre main
                 </div>
                 <div style={{
                   display: 'grid',
@@ -867,7 +998,7 @@ export function App() {
                 }}>
                   {validCards.map((card) => {
                     const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-                    const imgUrl = templateId !== undefined ? `${CDN_BASE}/card-images/${templateId}.png` : null;
+                    const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
                     const isSelected = ri.selectedCardIds.includes(card.id);
                     return (
                       <div
@@ -902,16 +1033,18 @@ export function App() {
                     {ri.selectedCardIds.length}/{ri.count} sélectionnée{ri.count > 1 ? 's' : ''}
                   </span>
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <button
-                      onClick={() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: [] })}
-                      style={{
-                        padding: '6px 16px', fontFamily: 'monospace', fontSize: 12,
-                        border: '1px solid rgba(170,170,204,0.4)', borderRadius: 4,
-                        cursor: 'pointer', background: '#1a1a3a', color: '#aaaacc',
-                      }}
-                    >
-                      Passer
-                    </button>
+                    {canSkip && (
+                      <button
+                        onClick={() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: [] })}
+                        style={{
+                          padding: '6px 16px', fontFamily: 'monospace', fontSize: 12,
+                          border: '1px solid rgba(170,170,204,0.4)', borderRadius: 4,
+                          cursor: 'pointer', background: '#1a1a3a', color: '#aaaacc',
+                        }}
+                      >
+                        Passer
+                      </button>
+                    )}
                     {ri.selectedCardIds.length === ri.count && (
                       <button
                         onClick={() => dispatch({ type: 'ResolveRevealInteraction', playerId: humanId, revealedCardIds: ri.selectedCardIds })}
@@ -953,7 +1086,6 @@ export function App() {
                 (f.excludeSelf !== true   || c.id !== ti.sourceCardId)
               );
             });
-          const CDN_BASE_: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
           const typeLabel = ti.filter.cardTypes !== undefined
             ? ti.filter.cardTypes.join('/') : (ti.filter.cardType ?? 'carte');
           return (
@@ -971,6 +1103,7 @@ export function App() {
                 maxWidth: '80vw',
                 boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
                 display: 'flex', flexDirection: 'column', gap: 16,
+                animation: 'pending-pulse 1.2s ease-in-out infinite',
               }}>
                 <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#ff8c00', textAlign: 'center', letterSpacing: 1 }}>
                   Défaussez des cartes [{typeLabel}] de votre main (+1000 force/carte)
@@ -983,7 +1116,7 @@ export function App() {
                 }}>
                   {validCards.map((card) => {
                     const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-                    const imgUrl = templateId !== undefined ? `${CDN_BASE_}/card-images/${templateId}.png` : null;
+                    const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
                     const isSelected = ti.selectedCardIds.includes(card.id);
                     return (
                       <div
@@ -1041,7 +1174,6 @@ export function App() {
           const handCards = playerHand
             .map((id) => gameState.cards[id])
             .filter((c): c is NonNullable<typeof c> => c !== undefined);
-          const CDN_BASE_FD: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
           return (
             <div style={{
               position: 'absolute', inset: 0, zIndex: 460,
@@ -1057,6 +1189,7 @@ export function App() {
                 maxWidth: '80vw',
                 boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
                 display: 'flex', flexDirection: 'column', gap: 16,
+                animation: 'pending-pulse 1.2s ease-in-out infinite',
               }}>
                 <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#ff4444', textAlign: 'center', letterSpacing: 1 }}>
                   {String(fdi.playerId)} : défaussez {fdi.count} carte{fdi.count > 1 ? 's' : ''} de votre main
@@ -1069,7 +1202,7 @@ export function App() {
                 }}>
                   {handCards.map((card) => {
                     const templateId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-                    const imgUrl = templateId !== undefined ? `${CDN_BASE_FD}/card-images/${templateId}.png` : null;
+                    const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
                     const isSelected = fdi.selectedCardIds.includes(card.id);
                     return (
                       <div
@@ -1119,6 +1252,116 @@ export function App() {
           );
         })()}
 
+        {/* ── KO-substitute overlay ─────────────────────────────────────── */}
+        {uiState.selectionMode === 'koSubstitute' && uiState.koSubstituteInteraction !== undefined && (() => {
+          const ksi = uiState.koSubstituteInteraction;
+          const isAuto = ksi.costType === 'Auto';
+          const card = gameState.cards[ksi.cardId];
+          const protector = ksi.protectorCardId ? gameState.cards[ksi.protectorCardId] : undefined;
+
+          // For TrashFromHand: filter playable hand cards
+          const playerHand = gameState.players[ksi.playerId]?.hand ?? [];
+          const f = ksi.filter;
+          const handCards = isAuto ? [] : playerHand
+            .map((id) => gameState.cards[id])
+            .filter((c): c is NonNullable<typeof c> => {
+              if (c === undefined) return false;
+              if (f.color    !== undefined && c.color !== f.color) return false;
+              if (f.cardType !== undefined && (c.type as string) !== f.cardType) return false;
+              return true;
+            });
+
+          return (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 465,
+              background: 'rgba(0,0,0,0.85)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'auto',
+            }}>
+              <div style={{
+                background: 'rgba(8,20,4,0.97)',
+                border: '1px solid rgba(60,255,100,0.55)',
+                borderRadius: 10,
+                padding: 20,
+                maxWidth: '80vw',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
+                display: 'flex', flexDirection: 'column', gap: 16,
+                animation: 'pending-pulse 1.2s ease-in-out infinite',
+              }}>
+                <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#44ff88', textAlign: 'center', letterSpacing: 1 }}>
+                  "{card?.name ?? ksi.cardId}" serait KO
+                </div>
+                {protector !== undefined && (
+                  <div style={{ fontFamily: 'monospace', fontSize: 12, color: '#aaddaa', textAlign: 'center' }}>
+                    "{protector.name}" peut protéger — {ksi.costLabel}
+                  </div>
+                )}
+                {!isAuto && (
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: `repeat(${Math.min(Math.max(handCards.length, 1), 7)}, 86px)`,
+                    gap: 8,
+                    justifyContent: 'center',
+                  }}>
+                    {handCards.map((c) => {
+                      const templateId = c.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
+                      const imgUrl = templateId !== undefined ? `${IMAGE_BASE}/card-images/${templateId}.png` : null;
+                      return (
+                        <div
+                          key={c.id}
+                          onClick={() => dispatch({ type: 'ResolveKOSubstitute', playerId: ksi.playerId, discardedCardId: c.id })}
+                          style={{
+                            width: 86, height: 120, borderRadius: 4, overflow: 'hidden',
+                            cursor: 'pointer', flexShrink: 0,
+                            border: '1px solid rgba(60,255,100,0.35)',
+                            transition: 'border-color 0.1s',
+                          }}
+                        >
+                          {imgUrl !== null ? (
+                            <img src={imgUrl} alt={c.name} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', background: '#0a2a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4, boxSizing: 'border-box' }}>
+                              <span style={{ color: '#aaa', fontFamily: 'monospace', fontSize: 9, textAlign: 'center' }}>{c.name}</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                  {isAuto && (
+                    <button
+                      onClick={() => dispatch({ type: 'ResolveKOSubstitute', playerId: ksi.playerId, discardedCardId: null, accept: true })}
+                      style={{
+                        padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                        border: '1px solid rgba(60,255,100,0.5)',
+                        borderRadius: 4, cursor: 'pointer',
+                        background: '#0a2a0a', color: '#44ff88', fontWeight: 'bold',
+                      }}
+                    >
+                      Accepter ({ksi.costLabel})
+                    </button>
+                  )}
+                  <button
+                    onClick={() => dispatch({ type: 'ResolveKOSubstitute', playerId: ksi.playerId, discardedCardId: null })}
+                    style={{
+                      padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                      border: '1px solid rgba(255,100,60,0.5)',
+                      borderRadius: 4,
+                      cursor: 'pointer',
+                      background: '#2a0a0a', color: '#ff6644',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Laisser KO
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* ── Search-deck overlay ─────────────────────────────────────────── */}
         {uiState.selectionMode === 'searchDeck' && uiState.searchInteraction !== undefined && (() => {
           const si = uiState.searchInteraction;
@@ -1126,13 +1369,36 @@ export function App() {
           const revealedCards = si.revealedCardIds
             .map((id) => gameState.cards[id])
             .filter((c): c is NonNullable<typeof c> => c !== undefined);
-          const CDN_BASE_: string = (import.meta.env.VITE_CDN_BASE_URL as string | undefined) ?? '';
-          const matchCard = (c: { id: string; type: string; cost: number; name: string }) => {
-            switch (si.filter.kind) {
+          const normalizeFilter = (raw: unknown): { kind: string; cardType?: string; maxCost?: number; name?: string; subType?: string; excludeNames?: readonly string[] } => {
+            if (!raw || typeof raw !== 'object') return { kind: 'Any' };
+            const f = raw as Record<string, unknown>;
+            if (typeof f['kind'] === 'string') return f as ReturnType<typeof normalizeFilter>;
+            if (Object.keys(f).length === 0) return { kind: 'Any' };
+            if (f['type'] === 'ByType' && typeof f['value'] === 'string') return { kind: 'BySubType', subType: f['value'] as string };
+            const stVal = f['subType'] ?? f['trait'] ?? f['typeIncludes'];
+            if (typeof stVal === 'string') return { kind: 'BySubType', subType: stVal, ...(typeof f['cardType'] === 'string' ? { cardType: f['cardType'] } : {}) };
+            if (typeof f['type'] === 'string' && !['Character', 'Event', 'Stage'].includes(f['type'] as string)) {
+              return { kind: 'BySubType', subType: f['type'] as string, ...(typeof f['cardType'] === 'string' ? { cardType: f['cardType'] } : {}) };
+            }
+            if (typeof f['name'] === 'string') return { kind: 'ByName', name: f['name'] };
+            if (typeof f['cardType'] === 'string' && typeof f['maxCost'] === 'number') return { kind: 'ByCost', maxCost: f['maxCost'], cardType: f['cardType'] as string };
+            if (typeof f['cardType'] === 'string') return { kind: 'ByType', cardType: f['cardType'] as string };
+            return { kind: 'Any' };
+          };
+          const nf = normalizeFilter(si.filter);
+          const matchCard = (c: { id: string; type: string; cost: number; name: string; subTypes?: string }) => {
+            switch (nf.kind) {
               case 'Any': return true;
-              case 'ByType': return c.type === si.filter.cardType;
-              case 'ByCost': return c.cost <= si.filter.maxCost;
-              case 'ByName': return c.name === si.filter.name;
+              case 'ByType': return c.type === nf.cardType;
+              case 'ByCost': return nf.maxCost !== undefined && c.cost <= nf.maxCost;
+              case 'ByName': return c.name === nf.name;
+              case 'BySubType': {
+                if (nf.cardType !== undefined && c.type !== nf.cardType) return false;
+                if (c.subTypes === undefined || nf.subType === undefined || !c.subTypes.includes(nf.subType)) return false;
+                if (nf.excludeNames !== undefined && nf.excludeNames.includes(c.name)) return false;
+                return true;
+              }
+              default: return true;
             }
           };
           return (
@@ -1149,9 +1415,12 @@ export function App() {
                 maxWidth: '85vw',
                 boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
                 display: 'flex', flexDirection: 'column', gap: 16,
+                animation: 'pending-pulse 1.2s ease-in-out infinite',
               }}>
                 <div style={{ fontFamily: 'monospace', fontSize: 13, color: '#44ddff', textAlign: 'center', letterSpacing: 1 }}>
-                  Choisissez 1 carte parmi les {revealedCards.length} premières de votre deck (ou passez)
+                  {si.source === 'trash'
+                    ? `Choisissez jusqu'à ${si.maxSelect ?? 1} carte(s) de votre défausse à remettre en bas de deck`
+                    : `Choisissez ${si.maxSelect ?? 1} carte parmi les ${revealedCards.length} premières de votre deck (ou passez)`}
                 </div>
                 <div style={{
                   display: 'grid',
@@ -1160,18 +1429,34 @@ export function App() {
                 }}>
                   {revealedCards.map((card) => {
                     const tplId = card.id.match(/[A-Z]{2,3}\d{2}-\d{3}/)?.[0];
-                    const imgUrl = tplId !== undefined ? `${CDN_BASE_}/card-images/${tplId}.png` : null;
+                    const imgUrl = tplId !== undefined ? `${IMAGE_BASE}/card-images/${tplId}.png` : null;
                     const isValid = matchCard(card as { id: string; type: string; cost: number; name: string });
+                    const isTrashMode = si.source === 'trash';
+                    const selectedIds = si.selectedCardIds ?? [];
+                    const isSelected = isTrashMode && selectedIds.includes(card.id);
+                    const maxSel = si.maxSelect ?? 1;
+                    const canSelect = isValid && (!isTrashMode || isSelected || selectedIds.length < maxSel);
+                    const handleClick = () => {
+                      if (!isValid) return;
+                      if (isTrashMode) {
+                        const next = isSelected
+                          ? selectedIds.filter((x) => x !== card.id)
+                          : selectedIds.length < maxSel ? [...selectedIds, card.id] : selectedIds;
+                        setUiState((prev) => ({ ...prev, searchInteraction: { ...si, selectedCardIds: next } }));
+                      } else {
+                        dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: card.id });
+                      }
+                    };
                     return (
                       <div
                         key={card.id}
-                        onClick={() => isValid && dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: card.id })}
+                        onClick={handleClick}
                         style={{
                           width: 86, height: 120, borderRadius: 4, overflow: 'hidden',
-                          cursor: isValid ? 'pointer' : 'default',
-                          border: isValid ? '2px solid #44ddff' : '1px solid rgba(100,200,255,0.2)',
+                          cursor: canSelect || isSelected ? 'pointer' : 'default',
+                          border: isSelected ? '2px solid #ffdd44' : isValid ? '2px solid #44ddff' : '1px solid rgba(100,200,255,0.2)',
                           opacity: isValid ? 1 : 0.4,
-                          boxShadow: isValid ? '0 0 8px rgba(68,221,255,0.5)' : 'none',
+                          boxShadow: isSelected ? '0 0 12px rgba(255,221,68,0.7)' : isValid ? '0 0 8px rgba(68,221,255,0.5)' : 'none',
                           transition: 'box-shadow 0.1s',
                         }}
                       >
@@ -1186,17 +1471,42 @@ export function App() {
                     );
                   })}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <button
-                    onClick={() => dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: null })}
-                    style={{
-                      padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
-                      border: '1px solid #44ddff', borderRadius: 4,
-                      cursor: 'pointer', background: '#001a24', color: '#44ddff', fontWeight: 'bold',
-                    }}
-                  >
-                    Passer
-                  </button>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                  {si.source === 'trash' ? (
+                    <>
+                      <button
+                        onClick={() => dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: null, chosenCardIds: [] })}
+                        style={{
+                          padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                          border: '1px solid #888', borderRadius: 4,
+                          cursor: 'pointer', background: '#0a0a14', color: '#888', fontWeight: 'bold',
+                        }}
+                      >
+                        Passer
+                      </button>
+                      <button
+                        onClick={() => dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: null, chosenCardIds: si.selectedCardIds ?? [] })}
+                        style={{
+                          padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                          border: '1px solid #44ddff', borderRadius: 4,
+                          cursor: 'pointer', background: '#001a24', color: '#44ddff', fontWeight: 'bold',
+                        }}
+                      >
+                        Confirmer ({(si.selectedCardIds ?? []).length}/{si.maxSelect ?? 1})
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => dispatch({ type: 'ResolveSearchInteraction', playerId: humanId, chosenCardId: null })}
+                      style={{
+                        padding: '6px 20px', fontFamily: 'monospace', fontSize: 12,
+                        border: '1px solid #44ddff', borderRadius: 4,
+                        cursor: 'pointer', background: '#001a24', color: '#44ddff', fontWeight: 'bold',
+                      }}
+                    >
+                      Passer
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

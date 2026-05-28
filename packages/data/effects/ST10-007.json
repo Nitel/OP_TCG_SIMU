@@ -2,25 +2,18 @@
   "id": "ST10-007",
   "effects": [
     {
-      "trigger": "Trigger",
-      "conditions": [
-        {
-          "type": "DuringYourTurn"
-        }
-      ],
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "filters": {
-              "isRested": true,
-              "maxCost": 3
-            },
-            "maxCount": 1
+            "maxCost": 3
           }
         }
-      ]
+      ],
+      "_NOTE": "partial: 'rested characters only' filter not supported in engine"
     }
   ]
 }

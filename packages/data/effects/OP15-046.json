@@ -1,17 +1,22 @@
 {
   "id": "OP15-046",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "Dressrosa"
-  },
-  "actions": [
+  "keywords": ["Blocker"],
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "count": 1,
-      "filter": {
-        "cardType": "Event",
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
         "subType": "Dressrosa"
-      }
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Event",
+            "subType": "Dressrosa"
+          }
+        }
+      ]
     }
   ]
 }

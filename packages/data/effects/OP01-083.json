@@ -6,6 +6,26 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Baroque Works"
+      },
+      "actions": [
+        {
+          "type": "ProportionalPowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 1000,
+          "per": "EventsInTrash",
+          "divisor": 2,
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

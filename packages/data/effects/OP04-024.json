@@ -16,18 +16,14 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "triggerSource": "Opponent",
-      "triggerCondition": "HasCardType",
-      "triggerConditionParams": {
-        "cardType": "Character"
-      },
-      "duration": "EndOfOpponentTurn",
+      "oncePerTurn": true,
       "conditions": [
         {
           "type": "LeaderHasType",
-          "value": "Donquixote Pirates"
+          "subType": "Donquixote Pirates"
         }
       ],
+      "duration": "EndOfOpponentTurn",
       "actions": [
         {
           "type": "Rest",
@@ -42,7 +38,12 @@
             "scope": "Self"
           }
         }
-      ]
+      ],
+      "triggerSource": "Opponent",
+      "triggerCondition": "HasCardType",
+      "triggerConditionParams": {
+        "cardType": "Character"
+      }
     }
   ]
 }

@@ -1,28 +1,32 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "HasPower",
-        "value": 5000,
-        "comparison": "GreaterThanOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "KO",
-        "target": "OpponentCharacter",
-        "count": 1,
-        "filter": {
-          "basePower": 3000,
-          "comparison": "LessThanOrEqual"
+  "id": "OP14-002",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasPower",
+          "value": 5000,
+          "comparison": "GreaterThanOrEqual"
         }
-      }
-    ]
-  },
-  "id": "OP14-002"
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1,
+          "filter": {
+            "basePower": 3000,
+            "comparison": "LessThanOrEqual"
+          }
+        }
+      ]
+    }
+  ]
 }

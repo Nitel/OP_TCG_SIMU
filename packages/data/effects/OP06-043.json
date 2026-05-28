@@ -1,37 +1,43 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "kind": "Any"
-        },
-        "thenActions": [
-          {
-            "type": "PlayFromHand",
-            "filter": {
-              "kind": "Character",
-              "maxCost": 2
-            },
-            "zone": "DeckBottom",
-            "thenActions": [
-              {
-                "type": "PowerBoost",
-                "amount": 3000,
-                "target": {
-                  "scope": "Self"
-                },
-                "duration": "EndOfTurn"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-043"
+  "id": "OP06-043",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "thenActions": [
+            {
+              "type": "PlayFromHand",
+              "filter": {
+                "kind": "ByType",
+                "maxCost": 2
+              },
+              "zone": "DeckBottom",
+              "thenActions": [
+                {
+                  "type": "PowerBoost",
+                  "amount": 3000,
+                  "target": {
+                    "scope": "Self"
+                  },
+                  "duration": "EndOfTurn"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1,
-        "target": {
-          "scope": "OwnCharacters"
-        },
-        "duration": "Permanent"
+  "id": "ST14-001",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1,
+          "target": {
+            "scope": "AllOwnCharacters"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "Permanent"
+        }
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "minCost": 8
       }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "Permanent"
-      }
-    ],
-    "condition": {
-      "type": "HasCardOnBoard",
-      "name": "Character",
-      "minCost": 8
     }
-  },
-  "id": "ST14-001"
+  ]
 }

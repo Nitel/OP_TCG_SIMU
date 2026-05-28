@@ -1,18 +1,21 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "East Blue"
-    },
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "target": {
-          "scope": "OpponentCharacter"
+  "id": "OP15-028",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "East Blue"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP15-028"
+      ]
+    }
+  ]
 }

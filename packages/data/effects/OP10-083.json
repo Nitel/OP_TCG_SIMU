@@ -1,38 +1,40 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "type": "Dressrosa"
-      }
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP10-083",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Dressrosa"
         }
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseCard",
-          "filter": {
-            "type": "Dressrosa"
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
           }
-        }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "OptionalChooseOpponentCharacter",
-          "count": 1
         },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP10-083"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "type": "Dressrosa"
+            }
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

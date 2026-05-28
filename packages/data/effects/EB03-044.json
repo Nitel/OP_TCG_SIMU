@@ -1,45 +1,50 @@
 {
-  "0": {
-    "trigger": "Always",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "types": [
-        "multicolored"
-      ]
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByName",
-          "name": "Onigashima Island"
-        },
-        "destination": "hand",
-        "limit": 1,
-        "deckLookCount": 5
+  "id": "EB03-044",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "multicolored"
+        ]
       },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "ByName",
-          "name": "Onigashima Island"
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "name": "Onigashima Island"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "count": 1
         },
-        "limit": 1
-      }
-    ]
-  },
-  "id": "EB03-044"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByName",
+            "name": "Onigashima Island"
+          },
+          "limit": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,27 +1,36 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "KO",
-        "target": "DamagedCard"
-      }
-    ],
-    "description": "[Banish] - Target card is trashed without activating its Trigger"
-  },
-  "1": {
-    "trigger": "Activated",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "target": "OwnCharacter"
-      }
-    ],
-    "duration": "DuringYourTurn",
-    "description": "[Activate: Main] Set up to 1 of your DON!! cards as active. Then, you cannot set DON!! cards as active using Character effects during this turn."
-  },
-  "id": "OP10-030"
+  "id": "OP10-030",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "description": "[Banish] - Target card is trashed without activating its Trigger"
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "DuringYourTurn",
+      "description": "[Activate: Main] Set up to 1 of your DON!! cards as active. Then, you cannot set DON!! cards as active using Character effects during this turn."
+    }
+  ],
+  "keywords": [
+    "Banish"
+  ]
 }

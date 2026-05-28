@@ -6,6 +6,16 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PreventRefresh",
+          "target": { "scope": "ChooseOpponentCharacter", "maxCost": 3, "maxCount": 1 }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

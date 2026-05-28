@@ -15,5 +15,24 @@
         "maxCount": 1
       }
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasRestedCharacters",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          }
+        }
+      ],
+      "_NOTE": "partial: DON\\!\\! target not yet supported; only Characters with cost≤6 can be rested"
+    }
   ]
 }

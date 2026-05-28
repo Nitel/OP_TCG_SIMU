@@ -1,36 +1,37 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "cardType": "type",
-          "name": "Revolutionary Army"
-        },
-        "count": 3,
-        "optional": true,
-        "destination": "BottomOfDeck"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Revolutionary Army"
+  "id": "OP12-094",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "name": "Revolutionary Army"
+          },
+          "count": 3,
+          "optional": true,
+          "destination": "BottomOfDeck"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "PlayFromTrash",
-        "filter": {
-          "cardType": "Character",
-          "maxCost": 6
-        },
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP12-094"
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Revolutionary Army"
+      },
+      "actions": [
+        {
+          "type": "PlayFromTrash",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 6
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

@@ -4,7 +4,7 @@
   "effects": [
     {
       "trigger": "Activated",
-      "limit": 1,
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "ForceDiscard",
@@ -22,11 +22,13 @@
                 "type": "LeaderHasType",
                 "value": "Big Mom Pirates"
               },
-              "duration": "DuringYourTurn"
+              "duration": "DuringYourTurn",
+              "destination": "hand"
             }
           ]
         }
-      ]
+      ],
+      "limit": 1
     }
   ]
 }

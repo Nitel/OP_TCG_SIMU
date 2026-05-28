@@ -12,22 +12,27 @@
       "actions": [
         {
           "type": "TrashFromHand",
-          "count": 1,
           "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "Rest",
-          "target": {
-            "scope": "Self"
-          }
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "Self"
+              }
+            },
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "BySubType",
+                "subType": "GERMA"
+              },
+              "destination": "hand",
+              "lookCount": 3,
+              "count": 1,
+              "restTo": "bottom"
+            }
+          ]
         }
       ]
     }

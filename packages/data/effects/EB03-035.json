@@ -1,21 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "comparison": "LessThanOrEqual",
-      "targetDon": "opponent"
-    },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "source": "DonDeck"
+  "id": "EB03-035",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "targetDon": "opponent"
       },
-      {
-        "type": "Rest"
-      }
-    ]
-  },
-  "id": "EB03-035"
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "source": "DonDeck"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

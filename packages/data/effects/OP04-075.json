@@ -1,25 +1,29 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 6000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "count": 1
+  "id": "OP04-075",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 6000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "rest": true,
-        "condition": "LifeCount",
-        "conditionValue": 2,
-        "conditionOperator": "<="
-      }
-    ]
-  },
-  "id": "OP04-075"
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "rest": true,
+          "condition": {
+            "type": "LifeCount"
+          },
+          "conditionValue": 2,
+          "conditionOperator": "<="
+        }
+      ]
+    }
+  ]
 }

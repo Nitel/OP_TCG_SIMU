@@ -1,39 +1,40 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 1,
-        "filter": {
-          "cardType": "DON"
+  "id": "OP14-063",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {},
+          "destination": "hand"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "setActive": true
         }
-      },
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "setActive": true
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 6,
-      "target": "Opponent"
+      ]
     },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "count": 1,
-        "filter": {
-          "subType": "Donquixote Pirates",
-          "cardType": "Character",
-          "maxCost": 5
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 6,
+        "target": "Opponent"
+      },
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Donquixote Pirates",
+            "cardType": "Character",
+            "maxCost": 5
+          }
         }
-      }
-    ]
-  },
-  "id": "OP14-063"
+      ]
+    }
+  ]
 }

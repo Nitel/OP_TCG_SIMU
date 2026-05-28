@@ -9,6 +9,7 @@
   "effects": [
     {
       "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always"
       },
@@ -23,7 +24,8 @@
       ]
     },
     {
-      "trigger": "Activated",
+      "trigger": "EndOfTurn",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "GiveKeyword",

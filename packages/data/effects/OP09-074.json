@@ -1,22 +1,19 @@
 {
-  "0": {
-    "trigger": "Triggered",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": "YourLeaderOrCharacter",
-        "amount": 1000,
-        "count": 1
-      }
-    ],
-    "duration": "DuringYourTurn",
-    "limitOnce": true,
-    "limitScope": "Turn"
-  },
-  "id": "OP09-074"
+  "id": "OP09-074",
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 1000,
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

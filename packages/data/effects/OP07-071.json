@@ -1,43 +1,51 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "duration": "EndOfOpponentTurn",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Foxy Pirates"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "OpponentCharacters"
-        },
-        "value": -1000
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "activation": {
-      "phase": "Main",
-      "limit": "OncePerTurn"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "cardType": "DON",
-        "count": 1
+  "id": "OP07-071",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Foxy Pirates"
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "AllOpponentCharacters"
+          },
+          "amount": -1000,
+          "duration": "EndOfBattle"
         }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "cardType": "DON",
+          "count": 1,
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "activation": {
+        "phase": "Main",
+        "limit": "OncePerTurn"
       }
-    ]
-  },
-  "id": "OP07-071"
+    }
+  ]
 }

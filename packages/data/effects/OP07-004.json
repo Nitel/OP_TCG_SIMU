@@ -1,31 +1,34 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "quantity": 1,
-        "filter": {
-          "excludeSelf": true
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "SearchDeck",
-            "quantity": 5,
-            "maxQuantity": 1,
-            "filter": {
-              "kind": "ByType",
-              "cardType": "Character",
-              "maxPower": 2000
-            },
-            "destination": "hand",
-            "reveal": true
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP07-004"
+  "id": "OP07-004",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "quantity": 1,
+          "filter": {
+            "excludeSelf": true
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "SearchDeck",
+              "filter": {
+                "kind": "ByType",
+                "cardType": "Character",
+                "maxPower": 2000
+              },
+              "destination": "hand",
+              "count": 1,
+              "lookCount": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

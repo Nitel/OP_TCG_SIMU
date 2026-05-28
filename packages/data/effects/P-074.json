@@ -1,18 +1,26 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": "Self"
-      },
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "arrangement": "TopOrBottom"
-      }
-    ]
-  },
-  "id": "P-074"
+  "id": "P-074",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "arrangement": "TopOrBottom",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand",
+          "lookCount": 5
+        }
+      ]
+    }
+  ]
 }

@@ -1,24 +1,12 @@
 {
   "id": "OP06-081",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "optional": true,
-      "condition": {
-        "type": "TrashCount",
-        "minCount": 2
-      },
-      "details": "Return 2 cards from trash to bottom of deck",
-      "thenActions": [
-        {
-          "type": "KO",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 2
-          },
-          "maxTargets": 1
-        }
+      "trigger": "OnPlay",
+      "condition": { "type": "TrashCount", "minCount": 2 },
+      "actions": [
+        { "type": "RecoverTrashToDeck", "count": 2 },
+        { "type": "KO", "target": { "scope": "ChooseOpponentCharacter", "maxCost": 2 }, "maxTargets": 1 }
       ]
     }
   ]

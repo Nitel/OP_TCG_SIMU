@@ -3,26 +3,27 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "conditions": [
-        {
-          "type": "RevealFromHand",
-          "amount": 2,
-          "cardFilter": {
-            "hasType": "Whitebeard Pirates"
-          },
-          "isOptional": true
-        }
-      ],
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "OwnLeader",
-            "hasType": "Whitebeard Pirates",
-            "amount": 1
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Whitebeard Pirates"
           },
-          "duration": "DuringYourTurn"
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     }

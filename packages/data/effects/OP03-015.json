@@ -1,17 +1,22 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "ChooseOpponentLeaderOrCharacter",
-          "maxTargets": 1
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP03-015"
+  "id": "OP03-015",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "maxTargets": 1
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

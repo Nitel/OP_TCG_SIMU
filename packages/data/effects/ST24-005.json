@@ -22,5 +22,27 @@
       },
       "duration": "EndOfTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Supernovas"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          }
+        },
+        {
+          "type": "ActivateDon",
+          "count": 1
+        }
+      ]
+    }
   ]
 }

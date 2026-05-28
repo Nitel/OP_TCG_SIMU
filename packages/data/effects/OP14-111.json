@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 6
-        },
-        "duration": "UntilEndOfOpponentNextEndPhase"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 6
-        },
-        "duration": "UntilEndOfOpponentNextEndPhase"
-      }
-    ]
-  },
-  "id": "OP14-111"
+  "id": "OP14-111",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

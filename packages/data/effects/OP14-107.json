@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "OpponentLifeCount",
-      "value": 3,
-      "comparison": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
+  "id": "OP14-107",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "comparison": "LessOrEqual"
       },
-      {
-        "type": "ForceDiscard",
-        "count": 2,
-        "filter": {
-          "source": "Hand"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "filter": {
+            "source": "Hand"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP14-107"
+      ]
+    }
+  ]
 }

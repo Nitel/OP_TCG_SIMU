@@ -1,26 +1,33 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "value": {
-          "basePower": "≤7000"
+  "id": "OP15-090",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": {
+            "basePower": "≤7000"
+          }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "target": "OwnHand",
-        "count": 1
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeRemoved"
-      }
-    ],
-    "duration": "EndOfOpponentTurn"
-  },
-  "id": "OP15-090"
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemoved",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "EndOfOpponentTurn"
+    }
+  ]
 }

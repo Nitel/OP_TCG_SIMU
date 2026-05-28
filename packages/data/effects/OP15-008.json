@@ -1,57 +1,60 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": {
-          "type": "UpTo",
-          "value": 3
-        },
-        "filter": {
-          "scope": "Opponent",
-          "status": "Resting"
-        },
-        "target": {
-          "scope": "OpponentCharacter",
-          "count": 1
-        }
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "PlayedThisTurn",
-      "target": {
-        "scope": "Self"
-      }
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "value": -1000,
-        "multiplier": {
-          "type": "DonAttachedCount",
+  "id": "OP15-008",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": {
+            "type": "UpTo",
+            "value": 3
+          },
+          "filter": {
+            "scope": "Opponent",
+            "status": "Resting"
+          },
           "target": {
-            "scope": "OpponentCharacter"
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
           }
         },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "PlayedThisTurn",
         "target": {
-          "scope": "OpponentCharacter",
-          "count": "All"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP15-008"
+          "scope": "Self"
+        }
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "multiplier": {
+            "type": "DonAttachedCount",
+            "target": {
+              "scope": "OpponentCharacter"
+            }
+          },
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": "All"
+          },
+          "duration": "DuringYourTurn",
+          "amount": -1000
+        }
+      ]
+    }
+  ]
 }

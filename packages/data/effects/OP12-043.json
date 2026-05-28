@@ -1,41 +1,48 @@
 {
-  "0": {
-    "trigger": "Passive",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "count": 5,
-        "comparison": "GreaterThanOrEqual",
-        "scope": "OwnHand"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "maxTargets": 1,
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "GiveKeyword",
-            "keyword": "CannotAttack",
-            "target": {
-              "scope": "ChooseOpponentCharacter",
-              "maxTargets": 1
-            },
-            "duration": "UntilEndOfOpponentNextEndPhase"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP12-043"
+  "id": "OP12-043",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "count": 5,
+          "comparison": "GreaterThanOrEqual",
+          "scope": "OwnHand"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "maxTargets": 1,
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "GiveKeyword",
+              "keyword": "CannotAttack",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxTargets": 1
+              },
+              "duration": "EndOfOpponentTurn"
+            }
+          ],
+          "filter": {}
+        }
+      ]
+    }
+  ]
 }

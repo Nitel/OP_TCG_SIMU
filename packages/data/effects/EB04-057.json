@@ -1,48 +1,50 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "cardProperty": "hasType",
-      "value": "Scientist",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeRemovedByOpponentEffects",
-        "target": {
-          "scope": "AllCharactersControlled",
-          "filter": {
-            "types": [
-              "Scientist"
-            ],
-            "colors": [
-              "Yellow"
-            ]
+  "id": "EB04-057",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardProperty": "hasType",
+        "value": "Scientist",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects",
+          "target": {
+            "scope": "AllOwnCharactersAndLeader",
+            "filter": {
+              "types": [
+                "Scientist"
+              ],
+              "colors": [
+                "Yellow"
+              ]
+            }
+          },
+          "duration": "Permanent",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "cardProperty": "lifeCards",
+            "max": 2
           }
-        },
-        "duration": "Permanent",
-        "condition": {
-          "type": "HasCardOnBoard",
-          "cardProperty": "lifeCards",
-          "max": 2
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "EB04-057"
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

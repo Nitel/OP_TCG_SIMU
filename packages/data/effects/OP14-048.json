@@ -1,22 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "OpponentCharacter",
+  "id": "OP14-048",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self",
+            "count": -1
+          },
           "count": 1
         }
-      },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "OwnHand",
-          "count": -1
-        }
-      }
-    ]
-  },
-  "id": "OP14-048"
+      ]
+    }
+  ]
 }

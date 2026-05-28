@@ -6,20 +6,16 @@
       "actions": [
         {
           "type": "SearchDeck",
+          "source": "trash",
           "count": 2,
-          "filter": {
-            "type": "CP"
-          },
-          "source": "Trash",
-          "placement": "BottomOfDeck",
+          "filter": { "kind": "BySubType", "subType": "CP" },
+          "destination": "bottomOfDeck",
           "optional": true,
           "thenActions": [
             {
               "type": "GiveKeyword",
               "keyword": "Rush",
-              "target": {
-                "scope": "Self"
-              },
+              "target": { "scope": "Self" },
               "duration": "DuringYourTurn"
             }
           ]

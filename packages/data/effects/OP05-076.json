@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 3,
-        "filter": {
-          "kind": "HasAnyType",
-          "types": [
-            "Straw Hat Crew",
-            "Kid Pirates",
-            "Heart Pirates"
-          ]
-        },
-        "destination": "hand",
-        "maxReveal": 1
-      }
-    ]
-  },
-  "id": "OP05-076"
+  "id": "OP05-076",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "kind": "BySubType",
+            "types": [
+              "Straw Hat Crew",
+              "Kid Pirates",
+              "Heart Pirates"
+            ]
+          },
+          "destination": "hand",
+          "lookCount": 3
+        }
+      ]
+    }
+  ]
 }

@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "maxCount": 1
+  "id": "OP05-095",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "DuringBattle"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1,
-          "maxCost": 4
-        },
-        "condition": {
-          "type": "TrashCount",
-          "comparison": ">=",
-          "value": 15
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxCost": 4
+          },
+          "condition": {
+            "type": "TrashCount",
+            "comparison": ">=",
+            "value": 15
+          }
         }
-      }
-    ]
-  },
-  "id": "OP05-095"
+      ]
+    }
+  ]
 }

@@ -5,7 +5,23 @@
   "power": 2000,
   "color": "Red",
   "cardType": "Character",
-  "keywords": [],
-  "effects": [],
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "DisableBlocker",
+          "target": {
+            "scope": "AllOpponentCharacters",
+            "maxPower": 2000
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

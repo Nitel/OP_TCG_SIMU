@@ -6,6 +6,15 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": { "type": "HasRestedCharacters", "count": 2 },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeKOdByEffect", "target": { "scope": "AllOwnCharacters", "subType": "ODYSSEY" }, "duration": "EndOfOpponentTurn" },
+        { "type": "GiveKeyword", "keyword": "CannotBeKOdByEffect", "target": { "scope": "AllOwnCharacters", "subType": "Straw Hat Crew" }, "duration": "EndOfOpponentTurn" }
+      ]
+    }
+  ],
   "counter": 1000
 }

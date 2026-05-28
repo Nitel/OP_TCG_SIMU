@@ -1,29 +1,33 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "LeaderHasAnyType",
-        "value": "CP"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP03-098",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "LeaderHasAnyType",
+          "subTypes": [
+            "CP"
+          ]
         }
-      },
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "OpponentCharacter",
-          "count": 1
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "value": -2,
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP03-098"
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn",
+          "amount": -2
+        }
+      ]
+    }
+  ]
 }

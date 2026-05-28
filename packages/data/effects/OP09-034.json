@@ -1,33 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "optional": true,
-        "filter": {
-          "kind": "ByTypeOrName",
-          "typeOrName": [
-            "Dracule Mihawk",
-            "Thriller Bark Pirates"
-          ]
+  "id": "OP09-034",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "kind": "ByType",
+            "typeOrName": [
+              "Dracule Mihawk",
+              "Thriller Bark Pirates"
+            ]
+          },
+          "destination": "hand",
+          "lookCount": 5
         },
-        "destination": "hand",
-        "maxReveal": 1
-      },
-      {
-        "type": "OrderDeckBottom",
-        "count": "remaining"
-      },
-      {
-        "type": "ForceDiscard",
-        "filter": {
-          "kind": "Any"
+        {
+          "type": "OrderDeckBottom",
+          "count": "remaining"
         },
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP09-034"
+        {
+          "type": "ForceDiscard",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

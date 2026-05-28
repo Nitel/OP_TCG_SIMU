@@ -1,28 +1,30 @@
 {
   "id": "OP05-001",
-  "trigger": "OnAttacked",
-  "condition": {
-    "type": "And",
-    "conditions": [
-      {
-        "type": "HasRestingDon",
-        "count": 1
-      },
-      {
-        "type": "HasPowerThreshold",
-        "power": 5000,
-        "comparison": "GreaterOrEqual"
-      }
-    ]
-  },
-  "actions": [
+  "name": "Sabo",
+  "cost": 0,
+  "power": 5000,
+  "color": "Green",
+  "cardType": "Leader",
+  "keywords": [],
+  "effects": [
     {
-      "type": "PowerBoost",
-      "amount": -1000,
-      "target": {
-        "scope": "Self"
+      "trigger": "OnWouldBeKOByEffect",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "HasAttachedDon", "count": 1 },
+          { "type": "HasPowerThreshold", "power": 5000, "comparison": "GreaterOrEqual" }
+        ]
       },
-      "duration": "EndOfOpponentTurn"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": { "scope": "Self" },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
     }
   ]
 }

@@ -6,6 +6,26 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnOpponentPlaysEvent",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "destination": "bottomOfDeck"
+        }
+      ],
+      "constraints": [
+        {
+          "type": "OncePerTurn"
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

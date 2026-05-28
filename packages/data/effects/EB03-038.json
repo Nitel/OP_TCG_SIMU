@@ -1,31 +1,32 @@
 {
   "id": "EB03-038",
-  "trigger": "Activated",
-  "conditions": [
+  "effects": [
     {
-      "type": "HasCardOnBoard",
-      "scope": "OpponentField",
-      "cardType": "Don"
-    },
-    {
-      "type": "LeaderHasAnyType",
-      "value": "GERMA"
-    }
-  ],
-  "actions": [
-    {
-      "type": "Rest",
-      "target": {
-        "scope": "OwnDon"
+      "trigger": "Activated",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "DonCountVsOpponent", "operator": "LessOrEqual" },
+          { "type": "OnlyTypeOnBoard", "subType": "GERMA" }
+        ]
       },
-      "amount": 1
+      "actions": [
+        { "type": "RestDon", "count": 1 },
+        { "type": "AddDon", "count": 2, "active": false }
+      ],
+      "_TODO": "Timing approximation: RestDon is cost (always paid), condition should be checked after cost payment"
     },
     {
-      "type": "AddLife",
-      "amount": 2,
-      "target": {
-        "scope": "OwnDon"
-      }
+      "trigger": "Counter",
+      "condition": { "type": "Always" },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": { "scope": "OwnLeader" },
+          "duration": "EndOfBattle"
+        }
+      ]
     }
   ]
 }

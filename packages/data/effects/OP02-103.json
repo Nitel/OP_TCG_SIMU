@@ -11,5 +11,22 @@
       },
       "duration": "DuringYourTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "cost": {
+        "don": 1
+      },
+      "actions": [
+        {
+          "type": "GiveTemporaryCostModifier",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "amount": -2
+        }
+      ]
+    }
   ]
 }

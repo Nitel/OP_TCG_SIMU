@@ -4,12 +4,13 @@
   "effects": [
     {
       "trigger": "EndOfTurn",
-      "duration": "EndOfTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "HasCardOnBoard",
         "cardType": "Donquixote Pirates",
         "power": 6000
       },
+      "duration": "EndOfTurn",
       "actions": [
         {
           "type": "AttachDon",
@@ -19,18 +20,21 @@
       ]
     },
     {
-      "trigger": "Activated",
-      "duration": "EndOfOpponentTurn",
+      "trigger": "Permanent",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always",
         "once": "PerTurn"
       },
+      "duration": "EndOfOpponentTurn",
       "actions": [
         {
           "type": "SearchDeck",
           "cardType": "DON!!",
           "count": 1,
-          "action": "AttachDon"
+          "action": "AttachDon",
+          "filter": {},
+          "destination": "hand"
         }
       ]
     }

@@ -1,20 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "comparison": "LessThanOrEqual",
-      "targetPlayer": "opponent"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "filter": {
-          "type": "Foxy"
-        },
-        "maxTargets": 1
-      }
-    ]
-  },
-  "id": "OP07-078"
+  "id": "OP07-078",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "targetPlayer": "opponent"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "filter": {
+            "type": "Foxy"
+          },
+          "maxTargets": 1,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

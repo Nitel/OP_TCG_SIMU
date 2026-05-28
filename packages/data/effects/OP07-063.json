@@ -16,5 +16,25 @@
         "maxCount": 1
       }
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Foxy Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
   ]
 }

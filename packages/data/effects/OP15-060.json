@@ -1,49 +1,52 @@
 {
-  "0": {
-    "trigger": "Permanent",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 6,
-      "comparison": "<="
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeRemovedByOpponentEffects",
-        "target": {
-          "scope": "Self"
-        }
+  "id": "OP15-060",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 6,
+        "comparison": "<="
       },
-      {
-        "type": "PowerBoost",
-        "power": 2000,
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "duration": "EndOfOpponentTurn"
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 2000,
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
       },
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {}
-      }
-    ]
-  },
-  "id": "OP15-060"
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {}
+        }
+      ]
+    }
+  ]
 }

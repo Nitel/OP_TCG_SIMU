@@ -1,32 +1,37 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "source": "trash",
-        "filter": {
-          "color": "Black",
-          "cardType": "Character",
-          "minCost": 3,
-          "maxCost": 7,
-          "excludeNames": [
-            "Rebecca"
-          ]
+  "id": "OP05-091",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "source": "trash",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "minCost": 3,
+            "maxCost": 7,
+            "excludeNames": [
+              "Rebecca"
+            ]
+          },
+          "quantity": "upTo1"
         },
-        "quantity": "upTo1"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "color": "Black",
-          "cardType": "Character",
-          "maxCost": 3
-        },
-        "quantity": "upTo1",
-        "rested": true
-      }
-    ]
-  },
-  "id": "OP05-091"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "color": "Black",
+            "cardType": "Character",
+            "maxCost": 3
+          },
+          "quantity": "upTo1",
+          "rested": true
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "maxCount": 1
+  "id": "OP05-020",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 2000,
-          "maxCount": 1
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 2000,
+            "maxCount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP05-020"
+      ]
+    }
+  ]
 }

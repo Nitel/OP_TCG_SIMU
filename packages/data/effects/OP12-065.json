@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "Always",
-    "condition": {
-      "type": "TrashCount",
-      "operator": ">=",
-      "value": 4,
-      "cardType": "Event"
+  "id": "OP12-065",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "TrashCount",
+        "operator": ">=",
+        "value": 4,
+        "cardType": "Event"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "Self"
+          },
+          "keyword": "Blocker",
+          "duration": "Permanent"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "target": {
-          "scope": "Self"
-        },
-        "keyword": "Blocker",
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "Trash",
-          "cardType": "Event"
-        },
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP12-065"
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self",
+            "cardType": "Event"
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

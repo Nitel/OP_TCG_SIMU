@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 3,
-        "filter": {
-          "kind": "Character",
-          "type": "RevolutionaryArmy",
-          "maxPower": 5000
+  "id": "OP06-003",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "RevolutionaryArmy",
+            "maxPower": 5000
+          },
+          "destination": "hand",
+          "reveal": true,
+          "lookCount": 3
         },
-        "destination": "hand",
-        "reveal": true
-      },
-      {
-        "type": "PlayFromHand",
-        "count": 1,
-        "filter": {
-          "kind": "Character",
-          "type": "RevolutionaryArmy",
-          "maxPower": 5000
+        {
+          "type": "PlayFromHand",
+          "count": 1,
+          "filter": {
+            "kind": "BySubType",
+            "subType": "RevolutionaryArmy",
+            "maxPower": 5000
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "destination": "deckBottom",
+          "inAnyOrder": true
         }
-      },
-      {
-        "type": "ReturnToHand",
-        "destination": "deckBottom",
-        "inAnyOrder": true
-      }
-    ]
-  },
-  "id": "OP06-003"
+      ]
+    }
+  ]
 }

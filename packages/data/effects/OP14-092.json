@@ -1,21 +1,14 @@
 {
   "id": "OP14-092",
-  "trigger": "Counter",
-  "duration": "EndOfOpponentTurn",
-  "condition": {
-    "type": "Always"
-  },
-  "frequency": "OncePerTurn",
-  "actions": [
+  "keywords": [],
+  "effects": [
     {
-      "type": "PlayFromHand",
-      "filter": {
-        "kind": "Trash",
-        "quantity": 3
-      },
-      "destination": "deck",
-      "position": "bottom",
-      "optional": true
+      "trigger": "OnWouldBeKOByEffect",
+      "oncePerTurn": true,
+      "actions": [
+        { "type": "RecoverTrashToDeck", "count": 3 }
+      ]
     }
-  ]
+  ],
+  "counter": 1000
 }

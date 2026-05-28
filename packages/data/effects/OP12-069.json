@@ -4,10 +4,11 @@
   "effectText": "[On Your Opponent's Attack] [Once Per Turn] DON!! −1: If your Leader's type includes \"Baroque Works\", up to 1 of your Leader or Character cards gains +2000 power during this battle.",
   "effects": [
     {
-      "trigger": "OnAttack",
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasType",
-        "value": "Baroque Works"
+        "subType": "Baroque Works"
       },
       "actions": [
         {

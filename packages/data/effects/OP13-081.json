@@ -29,14 +29,20 @@
   "effects": [
     {
       "trigger": "OnPlay",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasType",
-        "value": "Revolutionary Army"
+        "subType": "Revolutionary Army"
       },
       "actions": [
         {
           "type": "PowerBoost",
-          "count": 3
+          "count": 3,
+          "amount": 0,
+          "duration": "Permanent",
+          "target": {
+            "scope": "Self"
+          }
         }
       ]
     }

@@ -1,20 +1,19 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": "Always",
-    "effects": [
-      {
-        "condition": "Always",
-        "actions": [
-          {
-            "type": "GiveKeyword",
-            "keyword": "Blocker",
-            "duration": "Permanent",
-            "conditionCheck": "HandCount<=5"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP06-054"
+  "id": "OP06-054",
+  "effects": [
+    {
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent",
+          "conditionCheck": "HandCount<=5"
+        }
+      ],
+      "trigger": "Trigger"
+    }
+  ]
 }

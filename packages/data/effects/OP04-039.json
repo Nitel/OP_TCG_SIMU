@@ -1,42 +1,31 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "All",
-      "conditions": [
+  "id": "OP04-039",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
         {
-          "type": "HasAttachedDon",
-          "count": 1
+          "type": "DrawCard",
+          "count": 2,
+          "source": "deck",
+          "reveal": true
         },
         {
-          "type": "CardCount",
-          "location": "hand",
-          "comparison": "LessOrEqual",
-          "value": 6
+          "type": "RevealFromHand",
+          "count": 1,
+          "filter": {
+            "subType": "Dressrosa"
+          },
+          "destination": "hand",
+          "thenActions": []
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "revealed",
+          "count": -1
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2,
-        "source": "deck",
-        "reveal": true
-      },
-      {
-        "type": "RevealFromHand",
-        "count": 1,
-        "filter": {
-          "subType": "Dressrosa"
-        },
-        "destination": "hand"
-      },
-      {
-        "type": "ForceDiscard",
-        "source": "revealed",
-        "count": -1
-      }
-    ]
-  },
-  "id": "OP04-039"
+    }
+  ]
 }

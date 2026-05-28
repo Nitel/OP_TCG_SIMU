@@ -24,7 +24,6 @@
           "Revolutionary Army"
         ]
       },
-      "maxResults": 1,
       "destination": "hand",
       "revealBeforeAdding": true,
       "lookAhead": 3,
@@ -34,6 +33,30 @@
           "target": "remaining",
           "destination": "bottomOfDeck",
           "allowReorder": true
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand",
+          "lookCount": 3
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
         }
       ]
     }

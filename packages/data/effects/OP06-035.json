@@ -1,20 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacterOrDon",
-          "count": 2,
-          "upTo": true
+  "id": "OP06-035",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 2,
+            "upTo": true
+          }
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
         }
-      },
-      {
-        "type": "FlipLife",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP06-035"
+      ]
+    }
+  ],
+  "keywords": [
+    "Rush"
+  ]
 }

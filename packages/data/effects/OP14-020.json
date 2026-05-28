@@ -1,52 +1,51 @@
 {
-  "0": {
-    "trigger": "Always",
-    "condition": {
-      "type": "LeaderHasType",
-      "opponentLeader": true,
-      "attribute": "Slash"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "Self"
-        },
-        "value": 1000
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "phase": "Main",
-    "limitPerTurn": 1,
-    "cost": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter"
+  "id": "OP14-020",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 1000,
+          "duration": "Permanent"
         }
-      }
-    ],
-    "condition": {
-      "type": "HasCardOnBoard",
-      "cardType": "Character",
-      "minCost": 5
+      ]
     },
-    "actions": [
-      {
-        "type": "ActivateDon",
-        "count": 3,
-        "target": {
-          "scope": "OwnDonCards"
-        }
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasCardOnBoard",
+        "cardType": "Character",
+        "minCost": 5
       },
-      {
-        "type": "AddRestriction",
-        "restriction": "CannotPlayCharacters",
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP14-020"
+      "cost": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
+        }
+      ],
+      "phase": "Main",
+      "limitPerTurn": 1,
+      "actions": [
+        {
+          "type": "ActivateDon",
+          "count": 3,
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "AddRestriction",
+          "restriction": "CannotPlayCharacters",
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

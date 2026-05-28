@@ -1,42 +1,49 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "RevealFromHand",
-        "count": 1,
-        "source": "DeckTop"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "Character",
-          "maxCost": 2
+  "id": "ST12-010",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "count": 1,
+          "source": "DeckTop",
+          "thenActions": []
         },
-        "destination": "board",
-        "optional": true
-      },
-      {
-        "type": "SearchDeck",
-        "destination": "DeckTopOrBottom"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttack",
-    "frequency": "OncePerTurn",
-    "conditions": [
-      {
-        "type": "HandCount",
-        "maxCards": 6
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ]
-  },
-  "id": "ST12-010"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "maxCost": 2
+          },
+          "destination": "board",
+          "optional": true
+        },
+        {
+          "type": "SearchDeck",
+          "destination": "DeckTopOrBottom",
+          "filter": {
+            "kind": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "HandCount",
+          "maxCards": 6
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ],
+      "frequency": "OncePerTurn"
+    }
+  ]
 }

@@ -1,33 +1,37 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "hasType": "Baroque Works"
+  "id": "OP14-079",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "hasType": "Baroque Works"
+            }
           }
-        }
-      },
-      {
-        "type": "PowerBoost",
-        "amount": -10,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "count": 1
         },
-        "duration": "DuringThisTurn"
-      },
-      {
-        "type": "TrashFromDeck",
-        "count": 2
-      }
-    ]
-  },
-  "id": "OP14-079"
+        {
+          "type": "PowerBoost",
+          "amount": -10,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "thenActions": []
+        }
+      ]
+    }
+  ]
 }

@@ -1,25 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 7,
-        "comparison": "GreaterThanOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "value": 1000,
-        "targets": [
-          "YourLeaderCards",
-          "YourCharacterCards"
-        ],
-        "cardTypeFilter": "ODYSSEY",
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "EB03-037"
+  "id": "EB03-037",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 7,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "targets": [
+            "YourLeaderCards",
+            "YourCharacterCards"
+          ],
+          "cardTypeFilter": "ODYSSEY",
+          "duration": "EndOfOpponentTurn",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "amount": 1000
+        }
+      ]
+    }
+  ]
 }

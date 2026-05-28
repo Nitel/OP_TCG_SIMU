@@ -9,16 +9,25 @@
   "effects": [
     {
       "trigger": "OnPlay",
+      "cost": {
+        "type": "GiveDon",
+        "amount": -1
+      },
       "actions": [
         {
           "type": "SearchDeck",
+          "mode": "LookAtTop",
           "filter": {
-            "kind": "Any"
+            "type": "ByType",
+            "value": "Foxy Pirates"
           },
-          "destination": "hand"
+          "destination": "hand",
+          "lookCount": 1,
+          "restTo": "bottom"
         },
         {
           "type": "PlayFromHand",
+          "maxPlay": 1,
           "filter": {
             "color": "Purple",
             "cardType": "Character",

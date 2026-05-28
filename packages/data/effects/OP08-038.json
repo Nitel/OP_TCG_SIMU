@@ -1,30 +1,32 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasRestingDon",
-        "value": 2
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "count": 2
+  "id": "OP08-038",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "value": 2
         }
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Protection",
-        "target": {
-          "scope": "OwnCharacter"
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 2
+          }
         },
-        "duration": "EndOfOpponentTurn",
-        "durationValue": 2
-      }
-    ]
-  },
-  "id": "OP08-038"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Protection",
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfOpponentTurn",
+          "durationValue": 2
+        }
+      ]
+    }
+  ]
 }

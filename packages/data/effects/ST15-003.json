@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "conditions": [
-      {
-        "type": "DuringOpponentTurn"
-      },
-      {
-        "type": "ByEffect"
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "OwnLeaderUpTo1"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "ST15-003"
+  "id": "ST15-003",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "conditions": [
+        {
+          "type": "ByEffect"
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

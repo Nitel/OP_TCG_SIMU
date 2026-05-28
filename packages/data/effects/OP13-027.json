@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 2
-      }
-    ]
-  },
-  "1": {
-    "trigger": "EndOfTurn",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "types": [
-        "FILM",
-        "Straw Hat Crew"
+  "id": "OP13-027",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2
+        }
       ]
     },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP13-027"
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "FILM",
+          "Straw Hat Crew"
+        ]
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

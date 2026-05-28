@@ -25,5 +25,32 @@
         "count": 1
       }
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "GiveTemporaryCostModifier",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "amount": -4
+        },
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "thenActions": []
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Dressrosa"
+          }
+        }
+      ]
+    }
   ]
 }

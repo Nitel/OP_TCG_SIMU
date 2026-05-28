@@ -1,26 +1,34 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "YourDressrosaLeaderOrStage",
-        "optional": true
-      },
-      {
-        "type": "ReturnToHand",
-        "target": "YourDressrosaCharacterCost4Plus",
-        "count": 1,
-        "optional": true
-      },
-      {
-        "type": "ReturnToHand",
-        "target": "OpponentCharacterCost4Less",
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP10-056"
+  "id": "OP10-056",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1,
+          "optional": true
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1,
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

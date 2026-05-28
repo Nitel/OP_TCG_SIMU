@@ -1,42 +1,69 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": "YourCharacters",
-        "filter": {
-          "type": "Dressrosa",
-          "costThreshold": 2
-        },
-        "boost": 1
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "1": {
-    "trigger": "OnKO|Counter",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "type": "Dressrosa"
-      }
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "condition": {
-          "type": "TrashCount",
-          "operator": "<=",
-          "value": 5
+  "id": "OP10-042",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "filter": {
+            "type": "Dressrosa",
+            "costThreshold": 2
+          },
+          "amount": 1,
+          "duration": "EndOfBattle"
         }
-      }
-    ],
-    "duration": "EndOfOpponentTurn"
-  },
-  "id": "OP10-042"
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Dressrosa"
+        }
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "operator": "<=",
+            "value": 5
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Dressrosa"
+        }
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "TrashCount",
+            "operator": "<=",
+            "value": 5
+          }
+        }
+      ]
+    }
+  ]
 }

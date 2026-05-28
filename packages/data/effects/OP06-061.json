@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "comparison": "LessThanOrEqual",
-      "scope": "Self",
-      "opponent": true
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -2000,
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCount": 1
-        },
-        "duration": "DuringYourTurn"
+  "id": "OP06-061",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "LessThanOrEqual",
+        "scope": "Self",
+        "opponent": true
       },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -2000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP06-061"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

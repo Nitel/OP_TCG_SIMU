@@ -1,35 +1,33 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "typeValue": "Thriller Bark Pirates"
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "ByCardType",
-          "cardType": "Character",
-          "maxCost": 4
-        },
-        "source": "trash",
-        "count": 1,
-        "optional": true,
-        "restState": "rested"
-      },
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "optional": true,
-        "filter": {
+  "id": "PRB02-013",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByType",
+            "cardType": "Character",
+            "maxCost": 4
+          },
+          "source": "trash",
+          "count": 1,
+          "optional": true,
           "restState": "rested"
         },
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "optional": true,
+          "filter": {
+            "restState": "rested"
+          },
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          }
         }
-      }
-    ]
-  },
-  "id": "PRB02-013"
+      ]
+    }
+  ]
 }

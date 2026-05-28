@@ -2,17 +2,20 @@
   "id": "OP10-036",
   "effects": [
     {
-      "trigger": "Activated",
-      "duration": "DuringYourTurn",
+      "trigger": "YourTurn",
+      "oncePerTurn": true,
       "conditions": [
         {
           "type": "HasRestingDon"
         }
       ],
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "GiveDon",
-          "target": "YourDonCards",
+          "target": {
+            "scope": "Self"
+          },
           "count": 1,
           "state": "active"
         }

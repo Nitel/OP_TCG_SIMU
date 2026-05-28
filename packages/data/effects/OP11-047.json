@@ -1,23 +1,26 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "The Vinsmoke Family"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "HasType",
-          "value": "GERMA"
-        },
-        "limit": 1,
-        "destination": "hand",
-        "peek": 5,
-        "trashRest": true
-      }
-    ]
-  },
-  "id": "OP11-047"
+  "id": "OP11-047",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "The Vinsmoke Family"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "GERMA"
+          },
+          "destination": "hand",
+          "peek": 5,
+          "trashRest": true,
+          "count": 1,
+          "lookCount": 5
+        }
+      ]
+    }
+  ]
 }

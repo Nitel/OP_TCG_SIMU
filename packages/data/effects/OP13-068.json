@@ -1,36 +1,42 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "HasAttachedDon",
-      "value": 8
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "value": 2000
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Roger Pirates"
-    },
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1
+  "id": "OP13-068",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "HasAttachedDon",
+        "value": 8
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "LastAdded"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "amount": 2000,
+          "duration": "EndOfBattle"
         }
-      }
-    ]
-  },
-  "id": "OP13-068"
+      ],
+      "duration": "Permanent"
+    },
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Roger Pirates"
+      },
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

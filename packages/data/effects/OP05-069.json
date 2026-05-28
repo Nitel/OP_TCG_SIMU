@@ -1,27 +1,30 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasAttachedDon",
-      "comparison": "OpponentHasMore"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "value": "Heart Pirates"
-        },
-        "limit": 1,
-        "destination": "hand",
-        "reveal": true
+  "id": "OP05-069",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasAttachedDon",
+        "comparison": "OpponentHasMore"
       },
-      {
-        "type": "ArrangeDeck",
-        "position": "bottom",
-        "count": 4
-      }
-    ]
-  },
-  "id": "OP05-069"
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Heart Pirates"
+          },
+          "destination": "hand",
+          "reveal": true,
+          "count": 1,
+          "lookCount": 5
+        },
+        {
+          "type": "ArrangeDeck",
+          "position": "bottom",
+          "count": 4
+        }
+      ]
+    }
+  ]
 }

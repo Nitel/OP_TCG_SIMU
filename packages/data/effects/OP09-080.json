@@ -1,24 +1,28 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "duration": "EndOfOpponentTurn",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Straw Hat Crew"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "source": "deck"
-      },
-      {
-        "type": "Rest",
-        "target": "addedDon"
-      }
-    ]
-  },
-  "id": "OP09-080"
+  "id": "OP09-080",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "duration": "EndOfOpponentTurn",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Straw Hat Crew"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "source": "deck"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

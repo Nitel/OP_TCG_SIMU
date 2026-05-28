@@ -4,7 +4,6 @@
   "actions": [
     {
       "type": "SearchDeck",
-      "lookAtCount": 5,
       "filter": {
         "kind": "And",
         "conditions": [
@@ -24,13 +23,28 @@
         ]
       },
       "maxSelect": 1,
-      "destination": "hand"
+      "destination": "hand",
+      "lookCount": 5
     },
     {
       "type": "ReturnToHand",
       "source": "searchRemainder",
       "destination": "deckBottom",
       "order": "any"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 5
+        }
+      ]
     }
   ]
 }

@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "names": [
-        "Kotori",
-        "Satori"
+  "id": "OP15-072",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "names": [
+          "Kotori",
+          "Satori"
+        ]
+      },
+      "cost": {
+        "don": 2,
+        "restSelf": true
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -3000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "amount": 1
+          },
+          "duration": "DuringYourTurn"
+        }
       ]
-    },
-    "cost": {
-      "don": 2,
-      "restSelf": true
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -3000,
-        "target": {
-          "scope": "ChooseOpponentCharacterOptional",
-          "amount": 1
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP15-072"
+    }
+  ]
 }

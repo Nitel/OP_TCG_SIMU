@@ -1,33 +1,39 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "condition": {
-      "type": "HandCount",
-      "value": 6,
-      "comparison": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "filter": {
-          "type": [
-            "Fish-Man",
-            "Merfolk"
-          ]
-        },
-        "maxTargets": 1,
-        "target": "YourCharacters"
+  "id": "OP11-021",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HandCount",
+        "value": 6,
+        "comparison": "LessOrEqual"
       },
-      {
-        "type": "Rest",
-        "filter": {
-          "kind": "DON"
+      "actions": [
+        {
+          "type": "Rest",
+          "filter": {
+            "type": [
+              "Fish-Man",
+              "Merfolk"
+            ]
+          },
+          "maxTargets": 1,
+          "target": {
+            "scope": "Self"
+          }
         },
-        "maxTargets": 1,
-        "target": "YourBoard"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP11-021"
+        {
+          "type": "Rest",
+          "filter": {
+            "kind": "Any"
+          },
+          "maxTargets": 1,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

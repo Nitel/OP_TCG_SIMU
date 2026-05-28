@@ -174,6 +174,14 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
   // Handle pending search interaction — bot auto-picks first matching revealed card
   if (state.pendingSearchInteraction !== null && state.pendingSearchInteraction.playerId === botId) {
     const pending = state.pendingSearchInteraction;
+
+    // Trash-return path: pick up to maxSelect cards from matching trash cards
+    if (pending.source === 'trash') {
+      const maxSel = pending.maxSelect ?? 1;
+      const toReturn = pending.revealedCardIds.slice(0, maxSel) as unknown as readonly CardId[];
+      return { type: 'ResolveSearchInteraction', playerId: botId, chosenCardId: null, chosenCardIds: toReturn };
+    }
+
     const f = pending.filter;
     const chosen = pending.revealedCardIds.find((id) => {
       const c = state.cards[id];
@@ -183,6 +191,12 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
         case 'ByType': return c.type === f.cardType;
         case 'ByCost': return c.cost <= f.maxCost;
         case 'ByName': return c.name === f.name;
+        case 'BySubType': {
+          if (f.cardType !== undefined && c.type !== f.cardType) return false;
+          if (c.subTypes === undefined || !c.subTypes.includes(f.subType)) return false;
+          if (f.excludeNames !== undefined && f.excludeNames.includes(c.name)) return false;
+          return true;
+        }
       }
     }) ?? null;
     return { type: 'ResolveSearchInteraction', playerId: botId, chosenCardId: chosen };
@@ -205,12 +219,21 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
         if (f.subType !== undefined && c.subTypes !== undefined && !c.subTypes.includes(f.subType)) return false;
         return true;
       });
-    // Greedy: trash all valid cards to maximise any perTrashedCard power boost
-    return { type: 'ResolveTrashInteraction', playerId: botId, trashedCardIds: validCards.map((c) => c.id) };
+    if (pending.optional === true && validCards.length === 0) {
+      return { type: 'ResolveTrashInteraction', playerId: botId, trashedCardIds: [] };
+    }
+    // Greedy: trash up to pending.count cards to maximise any perTrashedCard power boost
+    const maxCount = pending.count ?? validCards.length;
+    const toTrash = validCards.slice(0, maxCount);
+    return { type: 'ResolveTrashInteraction', playerId: botId, trashedCardIds: toTrash.map((c) => c.id) };
   }
 
   if (state.pendingRevealInteraction !== null && state.pendingRevealInteraction.playerId === botId) {
     const pending = state.pendingRevealInteraction;
+    // Deck-sourced reveal: filter is absent, bot just acknowledges with the pre-revealed IDs.
+    if (pending.filter === undefined) {
+      return { type: 'ResolveRevealInteraction', playerId: botId, revealedCardIds: pending.revealedCardIds ?? [] };
+    }
     const player = state.players[botId];
     const f = pending.filter;
     const validCards = (player?.hand ?? [])
@@ -282,6 +305,46 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
     return { type: 'DeclareAttack', playerId: botId, attackerId: forced.attackerCardId, targetId };
   }
 
+  // Handle pending KO substitute — bot auto-refuses (lets the KO happen)
+  if (state.pendingKOSubstituteInteraction !== null && state.pendingKOSubstituteInteraction.playerId === botId) {
+    return { type: 'ResolveKOSubstitute', playerId: botId, discardedCardId: null };
+  }
+
+  // Handle pending ChooseOne — bot always picks choice 0 (first option)
+  if (state.pendingChoiceInteraction !== null && state.pendingChoiceInteraction.playerId === botId) {
+    return { type: 'ResolveChoiceInteraction', playerId: botId, choiceIndex: 0 };
+  }
+
+  // Handle pending life interaction — bot resolves simply
+  if (state.pendingLifeInteraction != null && state.pendingLifeInteraction.playerId === botId) {
+    const li = state.pendingLifeInteraction;
+    if (li.mode === 'LookOnly') {
+      return { type: 'ResolveLifeInteraction', playerId: botId };
+    }
+    if (li.mode === 'Rearrange') {
+      // Keep the same order (no rearrangement)
+      return { type: 'ResolveLifeInteraction', playerId: botId, newOrder: li.lifeCards };
+    }
+    if (li.mode === 'MoveOne') {
+      // Move the first life card to the bottom
+      const cardId = li.lifeCards[0];
+      if (cardId !== undefined) {
+        return { type: 'ResolveLifeInteraction', playerId: botId, cardId, destination: 'bottom' };
+      }
+      return { type: 'ResolveLifeInteraction', playerId: botId };
+    }
+    if (li.mode === 'OpponentChoice') {
+      // Pick choice index 0
+      return { type: 'ResolveLifeInteraction', playerId: botId, choiceIndex: 0 };
+    }
+    return { type: 'ResolveLifeInteraction', playerId: botId };
+  }
+
+  // Handle pending RestSubstitute — bot accepts to prevent the rest
+  if (state.pendingRestSubstituteInteraction !== null && state.pendingRestSubstituteInteraction.playerId === botId) {
+    return { type: 'ResolveRestSubstituteInteraction', playerId: botId, accept: true };
+  }
+
   // Handle pending OnKO interaction — bot picks the strongest valid card or skips
   if (state.pendingOnKOInteraction !== null && state.pendingOnKOInteraction.playerId === botId) {
     const pending = state.pendingOnKOInteraction;
@@ -315,6 +378,10 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
         state.pendingTrashInteraction,
         state.pendingSearchInteraction,
         state.pendingForceDiscardInteraction,
+        state.pendingKOSubstituteInteraction,
+        state.pendingChoiceInteraction,
+        state.pendingRestSubstituteInteraction,
+        state.pendingLifeInteraction ?? null,
       ].some((p) => p !== null && p.playerId !== botId);
       if (humanHasPending) return null;
       return decideCombatDefense(state, botId);
@@ -332,6 +399,10 @@ export function greedyBotDecide(state: GameState, botId: PlayerId): GameAction |
     state.pendingTrashInteraction,
     state.pendingSearchInteraction,
     state.pendingForceDiscardInteraction,
+    state.pendingKOSubstituteInteraction,
+    state.pendingChoiceInteraction,
+    state.pendingRestSubstituteInteraction,
+    state.pendingLifeInteraction ?? null,
   ].some((p) => p !== null && p.playerId !== botId);
   if (humanHasAnyPending) return null;
 

@@ -8,6 +8,15 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnWouldBeKOByEffect",
+      "oncePerTurn": true,
+      "protects": { "scope": "AllOwnCharacters", "subType": "Supernovas" },
+      "actions": [
+        { "type": "AddToLife" }
+      ]
+    }
+  ],
   "counter": 1000
 }

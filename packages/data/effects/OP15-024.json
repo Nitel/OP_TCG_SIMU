@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "Permanent",
-    "duration": "EndOfOpponentTurn",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
+  "id": "OP15-024",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ],
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacterOrLeader",
-          "maxCost": 7
-        },
-        "maxCount": 1
-      }
-    ]
-  },
-  "id": "OP15-024"
+      ],
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader",
+            "maxCost": 7
+          },
+          "maxCount": 1
+        }
+      ]
+    }
+  ]
 }

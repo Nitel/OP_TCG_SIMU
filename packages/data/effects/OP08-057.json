@@ -20,17 +20,18 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "TrashCount",
+        "operator": "<=",
+        "value": 5
+      },
       "actions": [
         {
           "type": "DrawCard",
           "count": 1
         }
-      ],
-      "condition": {
-        "type": "TrashCount",
-        "operator": "<=",
-        "value": 5
-      }
+      ]
     }
   ]
 }

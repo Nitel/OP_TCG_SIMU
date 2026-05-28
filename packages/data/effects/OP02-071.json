@@ -6,5 +6,20 @@
   "color": "Purple",
   "cardType": "Leader",
   "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

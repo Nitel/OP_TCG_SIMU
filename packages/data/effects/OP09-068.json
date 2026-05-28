@@ -1,38 +1,40 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "Field",
-          "filter": {
-            "type": "HasKeyword",
-            "keyword": "DON!!"
-          }
-        },
-        "amount": "1+",
-        "optional": true
+  "id": "OP09-068",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "Self",
+            "filter": {
+              "type": "HasKeyword",
+              "keyword": "DON!!"
+            }
+          },
+          "amount": "1+",
+          "optional": true
         },
-        "setActive": true
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "setActive": true
         },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP09-068"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

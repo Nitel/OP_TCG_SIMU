@@ -9,6 +9,11 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "DrawCard",
@@ -22,11 +27,7 @@
           },
           "duration": "EndOfTurn"
         }
-      ],
-      "condition": {
-        "type": "HasAttachedDon",
-        "count": 1
-      }
+      ]
     }
   ]
 }

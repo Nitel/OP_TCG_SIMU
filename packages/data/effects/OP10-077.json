@@ -1,26 +1,31 @@
 {
-  "0": {
-    "trigger": "OnBlock",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "count": 2
-      }
-    ],
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": -2
-      },
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "DON"
+  "id": "OP10-077",
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": -2
         },
-        "count": 1,
-        "destination": "active"
-      }
-    ]
-  },
-  "id": "OP10-077"
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1,
+          "destination": "active"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

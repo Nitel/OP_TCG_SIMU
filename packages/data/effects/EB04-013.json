@@ -6,5 +6,23 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Minks"
+      },
+      "actions": [
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 2,
+            "subType": "Minks"
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -1,39 +1,44 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LeaderIsName",
-      "value": "Roronoa Zoro"
-    },
-    "cost": {
-      "restCharacters": 1,
-      "restDon": 1
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "filter": {
-          "kind": "Or",
-          "conditions": [
-            {
-              "attribute": "Slash"
-            },
-            {
-              "type": "Event",
-              "color": "green"
-            }
-          ]
-        },
-        "revealCount": 1,
-        "destination": "hand"
+  "id": "OP12-028",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LeaderIsName",
+        "value": "Roronoa Zoro"
       },
-      {
-        "type": "PlaceDecksBottom",
-        "source": "SearchedCards",
-        "orderBy": "any"
-      }
-    ]
-  },
-  "id": "OP12-028"
+      "cost": {
+        "restCharacters": 1,
+        "restDon": 1
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "conditions": [
+              {
+                "attribute": "Slash"
+              },
+              {
+                "type": "Event",
+                "color": "green"
+              }
+            ]
+          },
+          "revealCount": 1,
+          "destination": "hand",
+          "lookCount": 5
+        },
+        {
+          "type": "PlaceAtBottomOfDeck",
+          "target": {
+            "scope": "Self"
+          },
+          "source": "SearchedCards",
+          "orderBy": "any"
+        }
+      ]
+    }
+  ]
 }

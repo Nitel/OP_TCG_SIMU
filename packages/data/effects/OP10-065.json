@@ -1,34 +1,40 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "count": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "self"
-      },
-      {
-        "type": "Rest",
-        "target": "DON",
-        "count": 1
-      },
-      {
-        "type": "SearchDeck",
-        "count": 5,
-        "maxReveal": 1,
-        "filter": {
-          "kind": "ByType",
-          "type": "Donquixote Pirates"
+  "id": "OP10-065",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "destination": "hand",
-        "remainderDestination": "deckBottom"
-      }
-    ]
-  },
-  "id": "OP10-065"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Donquixote Pirates"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "restTo": "bottom"
+        }
+      ]
+    }
+  ]
 }

@@ -1,39 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "typeList": [
-        "Red-Haired Pirates"
+  "id": "ST23-002",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
       ]
     },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "UntilEndOfOpponentNextEndPhase"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Uta"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "UntilEndOfOpponentNextEndPhase"
-      }
-    ]
-  },
-  "id": "ST23-002"
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Uta"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

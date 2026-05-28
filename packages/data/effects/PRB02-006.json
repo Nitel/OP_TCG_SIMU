@@ -8,6 +8,14 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnWouldBeRestedByEffect",
+      "actions": [
+        { "type": "Rest", "target": { "scope": "Self" } }
+      ],
+      "_NOTE": "partial: substitute cost is Rest Self instead of the original cost (may differ from actual card text)"
+    }
+  ],
   "counter": 2000
 }

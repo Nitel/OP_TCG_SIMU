@@ -1,45 +1,44 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 10
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "filter": {
-          "kind": "Character",
-          "excludeSelf": true
-        },
-        "destination": "DeckBottom"
+  "id": "OP05-119",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 10
       },
-      {
-        "type": "Trigger",
-        "effect": "ExtraTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "kind": "ByType",
+            "excludeSelf": true
+          },
+          "destination": "DeckBottom"
+        }
+      ]
     },
-    "activation": {
-      "cost": "➀",
-      "frequency": "OncePerTurn",
-      "zone": "Main"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "DON",
-          "maxAmount": 1
-        },
-        "destination": "Active"
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any",
+            "maxAmount": 1
+          },
+          "destination": "Active"
+        }
+      ],
+      "activation": {
+        "cost": "➀",
+        "frequency": "OncePerTurn",
+        "zone": "Main"
       }
-    ]
-  },
-  "id": "OP05-119"
+    }
+  ]
 }

@@ -1,24 +1,26 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "limit": 1
+  "id": "OP04-035",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "limit": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "limit": 1
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "limit": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP04-035"
+      ]
+    }
+  ]
 }

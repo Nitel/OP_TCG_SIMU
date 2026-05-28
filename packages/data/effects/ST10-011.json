@@ -6,6 +6,21 @@
   "color": "Purple",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

@@ -1,24 +1,28 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "don": 1
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "self"
+  "id": "OP03-058",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "don": 1
       },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "type": "Character",
-          "subType": "Galley-La Company",
-          "maxCost": 5
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "amount": 1
-      }
-    ]
-  },
-  "id": "OP03-058"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "type": "Character",
+            "subType": "Galley-La Company",
+            "maxCost": 5
+          },
+          "amount": 1
+        }
+      ]
+    }
+  ]
 }

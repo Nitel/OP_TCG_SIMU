@@ -1,36 +1,37 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 1,
-        "filter": {
-          "cardType": "DON"
+  "id": "OP04-064",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {},
+          "destination": "hand"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "LastSearched"
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 6
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "count": 6
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP04-064"
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

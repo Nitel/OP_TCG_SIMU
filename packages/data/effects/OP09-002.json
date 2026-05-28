@@ -8,9 +8,27 @@
       "filter": {
         "cardType": "Red-Haired Pirates"
       },
-      "maxResults": 1,
       "destination": "hand",
-      "remainingCards": "BottomDeckAnyOrder"
+      "remainingCards": "BottomDeckAnyOrder",
+      "count": 1
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand",
+          "lookCount": 5
+        }
+      ]
     }
   ]
 }

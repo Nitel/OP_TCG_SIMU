@@ -1,27 +1,17 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "And",
-      "conditions": [
+  "id": "ST14-006",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "HandCount",
-          "comparison": "LessOrEqual",
-          "value": 6
-        },
-        {
-          "type": "HasCardOnBoard",
-          "cardType": "Character",
-          "minCost": 8
+          "type": "DrawCard",
+          "count": 1
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      }
-    ]
-  },
-  "id": "ST14-006"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

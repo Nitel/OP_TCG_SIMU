@@ -1,21 +1,12 @@
 {
   "id": "OP06-090",
-  "trigger": "Activated",
-  "cost": {
-    "type": "ReturnToHand",
-    "zone": "Trash",
-    "count": 2,
-    "destination": "DeckBottom"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "ReturnToHand",
-      "zone": "Trash",
-      "filter": {
-        "subType": "Thriller Bark Pirates",
-        "excludeName": "Dr. Hogback"
-      },
-      "count": 1
+      "trigger": "Activated",
+      "actions": [
+        { "type": "RecoverTrashToDeck", "count": 2 },
+        { "type": "SearchTrash", "filter": { "subType": "Thriller Bark Pirates" }, "count": 1 }
+      ]
     }
   ]
 }

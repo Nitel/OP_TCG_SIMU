@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "coverage-report": "vitest run --reporter=dot --silent && node --loader ts-node/esm tests/coverageReport.ts"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^1.6.0",

@@ -1,36 +1,14 @@
 {
   "id": "OP11-082",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderHasType",
-    "value": "Navy"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "TrashFromHand",
-      "count": 1,
-      "filter": {
-        "self": true
-      }
-    },
-    {
-      "type": "GiveKeyword",
-      "keyword": "CanAttackActiveCharacters",
-      "count": 1,
-      "target": {
-        "scope": "ChooseOwnCharacter",
-        "filter": {
-          "type": "Navy"
-        }
-      },
-      "duration": "DuringYourTurn"
-    },
-    {
-      "type": "TrashFromHand",
-      "count": 2,
-      "filter": {
-        "fromTop": true
-      }
+      "trigger": "Activated",
+      "condition": { "type": "LeaderHasType", "subType": "Navy" },
+      "actions": [
+        { "type": "TrashSelf" },
+        { "type": "GiveKeyword", "keyword": "CanAttackActive", "target": { "scope": "ChooseOwnCharacter" }, "duration": "DuringYourTurn" },
+        { "type": "TrashFromDeck", "count": 2, "thenActions": [] }
+      ]
     }
   ]
 }

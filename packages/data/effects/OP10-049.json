@@ -6,6 +6,14 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnWouldBeKOByEffect",
+      "protects": { "scope": "AllOwnCharacters" },
+      "actions": [
+        { "type": "ReturnToHand", "target": { "scope": "Self" } }
+      ]
+    }
+  ],
   "counter": 2000
 }

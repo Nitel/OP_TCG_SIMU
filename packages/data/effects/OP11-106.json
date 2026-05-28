@@ -1,23 +1,26 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "target": {
-          "scope": "YourLifeCards",
+  "id": "OP11-106",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "target": {
+            "scope": "Self",
+            "count": 1
+          },
           "count": 1
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5,
+            "count": 1
+          }
         }
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 5,
-          "count": 1
-        }
-      }
-    ]
-  },
-  "id": "OP11-106"
+      ]
+    }
+  ]
 }

@@ -6,6 +6,22 @@
   "color": "Black",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CanAttackActive",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "subType": "Dressrosa"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "_NOTE": "partial: CanAttackActive keyword granted but not enforced in combat engine"
+    }
+  ],
   "counter": 2000
 }

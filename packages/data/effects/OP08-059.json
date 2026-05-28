@@ -1,34 +1,25 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "activationType": "Main",
-    "condition": {
-      "type": "All",
-      "conditions": [
+  "id": "OP08-059",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "activationType": "Main",
+      "actions": [
         {
-          "type": "LeaderHasType",
-          "value": "Animal Kingdom Pirates"
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          }
         },
         {
-          "type": "HasAttachedDon",
-          "value": 10
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "King",
+            "maxCost": 7
+          },
+          "count": "UpTo1"
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "Trash",
-        "target": "Self"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "King",
-          "maxCost": 7
-        },
-        "count": "UpTo1"
-      }
-    ]
-  },
-  "id": "OP08-059"
+    }
+  ]
 }

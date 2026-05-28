@@ -24,5 +24,39 @@
         "maxValue": 2
       }
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
   ]
 }

@@ -13,17 +13,21 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "ByType",
+            "types": [
+              "Egghead"
+            ],
+            "excludeCards": [
+              "Lilith"
+            ]
           },
-          "destination": "hand"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "PlaySelf"
+          "destination": "hand",
+          "quantity": {
+            "min": 0,
+            "max": 1
+          },
+          "lookCount": 5,
+          "restTo": "bottom"
         }
       ]
     }

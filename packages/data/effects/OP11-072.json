@@ -1,33 +1,36 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP11-072",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "Opponent",
-          "zone": "Trash"
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "zone": "Trash"
+          },
+          "count": 2,
+          "destination": "DeckBottom"
         },
-        "count": 2,
-        "destination": "DeckBottom"
-      },
-      {
-        "type": "FlipLife",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP11-072"
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

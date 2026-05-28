@@ -22,5 +22,31 @@
         "cardType": "DON"
       }
     }
+  ],
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ActivateDon",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
+        }
+      ]
+    }
   ]
 }

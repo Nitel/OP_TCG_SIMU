@@ -8,6 +8,24 @@
   "keywords": [
     "DoubleAttack"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "subType": "Mountain Bandits",
+        "excludeSelf": true
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

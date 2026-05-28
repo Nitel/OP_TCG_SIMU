@@ -1,41 +1,47 @@
 {
-  "0": {
-    "trigger": "DuringOpponentTurn",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": "YourCharactersWithType",
-        "types": [
-          "Navy",
-          "Punk Hazard"
-        ],
-        "power": 1000
-      }
-    ],
-    "duration": "EndOfOpponentTurn"
-  },
-  "1": {
-    "trigger": "Activated",
-    "cost": "MainPhase",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "power": {
-          "min": 7000
+  "id": "OP10-001",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "types": [
+            "Navy",
+            "Punk Hazard"
+          ],
+          "amount": 1000,
+          "duration": "EndOfBattle"
         }
-      }
+      ]
     },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 2,
-        "upTo": true
-      }
-    ],
-    "onceTurn": true
-  },
-  "id": "OP10-001"
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "power": {
+            "min": 7000
+          }
+        }
+      },
+      "cost": "MainPhase",
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "upTo": true
+        }
+      ],
+      "onceTurn": true
+    }
+  ]
 }

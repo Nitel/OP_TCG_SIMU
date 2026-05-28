@@ -19,5 +19,23 @@
       "optional": true,
       "quantity": 1
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "destination": "bottomOfDeck",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 2
+          }
+        }
+      ]
+    }
   ]
 }

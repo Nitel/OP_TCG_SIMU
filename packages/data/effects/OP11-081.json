@@ -7,11 +7,14 @@
         {
           "type": "RevealFromHand",
           "source": "OpponentDeck",
-          "count": 1
+          "count": 1,
+          "thenActions": []
         },
         {
           "type": "KO",
-          "target": "OpponentCharacter",
+          "target": {
+            "scope": "Self"
+          },
           "conditions": [
             {
               "type": "Always"

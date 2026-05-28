@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 4,
-        "filter": {
-          "kind": "Character",
-          "types": [
-            "Supernovas",
-            "Straw Hat Crew"
-          ]
-        },
-        "reveal": true,
-        "revealCount": 1,
-        "destination": "hand"
-      }
-    ]
-  },
-  "id": "OP14-019"
+  "id": "OP14-019",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "types": [
+              "Supernovas",
+              "Straw Hat Crew"
+            ]
+          },
+          "reveal": true,
+          "revealCount": 1,
+          "destination": "hand",
+          "lookCount": 4
+        }
+      ]
+    }
+  ]
 }

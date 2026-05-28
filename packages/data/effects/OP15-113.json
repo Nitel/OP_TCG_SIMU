@@ -5,16 +5,16 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "ForceDiscard",
-          "filter": {
-            "zone": "Hand"
-          },
+          "type": "TrashFromHand",
           "count": 1,
+          "filter": {},
           "optional": true,
           "thenActions": [
             {
-              "type": "FlipLife",
-              "count": 1
+              "type": "SearchDeck",
+              "count": 1,
+              "filter": {},
+              "destination": "TopOfLife"
             }
           ]
         }

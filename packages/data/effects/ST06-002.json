@@ -17,5 +17,26 @@
         }
       }
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
+        }
+      ]
+    }
   ]
 }

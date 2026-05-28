@@ -15,16 +15,17 @@
   "id": "OP02-121",
   "effects": [
     {
-      "trigger": "StartOfTurn",
-      "duration": "DuringYourTurn",
+      "trigger": "YourTurn",
       "conditions": [],
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "PowerBoost",
           "target": {
             "scope": "AllOpponentCharacters"
           },
-          "amount": -5
+          "amount": -5,
+          "duration": "DuringYourTurn"
         }
       ]
     }

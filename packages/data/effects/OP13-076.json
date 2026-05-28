@@ -1,44 +1,46 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "cost": {
-      "type": "RestDon",
-      "count": 5
+  "id": "OP13-076",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "cost": {
+        "type": "RestDon",
+        "count": 5
+      },
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -8000,
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
     },
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -8000,
-        "target": {
-          "scope": "ChooseOpponentCharacterOptional",
-          "count": 1
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Counter",
-    "cost": {
-      "type": "TrashFromHand",
-      "count": 1,
-      "filter": {}
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeaderOptional",
-          "count": 1
-        },
-        "duration": "DuringBattle"
-      }
-    ]
-  },
-  "id": "OP13-076"
+    {
+      "trigger": "Counter",
+      "cost": {
+        "type": "TrashFromHand",
+        "count": 1,
+        "filter": {}
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

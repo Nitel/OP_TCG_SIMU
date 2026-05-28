@@ -5,17 +5,19 @@
   "power": 3000,
   "color": "Red",
   "cardType": "Character",
-  "keywords": [],
+  "keywords": [
+    "Blocker"
+  ],
   "effects": [
     {
       "trigger": "OnPlay",
-      "_TODO_minPower": "ChooseOwnCharacter missing minPower filter — official text requires ≥6000 power; add minPower to TargetSelector when implemented",
       "actions": [
         {
           "type": "SuppressBlockerForAttacker",
           "target": {
             "scope": "ChooseOwnCharacter",
-            "subType": "Straw Hat Crew"
+            "subType": "Straw Hat Crew",
+            "minPower": 6000
           }
         }
       ]

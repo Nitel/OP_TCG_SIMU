@@ -5,7 +5,7 @@
       "trigger": "Trigger",
       "condition": {
         "type": "LeaderHasType",
-        "value": "multicolored"
+        "subType": "multicolored"
       },
       "actions": [
         {
@@ -14,7 +14,9 @@
         },
         {
           "type": "ReturnToHand",
-          "target": "Character",
+          "target": {
+            "scope": "Self"
+          },
           "maxCost": 5,
           "maxCount": 1
         }

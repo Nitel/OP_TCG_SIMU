@@ -1,23 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "KO",
-            "target": {
-              "scope": "AllOpponentCharacters",
-              "maxCost": 1
+  "id": "ST08-005",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "KO",
+              "target": {
+                "scope": "AllOpponentCharacters",
+                "maxCost": 1
+              }
             }
-          }
-        ]
-      }
-    ]
-  },
-  "id": "ST08-005"
+          ]
+        }
+      ]
+    }
+  ]
 }

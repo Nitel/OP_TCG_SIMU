@@ -17,10 +17,29 @@
               "Shandian Warrior"
             ]
           },
-          "maxResults": 2,
           "destination": "hand",
           "revealedCount": 2,
-          "orderRemaining": "bottom"
+          "count": 2,
+          "restTo": "bottom"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 5
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
         }
       ]
     }

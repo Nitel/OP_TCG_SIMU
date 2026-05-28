@@ -1,25 +1,27 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "LifeComparison",
-      "operator": "LessOrEqual",
-      "yourSide": true
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
+  "id": "OP13-102",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "LifeComparison",
+        "operator": "LessOrEqual",
+        "yourSide": true
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 3
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         },
-        "upTo": 1
-      }
-    ]
-  },
-  "id": "OP13-102"
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          },
+          "upTo": 1
+        }
+      ]
+    }
+  ]
 }

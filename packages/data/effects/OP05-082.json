@@ -1,35 +1,41 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP05-082",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "SearchDeck",
+          "count": 2,
+          "placement": "BottomOfDeck",
+          "source": "Trash",
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         }
-      },
-      {
-        "type": "SearchDeck",
-        "count": 2,
-        "placement": "BottomOfDeck",
-        "source": "Trash"
-      },
-      {
-        "type": "ForceDiscard",
-        "count": 1,
+      ],
+      "condition": {
+        "type": "HasCardOnBoard",
         "target": {
           "scope": "Opponent"
-        }
+        },
+        "count": 6,
+        "comparison": ">="
       }
-    ],
-    "condition": {
-      "type": "HasCardOnBoard",
-      "target": {
-        "scope": "Opponent"
-      },
-      "count": 6,
-      "comparison": ">="
     }
-  },
-  "id": "OP05-082"
+  ]
 }

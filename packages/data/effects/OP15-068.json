@@ -5,9 +5,19 @@
   "power": 1000,
   "color": "Purple",
   "cardType": "Character",
-  "keywords": [
-    "Blocker"
+  "keywords": [],
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": {
+        "type": "TotalDonCount",
+        "count": 6,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "Blocker", "target": { "scope": "Self" }, "duration": "DuringYourTurn" }
+      ]
+    }
   ],
-  "effects": [],
   "counter": 1000
 }

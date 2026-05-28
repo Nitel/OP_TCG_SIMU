@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "cost": {
-      "type": "FlipDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "count": 1
-        },
-        "duration": "DuringThisTurn"
-      }
-    ]
-  },
-  "id": "OP04-076"
+  "id": "OP04-076",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "cost": {
+        "type": "FlipDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

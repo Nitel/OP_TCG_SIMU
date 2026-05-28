@@ -1,46 +1,51 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "RevealFromHand",
-        "target": {
-          "scope": "Deck",
-          "owner": "Either",
-          "count": 1,
-          "from": "Top",
-          "zone": "Life"
-        }
-      },
-      {
-        "type": "PlayFromHand",
-        "target": {
-          "scope": "Deck",
-          "owner": "Either",
-          "placement": "TopOrBottom",
-          "zone": "Life"
-        }
-      }
-    ],
-    "condition": {
-      "type": "Always"
-    }
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
+  "id": "ST07-003",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromHand",
+          "target": {
+            "scope": "Self",
+            "owner": "Either",
+            "count": 1,
+            "from": "Top",
+            "zone": "Life"
+          },
+          "thenActions": [],
+          "count": 1
         },
-        "duration": "DuringYourTurn"
+        {
+          "type": "PlayFromHand",
+          "target": {
+            "scope": "Self",
+            "owner": "Either",
+            "placement": "TopOrBottom",
+            "zone": "Life"
+          },
+          "filter": {}
+        }
+      ],
+      "condition": {
+        "type": "Always"
       }
-    ],
-    "condition": {
-      "type": "HasLessLifeThanOpponent"
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ],
+      "condition": {
+        "type": "HasFewerLifeThanOpponent"
+      }
     }
-  },
-  "id": "ST07-003"
+  ]
 }

@@ -7,20 +7,23 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByType",
-            "value": "Revolutionary Army",
+            "kind": "BySubType",
+            "subType": "Revolutionary Army",
             "excludeNames": [
               "Captains Assembled"
             ]
           },
           "destination": "hand",
-          "limit": 1,
-          "searchCount": 3
+          "count": 1,
+          "lookCount": 3
         },
         {
           "type": "ForceDiscard",
-          "target": "RemainingViewedCards",
-          "destination": "trash"
+          "target": {
+            "scope": "Self"
+          },
+          "destination": "trash",
+          "count": 1
         }
       ]
     }

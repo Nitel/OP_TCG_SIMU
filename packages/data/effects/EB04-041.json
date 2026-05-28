@@ -1,34 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "And",
-      "conditions": [
+  "id": "EB04-041",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
         {
-          "type": "LeaderIsName",
-          "name": "Sanji"
-        },
-        {
-          "type": "HasAttachedDon",
-          "count": 4
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "ByName",
+            "name": "Sanji",
+            "maxPower": 6000
+          },
+          "source": [
+            "hand",
+            "trash"
+          ],
+          "count": 1
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "ByName",
-          "name": "Sanji",
-          "maxPower": 6000
-        },
-        "source": [
-          "hand",
-          "trash"
-        ],
-        "count": 1
-      }
-    ]
-  },
-  "id": "EB04-041"
+    }
+  ]
 }

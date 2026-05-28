@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "TrashCount",
-      "value": 7,
-      "comparison": ">="
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
+  "id": "OP14-086",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "value": 7,
+        "comparison": ">="
       },
-      {
-        "type": "PowerBoost",
-        "amount": 2,
-        "target": {
-          "scope": "YourCharacters",
-          "filter": {
-            "hasType": "Baroque Works"
-          }
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
         },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP14-086"
+        {
+          "type": "PowerBoost",
+          "amount": 2,
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "hasType": "Baroque Works"
+            }
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

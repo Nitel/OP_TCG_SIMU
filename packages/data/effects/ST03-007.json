@@ -1,26 +1,29 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasRestingDon",
-      "count": 1
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByCost",
-          "maxCost": 4,
-          "type": "Pacifista"
-        },
-        "destination": "board",
+  "id": "ST03-007",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasRestingDon",
         "count": 1
       },
-      {
-        "type": "ShuffleDeck"
-      }
-    ],
-    "turnLimit": 1
-  },
-  "id": "ST03-007"
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByCost",
+            "maxCost": 4,
+            "type": "Pacifista"
+          },
+          "destination": "board",
+          "count": 1
+        },
+        {
+          "type": "ShuffleDeck"
+        }
+      ],
+      "turnLimit": 1
+    }
+  ]
 }

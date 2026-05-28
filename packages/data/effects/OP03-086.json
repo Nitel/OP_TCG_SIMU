@@ -24,5 +24,20 @@
       "source": "deck",
       "description": "Trash remaining cards from the 3 looked at"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "CP"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 3
+        }
+      ]
+    }
   ]
 }

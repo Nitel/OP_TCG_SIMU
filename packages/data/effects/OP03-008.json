@@ -1,29 +1,34 @@
 {
-  "0": {
-    "trigger": "Permanent",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Cannot be K.O.'d in battle by <Slash> attribute cards"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Event",
-          "color": "red"
-        },
-        "searchCount": 5,
-        "selectCount": 1,
-        "destination": "hand",
-        "remainderDestination": "bottom"
-      }
-    ]
-  },
-  "id": "OP03-008"
+  "id": "OP03-008",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "color": "red"
+          },
+          "destination": "hand",
+          "restTo": "bottom",
+          "lookCount": 5,
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

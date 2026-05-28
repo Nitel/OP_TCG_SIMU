@@ -26,5 +26,28 @@
       "effectAction": true,
       "note": "Sets Leader as active (unclear exact mechanic)"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
+      },
+      "actions": [
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
+        }
+      ]
+    }
   ]
 }

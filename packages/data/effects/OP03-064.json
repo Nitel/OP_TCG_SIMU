@@ -5,16 +5,21 @@
       "trigger": "OnKO",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Galley-La Company"
+        "subType": "Galley-La Company"
       },
       "actions": [
         {
           "type": "SearchDeck",
           "cardType": "DON",
-          "count": 1
+          "count": 1,
+          "filter": {},
+          "destination": "hand"
         },
         {
-          "type": "Rest"
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         }
       ]
     }

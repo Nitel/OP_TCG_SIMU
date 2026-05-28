@@ -1,26 +1,32 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "target": "YourCharactersWithType",
-        "targetValue": "Whitebeard Pirates",
-        "optional": true
-      },
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "target": "Self",
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP13-053"
+  "id": "OP13-053",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "Self"
+          },
+          "targetValue": "Whitebeard Pirates",
+          "optional": true
+        },
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

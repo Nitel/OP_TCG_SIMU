@@ -1,49 +1,51 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "description": "If this Character would be K.O.'d",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Choice",
-          "options": [
-            {
-              "scope": "OwnLeader"
-            },
-            {
-              "scope": "OwnCharacter",
-              "filter": {
-                "cardName": "Corrida Coliseum"
+  "id": "OP04-082",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "description": "If this Character would be K.O.'d",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "options": [
+              {
+                "scope": "OwnLeader"
               },
-              "maxCount": 1
-            }
-          ]
+              {
+                "scope": "OwnCharacter",
+                "filter": {
+                  "cardName": "Corrida Coliseum"
+                },
+                "maxCount": 1
+              }
+            ]
+          }
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Rebecca"
+      ]
     },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 1,
-          "maxCount": 1
-        }
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Rebecca"
       },
-      {
-        "type": "ForceDiscard",
-        "source": "Deck",
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP04-082"
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "source": "Deck",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

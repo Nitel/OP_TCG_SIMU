@@ -6,6 +6,23 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "HasAttachedDon", "count": 2 },
+          { "type": "OpponentLifeCount", "min": 3 }
+        ]
+      },
+      "actions": [
+        {
+          "type": "SetActive",
+          "target": { "scope": "ChooseOwnCharacter", "maxCost": 4, "attribute": "Slash" }
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

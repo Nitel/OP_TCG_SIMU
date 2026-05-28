@@ -1,20 +1,26 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "OpponentLifeCount",
-      "comparison": "LessThanOrEqual",
-      "value": 3
-    },
-    "actions": [
-      {
-        "type": "AttachDon",
-        "count": 2,
-        "target": {
-          "scope": "ChooseOwnCharacter"
+  "id": "OP06-022",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "OpponentLifeCount",
+        "comparison": "LessThanOrEqual",
+        "value": 3
+      },
+      "actions": [
+        {
+          "type": "AttachDon",
+          "count": 2,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP06-022"
+      ]
+    }
+  ],
+  "keywords": [
+    "DoubleAttack"
+  ]
 }

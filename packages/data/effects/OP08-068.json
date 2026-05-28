@@ -1,21 +1,27 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 1,
-        "cardFilter": {
-          "type": "DON"
+  "id": "OP08-068",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "cardFilter": {
+            "type": "DON"
+          },
+          "filter": {
+            "kind": "Any"
+          },
+          "destination": "hand"
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "LastSearched"
-        }
-      }
-    ]
-  },
-  "id": "OP08-068"
+      ]
+    }
+  ]
 }

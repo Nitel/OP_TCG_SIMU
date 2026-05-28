@@ -1,29 +1,31 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "target": {
-          "scope": "OwnHand"
+  "id": "OP08-113",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "Self"
+          },
+          "thenActions": []
         },
-        "thenActions": []
-      },
-      {
-        "type": "PlaySelf"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 3
+        {
+          "type": "PlaySelf"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3
+          }
         }
-      }
-    ]
-  },
-  "id": "OP08-113"
+      ]
+    }
+  ]
 }

@@ -1,23 +1,27 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": "Always",
-    "optional": true,
-    "duration": "EndOfOpponentTurn",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1
+  "id": "OP14-021",
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeActive",
-        "count": 1,
-        "target": {
-          "scope": "ChooseOpponentCharacterOrStage"
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeActive",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         }
-      }
-    ]
-  },
-  "id": "OP14-021"
+      ],
+      "optional": true
+    }
+  ]
 }

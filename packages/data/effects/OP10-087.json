@@ -1,58 +1,61 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "filter": {
-        "type": "Dressrosa",
-        "cardType": [
-          "Leader",
-          "Stage"
-        ]
-      }
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP10-087",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "filter": {
+          "type": "Dressrosa",
+          "cardType": [
+            "Leader",
+            "Stage"
+          ]
         }
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Board",
-          "filter": {
-            "type": "Dressrosa",
-            "cardType": [
-              "Leader",
-              "Stage"
-            ]
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "filter": {
+              "type": "Dressrosa",
+              "cardType": [
+                "Leader",
+                "Stage"
+              ]
+            },
+            "count": 1
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
           },
-          "count": 1
-        }
-      },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "Opponent"
+          "count": 1,
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {},
+            "comparison": ">=",
+            "value": 5
+          }
         },
-        "count": 1,
-        "condition": {
-          "type": "HasCardOnBoard",
-          "filter": {},
-          "comparison": ">=",
-          "value": 5
+        {
+          "type": "TrashFromDeck",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 2,
+          "thenActions": []
         }
-      },
-      {
-        "type": "TrashFromDeck",
-        "target": {
-          "scope": "Self"
-        },
-        "count": 2
-      }
-    ]
-  },
-  "id": "OP10-087"
+      ]
+    }
+  ]
 }

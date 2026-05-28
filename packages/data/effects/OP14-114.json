@@ -4,12 +4,12 @@
   "effects": [
     {
       "trigger": "Activated",
-      "activation": "Main",
-      "duration": "OncePerTurn",
+      "oncePerTurn": true,
       "condition": {
         "type": "HasCardOnBoard",
         "hasType": "Kuja Pirates"
       },
+      "duration": "OncePerTurn",
       "actions": [
         {
           "type": "AttachDon",
@@ -21,7 +21,8 @@
             "hasType": "Kuja Pirates"
           }
         }
-      ]
+      ],
+      "activation": "Main"
     }
   ]
 }

@@ -1,30 +1,32 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Or",
-          "conditions": [
-            {
-              "hasType": "Sanji"
-            },
-            {
-              "hasType": "Big Mom Pirates"
-            }
-          ],
-          "exclude": [
-            {
-              "cardName": "Charlotte Pudding"
-            }
-          ]
-        },
-        "destination": "hand",
-        "count": 1,
-        "lookAtTop": 4
-      }
-    ]
-  },
-  "id": "OP03-112"
+  "id": "OP03-112",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByType",
+            "conditions": [
+              {
+                "hasType": "Sanji"
+              },
+              {
+                "hasType": "Big Mom Pirates"
+              }
+            ],
+            "exclude": [
+              {
+                "cardName": "Charlotte Pudding"
+              }
+            ]
+          },
+          "destination": "hand",
+          "count": 1,
+          "lookCount": 4
+        }
+      ]
+    }
+  ]
 }

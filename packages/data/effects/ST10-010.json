@@ -1,18 +1,25 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "OpponentHandCount",
-      "value": 7,
-      "operator": "GreaterThanOrEqual"
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 2,
-        "target": "opponent"
-      }
-    ]
-  },
-  "id": "ST10-010"
+  "id": "ST10-010",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentHandCount",
+        "value": 7,
+        "operator": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

@@ -11,13 +11,26 @@
         "excludeCardName": "Otama",
         "maxResults": 1
       },
-      "destination": "hand",
-      "deckPosition": "top5"
+      "destination": "hand"
     },
     {
       "type": "OrderDeckCards",
       "position": "bottom",
       "count": "remaining"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 5
+        }
+      ]
     }
   ]
 }

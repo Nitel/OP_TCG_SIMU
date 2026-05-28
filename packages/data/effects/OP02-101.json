@@ -5,6 +5,23 @@
   "power": 5000,
   "color": "Black",
   "cardType": "Character",
-  "keywords": [],
-  "effects": []
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "DisableBlocker",
+          "target": {
+            "scope": "AllOpponentCharacters",
+            "maxCost": 5
+          },
+          "duration": "EndOfBattle"
+        }
+      ],
+      "_NOTE": "partial: condition HasOwnCharacterWithCost0 not yet implemented; effect fires unconditionally"
+    }
+  ]
 }

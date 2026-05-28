@@ -1,32 +1,37 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "TrashCount",
-      "value": 10,
-      "comparison": ">="
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
+  "id": "OP15-087",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "TrashCount",
+        "value": 10,
+        "comparison": ">="
       },
-      {
-        "type": "ForceDiscard",
-        "count": 2,
-        "filter": {}
-      }
-    ]
-  },
-  "id": "OP15-087"
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "duration": "Permanent",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "ForceDiscard",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ]
 }

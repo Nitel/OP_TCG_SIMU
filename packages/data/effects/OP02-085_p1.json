@@ -6,6 +6,26 @@
   "color": "Purple",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": -1
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "timing": "OpponentTurn",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": -2
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

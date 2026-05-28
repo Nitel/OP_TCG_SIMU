@@ -1,15 +1,22 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "type": "Counter",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "ThisCard"
-      }
-    ],
-    "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
-  },
-  "id": "ST04-011"
+  "id": "ST04-011",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "type": "Counter",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

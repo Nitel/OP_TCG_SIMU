@@ -1,27 +1,18 @@
 {
   "id": "OP07-065",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "AND",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Foxy Pirates"
-      },
-      {
-        "type": "DonComparison",
-        "operator": "LessOrEqual",
-        "yourDon": "fieldCount",
-        "opponentDon": "fieldCount"
-      }
-    ]
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "GiveDon",
-      "count": 1,
-      "source": "DonDeck",
-      "state": "Active"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "LeaderHasType", "subType": "Foxy Pirates" },
+          { "type": "DonCountVsOpponent", "operator": "LessOrEqual" }
+        ]
+      },
+      "actions": [
+        { "type": "AddDon", "count": 1, "active": true }
+      ]
     }
   ]
 }

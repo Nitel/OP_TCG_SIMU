@@ -8,14 +8,13 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AddDon",
+          "count": 1,
+          "active": true
         }
       ]
     }

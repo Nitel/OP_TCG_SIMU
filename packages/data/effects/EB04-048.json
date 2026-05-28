@@ -25,19 +25,17 @@
       "trigger": "OnPlay",
       "condition": {
         "type": "LeaderHasType",
-        "value": "CP"
+        "subType": "CP"
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 1000,
-          "perMultipleCards": {
-            "cardLocation": "Trash",
-            "threshold": 5
-          },
+          "type": "ProportionalPowerBoost",
           "target": {
             "scope": "Self"
           },
+          "amount": 1000,
+          "per": "CardsInTrash",
+          "divisor": 5,
           "duration": "Permanent"
         },
         {

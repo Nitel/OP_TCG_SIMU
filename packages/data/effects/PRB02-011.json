@@ -1,21 +1,18 @@
 {
   "id": "PRB02-011",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "LeaderHasAnyType",
-    "types": [
-      "Multicolored"
-    ]
-  },
-  "actions": [
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
     {
-      "type": "AttachDon",
-      "count": 1,
-      "source": "Deck"
-    },
-    {
-      "type": "Rest",
-      "target": "AttachedDon"
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "AddDon",
+          "count": 1,
+          "active": false
+        }
+      ]
     }
   ]
 }

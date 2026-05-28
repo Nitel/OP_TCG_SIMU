@@ -1,20 +1,22 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "YourLeader"
+  "id": "OP15-019",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
         },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP15-019"
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ]
 }

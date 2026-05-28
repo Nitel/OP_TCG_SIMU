@@ -1,31 +1,33 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Straw Hat Crew"
-    },
-    "actions": [
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "kind": "ByType",
-          "type": "Straw Hat Crew",
-          "maxCost": 7
-        },
-        "source": "trash",
-        "destination": "board",
-        "maxAmount": 1
+  "id": "OP15-086",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Straw Hat Crew"
       },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "LastPlayedCard"
+      "actions": [
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Straw Hat Crew",
+            "maxCost": 7
+          },
+          "source": "trash",
+          "destination": "board",
+          "maxAmount": 1
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP15-086"
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    }
+  ]
 }

@@ -1,35 +1,35 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Navy"
+  "id": "OP12-044",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "count": 1
-        },
-        "thenActions": [
-          {
-            "type": "AttachDon",
-            "count": 1,
-            "target": {
-              "scope": "ChooseOwnCharacterOrLeader"
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "count": 1
+          },
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              }
             }
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP12-044"
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,19 +1,16 @@
 {
   "id": "ST10-008",
-  "trigger": "OnPlay",
-  "condition": {
-    "type": "HasAttachedDon",
-    "count": 3,
-    "comparison": "LessOrEqual"
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "AttachDon",
-      "count": 2,
-      "source": "DONDeck"
-    },
-    {
-      "type": "Rest"
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "TotalDonCount",
+        "count": 3,
+        "comparison": "LessOrEqual"
+      },
+      "actions": [
+        { "type": "AddDon", "count": 2 }
+      ]
     }
   ]
 }

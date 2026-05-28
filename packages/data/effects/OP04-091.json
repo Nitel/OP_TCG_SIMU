@@ -1,34 +1,37 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Dressrosa"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OwnLeader"
+  "id": "OP04-091",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Dressrosa"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 1
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1
+          },
+          "maxCount": 1
         },
-        "maxCount": 1
-      },
-      {
-        "type": "TrashFromDeck",
-        "count": 2,
-        "fromTop": true
-      }
-    ]
-  },
-  "id": "OP04-091"
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "fromTop": true,
+          "thenActions": []
+        }
+      ]
+    }
+  ]
 }

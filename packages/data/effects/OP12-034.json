@@ -8,7 +8,6 @@
   "actions": [
     {
       "type": "SearchDeck",
-      "lookAtCount": 5,
       "filter": {
         "kind": "Or",
         "conditions": [
@@ -31,9 +30,23 @@
           }
         ]
       },
-      "maxReveals": 1,
       "destination": "hand",
-      "remainingDestination": "bottom_deck"
+      "lookCount": 5,
+      "restTo": "bottom"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ArrangeDeck",
+          "count": 5
+        }
+      ]
     }
   ]
 }

@@ -1,34 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasAnyType",
-      "values": [
-        "Multicolored"
+  "id": "OP13-118",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasAnyType",
+        "subTypes": [
+          "Multicolored"
+        ]
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 4
+        }
       ]
     },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "YourDON",
-        "count": 4
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "duration": "DuringYourTurn",
-    "actions": [
-      {
-        "type": "BlockPlay",
-        "target": "CharacterCards",
-        "condition": {
-          "baseCost": {
-            "min": 5
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "BlockPlay",
+          "target": {
+            "scope": "Self"
           }
         }
-      }
-    ]
-  },
-  "id": "OP13-118"
+      ]
+    }
+  ],
+  "keywords": [
+    "DoubleAttack"
+  ]
 }

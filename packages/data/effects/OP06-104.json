@@ -1,20 +1,23 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "condition": {
-      "type": "OpponentLifeCount",
-      "value": 3,
-      "operator": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "FlipLife",
-        "filter": {
-          "kind": "Any"
-        },
-        "quantity": 1
-      }
-    ]
-  },
-  "id": "OP06-104"
+  "id": "OP06-104",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "operator": "LessOrEqual"
+      },
+      "actions": [
+        {
+          "type": "FlipLife",
+          "filter": {
+            "kind": "Any"
+          },
+          "quantity": 1,
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

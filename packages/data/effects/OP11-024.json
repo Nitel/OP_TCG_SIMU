@@ -1,35 +1,37 @@
 {
-  "0": {
-    "trigger": "OnKO",
-    "condition": {
-      "type": "KOByOpponentEffect"
-    },
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "thenActions": [
-          {
-            "type": "Rest",
-            "target": {
-              "scope": "ChooseOwnDonCard"
-            },
-            "thenActions": [
-              {
-                "type": "PlayFromHand",
-                "filter": {
-                  "anyType": [
-                    "Fish-Man",
-                    "Merfolk"
-                  ],
-                  "maxCost": 6
+  "id": "OP11-024",
+  "effects": [
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "KOByOpponentEffect"
+      },
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": [
+            {
+              "type": "Rest",
+              "target": {
+                "scope": "ChooseOwnCharacter"
+              },
+              "thenActions": [
+                {
+                  "type": "PlayFromHand",
+                  "filter": {
+                    "anyType": [
+                      "Fish-Man",
+                      "Merfolk"
+                    ],
+                    "maxCost": 6
+                  }
                 }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP11-024"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

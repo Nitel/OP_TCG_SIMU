@@ -1,24 +1,28 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": "HasAttachedDon",
-    "conditionValue": "<=OpponentDon",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {
-          "self": true
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "DrawCard",
-            "count": 1
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP10-075"
+  "id": "OP10-075",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasAttachedDon"
+      },
+      "conditionValue": "<=OpponentDon",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {
+            "self": true
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

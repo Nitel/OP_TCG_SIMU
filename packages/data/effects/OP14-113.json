@@ -6,21 +6,17 @@
       "actions": [
         {
           "type": "SearchDeck",
-          "count": 5,
+          "count": 1,
           "reveal": true,
           "filter": {
-            "type": "Or",
-            "conditions": [
-              {
-                "hasType": "Amazon Lily"
-              },
-              {
-                "hasType": "Kuja Pirates"
-              }
+            "kind": "BySubType",
+            "types": [
+              "Amazon Lily",
+              "Kuja Pirates"
             ]
           },
           "destination": "hand",
-          "maxReveal": 1
+          "lookCount": 5
         },
         {
           "type": "TrashFromHand",

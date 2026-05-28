@@ -1,36 +1,40 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
+  "id": "OP09-086",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CantBeKOdByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CantBeKOdByOpponentEffects",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Blackbeard Pirates"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": "TrashCount/4*1000",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP09-086"
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "ProportionalPowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": 1000,
+          "per": "CardsInTrash",
+          "duration": "Permanent",
+          "divisor": 4
+        }
+      ]
+    }
+  ]
 }

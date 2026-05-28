@@ -1,42 +1,48 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "HasType",
-          "value": "Whitebeard Pirates",
-          "excludeNames": [
-            "Izo"
-          ]
-        },
-        "count": 1,
-        "destination": "hand",
-        "deckPosition": "top",
-        "deckPositionCount": 5
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttack",
-    "condition": "Always",
-    "duration": "EndOfOpponentTurn",
-    "optional": true,
-    "cost": {
-      "type": "TrashSelf"
+  "id": "ST22-002",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "lookCount": 5,
+          "count": 1,
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Whitebeard Pirates",
+            "cardType": "Character",
+            "excludeNames": [
+              "Izo"
+            ]
+          },
+          "destination": "hand",
+          "restTo": "bottom"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "PlayFromHand",
-        "destination": "bottom",
-        "count": 1
-      }
-    ]
-  },
-  "id": "ST22-002"
+      "cost": {
+        "type": "TrashSelf"
+      },
+      "duration": "EndOfOpponentTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "destination": "bottom",
+          "count": 1,
+          "filter": {}
+        }
+      ],
+      "optional": true
+    }
+  ]
 }

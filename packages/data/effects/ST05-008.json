@@ -1,20 +1,25 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 8,
-        "comparison": "greaterThanOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Cannot be K.O.'d in battle"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "ST05-008"
+  "id": "ST05-008",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "value": 8,
+          "comparison": "greaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdInBattle",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ]
 }

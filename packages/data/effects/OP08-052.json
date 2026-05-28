@@ -1,27 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "RevealFromDeck",
-        "count": 1,
-        "destination": "reveal"
-      },
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "type": "Whitebeard Pirates",
-          "maxCost": 4,
-          "cardType": "Character"
+  "id": "OP08-052",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "RevealFromDeck",
+          "count": 1,
+          "destination": "reveal",
+          "thenActions": []
         },
-        "destination": "board",
-        "maxCount": 1
-      },
-      {
-        "type": "ReturnToTopOrBottomOfDeck"
-      }
-    ]
-  },
-  "id": "OP08-052"
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Whitebeard Pirates",
+            "maxCost": 4
+          },
+          "destination": "board",
+          "count": 1
+        },
+        {
+          "type": "ReturnToTopOrBottomOfDeck"
+        }
+      ]
+    }
+  ]
 }

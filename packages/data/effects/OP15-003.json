@@ -1,49 +1,64 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "target": "self",
-        "filter": {
-          "cardType": "Character",
-          "maxPower": 6000,
-          "zone": "Hand"
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "RemoveLife",
-            "target": "self",
-            "amount": 0,
-            "note": "Prevents KO of this Character"
-          }
-        ]
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "GiveDon",
-        "target": "opponent",
-        "filter": {
-          "rested": true
-        },
-        "maxCount": 1,
-        "moveTo": [
-          "opponent's Leader",
-          "opponent's Character"
-        ],
-        "optional": true
-      }
-    ],
-    "duration": "Permanent",
-    "activationType": "Main",
-    "frequency": "OncePerTurn"
-  },
-  "id": "OP15-003"
+  "id": "OP15-003",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self"
+          },
+          "filter": {
+            "cardType": "Character",
+            "maxPower": 6000,
+            "zone": "Hand"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "RemoveLife",
+              "target": {
+                "scope": "Self"
+              },
+              "note": "Prevents KO of this Character",
+              "count": 1
+            }
+          ],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "GiveDon",
+          "target": {
+            "scope": "Self"
+          },
+          "filter": {
+            "rested": true
+          },
+          "maxCount": 1,
+          "moveTo": [
+            "opponent's Leader",
+            "opponent's Character"
+          ],
+          "optional": true,
+          "count": 1
+        }
+      ],
+      "activationType": "Main",
+      "frequency": "OncePerTurn"
+    }
+  ]
 }

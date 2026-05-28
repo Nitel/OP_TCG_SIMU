@@ -1,18 +1,23 @@
 {
-  "0": {
-    "trigger": "OnBlock",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 6,
-          "maxTargets": 1
-        },
-        "keyword": "CannotAttack",
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "id": "OP02-110"
+  "id": "OP02-110",
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "maxTargets": 1
+          },
+          "keyword": "CannotAttack",
+          "duration": "EndOfOpponentTurn"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

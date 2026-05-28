@@ -1,15 +1,12 @@
 {
   "id": "ST13-012",
-  "trigger": "OnPlay",
-  "actions": [
+  "effects": [
     {
-      "type": "FlipLife",
-      "count": 1,
-      "optional": true
-    },
-    {
-      "type": "ReorderLife",
-      "optional": false
+      "trigger": "OnPlay",
+      "actions": [
+        { "type": "TakeLifeToHand", "from": "topOrBottom", "optional": true },
+        { "type": "RearrangeLife" }
+      ]
     }
   ]
 }

@@ -1,40 +1,45 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasLifeCards",
-      "amount": 1,
-      "comparison": "LessOrEqual"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": "HasDon"
-        }
+  "id": "OP13-057",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasLifeCards",
+        "amount": 1,
+        "comparison": "LessOrEqual"
       },
-      {
-        "type": "PreventBlocker",
-        "target": {
-          "scope": "Opponent"
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": "HasDon"
+          }
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP13-057"
+        {
+          "type": "PreventBlocker",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

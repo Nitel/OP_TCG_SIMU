@@ -1,7 +1,64 @@
-import type { CSSProperties } from 'react';
-import type { GameAction, GameState, PlayerId, ActivatedAbilityAction } from 'game-engine';
+import { useState, type CSSProperties } from 'react';
+import type { GameAction, GameState, PlayerId, ActivatedAbilityAction, CardId } from 'game-engine';
 import { calculatePower } from 'game-engine';
 import type { UIState } from './uiState';
+
+/** Returns a contextual pending-interaction message, or null if none. */
+function getPendingMessage(gs: GameState): string | null {
+  if (gs.pendingTargetInteraction !== null) {
+    const src = gs.cards[gs.pendingTargetInteraction.sourceCardId];
+    return `🎯 Choisissez une cible pour l'effet de ${src?.name ?? gs.pendingTargetInteraction.sourceCardId}`;
+  }
+  if (gs.pendingOnKOInteraction !== null) {
+    const src = gs.cards[gs.pendingOnKOInteraction.sourceCardId];
+    return `💀 ${src?.name ?? gs.pendingOnKOInteraction.sourceCardId} — choisissez une carte à jouer (ou Passer)`;
+  }
+  if (gs.pendingKOSubstituteInteraction !== null) {
+    const src = gs.cards[gs.pendingKOSubstituteInteraction.cardId];
+    return `🛡️ ${src?.name ?? gs.pendingKOSubstituteInteraction.cardId} — défaussez une carte pour éviter le K.O. (ou Refuser)`;
+  }
+  if (gs.pendingRevealInteraction !== null) {
+    if (gs.pendingRevealInteraction.revealedCardIds !== undefined) {
+      return '🔍 Carte révélée — confirmez pour continuer';
+    }
+    const n = gs.pendingRevealInteraction.count;
+    const sub = gs.pendingRevealInteraction.filter?.subType;
+    return `🃏 Révélez ${n} carte${n > 1 ? 's' : ''}${sub !== undefined ? ` [${sub}]` : ''} depuis votre main (ou Passer)`;
+  }
+  if (gs.pendingTrashInteraction !== null) {
+    const n = gs.pendingTrashInteraction.count;
+    return n !== undefined
+      ? `🗑️ Défaussez ${n} carte${n > 1 ? 's' : ''} de votre main`
+      : '🗑️ Défaussez des cartes de votre main';
+  }
+  if (gs.pendingSearchInteraction !== null) {
+    return '🔎 Cherchez une carte dans votre deck';
+  }
+  if (gs.pendingForceDiscardInteraction !== null) {
+    const n = gs.pendingForceDiscardInteraction.count;
+    return `🗑️ Vous devez défausser ${n} carte${n > 1 ? 's' : ''}`;
+  }
+  if (gs.pendingChoiceInteraction !== null) {
+    return `🤔 Choisissez une option`;
+  }
+  if (gs.pendingLifeInteraction !== null) {
+    const mode = gs.pendingLifeInteraction.mode;
+    if (mode === 'LookOnly') return `👁 Regardez vos cartes Vie (cliquez Confirmer)`;
+    if (mode === 'Rearrange') return `🔀 Réorganisez vos cartes Vie`;
+    if (mode === 'MoveOne') return `📤 Choisissez une carte Vie à déplacer`;
+    if (mode === 'OpponentChoice') return `⚖ L'adversaire choisit une option`;
+    return `🃏 Interaction Vie en attente`;
+  }
+  if (gs.pendingRestSubstituteInteraction !== null) {
+    const tCard = gs.cards[gs.pendingRestSubstituteInteraction.targetCardId];
+    return `🔄 ${tCard?.name ?? gs.pendingRestSubstituteInteraction.targetCardId} — payez le coût pour éviter le repos (ou Laisser)`;
+  }
+  if (gs.pendingOnKOQueue.length > 0) {
+    const n = gs.pendingOnKOQueue.length;
+    return `⏳ ${n} effet${n > 1 ? 's' : ''} K.O. en attente de résolution`;
+  }
+  return null;
+}
 
 interface Props {
   gameState: GameState;
@@ -42,6 +99,143 @@ const dangerBtn: CSSProperties = {
 };
 
 
+// ─── Life Interaction Panel ────────────────────────────────────────────────────
+
+interface LifeInteractionPanelProps {
+  gameState: GameState;
+  onAction: (action: GameAction) => void;
+  myPlayerId?: PlayerId | null;
+}
+
+function LifeInteractionPanel({ gameState, onAction, myPlayerId }: LifeInteractionPanelProps) {
+  const li = gameState.pendingLifeInteraction;
+  if (li === null) return null;
+  if (myPlayerId !== null && myPlayerId !== undefined && li.playerId !== myPlayerId) return null;
+
+  const [order, setOrder] = useState<readonly CardId[]>(li.lifeCards);
+  const [selectedCardId, setSelectedCardId] = useState<CardId | null>(null);
+  const [destination, setDestination] = useState<'top' | 'bottom' | 'hand'>('bottom');
+
+  const cardName = (id: CardId) => gameState.cards[id]?.name ?? id;
+
+  if (li.mode === 'LookOnly') {
+    return (
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', paddingBottom: 4 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaccff' }}>
+          Vos cartes Vie ({li.lifeCards.length}) :
+        </span>
+        {li.lifeCards.map((id) => (
+          <span key={id} style={{ fontFamily: 'monospace', fontSize: 10, color: '#88eecc', background: 'rgba(0,60,40,0.5)', border: '1px solid rgba(0,180,120,0.4)', borderRadius: 4, padding: '1px 6px' }}>
+            {cardName(id)}
+          </span>
+        ))}
+        <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveLifeInteraction', playerId: li.playerId })}>
+          Confirmer
+        </button>
+      </div>
+    );
+  }
+
+  if (li.mode === 'Rearrange') {
+    const moveUp = (idx: number) => {
+      if (idx === 0) return;
+      const next = [...order];
+      const tmp = next[idx - 1]!;
+      next[idx - 1] = next[idx]!;
+      next[idx] = tmp;
+      setOrder(next);
+    };
+    const moveDown = (idx: number) => {
+      if (idx === order.length - 1) return;
+      const next = [...order];
+      const tmp = next[idx + 1]!;
+      next[idx + 1] = next[idx]!;
+      next[idx] = tmp;
+      setOrder(next);
+    };
+    return (
+      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', flexWrap: 'wrap', paddingBottom: 4 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaccff', alignSelf: 'center' }}>
+          Réorganiser (haut = top) :
+        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {order.map((id, idx) => (
+            <div key={id} style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#aabbcc', width: 14, textAlign: 'right' }}>{idx + 1}.</span>
+              <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#88eecc', background: 'rgba(0,40,60,0.5)', border: '1px solid rgba(0,120,180,0.4)', borderRadius: 4, padding: '1px 8px', minWidth: 80 }}>
+                {cardName(id)}
+              </span>
+              <button style={{ ...btnStyle, padding: '1px 6px', fontSize: 10 }} onClick={() => moveUp(idx)} disabled={idx === 0}>▲</button>
+              <button style={{ ...btnStyle, padding: '1px 6px', fontSize: 10 }} onClick={() => moveDown(idx)} disabled={idx === order.length - 1}>▼</button>
+            </div>
+          ))}
+        </div>
+        <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveLifeInteraction', playerId: li.playerId, newOrder: order })}>
+          Confirmer
+        </button>
+      </div>
+    );
+  }
+
+  if (li.mode === 'MoveOne') {
+    return (
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', paddingBottom: 4 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaccff' }}>
+          Choisir une carte Vie :
+        </span>
+        {li.lifeCards.map((id) => (
+          <button
+            key={id}
+            style={{ ...btnStyle, padding: '2px 8px', fontSize: 10, background: selectedCardId === id ? 'rgba(0,80,160,0.6)' : undefined, border: selectedCardId === id ? '1px solid rgba(0,180,255,0.8)' : undefined }}
+            onClick={() => setSelectedCardId(id)}
+          >
+            {cardName(id)}
+          </button>
+        ))}
+        {selectedCardId !== null && (
+          <>
+            <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#cccccc' }}>→</span>
+            {(['top', 'bottom', 'hand'] as const).map((dest) => (
+              <button
+                key={dest}
+                style={{ ...btnStyle, padding: '2px 8px', fontSize: 10, background: destination === dest ? 'rgba(0,80,40,0.6)' : undefined, border: destination === dest ? '1px solid rgba(0,200,100,0.8)' : undefined }}
+                onClick={() => setDestination(dest)}
+              >
+                {dest === 'top' ? 'Dessus' : dest === 'bottom' ? 'Dessous' : 'Main'}
+              </button>
+            ))}
+            <button style={primaryBtn} onClick={() => onAction({ type: 'ResolveLifeInteraction', playerId: li.playerId, cardId: selectedCardId, destination })}>
+              Confirmer
+            </button>
+          </>
+        )}
+        <button style={btnStyle} onClick={() => onAction({ type: 'ResolveLifeInteraction', playerId: li.playerId })}>
+          Passer
+        </button>
+      </div>
+    );
+  }
+
+  if (li.mode === 'OpponentChoice') {
+    return (
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', paddingBottom: 4 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#ffbb44' }}>L'adversaire choisit :</span>
+        {(li.opponentChoices ?? []).map((choice, i) => (
+          <button
+            key={i}
+            style={{ ...primaryBtn, background: 'linear-gradient(160deg, #0a1e3a 0%, #051020 100%)', border: '1px solid rgba(100,160,255,0.6)', color: '#88ccff' }}
+            onClick={() => onAction({ type: 'ResolveLifeInteraction', playerId: li.playerId, choiceIndex: i })}
+          >
+            {choice.label}
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+}
+
 export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props) {
   const { phase, activePlayerId, activeCombat, playerOrder, winner } = gameState;
   const defenderId  = activePlayerId === playerOrder[0] ? playerOrder[1] : playerOrder[0];
@@ -50,12 +244,16 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
   // True while any pending interaction blocks the Block/Counter/Resolve step (OPTCG rules).
   // Uses game state as source of truth — does not depend on uiState being in sync.
   const isCombatPaused =
-    gameState.pendingTargetInteraction       !== null ||
-    gameState.pendingRevealInteraction       !== null ||
-    gameState.pendingTrashInteraction        !== null ||
-    gameState.pendingSearchInteraction       !== null ||
-    gameState.pendingForceDiscardInteraction !== null ||
-    gameState.pendingOnKOInteraction         !== null;
+    gameState.pendingTargetInteraction         !== null ||
+    gameState.pendingRevealInteraction         !== null ||
+    gameState.pendingTrashInteraction          !== null ||
+    gameState.pendingSearchInteraction         !== null ||
+    gameState.pendingForceDiscardInteraction   !== null ||
+    gameState.pendingOnKOInteraction           !== null ||
+    gameState.pendingKOSubstituteInteraction   !== null ||
+    gameState.pendingChoiceInteraction         !== null ||
+    gameState.pendingRestSubstituteInteraction !== null ||
+    gameState.pendingLifeInteraction           !== null;
   if (winner !== null) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>
@@ -82,8 +280,66 @@ export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props)
     if (!_hasOTA && !_hasPendingInteraction) return null;
   }
 
+  const pendingMessage = getPendingMessage(gameState);
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>
+    <div
+      className={pendingMessage !== null ? 'pending-pulse' : undefined}
+      style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}
+    >
+
+      {/* Pending interaction banner */}
+      {pendingMessage !== null && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingBottom: 3, borderBottom: '1px solid rgba(255,200,0,0.18)' }}>
+          <span style={{ fontFamily: 'monospace', fontSize: 12, color: '#ffc800', letterSpacing: 0.3 }}>
+            {pendingMessage}
+          </span>
+          <span style={{ marginLeft: 'auto', flexShrink: 0, fontSize: 9, color: '#ffc800', background: 'rgba(255,200,0,0.12)', border: '1px solid rgba(255,200,0,0.4)', borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap' }}>
+            ⏳ Action requise
+          </span>
+        </div>
+      )}
+
+      {/* ChooseOne interaction — render one button per choice */}
+      {gameState.pendingChoiceInteraction !== null &&
+        (!myPlayerId || gameState.pendingChoiceInteraction.playerId === myPlayerId) && (
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', paddingBottom: 4 }}>
+          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaccff' }}>Choisissez :</span>
+          {gameState.pendingChoiceInteraction.choices.map((choice, i) => (
+            <button
+              key={i}
+              style={{ ...primaryBtn, background: 'linear-gradient(160deg, #0a1e3a 0%, #051020 100%)', border: '1px solid rgba(100,160,255,0.6)', color: '#88ccff' }}
+              onClick={() => onAction({ type: 'ResolveChoiceInteraction', playerId: gameState.pendingChoiceInteraction!.playerId, choiceIndex: i })}
+            >
+              {choice.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* RestSubstitute interaction — Accept or Refuse */}
+      {gameState.pendingRestSubstituteInteraction !== null &&
+        (!myPlayerId || gameState.pendingRestSubstituteInteraction.playerId === myPlayerId) && (
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', paddingBottom: 4 }}>
+          <button
+            style={{ ...primaryBtn, background: 'linear-gradient(160deg, #0a2a0a 0%, #051005 100%)', border: '1px solid rgba(80,200,80,0.6)', color: '#88ee88' }}
+            onClick={() => onAction({ type: 'ResolveRestSubstituteInteraction', playerId: gameState.pendingRestSubstituteInteraction!.playerId, accept: true })}
+          >
+            Payer le coût (éviter repos)
+          </button>
+          <button
+            style={dangerBtn}
+            onClick={() => onAction({ type: 'ResolveRestSubstituteInteraction', playerId: gameState.pendingRestSubstituteInteraction!.playerId, accept: false })}
+          >
+            Laisser (subir repos)
+          </button>
+        </div>
+      )}
+
+      {/* Life interaction panel */}
+      {gameState.pendingLifeInteraction !== null && (
+        <LifeInteractionPanel gameState={gameState} onAction={onAction} {...(myPlayerId !== undefined ? { myPlayerId } : {})} />
+      )}
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
 

@@ -1,34 +1,36 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "count": 1
+  "id": "OP12-098",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
         },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "SelectedTarget"
-        },
-        "duration": "EndOfBattle",
-        "condition": {
-          "type": "HasCardOnBoard",
-          "filter": {
-            "type": "Revolutionary Army",
-            "cost": {
-              "min": 8
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfBattle",
+          "condition": {
+            "type": "HasCardOnBoard",
+            "filter": {
+              "type": "Revolutionary Army",
+              "cost": {
+                "min": 8
+              }
             }
           }
         }
-      }
-    ]
-  },
-  "id": "OP12-098"
+      ]
+    }
+  ]
 }

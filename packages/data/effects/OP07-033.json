@@ -6,6 +6,14 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": { "type": "HasBoardCount", "min": 3 },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeKOdByEffect", "target": { "scope": "AllOwnCharacters", "maxCost": 3 }, "duration": "Permanent" }
+      ]
+    }
+  ],
   "counter": 1000
 }

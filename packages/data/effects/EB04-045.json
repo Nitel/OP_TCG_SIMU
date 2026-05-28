@@ -24,5 +24,27 @@
       },
       "duration": "DuringYourTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "count": 2,
+        "minCost": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1,
+            "subType": "Revolutionary Army"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
   ]
 }

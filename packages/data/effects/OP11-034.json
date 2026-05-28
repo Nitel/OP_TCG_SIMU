@@ -1,30 +1,12 @@
 {
   "id": "OP11-034",
-  "trigger": "Activated",
-  "condition": {
-    "type": "LeaderHasAnyType",
-    "subTypes": [
-      "Fish-Man",
-      "Merfolk"
-    ]
-  },
-  "actions": [
+  "effects": [
     {
-      "type": "Rest",
-      "target": {
-        "scope": "Self"
-      },
-      "optional": true
-    },
-    {
-      "type": "GiveKeyword",
-      "keyword": "CannotBeRested",
-      "target": {
-        "scope": "ChooseOpponentCharacter",
-        "maxCost": 3,
-        "maxCount": 1
-      },
-      "duration": "EndOfOpponentTurn"
+      "trigger": "Activated",
+      "condition": { "type": "LeaderHasAnyType", "subTypes": ["Fish-Man", "Merfolk"] },
+      "actions": [
+        { "type": "GiveKeyword", "keyword": "CannotBeRested", "target": { "scope": "ChooseOpponentCharacter", "maxCost": 3 }, "duration": "EndOfOpponentTurn" }
+      ]
     }
   ]
 }

@@ -9,11 +9,14 @@
           "source": "trash",
           "destination": "bottomOfDeck",
           "count": 3,
-          "optional": true
+          "optional": true,
+          "filter": {}
         },
         {
           "type": "ForceDiscard",
-          "target": "opponent",
+          "target": {
+            "scope": "Self"
+          },
           "count": 1
         },
         {
@@ -21,7 +24,8 @@
           "source": "opponentTrash",
           "destination": "opponentBottomOfDeck",
           "count": 1,
-          "optional": true
+          "optional": true,
+          "filter": {}
         }
       ]
     }

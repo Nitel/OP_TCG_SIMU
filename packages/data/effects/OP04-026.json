@@ -31,5 +31,33 @@
       },
       "duration": "EndOfTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "count": 1
+        },
+        {
+          "type": "LeaderHasType",
+          "subType": "Donquixote Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
+        },
+        {
+          "type": "ActivateDon",
+          "count": 1
+        }
+      ]
+    }
   ]
 }

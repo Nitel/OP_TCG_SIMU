@@ -1,42 +1,47 @@
 {
-  "0": {
-    "trigger": null,
-    "condition": null,
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "EndOfOpponentTurn"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": "FromTrash",
-        "count": 1,
-        "destination": "DeckBottom"
-      },
-      {
-        "type": "AttachDon",
-        "count": 1,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader"
-        },
-        "condition": {
-          "type": "HasRestingDon",
-          "count": 1
+  "id": "ST19-004",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": null,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfOpponentTurn"
         }
-      }
-    ]
-  },
-  "id": "ST19-004"
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "Any"
+          },
+          "count": 1,
+          "destination": "DeckBottom"
+        },
+        {
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "condition": {
+            "type": "HasRestingDon",
+            "count": 1
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasPower",
-      "value": 5000,
-      "comparison": "GreaterThanOrEqual"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP14-004"
+  "id": "OP14-004",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasPower",
+        "value": 5000,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

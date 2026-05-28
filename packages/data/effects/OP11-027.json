@@ -1,14 +1,22 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": "LeaderIsName:Shirahoshi",
-    "duration": "DuringYourTurn",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CanAttackSameTurn"
-      }
-    ]
-  },
-  "id": "OP11-027"
+  "id": "OP11-027",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Shirahoshi"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

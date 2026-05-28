@@ -1,28 +1,30 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "cost": [
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "optional": true
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwn",
-          "cardType": [
-            "Leader",
-            "Character"
-          ],
-          "maxCount": 1
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP03-072"
+  "id": "OP03-072",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "cost": [
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "optional": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "cardType": [
+              "Leader",
+              "Character"
+            ],
+            "maxCount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

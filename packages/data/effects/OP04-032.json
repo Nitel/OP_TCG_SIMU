@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "EndOfTurn",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "Self"
+  "id": "OP04-032",
+  "effects": [
+    {
+      "trigger": "EndOfTurn",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "YourDon",
-          "count": 2
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self",
+            "count": 2
+          }
         }
-      }
-    ]
-  },
-  "id": "OP04-032"
+      ]
+    }
+  ]
 }

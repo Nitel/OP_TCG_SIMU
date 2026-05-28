@@ -1,41 +1,46 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "value": {
-          "cardTypes": [
-            "San-Gorou",
-            "Sanji"
-          ],
-          "minPower": 7000
+  "id": "ST26-001",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": {
+            "cardTypes": [
+              "San-Gorou",
+              "Sanji"
+            ],
+            "minPower": 7000
+          }
         }
-      }
-    ],
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": "Self",
-        "value": -5
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "OwnCharacters",
-          "cardTypes": [
-            "San-Gorou",
-            "Sanji"
-          ]
+      ],
+      "duration": "Permanent",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "Self"
+          },
+          "amount": -5,
+          "duration": "EndOfBattle"
         }
-      }
-    ]
-  },
-  "id": "ST26-001"
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "cardTypes": [
+              "San-Gorou",
+              "Sanji"
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -6,6 +6,21 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "And",
+        "conditions": [
+          { "type": "MulticoloredLeader" },
+          { "type": "OpponentDonCount", "max": 7 }
+        ]
+      },
+      "actions": [
+        { "type": "Rest", "target": { "scope": "ChooseOpponentDon" } }
+      ],
+      "_TODO": "Timing approximation: original effect rests DON at start of opponent's next Main Phase, not immediately"
+    }
+  ],
   "counter": 1000
 }

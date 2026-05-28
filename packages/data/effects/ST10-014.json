@@ -1,21 +1,27 @@
 {
-  "0": {
-    "trigger": "OnReturnDonToDeck",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
+  "id": "ST10-014",
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {},
-        "thenActions": []
-      }
-    ]
-  },
-  "id": "ST10-014"
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

@@ -5,6 +5,26 @@
   "power": 5000,
   "color": "Red",
   "cardType": "Character",
-  "keywords": [],
-  "effects": []
+  "keywords": [
+    "Rush"
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "max": 2
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

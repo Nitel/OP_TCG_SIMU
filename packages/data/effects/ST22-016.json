@@ -1,35 +1,38 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "RevealFromDeck",
-        "count": 1,
-        "position": "top"
-      }
-    ],
-    "condition": {
-      "type": "RevealedCardHasType",
-      "value": "Whitebeard Pirates"
-    }
-  },
-  "1": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "RevealedCardHasType",
-      "value": "Whitebeard Pirates"
+  "id": "ST22-016",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "RevealFromDeck",
+          "count": 1,
+          "returnTo": "top",
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 4000,
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              },
+              "duration": "EndOfBattle",
+              "condition": {
+                "type": "RevealedCardHasType",
+                "cardType": "Whitebeard Pirates"
+              }
+            }
+          ]
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 4000,
-        "target": {
-          "scope": "ChooseOwnCharacterOrLeader",
-          "max": 1
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "ST22-016"
+    {
+      "trigger": "Trigger",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,18 +1,20 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "OpponentLifeCount",
-      "value": 3,
-      "comparison": "GreaterThanOrEqual"
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "source": "OpponentLifeDeck"
-      }
-    ]
-  },
-  "id": "OP09-107"
+  "id": "OP09-107",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "OpponentLifeCount",
+        "value": 3,
+        "comparison": "GreaterThanOrEqual"
+      },
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "source": "OpponentLifeDeck"
+        }
+      ]
+    }
+  ]
 }

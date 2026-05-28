@@ -19,5 +19,28 @@
       "type": "FlipLife",
       "count": 1
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Whitebeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -4000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "EndOfTurn"
+        },
+        {
+          "type": "FlipLife",
+          "count": 1
+        }
+      ]
+    }
   ]
 }

@@ -5,6 +5,7 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "TrashFromHand",
@@ -14,7 +15,9 @@
               "type": "RevealFromHand",
               "source": "OpponentDeck",
               "count": 1,
-              "condition": "CostMatch",
+              "condition": {
+                "type": "CostMatch"
+              },
               "thenActions": [
                 {
                   "type": "DrawCard",

@@ -1,37 +1,50 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "LeaderHasType",
-        "value": "Blackbeard Pirates"
-      }
-    ],
-    "restrictions": [
-      {
-        "type": "OncePerTurn"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "DoubleAttack",
-        "duration": "EndOfOpponentTurn",
-        "target": "Self"
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "duration": "EndOfOpponentTurn",
-        "target": "Self"
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "duration": "EndOfOpponentTurn",
-        "target": "Self"
-      }
-    ]
-  },
-  "id": "OP09-084"
+  "id": "OP09-084",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "LeaderHasType",
+          "subType": "Blackbeard Pirates"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "duration": "EndOfOpponentTurn",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "duration": "EndOfOpponentTurn",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "duration": "EndOfOpponentTurn",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "restrictions": [
+        {
+          "type": "OncePerTurn"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker",
+    "Banish"
+  ]
 }

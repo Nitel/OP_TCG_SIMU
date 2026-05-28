@@ -9,6 +9,9 @@
  *   Restrictions     : Once-per-turn (activatedAbilityIds)
  */
 import { describe, it, expect } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import {
   applyAction,
   isGameError,
@@ -17,7 +20,10 @@ import {
   makeEmptyState,
   calculatePower,
 } from '../src/index.js';
-import type { Card, GameState, PlayerSetup, CardEffect } from '../src/index.js';
+import type { Card, GameState, PlayerSetup, CardEffect, CardKeyword } from '../src/index.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const EFFECTS_DIR = path.join(__dirname, '../../data/effects');
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -778,5 +784,114 @@ describe('[Rush] régression — règle du premier tour', () => {
       type: 'DeclareAttack', playerId: P1, attackerId: newChar.id, targetId: target.id,
     });
     expect(isGameError(result)).toBe(false);
+  });
+});
+
+// ─── KW — Tests de régression sur les keywords des cartes réelles ────────────
+
+// Helper: load keywords from an effects file
+function loadCardKeywords(cardId: string): readonly CardKeyword[] {
+  const filePath = path.join(EFFECTS_DIR, `${cardId}.json`);
+  if (!fs.existsSync(filePath)) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const def = JSON.parse(fs.readFileSync(filePath, 'utf-8')) as { keywords?: any[] };
+  return (def.keywords ?? []) as CardKeyword[];
+}
+
+describe('KW1 — ST22-009 (Vista) peut être déclaré bloqueur', () => {
+  it('ST22-009 a le keyword Blocker dans son fichier DSL', () => {
+    const kws = loadCardKeywords('ST22-009');
+    expect(kws).toContain('Blocker');
+  });
+
+  it('ST22-009 chargé avec ses keywords peut bloquer une attaque', () => {
+    const base = bootstrapGame();
+    const attacker = makeChar('atk', 'p1', 3000);
+    // Build Vista with keywords from effects file
+    const vista = makeChar('vista', 'p2', 1000, {
+      keywords: loadCardKeywords('ST22-009') as CardKeyword[],
+    });
+    let s = addToP1Board(base, attacker);
+    s = addToP2Board(s, vista);
+    s = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: attacker.id,
+      targetId: makeCardId('p2-leader'),
+    }) as GameState;
+    const result = applyAction(s, { type: 'DeclareBlock', playerId: P2, blockerId: vista.id });
+    expect(isGameError(result)).toBe(false);
+    if (!isGameError(result)) expect(result.activeCombat?.blockerId).toBe(vista.id);
+  });
+});
+
+describe('KW2 — carte Rush peut attaquer le tour où elle est posée', () => {
+  it('personnage avec keyword Rush dans son DSL peut attaquer le même tour', () => {
+    // Use a real Rush card from the effects files
+    const rushCards = fs.readdirSync(EFFECTS_DIR)
+      .filter((f) => f.endsWith('.json'))
+      .map((f) => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const d = JSON.parse(fs.readFileSync(path.join(EFFECTS_DIR, f), 'utf-8')) as { keywords?: any[] };
+          return { id: f.replace('.json', ''), keywords: d.keywords ?? [] };
+        } catch { return null; }
+      })
+      .filter((d): d is { id: string; keywords: string[] } => d !== null && d.keywords.includes('Rush'));
+
+    // Verify at least some Rush cards exist
+    expect(rushCards.length).toBeGreaterThan(0);
+
+    // Test with the first Rush card found
+    const rushCard = rushCards[0]!;
+    const base = bootstrapGame();
+    const char = makeChar(rushCard.id, 'p1', 2000, {
+      zone: 'hand', cost: 0,
+      keywords: rushCard.keywords as CardKeyword[],
+    });
+    const target = makeChar('target', 'p2', 1000, { tapped: true });
+    let s = addToP1Hand(base, char);
+    s = addToP2Board(s, target);
+    // Force past first turn restriction
+    s = { ...s, turnNumber: 3 };
+    const afterPlay = applyAction(s, { type: 'PlayCharacterFromHand', playerId: P1, cardId: char.id });
+    expect(isGameError(afterPlay)).toBe(false);
+    if (isGameError(afterPlay)) return;
+    const result = applyAction(afterPlay, {
+      type: 'DeclareAttack', playerId: P1, attackerId: char.id, targetId: target.id,
+    });
+    expect(isGameError(result)).toBe(false);
+  });
+});
+
+describe('KW3 — carte Banish envoie la carte KO\'d dans removed', () => {
+  it('personnage avec keyword Banish dans son DSL → victime en zone removed', () => {
+    const banishCards = fs.readdirSync(EFFECTS_DIR)
+      .filter((f) => f.endsWith('.json'))
+      .map((f) => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const d = JSON.parse(fs.readFileSync(path.join(EFFECTS_DIR, f), 'utf-8')) as { keywords?: any[] };
+          return { id: f.replace('.json', ''), keywords: d.keywords ?? [] };
+        } catch { return null; }
+      })
+      .filter((d): d is { id: string; keywords: string[] } => d !== null && d.keywords.includes('Banish'));
+
+    expect(banishCards.length).toBeGreaterThan(0);
+
+    const banishCard = banishCards[0]!;
+    const base = bootstrapGame();
+    const banisher = makeChar(banishCard.id, 'p1', 99000, {
+      keywords: banishCard.keywords as CardKeyword[],
+    });
+    const victim = makeChar('victim', 'p2', 1000, { tapped: true });
+    let s = addToP1Board(base, banisher);
+    s = addToP2Board(s, victim);
+    s = applyAction(s, {
+      type: 'DeclareAttack', playerId: P1, attackerId: banisher.id, targetId: victim.id,
+    }) as GameState;
+    const result = applyAction(s, { type: 'ResolveCombat', playerId: P1 });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.cards[victim.id]?.zone).toBe('removed');
+    expect(result.players[P2]!.trash).not.toContain(victim.id);
   });
 });

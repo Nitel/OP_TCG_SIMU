@@ -5,8 +5,9 @@
       "trigger": "Counter",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Navy"
+        "subType": "Navy"
       },
+      "duration": "Permanent",
       "actions": [
         {
           "type": "TrashFromHand",
@@ -14,21 +15,21 @@
           "filter": {},
           "thenActions": []
         }
-      ],
-      "duration": "Permanent"
+      ]
     },
     {
       "trigger": "OnKO",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always"
       },
+      "duration": "DuringYourTurn",
       "actions": [
         {
           "type": "DrawCard",
           "count": 1
         }
-      ],
-      "duration": "DuringYourTurn"
+      ]
     }
   ]
 }

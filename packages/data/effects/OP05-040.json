@@ -1,43 +1,46 @@
 {
-  "0": {
-    "trigger": "Trigger",
-    "condition": {
-      "type": "LeaderIsName",
-      "name": "Donquixote Doflamingo"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "DoesNotBecomeActiveInRefreshPhase",
-        "target": {
-          "scope": "AllCharacters",
-          "maxCost": 5
-        }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "EndOfTurn",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 10
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "AllCharacters",
-          "maxCost": 5,
-          "rested": true
-        }
+  "id": "OP05-040",
+  "effects": [
+    {
+      "trigger": "Trigger",
+      "condition": {
+        "type": "LeaderIsName",
+        "name": "Donquixote Doflamingo"
       },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoesNotBecomeActiveInRefreshPhase",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "maxCost": 5
+          }
         }
-      }
-    ]
-  },
-  "id": "OP05-040"
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 10
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "AllOwnCharacters",
+            "maxCost": 5,
+            "rested": true
+          }
+        },
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self"
+          },
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

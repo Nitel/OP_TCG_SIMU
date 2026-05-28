@@ -6,6 +6,21 @@
   "color": "Yellow",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "YourTurn",
+      "oncePerTurn": true,
+      "actions": [],
+      "_TODO": "effectText=\"[Your Turn] [Once Per Turn] This effect can be activated when your opponent activates an Event or [Trigger]. If your opponent has 2 or more Life cards, trash 1 card from the top of each of your and your opponent's Life cards.\" — OnOpponentEventActivated trigger not supported"
+    },
+    {
+      "trigger": "Trigger",
+      "condition": { "type": "OpponentLifeCount", "min": 2 },
+      "actions": [
+        { "type": "RemoveLife", "count": 1, "scope": "own" },
+        { "type": "RemoveLife", "count": 1, "scope": "opponent" }
+      ]
+    }
+  ],
   "counter": 2000
 }

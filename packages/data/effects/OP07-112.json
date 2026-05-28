@@ -3,10 +3,10 @@
   "effects": [
     {
       "trigger": "OnAttack",
+      "oncePerTurn": true,
       "condition": {
         "type": "Always"
       },
-      "limit": "OncePerTurn",
       "actions": [
         {
           "type": "FlipLife",
@@ -35,7 +35,8 @@
             "comparison": "LessOrEqual"
           }
         }
-      ]
+      ],
+      "limit": "OncePerTurn"
     }
   ]
 }

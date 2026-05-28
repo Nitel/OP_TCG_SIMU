@@ -4,6 +4,7 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "condition": {
         "type": "HasRestingDon",
         "count": 3
@@ -23,13 +24,13 @@
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "ByType",
-            "type": "Land of Wano",
+            "kind": "BySubType",
+            "subType": "Land of Wano",
             "color": "green",
             "maxCost": 3
           },
-          "maxCount": 1,
-          "destination": "board"
+          "destination": "board",
+          "count": 1
         }
       ]
     }

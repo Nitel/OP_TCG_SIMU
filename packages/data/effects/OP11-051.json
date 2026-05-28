@@ -14,9 +14,17 @@
         "type": "Straw Hat Crew",
         "maxCost": 5
       },
-      "maxResults": 1,
       "destination": "board",
-      "remainderPlacement": "BottomOfDeckInAnyOrder"
+      "count": 1,
+      "restTo": "bottom"
+    }
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        { "type": "ReturnToHand", "target": { "scope": "ChooseOpponentCharacter", "maxPower": 5000 } }
+      ]
     }
   ]
 }

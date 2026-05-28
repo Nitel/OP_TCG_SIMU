@@ -5,8 +5,8 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "duration": "DuringYourTurn",
-      "maxUses": 1,
       "actions": [
         {
           "type": "Rest",
@@ -18,13 +18,15 @@
         },
         {
           "type": "PowerBoost",
-          "value": -1,
           "target": {
             "scope": "ChooseOpponentCharacter",
             "maxCount": 1
-          }
+          },
+          "amount": -1,
+          "duration": "DuringYourTurn"
         }
-      ]
+      ],
+      "maxUses": 1
     }
   ]
 }

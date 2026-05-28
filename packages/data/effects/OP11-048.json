@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "count": 4,
-        "reveal": 1,
-        "filter": {
-          "kind": "And",
-          "conditions": [
-            {
-              "kind": "HasAnyType",
-              "types": [
-                "Firetank Pirates",
-                "Straw Hat Crew"
-              ]
-            },
-            {
-              "kind": "ByCost",
-              "value": 2,
-              "comparison": ">="
-            }
-          ]
+  "id": "OP11-048",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "reveal": 1,
+          "filter": {
+            "kind": "ByType",
+            "conditions": [
+              {
+                "kind": "HasAnyType",
+                "types": [
+                  "Firetank Pirates",
+                  "Straw Hat Crew"
+                ]
+              },
+              {
+                "kind": "ByCost",
+                "value": 2,
+                "comparison": ">="
+              }
+            ]
+          },
+          "destination": "hand",
+          "lookCount": 4
         },
-        "destination": "hand"
-      },
-      {
-        "type": "ArrangeDeck",
-        "zone": "bottom",
-        "arrangeMode": "anyOrder"
-      }
-    ]
-  },
-  "id": "OP11-048"
+        {
+          "type": "ArrangeDeck",
+          "zone": "bottom",
+          "arrangeMode": "anyOrder"
+        }
+      ]
+    }
+  ]
 }

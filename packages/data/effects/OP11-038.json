@@ -1,36 +1,38 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "amount": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 5
-        },
-        "amount": 1
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "OwnLeader",
+  "id": "OP11-038",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
           "amount": 1
-        },
-        "duration": "EndOfBattle"
-      }
-    ]
-  },
-  "id": "OP11-038"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 5
+          },
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "OwnLeader",
+            "amount": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

@@ -15,7 +15,21 @@ const EFFECTS_DIR = path.join(__dirname, '../../data/effects');
 const VALID_TRIGGERS = new Set([
   'Activated', 'OnPlay', 'OnAttack', 'OnAttacked', 'OnBlock', 'OnKO', 'OnLeaveField', 'Counter', 'Trigger',
   'StartOfTurn', 'StartOfOpponentTurn', 'StartOfMainPhase', 'EndOfTurn', 'OnOpponentBlock',
-  'OnOpponentPlaysEvent',
+  'OnOpponentPlaysEvent', 'YourTurn',
+  // Static / passive abilities
+  'Permanent',
+  // DON-return trigger
+  'OnReturnDonToDeck',
+  // Damage and trash triggers
+  'OnDamage', 'OnTrash',
+  // KO substitution trigger
+  'OnWouldBeKOByEffect',
+  // Rest substitution trigger
+  'OnWouldBeRestedByEffect',
+  // Rested trigger
+  'OnRested',
+  // End-of-battle trigger
+  'EndOfBattle',
 ]);
 const VALID_CONDITIONS = new Set([
   'Always', 'TurnCount', 'HasRestingDon', 'HasAttachedDon', 'LeaderHasAttachedDon', 'TrashCount', 'HasCardOnBoard',
@@ -24,6 +38,32 @@ const VALID_CONDITIONS = new Set([
   'HasTotalAttachedDon', 'HasBoardCount', 'HasHandCount',
   // Phase ST21 additions
   'HasCharacterWithMinPower',
+  // Phase ST22 additions
+  'RevealedCardHasType',
+  // Group 2: logical composition
+  'OR', 'And',
+  // Power threshold check
+  'HasPowerThreshold',
+  // Group 3: cost reduction conditions
+  'DonDifference', 'LeaderPowerAtMost',
+  // Life / hand count comparisons
+  'LifeCount', 'OpponentLifeCount', 'HasLife', 'HasLifeCards', 'FlipCount',
+  'HandCount', 'OpponentHandCount',
+  // Power / type checks
+  'HasPower', 'HasType', 'HasAnyType',
+  // Comparative life checks
+  'PlayerLifeLessThanOpponent', 'HasFewerLifeThanOpponent',
+  // Once-per-turn restriction
+  'OncePerTurn',
+  // Power/life comparison conditions
+  'CardPower', 'OpponentLife', 'KOByOpponentEffect', 'HasLifeOrLess',
+  'LeaderHasLife', 'LifeComparison', 'PlayedThisTurn',
+  // Rested card counts
+  'HasRestedCharacters', 'HasRestedCards',
+  // DON count conditions
+  'TotalDonCount', 'AllDonRested', 'DonCountVsOpponent',
+  // New conditions
+  'OnlyTypeOnBoard', 'Not', 'FaceUpLifeCard', 'MulticoloredLeader', 'OpponentDonCount',
 ]);
 const VALID_ACTIONS = new Set([
   'DrawCard', 'KO', 'ReturnToHand', 'PowerBoost', 'ForceDiscard', 'AddLife',
@@ -37,17 +77,58 @@ const VALID_ACTIONS = new Set([
   'DynamicPowerBoost', 'ReduceEventCost', 'TakeFromLife',
   // Phase ST21 additions
   'ForceAttack', 'DisableBlocker', 'SuppressBlockerForAttacker',
+  // Deck manipulation (not yet fully implemented — engine returns state unchanged)
+  'ShuffleDeck', 'ScryDeck', 'ArrangeDeck', 'ArrangeFromDeck', 'ReorderLifeCards',
+  'PlaceCardOnTopOfDeck', 'OrderDeckBottom', 'ReturnToTopOrBottomOfDeck',
+  // Trash / protection actions
+  'TrashFromLife', 'TrashFromPlay', 'TrashSelf', 'PreventKO', 'BlockPlay',
+  // DON management
+  'ActivateDon', 'AddDon',
+  // Conditional branching
+  'ConditionalAction',
+  // Additional deck/trash manipulation
+  'PreventBlocker', 'PlaceDecksBottom', 'ReorderDeck', 'AddRestriction', 'ModifyCost',
+  'ProportionalPowerBoost',
+  'GiveTemporaryCostModifier',
+  'SetAllDonActive',
+  // New: choice, base power, refresh prevention
+  'ChooseOne', 'SetBasePower', 'PreventRefresh',
+  // New: opponent trash recovery, hand-to-deck, trash recovery
+  'RecoverOpponentTrash', 'HandToDeck', 'RecoverTrashToDeck',
+  // Life card manipulation
+  'LookAtLife', 'RearrangeLife', 'TakeLifeToHand', 'MoveLifeCard',
+  // DON cost actions and steal
+  'RestDon', 'ReturnDonToDeck', 'StealCard',
+  // Negate effects
+  'NegateEffect',
+  // New actions
+  'SetCostToZero', 'SwapBasePower', 'SetBasePowerToLeader',
+  'PlaceAllCharactersAtBottom', 'AddToLife', 'PlaceOwnCharacterAtBottom',
+  'SetActive', 'CannotAddLifeToHand',
 ]);
-const VALID_KEYWORDS = new Set(['Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger']);
+const VALID_KEYWORDS = new Set([
+  'Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger',
+  // Engine-enforced keywords
+  'CannotAttack', 'CannotBeKOdByEffect', 'CannotBeKOdInBattle', 'CannotBeRested',
+  // Extended keywords (legacy / partial — stored on card)
+  'CannotBeKOd',
+  'CantBeKOdByOpponentEffects', 'CannotBeKOdByEffects', 'CannotBeKOdByOpponentEffects',
+  'CanAttackActive', 'CannotBeRemoved', 'CannotBeRemovedByOpponentEffects', 'Unremovable',
+  'DirectAttack', 'DoesNotBecomeActiveInRefreshPhase', 'Protection', 'Restricted',
+  'Active', 'CannotAddLifeThisTurn', 'CannotBeActive', 'CanAttackSameTurn',
+  "Cannot be K.O.'d in battle by <Slash> attribute cards",
+]);
 const VALID_SCOPES = new Set([
   'Self', 'Attacker', 'OriginalTarget',
   'AllOwnCharacters', 'AllOwnCharactersAndLeader',
   'AllOpponentCharacters',
   'OpponentLeader', 'OwnLeader',
   'ChooseOwnCharacter', 'ChooseOpponentCharacter', 'ChooseOwnCharacterOrLeader', 'ChooseOpponentCharacterOrLeader',
+  // DON!! targeting
+  'ChooseOpponentDon', 'ChooseOpponentCharacterOrDon', 'ChooseOwnCharacterOrDon',
 ]);
-const VALID_DURATIONS = new Set(['EndOfTurn', 'DuringYourTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent']);
-const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName', 'BySubType']);
+const VALID_DURATIONS = new Set(['EndOfTurn', 'DuringYourTurn', 'EndOfBattle', 'EndOfOpponentTurn', 'Permanent', 'UntilOpponentRefresh', 'UntilOpponentRefreshPhase']);
+const VALID_FILTER_KINDS = new Set(['Any', 'ByType', 'ByCost', 'ByName', 'ByNames', 'BySubType', 'ByTypeOrName', 'ByCardType', 'ByDonCount']);
 const VALID_CARD_TYPES = new Set(['Character', 'Event', 'Stage']);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

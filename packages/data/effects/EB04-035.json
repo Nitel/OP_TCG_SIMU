@@ -1,25 +1,29 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Kid Pirates"
-    },
-    "duration": "DuringYourTurn",
-    "frequency": "OncePerTurn",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "cardType": "DON!!",
-        "count": 1
+  "id": "EB04-035",
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Kid Pirates"
       },
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "LastSearched"
+      "actions": [
+        {
+          "type": "AddDon",
+          "count": 1,
+          "active": true
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         }
-      }
-    ]
-  },
-  "id": "EB04-035"
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

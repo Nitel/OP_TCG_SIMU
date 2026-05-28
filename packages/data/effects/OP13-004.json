@@ -1,39 +1,41 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": "GreaterThanOrEqual",
-      "value": 4
+  "id": "OP13-004",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": "GreaterThanOrEqual",
+        "value": 4
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "Permanent"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -1000,
-        "target": {
-          "scope": "Leader"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "name": "Character",
-      "costThreshold": 8
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "AllOwnCharactersAndLeader"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP13-004"
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HasCardOnBoard",
+        "name": "Character",
+        "costThreshold": 8
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "AllOwnCharactersAndLeader"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ]
 }

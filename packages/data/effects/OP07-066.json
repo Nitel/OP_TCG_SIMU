@@ -1,21 +1,28 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "HasAttachedDon",
-      "operator": "LessOrEqual",
-      "compareToOpponent": true
-    },
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1
+  "id": "OP07-066",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "HasAttachedDon",
+        "operator": "LessOrEqual",
+        "compareToOpponent": true
       },
-      {
-        "type": "Rest",
-        "target": "Self"
-      }
-    ]
-  },
-  "id": "OP07-066"
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

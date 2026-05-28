@@ -1,15 +1,23 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest"
-      }
-    ],
-    "duration": "Permanent"
-  },
-  "id": "OP07-101"
+  "id": "OP07-101",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

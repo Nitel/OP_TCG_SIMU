@@ -8,14 +8,21 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "Activated",
       "actions": [
         {
           "type": "SearchDeck",
+          "count": 1,
           "filter": {
-            "kind": "Any"
+            "kind": "BySubType",
+            "types": [
+              "Straw Hat Crew",
+              "Kid Pirates",
+              "Heart Pirates"
+            ]
           },
-          "destination": "hand"
+          "destination": "hand",
+          "lookCount": 3
         }
       ]
     }

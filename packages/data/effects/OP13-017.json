@@ -6,6 +6,15 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnWouldBeKOByEffect",
+      "oncePerTurn": true,
+      "protects": { "scope": "AllOwnCharacters", "subType": "Revolutionary Army" },
+      "actions": [
+        { "type": "PowerBoost", "amount": -2000, "target": { "scope": "Self" }, "duration": "Permanent" }
+      ]
+    }
+  ],
   "counter": 1000
 }

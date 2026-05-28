@@ -6,6 +6,28 @@
   "color": "Blue",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnDamage",
+      "actions": [
+        {
+          "type": "ChooseOne",
+          "choices": [
+            {
+              "label": "Trash 3 + Trash self",
+              "actions": [
+                { "type": "TrashFromDeck", "count": 3 },
+                { "type": "TrashSelf" }
+              ]
+            },
+            {
+              "label": "Skip",
+              "actions": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

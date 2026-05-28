@@ -1,22 +1,24 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "filter": {
-          "excludeSelf": true,
-          "location": "board"
-        },
-        "thenActions": [
-          {
-            "type": "DrawCard",
-            "count": 1
-          }
-        ],
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP05-056"
+  "id": "OP05-056",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "filter": {
+            "excludeSelf": true,
+            "location": "board"
+          },
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            }
+          ],
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

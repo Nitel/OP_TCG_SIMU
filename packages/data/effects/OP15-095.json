@@ -45,6 +45,24 @@
           "duration": "DuringYourTurn"
         }
       ]
+    },
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "TrashCount",
+        "value": 15,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
     }
   ]
 }

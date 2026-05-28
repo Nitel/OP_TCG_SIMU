@@ -8,6 +8,24 @@
   "keywords": [
     "Blocker"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "HandCount",
+        "value": 5,
+        "comparison": ">="
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ],
   "counter": 1000
 }

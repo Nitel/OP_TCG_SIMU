@@ -6,5 +6,38 @@
   "color": "Green",
   "cardType": "Character",
   "keywords": [],
-  "effects": []
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasRestingDon",
+        "count": 1
+      },
+      "actions": [
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 2
+      },
+      "actions": [
+        {
+          "type": "Activate",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 import type { CardId, GameState, PlayerId } from '../types/index.js';
-import { calculatePower, sendToTrash, sendToRemoved, clearPowerModifiers, hasKeyword } from './cardUtils.js';
+import { calculatePower, sendToTrash, sendToRemoved, clearPowerModifiers, clearBattlePowerModifiers, hasKeyword } from './cardUtils.js';
 import { resolveEffects } from '../effects/effectResolver.js';
 
 // Re-export for public API backwards compatibility
@@ -42,10 +42,21 @@ export function applyLeaderDamage(
     hand: [...defender.hand, revealedId],
   };
 
+  const dmgSeq = state.gameLog.length;
   let result: GameState = {
     ...state,
     cards: updatedCards as Readonly<typeof state.cards>,
     players: { ...state.players, [defendingPlayerId]: updatedDefender },
+    gameLog: [...state.gameLog, {
+      seq: dmgSeq,
+      event: 'DAMAGE_DEALT' as const,
+      message: `[${defendingPlayerId}] took damage — life card "${revealedCard.name}" sent to hand (${remainingLife.length} life remaining)`,
+      cardId: revealedId,
+      cardName: revealedCard.name,
+      playerId: defendingPlayerId,
+      turn: state.turnNumber,
+      details: { remainingLife: remainingLife.length },
+    }],
   };
 
   // Trigger effect on the revealed life card
@@ -124,7 +135,7 @@ export function resolveCombat(state: GameState): GameState {
     const blockerPower = calculatePower(blockerId, state);
     const blockerCard = state.cards[blockerId]; // read BEFORE trash
 
-    if (attackerPower >= blockerPower) {
+    if (attackerPower >= blockerPower && !hasKeyword(blockerCard!, 'CannotBeKOdInBattle')) {
       next = koCard(next, blockerId, blockerCard);
     }
     // else: attack repelled, blocker survives, attacker is unharmed
@@ -153,14 +164,55 @@ export function resolveCombat(state: GameState): GameState {
       } else {
         // Unblocked attack on a Character → KO if attacker power >= defender power
         const targetCard = state.cards[targetId]; // read BEFORE trash
-        next = koCard(next, targetId, targetCard);
+        if (!hasKeyword(targetCard!, 'CannotBeKOdInBattle')) {
+          next = koCard(next, targetId, targetCard);
+        }
       }
     }
     // attacker power < defender power + counter → attack repelled
   }
 
-  // Clear EndOfBattle power modifiers on the attacker (if it survived)
-  next = clearPowerModifiers(next, [attackerId]);
+  // Clear EndOfBattle power modifiers on ALL cards (attacker + any counter-buffed cards)
+  next = clearBattlePowerModifiers(next);
+
+  // Fire EndOfBattle triggers on participating cards (attacker + blocker or direct target)
+  // The battle opponent is stored as chosenTargetId in the context so OriginalTarget scope can resolve it
+  const battleOpponentId = blockerId ?? targetId;
+  const attackerCardPost = next.cards[attackerId] ?? state.cards[attackerId];
+  if (attackerCardPost?.effects && attackerCardPost.effects.length > 0) {
+    next = resolveEffects(attackerCardPost.effects, 'EndOfBattle', {
+      sourceCardId: attackerId,
+      sourcePlayerId: attackerCardPost.ownerId,
+      chosenTargetId: battleOpponentId,
+    }, next);
+  }
+  const battleOpponentCard = next.cards[battleOpponentId] ?? state.cards[battleOpponentId];
+  if (battleOpponentCard?.type === 'Character' && battleOpponentCard.effects && battleOpponentCard.effects.length > 0) {
+    next = resolveEffects(battleOpponentCard.effects, 'EndOfBattle', {
+      sourceCardId: battleOpponentId,
+      sourcePlayerId: battleOpponentCard.ownerId,
+      chosenTargetId: attackerId,
+    }, next);
+  }
+
+  const combatSeq = next.gameLog.length;
+  const attackerCard = next.cards[attackerId] ?? state.cards[attackerId];
+  const targetCard = next.cards[targetId] ?? state.cards[targetId];
+  const blockerDesc = blockerId !== null
+    ? ` (blocker: "${next.cards[blockerId]?.name ?? state.cards[blockerId]?.name ?? blockerId}")`
+    : '';
+  next = {
+    ...next,
+    gameLog: [...next.gameLog, {
+      seq: combatSeq,
+      event: 'COMBAT_RESOLVED' as const,
+      message: `Combat: "${attackerCard?.name ?? attackerId}" vs "${targetCard?.name ?? targetId}"${blockerDesc}`,
+      cardId: attackerId,
+      cardName: attackerCard?.name,
+      playerId: attackerCard?.ownerId,
+      turn: next.turnNumber,
+    }],
+  };
 
   return next;
 }

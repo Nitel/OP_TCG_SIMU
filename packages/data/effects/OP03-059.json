@@ -1,19 +1,21 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringBattle"
-      }
-    ]
-  },
-  "id": "OP03-059"
+  "id": "OP03-059",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
+  ]
 }

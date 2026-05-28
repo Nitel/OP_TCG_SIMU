@@ -5,6 +5,7 @@
   "effects": [
     {
       "trigger": "Activated",
+      "oncePerTurn": true,
       "conditions": [
         {
           "type": "Always"
@@ -13,22 +14,27 @@
       "actions": [
         {
           "type": "SearchDeck",
+          "source": "trash",
           "count": 1,
-          "filter": {
-            "source": "trash"
-          },
-          "placement": "bottom"
-        },
-        {
-          "type": "PowerBoost",
-          "amount": -1000,
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "count": 1
-          },
-          "duration": "EndOfTurn"
+          "filter": {},
+          "destination": "bottomOfDeck",
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": -1000,
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "count": 1
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     }
+  ],
+  "keywords": [
+    "Blocker"
   ]
 }

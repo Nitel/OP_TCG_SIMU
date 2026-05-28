@@ -1,23 +1,27 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "Specific",
-          "types": [
-            "Animal Kingdom Pirates"
-          ],
-          "excludeNames": [
-            "Who's.Who"
-          ],
-          "limit": 5,
-          "selectUpTo": 1
-        },
-        "destination": "hand"
-      }
-    ]
-  },
-  "id": "OP04-051"
+  "id": "OP04-051",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "ByName",
+            "types": [
+              "Animal Kingdom Pirates"
+            ],
+            "excludeNames": [
+              "Who's.Who"
+            ],
+            "limit": 5,
+            "selectUpTo": 1
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

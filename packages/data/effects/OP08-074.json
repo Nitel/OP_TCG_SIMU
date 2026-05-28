@@ -1,39 +1,46 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "value": "[Black Maria]",
-        "negate": true
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 5
-      },
-      {
-        "type": "Rest",
-        "target": "DonCardsJustAdded"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "EndOfTurn",
-    "conditions": [
-      {
-        "type": "TurnCount",
-        "value": "same"
-      }
-    ],
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "target": "OpponentDonField",
-        "count": "UntilMatchOpponentCount"
-      }
-    ]
-  },
-  "id": "OP08-074"
+  "id": "OP08-074",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "conditions": [
+        {
+          "type": "HasCardOnBoard",
+          "value": "[Black Maria]",
+          "negate": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 5
+        },
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "EndOfTurn",
+      "conditions": [
+        {
+          "type": "TurnCount",
+          "value": "same"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "target": {
+            "scope": "Self"
+          },
+          "count": "UntilMatchOpponentCount"
+        }
+      ]
+    }
+  ]
 }

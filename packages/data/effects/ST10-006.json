@@ -1,16 +1,25 @@
 {
-  "0": {
-    "trigger": "OnBlock",
-    "condition": "Once Per Turn",
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 8000
+  "id": "ST10-006",
+  "effects": [
+    {
+      "trigger": "OnBlock",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "OncePerTurn"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 8000
+          }
         }
-      }
-    ]
-  },
-  "id": "ST10-006"
+      ]
+    }
+  ],
+  "keywords": [
+    "Rush",
+    "Blocker"
+  ]
 }

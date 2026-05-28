@@ -1,32 +1,38 @@
 {
-  "0": {
-    "trigger": "Passive",
-    "condition": {
-      "type": "TrashCount",
-      "comparison": ">=",
-      "value": 7
+  "id": "OP13-083",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "TrashCount",
+        "comparison": ">=",
+        "value": 7
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeRemovedByOpponentEffects",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Cannot be removed from field by opponent effects"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "value": "Five Elders"
-        },
-        "limit": 1,
-        "destination": "hand",
-        "description": "Look at 5 cards from top of deck; reveal up to 1 {Five Elders} type card and add to hand. Place rest at bottom in any order."
-      }
-    ]
-  },
-  "id": "OP13-083"
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Five Elders"
+          },
+          "destination": "hand",
+          "description": "Look at 5 cards from top of deck; reveal up to 1 {Five Elders} type card and add to hand. Place rest at bottom in any order.",
+          "count": 1,
+          "lookCount": 5
+        }
+      ]
+    }
+  ]
 }

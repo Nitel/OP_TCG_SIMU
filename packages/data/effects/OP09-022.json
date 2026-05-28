@@ -1,32 +1,34 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasAttachedDon",
-      "count": 3
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "cardType": "DON"
-        },
-        "count": 1
+  "id": "OP09-022",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 3
       },
-      {
-        "type": "AttachDon",
-        "count": 1
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "ODYSSEY",
-          "cardType": "Character",
-          "maxCost": 5
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {},
+          "count": 1,
+          "destination": "hand"
         },
-        "count": 1
-      }
-    ]
-  },
-  "id": "OP09-022"
+        {
+          "type": "AttachDon",
+          "count": 1
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "ODYSSEY",
+            "cardType": "Character",
+            "maxCost": 5
+          },
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

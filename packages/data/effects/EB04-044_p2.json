@@ -9,6 +9,7 @@
   "effects": [
     {
       "trigger": "OnAttacked",
+      "oncePerTurn": true,
       "condition": {
         "type": "HasCardOnBoard",
         "name": "Navy"
@@ -22,7 +23,8 @@
       ]
     },
     {
-      "trigger": "Activated",
+      "trigger": "YourTurn",
+      "oncePerTurn": true,
       "actions": [
         {
           "type": "DrawCard",

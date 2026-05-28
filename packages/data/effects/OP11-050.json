@@ -1,32 +1,35 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "cost": {
-      "type": "TrashFromHand",
-      "filter": {
-        "subType": "Firetank Pirates"
+  "id": "OP11-050",
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "cost": {
+        "type": "TrashFromHand",
+        "filter": {
+          "subType": "Firetank Pirates"
+        },
+        "optional": true
       },
-      "optional": true
-    },
-    "actions": [
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 1,
-          "maxCount": 1
+      "actions": [
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1
+          }
+        },
+        {
+          "type": "PlayFromHand",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 1,
+            "maxCount": 1,
+            "placement": "BottomOfDeck"
+          },
+          "filter": {}
         }
-      },
-      {
-        "type": "PlayFromHand",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 1,
-          "maxCount": 1,
-          "placement": "BottomOfDeck"
-        }
-      }
-    ]
-  },
-  "id": "OP11-050"
+      ]
+    }
+  ]
 }

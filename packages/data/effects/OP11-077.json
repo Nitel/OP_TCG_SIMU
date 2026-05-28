@@ -6,6 +6,22 @@
   "color": "Purple",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacter"
+          },
+          "duration": "EndOfTurn"
+        }
+      ],
+      "_NOTE": "partial: 'up to 1 of your Characters' — ChooseOwnCharacter used; exact card text was truncated"
+    }
+  ],
   "counter": 1000
 }

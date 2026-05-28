@@ -1,52 +1,54 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 9
+  "id": "OP14-120",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 9
+          },
+          "duration": "EndOfOpponentTurn"
         },
-        "duration": "UntilEndOfOpponentNextTurn"
-      },
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "condition": {
-          "type": "HasCardOnBoard",
-          "scope": "OpponentBoard",
-          "filter": {
-            "cardType": "Character",
-            "costCondition": "OR",
-            "costs": [
-              0,
-              8,
-              9,
-              10
-            ]
+        {
+          "type": "DrawCard",
+          "count": 1,
+          "condition": {
+            "type": "HasCardOnBoard",
+            "scope": "OpponentBoard",
+            "filter": {
+              "cardType": "Character",
+              "costCondition": "OR",
+              "costs": [
+                0,
+                8,
+                9,
+                10
+              ]
+            }
           }
         }
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "kind": "Any"
-        },
-        "optional": true,
-        "thenActions": [
-          {
-            "type": "PlaySelf",
-            "source": "Trash"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP14-120"
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "kind": "Any"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PlaySelf",
+              "source": "Trash"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

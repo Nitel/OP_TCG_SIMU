@@ -5,7 +5,23 @@
   "power": 3000,
   "color": "Red",
   "cardType": "Character",
-  "keywords": [],
-  "effects": [],
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DisableBlocker",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 4000
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ],
   "counter": 2000
 }

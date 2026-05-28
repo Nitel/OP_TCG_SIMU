@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 3000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
+  "id": "OP05-018",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 3000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxAmount": 1
+          },
+          "duration": "EndOfBattle"
+        },
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "subType": "Revolutionary Army",
+            "maxPower": 5000,
+            "cardType": "Character"
+          },
           "maxAmount": 1
-        },
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "subType": "Revolutionary Army",
-          "maxPower": 5000,
-          "cardType": "Character"
-        },
-        "maxAmount": 1
-      }
-    ]
-  },
-  "id": "OP05-018"
+        }
+      ]
+    }
+  ]
 }

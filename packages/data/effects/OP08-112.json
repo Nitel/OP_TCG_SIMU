@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotAttack",
-        "duration": "UntilEndOfOpponentNextTurn",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 6,
-          "excludeNames": [
-            "Monkey.D.Luffy"
-          ]
-        },
-        "maxTargets": 1
-      }
-    ]
-  },
-  "id": "OP08-112"
+  "id": "OP08-112",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "duration": "EndOfOpponentTurn",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 6,
+            "excludeNames": [
+              "Monkey.D.Luffy"
+            ]
+          },
+          "maxTargets": 1
+        }
+      ]
+    }
+  ]
 }

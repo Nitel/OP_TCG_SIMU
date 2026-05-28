@@ -1,25 +1,29 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "Self"
+  "id": "OP05-034",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "kind": "ByType",
-          "type": "Donquixote Pirates"
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
         },
-        "count": 5,
-        "maxReveal": 1,
-        "destination": "hand"
-      }
-    ]
-  },
-  "id": "OP05-034"
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Donquixote Pirates"
+          },
+          "count": 1,
+          "destination": "hand",
+          "lookCount": 5
+        }
+      ]
+    }
+  ]
 }

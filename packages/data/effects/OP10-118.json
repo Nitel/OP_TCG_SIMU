@@ -1,55 +1,65 @@
 {
-  "0": {
-    "trigger": "Passive",
-    "duration": "Permanent",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeKOdByOpponentEffects",
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttack",
-    "duration": "DuringYourTurn",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "from": "Trash",
-        "count": 3,
-        "destination": "BottomOfDeck",
-        "optional": true
-      }
-    ]
-  },
-  "2": {
-    "trigger": "OnAttack",
-    "duration": "DuringYourTurn",
-    "conditions": [
-      {
-        "type": "OpponentHandSize",
-        "value": 5,
-        "comparison": "GreaterThanOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 1,
-        "target": "Opponent"
-      }
-    ]
-  },
-  "id": "OP10-118"
+  "id": "OP10-118",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "duration": "Permanent",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByOpponentEffects",
+          "duration": "Permanent",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "from": "Trash",
+          "count": 3,
+          "destination": "BottomOfDeck",
+          "optional": true,
+          "filter": {
+            "kind": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "duration": "DuringYourTurn",
+      "conditions": [
+        {
+          "type": "OpponentHandSize",
+          "value": 5,
+          "comparison": "GreaterThanOrEqual"
+        }
+      ],
+      "actions": [
+        {
+          "type": "ForceDiscard",
+          "count": 1,
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -6,6 +6,14 @@
   "color": "Red",
   "cardType": "Character",
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "trigger": "OnWouldBeKOByEffect",
+      "protects": { "scope": "AllOwnCharacters", "maxPower": 7000 },
+      "actions": [
+        { "type": "PowerBoost", "amount": -2000, "target": { "scope": "OwnLeader" }, "duration": "Permanent" }
+      ]
+    }
+  ],
   "counter": 2000
 }

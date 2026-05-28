@@ -1,29 +1,32 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 1000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter"
+  "id": "OP06-057",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 1000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "RevealFromHand",
-        "source": "deck",
-        "count": 1
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "cardType": "Character",
-          "maxCost": 2
+        {
+          "type": "RevealFromHand",
+          "source": "deck",
+          "count": 1,
+          "thenActions": []
         },
-        "optional": true
-      }
-    ]
-  },
-  "id": "OP06-057"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "maxCost": 2
+          },
+          "optional": true
+        }
+      ]
+    }
+  ]
 }

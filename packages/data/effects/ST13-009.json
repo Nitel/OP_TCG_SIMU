@@ -11,10 +11,14 @@
         },
         {
           "type": "ForceDiscard",
-          "target": "OpponentLifeCards",
+          "target": {
+            "scope": "Self"
+          },
           "count": 1,
           "optional": true,
-          "condition": "OpponentHandSize>=7"
+          "condition": {
+            "type": "OpponentHandSize>=7"
+          }
         }
       ]
     }

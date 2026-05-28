@@ -1,21 +1,23 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "condition": {
-      "type": "LeaderHasType",
-      "subType": "Donquixote Pirates"
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "ChooseOwnLeaderOrCharacter",
-          "maxCount": 1
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
-  "id": "OP04-037"
+  "id": "OP04-037",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Donquixote Pirates"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "maxCount": 1
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
+  ]
 }

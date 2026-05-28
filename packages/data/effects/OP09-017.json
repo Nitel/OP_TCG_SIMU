@@ -1,33 +1,18 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "And",
-      "conditions": [
+  "id": "OP09-017",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "actions": [
         {
-          "type": "HasRestingDon",
-          "count": 1
-        },
-        {
-          "type": "LeaderHasType",
-          "typeValue": "Kid Pirates"
-        },
-        {
-          "type": "LeaderPower",
-          "minPower": 7000
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
         }
       ]
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP09-017"
+    }
+  ]
 }

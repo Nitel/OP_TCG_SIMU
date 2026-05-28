@@ -1,16 +1,23 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "conditions": [],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": "Self"
-      }
-    ],
-    "duration": "Permanent",
-    "optional": true,
-    "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
-  },
-  "id": "OP05-013"
+  "id": "OP05-013",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ],
+      "duration": "Permanent",
+      "optional": true,
+      "description": "After your opponent declares an attack, you may rest this card to make it the new target of the attack."
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

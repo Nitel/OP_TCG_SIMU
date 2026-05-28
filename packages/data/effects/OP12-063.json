@@ -1,46 +1,51 @@
 {
-  "0": {
-    "trigger": "StartOfTurn",
-    "condition": {
-      "type": "TrashCount",
-      "cardType": "Event",
-      "count": 4,
-      "comparison": ">="
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
+  "id": "OP12-063",
+  "effects": [
+    {
+      "trigger": "StartOfTurn",
+      "condition": {
+        "type": "TrashCount",
+        "cardType": "Event",
+        "count": 4,
+        "comparison": ">="
       },
-      {
-        "type": "ModifyCost",
-        "amount": 5,
-        "target": {
-          "scope": "Self"
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
         },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "Always"
+        {
+          "type": "ReduceEventCost",
+          "amount": 5,
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
     },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "Permanent"
-      }
-    ]
-  },
-  "id": "OP12-063"
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "Permanent"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

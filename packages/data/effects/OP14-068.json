@@ -3,20 +3,17 @@
   "effectText": "[Opponent's Turn] [Once Per Turn] When a DON!! card on your field is returned to your DON!! deck, if your Leader has the {Donquixote Pirates} type, add up to 1 DON!! card from your DON!! deck and rest it.",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "OnReturnDonToDeck",
+      "oncePerTurn": true,
       "condition": {
         "type": "LeaderHasType",
-        "value": "Donquixote Pirates"
+        "subType": "Donquixote Pirates"
       },
-      "duration": "EndOfOpponentTurn",
       "actions": [
         {
-          "type": "GiveDon",
-          "value": 1,
-          "source": "DonDeck",
-          "modifiers": [
-            "Rest"
-          ]
+          "type": "AddDon",
+          "count": 1,
+          "active": false
         }
       ]
     }

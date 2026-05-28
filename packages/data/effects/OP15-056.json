@@ -1,30 +1,32 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "GiveKeyword",
-        "keyword": "DoubleAttack",
-        "target": {
-          "scope": "ChooseOwnLeader",
-          "name": "Lucy"
+  "id": "OP15-056",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
         },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "PowerBoost",
-        "power": 3000,
-        "target": {
-          "scope": "ChooseOwnLeader",
-          "name": "Lucy"
+        {
+          "type": "GiveKeyword",
+          "keyword": "DoubleAttack",
+          "target": {
+            "scope": "OwnLeader",
+            "name": "Lucy"
+          },
+          "duration": "DuringYourTurn"
         },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
-  "id": "OP15-056"
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "OwnLeader",
+            "name": "Lucy"
+          },
+          "duration": "DuringYourTurn",
+          "amount": 3000
+        }
+      ]
+    }
+  ]
 }

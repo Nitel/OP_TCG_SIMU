@@ -26,5 +26,26 @@
       },
       "duration": "EndOfTurn"
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "count": 2,
+            "subType": "SMILE"
+          },
+          "duration": "EndOfTurn"
+        }
+      ]
+    }
   ]
 }

@@ -1,26 +1,30 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "condition": "Always",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "fromPosition": "TopOrBottom",
-        "toLocation": "Hand"
+  "id": "ST07-009",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 3,
-          "maxCount": 1
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1,
+          "fromPosition": "TopOrBottom",
+          "toLocation": "Hand"
+        },
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 3,
+            "maxCount": 1
+          }
         }
+      ],
+      "cost": {
+        "restSelf": true
       }
-    ],
-    "cost": {
-      "restSelf": true
     }
-  },
-  "id": "ST07-009"
+  ]
 }

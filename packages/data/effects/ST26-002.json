@@ -14,5 +14,17 @@
         "maxTargets": 1
       }
     }
+  ],
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": { "type": "HasAttachedDon", "count": 2 },
+      "actions": [
+        { "type": "Rest", "target": { "scope": "ChooseOpponentCharacterOrDon", "maxCost": 1 } }
+      ]
+    }
   ]
 }

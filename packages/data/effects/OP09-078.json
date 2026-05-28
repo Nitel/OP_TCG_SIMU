@@ -24,5 +24,34 @@
         }
       ]
     }
+  ],
+  "effects": [
+    {
+      "trigger": "Counter",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Straw Hat Crew"
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "count": 1
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 4000,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader",
+            "count": 1
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    }
   ]
 }

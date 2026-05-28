@@ -1,34 +1,38 @@
 {
-  "0": {
-    "trigger": "OnAttack",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
+  "id": "OP15-059",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          },
+          "optional": true
         },
-        "optional": true
-      },
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "Opponent",
-          "cardTypes": [
-            "Leader",
-            "Character"
-          ],
-          "count": 1
-        },
-        "power": -2000,
-        "duration": "EndOfOpponentTurn",
-        "condition": "OpponentDeclinedReturnDON"
-      }
-    ]
-  },
-  "id": "OP15-059"
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "cardTypes": [
+              "Leader",
+              "Character"
+            ],
+            "count": 1
+          },
+          "duration": "EndOfOpponentTurn",
+          "condition": {
+            "type": "OpponentDeclinedReturnDON"
+          },
+          "amount": -2000
+        }
+      ]
+    }
+  ]
 }

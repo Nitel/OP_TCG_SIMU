@@ -1,33 +1,40 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "duration": "DuringYourTurn",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotBeKOdByEffects",
-        "target": "YourCharacters"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "StartOfTurn",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 2,
-        "filter": {}
-      }
-    ]
-  },
-  "id": "OP04-083"
+  "id": "OP04-083",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotBeKOdByEffects",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "StartOfTurn",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 2,
+          "filter": {}
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

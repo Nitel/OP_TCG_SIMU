@@ -1,40 +1,51 @@
 {
-  "0": {
-    "trigger": "Always",
-    "condition": "LifeCardsCount",
-    "conditionValue": 3,
-    "conditionComparison": "LessThanOrEqual",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Blocker"
+  "id": "OP12-100",
+  "effects": [
+    {
+      "trigger": "Permanent",
+      "condition": {
+        "type": "LifeCount"
       },
-      {
-        "type": "PowerBoost",
-        "amount": 3,
-        "costBoost": true
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnPlay",
-    "optional": true,
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1
-      },
-      {
-        "type": "DrawCard",
-        "count": 2
-      },
-      {
-        "type": "TrashFromHand",
-        "count": 1,
-        "filter": {},
-        "thenActions": []
-      }
-    ]
-  },
-  "id": "OP12-100"
+      "conditionValue": 3,
+      "conditionComparison": "LessThanOrEqual",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Blocker",
+          "target": {
+            "scope": "Self"
+          }
+        },
+        {
+          "type": "PowerBoost",
+          "amount": 3,
+          "costBoost": true,
+          "target": {
+            "scope": "ChooseOwnCharacterOrLeader"
+          },
+          "duration": "EndOfBattle"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "optional": true,
+      "actions": [
+        {
+          "type": "FlipLife",
+          "count": 1
+        },
+        {
+          "type": "DrawCard",
+          "count": 2
+        },
+        {
+          "type": "TrashFromHand",
+          "count": 1,
+          "filter": {},
+          "thenActions": []
+        }
+      ]
+    }
+  ]
 }

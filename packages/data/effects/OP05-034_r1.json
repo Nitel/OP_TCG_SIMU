@@ -9,13 +9,25 @@
   "effects": [
     {
       "trigger": "Activated",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        },
         {
           "type": "SearchDeck",
           "filter": {
-            "kind": "Any"
+            "kind": "BySubType",
+            "subType": "Donquixote Pirates"
           },
-          "destination": "hand"
+          "count": 1,
+          "destination": "hand",
+          "lookCount": 5
         }
       ]
     }

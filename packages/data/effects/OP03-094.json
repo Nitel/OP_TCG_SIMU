@@ -1,38 +1,41 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "CP"
-    },
-    "actions": [
-      {
-        "type": "SearchDeck",
-        "filter": {
-          "cardType": "Character",
-          "typeIncludes": "CP",
-          "maxCost": 5
-        },
-        "quantity": 5,
-        "destination": "reveal"
+  "id": "OP03-094",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "CP"
       },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "cardType": "Character",
-          "typeIncludes": "CP",
-          "maxCost": 5
+      "actions": [
+        {
+          "type": "SearchDeck",
+          "filter": {
+            "cardType": "Character",
+            "typeIncludes": "CP",
+            "maxCost": 5
+          },
+          "quantity": 5,
+          "destination": "reveal",
+          "lookCount": 5,
+          "count": 1
         },
-        "quantity": 1
-      },
-      {
-        "type": "ForceDiscard",
-        "filter": {
-          "cardType": "Any"
+        {
+          "type": "PlayFromHand",
+          "filter": {
+            "cardType": "Character",
+            "typeIncludes": "CP",
+            "maxCost": 5
+          },
+          "quantity": 1
         },
-        "destination": "trash"
-      }
-    ]
-  },
-  "id": "OP03-094"
+        {
+          "type": "ForceDiscard",
+          "filter": {},
+          "destination": "trash",
+          "count": 1
+        }
+      ]
+    }
+  ]
 }

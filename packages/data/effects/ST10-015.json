@@ -1,26 +1,28 @@
 {
-  "0": {
-    "trigger": "Counter",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "target": {
-          "scope": "ChooseYourCharacter",
-          "maxCount": 1,
-          "includeLeader": true
+  "id": "ST10-015",
+  "effects": [
+    {
+      "trigger": "Counter",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "maxCount": 1,
+            "includeLeader": true
+          },
+          "duration": "EndOfBattle",
+          "amount": 2000
         },
-        "powerBoost": 2000,
-        "duration": "EndOfBattle"
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCount": 1,
-          "maxPower": 2000
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCount": 1,
+            "maxPower": 2000
+          }
         }
-      }
-    ]
-  },
-  "id": "ST10-015"
+      ]
+    }
+  ]
 }

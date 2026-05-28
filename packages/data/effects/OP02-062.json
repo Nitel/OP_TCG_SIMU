@@ -1,59 +1,61 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "quantity": 2
-        },
-        "thenActions": [
-          {
-            "type": "ReturnToHand",
-            "target": {
-              "scope": "ChooseCharacter",
-              "maxCost": 4
-            }
+  "id": "OP02-062",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "quantity": 2
           },
-          {
-            "type": "GiveKeyword",
-            "keyword": "DoubleAttack",
-            "target": {
-              "scope": "Self"
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "maxCost": 4
+              }
             },
-            "duration": "DuringYourTurn"
-          }
-        ]
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "TrashFromHand",
-        "filter": {
-          "quantity": 2
-        },
-        "thenActions": [
-          {
-            "type": "ReturnToHand",
-            "target": {
-              "scope": "ChooseCharacter",
-              "maxCost": 4
+            {
+              "type": "GiveKeyword",
+              "keyword": "DoubleAttack",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
             }
+          ]
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromHand",
+          "filter": {
+            "quantity": 2
           },
-          {
-            "type": "GiveKeyword",
-            "keyword": "DoubleAttack",
-            "target": {
-              "scope": "Self"
+          "thenActions": [
+            {
+              "type": "ReturnToHand",
+              "target": {
+                "scope": "ChooseOwnCharacter",
+                "maxCost": 4
+              }
             },
-            "duration": "DuringYourTurn"
-          }
-        ]
-      }
-    ]
-  },
-  "id": "OP02-062"
+            {
+              "type": "GiveKeyword",
+              "keyword": "DoubleAttack",
+              "target": {
+                "scope": "Self"
+              },
+              "duration": "DuringYourTurn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

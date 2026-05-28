@@ -11,5 +11,22 @@
       },
       "duration": "EndOfTurn"
     }
+  ],
+  "keywords": [
+    "Blocker"
+  ],
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveTemporaryCostModifier",
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "amount": -4
+        }
+      ]
+    }
   ]
 }

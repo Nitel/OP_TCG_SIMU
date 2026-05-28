@@ -9,10 +9,12 @@
   "effects": [
     {
       "trigger": "Activated",
-      "condition": {
-        "type": "HasRestingDon",
-        "count": 1
-      },
+      "conditions": [
+        {
+          "type": "HasAttachedDon",
+          "count": 1
+        }
+      ],
       "actions": [
         {
           "type": "Rest",
@@ -21,11 +23,22 @@
           }
         },
         {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
           },
-          "destination": "hand"
+          "count": 1
+        },
+        {
+          "type": "SearchDeck",
+          "count": 1,
+          "filter": {
+            "kind": "BySubType",
+            "subType": "Donquixote Pirates"
+          },
+          "destination": "hand",
+          "lookCount": 5,
+          "restTo": "bottom"
         }
       ]
     }

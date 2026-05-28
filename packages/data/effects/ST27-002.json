@@ -5,7 +5,7 @@
       "trigger": "Activated",
       "condition": {
         "type": "LeaderHasType",
-        "value": "Blackbeard Pirates"
+        "subType": "Blackbeard Pirates"
       },
       "actions": [
         {
@@ -14,10 +14,12 @@
           "thenActions": [
             {
               "type": "PowerBoost",
-              "target": "OpponentCharacter",
+              "target": {
+                "scope": "Self"
+              },
               "count": 1,
-              "power": -1,
-              "duration": "DuringYourTurn"
+              "duration": "DuringYourTurn",
+              "amount": -1
             }
           ]
         }

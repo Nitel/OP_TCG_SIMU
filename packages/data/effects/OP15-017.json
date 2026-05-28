@@ -1,23 +1,28 @@
 {
-  "0": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasRestingDon",
-        "scope": "OpponentCharacters",
-        "count": 1
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "target": {
-          "scope": "ChooseOpponentLeaderOrCharacter"
+  "id": "OP15-017",
+  "effects": [
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "HasRestingDon",
+          "scope": "OpponentCharacters",
+          "count": 1
         }
-      }
-    ],
-    "oncePerTurn": true
-  },
-  "id": "OP15-017"
+      ],
+      "actions": [
+        {
+          "type": "GiveDon",
+          "count": 1,
+          "target": {
+            "scope": "ChooseOpponentCharacterOrLeader"
+          }
+        }
+      ],
+      "oncePerTurn": true
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }

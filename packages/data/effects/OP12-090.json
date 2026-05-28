@@ -16,5 +16,19 @@
         }
       ]
     }
+  ],
+  "effects": [
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "TrashFromDeck",
+          "count": 2,
+          "thenActions": [
+            { "type": "PowerBoost", "amount": -2000, "target": { "scope": "ChooseOpponentCharacter" }, "duration": "DuringYourTurn" }
+          ]
+        }
+      ]
+    }
   ]
 }

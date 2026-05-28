@@ -1,18 +1,20 @@
 {
-  "0": {
-    "trigger": "OnPlay",
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "CannotAttack",
-        "duration": "UntilStartOfYourNextTurn",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 7,
-          "maxAmount": 1
+  "id": "OP05-042",
+  "effects": [
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "CannotAttack",
+          "duration": "EndOfTurn",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 7,
+            "maxAmount": 1
+          }
         }
-      }
-    ]
-  },
-  "id": "OP05-042"
+      ]
+    }
+  ]
 }

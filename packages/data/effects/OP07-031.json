@@ -1,34 +1,44 @@
 {
-  "0": {
-    "trigger": "OnAttacked",
-    "duration": "DuringYourTurn",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "Rest"
-      }
-    ]
-  },
-  "1": {
-    "trigger": "OnAttacked",
-    "duration": "DuringYourTurn",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
+  "id": "OP07-031",
+  "effects": [
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
       },
-      {
-        "type": "TrashFromHand",
-        "filter": {},
-        "thenActions": []
-      }
-    ],
-    "limiter": "OncePerTurn"
-  },
-  "id": "OP07-031"
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "Self"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttacked",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
+      "duration": "DuringYourTurn",
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 1
+        },
+        {
+          "type": "TrashFromHand",
+          "filter": {},
+          "thenActions": []
+        }
+      ],
+      "limiter": "OncePerTurn"
+    }
+  ],
+  "keywords": [
+    "Blocker"
+  ]
 }
