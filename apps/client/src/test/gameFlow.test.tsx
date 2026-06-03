@@ -14,57 +14,16 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   makeEmptyState,
-  makePlayerId,
   makeCardId,
   applyAction,
   isGameError,
   greedyBotDecide,
 } from 'game-engine';
-import type { Card, CardId, GameState, PlayerId, PlayerSetup } from 'game-engine';
+import type { Card, CardId, GameState } from 'game-engine';
 import { ActionPanel } from '../ui/ActionPanel';
 import { IDLE_UI } from '../ui/uiState';
 import type { UIState } from '../ui/uiState';
 import { renderWithEngine, P1, P2, makeChar, makeDon, bootstrapGame } from './gameTestUtils';
-
-const P1 = makePlayerId('p1');
-const P2 = makePlayerId('p2');
-
-function makeChar(id: string, owner: PlayerId, opts: Partial<Card> = {}): Card {
-  return {
-    id: makeCardId(id), name: id, cost: 2, power: 3000, color: 'Red', type: 'Character',
-    zone: 'hand', ownerId: owner, tapped: false, attachedTo: null, ...opts,
-  };
-}
-
-function makeDon(id: string, owner: PlayerId, opts: Partial<Card> = {}): Card {
-  return {
-    id: makeCardId(id), name: 'DON!!', cost: 0, power: 0, color: 'Red', type: 'DON',
-    zone: 'donArea', ownerId: owner, tapped: false, attachedTo: null, ...opts,
-  };
-}
-
-function makePlayerSetup(idStr: string): PlayerSetup {
-  const pid = makePlayerId(idStr);
-  return {
-    id: pid,
-    leaderCard: makeChar(`${idStr}-leader`, pid, { type: 'Leader', zone: 'deck' }),
-    deckCards: Array.from({ length: 50 }, (_, i) =>
-      makeChar(`${idStr}-dk-${i}`, pid, { zone: 'deck' }),
-    ),
-    donCards: Array.from({ length: 10 }, (_, i) => makeDon(`${idStr}-don-${i}`, pid) as Card),
-  };
-}
-
-function bootstrapGame(): GameState {
-  const seed = makeEmptyState(P1, P2);
-  let s = applyAction(seed, { type: 'StartGame', player1: makePlayerSetup('p1'), player2: makePlayerSetup('p2'), firstPlayerId: P1 });
-  if (isGameError(s)) throw new Error((s as { message: string }).message);
-  s = applyAction(s, { type: 'Mulligan', playerId: P1, keep: true });
-  if (isGameError(s)) throw new Error((s as { message: string }).message);
-  s = applyAction(s, { type: 'Mulligan', playerId: P2, keep: true });
-  if (isGameError(s)) throw new Error((s as { message: string }).message);
-  return { ...s as GameState, phase: 'Main', activePlayerId: P1, turnNumber: 3 };
-}
 
 // ─── GF1 : ActionPanel — "Jouer la carte" button with selection mode ──────────
 

@@ -7,7 +7,7 @@
  *  - renderWithEngine(state, myPlayerId?) — renders ActionPanel wired to a live GameState
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { render } from '@testing-library/react';
+import { render, type RenderResult } from '@testing-library/react';
 import {
   applyAction, isGameError, makeEmptyState, makePlayerId, makeCardId,
 } from 'game-engine';
@@ -150,12 +150,12 @@ export function renderWithEngine(
   initialState: GameState,
   myPlayerId?: PlayerId | null,
   onStateChange?: (s: GameState) => void,
-) {
+): RenderResult {
   return render(
     <GameWrapper
       initialState={initialState}
       myPlayerId={myPlayerId ?? null}
-      onStateChange={onStateChange}
+      {...(onStateChange !== undefined ? { onStateChange } : {})}
     />,
   );
 }

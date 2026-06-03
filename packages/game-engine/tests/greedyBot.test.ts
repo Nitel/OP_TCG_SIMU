@@ -16,7 +16,7 @@ import {
   makeEmptyState,
   greedyBotDecide,
 } from '../src/index.js';
-import type { Card, CardId, GameState, PlayerSetup, HandFilter } from '../src/index.js';
+import type { Card, CardId, CardKeyword, GameState, PlayerSetup, HandFilter } from '../src/index.js';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -304,4 +304,283 @@ describe('greedyBot — combat defense blocked by human pending interaction', ()
     // The key assertion: it does NOT throw and does NOT crash on the pending guard.
     expect(() => greedyBotDecide(s, BOT)).not.toThrow();
   });
+});
+
+// ─── Helpers shared by BOT1-BOT7 ──────────────────────────────────────────────
+
+/** Add a card to a player's board */
+function addToBoard(state: GameState, card: Card, pid: string): GameState {
+  const owner = makePlayerId(pid);
+  const updatedCards: Record<string, Card> = { ...state.cards, [card.id]: { ...card, zone: 'board', ownerId: owner } };
+  return {
+    ...state,
+    cards: updatedCards as GameState['cards'],
+    players: { ...state.players, [owner]: { ...state.players[owner]!, board: [...state.players[owner]!.board, card.id] } },
+  };
+}
+
+/** Add a card directly to state.cards (without putting it in a player zone) */
+function addCardToState(state: GameState, card: Card): GameState {
+  return { ...state, cards: { ...state.cards, [card.id]: card } as GameState['cards'] };
+}
+
+// ─── BOT1–BOT7 ────────────────────────────────────────────────────────────────
+
+describe('greedyBot — tactical improvements (BOT1-BOT7)', () => {
+
+  // BOT1: ActivatedAbility fires before PlayCharacterFromHand
+  it('BOT1: uses ActivatedAbility before playing cards in hand', () => {
+    let s = bootstrapMain();
+    s = withEmptyHand(s);
+
+    // Place a card with an Activated effect on bot's board
+    const actCard: Card = {
+      id:         makeCardId('bot1-act'),
+      name:       'bot1-act',
+      cost:       0,
+      power:      3000,
+      color:      'Red',
+      type:       'Character',
+      zone:       'board',
+      ownerId:    BOT,
+      tapped:     false,
+      attachedTo: null,
+      effects: [{ trigger: 'Activated', actions: [{ type: 'DrawCard', count: 1 } as never] }] as never,
+    };
+    s = addToBoard(s, actCard, 'bot');
+
+    // Also put a free 0-cost character in hand (bot could play this instead)
+    const handCard = makeChar('bot1-hand', 'bot', 0);
+    s = addToHand(s, [handCard]);
+
+    const action = greedyBotDecide(s, BOT);
+
+    expect(action?.type).toBe('ActivatedAbility');
+    if (action?.type === 'ActivatedAbility') {
+      expect(action.cardId).toBe(actCard.id);
+    }
+  });
+
+  // BOT2: OnPlay-effect card is preferred over a higher-cost card with no effect
+  it('BOT2: plays OnPlay-effect card even when a higher-cost no-effect card is also affordable', () => {
+    let s = bootstrapMain();
+    s = withEmptyHand(s);
+
+    // cheaper card but has a high-value OnPlay KO effect (score=2)
+    const withEffect: Card = {
+      id:         makeCardId('bot2-eff'),
+      name:       'bot2-eff',
+      cost:       2,
+      power:      3000,
+      color:      'Red',
+      type:       'Character',
+      zone:       'hand',
+      ownerId:    BOT,
+      tapped:     false,
+      attachedTo: null,
+      effects: [{
+        trigger: 'OnPlay',
+        actions: [{ type: 'KO', target: { scope: 'AllOpponentCharacters' } } as never],
+      }] as never,
+    };
+    // more expensive card but zero effects (score=0)
+    const noEffect = { ...makeChar('bot2-plain', 'bot', 3, 4000), zone: 'hand' as const };
+
+    s = addToHand(s, [withEffect, noEffect]);
+    s = addFreeDon(s, [makeDon('bot2-d1', 'bot'), makeDon('bot2-d2', 'bot'), makeDon('bot2-d3', 'bot')]);
+
+    const action = greedyBotDecide(s, BOT);
+
+    expect(action?.type).toBe('PlayCharacterFromHand');
+    if (action?.type === 'PlayCharacterFromHand') {
+      expect(action.cardId).toBe(withEffect.id);
+    }
+  });
+
+  // BOT3: rested opponent character is attacked before the opponent's leader
+  it('BOT3: targets rested opponent character over the opponent leader', () => {
+    let s = bootstrapMain();
+    s = withEmptyHand(s);
+
+    // Strong bot attacker on board
+    const botAttacker: Card = {
+      id: makeCardId('bot3-atk'), name: 'bot3-atk',
+      cost: 0, power: 5000, color: 'Red', type: 'Character',
+      zone: 'board', ownerId: BOT, tapped: false, attachedTo: null,
+    };
+    s = addToBoard(s, botAttacker, 'bot');
+
+    // Rested (tapped) weak opponent character
+    const oppRested: Card = {
+      id: makeCardId('bot3-opp-rested'), name: 'bot3-opp-rested',
+      cost: 1, power: 2000, color: 'Red', type: 'Character',
+      zone: 'board', ownerId: OPP, tapped: true, attachedTo: null,
+    };
+    s = {
+      ...s,
+      cards: { ...s.cards, [oppRested.id]: oppRested } as GameState['cards'],
+      players: { ...s.players, [OPP]: { ...s.players[OPP]!, board: [...s.players[OPP]!.board, oppRested.id] } },
+    };
+
+    const action = greedyBotDecide(s, BOT);
+
+    expect(action?.type).toBe('DeclareAttack');
+    if (action?.type === 'DeclareAttack') {
+      expect(action.targetId).toBe(oppRested.id);
+    }
+  });
+
+  // BOT4: uses Blocker to protect an important character (power ≥ 4000) when threatened
+  it('BOT4: uses Blocker to protect high-power character from a lethal attack', () => {
+    let s = bootstrapMain();
+    s = withEmptyHand(s);
+
+    // Switch to OPP's turn
+    s = { ...s, activePlayerId: OPP };
+
+    // Bot's important character on board (power 5000)
+    const importantChar: Card = {
+      id: makeCardId('bot4-imp'), name: 'bot4-imp',
+      cost: 0, power: 5000, color: 'Red', type: 'Character',
+      zone: 'board', ownerId: BOT, tapped: false, attachedTo: null,
+    };
+    s = addToBoard(s, importantChar, 'bot');
+
+    // Bot's blocker character on board
+    const blocker: Card = {
+      id: makeCardId('bot4-blk'), name: 'bot4-blk',
+      cost: 0, power: 3000, color: 'Red', type: 'Character',
+      zone: 'board', ownerId: BOT, tapped: false, attachedTo: null,
+      keywords: ['Blocker'] as readonly CardKeyword[],
+    };
+    s = addToBoard(s, blocker, 'bot');
+
+    // OPP is attacking importantChar with a 9000-power attacker (lethal)
+    const oppAtk: Card = {
+      id: makeCardId('bot4-opp-atk'), name: 'bot4-opp-atk',
+      cost: 0, power: 9000, color: 'Red', type: 'Character',
+      zone: 'board', ownerId: OPP, tapped: true, attachedTo: null,
+    };
+    s = {
+      ...s,
+      cards: { ...s.cards, [oppAtk.id]: oppAtk } as GameState['cards'],
+      players: { ...s.players, [OPP]: { ...s.players[OPP]!, board: [...s.players[OPP]!.board, oppAtk.id] } },
+      activeCombat: { attackerId: oppAtk.id, targetId: importantChar.id, blockerId: null, counterPower: 0 },
+    };
+
+    const action = greedyBotDecide(s, BOT);
+
+    expect(action?.type).toBe('DeclareBlock');
+    if (action?.type === 'DeclareBlock') {
+      expect(action.blockerId).toBe(blocker.id);
+    }
+  });
+
+  // BOT5: picks the strongest (most useful) card in a SearchDeck interaction
+  it('BOT5: picks highest-power card when resolving SearchDeck', () => {
+    let s = bootstrapMain();
+
+    // Two revealed cards: a weak and a strong one
+    const weakCard: Card = {
+      id: makeCardId('bot5-weak'), name: 'bot5-weak',
+      cost: 1, power: 1000, color: 'Red', type: 'Character',
+      zone: 'deck', ownerId: BOT, tapped: false, attachedTo: null,
+    };
+    const strongCard: Card = {
+      id: makeCardId('bot5-strong'), name: 'bot5-strong',
+      cost: 3, power: 6000, color: 'Red', type: 'Character',
+      zone: 'deck', ownerId: BOT, tapped: false, attachedTo: null,
+    };
+    s = addCardToState(s, weakCard);
+    s = addCardToState(s, strongCard);
+
+    s = {
+      ...s,
+      pendingSearchInteraction: {
+        playerId:       BOT,
+        sourceCardId:   makeCardId('bot5-src'),
+        sourcePlayerId: BOT,
+        revealedCardIds: [weakCard.id, strongCard.id],
+        filter:         { kind: 'Any' },
+        destination:    'hand',
+        pendingEffectActions: [],
+        pendingEffects: [],
+        trigger:        'OnPlay',
+      },
+    };
+
+    const action = greedyBotDecide(s, BOT);
+
+    expect(action?.type).toBe('ResolveSearchInteraction');
+    if (action?.type === 'ResolveSearchInteraction') {
+      expect(action.chosenCardId).toBe(strongCard.id);
+    }
+  });
+
+  // BOT6: discards least-useful card (no effects) over a card with effects in ForceDiscard
+  it('BOT6: discards no-effect card over a card with an OnPlay effect', () => {
+    let s = bootstrapMain();
+    s = withEmptyHand(s);
+
+    const usefulCard: Card = {
+      id: makeCardId('bot6-useful'), name: 'bot6-useful',
+      cost: 3, power: 3000, color: 'Red', type: 'Character',
+      zone: 'hand', ownerId: BOT, tapped: false, attachedTo: null,
+      effects: [{
+        trigger: 'OnPlay',
+        actions: [{ type: 'DrawCard', count: 1 } as never],
+      }] as never,
+    };
+    const uselessCard: Card = {
+      id: makeCardId('bot6-useless'), name: 'bot6-useless',
+      cost: 1, power: 1000, color: 'Red', type: 'Character',
+      zone: 'hand', ownerId: BOT, tapped: false, attachedTo: null,
+    };
+
+    s = addToHand(s, [usefulCard, uselessCard]);
+    s = {
+      ...s,
+      pendingForceDiscardInteraction: {
+        playerId:             BOT,
+        count:                1,
+        pendingEffectActions: [],
+        pendingEffects:       [],
+        trigger:              'OnPlay',
+      },
+    };
+
+    const action = greedyBotDecide(s, BOT);
+
+    expect(action?.type).toBe('ResolveForceDiscardInteraction');
+    if (action?.type === 'ResolveForceDiscardInteraction') {
+      expect(action.discardedCardIds).toContain(uselessCard.id);
+      expect(action.discardedCardIds).not.toContain(usefulCard.id);
+    }
+  });
+
+  // BOT7: declares an attack instead of ending the turn when an attacker is available
+  it('BOT7: attacks instead of ending turn when a profitable attack exists', () => {
+    let s = bootstrapMain();
+    s = withEmptyHand(s);
+
+    // Add an untapped attacker
+    const attacker: Card = {
+      id: makeCardId('bot7-atk'), name: 'bot7-atk',
+      cost: 0, power: 4000, color: 'Red', type: 'Character',
+      zone: 'board', ownerId: BOT, tapped: false, attachedTo: null,
+    };
+    s = addToBoard(s, attacker, 'bot');
+
+    // Drain all DON so there's nothing to play or assign
+    const allDons = s.players[BOT]!.donArea;
+    const updated: Record<string, Card> = { ...s.cards };
+    for (const id of allDons) updated[id] = { ...updated[id]!, tapped: true };
+    s = { ...s, cards: updated as GameState['cards'] };
+
+    const action = greedyBotDecide(s, BOT);
+
+    // Bot must attack rather than end its turn
+    expect(action?.type).toBe('DeclareAttack');
+  });
+
 });
