@@ -10,10 +10,18 @@
   ],
   "effects": [
     {
-      "trigger": "Permanent",
-      "condition": { "type": "HandCount", "max": 7 },
+      "trigger": "StartOfOpponentTurn",
+      "condition": {
+        "type": "HandCount",
+        "max": 7
+      },
       "actions": [
-        { "type": "SetBasePowerToLeader", "target": { "scope": "Self" } }
+        {
+          "type": "SetBasePowerToLeader",
+          "target": {
+            "scope": "Self"
+          }
+        }
       ]
     }
   ],

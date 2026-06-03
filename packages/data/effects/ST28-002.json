@@ -1,27 +1,10 @@
 {
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Land of Wano"
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Banish",
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "id": "ST28-002",
   "effects": [
     {
-      "trigger": "OnPlay",
+      "trigger": "Permanent",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 2
       },
       "actions": [
@@ -32,6 +15,19 @@
             "scope": "Self"
           },
           "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnPlay",
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Banish",
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "EndOfTurn"
         }
       ]
     }

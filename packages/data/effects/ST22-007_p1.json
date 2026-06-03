@@ -10,13 +10,28 @@
     {
       "trigger": "Activated",
       "oncePerTurn": true,
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
-          "type": "AttachDon",
+          "type": "RevealFromDeck",
           "count": 1,
-          "target": {
-            "scope": "ChooseOwnCharacterOrLeader"
-          }
+          "returnTo": "top",
+          "thenActions": [
+            {
+              "type": "AttachDon",
+              "count": 1,
+              "from": "rested",
+              "target": {
+                "scope": "ChooseOwnCharacterOrLeader"
+              },
+              "condition": {
+                "type": "RevealedCardHasType",
+                "cardType": "Whitebeard Pirates"
+              }
+            }
+          ]
         }
       ]
     }

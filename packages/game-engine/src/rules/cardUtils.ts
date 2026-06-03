@@ -20,20 +20,151 @@ export function countAttachedDon(cards: Readonly<Record<CardId, Card>>, cardId: 
   return count;
 }
 
+// ─── Inline Permanent condition evaluator ────────────────────────────────────
+
+/**
+ * Minimal pure condition evaluator for Permanent effects (no side effects).
+ * Handles the subset of conditions that appear in Permanent GiveKeyword/PowerBoost effects.
+ * Unknown condition types → false (safe default: no permanent buff applied).
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function evalPermCond(cond: any, cardId: CardId, state: GameState): boolean {
+  if (!cond) return true;
+  const card = state.cards[cardId];
+  if (!card) return false;
+  const [p1, p2] = state.playerOrder;
+  const ownerId = card.ownerId;
+  const oppId = ownerId === p1 ? p2 : p1;
+
+  switch (cond.type) {
+    case 'Always': return true;
+    case 'HasAttachedDon': return countAttachedDon(state.cards, cardId) >= (cond.count ?? 0);
+    case 'LeaderHasAttachedDon': {
+      const lid = state.players[ownerId]?.leader;
+      return lid !== undefined && lid !== null && countAttachedDon(state.cards, lid) >= (cond.count ?? 0);
+    }
+    case 'HasRestingDon': {
+      const donArea = state.players[ownerId]?.donArea ?? [];
+      return donArea.filter((id) => {
+        const d = state.cards[id];
+        return d !== undefined && !d.tapped && d.attachedTo === null;
+      }).length >= (cond.count ?? 0);
+    }
+    case 'LeaderHasType': {
+      const leaderId = state.players[ownerId]?.leader;
+      if (!leaderId) return false;
+      const leader = state.cards[leaderId];
+      return typeof leader?.subTypes === 'string' && leader.subTypes.includes(cond.subType);
+    }
+    case 'LeaderHasAnyType': {
+      const leaderId2 = state.players[ownerId]?.leader;
+      if (!leaderId2) return false;
+      const leader2 = state.cards[leaderId2];
+      return Array.isArray(cond.subTypes) && cond.subTypes.some((t: string) =>
+        typeof leader2?.subTypes === 'string' && leader2.subTypes.includes(t),
+      );
+    }
+    case 'OpponentLifeCount': case 'OpponentLife': {
+      const oppLife = state.players[oppId]?.life.length ?? 0;
+      if (cond.max !== undefined && oppLife > cond.max) return false;
+      if (cond.min !== undefined && oppLife < cond.min) return false;
+      if (cond.value !== undefined) {
+        const c = cond.comparison;
+        const ok = (c === 'LessThanOrEqual' || c === 'LessOrEqual') ? oppLife <= cond.value
+                 : (c === 'GreaterThanOrEqual' || c === 'GreaterOrEqual') ? oppLife >= cond.value
+                 : oppLife === cond.value;
+        if (!ok) return false;
+      }
+      return true;
+    }
+    case 'DonDifference': {
+      const ownDon = state.players[ownerId]?.donArea.length ?? 0;
+      const oppDon = state.players[oppId]?.donArea.length ?? 0;
+      return ownDon + (cond.gap ?? 0) <= oppDon;
+    }
+    case 'HasCardOnBoard': {
+      const hasIt = Object.values(state.cards).some(
+        (c) => c.ownerId === ownerId && c.zone === 'board' && (cond.name === undefined || c.name === cond.name),
+      );
+      return cond.negate === true ? !hasIt : hasIt;
+    }
+    case 'TrashCount': {
+      const trashSize = state.players[ownerId]?.trash.length ?? 0;
+      return trashSize >= (cond.min ?? cond.threshold ?? 0);
+    }
+    case 'TotalDonCount': {
+      const totalDon = state.players[ownerId]?.donArea.length ?? 0;
+      const comp = cond.comparison;
+      return comp === 'LessOrEqual' ? totalDon <= cond.count
+           : comp === 'GreaterOrEqual' ? totalDon >= cond.count
+           : totalDon === cond.count;
+    }
+    case 'LifeCount': {
+      const lc = state.players[ownerId]?.life.length ?? 0;
+      if (cond.max !== undefined && lc > cond.max) return false;
+      if (cond.min !== undefined && lc < cond.min) return false;
+      return true;
+    }
+    case 'And': return (cond.conditions ?? []).every((c: unknown) => evalPermCond(c, cardId, state));
+    case 'OR':  return (cond.conditions ?? []).some((c: unknown)  => evalPermCond(c, cardId, state));
+    case 'Not': return !evalPermCond(cond.condition, cardId, state);
+    default:    return false; // unknown condition → no permanent buff
+  }
+}
+
 // ─── hasKeyword ───────────────────────────────────────────────────────────────
 
 /**
- * Returns true if `card` has `kw` as a permanent or temporary keyword.
+ * Returns true if `card` has `kw` as a permanent keyword, a temporary keyword,
+ * or via a Permanent-trigger GiveKeyword effect whose condition is currently met.
+ *
+ * Pass `state` when permanent conditional keywords (e.g. "If …, gains [Blocker]")
+ * should be evaluated. Omitting `state` checks only static/temporary keywords.
  */
-export function hasKeyword(card: Card, kw: CardKeyword): boolean {
-  return (card.keywords ?? []).includes(kw) ||
-         (card.temporaryKeywords ?? []).includes(kw);
+export function hasKeyword(card: Card, kw: CardKeyword, state?: GameState): boolean {
+  if ((card.keywords ?? []).includes(kw)) return true;
+  if ((card.temporaryKeywords ?? []).includes(kw)) return true;
+  if (!state) return false;
+  // Evaluate Permanent GiveKeyword effects
+  for (const eff of card.effects ?? []) {
+    if ((eff as { trigger: string }).trigger !== 'Permanent') continue;
+    const cond = (eff as { condition?: unknown }).condition;
+    if (!evalPermCond(cond, card.id, state)) continue;
+    for (const act of eff.actions) {
+      if ((act as { type: string }).type === 'GiveKeyword' && (act as { keyword: string }).keyword === kw) return true;
+    }
+  }
+  return false;
+}
+
+// ─── computePermanentPowerBonus ───────────────────────────────────────────────
+
+/**
+ * Sum of all Permanent+PowerBoost effects on `cardId` whose conditions are currently met.
+ * Returns 0 if the card has no Permanent PowerBoost effects.
+ */
+export function computePermanentPowerBonus(cardId: CardId, state: GameState): number {
+  const card = state.cards[cardId];
+  if (!card?.effects?.length) return 0;
+  let total = 0;
+  for (const eff of card.effects) {
+    if ((eff as { trigger: string }).trigger !== 'Permanent') continue;
+    const cond = (eff as { condition?: unknown }).condition;
+    if (!evalPermCond(cond, cardId, state)) continue;
+    for (const act of eff.actions) {
+      if ((act as { type: string }).type === 'PowerBoost' && typeof (act as { amount: unknown }).amount === 'number') {
+        total += (act as { amount: number }).amount;
+      }
+    }
+  }
+  return total;
 }
 
 // ─── calculatePower ───────────────────────────────────────────────────────────
 
 /**
- * Total power of a card = base power + 1 000 per DON!! attached (owner's turn only) + powerModifier.
+ * Total power of a card = base power + 1 000 per DON!! attached (owner's turn only)
+ * + all temporary/permanent modifiers + conditional Permanent PowerBoost effects.
  *
  * OPTCG rule: the +1 000 static bonus from attached DON!! only applies during the card owner's turn.
  * DON!! remain physically attached during the opponent's turn and still count for conditional
@@ -49,7 +180,12 @@ export function calculatePower(cardId: CardId, state: GameState): number {
     ? Object.values(state.cards).filter((c) => c.type === 'DON' && c.attachedTo === cardId).length
     : 0;
 
-  return card.power + donAttached * 1000 + (card.powerModifier ?? 0) + (card.powerModifierOT ?? 0) + (card.powerModifierBattle ?? 0) + (card.permanentPowerModifier ?? 0);
+  return card.power + donAttached * 1000
+    + (card.powerModifier ?? 0)
+    + (card.powerModifierOT ?? 0)
+    + (card.powerModifierBattle ?? 0)
+    + (card.permanentPowerModifier ?? 0)
+    + computePermanentPowerBonus(cardId, state);
 }
 
 // ─── clearPowerModifiers ──────────────────────────────────────────────────────

@@ -2297,3 +2297,311 @@ describe('RT5: ReturnFromTrash — thenActions fire only when cards returned', (
     expect(calculatePower(caster.id as ReturnType<typeof makeCardId>, result)).toBe(3000);
   });
 });
+
+// ─── ET1: ExtraTurn — same player replays after EndPhase ──────────────────────
+
+describe('ET1: ExtraTurn — same player replays after EndPhase', () => {
+  it('should keep activePlayerId as P1 after EndPhase when pendingExtraTurn is set', () => {
+    const base = bootstrapGame();
+    // Give P1 the ExtraTurn flag
+    const state: GameState = { ...base, phase: 'End', pendingExtraTurn: true };
+    const result = applyAction(state, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // P1 keeps the turn — P2 does NOT become active
+    expect(result.activePlayerId).toBe(P1);
+    // Flag is cleared
+    expect(result.pendingExtraTurn).toBe(false);
+  });
+});
+
+// ─── ET2: ExtraTurn — flag cleared; no infinite loop ──────────────────────────
+
+describe('ET2: ExtraTurn — flag cleared after use (no infinite loop)', () => {
+  it('should switch to P2 after the extra turn EndPhase (flag already cleared)', () => {
+    const base = bootstrapGame();
+    // Simulate the extra-turn turn: P1 active, pendingExtraTurn = false
+    const state: GameState = { ...base, phase: 'End', activePlayerId: P1, pendingExtraTurn: false };
+    const result = applyAction(state, { type: 'EndPhase', playerId: P1 });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Normal switch to P2
+    expect(result.activePlayerId).toBe(P2);
+    expect(result.pendingExtraTurn).toBe(false);
+  });
+});
+
+// ─── PFT1: PlayFromTrash names filter ─────────────────────────────────────────
+
+describe('PFT1: PlayFromTrash with names filter — matching card found and played', () => {
+  it('should play first matching trash card onto the board', () => {
+    const base = bootstrapGame();
+    const trashAce = makeChar('OP01-001', 'p1', 5000, {
+      zone: 'trash',
+      name: 'Portgas.D.Ace',
+      cost: 2,
+    });
+    const trashNonMatch = makeChar('OP01-002', 'p1', 3000, {
+      zone: 'trash',
+      name: 'Nami',
+      cost: 1,
+    });
+    const casterEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'PlayFromTrash',
+        filter: {
+          names: ['Sabo', 'Portgas.D.Ace', 'Monkey.D.Luffy'],
+          maxCost: 2,
+        },
+      }],
+    };
+    const caster = makeChar('caster-pft1', 'p1', 2000, {
+      zone: 'hand', cost: 0,
+      effects: [casterEffect],
+    });
+    let state = addToHand(base, caster);
+    state = {
+      ...state,
+      cards: { ...state.cards, [trashAce.id]: trashAce, [trashNonMatch.id]: trashNonMatch },
+      players: {
+        ...state.players,
+        [P1]: {
+          ...state.players[P1]!,
+          trash: [trashAce.id, trashNonMatch.id] as readonly ReturnType<typeof makeCardId>[],
+        },
+      },
+    };
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: caster.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Ace should be on P1's board
+    expect(result.players[P1]!.board).toContain(trashAce.id);
+    expect(result.cards[trashAce.id]?.zone).toBe('board');
+    // Non-matching card stays in trash
+    expect(result.players[P1]!.trash).toContain(trashNonMatch.id);
+  });
+});
+
+// ─── PFT2: PlayFromTrash — no match → nothing happens ─────────────────────────
+
+describe('PFT2: PlayFromTrash — no matching card in trash → silent skip', () => {
+  it('should not error when no matching card exists in trash', () => {
+    const base = bootstrapGame();
+    const casterEffect: CardEffect = {
+      trigger: 'OnPlay',
+      actions: [{
+        type: 'PlayFromTrash',
+        filter: { names: ['Sabo', 'Portgas.D.Ace', 'Monkey.D.Luffy'], maxCost: 2 },
+      }],
+    };
+    const caster = makeChar('caster-pft2', 'p1', 2000, {
+      zone: 'hand', cost: 0,
+      effects: [casterEffect],
+    });
+    const state = addToHand(base, caster);
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: caster.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Board only has the caster
+    expect(result.players[P1]!.board).toContain(caster.id);
+    expect(result.players[P1]!.trash).toHaveLength(0);
+  });
+});
+
+// ─── NP1: SetNextPlayCostReduction — flag set on state ────────────────────────
+
+describe('NP1: SetNextPlayCostReduction — flag is set on state after effect fires', () => {
+  it('should set nextPlayCostReduction on the game state', () => {
+    const base = bootstrapGame();
+    const reductionEffect: CardEffect = {
+      trigger: 'Activated',
+      actions: [{
+        type: 'SetNextPlayCostReduction',
+        reduction: 1,
+        subType: 'Land of Wano',
+        minCost: 3,
+      }],
+    };
+    const activator = makeChar('activator-np1', 'p1', 2000, {
+      zone: 'board', cost: 0,
+      type: 'Leader' as const,
+      effects: [reductionEffect],
+    });
+    const p1 = base.players[P1]!;
+    const state: GameState = {
+      ...base,
+      cards: { ...base.cards, [activator.id]: activator },
+      players: { ...base.players, [P1]: { ...p1, leader: activator.id } },
+    };
+    const result = applyAction(state, { type: 'ActivatedAbility', playerId: P1, cardId: activator.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.nextPlayCostReduction).toBeDefined();
+    expect(result.nextPlayCostReduction?.reduction).toBe(1);
+    expect(result.nextPlayCostReduction?.subType).toBe('Land of Wano');
+    expect(result.nextPlayCostReduction?.minCost).toBe(3);
+  });
+});
+
+// ─── NP2: SetNextPlayCostReduction — next matching card costs 1 less ──────────
+
+describe('NP2: SetNextPlayCostReduction — next Land of Wano character (cost ≥ 3) costs 1 less', () => {
+  it('should reduce cost by 1 and clear the reduction flag after playing', () => {
+    const base = bootstrapGame();
+    const wanoChar = makeChar('wano-char-np2', 'p1', 5000, {
+      zone: 'hand', cost: 4,
+      subTypes: 'Land of Wano',
+    });
+    // Pre-set the reduction flag
+    const state: GameState = {
+      ...addToHand(base, wanoChar),
+      nextPlayCostReduction: { reduction: 1, subType: 'Land of Wano', minCost: 3 },
+    };
+    // Give P1 enough active DON (cost 4 - 1 = 3)
+    const donIds = ['np2-don-0', 'np2-don-1', 'np2-don-2'].map((d) => makeCardId(d));
+    const donCards: Record<string, Card> = {};
+    for (const d of donIds) {
+      donCards[d] = { id: d, name: 'DON!!', cost: 0, power: 0, color: 'Red' as const, type: 'DON' as const, zone: 'donArea' as const, ownerId: P1, tapped: false, attachedTo: null };
+    }
+    const stateWithDon: GameState = {
+      ...state,
+      cards: { ...state.cards, ...donCards },
+      players: { ...state.players, [P1]: { ...state.players[P1]!, donArea: donIds } },
+    };
+    const result = applyAction(stateWithDon, { type: 'PlayCharacterFromHand', playerId: P1, cardId: wanoChar.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Card played successfully, flag cleared
+    expect(result.players[P1]!.board).toContain(wanoChar.id);
+    expect(result.nextPlayCostReduction).toBeUndefined();
+    // All 3 DON were tapped (cost 3 after reduction)
+    const tappedDon = donIds.filter((d) => result.cards[d]?.tapped === true);
+    expect(tappedDon).toHaveLength(3);
+  });
+});
+
+// ─── NP3: SetNextPlayCostReduction — non-matching card → no reduction ─────────
+
+describe('NP3: SetNextPlayCostReduction — non-matching card type → no reduction applied', () => {
+  it('should not reduce cost when card does not match subType filter', () => {
+    const base = bootstrapGame();
+    const nonWanoChar = makeChar('non-wano-np3', 'p1', 3000, {
+      zone: 'hand', cost: 3,
+      subTypes: 'Straw Hat Crew',
+    });
+    const state: GameState = {
+      ...addToHand(base, nonWanoChar),
+      nextPlayCostReduction: { reduction: 1, subType: 'Land of Wano', minCost: 3 },
+    };
+    // Give P1 exactly 3 active DON (cost 3, no reduction)
+    const donIds = ['np3-don-0', 'np3-don-1', 'np3-don-2'].map((d) => makeCardId(d));
+    const donCards: Record<string, Card> = {};
+    for (const d of donIds) {
+      donCards[d] = { id: d, name: 'DON!!', cost: 0, power: 0, color: 'Red' as const, type: 'DON' as const, zone: 'donArea' as const, ownerId: P1, tapped: false, attachedTo: null };
+    }
+    const stateWithDon: GameState = {
+      ...state,
+      cards: { ...state.cards, ...donCards },
+      players: { ...state.players, [P1]: { ...state.players[P1]!, donArea: donIds } },
+    };
+    const result = applyAction(stateWithDon, { type: 'PlayCharacterFromHand', playerId: P1, cardId: nonWanoChar.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Card played — but reduction flag NOT cleared (didn't apply)
+    expect(result.nextPlayCostReduction).toBeDefined();
+    expect(result.nextPlayCostReduction?.reduction).toBe(1);
+  });
+});
+
+// ─── DC1: CostEqualsAttachedDon — character KO'd when condition met ────────────
+
+describe('DC1: CostEqualsAttachedDon — character is KO\'d when cost equals attached DON', () => {
+  it('should KO opponent character when cost (3) equals attached DON count (3)', () => {
+    const base = bootstrapGame();
+    const don1 = makeChar('dc1-don-1', 'p2', 0, { type: 'DON' as const, zone: 'board' as const, tapped: false, attachedTo: null });
+    const don2 = makeChar('dc1-don-2', 'p2', 0, { type: 'DON' as const, zone: 'board' as const, tapped: false, attachedTo: null });
+    const don3 = makeChar('dc1-don-3', 'p2', 0, { type: 'DON' as const, zone: 'board' as const, tapped: false, attachedTo: null });
+    const target = makeChar('dc1-target', 'p2', 5000, {
+      zone: 'board', cost: 3,
+      attachedTo: null,
+    });
+    // Attach 3 DON to target
+    const target3Don: Card = { ...target };
+    const don1Att: Card = { ...don1, attachedTo: target.id, zone: 'board' as const };
+    const don2Att: Card = { ...don2, attachedTo: target.id, zone: 'board' as const };
+    const don3Att: Card = { ...don3, attachedTo: target.id, zone: 'board' as const };
+
+    const koEffect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'CostEqualsAttachedDon', target: { scope: 'ChooseOpponentCharacter' } },
+      actions: [{ type: 'KO', target: { scope: 'ChooseOpponentCharacter' } }],
+    };
+    const caster = makeChar('dc1-caster', 'p1', 2000, {
+      zone: 'hand', cost: 0,
+      effects: [koEffect],
+    });
+
+    let state = addToHand(base, caster);
+    state = {
+      ...state,
+      cards: { ...state.cards, [target3Don.id]: target3Don, [don1Att.id]: don1Att, [don2Att.id]: don2Att, [don3Att.id]: don3Att },
+      players: {
+        ...state.players,
+        [P2]: { ...state.players[P2]!, board: [target3Don.id] },
+      },
+    };
+
+    let result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: caster.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // KO action needs player to choose a target
+    expect(result.pendingTargetInteraction).not.toBeNull();
+    result = applyAction(result, { type: 'ResolveTargetInteraction', playerId: P1, targetCardId: target.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Target should be in trash (KO'd)
+    expect(result.cards[target.id]?.zone).toBe('trash');
+    expect(result.players[P2]!.trash).toContain(target.id);
+  });
+});
+
+// ─── DC2: CostEqualsAttachedDon — character NOT KO'd when condition not met ────
+
+describe('DC2: CostEqualsAttachedDon — character is NOT KO\'d when cost does not equal attached DON', () => {
+  it('should not KO opponent character when cost (3) != attached DON count (2)', () => {
+    const base = bootstrapGame();
+    const don1 = makeChar('dc2-don-1', 'p2', 0, { type: 'DON' as const, zone: 'board' as const, tapped: false, attachedTo: null });
+    const don2 = makeChar('dc2-don-2', 'p2', 0, { type: 'DON' as const, zone: 'board' as const, tapped: false, attachedTo: null });
+    const target = makeChar('dc2-target', 'p2', 5000, { zone: 'board', cost: 3 });
+    const don1Att: Card = { ...don1, attachedTo: target.id, zone: 'board' as const };
+    const don2Att: Card = { ...don2, attachedTo: target.id, zone: 'board' as const };
+
+    const koEffect: CardEffect = {
+      trigger: 'OnPlay',
+      condition: { type: 'CostEqualsAttachedDon', target: { scope: 'ChooseOpponentCharacter' } },
+      actions: [{ type: 'KO', target: { scope: 'ChooseOpponentCharacter' } }],
+    };
+    const caster = makeChar('dc2-caster', 'p1', 2000, {
+      zone: 'hand', cost: 0,
+      effects: [koEffect],
+    });
+
+    let state = addToHand(base, caster);
+    state = {
+      ...state,
+      cards: { ...state.cards, [target.id]: target, [don1Att.id]: don1Att, [don2Att.id]: don2Att },
+      players: {
+        ...state.players,
+        [P2]: { ...state.players[P2]!, board: [target.id] },
+      },
+    };
+
+    const result = applyAction(state, { type: 'PlayCharacterFromHand', playerId: P1, cardId: caster.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    // Target should still be on board (condition false → block skipped)
+    expect(result.cards[target.id]?.zone).toBe('board');
+    expect(result.players[P2]!.board).toContain(target.id);
+  });
+});

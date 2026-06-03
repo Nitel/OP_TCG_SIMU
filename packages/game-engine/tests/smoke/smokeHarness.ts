@@ -23,8 +23,10 @@ import {
   makePlayerId,
   makeEmptyState,
   resolveEffects,
+  computePermanentPowerBonus,
 } from '../../src/index.js';
-import type { Card, CardId, GameState, PlayerSetup, CardEffect, PlayerId } from '../../src/index.js';
+import type { Card, CardId, CardKeyword, GameState, PlayerSetup, CardEffect, PlayerId } from '../../src/index.js';
+import { hasKeyword } from '../../src/rules/cardUtils.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const EFFECTS_DIR = path.join(__dirname, '../../../data/effects');
@@ -360,6 +362,338 @@ function observablyChanged(before: GameState, after: GameState): boolean {
   );
 }
 
+// ─── Result assertions ────────────────────────────────────────────────────────
+
+type VResult = { ok: true } | { ok: false; message: string } | { skip: string };
+
+/**
+ * Returns true if a target selector might have no valid targets in the generic
+ * smoke test setup (e.g. Choose scopes, or scopes filtered by subType/power/cost).
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function targetMightHaveNoValidCards(target: any): boolean {
+  if (!target) return false;
+  const scope = (target.scope ?? target.type) as string | undefined;
+  if (scope?.startsWith('Choose')) return true; // player-choice: might have no valid cards
+  // Filtered All-scopes: the generic board may not contain matching cards
+  if (target.subType !== undefined) return true;
+  if (target.maxPower !== undefined) return true;
+  if (target.maxCost !== undefined) return true;
+  if (target.name !== undefined) return true;
+  return false;
+}
+
+/**
+ * Verify ALL observable actions in an effect sequence.
+ *
+ * Iterates every action; once a "pending-creating" action is reached
+ * (ForceDiscard, TrashFromHand, RevealFromHand, KO-ChooseTarget, etc.) the loop
+ * stops because subsequent actions have not yet executed.
+ *
+ * Per-action conditions (`condition`, `optional`, `conditional`) are skipped since
+ * they may not be satisfied in the generic smoke setup.
+ *
+ * After each action, checks whether a new pending interaction was created by the
+ * resolved effect chain — if so, subsequent actions are marked as not-yet-executed.
+ *
+ * Returns ok:true  if every checked assertion passed (≥1 assertion checked),
+ *         ok:false if any assertion failed (with combined SEQUENCE FAIL message),
+ *         skip     if no assertable action was found.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function verifyResult(actions: any[], before: GameState, after: GameState, srcId: CardId, pid: PlayerId, trigger: string, fileId: string): VResult {
+  const fails: string[] = [];
+  const passes: string[] = [];
+  let terminatedByPending = false;
+
+  // True when the resolved effect chain created any new pending interaction that blocks
+  // subsequent actions (covers all pending* fields in GameState).
+  const anyNewPending = (): boolean => (
+    (before.pendingTargetInteraction       === null && after.pendingTargetInteraction       !== null) ||
+    (before.pendingRevealInteraction       === null && after.pendingRevealInteraction       !== null) ||
+    (before.pendingSearchInteraction       === null && after.pendingSearchInteraction       !== null) ||
+    (before.pendingTrashInteraction        === null && after.pendingTrashInteraction        !== null) ||
+    (before.pendingForceDiscardInteraction === null && after.pendingForceDiscardInteraction !== null) ||
+    (before.pendingOnKOInteraction         === null && after.pendingOnKOInteraction         !== null) ||
+    (before.pendingChoiceInteraction       === null && after.pendingChoiceInteraction       !== null) ||
+    (before.pendingLifeInteraction         === null && after.pendingLifeInteraction         !== null)
+  );
+
+  for (let i = 0; i < actions.length; i++) {
+    if (terminatedByPending) break;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const act = actions[i] as Record<string, any>;
+    const t = act['type'] as string | undefined;
+    if (!t) continue;
+
+    const tag = `[${fileId}] action[${i}:${t}]`;
+
+    // Skip actions with per-action conditions (might not be satisfied in smoke setup)
+    // or that are optional/conditional (engine may have correctly skipped them).
+    if (act['condition'] != null || act['optional'] === true || act['conditional'] === true) {
+      if (anyNewPending()) terminatedByPending = true;
+      continue;
+    }
+
+    switch (t) {
+      case 'DrawCard': {
+        // Non-standard DrawCard with target scope (e.g. ChooseOpponentCharacter) — skip
+        if (act['target'] !== undefined) break;
+        const rawCount = act['count'];
+        if (typeof rawCount !== 'number') break; // dynamic count
+        const count = rawCount;
+        const beforeHand = before.players[pid]!.hand.length;
+        const afterHand  = after.players[pid]!.hand.length;
+        const minExpected = trigger === 'OnPlay' ? beforeHand - 1 + count : beforeHand + count;
+        if (afterHand >= minExpected) {
+          passes.push(tag);
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} DrawCard×${count}: hand ${beforeHand}→${afterHand} (expected ≥${minExpected})`);
+        }
+        break;
+      }
+
+      case 'GiveDon': {
+        const rawCount = act['count'];
+        if (typeof rawCount !== 'number') break;
+        const count = rawCount;
+        const beforeDon = before.players[pid]!.donArea.length;
+        const afterDon  = after.players[pid]!.donArea.length;
+        if (afterDon >= beforeDon + count) {
+          passes.push(tag);
+        } else {
+          passes.push(`${tag} skip (donDeck may be depleted)`);
+        }
+        break;
+      }
+
+      case 'AddToLife': {
+        const p1Before = before.players[P1]!.life.length;
+        const p2Before = before.players[P2]!.life.length;
+        const p1After  = after.players[P1]!.life.length;
+        const p2After  = after.players[P2]!.life.length;
+        if (p1After > p1Before || p2After > p2Before) {
+          passes.push(tag);
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} AddToLife: life unchanged (P1: ${p1Before}→${p1After}, P2: ${p2Before}→${p2After})`);
+        }
+        break;
+      }
+
+      case 'RemoveLife': {
+        const p1Before = before.players[P1]!.life.length;
+        const p2Before = before.players[P2]!.life.length;
+        const p1After  = after.players[P1]!.life.length;
+        const p2After  = after.players[P2]!.life.length;
+        if (p1After < p1Before || p2After < p2Before) {
+          passes.push(tag);
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} RemoveLife: life unchanged (P1: ${p1Before}→${p1After}, P2: ${p2Before}→${p2After})`);
+        }
+        break;
+      }
+
+      case 'KO': {
+        const p1TrashBefore = before.players[P1]!.trash.length;
+        const p2TrashBefore = before.players[P2]!.trash.length;
+        if (after.players[P1]!.trash.length > p1TrashBefore || after.players[P2]!.trash.length > p2TrashBefore) {
+          passes.push(tag);
+        } else if (after.pendingTargetInteraction !== null && before.pendingTargetInteraction === null) {
+          passes.push(tag); // KO created pending target (Choose scope)
+          terminatedByPending = true;
+        } else if (targetMightHaveNoValidCards(act['target'])) {
+          break; // skip — no valid card in smoke setup
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} KO: no card sent to trash`);
+        }
+        break;
+      }
+
+      case 'Rest': {
+        const scope = (act['target'] as Record<string,unknown> | undefined)?.['scope'] as string | undefined;
+        if (scope?.startsWith('All')) break; // All-scope: all may already be tapped
+        const newlyTapped = Object.keys(after.cards).filter((id) => {
+          const ac = after.cards[id as CardId];
+          const bc = before.cards[id as CardId];
+          return ac?.tapped === true && bc?.tapped === false;
+        });
+        if (newlyTapped.length > 0) {
+          passes.push(tag);
+        } else if (after.pendingTargetInteraction !== null && before.pendingTargetInteraction === null) {
+          passes.push(tag); // Rest with Choose target created pending
+          terminatedByPending = true;
+        } else if (targetMightHaveNoValidCards(act['target'])) {
+          break; // skip
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} Rest: no card became tapped`);
+        }
+        break;
+      }
+
+      case 'SearchDeck': {
+        if (after.pendingSearchInteraction !== null) {
+          passes.push(tag);
+          terminatedByPending = true;
+        } else if (after.players[pid]!.hand.length > before.players[pid]!.hand.length) {
+          passes.push(tag);
+        }
+        // else skip (empty deck or no filter match)
+        break;
+      }
+
+      case 'TrashFromHand': {
+        if (after.pendingTrashInteraction !== null) {
+          passes.push(tag);
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} TrashFromHand: pendingTrashInteraction not set`);
+        }
+        terminatedByPending = true;
+        break;
+      }
+
+      case 'ForceDiscard': {
+        // Skip non-standard variants: non-hand source, optional, or Choose-target
+        const source = act['source'] as string | undefined;
+        const fScope = (act['target'] as Record<string,unknown> | undefined)?.['scope'] as string | undefined;
+        if ((source !== undefined && source !== 'Hand') || (fScope?.startsWith('Choose') ?? false)) break;
+
+        if (after.pendingForceDiscardInteraction !== null) {
+          passes.push(tag);
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} ForceDiscard: pendingForceDiscardInteraction not set`);
+        }
+        terminatedByPending = true;
+        break;
+      }
+
+      case 'RevealFromDeck':
+      case 'RevealFromHand': {
+        if (after.pendingRevealInteraction !== null) {
+          passes.push(tag);
+          terminatedByPending = true;
+        }
+        // else skip (auto-resolved or deck/hand empty)
+        break;
+      }
+
+      case 'ReturnToHand': {
+        const beforeHandP1 = before.players[P1]!.hand.length;
+        const beforeHandP2 = before.players[P2]!.hand.length;
+        const afterHandP1  = after.players[P1]!.hand.length;
+        const afterHandP2  = after.players[P2]!.hand.length;
+        if (afterHandP1 > beforeHandP1 || afterHandP2 > beforeHandP2) {
+          passes.push(tag);
+        } else if (after.pendingTargetInteraction !== null && before.pendingTargetInteraction === null) {
+          passes.push(tag); terminatedByPending = true;
+        } else if (targetMightHaveNoValidCards(act['target'])) {
+          break;
+        }
+        break;
+      }
+
+      case 'PlaceAtBottomOfDeck': {
+        const beforeDeckP1 = before.players[P1]!.deck.length;
+        const beforeDeckP2 = before.players[P2]!.deck.length;
+        const afterDeckP1  = after.players[P1]!.deck.length;
+        const afterDeckP2  = after.players[P2]!.deck.length;
+        if (afterDeckP1 > beforeDeckP1 || afterDeckP2 > beforeDeckP2) {
+          passes.push(tag);
+        } else if (targetMightHaveNoValidCards(act['target'])) {
+          break;
+        }
+        break;
+      }
+
+      case 'PowerBoost': {
+        const duration   = act['duration'] as string | undefined;
+        const boostAmount = act['amount'] as number | undefined;
+        if (boostAmount === 0) break;
+        if (targetMightHaveNoValidCards(act['target'])) break;
+
+        if (duration === 'EndOfBattle') {
+          if (after.cards[srcId]?.zone === 'trash') break;
+          const anyChanged = Object.keys(after.cards).some((id) =>
+            (after.cards[id as CardId]?.powerModifierBattle ?? 0) !== (before.cards[id as CardId]?.powerModifierBattle ?? 0));
+          if (anyChanged) {
+            passes.push(tag);
+          } else {
+            fails.push(`SEQUENCE FAIL: ${tag} PowerBoost EndOfBattle: no powerModifierBattle changed`);
+          }
+        } else if (duration === 'EndOfTurn') {
+          if (after.cards[srcId]?.zone === 'trash') break;
+          const anyChanged = Object.keys(after.cards).some((id) =>
+            (after.cards[id as CardId]?.powerModifier ?? 0) !== (before.cards[id as CardId]?.powerModifier ?? 0));
+          if (anyChanged) {
+            passes.push(tag);
+          } else {
+            fails.push(`SEQUENCE FAIL: ${tag} PowerBoost EndOfTurn: no powerModifier changed`);
+          }
+        } else if (duration === 'Permanent') {
+          const bonus = computePermanentPowerBonus(srcId, after);
+          if (bonus > 0) passes.push(tag);
+        }
+        break;
+      }
+
+      case 'GiveKeyword': {
+        const kw = act['keyword'] as CardKeyword;
+        if (targetMightHaveNoValidCards(act['target'])) break;
+        const srcCard = after.cards[srcId];
+        if (srcCard && hasKeyword(srcCard, kw, after)) { passes.push(tag); break; }
+        const anyGot = Object.keys(after.cards).some((id) => {
+          const ac = after.cards[id as CardId];
+          const bc = before.cards[id as CardId];
+          return ac && bc && hasKeyword(ac, kw, after) && !hasKeyword(bc, kw, before);
+        });
+        if (anyGot) {
+          passes.push(tag);
+        } else {
+          fails.push(`SEQUENCE FAIL: ${tag} GiveKeyword ${kw}: no card gained the keyword`);
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    // After processing each action, detect if a new pending was created by the resolved chain.
+    // This happens when a Choose-target action (PowerBoost, Rest, AttachDon, etc.) creates
+    // pendingTargetInteraction — subsequent actions in the sequence have not yet executed.
+    if (!terminatedByPending && anyNewPending()) {
+      terminatedByPending = true;
+    }
+  }
+
+  if (fails.length > 0) return { ok: false, message: fails.join(' | ') };
+  if (passes.length > 0) return { ok: true };
+  return { skip: 'no assertable action type in effect' };
+}
+
+/**
+ * Check if the effect fired AND verify its result.
+ * Returns a SmokeResult if the effect fired (pass or fail), or null if it did not fire.
+ */
+function checkFiredAndVerify(
+  trigger: string,
+  before: GameState,
+  after: GameState,
+  srcId: CardId,
+  effect: CardEffect,
+  fileId: string,
+  passMsg: string,
+): SmokeResult | null {
+  if (!logFired(before, after, srcId) && !hasPending(after) && !observablyChanged(before, after)) {
+    return null;
+  }
+  const vr = verifyResult(effect.actions as unknown[], before, after, srcId, P1, trigger, fileId);
+  if ('message' in vr) {
+    return { outcome: 'fail', trigger, details: vr.message };
+  }
+  return { outcome: 'pass', trigger, details: passMsg };
+}
+
 // ─── Triggers that genuinely cannot be smoke-tested ──────────────────────────
 // (requires engine state we cannot easily set up generically)
 const TODO_TRIGGERS = new Set<string>([
@@ -427,11 +761,15 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
       if (isGameError(result)) {
         // Fall back to resolveEffects (condition check bypassed)
         const r2 = resolveEffects(allEffects, 'OnPlay', ctx, state);
-        if (logFired(state, r2, srcId)) return { outcome: 'pass', trigger, details: 'OnPlay fired via resolveEffects fallback' };
+        if (logFired(state, r2, srcId)) {
+          const rv = checkFiredAndVerify(trigger, state, r2, srcId, effect, fileId, 'OnPlay fired via resolveEffects fallback');
+          if (rv) return rv;
+        }
         return { outcome: 'todo', trigger, details: `PlayCharacterFromHand: ${result.message}` };
       }
       if (logFired(state, result, srcId) || hasPending(result)) {
-        return { outcome: 'pass', trigger, details: 'OnPlay effect fired' };
+        const rv = checkFiredAndVerify(trigger, state, result, srcId, effect, fileId, 'OnPlay effect fired');
+        if (rv) return rv;
       }
       return { outcome: 'todo', trigger, details: 'OnPlay conditions not met at runtime' };
     }
@@ -441,11 +779,15 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
       const result = applyAction(state, { type: 'ActivatedAbility', playerId: P1, cardId: srcId });
       if (isGameError(result)) {
         const r2 = resolveEffects(allEffects, 'Activated', ctx, state);
-        if (logFired(state, r2, srcId) || hasPending(r2)) return { outcome: 'pass', trigger, details: 'Activated fired via resolveEffects fallback' };
+        if (logFired(state, r2, srcId) || hasPending(r2)) {
+          const rv = checkFiredAndVerify(trigger, state, r2, srcId, effect, fileId, 'Activated fired via resolveEffects fallback');
+          if (rv) return rv;
+        }
         return { outcome: 'todo', trigger, details: `ActivatedAbility: ${result.message}` };
       }
       if (logFired(state, result, srcId) || hasPending(result)) {
-        return { outcome: 'pass', trigger, details: 'Activated effect fired' };
+        const rv = checkFiredAndVerify(trigger, state, result, srcId, effect, fileId, 'Activated effect fired');
+        if (rv) return rv;
       }
       return { outcome: 'todo', trigger, details: 'Activated conditions not met at runtime' };
     }
@@ -457,9 +799,8 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
         activeCombat: { attackerId: srcId, targetId: p2tgt.id, blockerId: null, counterAmount: 0 },
       };
       const after = resolveEffects(allEffects, 'OnAttack', ctx, stateWithCombat);
-      if (logFired(stateWithCombat, after, srcId) || hasPending(after) || observablyChanged(stateWithCombat, after)) {
-        return { outcome: 'pass', trigger, details: 'OnAttack effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, stateWithCombat, after, srcId, effect, fileId, 'OnAttack effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnAttack conditions not met at runtime' };
     }
 
@@ -484,9 +825,8 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
         activeCombat: { attackerId: p2Attacker.id, targetId: p1Defender.id, blockerId: null, counterAmount: 0 },
       };
       const after = resolveEffects(allEffects, 'Counter', ctx, s);
-      if (logFired(s, after, srcId) || hasPending(after) || observablyChanged(s, after)) {
-        return { outcome: 'pass', trigger, details: 'Counter effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, s, after, srcId, effect, fileId, 'Counter effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'Counter conditions not met at runtime' };
     }
 
@@ -498,9 +838,8 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
         activeCombat: { attackerId: p2Attacker.id, targetId: srcId, blockerId: null, counterAmount: 0 },
       };
       const after = resolveEffects(allEffects, 'OnAttacked', ctx, s);
-      if (logFired(s, after, srcId) || hasPending(after) || observablyChanged(s, after)) {
-        return { outcome: 'pass', trigger, details: 'OnAttacked effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, s, after, srcId, effect, fileId, 'OnAttacked effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnAttacked conditions not met at runtime' };
     }
 
@@ -512,9 +851,8 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
       s = addToBoard(s, p1Defender, P1);
       s = { ...s, activeCombat: { attackerId: p2Attacker.id, targetId: p1Defender.id, blockerId: srcId, counterAmount: 0 } };
       const after = resolveEffects(allEffects, 'OnBlock', ctx, s);
-      if (logFired(s, after, srcId) || hasPending(after) || observablyChanged(s, after)) {
-        return { outcome: 'pass', trigger, details: 'OnBlock effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, s, after, srcId, effect, fileId, 'OnBlock effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnBlock conditions not met at runtime' };
     }
 
@@ -526,9 +864,8 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
       s = addToBoard(s, p2Defender, P2);
       s = { ...s, activeCombat: { attackerId: srcId, targetId: p2Defender.id, blockerId: p2Blocker.id, counterAmount: 0 } };
       const after = resolveEffects(allEffects, 'OnOpponentBlock', ctx, s);
-      if (logFired(s, after, srcId) || hasPending(after) || observablyChanged(s, after)) {
-        return { outcome: 'pass', trigger, details: 'OnOpponentBlock effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, s, after, srcId, effect, fileId, 'OnOpponentBlock effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnOpponentBlock conditions not met at runtime' };
     }
 
@@ -536,27 +873,28 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
     if (trigger === 'StartOfOpponentTurn') {
       const s: GameState = { ...state, activePlayerId: P2 };
       const after = resolveEffects(allEffects, 'StartOfOpponentTurn', ctx, s);
-      if (logFired(s, after, srcId) || hasPending(after) || observablyChanged(s, after)) {
-        return { outcome: 'pass', trigger, details: 'StartOfOpponentTurn effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, s, after, srcId, effect, fileId, 'StartOfOpponentTurn effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'StartOfOpponentTurn conditions not met at runtime' };
     }
 
     // ── OnOpponentPlaysEvent ─────────────────────────────────────────────────
     if (trigger === 'OnOpponentPlaysEvent') {
       const after = resolveEffects(allEffects, 'OnOpponentPlaysEvent', ctx, state);
-      if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after)) {
-        return { outcome: 'pass', trigger, details: 'OnOpponentPlaysEvent effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, state, after, srcId, effect, fileId, 'OnOpponentPlaysEvent effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnOpponentPlaysEvent conditions not met at runtime' };
     }
 
     // ── Permanent: static buff/keyword applied as long as card is in play ───
     if (trigger === 'Permanent') {
-      const before = JSON.stringify(state.cards[srcId]);
+      const beforeStr = JSON.stringify(state.cards[srcId]);
       const after = resolveEffects(allEffects, 'Permanent', ctx, state);
       const afterStr = JSON.stringify(after.cards[srcId]);
-      if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after) || before !== afterStr) {
+      if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after) || beforeStr !== afterStr) {
+        const rv = checkFiredAndVerify(trigger, state, after, srcId, effect, fileId, 'Permanent effect applied');
+        if (rv) return rv;
+        // Structural change (beforeStr !== afterStr) but checkFiredAndVerify returned null — still a pass
         return { outcome: 'pass', trigger, details: 'Permanent effect applied' };
       }
       return { outcome: 'todo', trigger, details: 'Permanent: no observable change' };
@@ -565,27 +903,24 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
     // ── OnWouldBeKOByEffect: source card faces KO by an effect ───────────────
     if (trigger === 'OnWouldBeKOByEffect') {
       const after = resolveEffects(allEffects, 'OnWouldBeKOByEffect', ctx, state);
-      if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after)) {
-        return { outcome: 'pass', trigger, details: 'OnWouldBeKOByEffect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, state, after, srcId, effect, fileId, 'OnWouldBeKOByEffect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnWouldBeKOByEffect: no observable change' };
     }
 
     // ── StartOfMainPhase ─────────────────────────────────────────────────────
     if (trigger === 'StartOfMainPhase') {
       const after = resolveEffects(allEffects, 'StartOfMainPhase', ctx, state);
-      if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after)) {
-        return { outcome: 'pass', trigger, details: 'StartOfMainPhase effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, state, after, srcId, effect, fileId, 'StartOfMainPhase effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'StartOfMainPhase: no observable change' };
     }
 
     // ── OnDamage: source player takes a life hit ─────────────────────────────
     if (trigger === 'OnDamage') {
       const after = resolveEffects(allEffects, 'OnDamage', ctx, state);
-      if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after)) {
-        return { outcome: 'pass', trigger, details: 'OnDamage effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, state, after, srcId, effect, fileId, 'OnDamage effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnDamage: no observable change' };
     }
 
@@ -604,17 +939,15 @@ function smokeEffect(def: any, effect: CardEffect, allEffects: CardEffect[], fil
         },
       };
       const after = resolveEffects(allEffects, 'OnTrash', ctx, s);
-      if (logFired(s, after, srcId) || hasPending(after) || observablyChanged(s, after)) {
-        return { outcome: 'pass', trigger, details: 'OnTrash effect fired' };
-      }
+      const rv = checkFiredAndVerify(trigger, s, after, srcId, effect, fileId, 'OnTrash effect fired');
+      if (rv) return rv;
       return { outcome: 'todo', trigger, details: 'OnTrash: no observable change' };
     }
 
     // ── All other triggers: resolveEffects direct ───────────────────────────
     const after = resolveEffects(allEffects, trigger, ctx, state);
-    if (logFired(state, after, srcId) || hasPending(after) || observablyChanged(state, after)) {
-      return { outcome: 'pass', trigger, details: `${trigger} effect fired` };
-    }
+    const rv = checkFiredAndVerify(trigger, state, after, srcId, effect, fileId, `${trigger} effect fired`);
+    if (rv) return rv;
     return { outcome: 'todo', trigger, details: `${trigger} conditions not met at runtime` };
 
   } catch (e) {

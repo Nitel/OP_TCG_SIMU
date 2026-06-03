@@ -36,10 +36,15 @@ export interface EffectContext {
 /** Check if a card has a given subType. Handles "/" separator (official rules) and space-separated legacy data. */
 function hasSubType(cardSubTypes: string | undefined, filter: string): boolean {
   if (!cardSubTypes) return false;
+  // Legacy slash-separated format: exact segment match
   if (cardSubTypes.includes('/')) {
     return cardSubTypes.split('/').some((t) => t.trim() === filter);
   }
-  return cardSubTypes.includes(filter);
+  // Direct substring match (handles compound types like "Dressrosa Revolutionary Army")
+  if (cardSubTypes.includes(filter)) return true;
+  // Normalised fallback: collapse whitespace + lowercase, so "RevolutionaryArmy" matches "Revolutionary Army"
+  const norm = (s: string): string => s.toLowerCase().replace(/\s+/g, '');
+  return norm(cardSubTypes).includes(norm(filter));
 }
 
 /**
@@ -66,8 +71,11 @@ function normalizeFilter(raw: unknown): DeckFilter {
     const ct = f['cardType'] as ('Character' | 'Event' | 'Stage') | undefined;
     return { kind: 'BySubType', subType: f['type'] as string, ...(ct !== undefined ? { cardType: ct } : {}) };
   }
-  // { name: 'X' } → ByName
-  if (typeof f['name'] === 'string') return { kind: 'ByName', name: f['name'] };
+  // { name: 'X' } → ByName (preserve maxCost if present)
+  if (typeof f['name'] === 'string') {
+    const mc = typeof f['maxCost'] === 'number' ? { maxCost: f['maxCost'] as number } : {};
+    return { kind: 'ByName', name: f['name'], ...mc };
+  }
   // { cardType: 'X', maxCost: N } → ByCost
   if (typeof f['cardType'] === 'string' && typeof f['maxCost'] === 'number') {
     return { kind: 'ByCost', maxCost: f['maxCost'], cardType: f['cardType'] as 'Character' | 'Event' | 'Stage' };
@@ -90,7 +98,9 @@ function matchesDeckFilter(c: { type: string; cost: number; name: string; subTyp
       if (filter.cardType !== undefined && c.type !== filter.cardType) return false;
       return c.cost <= filter.maxCost;
     }
-    case 'ByName': return c.name === filter.name;
+    case 'ByName':
+      if (filter.maxCost !== undefined && c.cost > filter.maxCost) return false;
+      return c.name === filter.name;
     case 'BySubType': {
       if (filter.cardType !== undefined && c.type !== filter.cardType) return false;
       if (!hasSubType(c.subTypes, filter.subType)) return false;
@@ -323,7 +333,7 @@ function resolveAction(
       for (const id of targets) {
         const card = next.cards[id]; // read BEFORE trash
         // CannotBeKOdByEffect keyword prevents KO by card effects
-        if (card !== undefined && hasKeyword(card, 'CannotBeKOdByEffect')) continue;
+        if (card !== undefined && hasKeyword(card, 'CannotBeKOdByEffect', next)) continue;
         const koSeq = next.gameLog.length;
         next = {
           ...sendToTrash(next, id),
@@ -612,7 +622,7 @@ function resolveAction(
         // Attached DON!! cards cannot be tapped/untapped by effects (OPTCG rule)
         if (card !== undefined && !(card.type === 'DON' && card.attachedTo !== null)) {
           // CannotBeRested blocks resting by opponent effects only
-          if (card.ownerId !== context.sourcePlayerId && hasKeyword(card, 'CannotBeRested')) continue;
+          if (card.ownerId !== context.sourcePlayerId && hasKeyword(card, 'CannotBeRested', state)) continue;
           if (!card.tapped) justRested.push(id); // track newly rested
           updatedCards[id] = { ...card, tapped: true };
         }
@@ -793,7 +803,10 @@ function resolveAction(
             const typeOk = nf.cardType === undefined || card.type === nf.cardType;
             return typeOk && card.cost <= nf.maxCost;
           }
-          case 'ByName': return card.name === nf.name;
+          case 'ByName': {
+            if (nf.maxCost !== undefined && card.cost > nf.maxCost) return false;
+            return card.name === nf.name;
+          }
           case 'BySubType': {
             const typeOk = nf.cardType === undefined || card.type === nf.cardType;
             if (!typeOk || !hasSubType(card.subTypes, nf.subType)) return false;
@@ -884,6 +897,8 @@ function resolveAction(
         if (f.maxCost !== undefined && c.cost > f.maxCost) return false;
         if (f.maxPower !== undefined && c.power > f.maxPower) return false;
         if (f.subType !== undefined && !hasSubType(c.subTypes, f.subType)) return false;
+        if (f.name !== undefined && c.name !== f.name) return false;
+        if (f.names !== undefined && !f.names.includes(c.name)) return false;
         if (f.excludeSelf === true && id === context.sourceCardId) return false;
         return true;
       });
@@ -1703,10 +1718,46 @@ function resolveAction(
       };
     }
 
+    case 'ExtraTurn':
+      return { ...state, pendingExtraTurn: true };
+
+    case 'SetNextPlayCostReduction': {
+      const snpcr = action as { type: 'SetNextPlayCostReduction'; reduction: number; subType?: string; minCost?: number };
+      return {
+        ...state,
+        nextPlayCostReduction: {
+          reduction: snpcr.reduction,
+          ...(snpcr.subType  !== undefined ? { subType:  snpcr.subType  } : {}),
+          ...(snpcr.minCost  !== undefined ? { minCost:  snpcr.minCost  } : {}),
+        },
+      };
+    }
+
     default:
       // Unknown action type — silently ignore rather than returning undefined.
       return state;
   }
+}
+
+// ─── Evaluate effect-level conditions (both condition and conditions[]) ──────
+
+/**
+ * Returns true if ALL conditions on `effect` are satisfied.
+ * Handles both `effect.condition` (singular) and `effect.conditions` (legacy array, AND semantics).
+ */
+function evalEffectConditions(
+  effect: import('../types/index.js').CardEffect,
+  context: EffectContext,
+  state: GameState,
+  opponentId: PlayerId,
+): boolean {
+  if (effect.condition && !evalCondPure(effect.condition, context, state, opponentId)) return false;
+  if (effect.conditions?.length) {
+    for (const c of effect.conditions) {
+      if (!evalCondPure(c, context, state, opponentId)) return false;
+    }
+  }
+  return true;
 }
 
 // ─── Pure condition evaluator (used by OR and computePlayCost) ───────────────
@@ -2009,6 +2060,16 @@ function evalCondPure(
       if (cond.min !== undefined && oppDonCount < cond.min) return false;
       return true;
     }
+    case 'CostEqualsAttachedDon': {
+      // Resolve the target and check if card.cost === countAttachedDon for each
+      const targetIds = selectTargets(cond.target, context, state);
+      if (targetIds.length === 0) return false;
+      return targetIds.some((id) => {
+        const c = state.cards[id];
+        if (c === undefined) return false;
+        return c.cost === countAttachedDon(state.cards, id);
+      });
+    }
     default:
       return true;
   }
@@ -2031,8 +2092,7 @@ export function computePlayCost(cardId: CardId, state: GameState, playerId: Play
   // Self-reduction: check this card's own Permanent effects
   for (const effect of card.effects ?? []) {
     if (effect.trigger !== 'Permanent') continue;
-    const condPasses = !effect.condition || evalCondPure(effect.condition, context, state, opponentId);
-    if (!condPasses) continue;
+    if (!evalEffectConditions(effect, context, state, opponentId)) continue;
     for (const action of effect.actions) {
       if (action.type === 'ModifyCost' && !(action as { subType?: string }).subType && !(action as { minCost?: number }).minCost) {
         reduction += action.amount;
@@ -2050,8 +2110,7 @@ export function computePlayCost(cardId: CardId, state: GameState, playerId: Play
     const boardCtx: EffectContext = { sourceCardId: boardCardId, sourcePlayerId: playerId };
     for (const effect of boardCard.effects) {
       if (effect.trigger !== 'Permanent') continue;
-      const condPasses = !effect.condition || evalCondPure(effect.condition, boardCtx, state, opponentId);
-      if (!condPasses) continue;
+      if (!evalEffectConditions(effect, boardCtx, state, opponentId)) continue;
       for (const action of effect.actions) {
         if (action.type !== 'ModifyCost') continue;
         const modAction = action as { type: 'ModifyCost'; amount: number; subType?: string; minCost?: number };
@@ -2061,6 +2120,14 @@ export function computePlayCost(cardId: CardId, state: GameState, playerId: Play
         reduction += modAction.amount;
       }
     }
+  }
+
+  // One-shot next-play cost reduction (set by SetNextPlayCostReduction)
+  const npr = state.nextPlayCostReduction;
+  if (npr !== undefined) {
+    const subTypeMatch = npr.subType === undefined || hasSubType(card.subTypes, npr.subType);
+    const minCostMatch = npr.minCost === undefined || card.cost >= npr.minCost;
+    if (subTypeMatch && minCostMatch) reduction += -npr.reduction;
   }
 
   return Math.max(0, card.cost + reduction);
@@ -2162,6 +2229,14 @@ export function resolveEffects(
           next = { ...next, cards: { ...next.cards, [donId]: { ...next.cards[donId]!, tapped: true } } };
         }
       }
+    }
+
+    // Evaluate conditions[] array (AND semantics — pure guard, no side effects)
+    if (effect.conditions?.length) {
+      const [cc1, cc2] = next.playerOrder;
+      const ccOppId = context.sourcePlayerId === cc1 ? cc2 : cc1;
+      const allPass = effect.conditions.every((c) => evalCondPure(c, context, next, ccOppId));
+      if (!allPass) continue;
     }
 
     // Evaluate optional condition

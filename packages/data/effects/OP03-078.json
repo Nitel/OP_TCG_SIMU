@@ -1,27 +1,10 @@
 {
-  "1": {
-    "trigger": "OnPlay",
-    "condition": {
-      "type": "OpponentHandCount",
-      "count": 6,
-      "comparison": "GreaterOrEqual"
-    },
-    "actions": [
-      {
-        "type": "ForceDiscard",
-        "count": 2,
-        "target": {
-          "scope": "OpponentHand"
-        }
-      }
-    ]
-  },
   "id": "OP03-078",
   "effects": [
     {
       "trigger": "YourTurn",
       "condition": {
-        "type": "HasRestingDon",
+        "type": "HasAttachedDon",
         "count": 1
       },
       "actions": [

@@ -1,49 +1,29 @@
 {
   "id": "ST22-017",
-  "trigger": "OnPlay",
-  "actions": [
-    {
-      "type": "RevealFromHand",
-      "count": 2,
-      "filter": {
-        "subType": "Whitebeard Pirates"
-      },
-      "optional": true,
-      "thenActions": [
-        {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "PlayFromHand",
-          "target": {
-            "scope": "ChooseCharacter",
-            "maxCost": 5,
-            "maxCount": 1
-          },
-          "placement": "BottomOfDeck"
-        }
-      ]
-    }
-  ],
   "effects": [
     {
-      "trigger": "Activated",
-      "condition": {
-        "type": "Always"
-      },
+      "trigger": "OnPlay",
       "actions": [
         {
-          "type": "DrawCard",
-          "count": 1
-        },
-        {
-          "type": "ReturnToHand",
-          "destination": "bottomOfDeck",
-          "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxCost": 5
-          }
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Whitebeard Pirates"
+          },
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 1
+            },
+            {
+              "type": "PlaceAtBottomOfDeck",
+              "target": {
+                "scope": "ChooseOpponentCharacter",
+                "maxCost": 5
+              }
+            }
+          ]
         }
       ]
     }

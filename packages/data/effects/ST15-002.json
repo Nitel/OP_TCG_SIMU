@@ -1,25 +1,4 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "cost": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "Self"
-        }
-      }
-    ],
-    "actions": [
-      {
-        "type": "KO",
-        "count": 1,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxPower": 5000
-        }
-      }
-    ]
-  },
   "id": "ST15-002",
   "effects": [
     {
@@ -34,6 +13,18 @@
           "condition": {
             "type": "HasRestingDon",
             "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxPower": 5000
           }
         }
       ]

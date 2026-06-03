@@ -1,38 +1,8 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "Always"
-      }
-    ],
-    "actions": [
-      {
-        "type": "Rest",
-        "target": {
-          "scope": "ChooseDonCards",
-          "count": 3
-        }
-      },
-      {
-        "type": "ReturnToHand",
-        "target": {
-          "scope": "ChooseOwnCharacter",
-          "filter": {
-            "excludeSelf": true
-          }
-        }
-      },
-      {
-        "type": "PlaySelf",
-        "asActive": true
-      }
-    ]
-  },
   "id": "ST22-005",
   "effects": [
     {
-      "trigger": "Counter",
+      "trigger": "OnWouldBeKOByEffect",
       "conditions": [
         {
           "type": "Always"
@@ -43,6 +13,36 @@
           "type": "TrashFromHand",
           "count": 2,
           "filter": {}
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "conditions": [
+        {
+          "type": "Always"
+        }
+      ],
+      "actions": [
+        {
+          "type": "Rest",
+          "target": {
+            "scope": "ChooseOwnCharacterOrDon",
+            "maxCount": 3
+          }
+        },
+        {
+          "type": "ReturnToHand",
+          "target": {
+            "scope": "ChooseOwnCharacter",
+            "filter": {
+              "excludeSelf": true
+            }
+          }
+        },
+        {
+          "type": "PlaySelf",
+          "asActive": true
         }
       ]
     }

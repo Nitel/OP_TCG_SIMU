@@ -11,8 +11,28 @@
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "DrawCard",
-          "count": 2
+          "type": "RevealFromDeck",
+          "count": 1,
+          "returnTo": "top",
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2,
+              "condition": {
+                "type": "RevealedCardHasType",
+                "cardType": "Whitebeard Pirates"
+              }
+            },
+            {
+              "type": "TrashFromHand",
+              "count": 1,
+              "filter": {},
+              "condition": {
+                "type": "RevealedCardHasType",
+                "cardType": "Whitebeard Pirates"
+              }
+            }
+          ]
         }
       ]
     }

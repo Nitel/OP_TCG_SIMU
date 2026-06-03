@@ -427,6 +427,7 @@ function applyStartGame(
     pendingLifeInteraction: null,
     blockerDisabledIds: [],
     blockerSuppressedForAttackerIds: [],
+    pendingExtraTurn: false,
     gameLog: [],
   };
 }
@@ -541,8 +542,15 @@ function applyPlayCharacterFromHand(
     board: [...player.board, action.cardId],
   };
 
+  // Consume the one-shot nextPlayCostReduction if it applied to this card
+  const charNpr = state.nextPlayCostReduction;
+  const charNprApplied = charNpr !== undefined &&
+    (charNpr.subType === undefined || (card.subTypes !== undefined && card.subTypes.includes(charNpr.subType))) &&
+    (charNpr.minCost === undefined || card.cost >= charNpr.minCost);
+
   const afterPlay: GameState = {
     ...state,
+    ...(charNprApplied ? { nextPlayCostReduction: undefined } : {}),
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: { ...state.players, [action.playerId]: updatedPlayer },
     newBoardIds: [...state.newBoardIds, action.cardId],
@@ -679,25 +687,31 @@ function applyEndPhase(
   }
 
   if (state.phase === 'End') {
-    // Clear power modifiers and temporary keywords at end of turn
+    // Clear power modifiers and temporary keywords at end of turn — clear ALL cards in play
+    // (opponent's debuffed cards must also expire when the active player's turn ends)
     // (DON return happens at the start of the next player's Refresh phase — official rule)
-    const endPlayer = state.players[state.activePlayerId];
-    const boardAndLeader: CardId[] = endPlayer !== undefined ? [...endPlayer.board] : [];
-    if (endPlayer?.leader !== null && endPlayer?.leader !== undefined) boardAndLeader.push(endPlayer.leader);
-    let next = clearPowerModifiers(state, boardAndLeader);
+    const allBoardAndLeader: CardId[] = [];
+    for (const p of Object.values(state.players)) {
+      if (p === undefined) continue;
+      allBoardAndLeader.push(...p.board);
+      if (p.leader !== null && p.leader !== undefined) allBoardAndLeader.push(p.leader);
+    }
+    let next = clearPowerModifiers(state, allBoardAndLeader);
     next = clearTemporaryKeywords(next);
     next = clearCostModifiers(next);
 
-    // Switch active player, reset to Refresh, increment turn counter
+    // Switch active player (or replay same player if pendingExtraTurn), reset to Refresh, increment turn counter
+    const extraTurn = next.pendingExtraTurn;
     const currentIndex = next.playerOrder.indexOf(next.activePlayerId);
     const nextIndex = currentIndex === 0 ? 1 : 0;
-    const nextPlayerId = next.playerOrder[nextIndex]!;
+    const nextPlayerId = extraTurn ? next.activePlayerId : next.playerOrder[nextIndex]!;
 
     next = {
       ...next,
       activePlayerId: nextPlayerId,
       phase: 'Refresh',
       turnNumber: next.turnNumber + 1,
+      pendingExtraTurn: false,
       newBoardIds: [],
       activatedAbilityIds: [],
       usedOncePerTurnEffects: [],
@@ -775,7 +789,7 @@ function applyDeclareAttack(
   if (attacker.tapped) {
     return makeGameError('ATTACKER_TAPPED', `Card ${action.attackerId} is rested and cannot attack`);
   }
-  if (hasKeyword(attacker, 'CannotAttack')) {
+  if (hasKeyword(attacker, 'CannotAttack', state)) {
     return makeGameError('CANNOT_ATTACK', `Card ${action.attackerId} has CannotAttack and cannot declare attacks`);
   }
 
@@ -785,7 +799,7 @@ function applyDeclareAttack(
     return makeGameError('INVALID_ATTACKER', `Forced attacker belongs to a different player`);
   }
   const isNewCard = state.newBoardIds.includes(action.attackerId);
-  const hasRush   = hasKeyword(attacker, 'Rush');
+  const hasRush   = hasKeyword(attacker, 'Rush', state);
   if (isNewCard && !hasRush && !isForcedAttack) {
     return makeGameError('SUMMON_SICKNESS', `Card ${action.attackerId} was played this turn and cannot attack without Rush`);
   }
@@ -968,7 +982,7 @@ function applyDeclareBlock(
 
   // Unblockable check: reject block if the attacker has Unblockable keyword
   const attackerCard = state.cards[state.activeCombat.attackerId];
-  if (attackerCard !== undefined && hasKeyword(attackerCard, 'Unblockable')) {
+  if (attackerCard !== undefined && hasKeyword(attackerCard, 'Unblockable', state)) {
     return makeGameError('UNBLOCKABLE', 'The attacker has the Unblockable keyword and cannot be blocked');
   }
 
@@ -977,7 +991,7 @@ function applyDeclareBlock(
     return makeGameError('BLOCKER_SUPPRESSED', 'Blocker cannot be activated against this attacker this turn');
   }
 
-  if (!hasKeyword(blocker, 'Blocker')) {
+  if (!hasKeyword(blocker, 'Blocker', state)) {
     return makeGameError('NO_BLOCKER_KEYWORD', `Card ${action.blockerId} does not have the Blocker keyword`);
   }
 
@@ -1071,9 +1085,13 @@ function applyPlayEvent(
     return don !== undefined && !don.tapped && don.attachedTo === null;
   });
 
-  // Apply eventCostReduction (from ReduceEventCost effects like Crocodile)
+  // Apply eventCostReduction (from ReduceEventCost effects like Crocodile) + nextPlayCostReduction
   const costReduction = player.eventCostReduction ?? 0;
-  const effectiveCost = Math.max(0, card.cost - costReduction);
+  const evNpr = state.nextPlayCostReduction;
+  const evNprApplied = evNpr !== undefined &&
+    (evNpr.subType === undefined || (card.subTypes !== undefined && card.subTypes.includes(evNpr.subType))) &&
+    (evNpr.minCost === undefined || card.cost >= evNpr.minCost);
+  const effectiveCost = Math.max(0, card.cost - costReduction - (evNprApplied ? evNpr!.reduction : 0));
 
   if (activeDonIds.length < effectiveCost) {
     return makeGameError(
@@ -1101,6 +1119,7 @@ function applyPlayEvent(
 
   const afterPlay: GameState = {
     ...state,
+    ...(evNprApplied ? { nextPlayCostReduction: undefined } : {}),
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: { ...state.players, [action.playerId]: updatedPlayer },
   };
@@ -1237,8 +1256,15 @@ function applyPlayStage(
     board: [...updatedPlayer.board, action.cardId],
   };
 
+  // Consume the one-shot nextPlayCostReduction if it applied to this card
+  const stageNpr = state.nextPlayCostReduction;
+  const stageNprApplied = stageNpr !== undefined &&
+    (stageNpr.subType === undefined || (card.subTypes !== undefined && card.subTypes.includes(stageNpr.subType))) &&
+    (stageNpr.minCost === undefined || card.cost >= stageNpr.minCost);
+
   const afterPlay: GameState = {
     ...state,
+    ...(stageNprApplied ? { nextPlayCostReduction: undefined } : {}),
     cards: updatedCards as Readonly<Record<CardId, Card>>,
     players: { ...state.players, [action.playerId]: updatedPlayer },
     newBoardIds: [...state.newBoardIds, action.cardId],
@@ -1380,11 +1406,30 @@ function applyPlayCounter(
     return makeGameError('NO_COUNTER_VALUE', `Card ${action.cardId} has no counter value or Counter effect`);
   }
 
+  // DON cost: only Events pay a DON cost when used as Counter.
+  // Characters use their printed counter value for free.
+  const donToRest: string[] = [];
+  if (card.type === 'Event') {
+    const activeDonIds = player.donArea.filter((donId) => {
+      const don = state.cards[donId];
+      return don !== undefined && !don.tapped && don.attachedTo === null;
+    });
+    const effectiveCost = computePlayCost(action.cardId, state, action.playerId);
+    if (activeDonIds.length < effectiveCost) {
+      return makeGameError(
+        'INSUFFICIENT_DON',
+        `Counter costs ${effectiveCost} DON but only ${activeDonIds.length} active DON available`,
+      );
+    }
+    donToRest.push(...activeDonIds.slice(0, effectiveCost));
+  }
+
   const counterValue = card.counter ?? 0;
-  const updatedCards: Record<string, Card> = {
-    ...state.cards,
-    [action.cardId]: { ...card, zone: 'trash' as const },
-  };
+  const updatedCards: Record<string, Card> = { ...state.cards };
+  for (const donId of donToRest) {
+    updatedCards[donId] = { ...updatedCards[donId]!, tapped: true };
+  }
+  updatedCards[action.cardId] = { ...card, zone: 'trash' as const };
   const updatedPlayer = {
     ...player,
     hand:  player.hand.filter((id) => id !== action.cardId),

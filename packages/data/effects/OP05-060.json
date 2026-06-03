@@ -1,37 +1,4 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 0
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "source": "DonDeck"
-      }
-    ]
-  },
-  "2": {
-    "trigger": "Activated",
-    "conditions": [
-      {
-        "type": "HasAttachedDon",
-        "value": 3,
-        "comparison": "GreaterThanOrEqual"
-      }
-    ],
-    "actions": [
-      {
-        "type": "GiveDon",
-        "count": 1,
-        "source": "DonDeck"
-      }
-    ]
-  },
   "id": "OP05-060",
   "effects": [
     {
@@ -39,8 +6,9 @@
       "oncePerTurn": true,
       "actions": [
         {
-          "type": "FlipLife",
-          "count": 1
+          "type": "TakeLifeToHand",
+          "count": 1,
+          "optional": true
         }
       ]
     }

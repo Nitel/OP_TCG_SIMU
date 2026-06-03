@@ -4,7 +4,7 @@ import { calculatePower } from 'game-engine';
 import type { UIState } from './uiState';
 
 /** Returns a contextual pending-interaction message, or null if none. */
-function getPendingMessage(gs: GameState): string | null {
+export function getPendingMessage(gs: GameState): string | null {
   if (gs.pendingTargetInteraction !== null) {
     const src = gs.cards[gs.pendingTargetInteraction.sourceCardId];
     return `🎯 Choisissez une cible pour l'effet de ${src?.name ?? gs.pendingTargetInteraction.sourceCardId}`;
@@ -236,24 +236,31 @@ function LifeInteractionPanel({ gameState, onAction, myPlayerId }: LifeInteracti
   return null;
 }
 
+/**
+ * True while any pending interaction blocks the Block/Counter/Resolve step (OPTCG rules).
+ * Uses game state as source of truth — does not depend on uiState being in sync.
+ */
+export function computeIsCombatPaused(gs: GameState): boolean {
+  return (
+    gs.pendingTargetInteraction         !== null ||
+    gs.pendingRevealInteraction         !== null ||
+    gs.pendingTrashInteraction          !== null ||
+    gs.pendingSearchInteraction         !== null ||
+    gs.pendingForceDiscardInteraction   !== null ||
+    gs.pendingOnKOInteraction           !== null ||
+    gs.pendingKOSubstituteInteraction   !== null ||
+    gs.pendingChoiceInteraction         !== null ||
+    gs.pendingRestSubstituteInteraction !== null ||
+    gs.pendingLifeInteraction           !== null
+  );
+}
+
 export function ActionPanel({ gameState, uiState, onAction, myPlayerId }: Props) {
   const { phase, activePlayerId, activeCombat, playerOrder, winner } = gameState;
   const defenderId  = activePlayerId === playerOrder[0] ? playerOrder[1] : playerOrder[0];
   const isMyTurn    = !myPlayerId || myPlayerId === activePlayerId;
   const amIDefender = !!myPlayerId && myPlayerId === defenderId && activeCombat !== null;
-  // True while any pending interaction blocks the Block/Counter/Resolve step (OPTCG rules).
-  // Uses game state as source of truth — does not depend on uiState being in sync.
-  const isCombatPaused =
-    gameState.pendingTargetInteraction         !== null ||
-    gameState.pendingRevealInteraction         !== null ||
-    gameState.pendingTrashInteraction          !== null ||
-    gameState.pendingSearchInteraction         !== null ||
-    gameState.pendingForceDiscardInteraction   !== null ||
-    gameState.pendingOnKOInteraction           !== null ||
-    gameState.pendingKOSubstituteInteraction   !== null ||
-    gameState.pendingChoiceInteraction         !== null ||
-    gameState.pendingRestSubstituteInteraction !== null ||
-    gameState.pendingLifeInteraction           !== null;
+  const isCombatPaused = computeIsCombatPaused(gameState);
   if (winner !== null) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '8px 20px', background: 'linear-gradient(to top, rgba(3,6,16,0.98) 0%, rgba(5,10,22,0.95) 100%)', borderTop: '2px solid rgba(184,134,11,0.45)', width: '100%', boxSizing: 'border-box' }}>

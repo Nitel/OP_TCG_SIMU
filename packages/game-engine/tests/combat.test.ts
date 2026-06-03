@@ -807,6 +807,258 @@ describe('PlayCounter', () => {
   });
 });
 
+// ─── PlayCounter DON cost ─────────────────────────────────────────────────────
+
+describe('PC1: Event coût 2, joueur a 2 DON actifs → Counter jouable, DON reposés', () => {
+  it('should allow PlayCounter and rest exactly 2 DON when player has 2 active DON', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const don1 = makeDon('pc1-don1', 'p2');
+    const don2 = makeDon('pc1-don2', 'p2');
+    const counterCard = makeChar('pc1-counter', 'p2', 1000, { zone: 'hand', counter: 1000, cost: 2, type: 'Event' });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [don1.id]: don1, [don2.id]: don2, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: {
+          ...base.players[P2]!,
+          hand:    [...base.players[P2]!.hand, counterCard.id],
+          donArea: [...base.players[P2]!.donArea, don1.id, don2.id],
+        },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+
+    // Counter power applied
+    expect(result.activeCombat!.counterPower).toBe(1000);
+    // Card moved to trash
+    expect(result.cards[counterCard.id]!.zone).toBe('trash');
+    // Both DON are now rested
+    expect(result.cards[don1.id]!.tapped).toBe(true);
+    expect(result.cards[don2.id]!.tapped).toBe(true);
+  });
+});
+
+describe('PC2: Event coût 2, joueur a 1 DON actif → Counter refusé (INSUFFICIENT_DON)', () => {
+  it('should reject PlayCounter when player has only 1 active DON for a cost-2 card', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const don1 = makeDon('pc2-don1', 'p2');
+    const counterCard = makeChar('pc2-counter', 'p2', 1000, { zone: 'hand', counter: 1000, cost: 2, type: 'Event' });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [don1.id]: don1, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: {
+          ...base.players[P2]!,
+          hand:    [...base.players[P2]!.hand, counterCard.id],
+          donArea: [...base.players[P2]!.donArea, don1.id],
+        },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('INSUFFICIENT_DON');
+  });
+});
+
+describe('PC3: Event coût 0 → toujours jouable comme Counter (pas de DON requis)', () => {
+  it('should allow PlayCounter for a cost-0 card even with no active DON', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const counterCard = makeChar('pc3-counter', 'p2', 1000, { zone: 'hand', counter: 2000, cost: 0 });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: { ...base.players[P2]!, hand: [...base.players[P2]!.hand, counterCard.id] },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.activeCombat!.counterPower).toBe(2000);
+  });
+});
+
+describe('PC4: DON rested ne comptent pas pour payer un Counter', () => {
+  it('should reject PlayCounter when all DON in donArea are already tapped', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const restedDon1 = makeDon('pc4-don1', 'p2');
+    const restedDon2 = makeDon('pc4-don2', 'p2');
+    const counterCard = makeChar('pc4-counter', 'p2', 1000, { zone: 'hand', counter: 1000, cost: 2, type: 'Event' });
+
+    const s: GameState = {
+      ...base,
+      cards: {
+        ...base.cards,
+        [restedDon1.id]: { ...restedDon1, tapped: true },
+        [restedDon2.id]: { ...restedDon2, tapped: true },
+        [counterCard.id]: counterCard,
+      },
+      players: {
+        ...base.players,
+        [P2]: {
+          ...base.players[P2]!,
+          hand:    [...base.players[P2]!.hand, counterCard.id],
+          donArea: [...base.players[P2]!.donArea, restedDon1.id, restedDon2.id],
+        },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('INSUFFICIENT_DON');
+  });
+});
+
+describe('PC5: non-régression — counter coût 0 existant fonctionne toujours', () => {
+  it('existing cost-0 counter cards remain playable with no DON', () => {
+    // Simulates ST22-011 pattern: cost-0 counter card with 1000 counter value
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const counterCard = makeChar('pc5-st22', 'p2', 2000, { zone: 'hand', counter: 1000, cost: 0 });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: { ...base.players[P2]!, hand: [...base.players[P2]!.hand, counterCard.id] },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.activeCombat!.counterPower).toBe(1000);
+  });
+});
+
+describe('PC6: Character avec counter value, 0 DON actifs → Counter gratuit (pas de coût DON)', () => {
+  it('should allow PlayCounter for a Character with no active DON (Characters are free)', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const counterCard = makeChar('pc6-counter', 'p2', 2000, { zone: 'hand', counter: 2000, cost: 4 });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: { ...base.players[P2]!, hand: [...base.players[P2]!.hand, counterCard.id] },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.activeCombat!.counterPower).toBe(2000);
+    // No DON rested — Character counters are free
+    expect(result.players[P2]!.donArea.every((d) => !result.cards[d]!.tapped)).toBe(true);
+  });
+});
+
+describe('PC7: Event coût 2, 2 DON actifs → Counter jouable, 2 DON reposés', () => {
+  it('should allow Event PlayCounter and rest exactly 2 DON', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const don1 = makeDon('pc7-don1', 'p2');
+    const don2 = makeDon('pc7-don2', 'p2');
+    const counterCard = makeChar('pc7-counter', 'p2', 0, { zone: 'hand', counter: 2000, cost: 2, type: 'Event' });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [don1.id]: don1, [don2.id]: don2, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: {
+          ...base.players[P2]!,
+          hand:    [...base.players[P2]!.hand, counterCard.id],
+          donArea: [...base.players[P2]!.donArea, don1.id, don2.id],
+        },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(false);
+    if (isGameError(result)) return;
+    expect(result.activeCombat!.counterPower).toBe(2000);
+    expect(result.cards[don1.id]!.tapped).toBe(true);
+    expect(result.cards[don2.id]!.tapped).toBe(true);
+  });
+});
+
+describe('PC8: Event coût 2, 1 DON actif → Counter refusé (INSUFFICIENT_DON)', () => {
+  it('should reject Event PlayCounter when only 1 active DON for cost-2 Event', () => {
+    const base = buildCombatState(3000, 5000);
+    const attackerId = makeCardId('attacker');
+    const targetId   = makeCardId('target');
+    const don1 = makeDon('pc8-don1', 'p2');
+    const counterCard = makeChar('pc8-counter', 'p2', 0, { zone: 'hand', counter: 2000, cost: 2, type: 'Event' });
+
+    const s: GameState = {
+      ...base,
+      cards: { ...base.cards, [don1.id]: don1, [counterCard.id]: counterCard },
+      players: {
+        ...base.players,
+        [P2]: {
+          ...base.players[P2]!,
+          hand:    [...base.players[P2]!.hand, counterCard.id],
+          donArea: [...base.players[P2]!.donArea, don1.id],
+        },
+      },
+    };
+
+    const afterAttack = applyAction(s, { type: 'DeclareAttack', playerId: P1, attackerId, targetId });
+    if (isGameError(afterAttack)) throw new Error(`DeclareAttack: ${afterAttack.message}`);
+
+    const result = applyAction(afterAttack, { type: 'PlayCounter', playerId: P2, cardId: counterCard.id });
+    expect(isGameError(result)).toBe(true);
+    if (isGameError(result)) expect(result.code).toBe('INSUFFICIENT_DON');
+  });
+});
+
 // ─── First-turn attack restriction ───────────────────────────────────────────
 
 describe('DeclareAttack — restriction premier tour', () => {

@@ -8,7 +8,7 @@
       "duration": "Permanent",
       "actions": [
         {
-          "type": "PowerBoost",
+          "type": "GiveTemporaryCostModifier",
           "amount": 1,
           "property": "cost",
           "target": {
@@ -29,18 +29,20 @@
       "duration": "DuringYourTurn",
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "AddDon",
           "max": 1,
           "state": "active",
           "source": "DONDeck",
-          "count": 1
+          "count": 1,
+          "active": true
         },
         {
-          "type": "GiveDon",
+          "type": "AddDon",
           "max": 1,
           "state": "rested",
           "source": "DONDeck",
-          "count": 1
+          "count": 1,
+          "active": true
         }
       ],
       "description": "When 2 or more DON!! cards on your field are returned to your DON!! deck"

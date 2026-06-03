@@ -1,38 +1,11 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "cost": "Rest",
-    "window": "Main",
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 1
-      },
-      {
-        "type": "ForceDiscard",
-        "target": {
-          "scope": "OwnHand"
-        },
-        "count": 1
-      },
-      {
-        "type": "KO",
-        "target": {
-          "scope": "OpponentCharacter",
-          "maxCost": 3
-        },
-        "count": 1,
-        "optional": true
-      }
-    ]
-  },
   "id": "OP08-084",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "PowerBoost",
+          "type": "GiveTemporaryCostModifier",
           "target": {
             "scope": "Self"
           },

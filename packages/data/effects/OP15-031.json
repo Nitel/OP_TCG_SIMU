@@ -9,8 +9,10 @@
   "effects": [
     {
       "trigger": "OnPlay",
-      "actions": [],
-      "_TODO": "effectText=\"[On Play] Select up to 1 of your opponent's rested Characters. If the chosen Character has a cost equal to the number of DON!! cards given to it, K.O. it.\" — dynamic condition (cost equal to attached DON count) not supported"
+      "condition": { "type": "CostEqualsAttachedDon", "target": { "scope": "ChooseOpponentCharacter" } },
+      "actions": [
+        { "type": "KO", "target": { "scope": "ChooseOpponentCharacter" } }
+      ]
     }
   ],
   "counter": 1000

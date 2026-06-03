@@ -1,35 +1,16 @@
 {
-  "1": {
-    "trigger": "OnKO",
-    "actions": [
-      {
-        "type": "FlipLife",
-        "count": 1,
-        "source": "Own"
-      },
-      {
-        "type": "PlayFromHand",
-        "filter": {
-          "cardType": "Character",
-          "maxPower": 6000
-        }
-      }
-    ]
-  },
   "id": "EB03-053",
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "GiveDon",
+          "type": "AttachDon",
           "count": 1,
           "target": {
             "scope": "OwnLeader"
           },
-          "filter": {
-            "status": "Resting"
-          }
+          "from": "rested"
         },
         {
           "type": "FlipLife",

@@ -9,14 +9,27 @@
   "effects": [
     {
       "trigger": "OnPlay",
+      "condition": {
+        "type": "Always"
+      },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": 2000,
-          "target": {
-            "scope": "OwnLeader"
+          "type": "RevealFromHand",
+          "count": 2,
+          "filter": {
+            "subType": "Whitebeard Pirates"
           },
-          "duration": "EndOfTurn"
+          "optional": true,
+          "thenActions": [
+            {
+              "type": "PowerBoost",
+              "amount": 2000,
+              "target": {
+                "scope": "OwnLeader"
+              },
+              "duration": "EndOfTurn"
+            }
+          ]
         }
       ]
     }

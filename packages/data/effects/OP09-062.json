@@ -1,15 +1,4 @@
 {
-  "1": {
-    "trigger": "OnAttack",
-    "description": "Banish - When this card deals damage, the target card is trashed without activating its Trigger",
-    "actions": [
-      {
-        "type": "KO",
-        "target": "damagedCard",
-        "bypassTrigger": true
-      }
-    ]
-  },
   "id": "OP09-062",
   "effects": [
     {
@@ -23,14 +12,9 @@
           "optional": true,
           "thenActions": [
             {
-              "type": "GiveDon",
-              "count": 1
-            },
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "Self"
-              }
+              "type": "AddDon",
+              "count": 1,
+              "active": false
             }
           ]
         }

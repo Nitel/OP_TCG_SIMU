@@ -2,8 +2,11 @@
   "id": "ST19-004",
   "effects": [
     {
-      "trigger": "Permanent",
-      "condition": null,
+      "trigger": "StartOfOpponentTurn",
+      "condition": {
+        "type": "HasAttachedDon",
+        "count": 1
+      },
       "actions": [
         {
           "type": "PowerBoost",

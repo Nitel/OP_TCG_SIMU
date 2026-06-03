@@ -8,15 +8,18 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Permanent",
       "condition": {
-        "type": "HasAttachedDon",
+        "type": "HasRestingDon",
         "count": 1
       },
       "actions": [
         {
-          "type": "GiveDon",
-          "count": 1
+          "type": "AttachDon",
+          "count": 1,
+          "target": {
+            "scope": "OwnLeader"
+          }
         }
       ]
     },

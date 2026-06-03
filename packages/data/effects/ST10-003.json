@@ -1,32 +1,29 @@
 {
-  "1": {
-    "trigger": "OnAttack",
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": 2000,
-        "target": {
-          "scope": "OwnLeader"
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
   "id": "ST10-003",
   "effects": [
     {
-      "trigger": "OnAttack",
-      "conditions": [
-        {
-          "type": "HasAttachedDon",
-          "amount": 4,
-          "comparison": ">="
-        }
-      ],
+      "trigger": "YourTurn",
+      "condition": {
+        "type": "LifeCount",
+        "min": 4
+      },
       "actions": [
         {
           "type": "PowerBoost",
           "amount": -1000,
+          "target": {
+            "scope": "OwnLeader"
+          },
+          "duration": "DuringYourTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": 2000,
           "target": {
             "scope": "OwnLeader"
           },

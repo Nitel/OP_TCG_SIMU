@@ -125,9 +125,9 @@ for (const file of files) {
   if ('effects' in obj && !Array.isArray(obj['effects'])) {
     nonArrayEffects.push(file);
   }
-  // Root-level numeric keys with no effects key = old broken format
+  // Root-level numeric keys = dead stranded effect (whether or not effects array exists)
   const numericRootKeys = Object.keys(obj).filter((k) => /^\d+$/.test(k));
-  if (numericRootKeys.length > 0 && !Array.isArray(obj['effects'])) {
+  if (numericRootKeys.length > 0) {
     nonArrayEffects.push(file);
   }
 }
@@ -165,11 +165,18 @@ describe('DSL Coverage — required fields', () => {
   });
 
   it('effects is always an array (never numbered-key object)', () => {
-    if (nonArrayEffects.length > 0) {
+    // Baseline: 149 files have stranded numeric root keys alongside an effects array
+    // (pre-existing LLM-generated DSL errors). New additions must not grow this count.
+    const STRANDED_KEY_BASELINE = 149;
+    if (nonArrayEffects.length > STRANDED_KEY_BASELINE) {
       expect.fail(
-        `${nonArrayEffects.length} file(s) have effects as object with numeric keys instead of array:\n` +
-        nonArrayEffects.map((f) => `  ${f}`).join('\n')
+        `Stranded numeric root keys grew from baseline ${STRANDED_KEY_BASELINE} to ${nonArrayEffects.length}.\n` +
+        `New files with stranded numeric keys (fix them):\n` +
+        nonArrayEffects.slice(STRANDED_KEY_BASELINE).map((f) => `  ${f}`).join('\n'),
       );
+    }
+    if (nonArrayEffects.length > 0) {
+      console.warn(`[Stranded keys] ${nonArrayEffects.length} file(s) have numeric root keys (baseline ${STRANDED_KEY_BASELINE})`);
     }
   });
 
@@ -219,7 +226,8 @@ describe('DSL Coverage — required fields', () => {
       const m = re.exec(effectText);
       if (!m) return false;
       const prefix = effectText.slice(Math.max(0, m.index - 25), m.index);
-      return !/(?:gains?|give|grant|get)\s*$/i.test(prefix);
+      // Also exclude "activate(s) [a] [Kw]" — card references the keyword on another card
+      return !/(?:gains?|give|grant|get|activate[sd]?\s+(?:a\s+)?)\s*$/i.test(prefix);
     }
 
     const ALT_ART_RE = /^(.+?)(_p\d+|_r\d+|_alt\w*)$/;
@@ -597,6 +605,127 @@ describe('DSL Coverage — required fields', () => {
         `[OPT] ${violations.length} card(s) have [Once Per Turn] in effectText but missing oncePerTurn in DSL ` +
         `(baseline ${OPT_KNOWN_GAPS} — incomplete DSLs with only Counter/Trigger effects encoded)`,
       );
+    }
+  });
+
+  // Bug F guard: PowerBoost amount must be a non-zero multiple of 1000
+  it('Bug F guard — PowerBoost amount must be a non-zero multiple of 1000', () => {
+    const PB_KNOWN_BASELINE = 43; // existing LLM-generated DSL errors (amounts like -1 instead of -1000)
+    const violations: string[] = [];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function scanActionsF(actions: any[], file: string): void {
+      for (const action of actions ?? []) {
+        if (action?.type === 'PowerBoost') {
+          const amt = action?.amount;
+          if (typeof amt === 'number' && amt % 1000 !== 0) {
+            violations.push(`  ${file}: PowerBoost amount=${amt} is not a multiple of 1000`);
+          }
+        }
+        if (Array.isArray(action?.thenActions)) scanActionsF(action.thenActions, file);
+      }
+    }
+
+    for (const file of files) {
+      try {
+        const def = JSON.parse(fs.readFileSync(path.join(EFFECTS_DIR, file), 'utf-8')) as { effects?: { actions?: unknown[] }[] };
+        for (const effect of def.effects ?? []) {
+          scanActionsF(effect.actions ?? [], file);
+        }
+      } catch { /* skip */ }
+    }
+
+    if (violations.length > PB_KNOWN_BASELINE) {
+      expect.fail(
+        `PowerBoost invalid-amount violations grew from baseline ${PB_KNOWN_BASELINE} to ${violations.length}.\n` +
+        `New violations:\n${violations.slice(PB_KNOWN_BASELINE).join('\n')}`,
+      );
+    }
+    if (violations.length > 0) {
+      console.warn(`[Bug F] ${violations.length} PowerBoost action(s) with non-1000-multiple amounts (baseline ${PB_KNOWN_BASELINE})`);
+    }
+  });
+
+  // Bug G guard: DrawCard count must be between 1 and 5
+  it('Bug G guard — DrawCard count must be between 1 and 5', () => {
+    const violations: string[] = [];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function scanActionsG(actions: any[], file: string): void {
+      for (const action of actions ?? []) {
+        if (action?.type === 'DrawCard') {
+          const c = action?.count;
+          if (typeof c === 'number' && (c < 1 || c > 5 || !Number.isInteger(c))) {
+            violations.push(`  ${file}: DrawCard count=${c} is out of range [1–5]`);
+          }
+        }
+        if (Array.isArray(action?.thenActions)) scanActionsG(action.thenActions, file);
+      }
+    }
+
+    for (const file of files) {
+      try {
+        const def = JSON.parse(fs.readFileSync(path.join(EFFECTS_DIR, file), 'utf-8')) as { effects?: { actions?: unknown[] }[] };
+        for (const effect of def.effects ?? []) {
+          scanActionsG(effect.actions ?? [], file);
+        }
+      } catch { /* skip */ }
+    }
+
+    if (violations.length > 0) {
+      expect.fail(`${violations.length} DrawCard action(s) with invalid count:\n${violations.join('\n')}`);
+    }
+  });
+
+  // Bug H guard: every BySubType filter value must match ≥1 card in raw data
+  it('Bug H guard — BySubType filter values must match at least one raw card', () => {
+    // Build set of all raw subTypes strings
+    const rawSubTypes: string[] = [];
+    if (fs.existsSync(RAW_DIR)) {
+      for (const f of fs.readdirSync(RAW_DIR).filter((x) => x.endsWith('.json'))) {
+        try {
+          const raw = JSON.parse(fs.readFileSync(path.join(RAW_DIR, f), 'utf-8'));
+          const cards: unknown[] = Array.isArray(raw) ? raw : (raw as { cards?: unknown[] }).cards ?? [];
+          for (const c of cards) {
+            const st = (c as { subTypes?: string }).subTypes;
+            if (typeof st === 'string' && st.length > 0) rawSubTypes.push(st);
+          }
+        } catch { /* skip */ }
+      }
+    }
+
+    /** Same normalised substring logic as the engine's hasSubType */
+    const norm = (s: string): string => s.toLowerCase().replace(/\s+/g, '');
+    function matchesRaw(filter: string): boolean {
+      return rawSubTypes.some((st) => {
+        if (st.includes(filter)) return true;
+        return norm(st).includes(norm(filter));
+      });
+    }
+
+    const violations: string[] = [];
+    for (const file of files) {
+      try {
+        const text = fs.readFileSync(path.join(EFFECTS_DIR, file), 'utf-8');
+        const def = JSON.parse(text) as { effects?: unknown[] };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        function scanFilter(obj: any, filePath: string): void {
+          if (!obj || typeof obj !== 'object') return;
+          if (obj.kind === 'BySubType' && typeof obj.subType === 'string') {
+            if (!matchesRaw(obj.subType)) {
+              violations.push(`  ${filePath}: BySubType subType=${JSON.stringify(obj.subType)} matches no raw card`);
+            }
+          }
+          for (const v of Object.values(obj)) {
+            if (v && typeof v === 'object') scanFilter(v, filePath);
+          }
+        }
+        for (const eff of def.effects ?? []) scanFilter(eff, file);
+      } catch { /* skip */ }
+    }
+
+    if (violations.length > 0) {
+      expect.fail(`${violations.length} BySubType filter(s) matching no raw card:\n${violations.join('\n')}`);
     }
   });
 

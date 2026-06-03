@@ -64,6 +64,8 @@ const VALID_CONDITIONS = new Set([
   'TotalDonCount', 'AllDonRested', 'DonCountVsOpponent',
   // New conditions
   'OnlyTypeOnBoard', 'Not', 'FaceUpLifeCard', 'MulticoloredLeader', 'OpponentDonCount',
+  // Dynamic DON conditions
+  'CostEqualsAttachedDon',
 ]);
 const VALID_ACTIONS = new Set([
   'DrawCard', 'KO', 'ReturnToHand', 'PowerBoost', 'ForceDiscard', 'AddLife',
@@ -105,6 +107,8 @@ const VALID_ACTIONS = new Set([
   'SetCostToZero', 'SwapBasePower', 'SetBasePowerToLeader',
   'PlaceAllCharactersAtBottom', 'AddToLife', 'PlaceOwnCharacterAtBottom',
   'SetActive', 'CannotAddLifeToHand',
+  // Extra turn and cost reduction
+  'ExtraTurn', 'SetNextPlayCostReduction',
 ]);
 const VALID_KEYWORDS = new Set([
   'Rush', 'Blocker', 'DoubleAttack', 'Banish', 'Unblockable', 'Trigger',

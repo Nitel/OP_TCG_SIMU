@@ -12,11 +12,9 @@
       "oncePerTurn": true,
       "actions": [
         {
-          "type": "RevealFromHand",
+          "type": "RevealFromDeck",
           "count": 1,
-          "filter": {
-            "subType": "Whitebeard Pirates"
-          },
+          "returnTo": "top",
           "thenActions": [
             {
               "type": "PowerBoost",
@@ -24,7 +22,11 @@
               "target": {
                 "scope": "Self"
               },
-              "duration": "EndOfTurn"
+              "duration": "EndOfOpponentTurn",
+              "condition": {
+                "type": "RevealedCardHasType",
+                "cardType": "Whitebeard Pirates"
+              }
             }
           ]
         }

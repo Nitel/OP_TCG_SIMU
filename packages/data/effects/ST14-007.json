@@ -1,41 +1,37 @@
 {
-  "1": {
-    "trigger": "OnAttack",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "name": "Character",
-      "minCost": 8
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -5000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxAmount": 1
-        },
-        "duration": "EndOfTurn"
-      }
-    ]
-  },
   "id": "ST14-007",
   "effects": [
     {
       "trigger": "OnPlay",
       "condition": {
-        "type": "HasCardOnBoard",
-        "name": "Character",
+        "type": "HasCharacterWithMinPower",
+        "minPower": 1,
         "minCost": 8
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": -5000,
+          "type": "GiveTemporaryCostModifier",
+          "amount": -5,
           "target": {
-            "scope": "ChooseOpponentCharacter",
-            "maxAmount": 1
-          },
-          "duration": "EndOfTurn"
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "OnAttack",
+      "condition": {
+        "type": "HasCharacterWithMinPower",
+        "minPower": 1,
+        "minCost": 8
+      },
+      "actions": [
+        {
+          "type": "GiveTemporaryCostModifier",
+          "amount": -5,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
         }
       ]
     }

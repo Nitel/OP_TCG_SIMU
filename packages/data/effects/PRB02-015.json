@@ -1,20 +1,4 @@
 {
-  "1": {
-    "trigger": "OnKO",
-    "condition": {
-      "type": "LeaderHasType",
-      "value": "Blackbeard Pirates"
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "maxCost": 4
-        }
-      }
-    ]
-  },
   "id": "PRB02-015",
   "effects": [
     {
@@ -39,6 +23,22 @@
             "scope": "Self"
           },
           "duration": "Permanent"
+        }
+      ]
+    },
+    {
+      "trigger": "OnKO",
+      "condition": {
+        "type": "LeaderHasType",
+        "subType": "Blackbeard Pirates"
+      },
+      "actions": [
+        {
+          "type": "KO",
+          "target": {
+            "scope": "ChooseOpponentCharacter",
+            "maxCost": 4
+          }
         }
       ]
     }

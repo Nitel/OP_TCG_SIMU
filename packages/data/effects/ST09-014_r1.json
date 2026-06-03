@@ -10,8 +10,8 @@
     {
       "trigger": "Counter",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 2
+        "type": "LifeCount",
+        "max": 2
       },
       "actions": [
         {
@@ -21,27 +21,6 @@
             "scope": "ChooseOpponentCharacterOrLeader"
           },
           "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "filter": {
-            "cardTypes": [
-              "Character",
-              "Event",
-              "Stage"
-            ]
-          },
-          "thenActions": [
-            {
-              "type": "FlipLife",
-              "count": 1
-            }
-          ]
         }
       ]
     }

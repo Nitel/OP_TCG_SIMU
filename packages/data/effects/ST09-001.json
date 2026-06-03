@@ -8,9 +8,13 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Permanent",
+      "trigger": "StartOfOpponentTurn",
       "condition": {
-        "type": "Always"
+        "type": "And",
+        "conditions": [
+          { "type": "HasAttachedDon", "count": 1 },
+          { "type": "LifeCount", "max": 2 }
+        ]
       },
       "actions": [
         {
@@ -19,7 +23,7 @@
           "target": {
             "scope": "OwnLeader"
           },
-          "duration": "EndOfTurn"
+          "duration": "EndOfOpponentTurn"
         }
       ]
     }

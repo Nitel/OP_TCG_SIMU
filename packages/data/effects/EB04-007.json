@@ -1,27 +1,8 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "HasCardOnBoard",
-      "scope": "Opponent",
-      "powerThreshold": 8000
-    },
-    "actions": [
-      {
-        "type": "GiveKeyword",
-        "keyword": "Rush",
-        "target": {
-          "scope": "Self"
-        },
-        "duration": "DuringYourTurn"
-      }
-    ]
-  },
   "id": "EB04-007",
   "effects": [
     {
       "trigger": "OnPlay",
-      "oncePerTurn": true,
       "actions": [
         {
           "type": "PowerBoost",
@@ -30,6 +11,25 @@
             "scope": "OwnLeader"
           },
           "duration": "EndOfOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "condition": {
+        "type": "HasCharacterWithMinPower",
+        "minPower": 8000,
+        "controller": "Opponent"
+      },
+      "actions": [
+        {
+          "type": "GiveKeyword",
+          "keyword": "Rush",
+          "target": {
+            "scope": "Self"
+          },
+          "duration": "EndOfTurn"
         }
       ]
     }

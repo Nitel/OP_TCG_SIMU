@@ -8,22 +8,23 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "OnAttacked",
+      "trigger": "Counter",
       "actions": [
         {
           "type": "PowerBoost",
           "amount": 4000,
           "target": {
-            "scope": "ChooseOwnCharacter"
+            "scope": "ChooseOwnCharacterOrLeader"
           },
           "duration": "EndOfBattle"
         },
         {
           "type": "TrashFromHand",
+          "optional": true,
           "filter": {},
           "thenActions": [
             {
-              "type": "GiveDon",
+              "type": "ActivateDon",
               "count": 3
             }
           ]

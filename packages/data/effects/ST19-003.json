@@ -1,43 +1,32 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "Always"
-    },
-    "actions": [
-      {
-        "type": "KO",
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "count": 1,
-          "filter": "cost=0"
-        }
-      }
-    ],
-    "restrictions": {
-      "activationType": "Main",
-      "oncePerTurn": true,
-      "requiresPlayedThisTurn": true
-    }
-  },
   "id": "ST19-003",
   "effects": [
     {
       "trigger": "OnPlay",
-      "oncePerTurn": true,
       "condition": {
         "type": "LeaderIsName",
         "name": "Smoker"
       },
       "actions": [
         {
-          "type": "PowerBoost",
-          "amount": -4000,
+          "type": "GiveTemporaryCostModifier",
+          "amount": -4,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          }
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "KO",
           "target": {
             "scope": "ChooseOpponentCharacter",
-            "count": 1
-          },
-          "duration": "DuringYourTurn"
+            "maxCost": 0
+          }
         }
       ]
     }

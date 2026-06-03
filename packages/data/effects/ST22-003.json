@@ -1,40 +1,28 @@
 {
-  "1": {
-    "trigger": "OnPlay",
-    "conditions": [
-      {
-        "type": "HasCardOnBoard",
-        "cardType": "Whitebeard Pirates"
-      }
-    ],
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      }
-    ]
-  },
   "id": "ST22-003",
+  "keywords": [
+    "DoubleAttack"
+  ],
   "effects": [
     {
       "trigger": "OnPlay",
       "actions": [
         {
-          "type": "RevealFromHand",
+          "type": "RevealFromDeck",
           "count": 1,
-          "source": "DeckTop",
-          "thenActions": []
-        }
-      ],
-      "conditions": [
-        {
-          "type": "HasCardOnBoard",
-          "cardType": "Whitebeard Pirates"
+          "returnTo": "top",
+          "thenActions": [
+            {
+              "type": "DrawCard",
+              "count": 2,
+              "condition": {
+                "type": "RevealedCardHasType",
+                "cardType": "Whitebeard Pirates"
+              }
+            }
+          ]
         }
       ]
     }
-  ],
-  "keywords": [
-    "DoubleAttack"
   ]
 }

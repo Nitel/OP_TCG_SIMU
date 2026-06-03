@@ -85,7 +85,7 @@ export type DeckFilter =
   | { readonly kind: 'Any' }
   | { readonly kind: 'ByType'; readonly cardType: 'Character' | 'Event' | 'Stage' }
   | { readonly kind: 'ByCost'; readonly maxCost: number; readonly cardType?: 'Character' | 'Event' | 'Stage' }
-  | { readonly kind: 'ByName'; readonly name: string }
+  | { readonly kind: 'ByName'; readonly name: string; readonly maxCost?: number }
   /** Match cards whose subTypes string includes the given affiliation/group */
   | { readonly kind: 'BySubType'; readonly subType: string; readonly cardType?: 'Character' | 'Event' | 'Stage'; readonly excludeNames?: readonly string[] };
 
@@ -100,6 +100,8 @@ export interface HandFilter {
   readonly maxCost?: number;
   /** Exact card name match */
   readonly name?: string;
+  /** Match any card whose name is in this list (OR semantics). */
+  readonly names?: readonly string[];
   /** Exclude the source card itself (the card that triggered the OnKO) */
   readonly excludeSelf?: boolean;
   /** Exclude all cards whose name exactly matches this string (e.g. ST21-015 Zoro: "other than [Roronoa Zoro]") */
@@ -420,7 +422,19 @@ export type EffectAction =
    * Sets lifeToHandBlocked on the player state; cleared at end of turn.
    * Source: ST15-001.
    */
-  | { readonly type: 'CannotAddLifeToHand' };
+  | { readonly type: 'CannotAddLifeToHand' }
+  /**
+   * Grant the source player one extra turn: the same player takes another full turn
+   * immediately after the current turn ends instead of passing to the opponent.
+   * Source: OP05-119.
+   */
+  | { readonly type: 'ExtraTurn' }
+  /**
+   * Set a one-shot next-play cost reduction: the next time this player plays a card
+   * matching the filter this turn, its cost is reduced by `reduction`. Consumed on use.
+   * Source: OP02-025 (Kin'emon).
+   */
+  | { readonly type: 'SetNextPlayCostReduction'; readonly reduction: number; readonly subType?: string; readonly minCost?: number };
 
 // ─── DSL — Triggers ───────────────────────────────────────────────────────────
 
@@ -607,13 +621,20 @@ export type EffectCondition =
    * True when the opponent's total DON!! count in donArea satisfies the constraint.
    * Source: PRB02-005 ("opponent has 7 or less DON on their field").
    */
-  | { readonly type: 'OpponentDonCount'; readonly max?: number; readonly min?: number };
+  | { readonly type: 'OpponentDonCount'; readonly max?: number; readonly min?: number }
+  /**
+   * True when the chosen target card's cost equals the number of DON!! attached to it.
+   * Source: OP15-031 (Purinpurin KO condition).
+   */
+  | { readonly type: 'CostEqualsAttachedDon'; readonly target: TargetSelector };
 
 // ─── DSL — CardEffect ─────────────────────────────────────────────────────────
 
 export interface CardEffect {
   readonly trigger: EffectTrigger;
   readonly condition?: EffectCondition;
+  /** Legacy array form: all conditions must pass (AND semantics). Use `condition` for new effects. */
+  readonly conditions?: readonly EffectCondition[];
   readonly actions: readonly EffectAction[];
   /**
    * "[Opponent's Turn]" abilities set timing: 'OpponentTurn'.
@@ -1067,6 +1088,17 @@ export interface GameState {
    * Entries are appended; never mutated. Monotonically increasing `seq`.
    */
   readonly gameLog: readonly GameLogEntry[];
+  /** When true, the current player takes an extra turn instead of passing to the opponent. Cleared after use. */
+  readonly pendingExtraTurn: boolean;
+  /**
+   * One-shot next-play cost reduction set by SetNextPlayCostReduction.
+   * Consumed (cleared) the first time a matching card is played.
+   */
+  readonly nextPlayCostReduction?: {
+    readonly reduction: number;
+    readonly subType?: string;
+    readonly minCost?: number;
+  } | undefined;
 }
 
 // ─── Player setup (used in StartGame) ────────────────────────────────────────
@@ -1379,5 +1411,6 @@ export function makeEmptyState(p1: PlayerId, p2: PlayerId): GameState {
     blockerDisabledIds: [],
     blockerSuppressedForAttackerIds: [],
     gameLog: [],
+    pendingExtraTurn: false,
   };
 }

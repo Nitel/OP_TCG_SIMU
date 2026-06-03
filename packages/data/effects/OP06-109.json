@@ -8,15 +8,18 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "Permanent",
       "condition": {
-        "type": "HasRestingDon",
-        "count": 2
+        "type": "And",
+        "conditions": [
+          { "type": "HasAttachedDon", "count": 2 },
+          { "type": "OpponentLifeCount", "max": 3 }
+        ]
       },
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Banish",
+          "keyword": "CannotBeKOdByEffect",
           "target": {
             "scope": "Self"
           },

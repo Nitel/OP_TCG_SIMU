@@ -894,15 +894,17 @@ function bootstrapCounterState(): { state: GameState; attackerId: CardId; defend
   const base = bootstrapGame();
   const attacker = makeChar('p2-attacker', 'p2', 5000, { tapped: true });
   const defender = makeChar('p1-defender', 'p1', 4000);
+  // ST22-016 costs 1 DON — give P1 one active DON so PlayCounter can pay the cost
+  const activeDon = makeDon('p1-active-don', 'p1', { tapped: false, attachedTo: null });
   const s: GameState = {
     ...base,
     activePlayerId: P2,
     phase: 'Main',
-    cards: { ...base.cards, [attacker.id]: attacker, [defender.id]: defender },
+    cards: { ...base.cards, [attacker.id]: attacker, [defender.id]: defender, [activeDon.id]: activeDon },
     players: {
       ...base.players,
       [P2]: { ...base.players[P2]!, board: [...base.players[P2]!.board, attacker.id] },
-      [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, defender.id] },
+      [P1]: { ...base.players[P1]!, board: [...base.players[P1]!.board, defender.id], donArea: [...base.players[P1]!.donArea, activeDon.id] },
     },
     activeCombat: { attackerId: attacker.id, targetId: defender.id, blockerId: null, counterPower: 0 },
   };

@@ -1,18 +1,4 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "condition": "TrashCount",
-    "conditionValue": {
-      "operator": "<=",
-      "value": 4
-    },
-    "actions": [
-      {
-        "type": "DrawCard",
-        "count": 2
-      }
-    ]
-  },
   "id": "EB03-028",
   "effects": [
     {
@@ -23,6 +9,19 @@
           "count": 1,
           "filter": {},
           "thenActions": []
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "condition": {
+        "type": "HandCount",
+        "max": 4
+      },
+      "actions": [
+        {
+          "type": "DrawCard",
+          "count": 2
         }
       ]
     }

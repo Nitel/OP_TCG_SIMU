@@ -12,20 +12,15 @@
       "actions": [
         {
           "type": "TrashFromHand",
+          "optional": true,
           "filter": {
             "isTarget": true
           },
           "thenActions": [
             {
-              "type": "GiveDon",
+              "type": "AddDon",
               "count": 1,
-              "source": "DonDeck"
-            },
-            {
-              "type": "Rest",
-              "target": {
-                "scope": "Self"
-              }
+              "active": false
             }
           ]
         }

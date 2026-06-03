@@ -88,7 +88,7 @@ export function resolveCombat(state: GameState): GameState {
 
   const attackerPower = calculatePower(attackerId, state);
   const attacker = state.cards[attackerId]; // read BEFORE any trash call
-  const attackerBanishes = attacker !== undefined && hasKeyword(attacker, 'Banish');
+  const attackerBanishes = attacker !== undefined && hasKeyword(attacker, 'Banish', state);
 
   /** Send `cardId` to trash or removed-from-game depending on Banish, then fire OnKO + OnLeaveField. */
   function koCard(s: GameState, cardId: CardId, card: typeof attacker): GameState {
@@ -135,7 +135,7 @@ export function resolveCombat(state: GameState): GameState {
     const blockerPower = calculatePower(blockerId, state);
     const blockerCard = state.cards[blockerId]; // read BEFORE trash
 
-    if (attackerPower >= blockerPower && !hasKeyword(blockerCard!, 'CannotBeKOdInBattle')) {
+    if (attackerPower >= blockerPower && !hasKeyword(blockerCard!, 'CannotBeKOdInBattle', state)) {
       next = koCard(next, blockerId, blockerCard);
     }
     // else: attack repelled, blocker survives, attacker is unharmed
@@ -153,7 +153,7 @@ export function resolveCombat(state: GameState): GameState {
           // DoubleAttack: second damage only if defender still has life cards.
           // Q&A: "If my opponent has 1 Life card, can I win using Double Attack? No."
           // A player wins only when damage is applied to an already-empty life pile.
-          if (hasKeyword(attacker, 'DoubleAttack') && next.winner === null) {
+          if (hasKeyword(attacker, 'DoubleAttack', state) && next.winner === null) {
             const [p1Id, p2Id] = next.playerOrder;
             const defenderId = attacker.ownerId === p1Id ? p2Id : p1Id;
             if ((next.players[defenderId]?.life.length ?? 0) > 0) {
@@ -164,7 +164,7 @@ export function resolveCombat(state: GameState): GameState {
       } else {
         // Unblocked attack on a Character → KO if attacker power >= defender power
         const targetCard = state.cards[targetId]; // read BEFORE trash
-        if (!hasKeyword(targetCard!, 'CannotBeKOdInBattle')) {
+        if (!hasKeyword(targetCard!, 'CannotBeKOdInBattle', state)) {
           next = koCard(next, targetId, targetCard);
         }
       }

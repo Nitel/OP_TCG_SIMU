@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -10,6 +11,19 @@ export default defineConfig(({ mode }) => {
   try { cdnHost = new URL(cdnBase).host; } catch { /* no CDN configured */ }
 
   return {
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test/setup.ts'],
+    include: ['src/test/**/*.{test,spec}.{ts,tsx}'],
+    // jsdom@29 depends on html-encoding-sniffer which tries to require() an ESM package.
+    // Force vitest to transform these through Vite so they work in the worker context.
+    server: {
+      deps: {
+        inline: [/@exodus\//, /html-encoding-sniffer/],
+      },
+    },
+  },
   plugins: [react()],
   // In dev, proxy CDN requests through Vite to avoid CORS issues
   server: {

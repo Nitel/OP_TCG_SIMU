@@ -8,19 +8,22 @@
   "keywords": [],
   "effects": [
     {
-      "trigger": "Activated",
+      "trigger": "StartOfOpponentTurn",
       "condition": {
-        "type": "TurnCount",
-        "min": 1
+        "type": "And",
+        "conditions": [
+          { "type": "HasAttachedDon", "count": 1 },
+          { "type": "LifeCount", "max": 2 }
+        ]
       },
       "actions": [
         {
           "type": "GiveKeyword",
-          "keyword": "Banish",
+          "keyword": "CannotBeKOdInBattle",
           "target": {
             "scope": "Self"
           },
-          "duration": "EndOfBattle"
+          "duration": "EndOfTurn"
         }
       ]
     }

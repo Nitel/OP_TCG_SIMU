@@ -1,39 +1,12 @@
 {
-  "1": {
-    "trigger": "Activated",
-    "condition": {
-      "type": "TurnCount",
-      "min": 1
-    },
-    "actions": [
-      {
-        "type": "PowerBoost",
-        "amount": -1000,
-        "target": {
-          "scope": "ChooseOpponentCharacter",
-          "optional": true,
-          "max": 1
-        },
-        "duration": "DuringYourTurn"
-      },
-      {
-        "type": "DrawCard",
-        "count": 1,
-        "condition": {
-          "type": "TrashCount",
-          "min": 2
-        }
-      }
-    ]
-  },
   "id": "EB04-001",
   "effects": [
     {
-      "trigger": "Trigger",
+      "trigger": "StartOfOpponentTurn",
       "condition": {
-        "type": "Always"
+        "type": "LifeCount",
+        "max": 1
       },
-      "duration": "EndOfOpponentTurn",
       "actions": [
         {
           "type": "PowerBoost",
@@ -41,11 +14,26 @@
           "target": {
             "scope": "Self"
           },
-          "condition": {
-            "type": "TrashCount",
-            "max": 1
-          },
           "duration": "EndOfOpponentTurn"
+        }
+      ]
+    },
+    {
+      "trigger": "Activated",
+      "oncePerTurn": true,
+      "actions": [
+        {
+          "type": "PowerBoost",
+          "amount": -1000,
+          "target": {
+            "scope": "ChooseOpponentCharacter"
+          },
+          "duration": "DuringYourTurn"
+        },
+        {
+          "type": "TakeLifeToHand",
+          "count": 1,
+          "optional": true
         }
       ]
     }

@@ -10,7 +10,7 @@
     {
       "trigger": "Counter",
       "condition": {
-        "type": "TurnCount",
+        "type": "LifeCount",
         "max": 2
       },
       "actions": [
@@ -21,24 +21,6 @@
             "scope": "ChooseOpponentCharacterOrLeader"
           },
           "duration": "EndOfTurn"
-        }
-      ]
-    },
-    {
-      "trigger": "Trigger",
-      "actions": [
-        {
-          "type": "TrashFromHand",
-          "count": 2,
-          "filter": {},
-          "thenActions": []
-        },
-        {
-          "type": "SearchDeck",
-          "filter": {
-            "kind": "Any"
-          },
-          "destination": "hand"
         }
       ]
     }

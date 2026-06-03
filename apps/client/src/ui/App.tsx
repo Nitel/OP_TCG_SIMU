@@ -790,6 +790,16 @@ export function App() {
         if (activeCombat.blockerId !== null) {
           return { ...IDLE_UI, errorMessage: 'Impossible : un bloqueur est déjà engagé dans ce combat.' };
         }
+        if (card.type === 'Event') {
+          const defPlayer = gameState.players[defenderId];
+          const activeDonCount = (defPlayer?.donArea ?? []).filter((d) => {
+            const don = gameState.cards[d];
+            return don !== undefined && !don.tapped && don.attachedTo === null;
+          }).length;
+          if (activeDonCount < (card.cost ?? 0)) {
+            return { ...IDLE_UI, errorMessage: `DON insuffisant pour jouer "${card.name}" comme contre (coût ${card.cost ?? 0}, actifs ${activeDonCount}).` };
+          }
+        }
         return { ...IDLE_UI, selectedCardId: cardId, selectionMode: 'playCounter' };
       }
       if (activeCombat !== null && card.ownerId === defenderId && card.zone === 'board' && !card.tapped) {
