@@ -37,7 +37,7 @@ jobs:
 
       # ── 2. Generate effect DSLs for new cards ────────────────────────────────
       - name: Generate missing effect DSLs
-        if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        if: ${{ secrets.ANTHROPIC_API_KEY != null }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/generate-all-effects.mjs
@@ -48,7 +48,7 @@ jobs:
 
       # ── 4. Upload new images to R2 CDN ───────────────────────────────────────
       - name: Upload images to R2
-        if: ${{ secrets.R2_ACCOUNT_ID != '' }}
+        if: ${{ secrets.R2_ACCOUNT_ID != null }}
         env:
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
