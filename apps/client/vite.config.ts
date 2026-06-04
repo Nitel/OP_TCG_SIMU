@@ -39,14 +39,20 @@ export default defineConfig(({ mode }) => {
     include: ['pixi.js'],
   },
   build: {
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 4000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-pixi': ['pixi.js'],
-          'vendor-socket': ['socket.io-client'],
-          'vendor-gsap': ['gsap'],
+        manualChunks: (id) => {
+          // Workspace packages bundled inline — split into separate chunks
+          if (id.includes('/packages/game-engine/')) return 'vendor-game-engine';
+          if (id.includes('/packages/data/'))        return 'vendor-card-data';
+          // npm vendor deps
+          if (id.includes('node_modules')) {
+            if (id.includes('react-dom') || id.includes('/react/')) return 'vendor-react';
+            if (id.includes('pixi'))                               return 'vendor-pixi';
+            if (id.includes('socket.io') || id.includes('engine.io')) return 'vendor-socket';
+            if (id.includes('gsap'))                               return 'vendor-gsap';
+          }
         },
       },
     },
